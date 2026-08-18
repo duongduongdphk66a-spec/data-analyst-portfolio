@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { ProjectData } from '../types';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface ProjectsSectionProps {
   projects: ProjectData[];
@@ -17,6 +18,7 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState<string>('all');
   const [activeEmbedProject, setActiveEmbedProject] = useState<ProjectData | null>(null);
+  const router = useRouter();
 
   // Collect all unique tags
   const allTags = useMemo(() => {
@@ -103,7 +105,8 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
           <div
             id={proj.id}
             key={proj.id}
-            className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group hover:-translate-y-1 relative"
+            onClick={() => router.push(`/projects/${proj.id}`)}
+            className="cursor-pointer bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group hover:-translate-y-1 relative"
           >
             {/* Featured badge */}
             {proj.featured && (
@@ -156,7 +159,10 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
               </div>
 
               {/* Action buttons */}
-              <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+              <div 
+                className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2 relative z-20"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <div className="flex items-center gap-2">
                   {proj.embedUrl ? (
                     <button
