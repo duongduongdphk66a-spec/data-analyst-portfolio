@@ -4,9 +4,10 @@ import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { 
   Briefcase, ExternalLink, Github, Search, Filter, Play, 
-  X, Maximize2, Tag, Star, Sparkles 
+  X, Maximize2, Tag, Star, Sparkles, FileText 
 } from 'lucide-react';
 import { ProjectData } from '../types';
+import Link from 'next/link';
 
 interface ProjectsSectionProps {
   projects: ProjectData[];
@@ -176,6 +177,13 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
                       Demo Link
                     </a>
                   ) : null}
+                  <Link
+                    href={`/projects/${proj.id}`}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold transition-all shadow-sm"
+                  >
+                    <FileText className="w-3.5 h-3.5" />
+                    Chi tiết
+                  </Link>
                 </div>
 
                 {proj.githubUrl && (

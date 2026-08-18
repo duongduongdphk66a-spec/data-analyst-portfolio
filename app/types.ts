@@ -36,6 +36,7 @@ export interface ProjectData {
   githubUrl?: string;
   embedUrl?: string; // Iframe live interactive preview
   featured?: boolean;
+  content?: string; // Markdown content for detail page
 }
 
 export interface KpiItem {

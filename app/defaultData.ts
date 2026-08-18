@@ -62,6 +62,55 @@ export const DEFAULT_PROFILE: ProfileData = {
 
 export const DEFAULT_PROJECTS: ProjectData[] = [
   {
+    id: 'proj-library-bus',
+    title: 'Library Bus Management System',
+    desc: 'Hệ thống quản lý Thư viện lưu động với kiến trúc Backend mạnh mẽ (Django, MySQL). Thiết kế tối ưu cho 50K user & 500 concurrent requests. Tích hợp Celery/Redis xử lý tác vụ nền (cache warmup, nhắc hẹn), hệ thống Reservation Queue thông minh, tính toán điểm phổ biến sách, và Tracking giao hàng.',
+    tags: ['Python', 'Django', 'Celery', 'Redis', 'MySQL', 'System Design'],
+    img: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&auto=format&fit=crop&q=80',
+    demoUrl: '/website.pdf',
+    featured: true,
+    content: `
+# Tổng quan Mã nguồn: Library Bus Management System
+
+Dựa trên việc phân tích mã nguồn dự án \`library_bus_project\`, đây là một hệ thống backend được thiết kế rất chuyên nghiệp, có khả năng mở rộng tốt và tối ưu hóa hiệu năng cao.
+
+Dưới đây là tóm tắt các điểm kỹ thuật nổi bật và kiến trúc của hệ thống:
+
+## 1. Kiến trúc Hệ thống & Tối ưu hóa (Architecture & Optimization)
+- **Framework:** Xây dựng bằng **Python & Django**.
+- **Hiệu năng cao:** Được cấu hình đặc biệt để chịu tải cho **50,000 users** và **500 concurrent connections**.
+- **Database:** Sử dụng **MySQL** với cấu hình Connection Pooling để tránh quá tải kết nối.
+- **Caching:** Tích hợp **Redis** làm cache layer phân tán thay vì LocMemCache cục bộ, giúp đồng bộ cache giữa nhiều worker processes. Redis cũng được dùng để lưu trữ Session nhằm tăng tốc độ tải trang và xác thực.
+- **Background Jobs:** Sử dụng **Celery** (với Redis Broker) để xử lý các tác vụ nặng chạy ngầm.
+
+## 2. Các Module Chính (Core Modules)
+Mã nguồn được chia thành các ứng dụng (apps) độc lập, tuân thủ nguyên tắc Domain-Driven Design:
+
+### 📦 Inventory (Quản lý Kho & Xe)
+- **LibraryBus:** Quản lý các xe thư viện lưu động. Model này sử dụng kỹ thuật *Denormalization* (Lưu trữ sẵn số sách \`_book_count\`) để tránh các truy vấn đếm (\`COUNT()\`) nặng nề trên database mỗi lần tải trang.
+- **Book:** Hệ thống thông tin sách được lưu trữ rất chi tiết. Có tính năng tính toán "Điểm phổ biến" (Popularity Score) dựa trên công thức trọng số giữa lượt mượn (70%) và đánh giá sao (30%).
+
+### 🔄 Transactions (Quản lý Mượn/Trả & Đặt trước)
+- **BorrowRecord:** Theo dõi lịch sử mượn sách. Tích hợp validation phức tạp để chống gia hạn sách sai quy định hoặc quá ngày.
+- **BookReservation:** Hệ thống **Hàng đợi (Queue Management)** thông minh. Khi người dùng đặt trước sách, họ sẽ được đưa vào hàng đợi. Khi sách có sẵn, hệ thống tự xử lý người ưu tiên tiếp theo.
+- **ShippingRequest:** Hệ thống theo dõi yêu cầu giao sách tận nhà, hỗ trợ tích hợp trạng thái của đối tác như Giao Hàng Nhanh (GHN), Viettel Post, VNPost.
+- **FinePayment:** Quản lý thanh toán tiền phạt trễ hạn.
+
+### 👥 Users (Quản lý Người dùng)
+- Mở rộng model User mặc định bằng \`Profile\`, cung cấp hệ thống xác thực (Verification) và tính toán % hoàn thiện hồ sơ.
+- Phân quyền động chi tiết thông qua \`UserRole\` (Admin, Librarian, Member).
+
+## 3. Các Tác vụ Nền Tự động (Celery Beat)
+Hệ thống cài đặt các tác vụ tự động chạy theo lịch trình (cron jobs):
+- **Bảo trì dữ liệu lúc nửa đêm:** Dọn dẹp dữ liệu rác.
+- **Cache Warmup:** Tự động nạp sẵn dữ liệu hay dùng vào RAM (Redis) lúc 5h sáng trước khi người dùng truy cập.
+- **Kiểm tra quá hạn & Nhắc nhở:** Quét các sách mượn quá hạn và gửi email nhắc nhở vào 8h sáng.
+- **Tính toán điểm phổ biến sách:** Chạy vào sáng Chủ nhật hàng tuần.
+
+> **Nhận xét chuyên môn:** Mã nguồn được tổ chức cực kỳ tốt. Việc sử dụng các kỹ thuật như *Denormalization*, *Prefetching (tránh N+1 Queries)*, *Redis Caching* và *Soft Delete* chứng tỏ đội ngũ phát triển có hiểu biết sâu sắc về System Design và Performance Tuning trong Django.
+`
+  },
+  {
     id: 'proj-1',
     title: 'Customer Segmentation & RFM Analytics',
     desc: 'Phân tích phân khúc 50,000 khách hàng E-commerce bằng phương pháp RFM và thuật toán K-Means Clustering. Giúp Marketing tối ưu chi phí chuyển đổi và tăng 18% tỷ lệ quay lại.',
