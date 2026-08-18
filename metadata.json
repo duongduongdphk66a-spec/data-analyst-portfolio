@@ -1,0 +1,6 @@
+{
+  "name": "Data Analyst Portfolio",
+  "description": "Một trang web cá nhân và dashboard dành cho Data Analyst với khả năng trực quan hóa dữ liệu, lọc thời gian thực và xuất báo cáo PDF.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
