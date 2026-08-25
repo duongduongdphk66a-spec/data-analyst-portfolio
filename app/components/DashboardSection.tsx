@@ -47,11 +47,11 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
   // KPI icon resolver
   const renderKpiIcon = (iconType: KpiItem['icon']) => {
     switch (iconType) {
-      case 'dollar': return <DollarSign className="w-5 h-5 text-emerald-500" />;
-      case 'users': return <Users className="w-5 h-5 text-blue-500" />;
-      case 'activity': return <Activity className="w-5 h-5 text-purple-500" />;
-      case 'trending': return <TrendingUp className="w-5 h-5 text-amber-500" />;
-      default: return <BarChart3 className="w-5 h-5 text-indigo-500" />;
+      case 'dollar': return <DollarSign className="w-5 h-5 text-slate-900" />;
+      case 'users': return <Users className="w-5 h-5 text-slate-900" />;
+      case 'activity': return <Activity className="w-5 h-5 text-slate-900" />;
+      case 'trending': return <TrendingUp className="w-5 h-5 text-brand-yellow" />;
+      default: return <BarChart3 className="w-5 h-5 text-slate-900" />;
     }
   };
 
@@ -229,24 +229,24 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
   return (
     <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 space-y-10 animate-in fade-in duration-500" ref={dashboardRef}>
       {/* Header with Export & CSV actions */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-200 dark:border-slate-800">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-brand-blue-light">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 rounded-full text-xs font-semibold tracking-wide border border-emerald-100 dark:border-emerald-800 mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-yellow-light/50 text-slate-900 rounded-full text-xs font-semibold tracking-wide border border-brand-blue-light mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-slate-900" />
             Executive Business Intelligence
           </div>
-          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
             {dashboard.title || 'Analytics Dashboard'}
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-2xl">
+          <p className="text-sm text-slate-500 mt-1 max-w-2xl">
             {dashboard.description || 'Trực quan hóa chỉ số dữ liệu và xu hướng tăng trưởng'}
           </p>
         </div>
 
         {/* Top actions */}
         <div className="flex flex-wrap items-center gap-3 no-print">
-          <label className="inline-flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold rounded-xl cursor-pointer transition-all shadow-sm">
-            <Upload className="w-4 h-4 text-indigo-600" />
+          <label className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-brand-blue-light hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl cursor-pointer transition-all shadow-xs">
+            <Upload className="w-4 h-4 text-slate-900" />
             Nạp CSV Bảng
             <input type="file" accept=".csv" className="hidden" onChange={handleCsvUpload} />
           </label>
@@ -254,7 +254,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
           <button
             onClick={exportPDF}
             disabled={isExporting}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-md transition-all disabled:opacity-60 cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-brand-yellow hover:bg-brand-yellow-light text-slate-900 text-xs sm:text-sm font-semibold rounded-xl shadow-xs transition-all disabled:opacity-60 cursor-pointer"
           >
             <Download className="w-4 h-4" />
             {isExporting ? 'Đang xuất...' : 'Xuất Báo cáo PDF'}
@@ -268,24 +268,24 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
           {dashboard.kpis.map((kpi) => (
             <div
               key={kpi.id}
-              className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all"
+              className="bg-white p-6 rounded-3xl border border-brand-blue-light shadow-sm hover:shadow-md transition-all"
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   {kpi.title}
                 </span>
-                <div className="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-2xl">
+                <div className="p-2.5 bg-slate-50 rounded-2xl">
                   {renderKpiIcon(kpi.icon)}
                 </div>
               </div>
 
-              <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
                 {kpi.value}
               </div>
 
               {kpi.change && (
                 <div className={`text-xs font-medium mt-2 flex items-center gap-1 ${
-                  kpi.isPositive !== false ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
+                  kpi.isPositive !== false ? 'text-slate-900' : 'text-slate-900'
                 }`}>
                   <TrendingUp className="w-3.5 h-3.5" />
                   {kpi.change}
@@ -302,14 +302,14 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
           dashboard.charts.map((chart) => (
             <div
               key={chart.id}
-              className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col"
+              className="bg-white p-6 sm:p-7 rounded-3xl border border-brand-blue-light shadow-sm hover:shadow-md transition-all flex flex-col"
             >
               <div className="mb-6">
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900">
                   {chart.title}
                 </h3>
                 {chart.description && (
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  <p className="text-xs text-slate-500 mt-1">
                     {chart.description}
                   </p>
                 )}
@@ -329,15 +329,15 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
 
       {/* Tabular Dataset Explorer */}
       {activeTable.length > 0 && (
-        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-3xl border border-brand-blue-light shadow-sm overflow-hidden">
           {/* Table Header & Controls */}
-          <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="p-6 border-b border-brand-blue-light flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50/50">
             <div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <Database className="w-5 h-5 text-indigo-600" />
+              <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <Database className="w-5 h-5 text-slate-900" />
                 Dữ liệu chi tiết & Bảng tổng hợp
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-500 mt-0.5">
                 Hiển thị {filteredRows.length} dòng dữ liệu {customTableData ? '(Từ CSV tải lên)' : ''}
               </p>
             </div>
@@ -350,14 +350,14 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                   placeholder="Lọc dữ liệu bảng..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-9 pr-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full pl-9 pr-3 py-1.5 bg-white border border-brand-blue-light rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-blue"
                 />
               </div>
 
               {customTableData && (
                 <button
                   onClick={handleResetTable}
-                  className="p-2 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-medium inline-flex items-center gap-1 cursor-pointer"
+                  className="p-2 text-slate-500 hover:text-slate-700 rounded-xl hover:bg-brand-blue-light/50 text-xs font-medium inline-flex items-center gap-1 cursor-pointer"
                   title="Đặt lại dữ liệu ban đầu"
                 >
                   <RefreshCw className="w-4 h-4" />
@@ -366,7 +366,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
 
               <button
                 onClick={exportTableCSV}
-                className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold inline-flex items-center gap-1.5 transition-all cursor-pointer"
+                className="px-3 py-1.5 bg-brand-blue-light/30 hover:bg-brand-blue-light/70 text-slate-700 rounded-xl text-xs font-semibold inline-flex items-center gap-1.5 transition-all cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5" />
                 Xuất CSV
@@ -377,20 +377,20 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
           {/* Table */}
           <div className="overflow-x-auto max-h-96">
             <table className="w-full text-left border-collapse text-xs sm:text-sm">
-              <thead className="sticky top-0 bg-slate-50 dark:bg-slate-800/80 backdrop-blur-sm z-10 border-b border-slate-200 dark:border-slate-800">
+              <thead className="sticky top-0 bg-slate-50 z-10 border-b border-brand-blue-light">
                 <tr>
                   {columns.map(col => (
-                    <th key={col} className="px-6 py-3.5 font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider text-[11px]">
+                    <th key={col} className="px-6 py-3.5 font-semibold text-slate-600 uppercase tracking-wider text-[11px]">
                       {col}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody className="divide-y divide-slate-100">
                 {filteredRows.slice(0, 50).map((row, idx) => (
-                  <tr key={row.id || idx} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors">
+                  <tr key={row.id || idx} className="hover:bg-slate-50 transition-colors">
                     {columns.map(col => (
-                      <td key={col} className="px-6 py-3 text-slate-700 dark:text-slate-300 font-medium whitespace-nowrap">
+                      <td key={col} className="px-6 py-3 text-slate-700 font-medium whitespace-nowrap">
                         {typeof row[col] === 'number' ? row[col].toLocaleString() : String(row[col] ?? '-')}
                       </td>
                     ))}

@@ -1,2 +1,65 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+/* Force light mode by overriding the dark variant to use a selector instead of media query */
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-brand-blue-light: #C8EEF7;
+  --color-brand-blue: #9BE7FA;
+  --color-brand-yellow-light: #FFE485;
+  --color-brand-yellow: #FFD14C;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html, body {
+  background-color: #ffffff;
+  color: #0f172a;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #090e17;
+  color: #f8fafc;
+}
+
+html.dark aside {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark main,
+html.dark .bg-white {
+  background-color: #090e17 !important;
+  color: #f8fafc;
+}
+
+html.dark .bg-slate-50 {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .border-slate-100,
+html.dark .border-slate-200 {
+  border-color: #1e293b !important;
+}
+
+html.dark .text-slate-900,
+html.dark .text-slate-950,
+html.dark .text-slate-800,
+html.dark .text-\[\#155A8A\],
+html.dark .text-\[\#1B6CA8\] {
+  color: #f8fafc !important;
+}
+
+html.dark .text-slate-700,
+html.dark .text-slate-600 {
+  color: #94a3b8 !important;
+}

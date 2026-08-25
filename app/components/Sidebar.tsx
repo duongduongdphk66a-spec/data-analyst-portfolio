@@ -1,10 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
-  User, FileText, Briefcase, LayoutDashboard, Settings, 
   ChevronDown, ChevronRight, Github, Linkedin, Mail, Lock, 
-  ShieldCheck, Database, Sparkles, BarChart2
+  ShieldCheck, Sun, Moon, Laptop, Globe, Check, Settings
 } from 'lucide-react';
 import { ProjectData } from '../types';
 
@@ -29,37 +28,245 @@ export default function Sidebar({
   setIsProjectsOpen,
   onProjectClick
 }: SidebarProps) {
-  const publicNavItems = [
-    { id: 'about', label: 'Giới thiệu', icon: User },
-    { id: 'cv', label: 'CV & Kinh nghiệm', icon: FileText },
-    { id: 'projects', label: 'Dự án cá nhân', icon: Briefcase, hasChildren: true },
-    { id: 'dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
+  // Settings Popover States
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [activeSubMenu, setActiveSubMenu] = useState<'none' | 'language' | 'theme'>('none');
+  const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('light');
+  const [language, setLanguage] = useState<'vi' | 'en'>('vi');
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Initialize theme and language from localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('portfolio_theme') as 'light' | 'dark' | 'system' | null;
+    if (savedTheme) {
+      setTheme(savedTheme);
+      applyTheme(savedTheme);
+    }
+
+    const savedLang = localStorage.getItem('portfolio_lang') as 'vi' | 'en' | null;
+    if (savedLang) {
+      setLanguage(savedLang);
+    }
+  }, []);
+
+  // Theme application helper
+  const applyTheme = (selectedTheme: 'light' | 'dark' | 'system') => {
+    const root = document.documentElement;
+    if (selectedTheme === 'dark') {
+      root.classList.add('dark');
+    } else if (selectedTheme === 'light') {
+      root.classList.remove('dark');
+    } else {
+      // System mode
+      const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (isSystemDark) {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+    }
+  };
+
+  const handleSelectTheme = (newTheme: 'light' | 'dark' | 'system') => {
+    setTheme(newTheme);
+    localStorage.setItem('portfolio_theme', newTheme);
+    applyTheme(newTheme);
+  };
+
+  const handleSelectLanguage = (newLang: 'vi' | 'en') => {
+    setLanguage(newLang);
+    localStorage.setItem('portfolio_lang', newLang);
+  };
+
+  const handleMouseEnterSettings = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setIsSettingsOpen(true);
+  };
+
+  const handleMouseLeaveSettings = () => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsSettingsOpen(false);
+      setActiveSubMenu('none');
+    }, 250);
+  };
+
+  const navItems = [
+    { id: 'home', label: 'Trang Chủ' },
+    { id: 'about', label: 'Giới Thiệu' },
+    { id: 'cv', label: 'Học Vấn & Kinh Nghiệm' },
+    { id: 'projects', label: 'Dự Án', hasChildren: true },
+    { id: 'dashboard', label: 'Cài Đặt', isSettings: true },
   ];
 
   return (
-    <aside className="w-64 bg-slate-950 text-slate-300 flex-col hidden md:flex h-full flex-shrink-0 border-r border-slate-900 select-none">
-      {/* Brand Header */}
-      <div className="p-6 border-b border-slate-900 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-            <BarChart2 className="w-5 h-5" />
-          </div>
-          <div>
-            <h1 className="text-base font-extrabold text-white tracking-tight">
-              Data Analyst
-            </h1>
-            <p className="text-[11px] font-medium text-slate-500 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              Portfolio Hub
-            </p>
-          </div>
-        </div>
-      </div>
-
+    <aside className="w-60 bg-[#C4EEF9] text-slate-800 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-[#A8E2F2] shadow-xs relative z-40">
       {/* Navigation Links */}
-      <nav className="flex-1 px-4 py-5 space-y-1.5 overflow-y-auto">
-        {publicNavItems.map((item) => {
-          const isActive = activeTab === item.id;
+      <nav className="flex-1 px-4 pt-16 pb-6 space-y-3 overflow-visible">
+        {navItems.map((item) => {
+          const isActive = activeTab === item.id || (item.id === 'home' && activeTab === 'home');
+          
+          if (item.isSettings) {
+            return (
+              <div 
+                key={item.id} 
+                className="relative"
+                onMouseEnter={handleMouseEnterSettings}
+                onMouseLeave={handleMouseLeaveSettings}
+              >
+                <button
+                  onClick={() => onTabChange(item.id)}
+                  className={`w-full flex items-center justify-between px-5 py-3 text-sm sm:text-base font-bold rounded-2xl transition-all duration-200 cursor-pointer text-left ${
+                    isActive
+                      ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40'
+                      : 'text-slate-800 hover:text-slate-950 hover:bg-white/40'
+                  }`}
+                >
+                  <span className="underline decoration-slate-400/60 underline-offset-4">{item.label}</span>
+                </button>
+
+                {/* Settings Speech-Bubble Popover */}
+                {isSettingsOpen && (
+                  <div 
+                    className="absolute left-[calc(100%+14px)] top-1/2 -translate-y-1/2 z-50 animate-in fade-in zoom-in-95 duration-150"
+                    onMouseEnter={handleMouseEnterSettings}
+                    onMouseLeave={handleMouseLeaveSettings}
+                  >
+                    {/* Speech bubble pointer arrow */}
+                    <div className="absolute -left-2.5 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[9px] border-y-transparent border-r-[10px] border-r-white drop-shadow-[-2px_0px_1px_rgba(0,0,0,0.06)]" />
+
+                    {/* Bridge overlay to prevent mouse exit flicker */}
+                    <div className="absolute -left-5 top-0 bottom-0 w-6" />
+
+                    {/* Popover Card */}
+                    <div className="w-48 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-2 text-slate-800 relative">
+                      
+                      {/* Menu Item 1: Ngôn Ngữ */}
+                      <div 
+                        className="relative group/lang"
+                        onMouseEnter={() => setActiveSubMenu('language')}
+                      >
+                        <button
+                          className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
+                            activeSubMenu === 'language' ? 'bg-slate-100 text-slate-950' : 'hover:bg-slate-50 text-slate-700'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Globe className="w-4 h-4 text-slate-600" />
+                            <span>Ngôn Ngữ</span>
+                          </div>
+                          <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                        </button>
+
+                        {/* Nested Submenu: Languages */}
+                        {activeSubMenu === 'language' && (
+                          <div className="absolute left-[calc(100%+8px)] top-0 w-44 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-1.5 space-y-1 animate-in fade-in zoom-in-95 duration-150 z-50">
+                            {/* Bridge */}
+                            <div className="absolute -left-3 top-0 bottom-0 w-4" />
+                            
+                            <button
+                              onClick={() => handleSelectLanguage('vi')}
+                              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                                language === 'vi' ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5">
+                                <span className="text-base leading-none">🇻🇳</span>
+                                <span>Tiếng Việt</span>
+                              </div>
+                              {language === 'vi' && <Check className="w-3.5 h-3.5 text-[#155A8A]" />}
+                            </button>
+
+                            <button
+                              onClick={() => handleSelectLanguage('en')}
+                              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                                language === 'en' ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5">
+                                <span className="text-base leading-none">🇬🇧</span>
+                                <span>Tiếng Anh</span>
+                              </div>
+                              {language === 'en' && <Check className="w-3.5 h-3.5 text-[#155A8A]" />}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Menu Item 2: Giao Diện */}
+                      <div 
+                        className="relative group/theme mt-1"
+                        onMouseEnter={() => setActiveSubMenu('theme')}
+                      >
+                        <button
+                          className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
+                            activeSubMenu === 'theme' ? 'bg-slate-100 text-slate-950' : 'hover:bg-slate-50 text-slate-700'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            {theme === 'dark' ? <Moon className="w-4 h-4 text-indigo-500" /> : theme === 'light' ? <Sun className="w-4 h-4 text-amber-500" /> : <Laptop className="w-4 h-4 text-slate-600" />}
+                            <span>Giao Diện</span>
+                          </div>
+                          <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                        </button>
+
+                        {/* Nested Submenu: Theme Options */}
+                        {activeSubMenu === 'theme' && (
+                          <div className="absolute left-[calc(100%+8px)] top-0 w-44 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-1.5 space-y-1 animate-in fade-in zoom-in-95 duration-150 z-50">
+                            {/* Bridge */}
+                            <div className="absolute -left-3 top-0 bottom-0 w-4" />
+                            
+                            <button
+                              onClick={() => handleSelectTheme('light')}
+                              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                                theme === 'light' ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5">
+                                <Sun className="w-4 h-4 text-amber-500" />
+                                <span>Sáng</span>
+                              </div>
+                              {theme === 'light' && <Check className="w-3.5 h-3.5 text-[#155A8A]" />}
+                            </button>
+
+                            <button
+                              onClick={() => handleSelectTheme('dark')}
+                              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                                theme === 'dark' ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5">
+                                <Moon className="w-4 h-4 text-indigo-500" />
+                                <span>Tối</span>
+                              </div>
+                              {theme === 'dark' && <Check className="w-3.5 h-3.5 text-[#155A8A]" />}
+                            </button>
+
+                            <button
+                              onClick={() => handleSelectTheme('system')}
+                              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                                theme === 'system' ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5">
+                                <Laptop className="w-4 h-4 text-slate-600" />
+                                <span>Hệ thống</span>
+                              </div>
+                              {theme === 'system' && <Check className="w-3.5 h-3.5 text-[#155A8A]" />}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          }
+
           return (
             <div key={item.id} className="flex flex-col">
               <button
@@ -75,29 +282,26 @@ export default function Sidebar({
                     onTabChange(item.id);
                   }
                 }}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-2xl transition-all cursor-pointer ${
+                className={`w-full flex items-center justify-between px-5 py-3 text-sm sm:text-base font-bold rounded-2xl transition-all duration-200 cursor-pointer text-left ${
                   isActive
-                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/80'
+                    ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40'
+                    : 'text-slate-800 hover:text-slate-950 hover:bg-white/40'
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  <item.icon className="w-4 h-4" />
-                  {item.label}
-                </div>
+                <span>{item.label}</span>
                 {item.hasChildren && (
-                  isProjectsOpen ? <ChevronDown className="w-3.5 h-3.5 text-slate-400" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                  isProjectsOpen ? <ChevronDown className="w-4 h-4 text-slate-600" /> : <ChevronRight className="w-4 h-4 text-slate-600" />
                 )}
               </button>
 
-              {/* Sub-projects list */}
+              {/* Sub-projects list if expanded */}
               {item.hasChildren && isProjectsOpen && (
-                <div className="flex flex-col gap-0.5 mt-1 pl-9 pr-1 animate-in slide-in-from-top-2 duration-150">
+                <div className="flex flex-col gap-1 mt-1.5 pl-6 pr-2 animate-in slide-in-from-top-2 duration-150">
                   {projects.map((proj) => (
                     <button
                       key={proj.id}
                       onClick={() => onProjectClick(proj.id)}
-                      className="text-left text-xs py-1.5 px-2.5 text-slate-400 hover:text-white hover:bg-slate-900 rounded-xl transition-colors truncate cursor-pointer"
+                      className="text-left text-xs py-1.5 px-3 font-medium text-slate-700 hover:text-slate-950 hover:bg-white/50 rounded-xl transition-colors truncate cursor-pointer"
                       title={proj.title}
                     >
                       • {proj.title}
@@ -109,59 +313,62 @@ export default function Sidebar({
           );
         })}
 
-        {/* Admin Tab (If authenticated) */}
-        {isAdmin && (
-          <div className="pt-4 border-t border-slate-900 mt-4">
-            <button
-              onClick={() => onTabChange('admin')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-bold rounded-2xl transition-all cursor-pointer ${
-                activeTab === 'admin'
-                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20'
-                  : 'bg-indigo-950/40 text-indigo-400 border border-indigo-800/40 hover:bg-indigo-900/40'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <ShieldCheck className="w-4 h-4 text-indigo-400" />
-                Quản trị (Admin)
-              </div>
-              <span className="text-[10px] px-1.5 py-0.5 bg-indigo-500/20 text-indigo-300 rounded font-mono">
-                Active
-              </span>
-            </button>
-          </div>
-        )}
+        {/* Divider line before Admin */}
+        <div className="pt-2">
+          <hr className="border-t-2 border-slate-900/60 my-3" />
+        </div>
+
+        {/* Admin Navigation Button */}
+        <div>
+          <button
+            onClick={() => {
+              if (isAdmin) {
+                onTabChange('admin');
+              } else {
+                onOpenLogin();
+              }
+            }}
+            className={`w-full flex items-center justify-between px-5 py-3 text-sm sm:text-base font-bold rounded-2xl transition-all duration-200 cursor-pointer text-left ${
+              activeTab === 'admin'
+                ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40'
+                : 'text-slate-800 hover:text-slate-950 hover:bg-white/40'
+            }`}
+          >
+            <span>Admin</span>
+            {isAdmin && (
+              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+            )}
+          </button>
+        </div>
       </nav>
 
-      {/* Footer Area: Admin Lock Trigger & Socials */}
-      <div className="p-4 border-t border-slate-900 space-y-3 bg-slate-950/50">
-        {/* Subtle Admin Login trigger for owner */}
-        {!isAdmin && (
-          <button
-            onClick={onOpenLogin}
-            className="w-full flex items-center justify-between px-3 py-2 text-[11px] font-medium text-slate-500 hover:text-slate-300 hover:bg-slate-900/80 rounded-xl transition-all cursor-pointer group"
-            title="Đăng nhập Admin (Ctrl + Shift + A)"
-          >
-            <span className="flex items-center gap-2">
-              <Lock className="w-3.5 h-3.5 text-slate-500 group-hover:text-indigo-400 transition-colors" />
-              Chủ sở hữu
-            </span>
-            <kbd className="text-[9px] px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-500 font-mono">
-              Ctrl+Shift+A
-            </kbd>
-          </button>
-        )}
-
-        <div className="flex justify-center items-center gap-4 text-slate-500 pt-1">
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">
-            <Github className="w-4 h-4" />
-          </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">
-            <Linkedin className="w-4 h-4" />
-          </a>
-          <a href="mailto:analyst@example.com" className="hover:text-slate-300 transition-colors">
-            <Mail className="w-4 h-4" />
-          </a>
-        </div>
+      {/* Footer Area: Circular Social Links */}
+      <div className="p-6 flex items-center gap-3 text-white">
+        <a 
+          href="https://linkedin.com" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-sm"
+          title="LinkedIn"
+        >
+          <Linkedin className="w-4 h-4 fill-white text-white" />
+        </a>
+        <a 
+          href="https://github.com" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-sm"
+          title="GitHub"
+        >
+          <Github className="w-4 h-4 fill-white text-white" />
+        </a>
+        <a 
+          href="mailto:analyst@example.com" 
+          className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-sm"
+          title="Email"
+        >
+          <Mail className="w-4 h-4 text-white" />
+        </a>
       </div>
     </aside>
   );

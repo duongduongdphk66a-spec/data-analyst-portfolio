@@ -7,6 +7,8 @@ import {
   X, Maximize2, Tag, Star, Sparkles, FileText 
 } from 'lucide-react';
 import { ProjectData } from '../types';
+import { sanitizeUrl } from '../lib/security';
+import { trackVisitorAction } from '../lib/visitorTracking';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -40,16 +42,16 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
   return (
     <div className="max-w-6xl mx-auto py-10 px-4 sm:px-6 lg:px-8 space-y-10 animate-in fade-in duration-500">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-200 dark:border-slate-800">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-brand-blue-light">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 rounded-full text-xs font-semibold tracking-wide border border-indigo-100 dark:border-indigo-800 mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-blue-light/50 text-slate-800 rounded-full text-xs font-semibold tracking-wide border border-brand-blue/50 mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-slate-900" />
             Showcase & Case Studies
           </div>
-          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
             Dự án Phân tích Dữ liệu
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-sm text-slate-500 mt-1">
             Tổng hợp các dự án thực tế về SQL, Python, Machine Learning và Dashboard
           </p>
         </div>
@@ -63,7 +65,7 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
               placeholder="Tìm kiếm dự án..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-white border border-brand-blue-light rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-blue transition-all"
             />
           </div>
 
@@ -71,7 +73,7 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
             <select
               value={selectedTag}
               onChange={(e) => setSelectedTag(e.target.value)}
-              className="w-full sm:w-auto px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+              className="w-full sm:w-auto px-4 py-2 bg-white border border-brand-blue-light rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-blue cursor-pointer"
             >
               <option value="all">Tất cả công nghệ ({projects.length})</option>
               {allTags.filter(t => t !== 'all').map(tag => (
@@ -90,8 +92,8 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
             onClick={() => setSelectedTag(tag)}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
               selectedTag === tag
-                ? 'bg-indigo-600 text-white shadow-sm'
-                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800'
+                ? 'bg-brand-yellow text-slate-900 shadow-xs'
+                : 'bg-white text-slate-600 border border-brand-blue-light hover:bg-slate-50 hover:text-slate-900'
             }`}
           >
             {tag === 'all' ? '✨ Tất cả' : `#${tag}`}
@@ -106,21 +108,21 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
             id={proj.id}
             key={proj.id}
             onClick={() => router.push(`/projects/${proj.id}`)}
-            className="cursor-pointer bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group hover:-translate-y-1 relative"
+            className="cursor-pointer bg-white rounded-3xl border border-brand-blue-light shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group hover:-translate-y-1 relative"
           >
             {/* Featured badge */}
             {proj.featured && (
-              <div className="absolute top-4 left-4 z-10 bg-amber-500 text-white px-2.5 py-1 rounded-full text-[11px] font-bold shadow-md flex items-center gap-1">
+              <div className="absolute top-4 left-4 z-10 bg-brand-yellow text-slate-900 px-2.5 py-1 rounded-full text-[11px] font-bold shadow-md flex items-center gap-1">
                 <Star className="w-3 h-3 fill-current" />
                 Nổi bật
               </div>
             )}
 
             {/* Thumbnail */}
-            <div className="h-52 bg-slate-100 dark:bg-slate-800 relative overflow-hidden flex-shrink-0">
+            <div className="h-52 bg-brand-blue-light/40 relative overflow-hidden flex-shrink-0">
               {proj.img ? (
                 <Image
-                  src={proj.img}
+                  src={sanitizeUrl(proj.img, '')}
                   alt={proj.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -133,16 +135,16 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
                   <Briefcase className="w-12 h-12" />
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
 
             {/* Details */}
             <div className="p-6 flex-1 flex flex-col">
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              <h3 className="text-lg font-bold text-slate-900 mb-2 leading-snug group-hover:text-slate-900 transition-colors">
                 {proj.title}
               </h3>
 
-              <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4 line-clamp-3">
+              <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-3">
                 {proj.desc}
               </p>
 
@@ -151,7 +153,7 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
                 {proj.tags.map(tag => (
                   <span
                     key={tag}
-                    className="px-2.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-lg text-xs font-medium"
+                    className="px-2.5 py-0.5 bg-brand-blue-light/40 text-slate-700 rounded-lg text-xs font-medium"
                   >
                     {tag}
                   </span>
@@ -160,24 +162,28 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
 
               {/* Action buttons */}
               <div 
-                className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2 relative z-20"
+                className="mt-auto pt-4 border-t border-brand-blue-light/50 flex items-center justify-between gap-2 relative z-20"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex items-center gap-2">
                   {proj.embedUrl ? (
                     <button
-                      onClick={() => setActiveEmbedProject(proj)}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold transition-all shadow-sm cursor-pointer"
+                      onClick={() => {
+                        trackVisitorAction(`Xem Live Demo nhúng: ${proj.title}`, proj.embedUrl, 'project');
+                        setActiveEmbedProject(proj);
+                      }}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-brand-yellow hover:bg-brand-yellow-light text-slate-900 rounded-xl text-xs font-semibold transition-all shadow-xs cursor-pointer"
                     >
                       <Play className="w-3.5 h-3.5" />
                       Live Demo
                     </button>
                   ) : proj.demoUrl ? (
                     <a
-                      href={proj.demoUrl}
+                      href={sanitizeUrl(proj.demoUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold transition-all shadow-sm"
+                      onClick={() => trackVisitorAction(`Mở Demo Link dự án: ${proj.title}`, proj.demoUrl, 'project')}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-brand-yellow hover:bg-brand-yellow-light text-slate-900 rounded-xl text-xs font-semibold transition-all shadow-xs"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                       Demo Link
@@ -185,7 +191,8 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
                   ) : null}
                   <Link
                     href={`/projects/${proj.id}`}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold transition-all shadow-sm"
+                    onClick={() => trackVisitorAction(`Xem bài viết chi tiết dự án: ${proj.title}`, proj.id, 'project')}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-brand-blue-light/30 hover:bg-brand-blue-light/70 text-slate-700 rounded-xl text-xs font-semibold transition-all shadow-2xs"
                   >
                     <FileText className="w-3.5 h-3.5" />
                     Chi tiết
@@ -194,12 +201,13 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
 
                 {proj.githubUrl && (
                   <a
-                    href={proj.githubUrl}
+                    href={sanitizeUrl(proj.githubUrl)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-medium transition-all"
+                    onClick={() => trackVisitorAction(`Xem GitHub dự án: ${proj.title}`, proj.githubUrl, 'project')}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-brand-blue-light/30 hover:bg-brand-blue-light/70 text-slate-700 rounded-xl text-xs font-medium transition-all"
                   >
-                    <Github className="w-3.5 h-3.5" />
+                    <Github className="w-4 h-4" />
                     Source
                   </a>
                 )}
@@ -210,9 +218,9 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
       </div>
 
       {filteredProjects.length === 0 && (
-        <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800">
-          <Briefcase className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
-          <h3 className="text-base font-bold text-slate-700 dark:text-slate-300">
+        <div className="text-center py-16 bg-white rounded-3xl border border-brand-blue-light">
+          <Briefcase className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+          <h3 className="text-base font-bold text-slate-700">
             Không tìm thấy dự án phù hợp
           </h3>
           <p className="text-xs text-slate-400 mt-1">
@@ -225,18 +233,18 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
       {activeEmbedProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
           <div 
-            className="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
+            className="absolute inset-0 bg-brand-yellow/60 backdrop-blur-sm"
             onClick={() => setActiveEmbedProject(null)}
           />
 
-          <div className="relative w-full max-w-6xl h-[85vh] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col z-10 animate-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-6xl h-[85vh] bg-white rounded-3xl shadow-2xl border border-brand-blue-light overflow-hidden flex flex-col z-10 animate-in zoom-in-95 duration-200">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950">
+            <div className="px-6 py-4 border-b border-brand-blue-light flex items-center justify-between bg-white">
               <div className="flex items-center gap-3">
                 <div className="w-3 h-3 rounded-full bg-red-400" />
-                <div className="w-3 h-3 rounded-full bg-amber-400" />
-                <div className="w-3 h-3 rounded-full bg-emerald-400" />
-                <h3 className="text-base font-bold text-slate-900 dark:text-white ml-2">
+                <div className="w-3 h-3 rounded-full bg-brand-yellow" />
+                <div className="w-3 h-3 rounded-full bg-brand-blue" />
+                <h3 className="text-base font-bold text-slate-900 ml-2">
                   {activeEmbedProject.title} — Trải nghiệm Trực tiếp (Live Embed)
                 </h3>
               </div>
@@ -247,7 +255,7 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
                     href={activeEmbedProject.demoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-800"
+                    className="p-2 text-slate-500 hover:text-slate-700 rounded-xl hover:bg-brand-blue-light/50"
                     title="Mở trong tab mới"
                   >
                     <ExternalLink className="w-4 h-4" />
@@ -255,7 +263,7 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
                 )}
                 <button
                   onClick={() => setActiveEmbedProject(null)}
-                  className="p-2 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer"
+                  className="p-2 text-slate-500 hover:text-slate-700 rounded-xl hover:bg-brand-blue-light/50 cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -263,7 +271,7 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
             </div>
 
             {/* Iframe */}
-            <div className="flex-1 w-full h-full bg-slate-100 dark:bg-slate-950">
+            <div className="flex-1 w-full h-full bg-slate-50">
               <iframe
                 src={activeEmbedProject.embedUrl}
                 title={activeEmbedProject.title}
@@ -277,3 +285,4 @@ export default React.memo(function ProjectsSection({ projects }: ProjectsSection
     </div>
   );
 });
+

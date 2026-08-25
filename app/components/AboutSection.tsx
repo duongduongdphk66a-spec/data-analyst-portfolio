@@ -1,191 +1,291 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { 
-  Database, Code2, LineChart, Sparkles, Mail, Github, Linkedin, 
-  Target, CheckCircle2, Award, Terminal, Layers, Cpu
+  Database, Code2, Sparkles, Mail, Github, Linkedin, 
+  ListChecks, Cloud, Network, Star, Layers, Cpu,
+  Terminal, Settings2, AppWindow, Brain, ExternalLink,
+  CheckCircle2, ChevronDown, ChevronUp
 } from 'lucide-react';
-import { ProfileData } from '../types';
+import { ProfileData, SkillItem, CareerGoalItem } from '../types';
+import { sanitizeUrl } from '../lib/security';
+import { trackVisitorAction } from '../lib/visitorTracking';
 
 interface AboutSectionProps {
   profile: ProfileData;
 }
 
 export default React.memo(function AboutSection({ profile }: AboutSectionProps) {
-  // Group skills by category
-  const skillsByCategory = React.useMemo(() => {
-    const categories: Record<string, typeof profile.skills> = {
-      'Languages': [],
-      'Tools': [],
-      'Frameworks': [],
-      'Core Skills': []
-    };
+  const [isExpanded, setIsExpanded] = useState(false);
 
-    profile.skills.forEach(skill => {
-      if (!categories[skill.category]) {
-        categories[skill.category] = [];
-      }
-      categories[skill.category].push(skill);
-    });
+  // Default fallback career goals if not present
+  const careerGoals: CareerGoalItem[] = profile.careerGoalsList && profile.careerGoalsList.length > 0
+    ? profile.careerGoalsList
+    : [
+        {
+          id: 'goal-1',
+          title: 'Lead Development of Scalable Systems',
+          desc: 'Develop concept of organization development systems, and management solutions.',
+          icon: 'list'
+        },
+        {
+          id: 'goal-2',
+          title: 'Master Cloud Architecture',
+          desc: 'Develop development of problems, cloud platforms and real-time monitoring systems.',
+          icon: 'cloud'
+        },
+        {
+          id: 'goal-3',
+          title: 'Enterprise Data Architecture',
+          desc: 'Provide operational and distributed architectures and cloud applications.',
+          icon: 'network'
+        }
+      ];
 
-    return categories;
-  }, [profile.skills]);
+  // Default fallback skills if empty or less than 6
+  const defaultSkillList: SkillItem[] = [
+    { id: 'sk-1', name: 'Python', category: 'Languages', level: 5, icon: 'python' },
+    { id: 'sk-2', name: 'SQL', category: 'Languages', level: 5, icon: 'sql' },
+    { id: 'sk-3', name: 'DevOps', category: 'Frameworks', level: 4, icon: 'devops' },
+    { id: 'sk-4', name: 'JavaScript', category: 'Languages', level: 5, icon: 'javascript' },
+    { id: 'sk-5', name: 'Machine Learning', category: 'Core Skills', level: 4, icon: 'ml' },
+    { id: 'sk-6', name: 'UI/UX Design', category: 'Tools', level: 4, icon: 'uiux' },
+  ];
 
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case 'Languages': return <Terminal className="w-4 h-4 text-indigo-500" />;
-      case 'Tools': return <Layers className="w-4 h-4 text-emerald-500" />;
-      case 'Frameworks': return <Cpu className="w-4 h-4 text-amber-500" />;
-      default: return <Sparkles className="w-4 h-4 text-purple-500" />;
+  const skillsToDisplay: SkillItem[] = profile.skills && profile.skills.length > 0 
+    ? profile.skills.map((s, idx) => ({
+        ...s,
+        level: s.level || (idx % 2 === 0 ? 5 : 4),
+        icon: s.icon || s.name.toLowerCase()
+      }))
+    : defaultSkillList;
+
+  // Helper for Career Goal Icon
+  const getGoalIconSrc = (iconType?: string, index: number = 0) => {
+    switch (iconType) {
+      case 'cloud': return '/extracted/goal_2.png';
+      case 'network': return '/extracted/goal_3.png';
+      case 'list':
+      default:
+        if (index === 1) return '/extracted/goal_2.png';
+        if (index === 2) return '/extracted/goal_3.png';
+        return '/extracted/goal_1.png';
     }
   };
 
+  // Helper for Skill Icon
+  const getSkillIconSrc = (skillName: string, iconType?: string) => {
+    const key = (iconType || skillName).toLowerCase();
+    if (key.includes('python') || key.includes('code') || key.includes('r prog')) return '/extracted/skill_python.png';
+    if (key.includes('sql') || key.includes('data') || key.includes('database')) return '/extracted/skill_sql.png';
+    if (key.includes('devops') || key.includes('gear') || key.includes('docker') || key.includes('airflow')) return '/extracted/skill_devops.png';
+    if (key.includes('js') || key.includes('javascript') || key.includes('typescript')) return '/extracted/skill_js.png';
+    if (key.includes('machine') || key.includes('ml') || key.includes('ai') || key.includes('brain')) return '/extracted/skill_ml.png';
+    if (key.includes('ui') || key.includes('ux') || key.includes('design') || key.includes('web')) return '/extracted/skill_uiux.png';
+    return '/extracted/skill_python.png';
+  };
+
   return (
-    <div className="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8 space-y-12 animate-in fade-in duration-500">
-      {/* Hero Profile Card */}
-      <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-100 dark:shadow-none relative overflow-hidden">
-        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+    <div className="max-w-6xl mx-auto py-10 px-6 sm:px-10 lg:px-12 space-y-12 animate-in fade-in duration-400 bg-white">
+      {/* TOP ROW: 2 COLUMNS (BIO & CAREER GOALS) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
         
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
-          {/* Avatar container */}
-          <div className="relative group flex-shrink-0">
-            <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-3xl overflow-hidden border-4 border-white dark:border-slate-800 shadow-2xl bg-slate-100 dark:bg-slate-800 relative">
+        {/* LEFT COLUMN: BIO */}
+        <div className="lg:col-span-6 space-y-6">
+          {/* Section Header with cyan-blue underline bar */}
+          <div>
+            <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-wide uppercase">
+              BIO
+            </h2>
+            <div className="w-12 h-1 bg-[#86E0F5] rounded-full mt-1.5" />
+          </div>
+
+          {/* Profile Card Header */}
+          <div className="flex items-center gap-5 pt-1">
+            {/* Round Avatar */}
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-slate-200/90 shadow-sm bg-[#BDECF8]/30 flex-shrink-0 relative">
               {profile.avatarUrl ? (
                 <Image
-                  src={profile.avatarUrl}
+                  src={sanitizeUrl(profile.avatarUrl, '')}
                   alt={profile.name}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 768px) 144px, 176px"
+                  className="object-cover"
+                  sizes="112px"
                   referrerPolicy="no-referrer"
                   unoptimized
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-indigo-600 text-white text-4xl font-bold">
-                  {profile.name.charAt(0)}
+                <div className="w-full h-full flex items-center justify-center bg-[#FFD147] text-slate-900 text-3xl font-extrabold select-none">
+                  {profile.name ? profile.name.charAt(0) : 'A'}
                 </div>
               )}
             </div>
-            <div className="absolute -bottom-2 -right-2 bg-emerald-500 text-white p-1.5 rounded-xl shadow-lg border-2 border-white dark:border-slate-900 flex items-center gap-1 text-[11px] font-semibold px-2">
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-              Sẵn sàng làm việc
-            </div>
-          </div>
 
-          {/* Bio info */}
-          <div className="flex-1 text-center md:text-left space-y-4">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 rounded-full text-xs font-semibold tracking-wide border border-indigo-100 dark:border-indigo-800 mb-2">
-                <Sparkles className="w-3.5 h-3.5" />
-                Data Analyst Portfolio
-              </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            {/* Name, Subtitle, Title Link */}
+            <div className="space-y-0.5">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-950 tracking-tight">
                 {profile.name}
               </h1>
-              <p className="text-lg font-medium text-indigo-600 dark:text-indigo-400 mt-1">
-                {profile.title}
+              <p className="text-sm font-semibold text-slate-700">
+                {profile.subtitle || 'Placeholder Name'}
               </p>
+              <div>
+                <a 
+                  href="#bio-details"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsExpanded(!isExpanded);
+                  }}
+                  className="text-sm sm:text-base font-semibold text-[#1B8E9B] hover:text-[#10626B] underline transition-colors cursor-pointer inline-block"
+                >
+                  {profile.title}
+                </a>
+              </div>
             </div>
+          </div>
 
-            <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-base max-w-2xl whitespace-pre-wrap">
+          {/* Bio Text */}
+          <div className="text-xs sm:text-sm text-slate-800 leading-relaxed font-normal">
+            <p className="whitespace-pre-line">
               {profile.bio}
             </p>
+          </div>
 
-            {/* Quick Contact Links */}
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
-              {profile.email && (
-                <a
-                  href={`mailto:${profile.email}`}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 text-xs sm:text-sm font-semibold rounded-xl transition-all shadow-sm"
-                >
-                  <Mail className="w-4 h-4" />
-                  {profile.email}
-                </a>
-              )}
-              {profile.github && (
-                <a
-                  href={profile.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-medium rounded-xl transition-all"
-                >
-                  <Github className="w-4 h-4" />
-                  GitHub
-                </a>
-              )}
-              {profile.linkedin && (
-                <a
-                  href={profile.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/40 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs sm:text-sm font-medium rounded-xl transition-all border border-blue-200 dark:border-blue-800"
-                >
-                  <Linkedin className="w-4 h-4 text-blue-600" />
-                  LinkedIn
-                </a>
-              )}
-            </div>
+          {/* Read More Button & Expanded Details */}
+          <div className="pt-1">
+            <button
+              onClick={() => {
+                setIsExpanded(!isExpanded);
+                trackVisitorAction(isExpanded ? 'Thu gọn Bio' : 'Bấm Read More Bio', profile.name, 'general');
+              }}
+              className="px-6 py-2.5 bg-[#FFCB36] hover:bg-[#F2BA24] text-white font-bold text-sm rounded-xl shadow-xs transition-all duration-200 cursor-pointer inline-flex items-center gap-1.5 active:scale-95"
+            >
+              <span>Read More</span>
+              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
+
+            {/* Expandable Contact / Full Info Sheet */}
+            {isExpanded && (
+              <div className="mt-4 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3 animate-in fade-in slide-in-from-top-2 duration-200">
+                <p className="text-xs text-slate-700 leading-relaxed">
+                  <strong>Email:</strong> {profile.email || 'analyst@example.com'}
+                </p>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {profile.github && (
+                    <a
+                      href={sanitizeUrl(profile.github)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 text-slate-800 text-xs font-semibold rounded-lg hover:bg-slate-100 shadow-2xs"
+                    >
+                      <Github className="w-3.5 h-3.5" /> GitHub Profile
+                    </a>
+                  )}
+                  {profile.linkedin && (
+                    <a
+                      href={sanitizeUrl(profile.linkedin)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1B8E9B] text-white text-xs font-semibold rounded-lg hover:bg-[#15717C] shadow-2xs"
+                    >
+                      <Linkedin className="w-3.5 h-3.5" /> LinkedIn Profile
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
-      </div>
 
-      {/* Career Vision Card */}
-      <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-indigo-900/40 relative overflow-hidden">
-        <div className="flex items-start gap-4">
-          <div className="p-3 bg-indigo-600/30 border border-indigo-400/30 rounded-2xl text-indigo-300 flex-shrink-0">
-            <Target className="w-6 h-6" />
+        {/* RIGHT COLUMN: CAREER GOALS */}
+        <div className="lg:col-span-6 space-y-6">
+          {/* Section Header with cyan-blue underline bar */}
+          <div>
+            <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-wide uppercase">
+              CAREER GOALS
+            </h2>
+            <div className="w-12 h-1 bg-[#86E0F5] rounded-full mt-1.5" />
           </div>
-          <div className="space-y-2">
-            <h3 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-              Định hướng & Mục tiêu nghề nghiệp
-            </h3>
-            <p className="text-slate-300 leading-relaxed text-sm sm:text-base whitespace-pre-wrap">
-              {profile.careerGoal}
-            </p>
-          </div>
-        </div>
-      </div>
 
-      {/* Skills Matrix */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2.5">
-            <Award className="w-6 h-6 text-indigo-600" />
-            Kỹ năng & Chuyên môn dữ liệu
-          </h2>
-          <span className="text-xs text-slate-500 font-medium">
-            {profile.skills.length} Kỹ năng cốt lõi
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {Object.entries(skillsByCategory).map(([category, items]) => {
-            if (!items || items.length === 0) return null;
-            return (
-              <div 
-                key={category}
-                className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-center gap-2.5 mb-4 pb-3 border-b border-slate-100 dark:border-slate-800">
-                  <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-xl">
-                    {getCategoryIcon(category)}
-                  </div>
-                  <h3 className="font-bold text-slate-900 dark:text-white text-base">
-                    {category}
-                  </h3>
+          {/* List of 3 Career Goals */}
+          <div className="space-y-6 pt-1">
+            {careerGoals.map((goal, idx) => (
+              <div key={goal.id || `goal-${idx}`} className="flex items-start gap-4">
+                {/* Yellow Round Icon Badge from cropped image */}
+                <div className="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 shadow-xs relative bg-[#FFD147]">
+                  <Image 
+                    src={getGoalIconSrc(goal.icon, idx)} 
+                    alt={goal.title}
+                    width={44}
+                    height={44}
+                    className="object-cover w-full h-full"
+                    unoptimized
+                  />
                 </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {items.map(skill => (
-                    <span 
-                      key={skill.id}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-indigo-50 dark:bg-slate-800/80 dark:hover:bg-indigo-950/40 text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl text-xs sm:text-sm font-medium border border-slate-200/60 dark:border-slate-700/60 transition-colors"
-                    >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-indigo-500 opacity-70" />
-                      {skill.name}
-                    </span>
-                  ))}
+                {/* Content */}
+                <div className="space-y-1">
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-950 leading-snug">
+                    {goal.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                    {goal.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
+      {/* BOTTOM ROW: SKILLS */}
+      <div className="space-y-6 pt-6 border-t border-slate-100">
+        {/* Section Header with cyan-blue underline bar */}
+        <div>
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-wide uppercase">
+            SKILLS
+          </h2>
+          <div className="w-12 h-1 bg-[#86E0F5] rounded-full mt-1.5" />
+        </div>
+
+        {/* 3 Columns Grid for 6 Skill Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-7 gap-x-8 pt-2">
+          {skillsToDisplay.map((skill) => {
+            const level = skill.level || 5;
+            return (
+              <div key={skill.id} className="flex items-center gap-4">
+                {/* Yellow Rounded Square Icon from cropped image */}
+                <div className="w-12 h-12 rounded-2xl overflow-hidden flex items-center justify-center shadow-xs flex-shrink-0 bg-[#FFD147] relative">
+                  <Image 
+                    src={getSkillIconSrc(skill.name, skill.icon)} 
+                    alt={skill.name}
+                    width={48}
+                    height={48}
+                    className="object-cover w-full h-full"
+                    unoptimized
+                  />
+                </div>
+
+                {/* Skill Name & 5 Stars */}
+                <div className="space-y-1">
+                  <h4 className="text-sm sm:text-base font-extrabold text-slate-950">
+                    {skill.name}
+                  </h4>
+                  {/* Star Rating */}
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map((starIdx) => (
+                      <Star
+                        key={starIdx}
+                        className={`w-4 h-4 ${
+                          starIdx <= level
+                            ? 'text-[#FFD147] fill-[#FFD147]'
+                            : 'text-slate-200 fill-slate-200'
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             );

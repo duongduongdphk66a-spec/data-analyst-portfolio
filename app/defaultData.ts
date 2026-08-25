@@ -3,65 +3,85 @@ import { libraryBusMarkdownContent } from './data/libraryBusContent';
 
 export const DEFAULT_PROFILE: ProfileData = {
   name: "Nguyễn Văn A",
-  title: "Senior Data Analyst & BI Specialist",
-  bio: "Tôi là một Data Analyst với niềm đam mê sâu sắc trong việc biến dữ liệu thô thành câu chuyện chiến lược có giá trị cho doanh nghiệp. Chuyên môn của tôi tập trung vào SQL nâng cao, Python cho phân tích và trực quan hóa dữ liệu, cùng với việc thiết kế các hệ thống Dashboard tương tác trực quan cao cấp.",
-  careerGoal: "Mục tiêu trở thành Lead Data Analyst / Analytics Engineer, kiến tạo các data pipeline tự động, phát triển mô hình phân tích dự báo (Predictive Analytics) và giúp doanh nghiệp ra quyết định hoàn toàn dựa trên dữ liệu (Data-Driven Decision Making).",
-  avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+  subtitle: "Placeholder Name",
+  title: "Software Engineer",
+  bio: "Nguyễn Văn A is an experienced professional in data analysis, software engineering, and customer experience. Passionate about developing community-driven platforms, scalable systems, and automated data pipelines.",
+  careerGoal: "Lead Development of Scalable Systems & Master Cloud Architecture",
+  careerGoalsList: [
+    {
+      id: 'goal-1',
+      title: 'Lead Development of Scalable Systems',
+      desc: 'Develop concept of organization development systems, and management solutions.',
+      icon: 'list'
+    },
+    {
+      id: 'goal-2',
+      title: 'Master Cloud Architecture',
+      desc: 'Develop development of problems, cloud platforms and real-time monitoring systems.',
+      icon: 'cloud'
+    },
+    {
+      id: 'goal-3',
+      title: 'Enterprise Data & Cloud Architecture',
+      desc: 'Provide operational and resilient architectures and cloud-native applications.',
+      icon: 'network'
+    }
+  ],
+  avatarUrl: "",
   email: "analyst@example.com",
   github: "https://github.com",
   linkedin: "https://linkedin.com",
   skills: [
-    { id: 'sk-1', name: 'SQL (PostgreSQL / BigQuery)', category: 'Languages' },
-    { id: 'sk-2', name: 'Python (Pandas, NumPy, Scikit-learn)', category: 'Languages' },
-    { id: 'sk-3', name: 'R Programming', category: 'Languages' },
-    { id: 'sk-4', name: 'Power BI & DAX', category: 'Tools' },
-    { id: 'sk-5', name: 'Tableau Desktop', category: 'Tools' },
-    { id: 'sk-6', name: 'Apache Airflow (ETL)', category: 'Frameworks' },
-    { id: 'sk-7', name: 'Streamlit & Plotly', category: 'Frameworks' },
-    { id: 'sk-8', name: 'A/B Testing & Hypothesis Testing', category: 'Core Skills' },
-    { id: 'sk-9', name: 'Cohort & RFM Customer Segmentation', category: 'Core Skills' },
-    { id: 'sk-10', name: 'Time-series Forecasting (Prophet)', category: 'Core Skills' }
+    { id: 'sk-1', name: 'Python', category: 'Languages', level: 5, icon: 'python' },
+    { id: 'sk-2', name: 'SQL', category: 'Languages', level: 5, icon: 'sql' },
+    { id: 'sk-3', name: 'DevOps', category: 'Frameworks', level: 4, icon: 'devops' },
+    { id: 'sk-4', name: 'JavaScript', category: 'Languages', level: 5, icon: 'javascript' },
+    { id: 'sk-5', name: 'Machine Learning', category: 'Core Skills', level: 4, icon: 'ml' },
+    { id: 'sk-6', name: 'UI/UX Design', category: 'Tools', level: 4, icon: 'uiux' }
   ],
   experiences: [
     {
-      id: 'exp-1',
-      role: 'Senior Data Analyst',
-      company: 'FinTech Innovation Corp',
-      period: '2022 - Hiện tại',
-      type: 'work',
-      description: [
-        'Xây dựng Data Warehouse và mô hình hóa dữ liệu (Data Modeling) phục vụ phân tích hành vi khách hàng với hơn 2 triệu giao dịch/tháng.',
-        'Thiết kế và chuẩn hóa 15+ Executive Dashboard trên Power BI, giúp ban lãnh đạo cắt giảm 35% thời gian tổng hợp báo cáo thủ công.',
-        'Thực hiện phân tích Cohort Retention và tối ưu hóa phễu thanh toán (Checkout Funnel), giúp tăng tỷ lệ chuyển đổi thêm 12.8%.'
-      ]
-    },
-    {
-      id: 'exp-2',
-      role: 'Data Analyst & BI Developer',
-      company: 'Retail Group APAC',
-      period: '2020 - 2022',
-      type: 'work',
-      description: [
-        'Lập trình các Data Pipeline tự động hóa bằng Python & Airflow để trích xuất dữ liệu từ các sàn thương mại điện tử và ERP.',
-        'Phân khúc khách hàng theo thuật toán RFM (Recency, Frequency, Monetary) kết hợp K-Means Clustering, cá nhân hóa chiến dịch Marketing.',
-        'Chịu trách nhiệm trực quan hóa dữ liệu và thuyết trình báo cáo doanh thu định kỳ hàng tuần cho Giám đốc kinh doanh.'
-      ]
-    },
-    {
-      id: 'exp-3',
-      role: 'Cử nhân Hệ thống Thông tin & Khoa học Dữ liệu',
-      company: 'Đại học Quốc gia',
-      period: '2016 - 2020',
+      id: 'exp-edu-1',
+      role: 'Chuyên ngành Quản trị thông tin',
+      company: 'Đại học Quốc gia Hà Nội (VNU)',
+      period: '2020 - 2024',
       type: 'education',
       description: [
-        'Tốt nghiệp loại Xuất sắc (GPA: 3.75/4.0).',
-        'Đề tài khóa luận: "Ứng dụng Machine Learning trong dự báo nhu cầu tồn kho chuỗi bán lẻ".'
+        'Tập trung vào quản lý, phân tích và tối ưu hóa hệ thống thông tin dữ liệu.'
+      ]
+    },
+    {
+      id: 'exp-work-1',
+      role: 'Nghiên cứu Khoa học Sinh viên: Phân tích Du lịch Di sản tại Nhật Bản.',
+      company: 'Đại học Quốc gia Hà Nội',
+      period: '2023 - 2024',
+      type: 'work',
+      description: [
+        'Sử dụng các phương pháp phân tích dữ liệu để đánh giá xu hướng và tiềm năng phát triển du lịch bền vững tại các khu di sản Nhật Bản.'
+      ]
+    },
+    {
+      id: 'exp-work-2',
+      role: 'Steve x Kami Company - Hỗ trợ Vận hành Nền tảng Thương mại điện tử.',
+      company: 'Steve x Kami Company',
+      period: '2022 - 2023',
+      type: 'work',
+      description: [
+        'Quản lý quy trình vận hành, theo dõi đơn hàng và phân tích dữ liệu kinh doanh trên các nền tảng thương mại điện tử.'
       ]
     }
   ]
 };
 
 export const DEFAULT_PROJECTS: ProjectData[] = [
+  {
+    id: 'proj-heritage-japan',
+    title: 'Sự phát triển của Du lịch Di sản tại Nhật Bản',
+    desc: 'Phân tích chuỗi số liệu khách du lịch quốc tế, chi tiêu du lịch và chính sách bảo tồn di sản Nhật Bản giai đoạn 2013 – nay. Trực quan hoá bằng Recharts.',
+    tags: ['Data extraction', 'Data viz', 'Recharts', 'Storytelling'],
+    img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&auto=format&fit=crop&q=80',
+    featured: true
+  },
   {
     id: 'proj-library-bus',
     title: 'Library Bus Management System',

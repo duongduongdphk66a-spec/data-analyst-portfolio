@@ -7,7 +7,9 @@ import {
 } from 'lucide-react';
 import { ProfileData, ProjectData, DashboardData } from './types';
 import { DEFAULT_PROFILE, DEFAULT_PROJECTS, DEFAULT_DASHBOARD } from './defaultData';
-import { isSessionAdmin, setAdminSession } from './lib/auth';
+import { isSessionAdmin, setAdminSession, touchSession } from './lib/auth';
+import { safeJsonParse } from './lib/security';
+import { trackVisitorAction } from './lib/visitorTracking';
 
 import Sidebar from './components/Sidebar';
 import AboutSection from './components/AboutSection';
@@ -38,41 +40,76 @@ export default function Portfolio() {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
 
-  // Load saved data from localStorage & check admin session
+  // Load saved data from localStorage & check admin session securely
   useEffect(() => {
     // Check session
     setIsAdmin(isSessionAdmin());
 
-    // Load Profile
+    // Track initial page visit
+    trackVisitorAction('Truy cập trang web', 'Người xem mở trang Portfolio', 'pageview');
+
+    // Load Profile securely
     const savedProfile = localStorage.getItem('portfolio_profile_v2');
     if (savedProfile) {
-      try {
-        setProfile(JSON.parse(savedProfile));
-      } catch (e) {
-        console.error('Failed to parse saved profile', e);
-      }
+      setProfile(safeJsonParse(savedProfile, DEFAULT_PROFILE));
     }
 
-    // Load Projects
+    // Load Projects securely
     const savedProjects = localStorage.getItem('portfolio_projects_v2');
     if (savedProjects) {
-      try {
-        setProjects(JSON.parse(savedProjects));
-      } catch (e) {
-        console.error('Failed to parse saved projects', e);
-      }
+      setProjects(safeJsonParse(savedProjects, DEFAULT_PROJECTS));
     }
 
-    // Load Dashboard & Charts
+    // Load Dashboard & Charts securely
     const savedDashboard = localStorage.getItem('portfolio_dashboard_v2');
     if (savedDashboard) {
-      try {
-        setDashboard(JSON.parse(savedDashboard));
-      } catch (e) {
-        console.error('Failed to parse saved dashboard', e);
-      }
+      setDashboard(safeJsonParse(savedDashboard, DEFAULT_DASHBOARD));
     }
   }, []);
+
+  // Handler for tab change with visitor tracking
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
+    setIsMobileMenuOpen(false);
+
+    if (tabId !== 'admin') {
+      const tabLabels: Record<string, string> = {
+        about: 'Giới thiệu (About)',
+        cv: 'CV & Kinh nghiệm',
+        projects: 'Dự án cá nhân',
+        dashboard: 'Executive Dashboard',
+      };
+      trackVisitorAction(`Xem mục: ${tabLabels[tabId] || tabId}`, `Chuyển tới tab ${tabId}`, 'navigation');
+    }
+  };
+
+  // Periodic Session Inactivity Check and Activity Touch
+  useEffect(() => {
+    if (!isAdmin) return;
+
+    const handleUserActivity = () => {
+      touchSession();
+    };
+
+    window.addEventListener('click', handleUserActivity);
+    window.addEventListener('keydown', handleUserActivity);
+
+    const interval = setInterval(() => {
+      const valid = isSessionAdmin();
+      if (!valid) {
+        setIsAdmin(false);
+        if (activeTab === 'admin') {
+          setActiveTab('about');
+        }
+      }
+    }, 30000);
+
+    return () => {
+      window.removeEventListener('click', handleUserActivity);
+      window.removeEventListener('keydown', handleUserActivity);
+      clearInterval(interval);
+    };
+  }, [isAdmin, activeTab]);
 
   // Global Keyboard Shortcut: Ctrl + Shift + A to open Admin Login
   useEffect(() => {
@@ -119,10 +156,11 @@ export default function Portfolio() {
     setActiveTab('about');
   };
 
-  // Scroll to project by ID
+  // Scroll to project by ID with tracking
   const handleProjectClick = (projId: string) => {
     setActiveTab('projects');
     setIsMobileMenuOpen(false);
+    trackVisitorAction('Bấm chọn dự án từ Menu', `Mã dự án: ${projId}`, 'project');
     setTimeout(() => {
       const el = document.getElementById(projId);
       if (el) {
@@ -132,21 +170,19 @@ export default function Portfolio() {
   };
 
   const navItems = [
-    { id: 'about', label: 'Giới thiệu', icon: User },
-    { id: 'cv', label: 'CV & Kinh nghiệm', icon: FileText },
-    { id: 'projects', label: 'Dự án cá nhân', icon: Briefcase },
-    { id: 'dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
+    { id: 'home', label: 'Trang Chủ', icon: User },
+    { id: 'about', label: 'Giới Thiệu', icon: User },
+    { id: 'cv', label: 'Học Vấn & Kinh Nghiệm', icon: FileText },
+    { id: 'projects', label: 'Dự Án', icon: Briefcase },
+    { id: 'dashboard', label: 'Cài Đặt', icon: LayoutDashboard },
   ];
 
   return (
-    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans overflow-hidden">
+    <div className="flex h-screen bg-white text-slate-900 font-sans overflow-hidden">
       {/* Desktop Sidebar */}
       <Sidebar
         activeTab={activeTab}
-        onTabChange={(tab) => {
-          setActiveTab(tab);
-          setIsMobileMenuOpen(false);
-        }}
+        onTabChange={handleTabChange}
         projects={projects}
         isAdmin={isAdmin}
         onOpenLogin={() => setIsLoginModalOpen(true)}
@@ -156,36 +192,30 @@ export default function Portfolio() {
       />
 
       {/* Main Content Viewport */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden">
+      <div className="flex-1 flex flex-col h-full overflow-hidden bg-white">
         {/* Mobile Topbar */}
-        <header className="md:hidden bg-slate-950 text-white h-16 flex items-center justify-between px-4 border-b border-slate-900 flex-shrink-0 z-30">
+        <header className="md:hidden bg-[#C4EEF9] text-slate-900 h-16 flex items-center justify-between px-4 border-b border-[#A8E2F2] flex-shrink-0 z-30 shadow-xs">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-indigo-600/20 text-indigo-400 rounded-xl">
-              <BarChart2 className="w-5 h-5" />
-            </div>
-            <div>
-              <h1 className="text-sm font-bold text-white">Data Analyst</h1>
-              <p className="text-[10px] text-slate-400">Portfolio Hub</p>
-            </div>
+            <h1 className="text-base font-extrabold text-slate-900">Portfolio Hub</h1>
           </div>
 
           <div className="flex items-center gap-2">
             {!isAdmin ? (
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className="p-2 text-slate-400 hover:text-white"
+                className="p-2 text-slate-700 hover:text-slate-900 rounded-lg hover:bg-white/40 transition-colors"
                 title="Đăng nhập Admin"
               >
                 <Lock className="w-4 h-4" />
               </button>
             ) : (
-              <span className="text-[10px] px-2 py-0.5 bg-indigo-600 text-white font-bold rounded-full">
+              <span className="text-[10px] px-2 py-0.5 bg-[#8CE0F4] text-slate-900 font-bold rounded-full">
                 Admin
               </span>
             )}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 text-slate-400 hover:text-white rounded-lg"
+              className="p-2 text-slate-700 hover:text-slate-900 rounded-lg hover:bg-white/40 transition-colors"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -194,19 +224,16 @@ export default function Portfolio() {
 
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-16 left-0 right-0 bottom-0 bg-slate-950/95 backdrop-blur-md z-40 flex flex-col p-4 animate-in slide-in-from-top-4 duration-200">
+          <div className="md:hidden absolute top-16 left-0 right-0 bottom-0 bg-[#C4EEF9]/95 backdrop-blur-md z-40 flex flex-col p-4 animate-in slide-in-from-top-4 duration-200 border-b border-[#A8E2F2] shadow-xl">
             <nav className="flex-1 space-y-2">
               {navItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => {
-                    setActiveTab(item.id);
-                    setIsMobileMenuOpen(false);
-                  }}
+                  onClick={() => handleTabChange(item.id)}
                   className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${
-                    activeTab === item.id
-                      ? 'bg-indigo-600 text-white shadow-lg'
-                      : 'text-slate-300 hover:bg-slate-900'
+                    activeTab === item.id || (item.id === 'home' && activeTab === 'home')
+                      ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold'
+                      : 'text-slate-800 hover:bg-white/40'
                   }`}
                 >
                   <item.icon className="w-5 h-5" />
@@ -214,20 +241,32 @@ export default function Portfolio() {
                 </button>
               ))}
 
-              {isAdmin && (
+              <div className="pt-2">
+                <hr className="border-t-2 border-slate-900/60 my-2" />
+              </div>
+
+              {isAdmin ? (
                 <button
-                  onClick={() => {
-                    setActiveTab('admin');
-                    setIsMobileMenuOpen(false);
-                  }}
+                  onClick={() => handleTabChange('admin')}
                   className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${
                     activeTab === 'admin'
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-indigo-950/60 text-indigo-300 border border-indigo-800/40'
+                      ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold'
+                      : 'text-slate-800 hover:bg-white/40'
                   }`}
                 >
                   <ShieldCheck className="w-5 h-5" />
                   Khu vực Quản trị (Admin)
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsLoginModalOpen(true);
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold text-slate-800 hover:bg-white/40 transition-all"
+                >
+                  <Lock className="w-5 h-5" />
+                  Admin Login
                 </button>
               )}
             </nav>
@@ -235,8 +274,8 @@ export default function Portfolio() {
         )}
 
         {/* Dynamic Main View */}
-        <main className="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-950 relative">
-          {activeTab === 'about' && <AboutSection profile={profile} />}
+        <main className="flex-1 overflow-y-auto bg-white relative">
+          {(activeTab === 'about' || activeTab === 'home') && <AboutSection profile={profile} />}
           {activeTab === 'cv' && <CVSection experiences={profile.experiences} name={profile.name} title={profile.title} />}
           {activeTab === 'projects' && <ProjectsSection projects={projects} />}
           {activeTab === 'dashboard' && <DashboardSection dashboard={dashboard} />}

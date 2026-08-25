@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi" className="scroll-smooth">
-      <body suppressHydrationWarning className="antialiased min-h-screen bg-slate-50 dark:bg-slate-950">
+      <body suppressHydrationWarning className="antialiased min-h-screen bg-white text-slate-900">
         {children}
       </body>
     </html>

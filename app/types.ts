@@ -2,6 +2,15 @@ export interface SkillItem {
   id: string;
   name: string;
   category: 'Languages' | 'Tools' | 'Frameworks' | 'Core Skills';
+  level?: number; // 1 to 5 stars
+  icon?: string; // 'python' | 'sql' | 'devops' | 'javascript' | 'ml' | 'uiux' | 'code' | 'database' | etc.
+}
+
+export interface CareerGoalItem {
+  id: string;
+  title: string;
+  desc: string;
+  icon?: 'list' | 'cloud' | 'network' | 'target' | 'database' | 'cpu';
 }
 
 export interface ExperienceItem {
@@ -15,9 +24,11 @@ export interface ExperienceItem {
 
 export interface ProfileData {
   name: string;
+  subtitle?: string;
   title: string;
   bio: string;
   careerGoal: string;
+  careerGoalsList?: CareerGoalItem[];
   avatarUrl: string;
   email?: string;
   github?: string;
