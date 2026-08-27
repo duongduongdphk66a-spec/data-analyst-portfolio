@@ -11,46 +11,50 @@ import {
 import { ProfileData, SkillItem, CareerGoalItem } from '../types';
 import { sanitizeUrl } from '../lib/security';
 import { trackVisitorAction } from '../lib/visitorTracking';
+import { useLanguage } from '../context/LanguageContext';
 
 interface AboutSectionProps {
   profile: ProfileData;
 }
 
 export default React.memo(function AboutSection({ profile }: AboutSectionProps) {
+  const { language, t } = useLanguage();
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Default fallback career goals if not present
-  const careerGoals: CareerGoalItem[] = profile.careerGoalsList && profile.careerGoalsList.length > 0
-    ? profile.careerGoalsList
-    : [
-        {
-          id: 'goal-1',
-          title: 'Lead Development of Scalable Systems',
-          desc: 'Develop concept of organization development systems, and management solutions.',
-          icon: 'list'
-        },
-        {
-          id: 'goal-2',
-          title: 'Master Cloud Architecture',
-          desc: 'Develop development of problems, cloud platforms and real-time monitoring systems.',
-          icon: 'cloud'
-        },
-        {
-          id: 'goal-3',
-          title: 'Enterprise Data Architecture',
-          desc: 'Provide operational and distributed architectures and cloud applications.',
-          icon: 'network'
-        }
-      ];
+  const careerGoalsEn: CareerGoalItem[] = [
+    {
+      id: 'goal-1',
+      title: t('goal_1_title', 'Lead Scalable Data Infrastructure Engineering'),
+      desc: t('goal_1_desc', 'Develop robust data governance frameworks, streamline analytical workflows, and standardize enterprise data pipelines.'),
+      icon: 'list'
+    },
+    {
+      id: 'goal-2',
+      title: t('goal_2_title', 'Master Cloud Architecture & BI Pipelines'),
+      desc: t('goal_2_desc', 'Architect scalable cloud storage, automated ETL/ELT pipelines, and real-time monitoring systems.'),
+      icon: 'cloud'
+    },
+    {
+      id: 'goal-3',
+      title: t('goal_3_title', 'Enterprise Data Architecture & Decision Optimization'),
+      desc: t('goal_3_desc', 'Deliver customer segmentation models, revenue forecasting algorithms, and data-driven recommendations.'),
+      icon: 'network'
+    }
+  ];
+
+  const careerGoals: CareerGoalItem[] = language === 'en' 
+    ? careerGoalsEn 
+    : (profile.careerGoalsList && profile.careerGoalsList.length > 0 ? profile.careerGoalsList : careerGoalsEn);
 
   // Default fallback skills if empty or less than 6
   const defaultSkillList: SkillItem[] = [
     { id: 'sk-1', name: 'Python', category: 'Languages', level: 5, icon: 'python' },
     { id: 'sk-2', name: 'SQL', category: 'Languages', level: 5, icon: 'sql' },
-    { id: 'sk-3', name: 'DevOps', category: 'Frameworks', level: 4, icon: 'devops' },
-    { id: 'sk-4', name: 'JavaScript', category: 'Languages', level: 5, icon: 'javascript' },
+    { id: 'sk-3', name: 'DevOps & ETL', category: 'Frameworks', level: 4, icon: 'devops' },
+    { id: 'sk-4', name: 'JavaScript / React', category: 'Languages', level: 5, icon: 'javascript' },
     { id: 'sk-5', name: 'Machine Learning', category: 'Core Skills', level: 4, icon: 'ml' },
-    { id: 'sk-6', name: 'UI/UX Design', category: 'Tools', level: 4, icon: 'uiux' },
+    { id: 'sk-6', name: 'UI/UX & BI Dashboard', category: 'Tools', level: 4, icon: 'uiux' },
   ];
 
   const skillsToDisplay: SkillItem[] = profile.skills && profile.skills.length > 0 
@@ -86,6 +90,10 @@ export default React.memo(function AboutSection({ profile }: AboutSectionProps) 
     return '/extracted/skill_python.png';
   };
 
+  const bioText = language === 'en' 
+    ? t('about_default_bio', profile.bio)
+    : profile.bio;
+
   return (
     <div className="max-w-6xl mx-auto py-10 px-6 sm:px-10 lg:px-12 space-y-12 animate-in fade-in duration-400 bg-white">
       {/* TOP ROW: 2 COLUMNS (BIO & CAREER GOALS) */}
@@ -96,7 +104,7 @@ export default React.memo(function AboutSection({ profile }: AboutSectionProps) 
           {/* Section Header with cyan-blue underline bar */}
           <div>
             <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-wide uppercase">
-              BIO
+              {t('about_title', 'BIO')}
             </h2>
             <div className="w-12 h-1 bg-[#86E0F5] rounded-full mt-1.5" />
           </div>
@@ -128,7 +136,7 @@ export default React.memo(function AboutSection({ profile }: AboutSectionProps) 
                 {profile.name}
               </h1>
               <p className="text-sm font-semibold text-slate-700">
-                {profile.subtitle || 'Placeholder Name'}
+                {profile.subtitle || (language === 'en' ? 'Data Analyst & BI Specialist' : 'Chuyên viên Phân tích Dữ liệu')}
               </p>
               <div>
                 <a 
@@ -148,7 +156,7 @@ export default React.memo(function AboutSection({ profile }: AboutSectionProps) 
           {/* Bio Text */}
           <div className="text-xs sm:text-sm text-slate-800 leading-relaxed font-normal">
             <p className="whitespace-pre-line">
-              {profile.bio}
+              {bioText}
             </p>
           </div>
 
@@ -161,7 +169,7 @@ export default React.memo(function AboutSection({ profile }: AboutSectionProps) 
               }}
               className="px-6 py-2.5 bg-[#FFCB36] hover:bg-[#F2BA24] text-white font-bold text-sm rounded-xl shadow-xs transition-all duration-200 cursor-pointer inline-flex items-center gap-1.5 active:scale-95"
             >
-              <span>Read More</span>
+              <span>{isExpanded ? t('about_btn_collapse', 'Thu gọn') : t('about_btn_expand', 'Read More')}</span>
               {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </button>
 
@@ -203,7 +211,7 @@ export default React.memo(function AboutSection({ profile }: AboutSectionProps) 
           {/* Section Header with cyan-blue underline bar */}
           <div>
             <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-wide uppercase">
-              CAREER GOALS
+              {t('about_career_goals', 'CAREER GOALS')}
             </h2>
             <div className="w-12 h-1 bg-[#86E0F5] rounded-full mt-1.5" />
           </div>
@@ -212,7 +220,7 @@ export default React.memo(function AboutSection({ profile }: AboutSectionProps) 
           <div className="space-y-6 pt-1">
             {careerGoals.map((goal, idx) => (
               <div key={goal.id || `goal-${idx}`} className="flex items-start gap-4">
-                {/* Yellow Round Icon Badge from cropped image */}
+                {/* Yellow Round Icon Badge */}
                 <div className="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 shadow-xs relative bg-[#FFD147]">
                   <Image 
                     src={getGoalIconSrc(goal.icon, idx)} 
@@ -245,7 +253,7 @@ export default React.memo(function AboutSection({ profile }: AboutSectionProps) 
         {/* Section Header with cyan-blue underline bar */}
         <div>
           <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-wide uppercase">
-            SKILLS
+            {t('about_core_skills', 'SKILLS')}
           </h2>
           <div className="w-12 h-1 bg-[#86E0F5] rounded-full mt-1.5" />
         </div>
@@ -256,7 +264,7 @@ export default React.memo(function AboutSection({ profile }: AboutSectionProps) 
             const level = skill.level || 5;
             return (
               <div key={skill.id} className="flex items-center gap-4">
-                {/* Yellow Rounded Square Icon from cropped image */}
+                {/* Yellow Rounded Square Icon */}
                 <div className="w-12 h-12 rounded-2xl overflow-hidden flex items-center justify-center shadow-xs flex-shrink-0 bg-[#FFD147] relative">
                   <Image 
                     src={getSkillIconSrc(skill.name, skill.icon)} 

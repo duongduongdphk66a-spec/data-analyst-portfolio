@@ -7,16 +7,18 @@ import {
 } from 'recharts';
 import { 
   DollarSign, Users, Activity, TrendingUp, BarChart3, 
-  Download, Upload, Search, Filter, RefreshCw, FileText, Database, Sparkles
+  Download, Upload, Search, Filter, RefreshCw, FileText, Database, Sparkles 
 } from 'lucide-react';
 import Papa from 'papaparse';
 import { DashboardData, KpiItem, ChartConfig } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface DashboardSectionProps {
   dashboard: DashboardData;
 }
 
 export default function DashboardSection({ dashboard }: DashboardSectionProps) {
+  const { language, t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [customTableData, setCustomTableData] = useState<Record<string, any>[] | null>(null);
   const [isExporting, setIsExporting] = useState(false);
@@ -70,7 +72,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
         }
       },
       error: (err) => {
-        alert('Lỗi đọc file CSV: ' + err.message);
+        alert(language === 'en' ? 'Error reading CSV file: ' + err.message : 'Lỗi đọc file CSV: ' + err.message);
       }
     });
   };
@@ -110,7 +112,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
       pdf.save('Data-Analyst-Executive-Report.pdf');
     } catch (error) {
       console.error('Error generating PDF:', error);
-      alert('Có lỗi khi tạo file PDF. Vui lòng thử lại!');
+      alert(language === 'en' ? 'Error generating PDF. Please try again!' : 'Có lỗi khi tạo file PDF. Vui lòng thử lại!');
     } finally {
       setIsExporting(false);
     }
@@ -140,8 +142,8 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
               <defs>
                 {chart.series.map((s, idx) => (
                   <linearGradient key={s.dataKey} id={`grad-${chart.id}-${idx}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={s.color || '#6366f1'} stopOpacity={0.35}/>
-                    <stop offset="95%" stopColor={s.color || '#6366f1'} stopOpacity={0}/>
+                    <stop offset="5%" stopColor={s.color || '#1A9AB5'} stopOpacity={0.35}/>
+                    <stop offset="95%" stopColor={s.color || '#1A9AB5'} stopOpacity={0}/>
                   </linearGradient>
                 ))}
               </defs>
@@ -158,7 +160,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                   type="monotone" 
                   dataKey={s.dataKey} 
                   name={s.name} 
-                  stroke={s.color || '#6366f1'} 
+                  stroke={s.color || '#1A9AB5'} 
                   strokeWidth={2.5} 
                   fillOpacity={1} 
                   fill={`url(#grad-${chart.id}-${idx})`} 
@@ -185,7 +187,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                   key={s.dataKey} 
                   dataKey={s.dataKey} 
                   name={s.name} 
-                  fill={s.color || '#3b82f6'} 
+                  fill={s.color || '#9BE7FA'} 
                   radius={[6, 6, 0, 0]} 
                   barSize={36} 
                 />
@@ -211,7 +213,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                   type="monotone" 
                   dataKey={s.dataKey} 
                   name={s.name} 
-                  stroke={s.color || '#10b981'} 
+                  stroke={s.color || '#FFD14C'} 
                   strokeWidth={3} 
                   dot={{ r: 4, strokeWidth: 2, fill: '#ffffff' }}
                   activeDot={{ r: 6 }} 
@@ -222,12 +224,12 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
         );
 
       default:
-        return <div className="text-sm text-slate-400">Loại biểu đồ chưa được hỗ trợ.</div>;
+        return <div className="text-sm text-slate-400">{language === 'en' ? 'Chart type not supported.' : 'Loại biểu đồ chưa được hỗ trợ.'}</div>;
     }
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 space-y-10 animate-in fade-in duration-500" ref={dashboardRef}>
+    <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 space-y-10 animate-in fade-in duration-500 bg-white" ref={dashboardRef}>
       {/* Header with Export & CSV actions */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-brand-blue-light">
         <div>
@@ -236,10 +238,10 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
             Executive Business Intelligence
           </div>
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            {dashboard.title || 'Analytics Dashboard'}
+            {dashboard.title || t('dash_title', 'Analytics Dashboard')}
           </h1>
           <p className="text-sm text-slate-500 mt-1 max-w-2xl">
-            {dashboard.description || 'Trực quan hóa chỉ số dữ liệu và xu hướng tăng trưởng'}
+            {dashboard.description || t('dash_subtitle', 'Trực quan hóa chỉ số dữ liệu và xu hướng tăng trưởng')}
           </p>
         </div>
 
@@ -247,7 +249,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
         <div className="flex flex-wrap items-center gap-3 no-print">
           <label className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-brand-blue-light hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl cursor-pointer transition-all shadow-xs">
             <Upload className="w-4 h-4 text-slate-900" />
-            Nạp CSV Bảng
+            {t('dash_upload_csv', 'Nạp CSV Bảng')}
             <input type="file" accept=".csv" className="hidden" onChange={handleCsvUpload} />
           </label>
 
@@ -257,7 +259,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
             className="inline-flex items-center gap-2 px-4 py-2.5 bg-brand-yellow hover:bg-brand-yellow-light text-slate-900 text-xs sm:text-sm font-semibold rounded-xl shadow-xs transition-all disabled:opacity-60 cursor-pointer"
           >
             <Download className="w-4 h-4" />
-            {isExporting ? 'Đang xuất...' : 'Xuất Báo cáo PDF'}
+            {isExporting ? t('loading', 'Đang xuất...') : t('dash_export_pdf', 'Xuất Báo cáo PDF')}
           </button>
         </div>
       </div>
@@ -284,9 +286,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
               </div>
 
               {kpi.change && (
-                <div className={`text-xs font-medium mt-2 flex items-center gap-1 ${
-                  kpi.isPositive !== false ? 'text-slate-900' : 'text-slate-900'
-                }`}>
+                <div className="text-xs font-medium mt-2 flex items-center gap-1 text-slate-900">
                   <TrendingUp className="w-3.5 h-3.5" />
                   {kpi.change}
                 </div>
@@ -322,7 +322,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
           ))
         ) : (
           <div className="col-span-full py-12 text-center text-slate-400">
-            Chưa có biểu đồ nào được thiết lập.
+            {language === 'en' ? 'No charts configured.' : 'Chưa có biểu đồ nào được thiết lập.'}
           </div>
         )}
       </div>
@@ -335,10 +335,10 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
             <div>
               <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                 <Database className="w-5 h-5 text-slate-900" />
-                Dữ liệu chi tiết & Bảng tổng hợp
+                {t('dash_table_title', 'Dữ liệu chi tiết & Bảng tổng hợp')}
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Hiển thị {filteredRows.length} dòng dữ liệu {customTableData ? '(Từ CSV tải lên)' : ''}
+                {language === 'en' ? `Showing ${filteredRows.length} records ${customTableData ? '(From custom CSV)' : ''}` : `Hiển thị ${filteredRows.length} dòng dữ liệu ${customTableData ? '(Từ CSV tải lên)' : ''}`}
               </p>
             </div>
 
@@ -347,7 +347,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                 <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="Lọc dữ liệu bảng..."
+                  placeholder={t('dash_search_placeholder', 'Lọc dữ liệu bảng...')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-9 pr-3 py-1.5 bg-white border border-brand-blue-light rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-blue"
@@ -358,7 +358,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                 <button
                   onClick={handleResetTable}
                   className="p-2 text-slate-500 hover:text-slate-700 rounded-xl hover:bg-brand-blue-light/50 text-xs font-medium inline-flex items-center gap-1 cursor-pointer"
-                  title="Đặt lại dữ liệu ban đầu"
+                  title={language === 'en' ? 'Reset to default data' : 'Đặt lại dữ liệu ban đầu'}
                 >
                   <RefreshCw className="w-4 h-4" />
                 </button>
@@ -369,7 +369,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                 className="px-3 py-1.5 bg-brand-blue-light/30 hover:bg-brand-blue-light/70 text-slate-700 rounded-xl text-xs font-semibold inline-flex items-center gap-1.5 transition-all cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5" />
-                Xuất CSV
+                {language === 'en' ? 'Export CSV' : 'Xuất CSV'}
               </button>
             </div>
           </div>

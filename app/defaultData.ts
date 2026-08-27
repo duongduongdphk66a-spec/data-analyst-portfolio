@@ -75,6 +75,14 @@ export const DEFAULT_PROFILE: ProfileData = {
 
 export const DEFAULT_PROJECTS: ProjectData[] = [
   {
+    id: 'proj-kami-ely',
+    title: 'Kami Ely — Báo cáo phân tích TikTok Shop',
+    desc: 'Phân tích tổng hợp hiệu suất bán hàng, mạng lưới affiliate và kênh nhà sáng tạo tự vận hành từ nền tảng dữ liệu TikTok Shop cho ngành hàng Sports & Outdoor.',
+    tags: ['TikTok Shop', 'Data Analytics', 'Recharts', 'Dashboard'],
+    img: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop&q=80',
+    featured: true
+  },
+  {
     id: 'proj-heritage-japan',
     title: 'Sự phát triển của Du lịch Di sản tại Nhật Bản',
     desc: 'Phân tích chuỗi số liệu khách du lịch quốc tế, chi tiêu du lịch và chính sách bảo tồn di sản Nhật Bản giai đoạn 2013 – nay. Trực quan hoá bằng Recharts.',
@@ -89,47 +97,8 @@ export const DEFAULT_PROJECTS: ProjectData[] = [
     tags: ['Django', 'Celery', 'Redis', 'MySQL', 'Docker', 'Tailwind CSS'],
     img: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&auto=format&fit=crop&q=80',
     demoUrl: '/website.pdf',
+    featured: true,
     content: libraryBusMarkdownContent,
-  },
-  {
-    id: 'proj-1',
-    title: 'Customer Segmentation & RFM Analytics',
-    desc: 'Phân tích phân khúc 50,000 khách hàng E-commerce bằng phương pháp RFM và thuật toán K-Means Clustering. Giúp Marketing tối ưu chi phí chuyển đổi và tăng 18% tỷ lệ quay lại.',
-    tags: ['Python', 'Scikit-Learn', 'RFM', 'Seaborn', 'PostgreSQL'],
-    img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80',
-    demoUrl: 'https://streamlit.io',
-    githubUrl: 'https://github.com',
-    featured: true
-  },
-  {
-    id: 'proj-2',
-    title: 'Executive Sales & Revenue Forecast Dashboard',
-    desc: 'Dashboard phân tích doanh thu đa kênh kết hợp mô hình dự báo chuỗi thời gian Facebook Prophet. Cho phép lọc theo vùng miền, danh mục sản phẩm và xuất báo cáo tự động.',
-    tags: ['Streamlit', 'Prophet', 'Plotly', 'Pandas'],
-    img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80',
-    demoUrl: 'https://streamlit.io',
-    githubUrl: 'https://github.com',
-    embedUrl: '',
-    featured: true
-  },
-  {
-    id: 'proj-3',
-    title: 'End-to-End Automated Data Pipeline (ETL)',
-    desc: 'Hệ thống tự động hóa thu thập dữ liệu từ REST API, làm sạch dữ liệu, kiểm tra Data Quality (Great Expectations) và nạp vào Cloud Data Warehouse định kỳ theo lịch trình Airflow.',
-    tags: ['Airflow', 'Python', 'BigQuery', 'Docker', 'SQL'],
-    img: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&auto=format&fit=crop&q=80',
-    githubUrl: 'https://github.com',
-    featured: false
-  },
-  {
-    id: 'proj-4',
-    title: 'E-Commerce Churn Prediction & Survival Analysis',
-    desc: 'Xây dựng mô hình Machine Learning dự báo tỷ lệ khách hàng rời bỏ (Churn Rate) dựa trên lịch sử mua sắm và tương tác, kết hợp SHAP value để giải thích lý do khách rời đi.',
-    tags: ['Python', 'XGBoost', 'SHAP', 'Classification'],
-    img: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80',
-    demoUrl: 'https://streamlit.io',
-    githubUrl: 'https://github.com',
-    featured: false
   }
 ];
 

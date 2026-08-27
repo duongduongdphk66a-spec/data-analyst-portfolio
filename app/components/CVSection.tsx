@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { ExperienceItem } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface CVSectionProps {
   experiences: ExperienceItem[];
@@ -11,34 +12,73 @@ interface CVSectionProps {
 }
 
 export default React.memo(function CVSection({ experiences }: CVSectionProps) {
+  const { language, t } = useLanguage();
+
   const workList = experiences.filter(e => e.type === 'work');
   const educationList = experiences.filter(e => e.type === 'education');
 
-  // Fallback defaults if list is empty
-  const defaultEducation = [
+  // English localized defaults
+  const defaultEducationEn: ExperienceItem[] = [
+    {
+      id: 'default-edu-en',
+      role: t('cv_edu_major', 'Bachelor of Information Management'),
+      company: t('cv_edu_school', 'Vietnam National University, Hanoi (VNU)'),
+      type: 'education',
+      description: [t('cv_edu_desc', 'Focused on information systems management, data analytics, database optimization, and business process modeling.')]
+    }
+  ];
+
+  const defaultWorkEn: ExperienceItem[] = [
+    {
+      id: 'default-work-1-en',
+      role: t('cv_work_1_role', 'Student Scientific Research: Heritage Tourism Analytics in Japan.'),
+      type: 'work',
+      description: [t('cv_work_1_desc', 'Applied statistical data modeling and time-series analytics to evaluate sustainable heritage tourism growth and inbound spending in Japan.')]
+    },
+    {
+      id: 'default-work-2-en',
+      role: t('cv_work_2_role', 'Steve x Kami Company - E-Commerce Platform Operations Specialist.'),
+      type: 'work',
+      description: [t('cv_work_2_desc', 'Managed order operations, fulfillment workflows, and conducted sales performance data analysis across multiple e-commerce platforms.')]
+    }
+  ];
+
+  // Vietnamese localized defaults
+  const defaultEducationVi: ExperienceItem[] = [
     {
       id: 'default-edu',
       role: 'Chuyên ngành Quản trị thông tin',
       company: 'Đại học Quốc gia Hà Nội (VNU)',
+      type: 'education',
       description: ['Tập trung vào quản lý, phân tích và tối ưu hóa hệ thống thông tin dữ liệu.']
     }
   ];
 
-  const defaultWork = [
+  const defaultWorkVi: ExperienceItem[] = [
     {
       id: 'default-work-1',
       role: 'Nghiên cứu Khoa học Sinh viên: Phân tích Du lịch Di sản tại Nhật Bản.',
+      type: 'work',
       description: ['Sử dụng các phương pháp phân tích dữ liệu để đánh giá xu hướng và tiềm năng phát triển du lịch bền vững tại các khu di sản Nhật Bản.']
     },
     {
       id: 'default-work-2',
       role: 'Steve x Kami Company - Hỗ trợ Vận hành Nền tảng Thương mại điện tử.',
+      type: 'work',
       description: ['Quản lý quy trình vận hành, theo dõi đơn hàng và phân tích dữ liệu kinh doanh trên các nền tảng thương mại điện tử.']
     }
   ];
 
-  const educationsToDisplay = educationList.length > 0 ? educationList : defaultEducation;
-  const worksToDisplay = workList.length > 0 ? workList : defaultWork;
+  const defaultEducation = language === 'en' ? defaultEducationEn : defaultEducationVi;
+  const defaultWork = language === 'en' ? defaultWorkEn : defaultWorkVi;
+
+  const educationsToDisplay = language === 'en'
+    ? defaultEducationEn
+    : (educationList.length > 0 ? educationList : defaultEducationVi);
+
+  const worksToDisplay = language === 'en'
+    ? defaultWorkEn
+    : (workList.length > 0 ? workList : defaultWorkVi);
 
   return (
     <div className="max-w-5xl mx-auto py-10 px-6 sm:px-10 lg:px-12 space-y-8 animate-in fade-in duration-400 bg-white">
@@ -48,7 +88,7 @@ export default React.memo(function CVSection({ experiences }: CVSectionProps) {
         {/* Title with yellow underline bar */}
         <div>
           <h2 className="text-2xl sm:text-3xl font-black text-[#155A8A] tracking-wide uppercase">
-            HỌC VẤN
+            {t('cv_education_title', 'HỌC VẤN')}
           </h2>
           <div className="w-12 h-1 bg-[#FFD147] rounded-full mt-2 mb-6" />
         </div>
@@ -97,7 +137,7 @@ export default React.memo(function CVSection({ experiences }: CVSectionProps) {
         {/* Title with yellow underline bar */}
         <div className="relative z-10">
           <h2 className="text-2xl sm:text-3xl font-black text-[#155A8A] tracking-wide uppercase">
-            KINH NGHIỆM
+            {t('cv_experience_title', 'KINH NGHIỆM')}
           </h2>
           <div className="w-12 h-1 bg-[#FFD147] rounded-full mt-2 mb-6" />
         </div>
