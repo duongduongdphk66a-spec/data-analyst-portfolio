@@ -363,7 +363,7 @@ export default function Sidebar({
             href="https://linkedin.com" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-sm"
+            className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-xs"
             title="LinkedIn"
           >
             <Linkedin className="w-4 h-4 fill-white text-white" />
@@ -372,14 +372,14 @@ export default function Sidebar({
             href="https://github.com" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-sm"
+            className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-xs"
             title="GitHub"
           >
             <Github className="w-4 h-4 fill-white text-white" />
           </a>
           <a 
-            href="mailto:analyst@example.com" 
-            className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-sm"
+            href="mailto:mavanhung.da@gmail.com" 
+            className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-xs"
             title="Email"
           >
             <Mail className="w-4 h-4 text-white" />
@@ -389,7 +389,7 @@ export default function Sidebar({
         {/* Quick Language Toggle Button */}
         <button
           onClick={() => setLanguage(language === 'vi' ? 'en' : 'vi')}
-          className="px-2.5 py-1 rounded-xl bg-slate-900/80 hover:bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer"
+          className="px-2.5 py-1 rounded-xl bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer"
           title={language === 'vi' ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
         >
           <span>{language === 'vi' ? '🇻🇳 VI' : '🇬🇧 EN'}</span>

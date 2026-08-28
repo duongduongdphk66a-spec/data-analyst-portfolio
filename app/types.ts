@@ -1,9 +1,11 @@
 export interface SkillItem {
   id: string;
   name: string;
-  category: 'Languages' | 'Tools' | 'Frameworks' | 'Core Skills';
+  category: 'Languages' | 'Tools' | 'Frameworks' | 'Core Skills' | 'Languages & Querying' | 'BI & Visualization' | 'Statistical & Modeling' | 'Data Engineering';
   level?: number; // 1 to 5 stars
-  icon?: string; // 'python' | 'sql' | 'devops' | 'javascript' | 'ml' | 'uiux' | 'code' | 'database' | etc.
+  icon?: string;
+  proficiencyNote?: string;
+  tags?: string[];
 }
 
 export interface CareerGoalItem {
@@ -20,6 +22,7 @@ export interface ExperienceItem {
   period: string;
   description: string[];
   type: 'work' | 'education';
+  location?: string;
 }
 
 export interface ProfileData {
@@ -48,6 +51,11 @@ export interface ProjectData {
   embedUrl?: string; // Iframe live interactive preview
   featured?: boolean;
   content?: string; // Markdown content for detail page
+  problem?: string;
+  method?: string;
+  insight?: string;
+  metrics?: { label: string; value: string; change?: string; isPositive?: boolean }[];
+  tools?: string[];
 }
 
 export interface KpiItem {
@@ -82,3 +90,4 @@ export interface DashboardData {
   charts: ChartConfig[];
   tableData?: Record<string, any>[];
 }
+

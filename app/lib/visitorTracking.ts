@@ -13,7 +13,7 @@ export interface VisitorActionLog {
   screenResolution?: string;
   timestamp: string;
   action: string;
-  category: 'pageview' | 'navigation' | 'project' | 'contact' | 'chart' | 'download' | 'general';
+  category: 'pageview' | 'navigation' | 'project' | 'contact' | 'chart' | 'download' | 'sandbox' | 'general';
   details?: string;
 }
 
@@ -61,19 +61,17 @@ function parseUserAgent(): { device: string; browser: string; os: string } {
 }
 
 /**
- * Lấy hoặc tạo mới Visitor ID duy nhất cho khách truy cập
+ * Khởi tạo hoặc lấy lại định danh ẩn danh của khách xem trang
  */
 export function getOrCreateVisitorId(): { id: string; label: string; device: string; browser: string; os: string } {
   if (typeof window === 'undefined') {
-    return { id: 'vis-guest', label: 'Khách vãng lai', device: 'Desktop', browser: 'Web', os: 'OS' };
+    return { id: 'VIS-SERVER', label: 'Server Side', device: 'Unknown', browser: 'Unknown', os: 'Unknown' };
   }
 
   const { device, browser, os } = parseUserAgent();
   let storedId = localStorage.getItem(VISITOR_ID_KEY);
-
   if (!storedId) {
-    const randomNum = Math.floor(1000 + Math.random() * 9000);
-    storedId = `VIS-${randomNum}`;
+    storedId = `VIS-${Math.floor(1000 + Math.random() * 9000)}`;
     localStorage.setItem(VISITOR_ID_KEY, storedId);
   }
 
@@ -87,7 +85,7 @@ export function getOrCreateVisitorId(): { id: string; label: string; device: str
 export function trackVisitorAction(
   action: string,
   details?: string,
-  category: 'pageview' | 'navigation' | 'project' | 'contact' | 'chart' | 'download' | 'general' = 'general'
+  category: 'pageview' | 'navigation' | 'project' | 'contact' | 'chart' | 'download' | 'sandbox' | 'general' = 'general'
 ): void {
   if (typeof window === 'undefined') return;
 

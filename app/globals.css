@@ -9,18 +9,90 @@
   --color-brand-blue: #9BE7FA;
   --color-brand-yellow-light: #FFE485;
   --color-brand-yellow: #FFD14C;
+  --color-brand-cyan: #9BE7FA;
+  --color-brand-ice: #C8EEF7;
+  --color-brand-warm: #FFE485;
+  --color-brand-amber: #FFD14C;
+
+  --font-sans: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-mono), "Fira Code", monospace;
 }
 
 :root {
   color-scheme: light;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --text-primary: #090e17;
+  --text-secondary: #475569;
+  --border-subtle: #e2e8f0;
 }
 
 html, body {
   background-color: #ffffff;
-  color: #0f172a;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  color: #090e17;
+  font-family: var(--font-sans);
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
+/* Tabular numbers for accurate data alignment */
+.tabular-data,
+.font-mono,
+code,
+pre {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-family: var(--font-mono);
+}
+
+/* Subtle Technical Grid Background */
+.bg-data-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(155, 231, 250, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(155, 231, 250, 0.08) 1px, transparent 1px);
+}
+
+.dark .bg-data-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(155, 231, 250, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(155, 231, 250, 0.04) 1px, transparent 1px);
+}
+
+/* Subtle Dot Matrix */
+.bg-data-dots {
+  background-image: radial-gradient(rgba(155, 231, 250, 0.25) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.dark .bg-data-dots {
+  background-image: radial-gradient(rgba(155, 231, 250, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Dark Mode Overrides */
 html.dark {
   color-scheme: dark;
 }
@@ -46,6 +118,10 @@ html.dark .bg-slate-50 {
   border-color: #1e293b !important;
 }
 
+html.dark .bg-slate-100 {
+  background-color: #1e293b !important;
+}
+
 html.dark .border-slate-100,
 html.dark .border-slate-200 {
   border-color: #1e293b !important;
@@ -63,3 +139,4 @@ html.dark .text-slate-700,
 html.dark .text-slate-600 {
   color: #94a3b8 !important;
 }
+

@@ -28,11 +28,15 @@ const AdminPanel = dynamic(() => import('./components/AdminPanel'), {
   loading: () => <div className="flex h-full items-center justify-center text-slate-500 animate-pulse">Loading Admin Panel...</div>,
 });
 
-const KamiElyProject = dynamic(() => import('./projects/proj-kami-ely/page'), {
+const KamiElyProject = dynamic(() => import('./components/KamiElyProject'), {
   loading: () => <div className="flex h-full items-center justify-center text-slate-500 animate-pulse">Loading Project...</div>,
 });
 
-const HeritageJapanProject = dynamic(() => import('./projects/proj-heritage-japan/page'), {
+const HeritageJapanProject = dynamic(() => import('./components/HeritageJapanProject'), {
+  loading: () => <div className="flex h-full items-center justify-center text-slate-500 animate-pulse">Loading Project...</div>,
+});
+
+const LibraryBusProject = dynamic(() => import('./components/LibraryBusProject'), {
   loading: () => <div className="flex h-full items-center justify-center text-slate-500 animate-pulse">Loading Project...</div>,
 });
 
@@ -61,13 +65,20 @@ export default function Portfolio() {
     trackVisitorAction('Truy cập trang web', 'Người xem mở trang Portfolio', 'pageview');
 
     // Load Profile securely
-    const savedProfile = localStorage.getItem('portfolio_profile_v2');
+    const savedProfile = localStorage.getItem('portfolio_profile_v4');
     if (savedProfile) {
-      setProfile(safeJsonParse(savedProfile, DEFAULT_PROFILE));
+      const parsed = safeJsonParse(savedProfile, DEFAULT_PROFILE);
+      if (!parsed.name || parsed.name === 'Nguyễn Văn A') {
+        setProfile(DEFAULT_PROFILE);
+      } else {
+        setProfile(parsed);
+      }
+    } else {
+      setProfile(DEFAULT_PROFILE);
     }
 
     // Load Projects securely
-    const savedProjects = localStorage.getItem('portfolio_projects_v3');
+    const savedProjects = localStorage.getItem('portfolio_projects_v4');
     if (savedProjects) {
       setProjects(safeJsonParse(savedProjects, DEFAULT_PROJECTS));
     } else {
@@ -75,9 +86,11 @@ export default function Portfolio() {
     }
 
     // Load Dashboard & Charts securely
-    const savedDashboard = localStorage.getItem('portfolio_dashboard_v2');
+    const savedDashboard = localStorage.getItem('portfolio_dashboard_v4');
     if (savedDashboard) {
       setDashboard(safeJsonParse(savedDashboard, DEFAULT_DASHBOARD));
+    } else {
+      setDashboard(DEFAULT_DASHBOARD);
     }
   }, []);
 
@@ -148,17 +161,17 @@ export default function Portfolio() {
   // Save Handlers
   const handleSaveProfile = (newProfile: ProfileData) => {
     setProfile(newProfile);
-    localStorage.setItem('portfolio_profile_v2', JSON.stringify(newProfile));
+    localStorage.setItem('portfolio_profile_v4', JSON.stringify(newProfile));
   };
 
   const handleSaveProjects = (newProjects: ProjectData[]) => {
     setProjects(newProjects);
-    localStorage.setItem('portfolio_projects_v3', JSON.stringify(newProjects));
+    localStorage.setItem('portfolio_projects_v4', JSON.stringify(newProjects));
   };
 
   const handleSaveDashboard = (newDashboard: DashboardData) => {
     setDashboard(newDashboard);
-    localStorage.setItem('portfolio_dashboard_v2', JSON.stringify(newDashboard));
+    localStorage.setItem('portfolio_dashboard_v4', JSON.stringify(newDashboard));
   };
 
   // Auth Handlers
@@ -353,7 +366,13 @@ export default function Portfolio() {
 
         {/* Dynamic Main View */}
         <main className="flex-1 overflow-y-auto bg-white relative">
-          {(activeTab === 'about' || activeTab === 'home') && <AboutSection profile={profile} />}
+          {(activeTab === 'about' || activeTab === 'home') && (
+            <AboutSection 
+              profile={profile} 
+              onSelectProject={handleProjectClick}
+              onNavigateTab={handleTabChange}
+            />
+          )}
           {activeTab === 'cv' && <CVSection experiences={profile.experiences} name={profile.name} title={profile.title} />}
           {activeTab === 'projects' && (
             <ProjectsSection 
@@ -366,6 +385,8 @@ export default function Portfolio() {
               <KamiElyProject onBack={() => setActiveTab('projects')} isEmbedded={true} />
             ) : selectedProjectId === 'proj-heritage-japan' ? (
               <HeritageJapanProject onBack={() => setActiveTab('projects')} isEmbedded={true} />
+            ) : selectedProjectId === 'proj-library-bus' ? (
+              <LibraryBusProject onBack={() => setActiveTab('projects')} isEmbedded={true} />
             ) : (
               <ProjectDetailView 
                 project={projects.find(p => p.id === selectedProjectId)} 
