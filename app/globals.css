@@ -3,8 +3,15 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  color-scheme: light;
+@theme {
+  /* Brand Palette */
+  --color-brand-blue: #0D7287;
+  --color-brand-blue-light: #C8EEF7;
+  --color-brand-blue-vivid: #9BE7FA;
+  --color-brand-yellow: #FFD14C;
+  --color-brand-yellow-light: #FFE485;
+
+  /* Theme Tokens */
   --color-accent: #FFD14C;
   --color-accent-soft: #FFE485;
   --color-accent-deep: #e6b830;
@@ -16,6 +23,17 @@
   --color-ground: #fafcfd;
   --color-ground-alt: #f0f7fa;
   --color-border-subtle: #d8e6ed;
+
+  /* Typography */
+  --font-lora: var(--font-lora), "Lora", "Merriweather", "Source Serif 4", Georgia, serif;
+  --font-heading: var(--font-lora), var(--font-merriweather), "Lora", "Merriweather", "Playfair Display", "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-body: var(--font-lora), var(--font-merriweather), "Lora", "Merriweather", "Source Serif 4", "Noto Serif", Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-lora), var(--font-merriweather), "Lora", "Merriweather", "Source Serif 4", Georgia, serif;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", "Fira Code", monospace;
+
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-smooth: cubic-bezier(0.25, 0.1, 0.25, 1.0);
 }
 
 .dark {
@@ -33,41 +51,13 @@
   --color-border-subtle: #243048;
 }
 
-@theme {
-  /* Brand Palette */
-  --color-brand-blue: #0D7287;
-  --color-brand-blue-light: #C8EEF7;
-  --color-brand-blue-vivid: #9BE7FA;
-  --color-brand-yellow: #FFD14C;
-  --color-brand-yellow-light: #FFE485;
-
-  --color-accent: #FFD14C;
-  --color-accent-soft: #FFE485;
-  --color-accent-deep: #e6b830;
-  --color-surface: var(--color-surface);
-  --color-surface-vivid: #9BE7FA;
-  --color-ink: var(--color-ink);
-  --color-ink-secondary: var(--color-ink-secondary);
-  --color-ink-muted: var(--color-ink-muted);
-  --color-ground: var(--color-ground);
-  --color-ground-alt: var(--color-ground-alt);
-  --color-border-subtle: var(--color-border-subtle);
-
-  /* Typography */
-  --font-lora: var(--font-lora), "Lora", "Merriweather", "Source Serif 4", Georgia, serif;
-  --font-heading: var(--font-lora), var(--font-merriweather), "Lora", "Merriweather", "Playfair Display", "Source Serif 4", Georgia, "Times New Roman", serif;
-  --font-body: var(--font-lora), var(--font-merriweather), "Lora", "Merriweather", "Source Serif 4", "Noto Serif", Georgia, "Times New Roman", serif;
-  --font-serif: var(--font-lora), var(--font-merriweather), "Lora", "Merriweather", "Source Serif 4", Georgia, serif;
-  --font-mono: var(--font-jetbrains), "JetBrains Mono", "Fira Code", monospace;
-
-  /* Easing */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-out-smooth: cubic-bezier(0.25, 0.1, 0.25, 1.0);
-}
-
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
+}
+
+section[id], header[id], div[id] {
+  scroll-margin-top: 5rem;
 }
 
 body {

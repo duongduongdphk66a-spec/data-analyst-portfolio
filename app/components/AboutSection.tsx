@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Play, Copy, Check, ArrowRight } from 'lucide-react';
 import {
   ResponsiveContainer, BarChart, Bar, AreaChart, Area,
@@ -11,6 +11,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { trackVisitorAction } from '../lib/visitorTracking';
 import { SQL_SCENARIOS, CHART_COLORS } from '../data/aboutSqlData';
+import { gsap, useGSAP } from '../lib/gsap';
 
 interface AboutSectionProps {
   profile: ProfileData;
@@ -28,8 +29,55 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
   const [isRunning, setIsRunning] = useState(false);
   const [showResult, setShowResult] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [typedQuery, setTypedQuery] = useState('');
+  const sectionRef = useRef<HTMLElement>(null);
 
   const scenario = SQL_SCENARIOS[activeScenario];
+
+  // Typewriter effect when scenario changes
+  useEffect(() => {
+    const fullQuery = scenario.query;
+    let i = 0;
+    setTypedQuery('');
+    const timer = setInterval(() => {
+      i += 3; // Type 3 chars at a time for fast, smooth data terminal feel
+      if (i >= fullQuery.length) {
+        setTypedQuery(fullQuery);
+        clearInterval(timer);
+      } else {
+        setTypedQuery(fullQuery.slice(0, i));
+      }
+    }, 15);
+
+    return () => clearInterval(timer);
+  }, [scenario.query]);
+
+  useGSAP(() => {
+    gsap.from('.about-goal-item', {
+      autoAlpha: 0,
+      y: 20,
+      stagger: 0.12,
+      duration: 0.6,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.about-goals-grid',
+        start: 'top 85%',
+        once: true,
+      },
+    });
+
+    gsap.from('.about-sql-demo', {
+      autoAlpha: 0,
+      y: 30,
+      duration: 0.7,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.about-sql-demo',
+        start: 'top 85%',
+        once: true,
+      },
+    });
+  }, { scope: sectionRef });
 
   const handleRun = () => {
     setShowResult(false);
@@ -130,7 +178,7 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
       ];
 
   return (
-    <section id="about" className="section-alt py-20 md:py-28 transition-colors duration-200">
+    <section id="about" ref={sectionRef} className="section-alt py-20 md:py-28 transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
 
         {/* Section label */}
@@ -144,7 +192,7 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
         </h2>
 
         {/* Bio + Goals: 2 column */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-20">
+        <div className="about-goals-grid grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-20">
           {/* Bio */}
           <div className="space-y-5">
             <p className="text-base leading-relaxed text-ink-secondary dark:text-slate-300" style={{ fontFamily: 'var(--font-body)' }}>
@@ -165,7 +213,7 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
               {isEn ? 'Career Direction' : 'Định hướng nghề nghiệp'}
             </p>
             {goals.map((goal, i) => (
-              <div key={i} className="flex gap-4">
+              <div key={i} className="about-goal-item flex gap-4">
                 <span className="shrink-0 w-7 h-7 rounded-md bg-accent/20 text-accent-deep dark:bg-amber-400/20 dark:text-amber-300 flex items-center justify-center text-xs font-heading font-bold mt-0.5">
                   {i + 1}
                 </span>
@@ -179,7 +227,7 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
         </div>
 
         {/* SQL Interactive Demo */}
-        <div>
+        <div className="about-sql-demo">
           <p className="text-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-muted mb-3">
             {isEn ? 'Interactive Demo' : 'Thử nghiệm tương tác'}
           </p>
@@ -229,7 +277,12 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
                 </div>
               </div>
               <pre className="px-4 py-4 text-[13px] leading-relaxed overflow-x-auto whitespace-pre text-slate-800 dark:text-slate-200">
-                <code>{scenario.query}</code>
+                <code>
+                  {typedQuery}
+                  {typedQuery.length < scenario.query.length && (
+                    <span className="inline-block w-2 h-4 bg-emerald-500 dark:bg-[#9BE7FA] ml-0.5 animate-pulse align-middle" />
+                  )}
+                </code>
               </pre>
             </div>
 

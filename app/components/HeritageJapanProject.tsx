@@ -19,12 +19,34 @@ import {
   spendRegionalComparisonData, gdpShareData,
 } from '../data/heritageJapanData';
 
+import { useScrollSpy } from '@/hooks/useScrollSpy';
+
 export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
   const isEn = language === 'en';
 
   const [activeChartTab, setActiveChartTab] = useState<'national' | 'kyotonara' | 'spending' | 'macro'>('national');
+
+  const sectionIds = ['overview', 'boi-canh', 'chinh-sach', 'du-lieu', 'giai-phap', 'ket-luan'];
+  const activeSection = useScrollSpy(sectionIds, 130);
+
+  const navItems = [
+    { id: 'boi-canh', label: isEn ? 'Context' : 'Bối cảnh' },
+    { id: 'chinh-sach', label: isEn ? 'Policy Matrix' : 'Chính sách' },
+    { id: 'du-lieu', label: isEn ? 'Telemetry & Charts' : 'Dữ liệu' },
+    { id: 'giai-phap', label: isEn ? 'Case Studies' : 'Thực nghiệm' },
+    { id: 'ket-luan', label: isEn ? 'Synthesis' : 'Tổng kết' },
+  ];
+
+  const handleNavClick = (id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    const targetId = id === 'boi-canh' ? 'boi-canh' : id;
+    const el = document.getElementById(targetId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   useEffect(() => {
     trackVisitorAction('Xem chi tiết dự án: Sự phát triển của Du lịch Di sản tại Nhật Bản', 'proj-heritage-japan', 'project');
@@ -68,12 +90,24 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
             <span>{t('nav_back_to_portfolio', 'Quay lại Portfolio')}</span>
           </button>
           
-          <div className="hidden md:flex items-center gap-6 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300">
-            <a href="#boi-canh" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Context' : 'Bối cảnh'}</a>
-            <a href="#chinh-sach" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Policy Matrix' : 'Chính sách'}</a>
-            <a href="#du-lieu" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Telemetry & Charts' : 'Dữ liệu'}</a>
-            <a href="#giai-phap" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Case Studies' : 'Thực nghiệm'}</a>
-            <a href="#ket-luan" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Synthesis' : 'Tổng kết'}</a>
+          <div className="hidden md:flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id || (item.id === 'boi-canh' && activeSection === 'overview');
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => handleNavClick(item.id, e)}
+                  className={`px-3 py-1.5 rounded-xl transition-all duration-200 cursor-pointer ${
+                    isActive
+                      ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40 dark:bg-slate-800 dark:text-[#9BE7FA] dark:shadow-none'
+                      : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/60 font-semibold'
+                  }`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
             
             {/* Open Standalone Page if Embedded */}
             {isEmbedded && (
@@ -81,7 +115,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 href="/projects/proj-heritage-japan"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200"
+                className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors ml-1.5 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200"
                 title={isEn ? 'Open in new tab' : 'Mở toàn trang trong tab mới'}
               >
                 <ExternalLink className="w-4 h-4" />
@@ -91,7 +125,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
             {/* Quick Language Toggle */}
             <button
               onClick={() => setLanguage(isEn ? 'vi' : 'en')}
-              className="px-2.5 py-1 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer dark:bg-[#9BE7FA] dark:text-slate-950"
+              className="px-2.5 py-1 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer ml-1 dark:bg-[#9BE7FA] dark:text-slate-950"
               title={isEn ? 'Chuyển sang Tiếng Việt' : 'Switch to English'}
             >
               <span>{isEn ? '🇬🇧 EN' : '🇻🇳 VI'}</span>
@@ -101,7 +135,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       </nav>
 
       {/* Hero Section */}
-      <header className="relative bg-gradient-to-b from-[#F3FCFE] via-[#FFFDF5] to-[#FFF9E6] text-slate-900 pt-16 pb-20 overflow-hidden border-b border-slate-200/80 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900 dark:text-white dark:border-slate-800">
+      <header id="overview" className="relative bg-gradient-to-b from-[#F3FCFE] via-[#FFFDF5] to-[#FFF9E6] text-slate-900 pt-16 pb-20 overflow-hidden border-b border-slate-200/80 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900 dark:text-white dark:border-slate-800">
         
         {/* Subtle Sun Accent Graphic */}
         <div className="absolute right-[6%] top-[12%] w-52 h-52 rounded-full bg-gradient-to-tr from-[#FFE485] via-[#FFD14C] to-[#E5B830] opacity-35 blur-2xl pointer-events-none hidden md:block" />

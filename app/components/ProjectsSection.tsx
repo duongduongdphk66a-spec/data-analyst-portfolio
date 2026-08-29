@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import Image from 'next/image';
 import { 
   Briefcase, Search, Star, Sparkles, FileText, ArrowRight,
@@ -11,6 +11,7 @@ import { sanitizeUrl } from '../lib/security';
 import { trackVisitorAction } from '../lib/visitorTracking';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
+import { gsap, useGSAP } from '../lib/gsap';
 
 interface ProjectsSectionProps {
   projects: ProjectData[];
@@ -23,6 +24,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
   const [selectedTag, setSelectedTag] = useState<string>('all');
   const [activeEmbedProject, setActiveEmbedProject] = useState<ProjectData | null>(null);
   const router = useRouter();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // English localized project data mapping (without em-dashes)
   const localizedProjects = useMemo(() => {
@@ -86,6 +88,21 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
     });
   }, [localizedProjects, searchTerm, selectedTag]);
 
+  useGSAP(() => {
+    gsap.from('.project-card-item', {
+      autoAlpha: 0,
+      y: 35,
+      stagger: 0.15,
+      duration: 0.7,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.projects-list',
+        start: 'top 85%',
+        once: true,
+      },
+    });
+  }, { scope: containerRef, dependencies: [filteredProjects.length, selectedTag] });
+
   const handleOpenDetail = (projId: string) => {
     trackVisitorAction(`Xem bài viết chi tiết dự án: ${projId}`, projId, 'project');
     if (onSelectProject) {
@@ -96,7 +113,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-10 px-4 sm:px-8 lg:px-10 space-y-10 animate-in fade-in duration-400">
+    <div ref={containerRef} className="max-w-6xl mx-auto py-10 px-4 sm:px-8 lg:px-10 space-y-10">
       
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-200/90 dark:border-slate-800">
@@ -159,12 +176,12 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
       </div>
 
       {/* Featured Projects Deep Showcase List */}
-      <div className="space-y-8">
+      <div className="projects-list space-y-8">
         {filteredProjects.map((proj, idx) => (
           <div
             id={proj.id}
             key={proj.id}
-            className="bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:border-[#9BE7FA] hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col lg:flex-row gap-6 p-6 sm:p-8 dark:bg-slate-900/80 dark:border-slate-800"
+            className="project-card-item bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:border-[#9BE7FA] hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col lg:flex-row gap-6 p-6 sm:p-8 dark:bg-slate-900/80 dark:border-slate-800"
           >
             {/* Left/Top Media & Thumbnail */}
             <div className="lg:w-5/12 flex flex-col justify-between space-y-4">

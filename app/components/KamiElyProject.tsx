@@ -19,6 +19,8 @@ import {
   getChannelData, getContentData, affFollowerData, PALETTE,
 } from '../data/kamiElyData';
 
+import { useScrollSpy } from '@/hooks/useScrollSpy';
+
 export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
@@ -32,8 +34,28 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
   const channelData = getChannelData(isEn);
   const contentData = getContentData(isEn);
 
+  const sectionIds = ['overview', 'sales', 'channels', 'affiliates', 'sku', 'automation'];
+  const activeSection = useScrollSpy(sectionIds, 130);
+
+  const navItems = [
+    { id: 'overview', label: isEn ? 'Overview' : 'Tổng quan' },
+    { id: 'sales', label: isEn ? 'Sales & Peak Live' : 'Doanh số & Live' },
+    { id: 'channels', label: isEn ? 'Channels' : 'Kênh bán' },
+    { id: 'affiliates', label: isEn ? 'Affiliates' : 'Affiliate' },
+    { id: 'sku', label: isEn ? 'Top SKUs' : 'Sản phẩm chủ lực' },
+    { id: 'automation', label: isEn ? 'Automation' : 'Tự động hóa' },
+  ];
+
+  const handleNavClick = (id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   useEffect(() => {
-    trackVisitorAction('Xem chi tiết dự án: Kami Ely TikTok Shop', 'proj-kami-ely', 'project');
+    trackVisitorAction('Xem chi tiết dự án: Kami Ely TikTok Shop & Affiliate Performance', 'proj-kami-ely', 'project');
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -74,13 +96,24 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
             <span>{t('nav_back_to_portfolio', 'Quay lại Portfolio')}</span>
           </button>
           
-          <div className="hidden md:flex items-center gap-6 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300">
-            <a href="#overview" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Overview' : 'Tổng quan'}</a>
-            <a href="#sales" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Sales & Peak Live' : 'Doanh số & Live'}</a>
-            <a href="#channels" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Channels' : 'Kênh bán'}</a>
-            <a href="#affiliates" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Affiliates' : 'Affiliate'}</a>
-            <a href="#sku" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Top SKUs' : 'Sản phẩm chủ lực'}</a>
-            <a href="#automation" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Automation' : 'Tự động hóa'}</a>
+          <div className="hidden md:flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => handleNavClick(item.id, e)}
+                  className={`px-3 py-1.5 rounded-xl transition-all duration-200 cursor-pointer ${
+                    isActive
+                      ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40 dark:bg-slate-800 dark:text-[#9BE7FA] dark:shadow-none'
+                      : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/60 font-semibold'
+                  }`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
 
             {/* Open Standalone Page if Embedded */}
             {isEmbedded && (
@@ -88,7 +121,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
                 href="/projects/proj-kami-ely"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200"
+                className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors ml-1.5 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200"
                 title={isEn ? 'Open in new tab' : 'Mở toàn trang trong tab mới'}
               >
                 <ExternalLink className="w-4 h-4" />
@@ -98,7 +131,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
             {/* Quick Language Toggle */}
             <button
               onClick={() => setLanguage(isEn ? 'vi' : 'en')}
-              className="px-2.5 py-1 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer dark:bg-[#9BE7FA] dark:text-slate-950"
+              className="px-2.5 py-1 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer ml-1 dark:bg-[#9BE7FA] dark:text-slate-950"
               title={isEn ? 'Chuyển sang Tiếng Việt' : 'Switch to English'}
             >
               <span>{isEn ? '🇬🇧 EN' : '🇻🇳 VI'}</span>

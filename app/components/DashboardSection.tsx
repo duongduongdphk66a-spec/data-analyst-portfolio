@@ -13,6 +13,8 @@ import Papa from 'papaparse';
 import { DashboardData, KpiItem, ChartConfig } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
+import { gsap, useGSAP } from '../lib/gsap';
+import AnimatedCounter from './ui/AnimatedCounter';
 
 interface DashboardSectionProps {
   dashboard: DashboardData;
@@ -27,6 +29,34 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
   const [customTableData, setCustomTableData] = useState<Record<string, any>[] | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const dashboardRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    gsap.from('.dash-kpi-card', {
+      autoAlpha: 0,
+      y: 25,
+      stagger: 0.1,
+      duration: 0.6,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.dash-kpi-grid',
+        start: 'top 85%',
+        once: true,
+      },
+    });
+
+    gsap.from('.dash-chart-card', {
+      autoAlpha: 0,
+      y: 30,
+      stagger: 0.15,
+      duration: 0.7,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.dash-charts-grid',
+        start: 'top 85%',
+        once: true,
+      },
+    });
+  }, { scope: dashboardRef, dependencies: [dashboard.kpis?.length, dashboard.charts?.length] });
 
   // Active table data (either custom uploaded or from dashboard config)
   const activeTable = useMemo(() => {
@@ -278,11 +308,11 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
 
       {/* KPI Cards Grid */}
       {dashboard.kpis && dashboard.kpis.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="dash-kpi-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {dashboard.kpis.map((kpi) => (
             <div
               key={kpi.id}
-              className="bg-white p-6 rounded-3xl border border-brand-blue-light shadow-sm hover:shadow-md transition-all dark:bg-slate-900 dark:border-slate-800 dark:shadow-none"
+              className="dash-kpi-card bg-white p-6 rounded-3xl border border-brand-blue-light shadow-sm hover:shadow-md transition-all dark:bg-slate-900 dark:border-slate-800 dark:shadow-none"
             >
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">
@@ -293,8 +323,8 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                 </div>
               </div>
 
-              <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight dark:text-white">
-                {kpi.value}
+              <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight dark:text-white tabular-data">
+                <AnimatedCounter value={kpi.value} duration={1.4} />
               </div>
 
               {kpi.change && (
@@ -309,12 +339,12 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
       )}
 
       {/* Dynamic Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="dash-charts-grid grid grid-cols-1 lg:grid-cols-2 gap-6">
         {dashboard.charts && dashboard.charts.length > 0 ? (
           dashboard.charts.map((chart) => (
             <div
               key={chart.id}
-              className="bg-white p-6 sm:p-7 rounded-3xl border border-brand-blue-light shadow-sm hover:shadow-md transition-all flex flex-col dark:bg-slate-900 dark:border-slate-800 dark:shadow-none"
+              className="dash-chart-card bg-white p-6 sm:p-7 rounded-3xl border border-brand-blue-light shadow-sm hover:shadow-md transition-all flex flex-col dark:bg-slate-900 dark:border-slate-800 dark:shadow-none"
             >
               <div className="mb-6">
                 <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">

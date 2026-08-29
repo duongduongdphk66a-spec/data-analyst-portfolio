@@ -16,12 +16,34 @@ import { trackVisitorAction } from '../lib/visitorTracking';
 import { useLanguage } from '../context/LanguageContext';
 import { weeklyActivityData, busFleetData } from '../data/libraryBusData';
 
+import { useScrollSpy } from '@/hooks/useScrollSpy';
+
 export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
   const isEn = language === 'en';
 
   const [activeChartMetric, setActiveChartMetric] = useState<'borrows' | 'efficiency'>('borrows');
+
+  const sectionIds = ['overview', 'kien-truc', 'thuat-toan', 'schema', 'celery', 'stack'];
+  const activeSection = useScrollSpy(sectionIds, 130);
+
+  const navItems = [
+    { id: 'overview', label: isEn ? 'Overview' : 'Tổng quan' },
+    { id: 'kien-truc', label: isEn ? '6-Stop Pipeline' : 'Luồng dữ liệu' },
+    { id: 'thuat-toan', label: isEn ? 'Algorithms' : 'Thuật toán' },
+    { id: 'schema', label: isEn ? 'Schema Models' : 'Mô hình dữ liệu' },
+    { id: 'celery', label: isEn ? 'Celery Beat' : 'Tác vụ nền' },
+    { id: 'stack', label: isEn ? 'Tech Stack' : 'Hạ tầng' },
+  ];
+
+  const handleNavClick = (id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   useEffect(() => {
     trackVisitorAction('Xem chi tiết dự án: Library Bus Hệ Thống Thư Viện Lưu Động', 'proj-library-bus', 'project');
@@ -65,20 +87,31 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
             <span>{t('nav_back_to_portfolio', 'Quay lại Portfolio')}</span>
           </button>
           
-          <div className="hidden md:flex items-center gap-6 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300">
-            <a href="#overview" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Overview' : 'Tổng quan'}</a>
-            <a href="#kien-truc" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? '6-Stop Pipeline' : 'Luồng dữ liệu'}</a>
-            <a href="#thuat-toan" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Algorithms' : 'Thuật toán'}</a>
-            <a href="#schema" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Schema Models' : 'Mô hình dữ liệu'}</a>
-            <a href="#celery" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Celery Beat' : 'Tác vụ nền'}</a>
-            <a href="#stack" className="hover:text-slate-950 transition-colors dark:hover:text-white">{isEn ? 'Tech Stack' : 'Hạ tầng'}</a>
+          <div className="hidden md:flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => handleNavClick(item.id, e)}
+                  className={`px-3 py-1.5 rounded-xl transition-all duration-200 cursor-pointer ${
+                    isActive
+                      ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40 dark:bg-slate-800 dark:text-[#9BE7FA] dark:shadow-none'
+                      : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/60 font-semibold'
+                  }`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
 
             {/* GitHub Repo Button */}
             <a
               href="https://github.com/duongduongdphk66a-spec/prj"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors flex items-center gap-1.5 px-3 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200"
+              className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors flex items-center gap-1.5 px-3 ml-1.5 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200"
               title={isEn ? 'View GitHub Repository' : 'Xem mã nguồn trên GitHub'}
             >
               <Code className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
@@ -88,7 +121,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
             {/* Quick Language Toggle */}
             <button
               onClick={() => setLanguage(isEn ? 'vi' : 'en')}
-              className="px-2.5 py-1 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer dark:bg-[#9BE7FA] dark:text-slate-950"
+              className="px-2.5 py-1 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer ml-1 dark:bg-[#9BE7FA] dark:text-slate-950"
               title={isEn ? 'Chuyển sang Tiếng Việt' : 'Switch to English'}
             >
               <span>{isEn ? '🇬🇧 EN' : '🇻🇳 VI'}</span>

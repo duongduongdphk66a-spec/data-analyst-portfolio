@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { GraduationCap, Briefcase, MapPin, Calendar } from 'lucide-react';
 import { ExperienceItem } from '../types';
 import { useLanguage } from '../context/LanguageContext';
+import { gsap, useGSAP } from '../lib/gsap';
 
 interface CVSectionProps {
   experiences: ExperienceItem[];
@@ -14,6 +15,7 @@ interface CVSectionProps {
 export default React.memo(function CVSection({ experiences, name, title }: CVSectionProps) {
   const { language } = useLanguage();
   const isEn = language === 'en';
+  const sectionRef = useRef<HTMLElement>(null);
 
   const education = experiences.filter(e => e.type === 'education');
   const work = experiences.filter(e => e.type === 'work');
@@ -75,13 +77,28 @@ export default React.memo(function CVSection({ experiences, name, title }: CVSec
   const displayEducation = isEn ? (education.length > 0 ? education : defaultEducationEn) : education;
   const displayWork = isEn ? (work.length > 0 ? work : defaultWorkEn) : work;
 
+  useGSAP(() => {
+    gsap.from('.timeline-item', {
+      autoAlpha: 0,
+      x: -20,
+      stagger: 0.12,
+      duration: 0.6,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top 80%',
+        once: true,
+      },
+    });
+  }, { scope: sectionRef });
+
   const renderItem = (item: ExperienceItem) => (
-    <div key={item.id} className="relative pl-8 pb-10 last:pb-0 group">
+    <div key={item.id} className="timeline-item relative pl-8 pb-10 last:pb-0 group">
       {/* Timeline line */}
       <div className="absolute left-[11px] top-2 bottom-0 w-px bg-border-subtle dark:bg-slate-800 group-last:hidden" />
 
       {/* Timeline dot */}
-      <div className="absolute left-0 top-1.5 w-[23px] h-[23px] rounded-full border-2 border-border-subtle dark:border-slate-700 bg-ground dark:bg-slate-900 flex items-center justify-center group-hover:border-accent dark:group-hover:border-amber-400 transition-colors duration-200 shadow-xs">
+      <div className="absolute left-0 top-1.5 w-[23px] h-[23px] rounded-full border-2 border-border-subtle dark:border-slate-700 bg-ground dark:bg-slate-900 flex items-center justify-center group-hover:border-accent dark:group-hover:border-amber-400 group-hover:scale-110 transition-all duration-200 shadow-xs">
         {item.type === 'education'
           ? <GraduationCap className="w-3 h-3 text-ink-muted dark:text-slate-400 group-hover:text-accent-deep dark:group-hover:text-amber-400 transition-colors" />
           : <Briefcase className="w-3 h-3 text-ink-muted dark:text-slate-400 group-hover:text-accent-deep dark:group-hover:text-amber-400 transition-colors" />
@@ -118,7 +135,7 @@ export default React.memo(function CVSection({ experiences, name, title }: CVSec
   );
 
   return (
-    <section id="experience" className="section-ground py-20 md:py-28 transition-colors duration-200">
+    <section id="experience" ref={sectionRef} className="section-ground py-20 md:py-28 transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
 
         <p className="text-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-muted mb-3">
@@ -128,12 +145,17 @@ export default React.memo(function CVSection({ experiences, name, title }: CVSec
           {isEn ? 'Education & professional timeline.' : 'Học vấn và lộ trình nghề nghiệp.'}
         </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Education column */}
+        <div className="max-w-3xl space-y-16">
+          {/* Education section */}
           <div>
-            <h3 className="text-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-muted mb-8">
-              {isEn ? 'Education' : 'Học vấn'}
-            </h3>
+            <div className="flex items-center gap-2.5 mb-8 pb-3 border-b border-border-subtle dark:border-slate-800">
+              <div className="w-8 h-8 rounded-lg bg-surface/50 border border-surface-vivid/40 dark:bg-slate-800 dark:border-slate-700 flex items-center justify-center">
+                <GraduationCap className="w-4 h-4 text-ink dark:text-[#9BE7FA]" />
+              </div>
+              <h3 className="text-sm font-heading font-bold uppercase tracking-[0.15em] text-ink dark:text-white">
+                {isEn ? 'Education' : 'Học vấn'}
+              </h3>
+            </div>
             <div>
               {displayEducation.map(renderItem)}
             </div>
@@ -141,9 +163,14 @@ export default React.memo(function CVSection({ experiences, name, title }: CVSec
 
           {/* Work column */}
           <div>
-            <h3 className="text-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-muted mb-8">
-              {isEn ? 'Work Experience' : 'Kinh nghiệm thực tế'}
-            </h3>
+            <div className="flex items-center gap-2.5 mb-8 pb-3 border-b border-border-subtle dark:border-slate-800">
+              <div className="w-8 h-8 rounded-lg bg-surface/50 border border-surface-vivid/40 dark:bg-slate-800 dark:border-slate-700 flex items-center justify-center">
+                <Briefcase className="w-4 h-4 text-ink dark:text-[#9BE7FA]" />
+              </div>
+              <h3 className="text-sm font-heading font-bold uppercase tracking-[0.15em] text-ink dark:text-white">
+                {isEn ? 'Work Experience' : 'Kinh nghiệm thực tế'}
+              </h3>
+            </div>
             <div>
               {displayWork.map(renderItem)}
             </div>
@@ -153,3 +180,4 @@ export default React.memo(function CVSection({ experiences, name, title }: CVSec
     </section>
   );
 });
+
