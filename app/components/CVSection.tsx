@@ -58,6 +58,18 @@ export default React.memo(function CVSection({ experiences, name, title }: CVSec
         'Analyzed affiliate network contribution across 1,000+ creator tiers to optimize commission budget allocation and ROI.',
       ],
     },
+    {
+      id: 'default-work-3-en',
+      role: 'Library Bus: Database Architecture & Logistics Optimization',
+      company: 'Mobile Library Management System',
+      period: '2023 - 2024',
+      type: 'work',
+      location: 'Hanoi, Vietnam',
+      description: [
+        'Designed normalized 3NF relational database schema and asynchronous data pipelines serving 50,000+ active users at 500 concurrent RPS.',
+        'Implemented Redis caching and Celery task queues, reducing query latency by 93.7% (450ms to 28ms) with zero data contention.',
+      ],
+    },
   ];
 
   const displayEducation = isEn ? (education.length > 0 ? education : defaultEducationEn) : education;

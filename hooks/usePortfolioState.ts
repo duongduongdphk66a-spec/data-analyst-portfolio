@@ -22,7 +22,7 @@ export function usePortfolioState() {
     trackVisitorAction('Truy cập trang web', 'Người xem mở trang Portfolio', 'pageview');
 
     // Load Profile securely
-    const savedProfile = localStorage.getItem('portfolio_profile_v4');
+    const savedProfile = localStorage.getItem('portfolio_profile_v5');
     if (savedProfile) {
       const parsed = safeJsonParse(savedProfile, DEFAULT_PROFILE);
       if (!parsed.name || parsed.name === 'Nguyễn Văn A') {
@@ -35,7 +35,7 @@ export function usePortfolioState() {
     }
 
     // Load Projects securely
-    const savedProjects = localStorage.getItem('portfolio_projects_v4');
+    const savedProjects = localStorage.getItem('portfolio_projects_v5');
     if (savedProjects) {
       setProjects(safeJsonParse(savedProjects, DEFAULT_PROJECTS));
     } else {
@@ -43,7 +43,7 @@ export function usePortfolioState() {
     }
 
     // Load Dashboard & Charts securely
-    const savedDashboard = localStorage.getItem('portfolio_dashboard_v4');
+    const savedDashboard = localStorage.getItem('portfolio_dashboard_v5');
     if (savedDashboard) {
       setDashboard(safeJsonParse(savedDashboard, DEFAULT_DASHBOARD));
     } else {
@@ -54,17 +54,17 @@ export function usePortfolioState() {
   // Memoized save handlers
   const handleSaveProfile = useCallback((newProfile: ProfileData) => {
     setProfile(newProfile);
-    localStorage.setItem('portfolio_profile_v4', JSON.stringify(newProfile));
+    localStorage.setItem('portfolio_profile_v5', JSON.stringify(newProfile));
   }, []);
 
   const handleSaveProjects = useCallback((newProjects: ProjectData[]) => {
     setProjects(newProjects);
-    localStorage.setItem('portfolio_projects_v4', JSON.stringify(newProjects));
+    localStorage.setItem('portfolio_projects_v5', JSON.stringify(newProjects));
   }, []);
 
   const handleSaveDashboard = useCallback((newDashboard: DashboardData) => {
     setDashboard(newDashboard);
-    localStorage.setItem('portfolio_dashboard_v4', JSON.stringify(newDashboard));
+    localStorage.setItem('portfolio_dashboard_v5', JSON.stringify(newDashboard));
   }, []);
 
   return {

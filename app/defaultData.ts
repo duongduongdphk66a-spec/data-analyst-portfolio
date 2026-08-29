@@ -75,6 +75,18 @@ export const DEFAULT_PROFILE: ProfileData = {
         'Xây dựng các báo cáo định kỳ theo dõi GMV, tỷ lệ chuyển đổi đơn hàng và chỉ số hoàn hàng trên sàn TikTok Shop.',
         'Phân tích ma trận hiệu quả giữa kênh tự vận hành và mạng lưới 1,000+ creator affiliates nhằm tối ưu hóa chi phí hoa hồng.'
       ]
+    },
+    {
+      id: 'exp-work-3',
+      role: 'Library Bus: Tối ưu Hóa Cơ Sở Dữ Liệu & Vận Hành Logistics',
+      company: 'Dự án Hệ thống Thư viện Lưu động',
+      period: '2023 - 2024',
+      type: 'work',
+      location: 'Hà Nội, Việt Nam',
+      description: [
+        'Thiết kế mô hình cơ sở dữ liệu quan hệ 3NF và luồng xử lý bất đồng bộ, phục vụ hơn 50,000 người dùng với 500 kết nối đồng thời.',
+        'Ứng dụng Redis Cache và hàng đợi Celery giúp giảm 93.7% độ trễ truy vấn (từ 450ms xuống 28ms) và triệt tiêu 100% xung đột mượn sách.'
+      ]
     }
   ]
 };
