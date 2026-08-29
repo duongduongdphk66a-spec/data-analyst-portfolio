@@ -1,37 +1,91 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* Force light mode by overriding the dark variant to use a selector instead of media query */
-@custom-variant dark (&:is(.dark *));
-
-@theme {
-  --color-brand-blue-light: #C8EEF7;
-  --color-brand-blue: #9BE7FA;
-  --color-brand-yellow-light: #FFE485;
-  --color-brand-yellow: #FFD14C;
-  --color-brand-cyan: #9BE7FA;
-  --color-brand-ice: #C8EEF7;
-  --color-brand-warm: #FFE485;
-  --color-brand-amber: #FFD14C;
-
-  --font-sans: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: var(--font-mono), "Fira Code", monospace;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   color-scheme: light;
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
-  --text-primary: #090e17;
-  --text-secondary: #475569;
-  --border-subtle: #e2e8f0;
+  --color-accent: #FFD14C;
+  --color-accent-soft: #FFE485;
+  --color-accent-deep: #e6b830;
+  --color-surface: #C8EEF7;
+  --color-surface-vivid: #9BE7FA;
+  --color-ink: #1a2332;
+  --color-ink-secondary: #4a5c72;
+  --color-ink-muted: #7b8fa6;
+  --color-ground: #fafcfd;
+  --color-ground-alt: #f0f7fa;
+  --color-border-subtle: #d8e6ed;
 }
 
-html, body {
-  background-color: #ffffff;
-  color: #090e17;
-  font-family: var(--font-sans);
-  transition: background-color 0.25s ease, color 0.25s ease;
+.dark {
+  color-scheme: dark;
+  --color-accent: #FFD14C;
+  --color-accent-soft: #FFE485;
+  --color-accent-deep: #ffcf75;
+  --color-surface: #1e293b;
+  --color-surface-vivid: #9BE7FA;
+  --color-ink: #f8fafc;
+  --color-ink-secondary: #cbd5e1;
+  --color-ink-muted: #94a3b8;
+  --color-ground: #0b0f17;
+  --color-ground-alt: #131b2e;
+  --color-border-subtle: #243048;
+}
+
+@theme {
+  /* Brand Palette */
+  --color-brand-blue: #0D7287;
+  --color-brand-blue-light: #C8EEF7;
+  --color-brand-blue-vivid: #9BE7FA;
+  --color-brand-yellow: #FFD14C;
+  --color-brand-yellow-light: #FFE485;
+
+  --color-accent: #FFD14C;
+  --color-accent-soft: #FFE485;
+  --color-accent-deep: #e6b830;
+  --color-surface: var(--color-surface);
+  --color-surface-vivid: #9BE7FA;
+  --color-ink: var(--color-ink);
+  --color-ink-secondary: var(--color-ink-secondary);
+  --color-ink-muted: var(--color-ink-muted);
+  --color-ground: var(--color-ground);
+  --color-ground-alt: var(--color-ground-alt);
+  --color-border-subtle: var(--color-border-subtle);
+
+  /* Typography */
+  --font-heading: var(--font-space-grotesk), "Space Grotesk", system-ui, sans-serif;
+  --font-body: var(--font-source-serif), "Source Serif 4", Georgia, "Noto Serif", serif;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", "Fira Code", monospace;
+
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-smooth: cubic-bezier(0.25, 0.1, 0.25, 1.0);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background-color: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+
+.dark :where(h1, h2, h3, h4, h5, h6) {
+  color: #f8fafc;
 }
 
 /* Tabular numbers for accurate data alignment */
@@ -43,30 +97,110 @@ pre {
   font-family: var(--font-mono);
 }
 
+/* Section rhythm: alternating backgrounds */
+.section-ground {
+  background-color: var(--color-ground);
+}
+
+.section-alt {
+  background-color: var(--color-ground-alt);
+}
+
 /* Subtle Technical Grid Background */
 .bg-data-grid {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(155, 231, 250, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(155, 231, 250, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(155, 231, 250, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(155, 231, 250, 0.07) 1px, transparent 1px);
 }
 
 .dark .bg-data-grid {
-  background-size: 32px 32px;
-  background-image: 
+  background-image:
     linear-gradient(to right, rgba(155, 231, 250, 0.04) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(155, 231, 250, 0.04) 1px, transparent 1px);
 }
 
 /* Subtle Dot Matrix */
 .bg-data-dots {
-  background-image: radial-gradient(rgba(155, 231, 250, 0.25) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-image: radial-gradient(rgba(155, 231, 250, 0.2) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 .dark .bg-data-dots {
-  background-image: radial-gradient(rgba(155, 231, 250, 0.15) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-image: radial-gradient(rgba(155, 231, 250, 0.1) 1px, transparent 1px);
+}
+
+/* Scroll-triggered reveal animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s var(--ease-out-expo) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s var(--ease-out-smooth) both;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.7s var(--ease-out-expo) both;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.7s var(--ease-out-expo) both;
+}
+
+/* Stagger delay utilities */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Selection color */
+::selection {
+  background-color: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+.dark ::selection {
+  background-color: #334155;
+  color: #f8fafc;
 }
 
 /* Custom Scrollbar */
@@ -78,65 +212,147 @@ pre {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--color-border-subtle);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--color-ink-muted);
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: #334155;
-}
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
-}
-
-/* Dark Mode Overrides */
-html.dark {
-  color-scheme: dark;
+/* Link base reset */
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-html.dark body {
-  background-color: #090e17;
+/* Focus ring: accessible, branded */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Pipeline connector line */
+.pipeline-connector {
+  position: relative;
+}
+.pipeline-connector::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -16px;
+  width: 16px;
+  height: 2px;
+  background: var(--color-border-subtle);
+}
+.pipeline-connector:last-child::after {
+  display: none;
+}
+
+/* Recharts tooltip override */
+.recharts-tooltip-wrapper {
+  filter: drop-shadow(0 4px 12px rgba(26, 35, 50, 0.08));
+}
+
+.dark .recharts-tooltip-wrapper {
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.4));
+}
+
+/* SQL code block styling */
+.sql-block {
+  background-color: var(--color-ground-alt);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  overflow-x: auto;
+}
+
+.sql-keyword {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.dark .sql-keyword {
+  color: #60a5fa;
+}
+
+.sql-function {
+  color: #7c3aed;
+}
+
+.dark .sql-function {
+  color: #c084fc;
+}
+
+.sql-string {
+  color: #059669;
+}
+
+.dark .sql-string {
+  color: #34d399;
+}
+
+/* Admin Panel Dark Mode Overrides */
+.dark .admin-panel-container .bg-white {
+  background-color: #0f172a;
+  border-color: #1e293b;
   color: #f8fafc;
 }
 
-html.dark aside {
-  background-color: #0f172a !important;
-  border-color: #1e293b !important;
+.dark .admin-panel-container .bg-slate-50,
+.dark .admin-panel-container .bg-slate-50\/50,
+.dark .admin-panel-container .bg-slate-50\/80 {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #cbd5e1;
 }
 
-html.dark main,
-html.dark .bg-white {
-  background-color: #090e17 !important;
+.dark .admin-panel-container .text-slate-900,
+.dark .admin-panel-container .text-slate-950 {
   color: #f8fafc;
 }
 
-html.dark .bg-slate-50 {
-  background-color: #0f172a !important;
-  border-color: #1e293b !important;
+.dark .admin-panel-container .text-slate-800,
+.dark .admin-panel-container .text-slate-700 {
+  color: #e2e8f0;
 }
 
-html.dark .bg-slate-100 {
-  background-color: #1e293b !important;
+.dark .admin-panel-container .text-slate-600,
+.dark .admin-panel-container .text-slate-500 {
+  color: #94a3b8;
 }
 
-html.dark .border-slate-100,
-html.dark .border-slate-200 {
-  border-color: #1e293b !important;
+.dark .admin-panel-container input,
+.dark .admin-panel-container textarea,
+.dark .admin-panel-container select {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #f8fafc;
 }
 
-html.dark .text-slate-900,
-html.dark .text-slate-950,
-html.dark .text-slate-800,
-html.dark .text-\[\#155A8A\],
-html.dark .text-\[\#1B6CA8\] {
-  color: #f8fafc !important;
+.dark .admin-panel-container input:focus,
+.dark .admin-panel-container textarea:focus,
+.dark .admin-panel-container select:focus {
+  border-color: #9BE7FA;
 }
 
-html.dark .text-slate-700,
-html.dark .text-slate-600 {
-  color: #94a3b8 !important;
+.dark .admin-panel-container .border-brand-blue-light,
+.dark .admin-panel-container .border-brand-blue-light\/80,
+.dark .admin-panel-container .border-slate-200,
+.dark .admin-panel-container .border-slate-200\/80 {
+  border-color: #1e293b;
+}
+
+.dark .admin-panel-container .bg-brand-blue-light\/20,
+.dark .admin-panel-container .bg-brand-blue-light\/30,
+.dark .admin-panel-container .bg-brand-blue-light\/50 {
+  background-color: rgba(30, 41, 59, 0.7);
+  border-color: #334155;
+}
+
+.dark .admin-panel-container .divide-slate-100 {
+  border-color: #1e293b;
 }
 

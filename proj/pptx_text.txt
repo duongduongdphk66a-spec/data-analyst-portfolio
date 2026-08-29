@@ -1,0 +1,313 @@
+--- Slide 1 ---
+
+
+
+BÁO CÁO PHÂN TÍCH DỮ LIỆU · TIKTOK SHOP
+KAMI ELY
+Performance Dashboard
+Phân tích toàn diện hiệu suất bán hàng, livestream, video và tiếp thị liên kết của gian hàng Kami Ely trên TikTok Shop — từ dữ liệu thô đến phát hiện có thể hành động.
+Kỳ dữ liệu chính: 22/05/2026 – 19/08/2026 (90 ngày)   ·   Nguồn: FastMoss (8 tệp xuất)   ·   Ngày xuất báo cáo: 20/08/2026
+
+7,35 tỷ ₫
+Tổng GMV trong kỳ 90 ngày
+
+46.116
+Sản phẩm bán ra trong kỳ
+
+#1 / 300
+Xếp hạng nhà bán trong ngành hàng
+
+73,5%
+Doanh số đến từ LIVE
+--- Slide 2 ---
+
+GIỚI THIỆU
+Về dự án phân tích này
+Dashboard này là một dự án phân tích dữ liệu cá nhân, minh họa toàn bộ quy trình từ làm sạch dữ liệu thô, tính toán chỉ số, phát hiện xu hướng, đến trực quan hóa — áp dụng trên một gian hàng TikTok Shop thực tế.
+
+Kami Ely là gian hàng chuyên đồ bơi, bikini và thời trang nữ tại Việt Nam, bán hàng chủ yếu qua livestream trên TikTok Shop. Dữ liệu được tổng hợp từ nền tảng phân tích bên thứ ba FastMoss, bao gồm hiệu suất cửa hàng, danh sách LIVE, video, sản phẩm, và các video tiếp thị liên kết từ nhà sáng tạo bên ngoài.
+
+Toàn bộ số liệu được xử lý bằng Python (pandas): chuẩn hóa định dạng số/tiền tệ, tính toán chỉ số tổng hợp, phân tích tương quan, và tổng hợp thành bảng dữ liệu phục vụ trực quan hóa.
+
+NGUỒN DỮ LIỆU (8 TỆP)
+
+Tổng quan cửa hàng
+90 ngày dữ liệu doanh số & sản lượng
+
+Danh sách LIVE
+200 phiên Shop LIVE của Kami Ely
+
+Danh sách Video
+140 video đăng bởi Kami Ely
+
+Video mua sắm (Affiliate)
+Top 300 video từ 127 nhà sáng tạo
+
+Danh sách sản phẩm
+300 sản phẩm bán chạy (4 gian hàng)
+
+3 bảng xếp hạng ngành hàng
+Nhà sáng tạo, phiên LIVE, sản phẩm — Top 300
+KAMI ELY  ·  TIKTOK SHOP PERFORMANCE ANALYTICS
+02
+--- Slide 3 ---
+
+01 · TỔNG QUAN
+Bức tranh hiệu suất tổng thể
+
+
+7,35 tỷ ₫
+Tổng GMV trong kỳ 90 ngày
+
+
+46.116
+Sản phẩm bán ra trong kỳ
+
+
+#1 / 300
+Xếp hạng nhà bán trong ngành hàng đồ bơi & thời trang nữ
+
+
+73,5%
+Doanh số GMV đến từ Shop LIVE
+SẢN LƯỢNG BÁN TRONG KỲ
+46.116 đơn vị
+GMV TRUNG BÌNH MỖI NGÀY
+81,7 triệu ₫
+TĂNG TRƯỞNG GMV LŨY KẾ
++6,4% so với đầu kỳ
+
+Kami Ely không chỉ tăng trưởng ổn định trong kỳ mà còn giữ vị thế dẫn đầu gần như tuyệt đối trong ngành hàng đồ bơi & thời trang nữ trên TikTok Shop — nhưng dữ liệu cũng cho thấy một tín hiệu cảnh báo quan trọng về đà suy giảm hiệu suất LIVE (xem trang 5).
+KAMI ELY  ·  TIKTOK SHOP PERFORMANCE ANALYTICS
+03
+--- Slide 4 ---
+
+02 · TĂNG TRƯỞNG
+Tăng trưởng cửa hàng trong 90 ngày
+
+TỔNG GMV TRONG KỲ
+7,35 tỷ ₫
+
+SẢN LƯỢNG BÁN TRONG KỲ
+46.116 SP
+
+GMV TRUNG BÌNH / NGÀY
+81,7 triệu ₫
+
+ĐỘ PHỦ SP CÓ LIVE DẪN DẮT
+9.933 → 12.078
+KAMI ELY  ·  TIKTOK SHOP PERFORMANCE ANALYTICS
+04
+--- Slide 5 ---
+
+
+
+PHÁT HIỆN CHÍNH
+Hiệu suất LIVE giảm mạnh dù tần suất phát sóng không đổi
+Từ tuần đỉnh điểm (29/05/2026) đến tuần thấp điểm (07/08/2026), lượt xem trung bình mỗi phiên LIVE giảm 85,9% — kéo theo GMV trung bình mỗi phiên giảm tới 96,7%. Trong khi đó, số phiên LIVE mỗi tuần (10–20 phiên) và tổng giờ phát gần như không đổi. Tương quan Lượt xem ↔ GMV đạt r=0.87 (rất mạnh) — vấn đề nằm ở khả năng tiếp cận (reach), không phải cường độ phát sóng.
+
+-86%
+Lượt xem TB/phiên (đỉnh → đáy)
+
+-97%
+GMV TB/phiên (đỉnh → đáy)
+
+r = 0.87
+Tương quan Lượt xem ↔ GMV/phiên
+
+r = -0.66
+Tương quan Số phiên ↔ GMV tuần
+KAMI ELY  ·  TIKTOK SHOP PERFORMANCE ANALYTICS
+05
+--- Slide 6 ---
+
+03 · CƠ CẤU DOANH THU
+Doanh thu đến từ đâu?
+Ước tính đóng góp GMV theo kênh trong kỳ 90 ngày, dựa trên GMV theo dõi được từ các phiên LIVE và video của gian hàng so với tổng GMV toàn cửa hàng.
+
+
+LIVE
+5,41 tỷ ₫   ·   37.957 sản phẩm
+73,5%
+
+
+Video
+236,8 triệu ₫   ·   1.367 sản phẩm
+3,2%
+
+
+Kênh khác
+1,71 tỷ ₫   ·   6.792 sản phẩm
+23,3%
+KAMI ELY  ·  TIKTOK SHOP PERFORMANCE ANALYTICS
+06
+--- Slide 7 ---
+
+04 · LIVESTREAM
+Hiệu quả bán hàng qua LIVE
+200
+Phiên Shop LIVE
+1.516.376
+Tổng lượt xem tích lũy
+27 triệu ₫
+GMV TB / phiên
+2,50%
+Tỷ lệ chuyển đổi
+
+TOP 3 PHIÊN LIVE HIỆU QUẢ NHẤT
+
+1
+Sale KamiELy
+16/06/2026  ·  16.9h  ·  25.535 người xem
+272,1 triệu ₫
+
+2
+Chào mừng bạn đến với phiê…
+05/06/2026  ·  18.3h  ·  32.166 người xem
+245,3 triệu ₫
+
+3
+Sale KamiEly
+12/06/2026  ·  16.4h  ·  23.096 người xem
+216,8 triệu ₫
+KAMI ELY  ·  TIKTOK SHOP PERFORMANCE ANALYTICS
+07
+--- Slide 8 ---
+
+05 · VIDEO NGẮN
+Hiệu quả nội dung video
+140
+Video đăng trong kỳ
+2.536.804
+Tổng lượt xem
+236,8 triệu ₫
+Tổng GMV từ video
+0,41%
+Tỷ lệ tương tác TB
+
+TOP 3 VIDEO THEO GMV
+
+1
+KamiEly_Chiếc Suit Cân Mọi Loạ…
+26/05/2026  ·  52.600 views
+23,7 triệu ₫
+
+2
+KamiEly | Soft Summer_ Set bik…
+23/05/2026  ·  43.000 views
+23,6 triệu ₫
+
+3
+KamiEly | Beach Day Ready_ Sim…
+11/06/2026  ·  39.500 views
+20,7 triệu ₫
+KAMI ELY  ·  TIKTOK SHOP PERFORMANCE ANALYTICS
+08
+--- Slide 9 ---
+
+06 · TIẾP THỊ LIÊN KẾT
+Nhà sáng tạo & video Affiliate
+Top 300 video mua sắm gắn sản phẩm Kami Ely trên toàn nền tảng, từ 127 nhà sáng tạo khác nhau — bao gồm cả kênh chính thức của thương hiệu.
+127
+Nhà sáng tạo tham gia
+300
+Video mua sắm (top 300)
+2,08 tỷ ₫
+Tổng GMV nhóm video này
+60,4%
+GMV từ nhà sáng tạo bên ngoài
+
+TOP 5 NHÀ SÁNG TẠO BÊN NGOÀI
+Girl Style
+3.187 follower  ·  140 triệu ₫
+Nước lọc 7 mào
+188.105 follower  ·  91 triệu ₫
+Vẫn là Lê Na
+57.374 follower  ·  75,3 triệu ₫
+🏊sinh tồn 🏊thực…
+82.492 follower  ·  74,5 triệu ₫
+Thuỵ Du Closet
+1.680 follower  ·  45,7 triệu ₫
+KAMI ELY  ·  TIKTOK SHOP PERFORMANCE ANALYTICS
+09
+--- Slide 10 ---
+
+07 · DANH MỤC SẢN PHẨM
+Sản phẩm bán chạy
+184
+Sản phẩm trong danh sách bán chạy
+179 nghìn ₫
+Giá bán trung bình
+85%
+Sản phẩm có hoa hồng affiliate
+8,6%
+Tỷ lệ hoa hồng trung bình
+
+
+Lưu ý dữ liệu: chỉ 184/300 sản phẩm trong danh sách gốc (4 gian hàng liên kết) thuộc chính Kami Ely và có phát sinh doanh số — phân tích trên chỉ tính riêng 184 sản phẩm đó.
+KAMI ELY  ·  TIKTOK SHOP PERFORMANCE ANALYTICS
+10
+--- Slide 11 ---
+
+08 · VỊ THẾ CẠNH TRANH
+Kami Ely trong bức tranh toàn ngành hàng
+Đối chiếu với bảng xếp hạng Top 300 nhà sáng tạo / phiên LIVE / sản phẩm bán chạy nhất cùng ngành hàng đồ bơi & thời trang nữ trên FastMoss.
+
+Top nhà sáng tạo ngành hàng
+63,6%
+thị phần GMV
+Hạng #1/300 · gấp 4.3× GMV người xếp thứ 2
+
+Top phiên LIVE ngành hàng
+78,5%
+thị phần GMV
+Chiếm 145/300 phiên trong top 300 (48%)
+
+Top sản phẩm bán chạy
+85,9%
+thị phần GMV
+Chiếm 167/300 vị trí · 87% sản lượng
+
+Lưu ý cạnh tranh: Trong top 10 sản phẩm bán chạy toàn ngành hàng, có sản phẩm gắn thương hiệu "KAMI ELY" trong tên nhưng được đăng bán bởi một gian hàng khác — dấu hiệu bị sao chép hình ảnh/tên sản phẩm. Đây là rủi ro cạnh tranh cần theo dõi và bảo vệ thương hiệu.
+KAMI ELY  ·  TIKTOK SHOP PERFORMANCE ANALYTICS
+11
+--- Slide 12 ---
+
+09 · KẾT LUẬN
+Phát hiện chính & đề xuất hành động
+
+
+Thống lĩnh ngành hàng
+Kami Ely xếp #1/300 nhà bán theo GMV, chiếm 64%–86% thị phần trong các bảng xếp hạng ngành hàng.
+
+
+LIVE là động cơ tăng trưởng chính
+74% GMV & 82% sản lượng đến từ Shop LIVE tự vận hành — không dùng Affiliate LIVE.
+
+
+Rủi ro suy giảm khả năng tiếp cận
+GMV TB/phiên LIVE giảm 97% từ đỉnh đến cuối kỳ dù tần suất phát không giảm — cần điều tra nguyên nhân reach.
+
+
+Đòn bẩy từ nhà sáng tạo bên ngoài
+60% GMV trong nhóm video mua sắm hàng đầu đến từ 126 nhà sáng tạo bên ngoài — dư địa mở rộng affiliate.
+
+
+Ads khuếch đại hiệu quả nội dung
+Video có chạy Ads đạt lượt xem TB cao hơn đáng kể và chiếm phần lớn tổng GMV nhóm — ngân sách quảng cáo đang hiệu quả.
+
+
+Cảnh giác hàng nhái, mượn thương hiệu
+Sản phẩm gắn tên "KAMI ELY" xuất hiện trong top ngành hàng nhưng thuộc gian hàng khác — cần giám sát & bảo hộ thương hiệu.
+KAMI ELY  ·  TIKTOK SHOP PERFORMANCE ANALYTICS
+12
+--- Slide 13 ---
+
+
+
+CẢM ƠN ĐÃ THEO DÕI
+Dữ liệu kể một câu chuyện —
+nhiệm vụ là lắng nghe đúng.
+Dự án phân tích dữ liệu cá nhân, thực hiện trên dữ liệu hiệu suất TikTok Shop của gian hàng Kami Ely (nguồn: FastMoss, 20/08/2026).
+KAMI ELY  ·  TIKTOK SHOP PERFORMANCE ANALYTICS
+13

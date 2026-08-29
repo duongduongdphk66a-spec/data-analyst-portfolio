@@ -14,84 +14,10 @@ import { useRouter } from 'next/navigation';
 import { trackVisitorAction } from '../lib/visitorTracking';
 import { useLanguage } from '../context/LanguageContext';
 
-// 90-day trajectory data
-const shopTrendData = [
-  { date: '22/05', units: 600, gmv: 96 }, { date: '28/05', units: 950, gmv: 152 }, { date: '03/06', units: 650, gmv: 104 },
-  { date: '09/06', units: 900, gmv: 144 }, { date: '15/06', units: 1950, gmv: 390 }, { date: '21/06', units: 650, gmv: 104 },
-  { date: '27/06', units: 1150, gmv: 184 }, { date: '03/07', units: 600, gmv: 96 }, { date: '09/07', units: 550, gmv: 88 },
-  { date: '15/07', units: 500, gmv: 80 }, { date: '21/07', units: 450, gmv: 72 }, { date: '27/07', units: 400, gmv: 64 },
-  { date: '02/08', units: 350, gmv: 56 }, { date: '08/08', units: 500, gmv: 80 }, { date: '14/08', units: 250, gmv: 40 }
-];
-
-// Top SKUs extracted from _ product data_20260820_025116.xlsx
-const topSKUData = [
-  { code: 'CV11', name: 'Chân Váy Ngắn Chữ A (Nỉ 2 Da)', price: 65000, units: 6752, gmv: 842.5, commission: 8 },
-  { code: 'H36', name: 'Set Bikini 2 Mảnh Kẻ Sọc Áo Yếm', price: 153790, units: 5250, gmv: 1008.1, commission: 8 },
-  { code: 'H32', name: 'Set Bikini 2 Mảnh Xanh Rêu', price: 75000, units: 3264, gmv: 496.2, commission: 8 },
-  { code: 'M18', name: 'Bikini 1 Mảnh Bodysuit Đen/Xanh', price: 99000, units: 2891, gmv: 594.2, commission: 8 },
-  { code: 'SW01', name: 'Đồ Bơi 1 Mảnh Tay Dài Khóa Kéo', price: 199000, units: 2110, gmv: 504.6, commission: 10 },
-];
-
-// Top Creators Performance extracted from _Creators_20260820_025252.xlsx
-const topCreatorsList = [
-  { id: 'kamielyhn', name: 'Kami Ely (Official)', type: 'Self-Operated', followers: 49103, units: 26284, gmv: 4006.1, liveGpm: '47.5k', videoGpm: '31.8k' },
-  { id: 'girlstyle.vn', name: 'Girl Style', type: 'Nano Affiliate', followers: 3215, units: 6318, gmv: 937.8, liveGpm: '121.4k', videoGpm: '57.1k' },
-  { id: 'gonpinkk', name: 'Gon Pink', type: 'Mega Creator', followers: 3434836, units: 445, gmv: 104.4, liveGpm: '87.2k', videoGpm: '176.4k' },
-  { id: '_lela3107', name: 'Vẫn là Lê Na', type: 'Micro Creator', followers: 57374, units: 390, gmv: 75.3, liveGpm: '52.1k', videoGpm: '142.0k' },
-  { id: 'hiennguyen666666', name: 'Hiền Nguyễn', type: 'Micro Creator', followers: 72773, units: 381, gmv: 67.8, liveGpm: '175.8k', videoGpm: '160.5k' },
-];
-
-// Top Live Sessions from _shop LIVE_20260820_025451.xlsx
-const topLiveStreams = [
-  { date: '17/06', title: 'Sale KamiELy Mega Live', duration: '16.9h', viewers: 25535, units: 1850, gmv: 272.1 },
-  { date: '06/06', title: 'Chào mừng phiên LIVE Kami', duration: '18.3h', viewers: 32166, units: 1795, gmv: 245.3 },
-  { date: '04/06', title: 'Sale Mở Bán Bộ Sưu Tập Hè', duration: '15.7h', viewers: 93798, units: 1672, gmv: 175.7 },
-  { date: '05/06', title: 'Đại Tiệc Livestream Giảm Giá', duration: '15.6h', viewers: 25707, units: 1535, gmv: 209.6 },
-  { date: '08/06', title: 'Flash Sale Cuối Tuần', duration: '11.0h', viewers: 27389, units: 1519, gmv: 209.6 },
-];
-
-const getChannelData = (isEn: boolean) => ({
-  units: [
-    { name: isEn ? 'Self-Operated Store' : 'Kênh Tự Vận Hành', value: 56.45 },
-    { name: isEn ? 'Creator Affiliates' : 'Mạng Lưới Affiliate', value: 31.87 },
-    { name: isEn ? 'Product Showcase Card' : 'Product Showcase Card', value: 11.68 }
-  ],
-  gmv: [
-    { name: isEn ? 'Self-Operated Store' : 'Kênh Tự Vận Hành', value: 53.91 },
-    { name: isEn ? 'Creator Affiliates' : 'Mạng Lưới Affiliate', value: 30.85 },
-    { name: isEn ? 'Product Showcase Card' : 'Product Showcase Card', value: 15.24 }
-  ]
-});
-
-const getContentData = (isEn: boolean) => ({
-  units: [
-    { name: isEn ? 'Livestream Shopping' : 'Livestream (LIVE)', value: 68.13 }, 
-    { name: isEn ? 'Short Shoppable Videos' : 'Video Có Giỏ Hàng', value: 20.20 }, 
-    { name: isEn ? 'Product Card' : 'Product Showcase Card', value: 11.68 }
-  ],
-  gmv: [
-    { name: isEn ? 'Livestream Shopping' : 'Livestream (LIVE)', value: 63.04 }, 
-    { name: isEn ? 'Short Shoppable Videos' : 'Video Có Giỏ Hàng', value: 21.72 }, 
-    { name: isEn ? 'Product Card' : 'Product Showcase Card', value: 15.24 }
-  ]
-});
-
-const affFollowerData = {
-  units: [
-    { name: '>100k', value: 3400 }, { name: '50k-100k', value: 3800 }, { name: '10k-50k', value: 8900 },
-    { name: '5k-10k', value: 2100 }, { name: '1k-5k', value: 21800 }, { name: '<=1k', value: 16100 }
-  ],
-  gmv: [
-    { name: '>100k', value: 615.4 }, { name: '50k-100k', value: 665.8 }, { name: '10k-50k', value: 1300.0 },
-    { name: '5k-10k', value: 323.1 }, { name: '1k-5k', value: 3300.0 }, { name: '<=1k', value: 2000.0 }
-  ],
-  count: [
-    { name: '>100k', value: 42 }, { name: '50k-100k', value: 37 }, { name: '10k-50k', value: 161 },
-    { name: '5k-10k', value: 110 }, { name: '1k-5k', value: 527 }, { name: '<=1k', value: 210 }
-  ]
-};
-
-const PALETTE = ['#0D7287', '#9BE7FA', '#FFD14C', '#FFE485', '#C8EEF7', '#E5B830'];
+import {
+  shopTrendData, topSKUData, topCreatorsList, topLiveStreams,
+  getChannelData, getContentData, affFollowerData, PALETTE,
+} from '../data/kamiElyData';
 
 export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
   const router = useRouter();
@@ -241,7 +167,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
             <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
               <div className="text-2xl sm:text-3xl font-black font-mono text-slate-950 dark:text-white">46.1k</div>
               <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? '90-Day Units Sold' : 'Sản phẩm bán (90 ngày)'}</div>
-              <div className="text-[10px] font-mono text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '7.4B VND 90-Day GMV' : '7,4 Tỷ đ GMV 90 ngày'}</div>
+              <div className="text-[10px] font-mono text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '7.35B VND 90-Day GMV' : '7,4 Tỷ đ GMV 90 ngày'}</div>
             </div>
 
             <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
@@ -251,7 +177,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
             </div>
 
             <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-slate-950 dark:text-white">68.1%</div>
+              <div className="text-2xl sm:text-3xl font-black font-mono text-slate-950 dark:text-white">73.5%</div>
               <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? 'Live Shopping Share' : 'Tỷ trọng từ Livestream'}</div>
               <div className="text-[10px] font-mono text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '16.9h Mega Live Session' : 'Phiên đỉnh: 272M GMV/phiên'}</div>
             </div>
@@ -575,12 +501,12 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
 <span className="text-[#FFD14C]">const</span> fs = <span className="text-[#9BE7FA]">require</span>(<span className="text-[#FFE485]">&apos;fs&apos;</span>);
 <span className="text-[#FFD14C]">const</span> DATA = <span className="text-[#C8EEF7]">JSON</span>.<span className="text-[#9BE7FA]">parse</span>(fs.<span className="text-[#9BE7FA]">readFileSync</span>(<span className="text-[#FFE485]">&apos;data.json&apos;</span>, <span className="text-[#FFE485]">&apos;utf-8&apos;</span>));
 
-<span className="text-slate-500">// Initialize presentation layout & theme tokens</span>
+<span className="text-slate-500">{'// Initialize presentation layout & theme tokens'}</span>
 <span className="text-[#FFD14C]">const</span> pres = <span className="text-[#FFD14C]">new</span> <span className="text-[#C8EEF7]">pptx</span>();
 pres.<span className="text-[#9BE7FA]">defineLayout</span>(&#123; name: <span className="text-[#FFE485]">&apos;WIDE&apos;</span>, width: 13.333, height: 7.5 &#125;);
 pres.layout = <span className="text-[#FFE485]">&apos;WIDE&apos;</span>;
 
-<span className="text-slate-500">// Slide 1: Executive KPI Summary</span>
+<span className="text-slate-500">{'// Slide 1: Executive KPI Summary'}</span>
 <span className="text-[#FFD14C]">const</span> s1 = pres.<span className="text-[#9BE7FA]">addSlide</span>();
 s1.background = &#123; color: <span className="text-[#FFE485]">&apos;081C29&apos;</span> &#125;;
 s1.<span className="text-[#9BE7FA]">addText</span>(<span className="text-[#FFE485]">&apos;KAMI ELY · PERFORMANCE REVIEW&apos;</span>, &#123; x: 0.6, y: 1.5, fontSize: 36, color: <span className="text-[#FFE485]">&apos;FFFFFF&apos;</span>, bold: <span className="text-[#FFD14C]">true</span> &#125;);

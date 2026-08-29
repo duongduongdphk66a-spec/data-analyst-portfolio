@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  output: 'standalone',
+  devIndicators: false,
   transpilePackages: ['motion'],
   async headers() {
     return [

@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
-  ChevronDown, ChevronRight, Github, Linkedin, Mail, Lock, 
-  ShieldCheck, Sun, Moon, Laptop, Globe, Check, Settings
+  ChevronDown, ChevronRight, Github, Linkedin, Mail, 
+  Sun, Moon, Laptop, Globe, Check
 } from 'lucide-react';
 import { ProjectData } from '../types';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 
 interface SidebarProps {
   activeTab: string;
@@ -32,44 +33,15 @@ export default function Sidebar({
   selectedProjectId
 }: SidebarProps) {
   const { language, setLanguage, t } = useLanguage();
+  const { theme, resolvedTheme, setTheme } = useTheme();
 
   // Settings Popover States
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [activeSubMenu, setActiveSubMenu] = useState<'none' | 'language' | 'theme'>('none');
-  const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('light');
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Initialize theme from localStorage
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('portfolio_theme') as 'light' | 'dark' | 'system' | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-      applyTheme(savedTheme);
-    }
-  }, []);
-
-  // Theme application helper
-  const applyTheme = (selectedTheme: 'light' | 'dark' | 'system') => {
-    const root = document.documentElement;
-    if (selectedTheme === 'dark') {
-      root.classList.add('dark');
-    } else if (selectedTheme === 'light') {
-      root.classList.remove('dark');
-    } else {
-      // System mode
-      const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (isSystemDark) {
-        root.classList.add('dark');
-      } else {
-        root.classList.remove('dark');
-      }
-    }
-  };
 
   const handleSelectTheme = (newTheme: 'light' | 'dark' | 'system') => {
     setTheme(newTheme);
-    localStorage.setItem('portfolio_theme', newTheme);
-    applyTheme(newTheme);
   };
 
   const handleSelectLanguage = (newLang: 'vi' | 'en') => {
@@ -102,7 +74,7 @@ export default function Sidebar({
   ];
 
   return (
-    <aside className="w-60 bg-[#C4EEF9] text-slate-800 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-[#A8E2F2] shadow-xs relative z-40">
+    <aside className="w-60 bg-[#C4EEF9] text-slate-800 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-[#A8E2F2] shadow-xs relative z-40 transition-colors duration-200 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200">
       {/* Navigation Links */}
       <nav className="flex-1 px-4 pt-16 pb-6 space-y-3 overflow-visible">
         {navItems.map((item) => {
@@ -120,12 +92,12 @@ export default function Sidebar({
                   onClick={() => onTabChange(item.id)}
                   className={`w-full flex items-center justify-between px-5 py-3 text-sm sm:text-base font-bold rounded-2xl transition-all duration-200 cursor-pointer text-left ${
                     isActive
-                      ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40'
-                      : 'text-slate-800 hover:text-slate-950 hover:bg-white/40'
+                      ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40 dark:bg-slate-800 dark:text-[#9BE7FA] dark:shadow-none'
+                      : 'text-slate-800 hover:text-slate-950 hover:bg-white/40 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/60'
                   }`}
                 >
-                  <span className="underline decoration-slate-400/60 underline-offset-4">{item.label}</span>
-                  <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded-md bg-white/60 text-slate-700 font-bold ml-2">
+                  <span className="underline decoration-slate-400/60 underline-offset-4 dark:decoration-slate-600">{item.label}</span>
+                  <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded-md bg-white/60 text-slate-700 font-bold ml-2 dark:bg-slate-800 dark:text-slate-300">
                     {language.toUpperCase()}
                   </span>
                 </button>
@@ -138,13 +110,13 @@ export default function Sidebar({
                     onMouseLeave={handleMouseLeaveSettings}
                   >
                     {/* Speech bubble pointer arrow */}
-                    <div className="absolute -left-2.5 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[9px] border-y-transparent border-r-[10px] border-r-white drop-shadow-[-2px_0px_1px_rgba(0,0,0,0.06)]" />
+                    <div className="absolute -left-2.5 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[9px] border-y-transparent border-r-[10px] border-r-white drop-shadow-[-2px_0px_1px_rgba(0,0,0,0.06)] dark:border-r-slate-800" />
 
                     {/* Bridge overlay to prevent mouse exit flicker */}
                     <div className="absolute -left-5 top-0 bottom-0 w-6" />
 
                     {/* Popover Card */}
-                    <div className="w-52 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-2 text-slate-800 relative">
+                    <div className="w-52 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-2 text-slate-800 relative dark:bg-slate-900/95 dark:border-slate-800 dark:text-slate-200">
                       
                       {/* Menu Item 1: Ngôn Ngữ */}
                       <div 
@@ -153,49 +125,55 @@ export default function Sidebar({
                       >
                         <button
                           className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
-                            activeSubMenu === 'language' ? 'bg-slate-100 text-slate-950' : 'hover:bg-slate-50 text-slate-700'
+                            activeSubMenu === 'language' 
+                              ? 'bg-slate-100 text-slate-950 dark:bg-slate-800 dark:text-white' 
+                              : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60 dark:hover:text-white'
                           }`}
                         >
                           <div className="flex items-center gap-2">
-                            <Globe className="w-4 h-4 text-slate-600" />
+                            <Globe className="w-4 h-4 text-slate-600 dark:text-slate-400" />
                             <span>{t('nav_language', 'Ngôn Ngữ')}</span>
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className="text-[11px] font-bold text-slate-500">{language === 'vi' ? 'VI' : 'EN'}</span>
+                            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400">{language === 'vi' ? 'VI' : 'EN'}</span>
                             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
                           </div>
                         </button>
 
                         {/* Nested Submenu: Languages */}
                         {activeSubMenu === 'language' && (
-                          <div className="absolute left-[calc(100%+8px)] top-0 w-48 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-1.5 space-y-1 animate-in fade-in zoom-in-95 duration-150 z-50">
+                          <div className="absolute left-[calc(100%+8px)] top-0 w-48 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-1.5 space-y-1 animate-in fade-in zoom-in-95 duration-150 z-50 dark:bg-slate-900/95 dark:border-slate-800">
                             {/* Bridge */}
                             <div className="absolute -left-3 top-0 bottom-0 w-4" />
                             
                             <button
                               onClick={() => handleSelectLanguage('vi')}
                               className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                                language === 'vi' ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                                language === 'vi' 
+                                  ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]' 
+                                  : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60'
                               }`}
                             >
                               <div className="flex items-center gap-2.5">
                                 <span className="text-base leading-none">🇻🇳</span>
                                 <span>Tiếng Việt</span>
                               </div>
-                              {language === 'vi' && <Check className="w-3.5 h-3.5 text-[#155A8A]" />}
+                              {language === 'vi' && <Check className="w-3.5 h-3.5 text-[#155A8A] dark:text-[#9BE7FA]" />}
                             </button>
 
                             <button
                               onClick={() => handleSelectLanguage('en')}
                               className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                                language === 'en' ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                                language === 'en' 
+                                  ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]' 
+                                  : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60'
                               }`}
                             >
                               <div className="flex items-center gap-2.5">
                                 <span className="text-base leading-none">🇬🇧</span>
                                 <span>English</span>
                               </div>
-                              {language === 'en' && <Check className="w-3.5 h-3.5 text-[#155A8A]" />}
+                              {language === 'en' && <Check className="w-3.5 h-3.5 text-[#155A8A] dark:text-[#9BE7FA]" />}
                             </button>
                           </div>
                         )}
@@ -208,11 +186,13 @@ export default function Sidebar({
                       >
                         <button
                           className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
-                            activeSubMenu === 'theme' ? 'bg-slate-100 text-slate-950' : 'hover:bg-slate-50 text-slate-700'
+                            activeSubMenu === 'theme' 
+                              ? 'bg-slate-100 text-slate-950 dark:bg-slate-800 dark:text-white' 
+                              : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60 dark:hover:text-white'
                           }`}
                         >
                           <div className="flex items-center gap-2">
-                            {theme === 'dark' ? <Moon className="w-4 h-4 text-indigo-500" /> : theme === 'light' ? <Sun className="w-4 h-4 text-amber-500" /> : <Laptop className="w-4 h-4 text-slate-600" />}
+                            {theme === 'dark' ? <Moon className="w-4 h-4 text-indigo-400" /> : theme === 'light' ? <Sun className="w-4 h-4 text-amber-500" /> : <Laptop className="w-4 h-4 text-slate-500 dark:text-slate-400" />}
                             <span>{t('nav_theme', 'Giao Diện')}</span>
                           </div>
                           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
@@ -220,47 +200,53 @@ export default function Sidebar({
 
                         {/* Nested Submenu: Theme Options */}
                         {activeSubMenu === 'theme' && (
-                          <div className="absolute left-[calc(100%+8px)] top-0 w-44 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-1.5 space-y-1 animate-in fade-in zoom-in-95 duration-150 z-50">
+                          <div className="absolute left-[calc(100%+8px)] top-0 w-44 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-1.5 space-y-1 animate-in fade-in zoom-in-95 duration-150 z-50 dark:bg-slate-900/95 dark:border-slate-800">
                             {/* Bridge */}
                             <div className="absolute -left-3 top-0 bottom-0 w-4" />
                             
                             <button
                               onClick={() => handleSelectTheme('light')}
                               className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                                theme === 'light' ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                                theme === 'light' 
+                                  ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]' 
+                                  : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60'
                               }`}
                             >
                               <div className="flex items-center gap-2.5">
                                 <Sun className="w-4 h-4 text-amber-500" />
                                 <span>{t('nav_theme_light', 'Sáng')}</span>
                               </div>
-                              {theme === 'light' && <Check className="w-3.5 h-3.5 text-[#155A8A]" />}
+                              {theme === 'light' && <Check className="w-3.5 h-3.5 text-[#155A8A] dark:text-[#9BE7FA]" />}
                             </button>
 
                             <button
                               onClick={() => handleSelectTheme('dark')}
                               className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                                theme === 'dark' ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                                theme === 'dark' 
+                                  ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]' 
+                                  : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60'
                               }`}
                             >
                               <div className="flex items-center gap-2.5">
-                                <Moon className="w-4 h-4 text-indigo-500" />
+                                <Moon className="w-4 h-4 text-indigo-400" />
                                 <span>{t('nav_theme_dark', 'Tối')}</span>
                               </div>
-                              {theme === 'dark' && <Check className="w-3.5 h-3.5 text-[#155A8A]" />}
+                              {theme === 'dark' && <Check className="w-3.5 h-3.5 text-[#155A8A] dark:text-[#9BE7FA]" />}
                             </button>
 
                             <button
                               onClick={() => handleSelectTheme('system')}
                               className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                                theme === 'system' ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                                theme === 'system' 
+                                  ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]' 
+                                  : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60'
                               }`}
                             >
                               <div className="flex items-center gap-2.5">
-                                <Laptop className="w-4 h-4 text-slate-600" />
+                                <Laptop className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                                 <span>{t('nav_theme_system', 'Hệ thống')}</span>
                               </div>
-                              {theme === 'system' && <Check className="w-3.5 h-3.5 text-[#155A8A]" />}
+                              {theme === 'system' && <Check className="w-3.5 h-3.5 text-[#155A8A] dark:text-[#9BE7FA]" />}
                             </button>
                           </div>
                         )}
@@ -290,13 +276,13 @@ export default function Sidebar({
                 }}
                 className={`w-full flex items-center justify-between px-5 py-3 text-sm sm:text-base font-bold rounded-2xl transition-all duration-200 cursor-pointer text-left ${
                   isActive
-                    ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40'
-                    : 'text-slate-800 hover:text-slate-950 hover:bg-white/40'
+                    ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40 dark:bg-slate-800 dark:text-[#9BE7FA] dark:shadow-none'
+                    : 'text-slate-800 hover:text-slate-950 hover:bg-white/40 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/60'
                 }`}
               >
                 <span>{item.label}</span>
                 {item.hasChildren && (
-                  isProjectsOpen ? <ChevronDown className="w-4 h-4 text-slate-600" /> : <ChevronRight className="w-4 h-4 text-slate-600" />
+                  isProjectsOpen ? <ChevronDown className="w-4 h-4 text-slate-600 dark:text-slate-400" /> : <ChevronRight className="w-4 h-4 text-slate-600 dark:text-slate-400" />
                 )}
               </button>
 
@@ -311,12 +297,12 @@ export default function Sidebar({
                         onClick={() => onProjectClick(proj.id)}
                         className={`text-left text-xs py-2 px-2.5 font-medium rounded-xl transition-all truncate cursor-pointer flex items-center gap-2 ${
                           isSelected
-                            ? 'bg-white text-slate-950 font-bold shadow-xs border border-[#8CE0F4]'
-                            : 'text-slate-700 hover:text-slate-950 hover:bg-white/50'
+                            ? 'bg-white text-slate-950 font-bold shadow-xs border border-[#8CE0F4] dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700'
+                            : 'text-slate-700 hover:text-slate-950 hover:bg-white/50 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800/50'
                         }`}
                         title={proj.title}
                       >
-                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isSelected ? 'bg-amber-500 ring-2 ring-amber-200' : 'bg-slate-400'}`}></span>
+                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isSelected ? 'bg-amber-500 ring-2 ring-amber-200 dark:ring-amber-900/50' : 'bg-slate-400 dark:bg-slate-600'}`}></span>
                         <span className="truncate">{proj.title}</span>
                       </button>
                     );
@@ -329,7 +315,7 @@ export default function Sidebar({
 
         {/* Divider line before Admin */}
         <div className="pt-2">
-          <hr className="border-t-2 border-slate-900/60 my-3" />
+          <hr className="border-t-2 border-slate-900/60 my-3 dark:border-slate-800" />
         </div>
 
         {/* Admin Navigation Button */}
@@ -344,8 +330,8 @@ export default function Sidebar({
             }}
             className={`w-full flex items-center justify-between px-5 py-3 text-sm sm:text-base font-bold rounded-2xl transition-all duration-200 cursor-pointer text-left ${
               activeTab === 'admin'
-                ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40'
-                : 'text-slate-800 hover:text-slate-950 hover:bg-white/40'
+                ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40 dark:bg-slate-800 dark:text-[#9BE7FA] dark:shadow-none'
+                : 'text-slate-800 hover:text-slate-950 hover:bg-white/40 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/60'
             }`}
           >
             <span>{t('nav_admin', 'Admin')}</span>
@@ -357,13 +343,13 @@ export default function Sidebar({
       </nav>
 
       {/* Footer Area: Circular Social Links & Quick Language Toggle */}
-      <div className="p-6 flex items-center justify-between text-white">
+      <div className="p-6 flex items-center justify-between text-white border-t border-transparent dark:border-slate-800/50">
         <div className="flex items-center gap-3">
           <a 
             href="https://linkedin.com" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-xs"
+            className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-xs dark:bg-slate-800 dark:hover:bg-slate-700 dark:border dark:border-slate-700"
             title="LinkedIn"
           >
             <Linkedin className="w-4 h-4 fill-white text-white" />
@@ -372,14 +358,14 @@ export default function Sidebar({
             href="https://github.com" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-xs"
+            className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-xs dark:bg-slate-800 dark:hover:bg-slate-700 dark:border dark:border-slate-700"
             title="GitHub"
           >
             <Github className="w-4 h-4 fill-white text-white" />
           </a>
           <a 
             href="mailto:mavanhung.da@gmail.com" 
-            className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-xs"
+            className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-xs dark:bg-slate-800 dark:hover:bg-slate-700 dark:border dark:border-slate-700"
             title="Email"
           >
             <Mail className="w-4 h-4 text-white" />
@@ -389,7 +375,7 @@ export default function Sidebar({
         {/* Quick Language Toggle Button */}
         <button
           onClick={() => setLanguage(language === 'vi' ? 'en' : 'vi')}
-          className="px-2.5 py-1 rounded-xl bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer"
+          className="px-2.5 py-1 rounded-xl bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 dark:border dark:border-slate-700"
           title={language === 'vi' ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
         >
           <span>{language === 'vi' ? '🇻🇳 VI' : '🇬🇧 EN'}</span>

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { User, Lock, X, Eye, EyeOff, ShieldCheck, AlertCircle, Clock, ArrowRight } from 'lucide-react';
+import { User, Lock, X, Eye, EyeOff, AlertCircle, Clock, ArrowRight } from 'lucide-react';
 import { verifyStepPassword, setAdminSession, getRateLimitState, RateLimitState } from '../lib/auth';
 
 interface AdminLoginModalProps {
@@ -144,11 +144,11 @@ export default function AdminLoginModal({ isOpen, onClose, onSuccess }: AdminLog
       />
 
       {/* Modal Content */}
-      <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-brand-blue-light overflow-hidden transform transition-all duration-300 animate-in fade-in zoom-in-95">
+      <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-brand-blue-light overflow-hidden transform transition-all duration-300 animate-in fade-in zoom-in-95 dark:bg-slate-900 dark:border-slate-800">
         <div className="relative p-6 sm:p-8">
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors cursor-pointer"
+            className="absolute top-5 right-5 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors cursor-pointer dark:hover:bg-slate-800 dark:hover:text-white"
             aria-label="Đóng"
           >
             <X className="w-5 h-5" />
@@ -156,25 +156,25 @@ export default function AdminLoginModal({ isOpen, onClose, onSuccess }: AdminLog
 
           {/* Modal Header (Looks completely like a standard, elegant Admin Login) */}
           <div className="flex flex-col items-center text-center mb-6">
-            <div className="w-14 h-14 rounded-2xl bg-brand-yellow/30 border border-brand-yellow/50 text-slate-900 flex items-center justify-center mb-3 shadow-xs">
-              <Lock className="w-7 h-7 text-slate-900" />
+            <div className="w-14 h-14 rounded-2xl bg-brand-yellow/30 border border-brand-yellow/50 text-slate-900 flex items-center justify-center mb-3 shadow-xs dark:bg-amber-400/20 dark:border-amber-400/40 dark:text-amber-300">
+              <Lock className="w-7 h-7 text-slate-900 dark:text-amber-300" />
             </div>
-            <h3 className="text-2xl font-bold text-slate-900">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
               Đăng nhập Quản trị
             </h3>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Nhập thông tin quản trị viên để truy cập hệ thống
             </p>
           </div>
 
           {/* Rate limit lockout banner */}
           {rateLimit.isLocked && (
-            <div className="mb-5 p-4 bg-red-50 border border-red-200 text-red-700 rounded-2xl text-xs font-medium flex items-start gap-3 animate-in fade-in">
-              <Clock className="w-5 h-5 flex-shrink-0 text-red-600 animate-pulse mt-0.5" />
+            <div className="mb-5 p-4 bg-red-50 border border-red-200 text-red-700 rounded-2xl text-xs font-medium flex items-start gap-3 animate-in fade-in dark:bg-red-950/40 dark:border-red-900/60 dark:text-red-300">
+              <Clock className="w-5 h-5 flex-shrink-0 text-red-600 dark:text-red-400 animate-pulse mt-0.5" />
               <div>
                 <p className="font-bold">Hệ thống đang tạm khóa</p>
-                <p className="mt-1 text-slate-600">
-                  Vui lòng chờ <span className="font-mono font-bold text-red-600">{rateLimit.remainingSeconds}s</span> trước khi thử lại.
+                <p className="mt-1 text-slate-600 dark:text-slate-400">
+                  Vui lòng chờ <span className="font-mono font-bold text-red-600 dark:text-red-400">{rateLimit.remainingSeconds}s</span> trước khi thử lại.
                 </p>
               </div>
             </div>
@@ -183,7 +183,7 @@ export default function AdminLoginModal({ isOpen, onClose, onSuccess }: AdminLog
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Username Input */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Tài khoản
               </label>
               <div className="relative">
@@ -197,14 +197,14 @@ export default function AdminLoginModal({ isOpen, onClose, onSuccess }: AdminLog
                   onChange={(e) => setUsername(e.target.value)}
                   disabled={rateLimit.isLocked || loading}
                   placeholder="Nhập tên tài khoản..."
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-brand-blue-light rounded-xl text-slate-900 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-blue"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-brand-blue-light rounded-xl text-slate-900 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-blue dark:bg-slate-800 dark:border-slate-700 dark:text-white"
                 />
               </div>
             </div>
 
             {/* Password Input (Clean standard password box) */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Mật khẩu
               </label>
               <div className="relative">
@@ -219,12 +219,12 @@ export default function AdminLoginModal({ isOpen, onClose, onSuccess }: AdminLog
                   placeholder="Nhập mật khẩu..."
                   value={currentPasswordInput}
                   onChange={(e) => setCurrentPasswordInput(e.target.value)}
-                  className="w-full pl-10 pr-10 py-2.5 bg-white border border-brand-blue-light rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-blue text-sm font-medium"
+                  className="w-full pl-10 pr-10 py-2.5 bg-white border border-brand-blue-light rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-blue text-sm font-medium dark:bg-slate-800 dark:border-slate-700 dark:text-white"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -232,7 +232,7 @@ export default function AdminLoginModal({ isOpen, onClose, onSuccess }: AdminLog
             </div>
 
             {error && !rateLimit.isLocked && (
-              <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-xs font-medium animate-in shake">
+              <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-xs font-medium animate-in shake dark:bg-red-950/40 dark:border-red-900/60 dark:text-red-300">
                 <AlertCircle className="w-4 h-4 flex-shrink-0" />
                 <span>{error}</span>
               </div>
@@ -241,7 +241,7 @@ export default function AdminLoginModal({ isOpen, onClose, onSuccess }: AdminLog
             <button
               type="submit"
               disabled={loading || rateLimit.isLocked}
-              className="w-full mt-2 py-3 px-4 bg-brand-yellow hover:bg-brand-yellow-light text-slate-900 font-bold rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full mt-2 py-3 px-4 bg-brand-yellow hover:bg-brand-yellow-light text-slate-900 font-bold rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer dark:bg-amber-400 dark:hover:bg-amber-300 dark:text-slate-950"
             >
               {loading ? (
                 'Đang kiểm tra...'

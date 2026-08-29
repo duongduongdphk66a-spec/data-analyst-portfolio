@@ -3,9 +3,8 @@
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { 
-  Briefcase, ExternalLink, Github, Search, Filter, Play, 
-  X, Maximize2, Tag, Star, Sparkles, FileText, ArrowRight,
-  TrendingUp, CheckCircle2, AlertCircle, Cpu, BarChart2
+  Briefcase, Search, Star, Sparkles, FileText, ArrowRight,
+  Cpu, X
 } from 'lucide-react';
 import { ProjectData } from '../types';
 import { sanitizeUrl } from '../lib/security';
