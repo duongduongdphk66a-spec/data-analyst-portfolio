@@ -1,21 +1,22 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk, Source_Serif_4, JetBrains_Mono } from 'next/font/google';
+import { Lora, Merriweather, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 
-const spaceGrotesk = Space_Grotesk({
+const lora = Lora({
   subsets: ['latin', 'vietnamese'],
-  variable: '--font-space-grotesk',
+  variable: '--font-lora',
   display: 'swap',
   weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
 });
 
-const sourceSerif = Source_Serif_4({
+const merriweather = Merriweather({
   subsets: ['latin', 'vietnamese'],
-  variable: '--font-source-serif',
+  variable: '--font-merriweather',
   display: 'swap',
-  weight: ['400', '500', '600'],
+  weight: ['300', '400', '700', '900'],
   style: ['normal', 'italic'],
 });
 
@@ -59,7 +60,7 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`scroll-smooth ${spaceGrotesk.variable} ${sourceSerif.variable} ${jetbrains.variable}`}
+      className={`scroll-smooth ${lora.variable} ${merriweather.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
       <head>

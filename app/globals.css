@@ -54,8 +54,10 @@
   --color-border-subtle: var(--color-border-subtle);
 
   /* Typography */
-  --font-heading: var(--font-space-grotesk), "Space Grotesk", system-ui, sans-serif;
-  --font-body: var(--font-source-serif), "Source Serif 4", Georgia, "Noto Serif", serif;
+  --font-lora: var(--font-lora), "Lora", "Merriweather", "Source Serif 4", Georgia, serif;
+  --font-heading: var(--font-lora), var(--font-merriweather), "Lora", "Merriweather", "Playfair Display", "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-body: var(--font-lora), var(--font-merriweather), "Lora", "Merriweather", "Source Serif 4", "Noto Serif", Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-lora), var(--font-merriweather), "Lora", "Merriweather", "Source Serif 4", Georgia, serif;
   --font-mono: var(--font-jetbrains), "JetBrains Mono", "Fira Code", monospace;
 
   /* Easing */
