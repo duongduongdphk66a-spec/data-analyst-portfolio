@@ -21,12 +21,32 @@ import {
 
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 
+import { useToast } from './ui/Toast';
+import { exportChartAsPng } from '../lib/chartExport';
+import { Link as LinkIcon } from 'lucide-react';
+
 export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
+  const { showToast } = useToast();
   const isEn = language === 'en';
 
   const [activeChartTab, setActiveChartTab] = useState<'national' | 'kyotonara' | 'spending' | 'macro'>('national');
+
+  const copyDeepLink = (sectionId: string, title: string) => {
+    if (typeof window !== 'undefined') {
+      const url = `${window.location.origin}${window.location.pathname}#${sectionId}`;
+      navigator.clipboard.writeText(url);
+      showToast(isEn ? `Copied link to ${title}!` : `Đã sao chép liên kết mục ${title}!`, 'success');
+    }
+  };
+
+  const handleExportChart = async (elementId: string, name: string) => {
+    const ok = await exportChartAsPng(elementId, `${name}.png`);
+    if (ok) {
+      showToast(isEn ? `Exported ${name} as PNG!` : `Đã tải ảnh biểu đồ ${name}!`, 'success');
+    }
+  };
 
   const sectionIds = ['overview', 'boi-canh', 'chinh-sach', 'du-lieu', 'giai-phap', 'ket-luan'];
   const activeSection = useScrollSpy(sectionIds, 130);

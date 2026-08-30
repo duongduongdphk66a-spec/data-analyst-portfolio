@@ -21,6 +21,7 @@ import CVSection from './components/CVSection';
 import ProjectsSection from './components/ProjectsSection';
 import ProjectDetailView from './components/ProjectDetailView';
 import AdminLoginModal from './components/AdminLoginModal';
+import CommandPalette from './components/ui/CommandPalette';
 import dynamic from 'next/dynamic';
 
 const DashboardSection = dynamic(() => import('./components/DashboardSection'), {
@@ -61,6 +62,7 @@ export default function Portfolio() {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
   // Custom hooks — encapsulate data management and auth
   const {
@@ -105,9 +107,16 @@ export default function Portfolio() {
     }
   }, [isAdmin, activeTab]);
 
-  // Global Keyboard Shortcut: Ctrl + Shift + A to open Admin Login
+  // Global Keyboard Shortcuts: Ctrl + K (Command Palette) & Ctrl + Shift + A (Admin Login)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl + K or Cmd + K -> Command Palette
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+
+      // Ctrl + Shift + A -> Admin Login
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
         e.preventDefault();
         if (isAdmin) {
@@ -162,6 +171,7 @@ export default function Portfolio() {
         setIsProjectsOpen={setIsProjectsOpen}
         onProjectClick={handleProjectClick}
         selectedProjectId={selectedProjectId}
+        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
       />
 
       {/* Main Content Viewport */}
@@ -444,6 +454,17 @@ export default function Portfolio() {
         isOpen={isLoginModalOpen}
         onClose={closeLoginModal}
         onSuccess={handleLoginSuccess}
+      />
+
+      {/* Spotlight Command Palette (Ctrl+K) */}
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+        projects={projects}
+        onSelectTab={handleTabChange}
+        onSelectProject={handleProjectClick}
+        onOpenLogin={openLoginModal}
+        isAdmin={isAdmin}
       />
     </div>
   );

@@ -18,12 +18,32 @@ import { weeklyActivityData, busFleetData } from '../data/libraryBusData';
 
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 
+import { useToast } from './ui/Toast';
+import { exportChartAsPng } from '../lib/chartExport';
+import { Link as LinkIcon } from 'lucide-react';
+
 export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
+  const { showToast } = useToast();
   const isEn = language === 'en';
 
   const [activeChartMetric, setActiveChartMetric] = useState<'borrows' | 'efficiency'>('borrows');
+
+  const copyDeepLink = (sectionId: string, title: string) => {
+    if (typeof window !== 'undefined') {
+      const url = `${window.location.origin}${window.location.pathname}#${sectionId}`;
+      navigator.clipboard.writeText(url);
+      showToast(isEn ? `Copied link to ${title}!` : `Đã sao chép liên kết mục ${title}!`, 'success');
+    }
+  };
+
+  const handleExportChart = async (elementId: string, name: string) => {
+    const ok = await exportChartAsPng(elementId, `${name}.png`);
+    if (ok) {
+      showToast(isEn ? `Exported ${name} as PNG!` : `Đã tải ảnh biểu đồ ${name}!`, 'success');
+    }
+  };
 
   const sectionIds = ['overview', 'kien-truc', 'thuat-toan', 'schema', 'celery', 'stack'];
   const activeSection = useScrollSpy(sectionIds, 130);

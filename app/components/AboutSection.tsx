@@ -1,17 +1,24 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Copy, Check, ArrowRight } from 'lucide-react';
+import { 
+  Play, Copy, Check, ArrowRight, Upload, Download, 
+  Terminal, Sparkles, Database, FileSpreadsheet, RefreshCw
+} from 'lucide-react';
 import {
   ResponsiveContainer, BarChart, Bar, AreaChart, Area,
   XAxis, YAxis, Tooltip, Cell,
 } from 'recharts';
+import Papa from 'papaparse';
 import { ProfileData } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { trackVisitorAction } from '../lib/visitorTracking';
 import { SQL_SCENARIOS, CHART_COLORS } from '../data/aboutSqlData';
 import { gsap, useGSAP } from '../lib/gsap';
+import { executeClientSql, SqlQueryResult } from '../lib/sqlEngine';
+import { exportChartAsPng } from '../lib/chartExport';
+import { useToast } from './ui/Toast';
 
 interface AboutSectionProps {
   profile: ProfileData;
@@ -22,9 +29,14 @@ interface AboutSectionProps {
 export default function AboutSection({ profile, onSelectProject, onNavigateTab }: AboutSectionProps) {
   const { language, t } = useLanguage();
   const { resolvedTheme } = useTheme();
+  const { showToast } = useToast();
   const isEn = language === 'en';
   const isDark = resolvedTheme === 'dark';
 
+  // Mode: Preset vs Custom SQL
+  const [sandboxMode, setSandboxMode] = useState<'presets' | 'custom'>('presets');
+
+  // Preset mode state
   const [activeScenario, setActiveScenario] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [showResult, setShowResult] = useState(true);
@@ -32,15 +44,29 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
   const [typedQuery, setTypedQuery] = useState('');
   const sectionRef = useRef<HTMLElement>(null);
 
+  // Custom SQL state
+  const [customQuery, setCustomQuery] = useState(
+    'SELECT channel_name, SUM(gmv_millions) AS total_gmv, COUNT(*) AS orders FROM sales_data GROUP BY channel_name ORDER BY total_gmv DESC;'
+  );
+  const [customData, setCustomData] = useState<Record<string, any>[]>([
+    { channel_name: 'Live Shopping', gmv_millions: 4665, orders: 1850, category: 'Sports' },
+    { channel_name: 'Short Video', gmv_millions: 1607, orders: 620, category: 'Apparel' },
+    { channel_name: 'Product Showcase', gmv_millions: 1128, orders: 490, category: 'Accessories' },
+    { channel_name: 'Affiliate Creator', gmv_millions: 3300, orders: 1210, category: 'Sports' },
+  ]);
+  const [customResult, setCustomResult] = useState<SqlQueryResult | null>(null);
+  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
+
   const scenario = SQL_SCENARIOS[activeScenario];
 
-  // Typewriter effect when scenario changes
+  // Typewriter effect when scenario changes in preset mode
   useEffect(() => {
+    if (sandboxMode !== 'presets') return;
     const fullQuery = scenario.query;
     let i = 0;
     setTypedQuery('');
     const timer = setInterval(() => {
-      i += 3; // Type 3 chars at a time for fast, smooth data terminal feel
+      i += 3;
       if (i >= fullQuery.length) {
         setTypedQuery(fullQuery);
         clearInterval(timer);
@@ -50,7 +76,7 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
     }, 15);
 
     return () => clearInterval(timer);
-  }, [scenario.query]);
+  }, [scenario.query, sandboxMode]);
 
   useGSAP(() => {
     gsap.from('.about-goal-item', {
@@ -79,19 +105,62 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
     });
   }, { scope: sectionRef });
 
-  const handleRun = () => {
+  const handleRunPreset = () => {
     setShowResult(false);
     setIsRunning(true);
     trackVisitorAction(`SQL Demo: ${scenario.id}`, scenario.id, 'sandbox');
     setTimeout(() => {
       setIsRunning(false);
       setShowResult(true);
+      showToast(isEn ? 'Query executed successfully!' : 'Đã thực thi câu lệnh SQL thành công!', 'success');
     }, 600);
   };
 
-  const handleCopy = () => {
+  const handleRunCustomSql = () => {
+    setIsRunning(true);
+    trackVisitorAction('Custom SQL Sandbox Execution', customQuery.substring(0, 40), 'sandbox');
+    setTimeout(() => {
+      const res = executeClientSql(customQuery, customData);
+      setCustomResult(res);
+      setIsRunning(false);
+      if (res.error) {
+        showToast(res.error, 'error');
+      } else {
+        showToast(isEn ? `Returned ${res.rowCount} rows in ${res.executionTimeMs}ms` : `Trả về ${res.rowCount} dòng trong ${res.executionTimeMs}ms`, 'success');
+      }
+    }, 250);
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    Papa.parse(file, {
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        if (results.data && results.data.length > 0) {
+          const parsed = results.data as Record<string, any>[];
+          setCustomData(parsed);
+          setUploadedFileName(file.name);
+          const firstCol = Object.keys(parsed[0])[0];
+          setCustomQuery(`SELECT * FROM ${file.name.replace(/\.[^/.]+$/, '')} LIMIT 10;`);
+          setCustomResult(null);
+          showToast(isEn ? `Loaded ${file.name} (${parsed.length} rows)` : `Đã nạp tệp ${file.name} (${parsed.length} dòng)`, 'success');
+          trackVisitorAction('Tải tệp CSV lên SQL Sandbox', file.name, 'sandbox');
+        }
+      },
+      error: () => {
+        showToast(isEn ? 'Failed to parse CSV file.' : 'Không thể phân tích tệp CSV.', 'error');
+      },
+    });
+  };
+
+  const handleCopyPreset = () => {
     navigator.clipboard.writeText(scenario.query);
     setCopied(true);
+    showToast(isEn ? 'SQL copied to clipboard' : 'Đã sao chép câu lệnh SQL', 'info');
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -101,7 +170,14 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
     setIsRunning(false);
   };
 
-  const renderChart = () => {
+  const handleExportChart = async () => {
+    const success = await exportChartAsPng('about-sql-chart-container', 'sql-query-chart.png');
+    if (success) {
+      showToast(isEn ? 'Chart image downloaded!' : 'Đã tải ảnh biểu đồ thành công!', 'success');
+    }
+  };
+
+  const renderPresetChart = () => {
     const s = scenario;
     const tooltipStyle = {
       backgroundColor: isDark ? '#1e293b' : '#fafcfd',
@@ -151,7 +227,6 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
       );
     }
 
-    // compare chart (before vs after)
     return (
       <ResponsiveContainer width="100%" height={160}>
         <BarChart data={s.data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
@@ -226,109 +301,250 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
           </div>
         </div>
 
-        {/* SQL Interactive Demo */}
+        {/* SQL Interactive Demo Section */}
         <div className="about-sql-demo">
-          <p className="text-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-muted mb-3">
-            {isEn ? 'Interactive Demo' : 'Thử nghiệm tương tác'}
-          </p>
-          <h3 className="text-2xl font-heading font-bold text-ink dark:text-white mb-6">
-            {isEn ? 'Run a query from my case studies' : 'Chạy thử truy vấn từ các dự án phân tích'}
-          </h3>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <p className="text-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-muted mb-1">
+                {isEn ? 'Interactive In-Browser SQL Engine' : 'Trình Thực Thi SQL Tương Tác Trực Tiếp'}
+              </p>
+              <h3 className="text-2xl font-heading font-bold text-ink dark:text-white">
+                {isEn ? 'Query Data in Real-Time' : 'Truy vấn & Trực quan hóa dữ liệu tức thì'}
+              </h3>
+            </div>
 
-          {/* Scenario tabs */}
-          <div className="flex flex-wrap gap-2 mb-5">
-            {SQL_SCENARIOS.map((s, i) => (
+            {/* Mode Switcher */}
+            <div className="inline-flex p-1 bg-surface/50 dark:bg-slate-800 rounded-xl border border-border-subtle dark:border-slate-700">
               <button
-                key={s.id}
-                onClick={() => handleSelectScenario(i)}
-                className={`px-3.5 py-2 text-xs font-heading font-medium rounded-lg transition-colors duration-200 cursor-pointer ${
-                  activeScenario === i
+                onClick={() => setSandboxMode('presets')}
+                className={`px-3.5 py-1.5 text-xs font-heading font-medium rounded-lg transition-all cursor-pointer ${
+                  sandboxMode === 'presets'
                     ? 'bg-ink text-ground dark:bg-[#9BE7FA] dark:text-slate-950 shadow-xs font-bold'
-                    : 'bg-ground text-ink-secondary hover:text-ink border border-border-subtle dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:text-white'
+                    : 'text-ink-secondary dark:text-slate-300 hover:text-ink'
                 }`}
               >
-                <span className={`text-[10px] font-medium mr-1.5 ${activeScenario === i ? 'text-ground/70 dark:text-slate-700' : 'text-ink-muted'}`}>{s.tag}</span>
-                {s.title}
+                {isEn ? 'Case Study Presets' : 'Kịch bản mẫu'}
               </button>
-            ))}
+              <button
+                onClick={() => setSandboxMode('custom')}
+                className={`px-3.5 py-1.5 text-xs font-heading font-medium rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
+                  sandboxMode === 'custom'
+                    ? 'bg-ink text-ground dark:bg-[#9BE7FA] dark:text-slate-950 shadow-xs font-bold'
+                    : 'text-ink-secondary dark:text-slate-300 hover:text-ink'
+                }`}
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                {isEn ? 'Custom SQL & CSV' : 'Tự do gõ SQL & Tải CSV'}
+              </button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            {/* Query panel */}
-            <div className="sql-block overflow-hidden dark:bg-slate-900 dark:border-slate-800">
-              <div className="flex items-center justify-between px-4 py-2.5 border-b border-border-subtle bg-ground dark:bg-slate-950 dark:border-slate-800">
-                <span className="text-[11px] font-heading font-medium text-ink-muted">SQL Query</span>
-                <div className="flex items-center gap-2">
+          {sandboxMode === 'presets' ? (
+            /* PRESETS MODE */
+            <div>
+              <div className="flex flex-wrap gap-2 mb-5">
+                {SQL_SCENARIOS.map((s, i) => (
                   <button
-                    onClick={handleCopy}
-                    className="p-1.5 text-ink-muted hover:text-ink dark:hover:text-white rounded transition-colors cursor-pointer"
-                    aria-label="Copy SQL"
+                    key={s.id}
+                    onClick={() => handleSelectScenario(i)}
+                    className={`px-3.5 py-2 text-xs font-heading font-medium rounded-lg transition-colors duration-200 cursor-pointer ${
+                      activeScenario === i
+                        ? 'bg-ink text-ground dark:bg-[#9BE7FA] dark:text-slate-950 shadow-xs font-bold'
+                        : 'bg-ground text-ink-secondary hover:text-ink border border-border-subtle dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:text-white'
+                    }`}
                   >
-                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span className={`text-[10px] font-medium mr-1.5 ${activeScenario === i ? 'text-ground/70 dark:text-slate-700' : 'text-ink-muted'}`}>{s.tag}</span>
+                    {s.title}
                   </button>
-                  <button
-                    onClick={handleRun}
-                    disabled={isRunning}
-                    className="flex items-center gap-1.5 px-3 py-1 bg-accent hover:bg-accent-deep dark:bg-amber-400 dark:hover:bg-amber-300 text-slate-950 text-xs font-heading font-semibold rounded transition-colors cursor-pointer disabled:opacity-50"
-                  >
-                    <Play className="w-3 h-3" />
-                    {isRunning ? (isEn ? 'Running...' : 'Đang chạy...') : 'Run'}
-                  </button>
-                </div>
-              </div>
-              <pre className="px-4 py-4 text-[13px] leading-relaxed overflow-x-auto whitespace-pre text-slate-800 dark:text-slate-200">
-                <code>
-                  {typedQuery}
-                  {typedQuery.length < scenario.query.length && (
-                    <span className="inline-block w-2 h-4 bg-emerald-500 dark:bg-[#9BE7FA] ml-0.5 animate-pulse align-middle" />
-                  )}
-                </code>
-              </pre>
-            </div>
-
-            {/* Results panel */}
-            <div className="bg-ground border border-border-subtle rounded-xl overflow-hidden dark:bg-slate-900 dark:border-slate-800">
-              <div className="flex items-center justify-between px-4 py-2.5 border-b border-border-subtle dark:border-slate-800 dark:bg-slate-950">
-                <span className="text-[11px] font-heading font-medium text-ink-muted">
-                  {isEn ? 'Result' : 'Kết quả'}
-                  {showResult && (
-                    <span className="ml-2 text-emerald-600 dark:text-emerald-400">
-                      {scenario.data.length} {isEn ? 'rows' : 'dòng'}, {scenario.executionTime}
-                    </span>
-                  )}
-                </span>
-                {showResult && onSelectProject && (
-                  <button
-                    onClick={() => onSelectProject(scenario.projectId)}
-                    className="flex items-center gap-1 text-[11px] font-heading font-medium text-ink-muted hover:text-ink dark:hover:text-white transition-colors cursor-pointer"
-                  >
-                    {isEn ? 'Full case study' : 'Xem chi tiết'}
-                    <ArrowRight className="w-3 h-3" />
-                  </button>
-                )}
+                ))}
               </div>
 
-              {showResult ? (
-                <div className="px-4 py-4 space-y-4">
-                  {renderChart()}
-                  <p className="text-xs text-ink-secondary dark:text-slate-300 leading-relaxed border-l-2 border-accent dark:border-amber-400 pl-3" style={{ fontFamily: 'var(--font-body)' }}>
-                    {isEn ? scenario.insightEn : scenario.insight}
-                  </p>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                {/* Query panel */}
+                <div className="sql-block overflow-hidden dark:bg-slate-900 dark:border-slate-800">
+                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-border-subtle bg-ground dark:bg-slate-950 dark:border-slate-800">
+                    <span className="text-[11px] font-heading font-medium text-ink-muted">SQL Query (PostgreSQL / ANSI)</span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={handleCopyPreset}
+                        className="p-1.5 text-ink-muted hover:text-ink dark:hover:text-white rounded transition-colors cursor-pointer"
+                        aria-label="Copy SQL"
+                      >
+                        {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                      </button>
+                      <button
+                        onClick={handleRunPreset}
+                        disabled={isRunning}
+                        className="flex items-center gap-1.5 px-3 py-1 bg-accent hover:bg-accent-deep dark:bg-amber-400 dark:hover:bg-amber-300 text-slate-950 text-xs font-heading font-semibold rounded transition-colors cursor-pointer disabled:opacity-50"
+                      >
+                        <Play className="w-3 h-3" />
+                        {isRunning ? (isEn ? 'Running...' : 'Đang chạy...') : 'Run'}
+                      </button>
+                    </div>
+                  </div>
+                  <pre className="px-4 py-4 text-[13px] leading-relaxed overflow-x-auto whitespace-pre text-slate-800 dark:text-slate-200">
+                    <code>
+                      {typedQuery}
+                      {typedQuery.length < scenario.query.length && (
+                        <span className="inline-block w-2 h-4 bg-emerald-500 dark:bg-[#9BE7FA] ml-0.5 animate-pulse align-middle" />
+                      )}
+                    </code>
+                  </pre>
                 </div>
-              ) : (
-                <div className="px-4 py-12 text-center text-sm text-ink-muted font-heading">
-                  {isRunning ? (
-                    <span className="inline-flex items-center gap-2">
-                      <span className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-                      {isEn ? 'Executing query...' : 'Đang thực thi truy vấn...'}
+
+                {/* Results panel */}
+                <div id="about-sql-chart-container" className="bg-ground border border-border-subtle rounded-xl overflow-hidden dark:bg-slate-900 dark:border-slate-800">
+                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-border-subtle dark:border-slate-800 dark:bg-slate-950">
+                    <span className="text-[11px] font-heading font-medium text-ink-muted">
+                      {isEn ? 'Result' : 'Kết quả'}
+                      {showResult && (
+                        <span className="ml-2 text-emerald-600 dark:text-emerald-400">
+                          {scenario.data.length} {isEn ? 'rows' : 'dòng'}, {scenario.executionTime}
+                        </span>
+                      )}
                     </span>
+                    <div className="flex items-center gap-3">
+                      {showResult && (
+                        <button
+                          onClick={handleExportChart}
+                          className="flex items-center gap-1 text-[11px] font-heading font-medium text-ink-muted hover:text-ink dark:hover:text-white transition-colors cursor-pointer"
+                          title="Tải ảnh PNG"
+                        >
+                          <Download className="w-3 h-3" />
+                          <span>PNG</span>
+                        </button>
+                      )}
+                      {showResult && onSelectProject && (
+                        <button
+                          onClick={() => onSelectProject(scenario.projectId)}
+                          className="flex items-center gap-1 text-[11px] font-heading font-medium text-ink-muted hover:text-ink dark:hover:text-white transition-colors cursor-pointer"
+                        >
+                          {isEn ? 'Full case study' : 'Xem chi tiết'}
+                          <ArrowRight className="w-3 h-3" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {showResult ? (
+                    <div className="px-4 py-4 space-y-4">
+                      {renderPresetChart()}
+                      <p className="text-xs text-ink-secondary dark:text-slate-300 leading-relaxed border-l-2 border-accent dark:border-amber-400 pl-3" style={{ fontFamily: 'var(--font-body)' }}>
+                        {isEn ? scenario.insightEn : scenario.insight}
+                      </p>
+                    </div>
                   ) : (
-                    isEn ? 'Click "Run" to execute the query.' : 'Nhấn "Run" để thực thi truy vấn.'
+                    <div className="px-4 py-12 text-center text-sm text-ink-muted font-heading">
+                      {isRunning ? (
+                        <span className="inline-flex items-center gap-2">
+                          <span className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+                          {isEn ? 'Executing query...' : 'Đang thực thi truy vấn...'}
+                        </span>
+                      ) : (
+                        isEn ? 'Click "Run" to execute the query.' : 'Nhấn "Run" để thực thi truy vấn.'
+                      )}
+                    </div>
                   )}
                 </div>
-              )}
+              </div>
             </div>
-          </div>
+          ) : (
+            /* CUSTOM SQL & CSV UPLOAD MODE */
+            <div className="space-y-5">
+              {/* CSV Upload banner */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-ground border border-dashed border-[#9BE7FA] dark:bg-slate-900/80 dark:border-slate-700 rounded-xl">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-surface/50 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA]">
+                    <FileSpreadsheet className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs sm:text-sm font-semibold text-ink dark:text-white">
+                      {uploadedFileName ? `Tệp đang nạp: ${uploadedFileName}` : (isEn ? 'Upload your own CSV dataset to query' : 'Tải lên tệp CSV bất kỳ từ máy tính để phân tích')}
+                    </p>
+                    <p className="text-[11px] text-ink-muted dark:text-slate-400">
+                      {isEn ? 'Data is processed 100% in-browser on client memory' : 'Dữ liệu được xử lý 100% trong bộ nhớ trình duyệt, an toàn bảo mật'}
+                    </p>
+                  </div>
+                </div>
+
+                <label className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-surface/60 hover:bg-surface border border-border-subtle dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-semibold rounded-lg text-ink dark:text-white cursor-pointer transition-colors shrink-0">
+                  <Upload className="w-3.5 h-3.5" />
+                  <span>{isEn ? 'Upload CSV' : 'Chọn tệp CSV'}</span>
+                  <input type="file" accept=".csv" onChange={handleFileUpload} className="hidden" />
+                </label>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                {/* Custom Query Editor */}
+                <div className="sql-block overflow-hidden dark:bg-slate-900 dark:border-slate-800 flex flex-col">
+                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-border-subtle bg-ground dark:bg-slate-950 dark:border-slate-800">
+                    <span className="text-[11px] font-heading font-medium text-ink-muted">Custom Query Editor</span>
+                    <button
+                      onClick={handleRunCustomSql}
+                      disabled={isRunning}
+                      className="flex items-center gap-1.5 px-3 py-1 bg-accent hover:bg-accent-deep dark:bg-amber-400 dark:hover:bg-amber-300 text-slate-950 text-xs font-heading font-semibold rounded transition-colors cursor-pointer disabled:opacity-50"
+                    >
+                      <Play className="w-3 h-3" />
+                      {isRunning ? (isEn ? 'Running...' : 'Đang chạy...') : 'Run SQL'}
+                    </button>
+                  </div>
+                  <textarea
+                    value={customQuery}
+                    onChange={(e) => setCustomQuery(e.target.value)}
+                    rows={7}
+                    className="w-full p-4 bg-transparent text-[13px] font-mono leading-relaxed text-slate-800 dark:text-slate-200 focus:outline-hidden resize-none"
+                    placeholder="SELECT * FROM table..."
+                  />
+                  <div className="px-4 py-2 bg-ground/50 dark:bg-slate-950/50 border-t border-border-subtle dark:border-slate-800/80 text-[11px] text-ink-muted">
+                    Hỗ trợ: <code>SELECT</code>, <code>WHERE</code>, <code>GROUP BY</code>, <code>ORDER BY</code>, <code>LIMIT</code>, <code>SUM()</code>, <code>AVG()</code>, <code>COUNT()</code>
+                  </div>
+                </div>
+
+                {/* Custom SQL Result Table */}
+                <div className="bg-ground border border-border-subtle rounded-xl overflow-hidden dark:bg-slate-900 dark:border-slate-800 flex flex-col">
+                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-border-subtle dark:border-slate-800 dark:bg-slate-950">
+                    <span className="text-[11px] font-heading font-medium text-ink-muted">
+                      {customResult ? `Bảng kết quả (${customResult.rowCount} dòng, ${customResult.executionTimeMs}ms)` : 'Kết quả truy vấn'}
+                    </span>
+                  </div>
+
+                  <div className="flex-1 max-h-64 overflow-auto p-2">
+                    {customResult?.error ? (
+                      <div className="p-4 text-xs text-rose-500 font-mono">{customResult.error}</div>
+                    ) : customResult && customResult.rows.length > 0 ? (
+                      <table className="w-full text-left text-xs border-collapse font-heading">
+                        <thead>
+                          <tr className="border-b border-border-subtle dark:border-slate-800 text-ink-muted dark:text-slate-400">
+                            {customResult.columns.map((col) => (
+                              <th key={col} className="p-2 font-semibold">{col}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-border-subtle/50 dark:divide-slate-800/50">
+                          {customResult.rows.map((row, rIdx) => (
+                            <tr key={rIdx} className="hover:bg-surface/20 dark:hover:bg-slate-800/40">
+                              {customResult.columns.map((col) => (
+                                <td key={col} className="p-2 tabular-data text-ink dark:text-slate-200">
+                                  {String(row[col] ?? '')}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    ) : (
+                      <div className="h-44 flex flex-col items-center justify-center text-center p-4 text-ink-muted">
+                        <Database className="w-6 h-6 mb-2 opacity-40" />
+                        <p className="text-xs font-heading">
+                          {isEn ? 'Click "Run SQL" to execute your query.' : 'Nhấn "Run SQL" để thực thi câu lệnh trên tập dữ liệu.'}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

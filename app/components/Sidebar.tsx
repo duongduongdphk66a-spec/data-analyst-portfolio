@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { 
   ChevronDown, ChevronRight, Github, Linkedin, Mail, 
-  Sun, Moon, Laptop, Globe, Check
+  Sun, Moon, Laptop, Globe, Check, Search
 } from 'lucide-react';
 import { ProjectData } from '../types';
 import { useLanguage } from '../context/LanguageContext';
@@ -19,6 +19,7 @@ interface SidebarProps {
   setIsProjectsOpen: (open: boolean) => void;
   onProjectClick: (projId: string) => void;
   selectedProjectId?: string | null;
+  onOpenCommandPalette?: () => void;
 }
 
 export default function Sidebar({
@@ -30,7 +31,8 @@ export default function Sidebar({
   isProjectsOpen,
   setIsProjectsOpen,
   onProjectClick,
-  selectedProjectId
+  selectedProjectId,
+  onOpenCommandPalette,
 }: SidebarProps) {
   const { language, setLanguage, t } = useLanguage();
   const { theme, resolvedTheme, setTheme } = useTheme();
@@ -76,7 +78,23 @@ export default function Sidebar({
   return (
     <aside className="w-60 bg-[#C4EEF9] text-slate-800 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-[#A8E2F2] shadow-xs relative z-40 transition-colors duration-200 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200">
       {/* Navigation Links */}
-      <nav className="flex-1 px-4 pt-16 pb-6 space-y-3 overflow-visible">
+      <nav className="flex-1 px-4 pt-12 pb-6 space-y-3 overflow-visible">
+        {/* Quick Search / Command Palette Button */}
+        {onOpenCommandPalette && (
+          <button
+            onClick={onOpenCommandPalette}
+            className="w-full flex items-center justify-between px-4 py-2.5 bg-white/60 hover:bg-white text-slate-700 hover:text-slate-950 border border-slate-300/60 rounded-xl text-xs font-semibold transition-all cursor-pointer shadow-xs mb-4 dark:bg-slate-800/80 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+          >
+            <div className="flex items-center gap-2">
+              <Search className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+              <span>{language === 'en' ? 'Quick Search...' : 'Tìm kiếm nhanh...'}</span>
+            </div>
+            <kbd className="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700 font-mono text-[10px] text-slate-500 dark:text-slate-300 border border-slate-200 dark:border-slate-600">
+              Ctrl K
+            </kbd>
+          </button>
+        )}
+
         {navItems.map((item) => {
           const isActive = activeTab === item.id || (item.id === 'home' && activeTab === 'home') || (item.id === 'projects' && activeTab === 'project-detail');
           

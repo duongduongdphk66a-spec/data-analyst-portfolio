@@ -7,7 +7,7 @@ import {
 } from 'recharts';
 import { 
   DollarSign, Users, Activity, TrendingUp, BarChart3, 
-  Download, Upload, Search, RefreshCw, Database, Sparkles 
+  Download, Upload, Search, RefreshCw, Database, Sparkles, Filter, Check
 } from 'lucide-react';
 import Papa from 'papaparse';
 import { DashboardData, KpiItem, ChartConfig } from '../types';
@@ -15,6 +15,8 @@ import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { gsap, useGSAP } from '../lib/gsap';
 import AnimatedCounter from './ui/AnimatedCounter';
+import { exportChartAsPng } from '../lib/chartExport';
+import { useToast } from './ui/Toast';
 
 interface DashboardSectionProps {
   dashboard: DashboardData;
@@ -23,12 +25,18 @@ interface DashboardSectionProps {
 export default function DashboardSection({ dashboard }: DashboardSectionProps) {
   const { language, t } = useLanguage();
   const { resolvedTheme } = useTheme();
+  const { showToast } = useToast();
   const isDark = resolvedTheme === 'dark';
+  const isEn = language === 'en';
 
   const [searchTerm, setSearchTerm] = useState('');
   const [customTableData, setCustomTableData] = useState<Record<string, any>[] | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const dashboardRef = useRef<HTMLDivElement>(null);
+
+  // Multi-dimension filters
+  const [timeFilter, setTimeFilter] = useState<'all' | 'q1_q2' | 'q3_q4'>('all');
+  const [channelFilter, setChannelFilter] = useState<'all' | 'live' | 'affiliate'>('all');
 
   useGSAP(() => {
     gsap.from('.dash-kpi-card', {
@@ -58,20 +66,25 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
     });
   }, { scope: dashboardRef, dependencies: [dashboard.kpis?.length, dashboard.charts?.length] });
 
-  // Active table data (either custom uploaded or from dashboard config)
+  // Active table data
   const activeTable = useMemo(() => {
     return customTableData || dashboard.tableData || [];
   }, [customTableData, dashboard.tableData]);
 
-  // Filter table rows
+  // Filtered table rows
   const filteredRows = useMemo(() => {
-    if (!searchTerm.trim()) return activeTable;
-    const lower = searchTerm.toLowerCase();
-    return activeTable.filter(row => 
-      Object.values(row).some(val => 
-        String(val).toLowerCase().includes(lower)
-      )
-    );
+    let list = activeTable;
+
+    if (searchTerm.trim()) {
+      const lower = searchTerm.toLowerCase();
+      list = list.filter(row => 
+        Object.values(row).some(val => 
+          String(val).toLowerCase().includes(lower)
+        )
+      );
+    }
+
+    return list;
   }, [activeTable, searchTerm]);
 
   // Extract table column headers
@@ -87,7 +100,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
       case 'dollar': return <DollarSign className={iconClass} />;
       case 'users': return <Users className={iconClass} />;
       case 'activity': return <Activity className={iconClass} />;
-      case 'trending': return <TrendingUp className="w-5 h-5 text-brand-yellow dark:text-[#FFD14C]" />;
+      case 'trending': return <TrendingUp className="w-5 h-5 text-[#FFD14C]" />;
       default: return <BarChart3 className={iconClass} />;
     }
   };
@@ -104,10 +117,11 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
       complete: (results) => {
         if (results.data && results.data.length > 0) {
           setCustomTableData(results.data.map((item: any, i: number) => ({ id: `row-${i}`, ...item })));
+          showToast(isEn ? `Loaded ${file.name} (${results.data.length} rows)` : `Đã nạp tệp ${file.name} (${results.data.length} dòng)`, 'success');
         }
       },
       error: (err) => {
-        alert(language === 'en' ? 'Error reading CSV file: ' + err.message : 'Lỗi đọc file CSV: ' + err.message);
+        showToast(isEn ? 'Error reading CSV: ' + err.message : 'Lỗi đọc file CSV: ' + err.message, 'error');
       }
     });
   };
@@ -116,6 +130,15 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
   const handleResetTable = () => {
     setCustomTableData(null);
     setSearchTerm('');
+    showToast(isEn ? 'Reset to default data' : 'Đã khôi phục dữ liệu mặc định', 'info');
+  };
+
+  // Export Individual Chart to PNG
+  const handleExportChartPng = async (chartId: string, chartTitle: string) => {
+    const success = await exportChartAsPng(`chart-box-${chartId}`, `${chartTitle.toLowerCase().replace(/\s+/g, '-')}.png`);
+    if (success) {
+      showToast(isEn ? `Exported ${chartTitle} as PNG!` : `Đã tải ảnh biểu đồ ${chartTitle}!`, 'success');
+    }
   };
 
   // Export Dashboard to PDF
@@ -145,9 +168,10 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
 
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save('Data-Analyst-Executive-Report.pdf');
+      showToast(isEn ? 'PDF report downloaded!' : 'Đã tải báo cáo PDF thành công!', 'success');
     } catch (error) {
       console.error('Error generating PDF:', error);
-      alert(language === 'en' ? 'Error generating PDF. Please try again!' : 'Có lỗi khi tạo file PDF. Vui lòng thử lại!');
+      showToast(isEn ? 'Error generating PDF report.' : 'Có lỗi khi tạo file PDF.', 'error');
     } finally {
       setIsExporting(false);
     }
@@ -165,6 +189,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    showToast(isEn ? 'CSV data exported!' : 'Đã xuất tệp CSV!', 'success');
   };
 
   const chartGridColor = isDark ? '#334155' : '#e2e8f0';
@@ -180,16 +205,24 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
 
   // Render individual chart component based on type
   const renderChartComponent = (chart: ChartConfig) => {
+    // Dynamic filtered dataset based on time filter
+    let chartData = chart.data || [];
+    if (timeFilter === 'q1_q2') {
+      chartData = chartData.slice(0, Math.ceil(chartData.length / 2));
+    } else if (timeFilter === 'q3_q4') {
+      chartData = chartData.slice(Math.ceil(chartData.length / 2));
+    }
+
     switch (chart.type) {
       case 'area':
         return (
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <defs>
                 {chart.series.map((s, idx) => (
                   <linearGradient key={s.dataKey} id={`grad-${chart.id}-${idx}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={s.color || '#1A9AB5'} stopOpacity={0.35}/>
-                    <stop offset="95%" stopColor={s.color || '#1A9AB5'} stopOpacity={0}/>
+                    <stop offset="5%" stopColor={s.color || '#9BE7FA'} stopOpacity={0.35}/>
+                    <stop offset="95%" stopColor={s.color || '#9BE7FA'} stopOpacity={0}/>
                   </linearGradient>
                 ))}
               </defs>
@@ -204,7 +237,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                   type="monotone" 
                   dataKey={s.dataKey} 
                   name={s.name} 
-                  stroke={s.color || '#1A9AB5'} 
+                  stroke={s.color || '#9BE7FA'} 
                   strokeWidth={2.5} 
                   fillOpacity={1} 
                   fill={`url(#grad-${chart.id}-${idx})`} 
@@ -217,7 +250,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
       case 'bar':
         return (
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartGridColor} />
               <XAxis dataKey={chart.xAxisKey} stroke={chartAxisColor} fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke={chartAxisColor} fontSize={12} tickLine={false} axisLine={false} />
@@ -243,7 +276,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
       case 'line':
         return (
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartGridColor} />
               <XAxis dataKey={chart.xAxisKey} stroke={chartAxisColor} fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke={chartAxisColor} fontSize={12} tickLine={false} axisLine={false} />
@@ -271,7 +304,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 space-y-10 animate-in fade-in duration-500 bg-white dark:bg-slate-950 transition-colors duration-200" ref={dashboardRef}>
+    <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in duration-500 bg-white dark:bg-slate-950 transition-colors duration-200" ref={dashboardRef}>
       {/* Header with Export & CSV actions */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-brand-blue-light dark:border-slate-800">
         <div>
@@ -298,11 +331,39 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
           <button
             onClick={exportPDF}
             disabled={isExporting}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-brand-yellow hover:bg-brand-yellow-light text-slate-900 text-xs sm:text-sm font-semibold rounded-xl shadow-xs transition-all disabled:opacity-60 cursor-pointer dark:bg-amber-400 dark:hover:bg-amber-300 dark:text-slate-950 font-bold"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-brand-yellow hover:bg-brand-yellow-light text-slate-950 text-xs sm:text-sm font-semibold rounded-xl shadow-xs transition-all disabled:opacity-60 cursor-pointer dark:bg-amber-400 dark:hover:bg-amber-300 dark:text-slate-950 font-bold"
           >
             <Download className="w-4 h-4" />
             {isExporting ? t('loading', 'Đang xuất...') : t('dash_export_pdf', 'Xuất Báo cáo PDF')}
           </button>
+        </div>
+      </div>
+
+      {/* Multi-Dimension Interactive Filter Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-surface/30 dark:bg-slate-900/90 rounded-2xl border border-border-subtle dark:border-slate-800 no-print">
+        <div className="flex items-center gap-2 text-xs font-semibold text-ink-secondary dark:text-slate-300">
+          <Filter className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+          <span>{isEn ? 'Filter Time Horizon:' : 'Bộ lọc thời gian:'}</span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          {[
+            { id: 'all', label: isEn ? 'All Horizons' : 'Tất cả chu kỳ' },
+            { id: 'q1_q2', label: isEn ? 'H1 (Q1 - Q2)' : 'Nửa đầu năm (H1)' },
+            { id: 'q3_q4', label: isEn ? 'H2 (Q3 - Q4)' : 'Nửa cuối năm (H2)' },
+          ].map((f) => (
+            <button
+              key={f.id}
+              onClick={() => setTimeFilter(f.id as any)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-heading font-medium transition-all cursor-pointer ${
+                timeFilter === f.id
+                  ? 'bg-accent text-slate-950 dark:bg-amber-400 font-bold shadow-xs'
+                  : 'bg-white dark:bg-slate-800 text-ink-secondary dark:text-slate-300 border border-border-subtle dark:border-slate-700'
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -344,17 +405,28 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
           dashboard.charts.map((chart) => (
             <div
               key={chart.id}
+              id={`chart-box-${chart.id}`}
               className="dash-chart-card bg-white p-6 sm:p-7 rounded-3xl border border-brand-blue-light shadow-sm hover:shadow-md transition-all flex flex-col dark:bg-slate-900 dark:border-slate-800 dark:shadow-none"
             >
-              <div className="mb-6">
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-                  {chart.title}
-                </h3>
-                {chart.description && (
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    {chart.description}
-                  </p>
-                )}
+              <div className="flex items-start justify-between gap-4 mb-6">
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                    {chart.title}
+                  </h3>
+                  {chart.description && (
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                      {chart.description}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  onClick={() => handleExportChartPng(chart.id, chart.title)}
+                  className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-lg border border-border-subtle dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer no-print shrink-0"
+                  title="Tải ảnh biểu đồ PNG"
+                >
+                  <Download className="w-4 h-4" />
+                </button>
               </div>
 
               <div className="h-72 w-full flex-1">
@@ -392,7 +464,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                   placeholder={t('dash_search_placeholder', 'Lọc dữ liệu bảng...')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-9 pr-3 py-1.5 bg-white border border-brand-blue-light rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-blue dark:bg-slate-800 dark:border-slate-700 dark:text-white placeholder-slate-400"
+                  className="w-full pl-9 pr-3 py-1.5 bg-white border border-brand-blue-light rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-brand-blue dark:bg-slate-800 dark:border-slate-700 dark:text-white placeholder-slate-400"
                 />
               </div>
 
@@ -418,7 +490,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
 
           {/* Table */}
           <div className="overflow-x-auto max-h-96">
-            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+            <table className="w-full text-left border-collapse text-xs sm:text-sm font-heading">
               <thead className="sticky top-0 bg-slate-50 dark:bg-slate-900 z-10 border-b border-brand-blue-light dark:border-slate-800">
                 <tr>
                   {columns.map(col => (
@@ -432,7 +504,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                 {filteredRows.slice(0, 50).map((row, idx) => (
                   <tr key={row.id || idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                     {columns.map(col => (
-                      <td key={col} className="px-6 py-3 text-slate-700 dark:text-slate-300 font-medium whitespace-nowrap">
+                      <td key={col} className="px-6 py-3 text-slate-700 dark:text-slate-300 font-medium whitespace-nowrap tabular-data">
                         {typeof row[col] === 'number' ? row[col].toLocaleString() : String(row[col] ?? '-')}
                       </td>
                     ))}

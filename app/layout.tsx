@@ -52,6 +52,27 @@ const themeInitScript = `
   })();
 `;
 
+import { ToastProvider } from './components/ui/Toast';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Ma Văn Hùng',
+  jobTitle: 'Data Analyst & Business Intelligence Specialist',
+  description: 'Evidence-driven Data Analyst specializing in SQL, Python, Power BI, Recharts, and ETL Data Pipelines.',
+  url: 'https://mavanhung-portfolio.vercel.app',
+  email: 'mavanhung.da@gmail.com',
+  knowsAbout: [
+    'SQL', 'PostgreSQL', 'MySQL', 'Python', 'Pandas', 'Power BI', 'DAX',
+    'Data Warehousing', 'Time-Series Modeling', 'E-Commerce Analytics',
+    'Redis', 'Celery', 'Data Storytelling', 'Recharts'
+  ],
+  sameAs: [
+    'https://github.com',
+    'https://linkedin.com'
+  ]
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -65,11 +86,17 @@ export default function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <body suppressHydrationWarning className="bg-ground text-ink min-h-screen transition-colors duration-200">
         <ThemeProvider>
           <LanguageProvider>
-            {children}
+            <ToastProvider>
+              {children}
+            </ToastProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>
