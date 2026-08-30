@@ -314,8 +314,8 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {topLiveStreams.map((l, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50/80 transition-colors dark:hover:bg-slate-900/50">
+                  {topLiveStreams.map((l) => (
+                    <tr key={`${l.date}-${l.title}`} className="hover:bg-slate-50/80 transition-colors dark:hover:bg-slate-900/50">
                       <td className="p-3 font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">{l.date}</td>
                       <td className="p-3 font-bold text-slate-900 dark:text-white">{l.title}</td>
                       <td className="p-3 font-mono">{l.duration}</td>
@@ -444,8 +444,8 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
               </h3>
               
               <div className="space-y-3">
-                {topCreatorsList.map((c, idx) => (
-                  <div key={idx} className="p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex items-center justify-between gap-3 dark:bg-slate-800 dark:border-slate-700">
+                {topCreatorsList.map((c) => (
+                  <div key={c.id} className="p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex items-center justify-between gap-3 dark:bg-slate-800 dark:border-slate-700">
                     <div>
                       <div className="font-bold text-sm text-slate-950 dark:text-white flex items-center gap-2">
                         <span>{c.name}</span>
@@ -485,8 +485,8 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topSKUData.map((sku, idx) => (
-              <div key={idx} className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-4 hover:border-[#9BE7FA] transition-all dark:bg-slate-900 dark:border-slate-800">
+            {topSKUData.map((sku) => (
+              <div key={sku.code} className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-4 hover:border-[#9BE7FA] transition-all dark:bg-slate-900 dark:border-slate-800">
                 <div className="flex items-center justify-between">
                   <span className="px-3 py-1 rounded-full bg-[#FFE485]/40 text-slate-950 font-mono font-bold text-xs border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C] dark:border-slate-700">
                     Mã SKU: {sku.code}

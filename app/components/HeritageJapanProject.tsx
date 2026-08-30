@@ -323,8 +323,8 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 title: isEn ? '2013 Action Program: Japan is Back' : 'Chương trình hành động Du lịch (2013)',
                 desc: isEn ? 'Relaxed visas for ASEAN, expanded hospitality capacity, deployed multilingual systems, promoted "Brand Japan" globally.' : 'Nới lỏng visa cho Đông Nam Á (Việt Nam, Thái Lan), mở rộng lưu trú, thanh toán thẻ quốc tế, phát triển chiến lược "Thương hiệu Nhật Bản".'
               }
-            ].map((item, idx) => (
-              <div key={idx} className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-2 dark:bg-slate-900 dark:border-slate-800">
+            ].map((item) => (
+              <div key={item.period} className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-2 dark:bg-slate-900 dark:border-slate-800">
                 <span className="inline-block px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-800 font-mono text-xs font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
                   {item.period}
                 </span>

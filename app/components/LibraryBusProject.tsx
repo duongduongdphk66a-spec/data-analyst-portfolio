@@ -303,8 +303,8 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               { app: 'blog', desc: 'Tin tức khuyến đọc, bài viết giới thiệu sách' },
               { app: 'analytics', desc: 'UserReadingStats, BookAnalytics, BusAnalytics' },
               { app: 'celery_tasks', desc: 'Celery Beat cron jobs, async worker pipelines' },
-            ].map((a, idx) => (
-              <div key={idx} className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-1 dark:bg-slate-900 dark:border-slate-800">
+            ].map((a) => (
+              <div key={a.app} className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-1 dark:bg-slate-900 dark:border-slate-800">
                 <span className="font-mono text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA] block">
                   app : {a.app}
                 </span>
@@ -369,8 +369,8 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
                 desc: 'Độc giả theo dõi hạng, chuỗi ngày đọc và gợi ý sách. Quản trị viên theo dõi sách phổ biến, độc giả dẫn đầu, phân bố cấp độ, xe bus hiệu quả nhất và biểu đồ xu hướng kèm xuất PDF/Excel.',
                 tag: 'templates/analytics/*.html · Recharts / Chart.js'
               }
-            ].map((s, idx) => (
-              <div key={idx} className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex items-start gap-4 dark:bg-slate-900 dark:border-slate-800">
+            ].map((s) => (
+              <div key={s.stop} className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex items-start gap-4 dark:bg-slate-900 dark:border-slate-800">
                 <div className="w-8 h-8 rounded-full bg-[#0D7287] text-white flex items-center justify-center font-mono font-bold text-xs shrink-0 dark:bg-[#9BE7FA] dark:text-slate-950">
                   {s.stop}
                 </div>
@@ -487,8 +487,8 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
                   { name: 'BookRecommendation', role: 'Gợi ý sách theo 5 thuật toán', feat: 'popular, similar_users, same_category, trending, personalized' },
                   { name: 'DailyStats', role: 'Tổng hợp theo ngày cho biểu đồ xu hướng', feat: 'Sinh tự động mỗi đêm qua Celery Beat, unique constraint theo ngày' },
                   { name: 'ArchivedUserActivity', role: 'Lưu trữ hoạt động >90 ngày', feat: 'Soft-delete pattern dọn nhẹ bảng chính nhưng không mất dữ liệu' },
-                ].map((row, idx) => (
-                  <tr key={idx} className="hover:bg-slate-50/80 transition-colors dark:hover:bg-slate-800/50">
+                ].map((row) => (
+                  <tr key={row.name} className="hover:bg-slate-50/80 transition-colors dark:hover:bg-slate-800/50">
                     <td className="p-4 font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">{row.name}</td>
                     <td className="p-4 font-medium text-slate-900 dark:text-white">{row.role}</td>
                     <td className="p-4 text-slate-600 dark:text-slate-400">{row.feat}</td>
@@ -524,8 +524,8 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
                 { time: '06:00', task: 'Quét sách quá hạn trả', tag: 'check_overdue_books' },
                 { time: '08:00', task: 'Gửi thông báo nhắc hạn trả sách', tag: 'send_due_reminders' },
                 { time: 'Mỗi 30 phút', task: 'Xử lý hàng đợi đặt trước sách', tag: 'process_reservation_queue' },
-              ].map((b, idx) => (
-                <div key={idx} className="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors dark:hover:bg-slate-800/50">
+              ].map((b) => (
+                <div key={b.tag} className="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors dark:hover:bg-slate-800/50">
                   <div className="flex items-center gap-4">
                     <span className="w-24 font-mono font-bold text-xs text-[#0D7287] dark:text-[#FFD14C]">{b.time}</span>
                     <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{b.task}</span>
@@ -559,8 +559,8 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               { name: 'Argon2', role: 'Password Hashing' },
               { name: 'Recharts / Chart.js', role: 'Interactive Telemetry' },
               { name: 'i18n', role: 'Asia/Ho_Chi_Minh Timezone' },
-            ].map((tech, idx) => (
-              <div key={idx} className="px-4 py-2 rounded-xl bg-white border border-slate-200/90 shadow-xs flex items-center gap-2 dark:bg-slate-900 dark:border-slate-800">
+            ].map((tech) => (
+              <div key={tech.name} className="px-4 py-2 rounded-xl bg-white border border-slate-200/90 shadow-xs flex items-center gap-2 dark:bg-slate-900 dark:border-slate-800">
                 <span className="font-bold text-xs text-slate-950 dark:text-white">{tech.name}</span>
                 <span className="text-[11px] font-mono text-slate-400">({tech.role})</span>
               </div>

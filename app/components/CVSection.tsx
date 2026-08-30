@@ -125,7 +125,7 @@ export default React.memo(function CVSection({ experiences, name, title }: CVSec
         </div>
         <ul className="space-y-2">
           {item.description.map((desc, i) => (
-            <li key={i} className="text-sm text-ink-secondary dark:text-slate-300 leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+            <li key={`${item.id}-desc-${i}`} className="text-sm text-ink-secondary dark:text-slate-300 leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
               {desc}
             </li>
           ))}

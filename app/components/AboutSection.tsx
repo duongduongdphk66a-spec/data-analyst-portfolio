@@ -288,7 +288,7 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
               {isEn ? 'Career Direction' : 'Định hướng nghề nghiệp'}
             </p>
             {goals.map((goal, i) => (
-              <div key={i} className="about-goal-item flex gap-4">
+              <div key={goal.title} className="about-goal-item flex gap-4">
                 <span className="shrink-0 w-7 h-7 rounded-md bg-accent/20 text-accent-deep dark:bg-amber-400/20 dark:text-amber-300 flex items-center justify-center text-xs font-heading font-bold mt-0.5">
                   {i + 1}
                 </span>

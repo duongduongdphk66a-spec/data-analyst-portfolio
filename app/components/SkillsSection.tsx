@@ -196,7 +196,7 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
                 <div className="flex gap-0.5">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <div
-                      key={i}
+                      key={`${skill.id}-star-${i}`}
                       className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
                         i < (skill.level || 0) ? 'bg-accent dark:bg-amber-400' : 'bg-border-subtle dark:bg-slate-800'
                       }`}

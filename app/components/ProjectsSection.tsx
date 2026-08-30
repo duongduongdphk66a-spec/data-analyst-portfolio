@@ -228,8 +228,8 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
               {/* KPI Metrics Highlight Strip */}
               {proj.metrics && proj.metrics.length > 0 && (
                 <div className="grid grid-cols-2 gap-2.5">
-                  {proj.metrics.slice(0, 2).map((m, mIdx) => (
-                    <div key={mIdx} className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-0.5 dark:bg-slate-800/80 dark:border-slate-700">
+                  {proj.metrics.slice(0, 2).map((m) => (
+                    <div key={m.label} className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-0.5 dark:bg-slate-800/80 dark:border-slate-700">
                       <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block dark:text-slate-400">
                         {m.label}
                       </span>
