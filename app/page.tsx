@@ -2,17 +2,14 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
-  Menu, X, ShieldCheck, Lock, User, FileText, 
-  Briefcase, LayoutDashboard, ChevronDown, ChevronRight, Globe,
-  Sun, Moon, Laptop
+  Menu, X, User, FileText, Briefcase, LayoutDashboard, 
+  ChevronDown, ChevronRight, Globe, Sun, Moon, Laptop 
 } from 'lucide-react';
 import { useLanguage } from './context/LanguageContext';
 import { useTheme } from './context/ThemeContext';
-import { usePortfolioState } from '@/hooks/usePortfolioState';
-import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { trackVisitorAction } from './lib/visitorTracking';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { PageSkeleton } from './components/ui/Skeleton';
+import { DEFAULT_PROFILE, DEFAULT_PROJECTS, DEFAULT_DASHBOARD } from './defaultData';
 
 import Sidebar from './components/Sidebar';
 import HeroSection from './components/HeroSection';
@@ -20,16 +17,11 @@ import AboutSection from './components/AboutSection';
 import CVSection from './components/CVSection';
 import ProjectsSection from './components/ProjectsSection';
 import ProjectDetailView from './components/ProjectDetailView';
-import AdminLoginModal from './components/AdminLoginModal';
 import CommandPalette from './components/ui/CommandPalette';
 import dynamic from 'next/dynamic';
 
 const DashboardSection = dynamic(() => import('./components/DashboardSection'), {
   loading: () => <PageSkeleton label="Loading Dashboard..." />,
-});
-
-const AdminPanel = dynamic(() => import('./components/AdminPanel'), {
-  loading: () => <PageSkeleton label="Loading Admin Panel..." />,
 });
 
 const KamiElyProject = dynamic(() => import('./components/KamiElyProject'), {
@@ -44,14 +36,13 @@ const LibraryBusProject = dynamic(() => import('./components/LibraryBusProject')
   loading: () => <PageSkeleton label="Loading Project..." />,
 });
 
-// Tab labels for tracking and document title
+// Tab labels for document title
 const TAB_LABELS: Record<string, { vi: string; en: string }> = {
   about: { vi: 'Giới thiệu', en: 'About' },
   home: { vi: 'Trang Chủ', en: 'Home' },
   cv: { vi: 'Học Vấn & Kinh Nghiệm', en: 'CV & Experience' },
   projects: { vi: 'Dự Án', en: 'Projects' },
   dashboard: { vi: 'Executive Dashboard', en: 'Executive Dashboard' },
-  admin: { vi: 'Quản trị', en: 'Admin' },
   'project-detail': { vi: 'Chi tiết Dự án', en: 'Project Detail' },
 };
 
@@ -64,17 +55,10 @@ export default function Portfolio() {
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
-  // Custom hooks — encapsulate data management and auth
-  const {
-    profile, projects, dashboard,
-    handleSaveProfile, handleSaveProjects, handleSaveDashboard,
-  } = usePortfolioState();
-
-  const {
-    isAdmin, isLoginModalOpen,
-    handleLoginSuccess: rawLoginSuccess, handleLogout: rawLogout,
-    openLoginModal, closeLoginModal,
-  } = useAdminAuth();
+  // Single Source of Truth from Static Data
+  const profile = DEFAULT_PROFILE;
+  const projects = DEFAULT_PROJECTS;
+  const dashboard = DEFAULT_DASHBOARD;
 
   // Update document title when tab changes
   useEffect(() => {
@@ -85,69 +69,33 @@ export default function Portfolio() {
     document.title = `Ma Văn Hùng | ${suffix}`;
   }, [activeTab, language]);
 
-  // Handler for tab change with visitor tracking
+  // Handler for tab change
   const handleTabChange = useCallback((tabId: string) => {
     setActiveTab(tabId);
     if (tabId !== 'project-detail') {
       setSelectedProjectId(null);
     }
     setIsMobileMenuOpen(false);
-
-    if (tabId !== 'admin') {
-      const label = TAB_LABELS[tabId];
-      const displayLabel = label ? label.vi : tabId;
-      trackVisitorAction(`Xem mục: ${displayLabel}`, `Chuyển tới tab ${tabId}`, 'navigation');
-    }
   }, []);
 
-  // Redirect to about if session expires while on admin tab
-  useEffect(() => {
-    if (!isAdmin && activeTab === 'admin') {
-      setActiveTab('about');
-    }
-  }, [isAdmin, activeTab]);
-
-  // Global Keyboard Shortcuts: Ctrl + K (Command Palette) & Ctrl + Shift + A (Admin Login)
+  // Global Keyboard Shortcut: Ctrl + K (Command Palette)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ctrl + K or Cmd + K -> Command Palette
       if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
         e.preventDefault();
         setIsCommandPaletteOpen((prev) => !prev);
-      }
-
-      // Ctrl + Shift + A -> Admin Login
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
-        e.preventDefault();
-        if (isAdmin) {
-          setActiveTab('admin');
-        } else {
-          openLoginModal();
-        }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isAdmin, openLoginModal]);
+  }, []);
 
-  // Auth handlers with tab navigation
-  const handleLoginSuccess = useCallback(() => {
-    rawLoginSuccess();
-    setActiveTab('admin');
-  }, [rawLoginSuccess]);
-
-  const handleLogout = useCallback(() => {
-    rawLogout();
-    setActiveTab('about');
-  }, [rawLogout]);
-
-  // Open project detail directly in the right viewport
+  // Open project detail directly in the viewport
   const handleProjectClick = useCallback((projId: string) => {
     setSelectedProjectId(projId);
     setActiveTab('project-detail');
     setIsMobileMenuOpen(false);
-    trackVisitorAction('Bấm xem chi tiết dự án trong khung nhìn', `Mã dự án: ${projId}`, 'project');
   }, []);
 
   const navItems = [
@@ -165,8 +113,6 @@ export default function Portfolio() {
         activeTab={activeTab}
         onTabChange={handleTabChange}
         projects={projects}
-        isAdmin={isAdmin}
-        onOpenLogin={openLoginModal}
         isProjectsOpen={isProjectsOpen}
         setIsProjectsOpen={setIsProjectsOpen}
         onProjectClick={handleProjectClick}
@@ -206,20 +152,6 @@ export default function Portfolio() {
               <span>{language === 'vi' ? '🇻🇳 VI' : '🇬🇧 EN'}</span>
             </button>
 
-            {!isAdmin ? (
-              <button
-                onClick={openLoginModal}
-                className="p-2 text-slate-700 hover:text-slate-900 rounded-lg hover:bg-white/40 transition-colors cursor-pointer dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800"
-                title="Admin Login"
-                aria-label="Open admin login"
-              >
-                <Lock className="w-4 h-4" />
-              </button>
-            ) : (
-              <span className="text-[10px] px-2 py-0.5 bg-[#8CE0F4] text-slate-900 font-bold rounded-full dark:bg-slate-800 dark:text-[#9BE7FA]">
-                Admin
-              </span>
-            )}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 text-slate-700 hover:text-slate-900 rounded-lg hover:bg-white/40 transition-colors cursor-pointer dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800"
@@ -352,31 +284,6 @@ export default function Portfolio() {
                   </button>
                 </div>
               </div>
-
-              {isAdmin ? (
-                <button
-                  onClick={() => handleTabChange('admin')}
-                  className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all cursor-pointer ${
-                    activeTab === 'admin'
-                      ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold dark:bg-slate-800 dark:text-[#9BE7FA]'
-                      : 'text-slate-800 hover:bg-white/40 dark:text-slate-300 dark:hover:bg-slate-800/60'
-                  }`}
-                >
-                  <ShieldCheck className="w-5 h-5" />
-                  {t('nav_admin', 'Quản trị (Admin)')}
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    openLoginModal();
-                  }}
-                  className="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold text-slate-800 hover:bg-white/40 transition-all cursor-pointer dark:text-slate-300 dark:hover:bg-slate-800/60"
-                >
-                  <Lock className="w-5 h-5" />
-                  {t('admin_btn_login', 'Admin Login')}
-                </button>
-              )}
             </nav>
           </div>
         )}
@@ -428,33 +335,9 @@ export default function Portfolio() {
               )
             )}
             {activeTab === 'dashboard' && <DashboardSection dashboard={dashboard} />}
-            {activeTab === 'admin' && (
-              isAdmin ? (
-                <AdminPanel
-                  profile={profile}
-                  onSaveProfile={handleSaveProfile}
-                  projects={projects}
-                  onSaveProjects={handleSaveProjects}
-                  dashboard={dashboard}
-                  onSaveDashboard={handleSaveDashboard}
-                  onLogout={handleLogout}
-                />
-              ) : (
-                <div className="p-12 text-center text-slate-500 dark:text-slate-400">
-                  {language === 'en' ? 'Admin login required to view this area.' : 'Bạn cần đăng nhập quản trị để truy cập trang này.'}
-                </div>
-              )
-            )}
           </ErrorBoundary>
         </main>
       </div>
-
-      {/* Admin Login Modal */}
-      <AdminLoginModal
-        isOpen={isLoginModalOpen}
-        onClose={closeLoginModal}
-        onSuccess={handleLoginSuccess}
-      />
 
       {/* Spotlight Command Palette (Ctrl+K) */}
       <CommandPalette
@@ -463,8 +346,6 @@ export default function Portfolio() {
         projects={projects}
         onSelectTab={handleTabChange}
         onSelectProject={handleProjectClick}
-        onOpenLogin={openLoginModal}
-        isAdmin={isAdmin}
       />
     </div>
   );

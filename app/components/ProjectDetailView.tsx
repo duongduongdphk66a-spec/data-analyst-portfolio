@@ -4,9 +4,9 @@ import React from 'react';
 import { ArrowLeft, ExternalLink, Github, Tag, FileText, Globe } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import Image from 'next/image';
 import { ProjectData } from '../types';
 import { sanitizeUrl } from '../lib/security';
-import { trackVisitorAction } from '../lib/visitorTracking';
 import { useLanguage } from '../context/LanguageContext';
 import { useRouter } from 'next/navigation';
 
@@ -97,7 +97,6 @@ export default function ProjectDetailView({ project, onBack, isEmbedded }: Proje
                 href={sanitizeUrl(project.demoUrl)} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                onClick={() => trackVisitorAction(`Mở Live Demo dự án: ${project.title}`, project.demoUrl, 'project')}
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-yellow hover:bg-[#FACC15] text-slate-900 rounded-2xl font-bold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
               >
                 <ExternalLink className="w-4 h-4" />
@@ -109,7 +108,6 @@ export default function ProjectDetailView({ project, onBack, isEmbedded }: Proje
                 href={sanitizeUrl(project.githubUrl)} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                onClick={() => trackVisitorAction(`Xem Source Code dự án: ${project.title}`, project.githubUrl, 'project')}
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white hover:bg-slate-50 border border-brand-yellow/40 text-slate-700 rounded-2xl font-bold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200 dark:hover:bg-slate-800"
               >
                 <Github className="w-4 h-4" />
@@ -137,7 +135,26 @@ export default function ProjectDetailView({ project, onBack, isEmbedded }: Proje
       <main className="max-w-6xl mx-auto px-6 py-8">
         {project.content ? (
           <article className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-a:text-amber-600 prose-img:rounded-3xl prose-img:shadow-lg prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-800 dark:prose-invert dark:prose-a:text-brand-yellow">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            <ReactMarkdown 
+              remarkPlugins={[remarkGfm]}
+              components={{
+                img: ({ src, alt }) => {
+                  if (!src || typeof src !== 'string') return null;
+                  return (
+                    <span className="block my-6 overflow-hidden rounded-3xl border border-slate-200 shadow-lg dark:border-slate-800">
+                      <Image
+                        src={src}
+                        alt={alt || 'Project illustration'}
+                        width={1200}
+                        height={675}
+                        className="w-full h-auto object-cover"
+                        loading="lazy"
+                      />
+                    </span>
+                  );
+                },
+              }}
+            >
               {project.content}
             </ReactMarkdown>
           </article>

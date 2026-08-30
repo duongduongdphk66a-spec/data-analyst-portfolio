@@ -16,9 +16,6 @@ interface CommandPaletteProps {
   projects: ProjectData[];
   onSelectTab: (tabId: string) => void;
   onSelectProject: (projId: string) => void;
-  onOpenAdmin?: () => void;
-  onOpenLogin?: () => void;
-  isAdmin?: boolean;
 }
 
 interface CommandItem {
@@ -37,9 +34,6 @@ export default function CommandPalette({
   projects,
   onSelectTab,
   onSelectProject,
-  onOpenAdmin,
-  onOpenLogin,
-  isAdmin,
 }: CommandPaletteProps) {
   const { language, setLanguage, t } = useLanguage();
   const { theme, resolvedTheme, setTheme, toggleTheme } = useTheme();
@@ -145,28 +139,10 @@ export default function CommandPalette({
         icon: Download,
         action: () => { window.open('/website.pdf', '_blank'); onClose(); },
       },
-      {
-        id: 'action-admin',
-        category: 'Quick Actions',
-        title: isEn ? (isAdmin ? 'Go to Admin Panel' : 'Admin Login') : (isAdmin ? 'Truy Cập Trang Quản Trị' : 'Đăng Nhập Quản Trị Viên (Admin)'),
-        subtitle: isEn ? 'Triple-password authentication portal' : 'Cổng quản trị bảo mật 3 lớp',
-        icon: ShieldCheck,
-        action: () => { 
-          if (isAdmin) {
-            onSelectTab('admin');
-          } else if (onOpenLogin) {
-            onOpenLogin();
-          } else if (onOpenAdmin) {
-            onOpenAdmin();
-          }
-          onClose(); 
-        },
-        badge: isAdmin ? 'Active' : 'Protected',
-      },
     ];
 
     return items;
-  }, [isEn, isDark, projects, onSelectTab, onSelectProject, onOpenAdmin, onOpenLogin, isAdmin, toggleTheme, setLanguage, onClose]);
+  }, [isEn, isDark, projects, onSelectTab, onSelectProject, toggleTheme, setLanguage, onClose]);
 
   // Filter commands by query
   const filteredCommands = useMemo(() => {

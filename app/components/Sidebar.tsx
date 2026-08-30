@@ -13,8 +13,6 @@ interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   projects: ProjectData[];
-  isAdmin: boolean;
-  onOpenLogin: () => void;
   isProjectsOpen: boolean;
   setIsProjectsOpen: (open: boolean) => void;
   onProjectClick: (projId: string) => void;
@@ -26,8 +24,6 @@ export default function Sidebar({
   activeTab,
   onTabChange,
   projects,
-  isAdmin,
-  onOpenLogin,
   isProjectsOpen,
   setIsProjectsOpen,
   onProjectClick,
@@ -330,34 +326,6 @@ export default function Sidebar({
             </div>
           );
         })}
-
-        {/* Divider line before Admin */}
-        <div className="pt-2">
-          <hr className="border-t-2 border-slate-900/60 my-3 dark:border-slate-800" />
-        </div>
-
-        {/* Admin Navigation Button */}
-        <div>
-          <button
-            onClick={() => {
-              if (isAdmin) {
-                onTabChange('admin');
-              } else {
-                onOpenLogin();
-              }
-            }}
-            className={`w-full flex items-center justify-between px-5 py-3 text-sm sm:text-base font-bold rounded-2xl transition-all duration-200 cursor-pointer text-left ${
-              activeTab === 'admin'
-                ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40 dark:bg-slate-800 dark:text-[#9BE7FA] dark:shadow-none'
-                : 'text-slate-800 hover:text-slate-950 hover:bg-white/40 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/60'
-            }`}
-          >
-            <span>{t('nav_admin', 'Admin')}</span>
-            {isAdmin && (
-              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-            )}
-          </button>
-        </div>
       </nav>
 
       {/* Footer Area: Circular Social Links & Quick Language Toggle */}
