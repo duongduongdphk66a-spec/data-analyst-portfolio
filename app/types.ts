@@ -1,7 +1,7 @@
 export interface SkillItem {
   id: string;
   name: string;
-  category: 'Languages' | 'Tools' | 'Frameworks' | 'Core Skills' | 'Languages & Querying' | 'BI & Visualization' | 'Statistical & Modeling' | 'Data Engineering';
+  category?: 'Languages' | 'Tools' | 'Frameworks' | 'Core Skills' | 'Languages & Querying' | 'BI & Visualization' | 'Statistical & Modeling' | 'Data Engineering' | string;
   level?: number; // 1 to 5 stars
   icon?: string;
   proficiencyNote?: string;

@@ -11,7 +11,10 @@ export default function ProjectDetailClient({ id }: { id: string }) {
   const [project, setProject] = useState<ProjectData | null>(null);
 
   useEffect(() => {
-    const savedProjects = localStorage.getItem('portfolio_projects_v4') || localStorage.getItem('portfolio_projects_v3');
+    const savedProjects = 
+      localStorage.getItem('portfolio_projects_v5') || 
+      localStorage.getItem('portfolio_projects_v4') || 
+      localStorage.getItem('portfolio_projects_v3');
     let projectsList = DEFAULT_PROJECTS;
     if (savedProjects) {
       projectsList = safeJsonParse(savedProjects, DEFAULT_PROJECTS);

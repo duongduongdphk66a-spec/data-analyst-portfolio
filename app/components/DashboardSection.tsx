@@ -141,40 +141,10 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
     }
   };
 
-  // Export Dashboard to PDF
-  const exportPDF = async () => {
-    if (!dashboardRef.current) return;
-    setIsExporting(true);
-    try {
-      const html2canvas = (await import('html2canvas')).default;
-      const { jsPDF } = await import('jspdf');
-
-      const noPrintEls = dashboardRef.current.querySelectorAll('.no-print');
-      noPrintEls.forEach(el => (el as HTMLElement).style.opacity = '0');
-
-      const canvas = await html2canvas(dashboardRef.current, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: isDark ? '#0b0f17' : '#ffffff'
-      });
-
-      noPrintEls.forEach(el => (el as HTMLElement).style.opacity = '1');
-
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save('Data-Analyst-Executive-Report.pdf');
-      showToast(isEn ? 'PDF report downloaded!' : 'Đã tải báo cáo PDF thành công!', 'success');
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-      showToast(isEn ? 'Error generating PDF report.' : 'Có lỗi khi tạo file PDF.', 'error');
-    } finally {
-      setIsExporting(false);
-    }
+  // Export Dashboard / Print Executive Report
+  const exportPDF = () => {
+    window.print();
+    showToast(isEn ? 'Opening print preview...' : 'Đang mở chế độ xem in báo cáo...', 'info');
   };
 
   // Export Table Data to CSV

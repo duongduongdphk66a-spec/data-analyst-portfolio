@@ -31,13 +31,10 @@ export interface AdminTripleCredentials {
   pass3Hash: string;
 }
 
-// Default hashes for '15251812', '2173', '081183'
+// Initial default credentials hash (Admin can customize & update via Admin Panel)
 const DEFAULT_CREDENTIALS: AdminTripleCredentials = {
-  // 15251812
   pass1Hash: 'fd55fe20ce3c826f87cfee948ba3ec400638dfe8e8d973cd4708084d1a47e1cb',
-  // 2173
   pass2Hash: '983589f68a61012b2fda3650f4de287b194ba5bfa64a0028dc97a12bdadfee03',
-  // 081183
   pass3Hash: '56cd781f9c078e02ff75980653159bc73864b650f08d2584724f2d13eca67af1',
 };
 
