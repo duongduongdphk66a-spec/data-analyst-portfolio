@@ -25,6 +25,8 @@ import { useToast } from './ui/Toast';
 import { exportChartAsPng } from '../lib/chartExport';
 import { Link as LinkIcon } from 'lucide-react';
 
+const KAMI_ELY_SECTIONS = ['overview', 'sales', 'channels', 'affiliates', 'sku', 'automation'];
+
 export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
@@ -54,8 +56,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
   const channelData = getChannelData(isEn);
   const contentData = getContentData(isEn);
 
-  const sectionIds = ['overview', 'sales', 'channels', 'affiliates', 'sku', 'automation'];
-  const activeSection = useScrollSpy(sectionIds, 130);
+  const activeSection = useScrollSpy(KAMI_ELY_SECTIONS, 130);
 
   const navItems = [
     { id: 'overview', label: isEn ? 'Overview' : 'Tổng quan' },

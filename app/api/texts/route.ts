@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDbPool, initDatabase } from '@/app/lib/db';
 import { translations } from '@/app/data/translations';
+import { verifyAdminRequest } from '@/app/lib/auth';
 
 export async function GET(req: NextRequest) {
   try {
@@ -78,6 +79,14 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const auth = verifyAdminRequest(req);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { success: false, message: auth.error || 'Quyền truy cập bị từ chối. Vui lòng đăng nhập Admin.' },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
     // Expected body format:
     // { updates: [ { text_key: string, lang: 'vi' | 'en', value_text: string, section?: string } ] }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDbPool, testDbConnection, initDatabase } from '@/app/lib/db';
 import { DEFAULT_PROFILE } from '@/app/defaultData';
 import { translations } from '@/app/data/translations';
+import { verifyAdminRequest } from '@/app/lib/auth';
 
 export async function GET() {
   try {
@@ -77,6 +78,14 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
+    const auth = verifyAdminRequest(req);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { success: false, message: auth.error || 'Quyền truy cập bị từ chối. Vui lòng đăng nhập Admin.' },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json().catch(() => ({}));
     const action = body.action || 'init'; // 'init' | 'reset'
 
@@ -92,6 +101,17 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === 'reset') {
+      // Yêu cầu khóa xác nhận để tránh xoá nhầm dữ liệu production
+      if (body.confirmKey !== 'CONFIRM_RESET_DATABASE') {
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Thiếu hoặc sai mã xác nhận reset database (confirmKey). Hành động bị hủy bỏ vì an toàn dữ liệu.',
+          },
+          { status: 400 }
+        );
+      }
+
       // Drop and re-create
       await pool.query('DROP TABLE IF EXISTS portfolio_texts');
       await pool.query('DROP TABLE IF EXISTS portfolio_profile');

@@ -7,7 +7,7 @@ import {
   Cpu, X
 } from 'lucide-react';
 import { ProjectData } from '../types';
-import { sanitizeUrl } from '../lib/security';
+import { sanitizeUrl, sanitizeEmbedUrl } from '../lib/security';
 import { trackVisitorAction } from '../lib/visitorTracking';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
@@ -388,7 +388,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
 
             <div className="flex-1 w-full h-full bg-slate-50 dark:bg-slate-950">
               <iframe
-                src={activeEmbedProject.embedUrl}
+                src={sanitizeEmbedUrl(activeEmbedProject.embedUrl)}
                 title={activeEmbedProject.title}
                 className="w-full h-full border-0"
                 sandbox="allow-scripts allow-same-origin allow-popups allow-forms"

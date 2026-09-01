@@ -25,6 +25,8 @@ import { useToast } from './ui/Toast';
 import { exportChartAsPng } from '../lib/chartExport';
 import { Link as LinkIcon } from 'lucide-react';
 
+const HERITAGE_JAPAN_SECTIONS = ['overview', 'boi-canh', 'chinh-sach', 'du-lieu', 'giai-phap', 'ket-luan'];
+
 export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
@@ -48,8 +50,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
     }
   };
 
-  const sectionIds = ['overview', 'boi-canh', 'chinh-sach', 'du-lieu', 'giai-phap', 'ket-luan'];
-  const activeSection = useScrollSpy(sectionIds, 130);
+  const activeSection = useScrollSpy(HERITAGE_JAPAN_SECTIONS, 130);
 
   const navItems = [
     { id: 'boi-canh', label: isEn ? 'Context' : 'Bối cảnh' },

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDbPool, initDatabase } from '@/app/lib/db';
 import { DEFAULT_PROFILE } from '@/app/defaultData';
 import { ProfileData } from '@/app/types';
+import { verifyAdminRequest } from '@/app/lib/auth';
 
 export async function GET() {
   try {
@@ -72,6 +73,14 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
+    const auth = verifyAdminRequest(req);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { success: false, message: auth.error || 'Quyền truy cập bị từ chối. Vui lòng đăng nhập Admin.' },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
     const profileData: Partial<ProfileData> = body;
 

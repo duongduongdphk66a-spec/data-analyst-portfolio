@@ -199,6 +199,47 @@ export async function initDatabase(): Promise<{ success: boolean; message: strin
       }
     }
 
+    // Seed Projects if empty
+    const [projRows]: any = await p.query('SELECT COUNT(*) as count FROM portfolio_projects');
+    if (projRows && projRows[0] && projRows[0].count === 0) {
+      for (let i = 0; i < DEFAULT_PROJECTS.length; i++) {
+        const proj = DEFAULT_PROJECTS[i];
+        await p.query(
+          `INSERT INTO portfolio_projects 
+            (id, title, desc_text, tags_json, img, demo_url, github_url, embed_url, featured, problem, method, insight, sort_order)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+           ON DUPLICATE KEY UPDATE
+            title = VALUES(title),
+            desc_text = VALUES(desc_text),
+            tags_json = VALUES(tags_json),
+            img = VALUES(img),
+            demo_url = VALUES(demo_url),
+            github_url = VALUES(github_url),
+            embed_url = VALUES(embed_url),
+            featured = VALUES(featured),
+            problem = VALUES(problem),
+            method = VALUES(method),
+            insight = VALUES(insight),
+            sort_order = VALUES(sort_order)`,
+          [
+            proj.id,
+            proj.title,
+            proj.desc,
+            JSON.stringify(proj.tags || []),
+            proj.img || '',
+            proj.demoUrl || '',
+            proj.githubUrl || '',
+            proj.embedUrl || '',
+            proj.featured ? 1 : 0,
+            proj.problem || '',
+            proj.method || '',
+            proj.insight || '',
+            i,
+          ]
+        );
+      }
+    }
+
     isInitialized = true;
     return {
       success: true,

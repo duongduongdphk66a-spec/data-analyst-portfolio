@@ -1,14 +1,32 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
+/**
+ * useScrollSpy
+ * Theo dõi vị trí cuộn trang để xác định mục (section) đang hiển thị trong viewport.
+ * 
+ * @param sectionIds Danh sách ID các thẻ section cần theo dõi
+ * @param offset Khoảng đệm đỉnh (px) để kích hoạt chuyển đổi section
+ */
 export function useScrollSpy(sectionIds: string[], offset: number = 100): string {
   const [activeSection, setActiveSection] = useState<string>(sectionIds[0] || '');
+  const sectionIdsKey = sectionIds.join(',');
+  const stableSectionIdsRef = useRef<string[]>(sectionIds);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !sectionIds.length) return;
+    stableSectionIdsRef.current = sectionIds;
+  }, [sectionIdsKey]);
 
-    // 1. IntersectionObserver to detect visible section in viewport (works inside any scroll container)
+  useEffect(() => {
+    if (typeof window === 'undefined' || !stableSectionIdsRef.current.length) return;
+
+    const ids = stableSectionIdsRef.current;
+
+    // 1. IntersectionObserver có rootMargin tính toán theo offset thực tế
+    const topMargin = Math.max(0, offset);
+    const bottomMargin = Math.max(150, offset * 2);
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -18,17 +36,17 @@ export function useScrollSpy(sectionIds: string[], offset: number = 100): string
         });
       },
       {
-        rootMargin: '-15% 0px -65% 0px',
+        rootMargin: `-${topMargin}px 0px -${bottomMargin}px 0px`,
         threshold: [0, 0.2, 0.5],
       }
     );
 
-    sectionIds.forEach((id) => {
+    ids.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
 
-    // 2. Capture-phase scroll listener to catch events from <main overflow-y-auto> or window
+    // 2. Scroll listener cho các trường hợp container cuộn bên trong
     const handleScroll = (e: Event) => {
       const target = e.target;
       let scrollTop = 0;
@@ -45,15 +63,15 @@ export function useScrollSpy(sectionIds: string[], offset: number = 100): string
         clientHeight = target.clientHeight;
       }
 
-      // If scrolled near top
-      if (scrollTop <= 80) {
-        setActiveSection(sectionIds[0]);
+      // Khi ở sát đầu trang (trong khoảng offset)
+      if (scrollTop <= offset) {
+        setActiveSection(ids[0]);
         return;
       }
 
-      // If scrolled near bottom
-      if (scrollHeight > 0 && scrollTop + clientHeight >= scrollHeight - 60) {
-        setActiveSection(sectionIds[sectionIds.length - 1]);
+      // Khi đã cuộn đến sát cuối trang
+      if (scrollHeight > 0 && scrollTop + clientHeight >= scrollHeight - (offset / 2)) {
+        setActiveSection(ids[ids.length - 1]);
         return;
       }
     };
@@ -64,7 +82,7 @@ export function useScrollSpy(sectionIds: string[], offset: number = 100): string
       observer.disconnect();
       window.removeEventListener('scroll', handleScroll, { capture: true });
     };
-  }, [sectionIds, offset]);
+  }, [sectionIdsKey, offset]);
 
   return activeSection;
 }

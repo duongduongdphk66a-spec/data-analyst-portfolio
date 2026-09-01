@@ -35,7 +35,7 @@ export default function Sidebar({
 }: SidebarProps) {
   const { language, setLanguage, t } = useLanguage();
   const { theme, resolvedTheme, setTheme } = useTheme();
-  const { dbStatus } = usePortfolioData();
+  const { profile, dbStatus } = usePortfolioData();
 
   // Settings Popover States
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -78,7 +78,28 @@ export default function Sidebar({
   return (
     <aside className="w-60 bg-[#C4EEF9] text-slate-800 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-[#A8E2F2] shadow-xs relative z-40 transition-colors duration-200 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200 font-sans">
       {/* Navigation Links */}
-      <nav className="flex-1 px-4 pt-8 pb-6 space-y-2.5 overflow-y-auto overflow-x-visible">
+      <nav className="flex-1 px-4 pt-6 pb-6 space-y-2.5 overflow-y-auto overflow-x-visible">
+        {/* User Profile Header with Avatar */}
+        <div className="flex items-center gap-3 px-3 py-2.5 mb-3 bg-white/50 dark:bg-slate-800/70 rounded-2xl border border-white/60 dark:border-slate-700/60 shadow-xs">
+          {profile.avatarUrl ? (
+            <div className="w-10 h-10 rounded-xl overflow-hidden ring-1 ring-cyan-500/40 shrink-0">
+              <img src={profile.avatarUrl} alt={profile.name || 'Avatar'} className="w-full h-full object-cover" />
+            </div>
+          ) : (
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0D7287] to-cyan-500 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
+              {profile.name ? profile.name.split(' ').map((n) => n[0]).join('').slice(0, 3).toUpperCase() : 'MVH'}
+            </div>
+          )}
+          <div className="overflow-hidden min-w-0">
+            <h3 className="text-xs font-black text-slate-900 dark:text-white truncate">
+              {profile.name || 'Ma Văn Hùng'}
+            </h3>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">
+              {profile.title || 'Data Analyst'}
+            </p>
+          </div>
+        </div>
+
         {/* Quick Search / Command Palette Button */}
         {onOpenCommandPalette && (
           <button

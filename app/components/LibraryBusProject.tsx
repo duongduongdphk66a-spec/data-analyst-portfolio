@@ -22,6 +22,8 @@ import { useToast } from './ui/Toast';
 import { exportChartAsPng } from '../lib/chartExport';
 import { Link as LinkIcon } from 'lucide-react';
 
+const LIBRARY_BUS_SECTIONS = ['overview', 'kien-truc', 'thuat-toan', 'schema', 'celery', 'stack'];
+
 export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
@@ -45,8 +47,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
     }
   };
 
-  const sectionIds = ['overview', 'kien-truc', 'thuat-toan', 'schema', 'celery', 'stack'];
-  const activeSection = useScrollSpy(sectionIds, 130);
+  const activeSection = useScrollSpy(LIBRARY_BUS_SECTIONS, 130);
 
   const navItems = [
     { id: 'overview', label: isEn ? 'Overview' : 'Tổng quan' },

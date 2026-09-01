@@ -5,6 +5,7 @@
 
 // Danh sách các giao thức URL được coi là an toàn
 const SAFE_PROTOCOLS = new Set(['http:', 'https:', 'mailto:', 'tel:', 'blob:']);
+const SAFE_EMBED_PROTOCOLS = new Set(['http:', 'https:']);
 
 /**
  * Làm sạch và xác thực URL trước khi đưa vào href hoặc src.
@@ -15,6 +16,12 @@ export function sanitizeUrl(url: string | undefined | null, fallback = '#'): str
   
   const trimmed = url.trim();
   if (!trimmed) return fallback;
+
+  // Chặn ngay lập tức các vector XSS phổ biến
+  if (/^(javascript:|vbscript:|data:text\/html)/i.test(trimmed)) {
+    console.warn(`[Security Alert] Blocked malicious URL scheme: ${trimmed.slice(0, 30)}`);
+    return fallback;
+  }
 
   // Cho phép liên kết tương đối nội bộ hoặc anchor (#) hoặc ảnh base64 data:image/
   if (trimmed.startsWith('/') || trimmed.startsWith('#') || trimmed.startsWith('./') || trimmed.startsWith('data:image/')) {
@@ -33,6 +40,38 @@ export function sanitizeUrl(url: string | undefined | null, fallback = '#'): str
     if (/^[a-zA-Z0-9_\-\.\/]+$/.test(trimmed)) {
       return trimmed;
     }
+    return fallback;
+  }
+}
+
+/**
+ * Làm sạch URL dành riêng cho thẻ iframe nhúng (embed URL).
+ * Chỉ cho phép giao thức http/https an toàn hoặc đường dẫn nội bộ.
+ */
+export function sanitizeEmbedUrl(url: string | undefined | null, fallback = 'about:blank'): string {
+  if (!url || typeof url !== 'string') return fallback;
+  
+  const trimmed = url.trim();
+  if (!trimmed) return fallback;
+
+  // Chặn tuyệt đối javascript, vbscript, data URL trong iframe
+  if (/^(javascript:|vbscript:|data:|blob:|file:)/i.test(trimmed)) {
+    console.warn(`[Security Alert] Blocked dangerous iframe embed URL: ${trimmed.slice(0, 30)}`);
+    return fallback;
+  }
+
+  // Cho phép đường dẫn nội bộ (bắt đầu bằng /)
+  if (trimmed.startsWith('/') && !trimmed.startsWith('//')) {
+    return trimmed;
+  }
+
+  try {
+    const parsed = new URL(trimmed, typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+    if (SAFE_EMBED_PROTOCOLS.has(parsed.protocol)) {
+      return trimmed;
+    }
+    return fallback;
+  } catch {
     return fallback;
   }
 }

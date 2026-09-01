@@ -3,11 +3,11 @@
 -- Author: Data Analyst Portfolio
 -- ==========================================================
 
-CREATE DATABASE IF NOT EXISTS `pplo` 
+CREATE DATABASE IF NOT EXISTS `portfolio_db` 
 CHARACTER SET utf8mb4 
 COLLATE utf8mb4_unicode_ci;
 
-USE `pplo`;
+USE `portfolio_db`;
 
 -- 1. Table: portfolio_profile
 CREATE TABLE IF NOT EXISTS `portfolio_profile` (

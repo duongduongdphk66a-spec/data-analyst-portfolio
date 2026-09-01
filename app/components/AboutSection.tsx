@@ -277,8 +277,34 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
 
         {/* Bio + Goals: 2 column */}
         <div className="about-goals-grid grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-20">
-          {/* Bio */}
-          <div className="space-y-5">
+          {/* Bio Column with Avatar */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-4 p-4 rounded-2xl bg-surface/50 dark:bg-slate-900/80 border border-border-subtle dark:border-slate-800 shadow-xs">
+              {profile.avatarUrl ? (
+                <div className="w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-[#0D7287]/40 dark:ring-[#9BE7FA]/40 shadow-sm shrink-0">
+                  <img src={profile.avatarUrl} alt={profile.name || 'Avatar'} className="w-full h-full object-cover" />
+                </div>
+              ) : (
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#0D7287] to-cyan-500 text-white font-black text-lg flex items-center justify-center shrink-0 shadow-md shadow-cyan-500/20">
+                  {profile.name ? profile.name.split(' ').map((n) => n[0]).join('').slice(0, 3).toUpperCase() : 'MVH'}
+                </div>
+              )}
+              <div>
+                <h3 className="text-base font-bold text-ink dark:text-white font-heading">
+                  {profile.name || 'Ma Văn Hùng'}
+                </h3>
+                <p className="text-xs text-ink-muted dark:text-slate-400 font-heading">
+                  {profile.title || 'Data Analyst'}
+                </p>
+                <div className="flex items-center gap-2 mt-1.5">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    {isEn ? 'Open to Work' : 'Sẵn sàng nhận dự án'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
             <p className="text-base leading-relaxed text-ink-secondary dark:text-slate-300" style={{ fontFamily: 'var(--font-body)' }}>
               {isEn
                 ? profile.bio || 'Ma Van Hung is a Data Analyst with a solid foundation in SQL, Python, Power BI, and advanced Excel. Focused on extracting insights from fragmented data, designing visual analytics models, and transforming raw numbers into strategic insights that optimize business decision-making.'

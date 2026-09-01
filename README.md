@@ -1,21 +1,24 @@
 # 📊 Ma Văn Hùng — Data Analyst Portfolio
 
-An interactive, high-performance web portfolio showcasing data analysis case studies, business intelligence dashboards, and in-browser SQL querying capabilities.
+An interactive, high-performance web portfolio showcasing data analysis case studies, business intelligence dashboards, and in-browser SQL querying capabilities with full-stack MySQL CMS integration.
 
-Built with **Next.js 15 (App Router)**, **React 19**, **Tailwind CSS 4**, and **Recharts**, adhering to modern **`taste-skill` anti-slop design principles** with the **Lora** serif typography and curated brand palette.
+Built with **Next.js 15 (App Router)**, **React 19**, **Tailwind CSS 4**, **MySQL Backend**, and **Recharts**, adhering to modern **`taste-skill` design principles** with curated typography and responsive layout.
 
 ---
 
 ## 🌟 Key Features
 
 - **In-Browser SQL Engine & CSV Upload**: Client-side in-memory SQL execution (`SELECT`, `WHERE`, `GROUP BY`, `ORDER BY`, `SUM`, `AVG`, `COUNT`, `LIMIT`) with support for custom user CSV uploads.
-- **Spotlight Command Palette (`Ctrl + K` / `Cmd + K`)**: Quick keyboard navigation across case studies, skills, theme toggling, language switching, and admin authentication.
+- **Spotlight Command Palette (`Ctrl + K` / `Cmd + K`)**: Quick keyboard navigation across case studies, skills, theme toggling, language switching, and CMS editing shortcuts.
+- **Secure Admin CMS Portal (`Ctrl + E`)**:
+  - **Password-Protected Authentication Gate**: Protected with session tokens, timing-safe validation, and HTTP 401 API guards.
+  - **Multi-Tab CMS Management**: Dynamic Profile editor, Page Texts CMS, and Project Manager.
+  - **Relational MySQL Database Integration**: Synchronized with `portfolio_profile`, `portfolio_texts`, and `portfolio_projects` tables.
 - **Executive Business Intelligence Dashboard**: Interactive KPI scorecards, multi-dimension time horizon filtering (H1 vs H2), and 2x Retina PNG chart export.
 - **Interactive Case Studies**:
   1. **Kami Ely TikTok Shop & Affiliate Performance**: E-commerce funnel, creator matrix, peak live stream analysis.
   2. **Heritage Tourism in Japan (1990–2024)**: Time-series modeling of 36.8M tourist inflow and regional spending divergence.
   3. **Real-time Library Bus IoT / Data Pipeline**: High-throughput distributed scheduling with Redis & Celery Beat.
-- **Single-Admin Portal**: Custom project manager, live scorecard editor, visitor telemetry tracking, and encrypted JSON state backup/restore.
 - **Internationalization (i18n)**: Instant switching between Vietnamese (`vi`) and English (`en`).
 - **SEO & Performance**: Pre-rendered SSG pages, dynamic `sitemap.xml`, `robots.txt`, and Schema.org JSON-LD structured data.
 
@@ -25,7 +28,7 @@ Built with **Next.js 15 (App Router)**, **React 19**, **Tailwind CSS 4**, and **
 
 ### Prerequisites
 - Node.js 18+ or 20+
-- npm / yarn / pnpm
+- MySQL 8.0+ (Optional: XAMPP, Laragon, Docker MySQL, or Cloud MySQL: Aiven/Railway)
 
 ### Installation
 ```bash
@@ -36,6 +39,9 @@ cd data-analyst-portfolio
 # Install dependencies
 npm install
 
+# Configure environment variables
+cp .env.example .env.local
+
 # Start development server
 npm run dev
 ```
@@ -44,14 +50,26 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to explore
 
 ---
 
+## 🔒 Security & Admin Configuration
+
+Set your admin password in `.env.local`:
+```env
+ADMIN_PASSWORD="your_secure_password_here"
+```
+
+To access the CMS Admin Panel, press `Ctrl + E` or click **"Chỉnh Sửa CMS"** in the sidebar, then enter your admin password.
+
+---
+
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 15.4+ (App Router, Static Site Generation)
+- **Framework**: Next.js 15.4+ (App Router, Server Components & Route Handlers)
+- **Database**: MySQL (Connection Pool via `mysql2/promise`)
 - **UI Library**: React 19, Lucide Icons, GSAP
 - **Styling**: Tailwind CSS v4, Vanilla CSS Custom Properties
 - **Visualizations**: Recharts, html2canvas
 - **Data Parsing**: PapaParse (CSV)
-- **Typography**: Google Fonts (Lora, JetBrains Mono, Merriweather)
+- **Typography**: Google Fonts (Lora, JetBrains Mono)
 - **CI/CD**: GitHub Actions
 
 ---

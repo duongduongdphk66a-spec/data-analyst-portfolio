@@ -97,12 +97,30 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject, o
           {/* Left column: text (7 cols) */}
           <div className="lg:col-span-7 space-y-8">
 
-            {/* Badge */}
-            <div className="hero-badge inline-flex items-center gap-2 px-3.5 py-1.5 bg-surface/40 border border-surface-vivid/30 dark:bg-slate-800 dark:border-slate-700 rounded-full shadow-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent dark:bg-amber-400 animate-pulse" />
-              <span className="text-xs font-heading font-medium text-ink-secondary dark:text-slate-300 tracking-wide">
-                {t('hero_badge', profile.title ? `${profile.title} | Business Intelligence & Analytics` : 'Data Analyst | Business Intelligence & Analytics')}
-              </span>
+            {/* Avatar & Badge */}
+            <div className="hero-badge flex items-center gap-3.5">
+              {profile.avatarUrl ? (
+                <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden ring-2 ring-[#0D7287]/40 dark:ring-[#9BE7FA]/40 shadow-md flex-shrink-0">
+                  <img
+                    src={profile.avatarUrl}
+                    alt={profile.name || 'Avatar'}
+                    className="w-full h-full object-cover"
+                  />
+                  <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" title="Sẵn sàng tiếp nhận cơ hội mới" />
+                </div>
+              ) : (
+                <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#0D7287] to-cyan-500 text-white font-black text-sm sm:text-base flex items-center justify-center shadow-md shadow-cyan-500/20 flex-shrink-0 ring-2 ring-cyan-400/30">
+                  {profile.name ? profile.name.split(' ').map((n) => n[0]).join('').slice(0, 3).toUpperCase() : 'MVH'}
+                  <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" title="Sẵn sàng tiếp nhận cơ hội mới" />
+                </div>
+              )}
+
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-surface/40 border border-surface-vivid/30 dark:bg-slate-800 dark:border-slate-700 rounded-full shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent dark:bg-amber-400 animate-pulse" />
+                <span className="text-xs font-heading font-medium text-ink-secondary dark:text-slate-300 tracking-wide">
+                  {t('hero_badge', profile.title ? `${profile.title} | Business Intelligence & Analytics` : 'Data Analyst | Business Intelligence & Analytics')}
+                </span>
+              </div>
             </div>
 
             {/* Heading */}
