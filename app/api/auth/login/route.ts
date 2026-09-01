@@ -3,9 +3,9 @@ import {
   validateAdminPassword, 
   generateAdminToken, 
   getClientIp, 
-  checkLoginRateLimit, 
-  recordFailedLogin, 
-  resetLoginAttempts 
+  checkLoginRateLimitAsync, 
+  recordFailedLoginAsync, 
+  resetLoginAttemptsAsync 
 } from '@/app/lib/auth';
 
 /**
@@ -16,8 +16,8 @@ export async function POST(req: NextRequest) {
   try {
     const ip = getClientIp(req);
 
-    // 1. Kiểm tra Rate Limit trước khi xử lý mật khẩu
-    const rateCheck = checkLoginRateLimit(ip);
+    // 1. Kiểm tra Rate Limit trước khi xử lý mật khẩu (đồng bộ qua MySQL / In-memory)
+    const rateCheck = await checkLoginRateLimitAsync(ip);
     if (!rateCheck.allowed) {
       return NextResponse.json(
         {
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
 
     const isValid = validateAdminPassword(password);
     if (!isValid) {
-      const record = recordFailedLogin(ip);
+      const record = await recordFailedLoginAsync(ip);
       // Giả lập delay chống timing attack
       await new Promise((resolve) => setTimeout(resolve, 300));
 
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Đăng nhập thành công -> Reset số lần thử sai
-    resetLoginAttempts(ip);
+    await resetLoginAttemptsAsync(ip);
     const token = generateAdminToken();
 
     const response = NextResponse.json({

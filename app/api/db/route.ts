@@ -3,8 +3,16 @@ import { RowDataPacket } from 'mysql2';
 import { getDbPool, testDbConnection, initDatabase } from '@/app/lib/db';
 import { verifyAdminRequest } from '@/app/lib/auth';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const auth = verifyAdminRequest(req);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { success: false, message: auth.error || 'Quyền truy cập bị từ chối. Vui lòng đăng nhập Admin.' },
+        { status: 401 }
+      );
+    }
+
     const connTest = await testDbConnection();
 
     if (!connTest.connected) {

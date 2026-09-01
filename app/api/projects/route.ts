@@ -93,6 +93,17 @@ export async function POST(req: NextRequest) {
 
     for (let i = 0; i < projectsToSave.length; i++) {
       const proj = projectsToSave[i];
+
+      if (!proj.id || typeof proj.id !== 'string' || proj.id.trim().length === 0 || proj.id.length > 100) {
+        return NextResponse.json(
+          { 
+            success: false, 
+            message: `Mã dự án (id) không hợp lệ hoặc vượt quá 100 ký tự: "${proj.id || ''}". Yêu cầu độ dài 1-100 ký tự.` 
+          },
+          { status: 400 }
+        );
+      }
+
       const sql = `
         INSERT INTO portfolio_projects 
           (id, title, desc_text, tags_json, img, demo_url, github_url, embed_url, featured, problem, method, insight, sort_order)

@@ -1,12 +1,13 @@
 import { NextRequest } from 'next/server';
 import crypto from 'crypto';
+import { getDbRateLimit, recordDbFailedLogin, resetDbRateLimit } from './db';
 
 /**
  * Server-side Admin Authentication & Rate Limiting Utility
  * Quản lý xác thực và kiểm soát quyền truy cập API quản trị viên.
  */
 
-// Tạo secret ngẫu nhiên lúc khởi động nếu không có biến môi trường (không bao giờ dùng mật khẩu cố định yếu)
+// Tạo secret ngẫu nhiên lúc khởi động cho môi trường dev nếu không có biến môi trường
 const FALLBACK_RANDOM_SECRET = crypto.randomBytes(32).toString('hex');
 
 function getAdminPassword(): string {
@@ -15,8 +16,8 @@ function getAdminPassword(): string {
     return envPassword.trim();
   }
   if (process.env.NODE_ENV === 'production') {
-    console.warn(
-      '[SECURITY WARNING] ADMIN_PASSWORD chưa được thiết lập hoặc quá ngắn (< 8 ký tự). Đang sử dụng mã bí mật ngẫu nhiên tạm thời.'
+    throw new Error(
+      '[CRITICAL SECURITY ERROR] ADMIN_PASSWORD/ADMIN_SECRET must be configured in environment with at least 8 characters in production mode.'
     );
   }
   return envPassword?.trim() || FALLBACK_RANDOM_SECRET;
@@ -25,7 +26,7 @@ function getAdminPassword(): string {
 const TOKEN_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 giờ
 
 // ==========================================
-// In-memory Rate Limiter cho /api/auth/login
+// Rate Limiter (In-memory + MySQL Cluster Sync)
 // ==========================================
 interface RateLimitEntry {
   failedAttempts: number;
@@ -51,21 +52,34 @@ setInterval(() => {
 
 /**
  * Trích xuất Client IP an toàn từ Request
+ * Hỗ trợ các header reverse proxy uy tín và biến môi trường TRUST_PROXY.
  */
 export function getClientIp(req: NextRequest): string {
-  const forwarded = req.headers.get('x-forwarded-for');
-  if (forwarded) {
-    return forwarded.split(',')[0].trim();
+  // 1. Cloudflare header uy tín (không bị client giả lập)
+  const cfIp = req.headers.get('cf-connecting-ip');
+  if (cfIp) {
+    return cfIp.trim();
   }
+
+  // 2. Nginx X-Real-IP header do reverse proxy thiết lập
   const realIp = req.headers.get('x-real-ip');
   if (realIp) {
     return realIp.trim();
   }
+
+  // 3. X-Forwarded-For: chỉ tin cậy khi được chỉ định rõ qua cấu hình TRUST_PROXY
+  const isTrustProxy = process.env.TRUST_PROXY === 'true' || process.env.NODE_ENV === 'production';
+  const forwarded = req.headers.get('x-forwarded-for');
+  if (forwarded && isTrustProxy) {
+    const clientIp = forwarded.split(',')[0].trim();
+    if (clientIp) return clientIp;
+  }
+
   return '127.0.0.1';
 }
 
 /**
- * Kiểm tra xem IP có đang bị khoá hoặc quá số lần thử không
+ * Kiểm tra xem IP có đang bị khoá hoặc quá số lần thử không (Sync In-Memory)
  */
 export function checkLoginRateLimit(ip: string): {
   allowed: boolean;
@@ -96,7 +110,35 @@ export function checkLoginRateLimit(ip: string): {
 }
 
 /**
- * Ghi nhận một lần thử đăng nhập thất bại
+ * Kiểm tra Rate Limit Async có đồng bộ MySQL (cho Multi-process PM2 Cluster)
+ */
+export async function checkLoginRateLimitAsync(ip: string): Promise<{
+  allowed: boolean;
+  remainingAttempts: number;
+  retryAfterSeconds?: number;
+}> {
+  try {
+    const dbLimit = await getDbRateLimit(ip);
+    if (dbLimit) {
+      const now = Date.now();
+      if (dbLimit.lockedUntil && dbLimit.lockedUntil > now) {
+        const retryAfterSeconds = Math.ceil((dbLimit.lockedUntil - now) / 1000);
+        return { allowed: false, remainingAttempts: 0, retryAfterSeconds };
+      }
+      if (now - dbLimit.lastAttempt <= ATTEMPT_WINDOW_MS) {
+        const remaining = Math.max(0, MAX_FAILED_ATTEMPTS - dbLimit.failedAttempts);
+        return { allowed: remaining > 0, remainingAttempts: remaining };
+      }
+    }
+  } catch {
+    // Fallback to in-memory check
+  }
+
+  return checkLoginRateLimit(ip);
+}
+
+/**
+ * Ghi nhận một lần thử đăng nhập thất bại (Sync In-Memory)
  */
 export function recordFailedLogin(ip: string): {
   isLocked: boolean;
@@ -131,10 +173,48 @@ export function recordFailedLogin(ip: string): {
 }
 
 /**
+ * Ghi nhận thất bại Async có lưu MySQL (đồng bộ các worker PM2)
+ */
+export async function recordFailedLoginAsync(ip: string): Promise<{
+  isLocked: boolean;
+  remainingAttempts: number;
+  retryAfterSeconds?: number;
+}> {
+  // Update in-memory first
+  const memResult = recordFailedLogin(ip);
+
+  try {
+    const dbResult = await recordDbFailedLogin(
+      ip,
+      MAX_FAILED_ATTEMPTS,
+      LOCKOUT_DURATION_MS,
+      ATTEMPT_WINDOW_MS
+    );
+    if (dbResult) return dbResult;
+  } catch {
+    // Fallback to in-memory result
+  }
+
+  return memResult;
+}
+
+/**
  * Reset lại trạng thái thử khi đăng nhập thành công
  */
 export function resetLoginAttempts(ip: string): void {
   loginAttempts.delete(ip);
+}
+
+/**
+ * Reset lại trạng thái thử Async (đồng bộ xoá cả trong MySQL)
+ */
+export async function resetLoginAttemptsAsync(ip: string): Promise<void> {
+  resetLoginAttempts(ip);
+  try {
+    await resetDbRateLimit(ip);
+  } catch {
+    // Ignore error
+  }
 }
 
 // ==========================================
@@ -155,6 +235,26 @@ export function generateAdminToken(): string {
 }
 
 /**
+ * Kiểm tra mật khẩu Admin khi đăng nhập (Constant-time SHA-256 comparison)
+ */
+export function validateAdminPassword(password: string): boolean {
+  if (!password || typeof password !== 'string') return false;
+  let adminPassword = '';
+  try {
+    adminPassword = getAdminPassword();
+  } catch {
+    return false;
+  }
+  if (!adminPassword) return false;
+
+  // SHA-256 hash chuyển đổi cả 2 chuỗi về buffer cố định 32-byte
+  // Loại trừ hoàn toàn side-channel rò rỉ độ dài mật khẩu
+  const passHash = crypto.createHash('sha256').update(password).digest();
+  const adminHash = crypto.createHash('sha256').update(adminPassword).digest();
+  return crypto.timingSafeEqual(passHash, adminHash);
+}
+
+/**
  * Kiểm tra tính hợp lệ và thời hạn của Admin Token
  */
 export function verifyAdminToken(token: string | null | undefined): boolean {
@@ -163,10 +263,9 @@ export function verifyAdminToken(token: string | null | undefined): boolean {
   const trimmed = token.trim();
   if (!trimmed) return false;
 
-  const password = getAdminPassword();
-
   // 1. Cho phép dùng trực tiếp ADMIN_PASSWORD cho các cuộc gọi programmatic API nếu trùng khớp
-  if (trimmed === password) {
+  // Sử dụng validateAdminPassword để đảm bảo constant-time comparison
+  if (validateAdminPassword(trimmed)) {
     return true;
   }
 
@@ -185,6 +284,13 @@ export function verifyAdminToken(token: string | null | undefined): boolean {
     return false; // Token đã hết hạn hoặc timestamp không hợp lệ
   }
 
+  let password = '';
+  try {
+    password = getAdminPassword();
+  } catch {
+    return false;
+  }
+
   // Xác minh chữ ký số bằng so sánh an toàn timingSafeEqual
   const expectedSignature = crypto
     .createHmac('sha256', password)
@@ -192,26 +298,12 @@ export function verifyAdminToken(token: string | null | undefined): boolean {
     .digest('hex');
 
   try {
-    const sigBuffer = Buffer.from(signature, 'hex');
-    const expBuffer = Buffer.from(expectedSignature, 'hex');
-    if (sigBuffer.length !== expBuffer.length) return false;
-    return crypto.timingSafeEqual(sigBuffer, expBuffer);
+    const sigHash = crypto.createHash('sha256').update(signature).digest();
+    const expHash = crypto.createHash('sha256').update(expectedSignature).digest();
+    return crypto.timingSafeEqual(sigHash, expHash);
   } catch {
     return false;
   }
-}
-
-/**
- * Kiểm tra mật khẩu Admin khi đăng nhập
- */
-export function validateAdminPassword(password: string): boolean {
-  if (!password || typeof password !== 'string') return false;
-  const adminPassword = getAdminPassword();
-  // So sánh an toàn chống timing attack
-  const passBuffer = Buffer.from(password);
-  const adminBuffer = Buffer.from(adminPassword);
-  if (passBuffer.length !== adminBuffer.length) return false;
-  return crypto.timingSafeEqual(passBuffer, adminBuffer);
 }
 
 /**

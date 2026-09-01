@@ -1,7 +1,7 @@
 export const libraryBusMarkdownContent = `
 # Phân tích Chuyên sâu: Hệ thống Library Bus Management System
 
-![Dashboard View](/library_bus_dashboard.jpg)
+![Dashboard View](/library_bus_dashboard.webp)
 
 ## Phần 1: Tóm tắt Dự án & Tầm nhìn (Executive Summary)
 
@@ -80,7 +80,7 @@ class BorrowRecord(SoftDeleteModel):
 
 ## Phần 4: Trải nghiệm Người dùng (Mobile App UI)
 
-![Mobile App View](/library_bus_mobile_app.jpg)
+![Mobile App View](/library_bus_mobile_app.webp)
 *Hình 1: Đề xuất Giao diện Mobile App cho độc giả - Tích hợp thẻ thư viện số.*
 
 ---
@@ -136,7 +136,7 @@ class BookQuerySet(BaseQuerySet):
 
 ## Phần 6: Data Analytics & Background Jobs (Celery)
 
-![Analytics Dashboard](/library_bus_analytics.jpg)
+![Analytics Dashboard](/library_bus_analytics.webp)
 *Hình 2: Màn hình Analytics Dashboard - Thống kê lượng mượn sách và hoạt động của Library Bus.*
 
 ### 6.1. Xử lý thuật toán bằng Cron Jobs

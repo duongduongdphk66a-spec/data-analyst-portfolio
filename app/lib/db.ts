@@ -19,9 +19,14 @@ export function getDbPool(): Pool | null {
   const dbName = process.env.MYSQL_DATABASE || process.env.DB_NAME || 'portfolio_db';
   const databaseUrl = process.env.DATABASE_URL;
 
+  const connectionLimit = parseInt(
+    process.env.MYSQL_CONNECTION_LIMIT || process.env.DB_CONNECTION_LIMIT || '5',
+    10
+  );
+
   try {
     const config: PoolOptions = databaseUrl
-      ? { uri: databaseUrl, waitForConnections: true, connectionLimit: 10, queueLimit: 0 }
+      ? { uri: databaseUrl, waitForConnections: true, connectionLimit, queueLimit: 0 }
       : {
           host: dbHost,
           port: dbPort,
@@ -29,7 +34,7 @@ export function getDbPool(): Pool | null {
           password: dbPassword,
           database: dbName,
           waitForConnections: true,
-          connectionLimit: 10,
+          connectionLimit,
           queueLimit: 0,
           enableKeepAlive: true,
           keepAliveInitialDelay: 0,
@@ -241,11 +246,21 @@ export async function initDatabase(): Promise<{ success: boolean; message: strin
       }
     }
 
+    // 4. Create Rate Limits Table (shared across PM2 cluster instances)
+    await p.query(`
+      CREATE TABLE IF NOT EXISTS portfolio_rate_limits (
+        ip VARCHAR(64) PRIMARY KEY,
+        failed_attempts INT NOT NULL DEFAULT 0,
+        locked_until BIGINT DEFAULT NULL,
+        last_attempt BIGINT NOT NULL
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
     _isInitialized = true;
     return {
       success: true,
       message: 'Database schema created and initial seed completed successfully.',
-      tables: ['portfolio_profile', 'portfolio_texts', 'portfolio_projects'],
+      tables: ['portfolio_profile', 'portfolio_texts', 'portfolio_projects', 'portfolio_rate_limits'],
     };
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Database initialization failed.';
@@ -256,3 +271,98 @@ export async function initDatabase(): Promise<{ success: boolean; message: strin
     };
   }
 }
+
+/**
+ * Shared Rate Limiting operations via MySQL
+ */
+export async function getDbRateLimit(ip: string): Promise<{
+  failedAttempts: number;
+  lockedUntil: number | null;
+  lastAttempt: number;
+} | null> {
+  const p = getDbPool();
+  if (!p) return null;
+
+  try {
+    const [rows] = await p.query<RowDataPacket[]>(
+      'SELECT failed_attempts, locked_until, last_attempt FROM portfolio_rate_limits WHERE ip = ?',
+      [ip]
+    );
+    if (!rows || rows.length === 0) return null;
+    const r = rows[0];
+    return {
+      failedAttempts: Number(r.failed_attempts) || 0,
+      lockedUntil: r.locked_until !== null ? Number(r.locked_until) : null,
+      lastAttempt: Number(r.last_attempt) || 0,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export async function recordDbFailedLogin(
+  ip: string,
+  maxAttempts: number,
+  lockoutDurationMs: number,
+  attemptWindowMs: number
+): Promise<{
+  isLocked: boolean;
+  remainingAttempts: number;
+  retryAfterSeconds?: number;
+} | null> {
+  const p = getDbPool();
+  if (!p) return null;
+
+  const now = Date.now();
+  try {
+    const current = await getDbRateLimit(ip);
+    let failedAttempts = 1;
+    let lockedUntil: number | null = null;
+
+    if (current && now - current.lastAttempt <= attemptWindowMs) {
+      failedAttempts = current.failedAttempts + 1;
+    }
+
+    if (failedAttempts >= maxAttempts) {
+      lockedUntil = now + lockoutDurationMs;
+    }
+
+    await p.query(
+      `INSERT INTO portfolio_rate_limits (ip, failed_attempts, locked_until, last_attempt)
+       VALUES (?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE
+         failed_attempts = VALUES(failed_attempts),
+         locked_until = VALUES(locked_until),
+         last_attempt = VALUES(last_attempt)`,
+      [ip, failedAttempts, lockedUntil, now]
+    );
+
+    if (lockedUntil) {
+      return {
+        isLocked: true,
+        remainingAttempts: 0,
+        retryAfterSeconds: Math.ceil(lockoutDurationMs / 1000),
+      };
+    }
+
+    return {
+      isLocked: false,
+      remainingAttempts: Math.max(0, maxAttempts - failedAttempts),
+    };
+  } catch {
+    return null;
+  }
+}
+
+export async function resetDbRateLimit(ip: string): Promise<boolean> {
+  const p = getDbPool();
+  if (!p) return false;
+
+  try {
+    await p.query('DELETE FROM portfolio_rate_limits WHERE ip = ?', [ip]);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
