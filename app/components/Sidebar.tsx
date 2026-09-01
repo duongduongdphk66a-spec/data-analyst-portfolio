@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { 
   ChevronDown, ChevronRight, Github, Linkedin, Mail, 
-  Sun, Moon, Laptop, Globe, Check, Search, Database, Edit3, Shield
+  Sun, Moon, Laptop, Globe, Check, Search, Database, Lock
 } from 'lucide-react';
 import { ProjectData } from '../types';
 import { useLanguage } from '../context/LanguageContext';
@@ -12,11 +12,11 @@ import { usePortfolioData } from '../context/PortfolioDataContext';
 
 interface SidebarProps {
   activeTab: string;
-  onTabChange: (tab: string) => void;
+  onTabChange: (_tab: string) => void;
   projects: ProjectData[];
   isProjectsOpen: boolean;
-  setIsProjectsOpen: (open: boolean) => void;
-  onProjectClick: (projId: string) => void;
+  setIsProjectsOpen: (_open: boolean) => void;
+  onProjectClick: (_projId: string) => void;
   selectedProjectId?: string | null;
   onOpenCommandPalette?: () => void;
   onOpenAdmin?: () => void;
@@ -34,7 +34,7 @@ export default function Sidebar({
   onOpenAdmin,
 }: SidebarProps) {
   const { language, setLanguage, t } = useLanguage();
-  const { theme, resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const { profile, dbStatus } = usePortfolioData();
 
   // Settings Popover States
@@ -304,8 +304,8 @@ export default function Sidebar({
                           className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer hover:bg-slate-50 text-[#0D7287] dark:text-[#9BE7FA] dark:hover:bg-slate-800/60"
                         >
                           <div className="flex items-center gap-2">
-                            <Database className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-                            <span>Quản Trị CMS (MySQL)</span>
+                            <Lock className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                            <span>{language === 'en' ? 'Admin CMS (Locked)' : 'Admin CMS (Khóa)'}</span>
                           </div>
                           <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
                         </button>

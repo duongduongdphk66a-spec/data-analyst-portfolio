@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   Search, Briefcase, FileText, User, LayoutDashboard, Database, 
-  Sun, Moon, Globe, Download, ShieldCheck, ArrowRight, CornerDownLeft, X, Sparkles
+  Sun, Moon, Globe, Download, CornerDownLeft, X
 } from 'lucide-react';
 import { ProjectData } from '@/app/types';
 import { useLanguage } from '@/app/context/LanguageContext';
@@ -14,8 +14,8 @@ interface CommandPaletteProps {
   isOpen: boolean;
   onClose: () => void;
   projects: ProjectData[];
-  onSelectTab: (tabId: string) => void;
-  onSelectProject: (projId: string) => void;
+  onSelectTab: (_tabId: string) => void;
+  onSelectProject: (_projId: string) => void;
 }
 
 interface CommandItem {
@@ -35,8 +35,8 @@ export default function CommandPalette({
   onSelectTab,
   onSelectProject,
 }: CommandPaletteProps) {
-  const { language, setLanguage, t } = useLanguage();
-  const { theme, resolvedTheme, setTheme, toggleTheme } = useTheme();
+  const { language, setLanguage } = useLanguage();
+  const { resolvedTheme, toggleTheme } = useTheme();
   const isEn = language === 'en';
   const isDark = resolvedTheme === 'dark';
 

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
   Menu, X, User, FileText, Briefcase, LayoutDashboard, 
-  ChevronDown, ChevronRight, Globe, Sun, Moon, Laptop, Database, Edit3
+  ChevronDown, ChevronRight, Globe, Sun, Moon, Laptop, Database
 } from 'lucide-react';
 import { useLanguage } from './context/LanguageContext';
 import { useTheme } from './context/ThemeContext';

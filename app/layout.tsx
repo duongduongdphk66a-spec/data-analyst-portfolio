@@ -55,13 +55,15 @@ const themeInitScript = `
   })();
 `;
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mavanhung-portfolio.vercel.app';
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Ma Văn Hùng',
   jobTitle: 'Data Analyst & Business Intelligence Specialist',
   description: 'Evidence-driven Data Analyst specializing in SQL, Python, Power BI, Recharts, and ETL Data Pipelines.',
-  url: 'https://mavanhung-portfolio.vercel.app',
+  url: siteUrl,
   email: 'mavanhung.da@gmail.com',
   knowsAbout: [
     'SQL', 'PostgreSQL', 'MySQL', 'Python', 'Pandas', 'Power BI', 'DAX',
@@ -69,8 +71,7 @@ const jsonLd = {
     'Redis', 'Celery', 'Data Storytelling', 'Recharts'
   ],
   sameAs: [
-    'https://github.com',
-    'https://linkedin.com'
+    'https://github.com/duongduongdphk66a-spec/data-analyst-portfolio'
   ]
 };
 
@@ -100,13 +101,13 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning className="bg-ground text-ink font-lora min-h-screen transition-colors duration-200">
         <ThemeProvider>
-          <LanguageProvider>
-            <ToastProvider>
-              <PortfolioDataProvider>
+          <PortfolioDataProvider>
+            <LanguageProvider>
+              <ToastProvider>
                 {children}
-              </PortfolioDataProvider>
-            </ToastProvider>
-          </LanguageProvider>
+              </ToastProvider>
+            </LanguageProvider>
+          </PortfolioDataProvider>
         </ThemeProvider>
       </body>
     </html>

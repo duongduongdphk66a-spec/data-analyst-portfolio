@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 /**
  * useScrollSpy
@@ -11,17 +11,13 @@ import { useState, useEffect, useRef } from 'react';
  */
 export function useScrollSpy(sectionIds: string[], offset: number = 100): string {
   const [activeSection, setActiveSection] = useState<string>(sectionIds[0] || '');
-  const sectionIdsKey = sectionIds.join(',');
-  const stableSectionIdsRef = useRef<string[]>(sectionIds);
+  const sectionIdsKey = useMemo(() => sectionIds.join(','), [sectionIds]);
 
   useEffect(() => {
-    stableSectionIdsRef.current = sectionIds;
-  }, [sectionIdsKey]);
+    if (typeof window === 'undefined' || !sectionIdsKey) return;
 
-  useEffect(() => {
-    if (typeof window === 'undefined' || !stableSectionIdsRef.current.length) return;
-
-    const ids = stableSectionIdsRef.current;
+    const ids = sectionIdsKey.split(',').filter(Boolean);
+    if (!ids.length) return;
 
     // 1. IntersectionObserver có rootMargin tính toán theo offset thực tế
     const topMargin = Math.max(0, offset);

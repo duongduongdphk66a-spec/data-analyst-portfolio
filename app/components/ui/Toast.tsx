@@ -11,7 +11,7 @@ interface ToastMessage {
 }
 
 interface ToastContextType {
-  showToast: (message: string, type?: 'success' | 'error' | 'info', duration?: number) => void;
+  showToast: (_message: string, _type?: 'success' | 'error' | 'info', _duration?: number) => void;
 }
 
 const ToastContext = createContext<ToastContextType>({

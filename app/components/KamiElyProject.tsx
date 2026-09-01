@@ -2,13 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { 
-  ArrowLeft, TrendingUp, Users, ShoppingBag, LayoutGrid, Award, 
-  Info, PieChart, BarChart3, LineChart as LineChartIcon, Code, Download, 
-  Globe, ExternalLink, Video, Radio, Flame, Sparkles, Filter, ChevronRight, Zap
+  ArrowLeft, Users, 
+  Download, ExternalLink, Radio, Link as LinkIcon, Flame
 } from 'lucide-react';
 import { 
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, 
-  Tooltip, ResponsiveContainer, Legend, PieChart as RechartsPieChart, Pie, Cell, AreaChart, Area
+  Tooltip, ResponsiveContainer, Legend, PieChart as RechartsPieChart, Pie, Cell
 } from 'recharts';
 import { useRouter } from 'next/navigation';
 import { trackVisitorAction } from '../lib/visitorTracking';
@@ -20,10 +19,8 @@ import {
 } from '../data/kamiElyData';
 
 import { useScrollSpy } from '@/hooks/useScrollSpy';
-
 import { useToast } from './ui/Toast';
 import { exportChartAsPng } from '../lib/chartExport';
-import { Link as LinkIcon } from 'lucide-react';
 
 const KAMI_ELY_SECTIONS = ['overview', 'sales', 'channels', 'affiliates', 'sku', 'automation'];
 
@@ -36,7 +33,6 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
   const [channelMetric, setChannelMetric] = useState<'units'|'gmv'>('units');
   const [contentMetric, setContentMetric] = useState<'units'|'gmv'>('units');
   const [affMetric, setAffMetric] = useState<'units'|'gmv'|'count'>('units');
-  const [skuSortBy, setSkuSortBy] = useState<'units' | 'gmv'>('units');
 
   const copyDeepLink = (sectionId: string, title: string) => {
     if (typeof window !== 'undefined') {
@@ -252,8 +248,17 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
         {/* SECTION 1: SALES TRAJECTORY & PEAK LIVE CAMPAIGN */}
         <section id="sales" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>01 : XU HƯỚNG DOANH SỐ & CHIẾN DỊCH MEGA LIVE</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>01 : XU HƯỚNG DOANH SỐ & CHIẾN DỊCH MEGA LIVE</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('sales', isEn ? 'Sales & Peak Live' : 'Xu hướng doanh số & Live')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'Mid-June Sales Peak: Mega-Live Marathons Delivering 1.95k Units/Day' : 'Đỉnh Điểm Giữa Tháng 6: Chuỗi Mega-Live Đạt 1.950 Sản Phẩm/Ngày'}
@@ -265,15 +270,25 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
             </p>
           </div>
 
-          <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-6 dark:bg-slate-900 dark:border-slate-800">
+          <div id="kami-sales-trend-chart" className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-6 dark:bg-slate-900 dark:border-slate-800">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3 dark:border-slate-800">
               <div>
                 <h3 className="text-base font-black text-slate-950 dark:text-white">{isEn ? '90-Day Weekly Units & GMV Trajectory' : 'Biểu đồ Số Lượng Bán & GMV Theo Tuần (90 Ngày)'}</h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400">Trích xuất từ dữ liệu chi tiết cửa hàng FastMoss</p>
               </div>
-              <span className="text-xs font-bold px-2.5 py-1 rounded bg-[#C8EEF7]/50 text-slate-900 border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
-                Đơn vị: Sản phẩm & Triệu VNĐ
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold px-2.5 py-1 rounded bg-[#C8EEF7]/50 text-slate-900 border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
+                  Đơn vị: Sản phẩm & Triệu VNĐ
+                </span>
+                <button
+                  onClick={() => handleExportChart('kami-sales-trend-chart', 'kami-ely-sales-trend')}
+                  className="flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
+                  title={isEn ? 'Export chart as PNG' : 'Tải ảnh biểu đồ PNG'}
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>PNG</span>
+                </button>
+              </div>
             </div>
 
             <div className="h-72 sm:h-80 w-full">
@@ -334,8 +349,17 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
         {/* SECTION 2: CHANNELS & CONTENT BREAKDOWN */}
         <section id="channels" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>02 : KÊNH GIAO DỊCH & ĐỊNH DẠNG NỘI DUNG</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>02 : KÊNH GIAO DỊCH & ĐỊNH DẠNG NỘI DUNG</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('channels', isEn ? 'Channels' : 'Kênh giao dịch')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'Livestream Dominance: 68% of Total Unit Volume' : 'Áp Đảo Của LIVE: Đóng Góp 68% Tổng Sản Phẩm Bán Ra'}
@@ -345,12 +369,22 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
           <div className="grid md:grid-cols-2 gap-8">
             
             {/* Channel Pie */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-6 dark:bg-slate-900 dark:border-slate-800">
+            <div id="kami-channel-chart" className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-6 dark:bg-slate-900 dark:border-slate-800">
               <div className="flex justify-between items-center border-b border-slate-100 pb-3 dark:border-slate-800">
                 <h3 className="text-base font-black text-slate-950 dark:text-white">{isEn ? 'By Channel' : 'Theo Kênh Giao Dịch'}</h3>
-                <div className="flex bg-slate-100 rounded-lg p-1 dark:bg-slate-800">
-                  <button onClick={() => setChannelMetric('units')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${channelMetric === 'units' ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-700 dark:text-[#9BE7FA]' : 'text-slate-600 dark:text-slate-400'}`}>{isEn ? 'Units' : 'Số Lượng'}</button>
-                  <button onClick={() => setChannelMetric('gmv')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${channelMetric === 'gmv' ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-700 dark:text-[#9BE7FA]' : 'text-slate-600 dark:text-slate-400'}`}>GMV</button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleExportChart('kami-channel-chart', 'kami-ely-channel-breakdown')}
+                    className="flex items-center gap-1 text-xs font-bold px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
+                    title={isEn ? 'Export chart as PNG' : 'Tải ảnh biểu đồ PNG'}
+                  >
+                    <Download className="w-3 h-3" />
+                    <span>PNG</span>
+                  </button>
+                  <div className="flex bg-slate-100 rounded-lg p-1 dark:bg-slate-800">
+                    <button onClick={() => setChannelMetric('units')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${channelMetric === 'units' ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-700 dark:text-[#9BE7FA]' : 'text-slate-600 dark:text-slate-400'}`}>{isEn ? 'Units' : 'Số Lượng'}</button>
+                    <button onClick={() => setChannelMetric('gmv')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${channelMetric === 'gmv' ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-700 dark:text-[#9BE7FA]' : 'text-slate-600 dark:text-slate-400'}`}>GMV</button>
+                  </div>
                 </div>
               </div>
               <div className="h-64 w-full">
@@ -369,12 +403,22 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
             </div>
 
             {/* Content Pie */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-6 dark:bg-slate-900 dark:border-slate-800">
+            <div id="kami-content-chart" className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-6 dark:bg-slate-900 dark:border-slate-800">
               <div className="flex justify-between items-center border-b border-slate-100 pb-3 dark:border-slate-800">
                 <h3 className="text-base font-black text-slate-950 dark:text-white">{isEn ? 'By Content Format' : 'Theo Định Dạng Nội Dung'}</h3>
-                <div className="flex bg-slate-100 rounded-lg p-1 dark:bg-slate-800">
-                  <button onClick={() => setContentMetric('units')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${contentMetric === 'units' ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-700 dark:text-[#9BE7FA]' : 'text-slate-600 dark:text-slate-400'}`}>{isEn ? 'Units' : 'Số Lượng'}</button>
-                  <button onClick={() => setContentMetric('gmv')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${contentMetric === 'gmv' ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-700 dark:text-[#9BE7FA]' : 'text-slate-600 dark:text-slate-400'}`}>GMV</button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleExportChart('kami-content-chart', 'kami-ely-content-breakdown')}
+                    className="flex items-center gap-1 text-xs font-bold px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
+                    title={isEn ? 'Export chart as PNG' : 'Tải ảnh biểu đồ PNG'}
+                  >
+                    <Download className="w-3 h-3" />
+                    <span>PNG</span>
+                  </button>
+                  <div className="flex bg-slate-100 rounded-lg p-1 dark:bg-slate-800">
+                    <button onClick={() => setContentMetric('units')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${contentMetric === 'units' ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-700 dark:text-[#9BE7FA]' : 'text-slate-600 dark:text-slate-400'}`}>{isEn ? 'Units' : 'Số Lượng'}</button>
+                    <button onClick={() => setContentMetric('gmv')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${contentMetric === 'gmv' ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-700 dark:text-[#9BE7FA]' : 'text-slate-600 dark:text-slate-400'}`}>GMV</button>
+                  </div>
                 </div>
               </div>
               <div className="h-64 w-full">
@@ -398,8 +442,17 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
         {/* SECTION 3: AFFILIATE NETWORK & NANO CREATOR INSIGHT */}
         <section id="affiliates" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>03 : MẠNG LƯỚI AFFILIATE & SỨC MẠNH NANO-CREATOR</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>03 : MẠNG LƯỚI AFFILIATE & SỨC MẠNH NANO-CREATOR</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('affiliates', isEn ? 'Affiliate Network' : 'Mạng lưới Affiliate')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'The Nano-Affiliate Powerhouse (1k - 5k Followers)' : 'Sức Mạnh Đột Phá Của Nhóm Nano-Affiliate (1k - 5k Followers)'}
@@ -477,8 +530,17 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
         {/* SECTION 4: TOP SKUs PERFORMANCE MATRIX */}
         <section id="sku" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>04 : MA TRẬN SẢN PHẨM CHỦ LỰC (TOP SKUS)</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>04 : MA TRẬN SẢN PHẨM CHỦ LỰC (TOP SKUS)</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('sku', isEn ? 'Product Matrix' : 'Ma trận sản phẩm')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'Product Matrix: Top 5 Best-Selling Swimwear & Apparel SKUs' : 'Ma Trận Sản Phẩm: Top 5 SKU Đồ Bơi & Thời Trang Bán Chạy Nhất'}
@@ -527,8 +589,17 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
         {/* SECTION 5: NODE.JS PPTX AUTOMATION */}
         <section id="automation" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>05 : TỰ ĐỘNG HÓA BÁO CÁO (AUTOMATION PIPELINE)</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>05 : TỰ ĐỘNG HÓA BÁO CÁO (AUTOMATION PIPELINE)</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('automation', isEn ? 'Report Automation' : 'Tự động hóa báo cáo')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'Automated PowerPoint Slide Deck Generation (Node.js & PptxGenJS)' : 'Tự Động Hóa Xuất Báo Cáo PowerPoint Với Node.js & PptxGenJS'}

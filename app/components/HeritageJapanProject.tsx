@@ -2,13 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { 
-  ArrowLeft, AlertCircle, TrendingUp, Info, BarChart3, Users, 
-  Landmark, FileText, CheckCircle2, MapPin, DollarSign, 
-  Briefcase, ShieldAlert, Sparkles, ExternalLink, Globe, BookOpen, Layers
+  ArrowLeft, Landmark, FileText, 
+  BookOpen, ExternalLink, Download, Link as LinkIcon
 } from 'lucide-react';
 import { 
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, 
-  Tooltip, ResponsiveContainer, Legend, AreaChart, Area, PieChart, Pie, Cell
+  Tooltip, ResponsiveContainer, Legend, AreaChart, Area
 } from 'recharts';
 import { useRouter } from 'next/navigation';
 import { trackVisitorAction } from '../lib/visitorTracking';
@@ -16,14 +15,12 @@ import { useLanguage } from '../context/LanguageContext';
 
 import {
   touristsData, kyotoNaraVisitorsData, spendNationalData,
-  spendRegionalComparisonData, gdpShareData,
+  gdpShareData,
 } from '../data/heritageJapanData';
 
 import { useScrollSpy } from '@/hooks/useScrollSpy';
-
 import { useToast } from './ui/Toast';
 import { exportChartAsPng } from '../lib/chartExport';
-import { Link as LinkIcon } from 'lucide-react';
 
 const HERITAGE_JAPAN_SECTIONS = ['overview', 'boi-canh', 'chinh-sach', 'du-lieu', 'giai-phap', 'ket-luan'];
 
@@ -232,14 +229,23 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
         </div>
       </header>
 
-      {/* SECTION 1: BỐI CẢNH NGHIÊN CỨU & KHUNG KHẢO SÁT */}
+      {/* SECTION 1: BỐI CẢNH & CÂU HỎI NGHIÊN CỨU */}
       <section id="boi-canh" className="py-16 max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
         <div className="space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-            <span>01 : CHƯƠNG 1 : BỐI CẢNH & KHÁI NIỆM</span>
+          <div className="flex items-center gap-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+              <span>01 : CHƯƠNG 1 : TỔNG QUAN & BỐI CẢNH</span>
+            </div>
+            <button
+              onClick={() => copyDeepLink('boi-canh', isEn ? 'Context' : 'Bối cảnh nghiên cứu')}
+              className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+              title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+            >
+              <LinkIcon className="w-3.5 h-3.5" />
+            </button>
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
-            {isEn ? 'Research Scope, Purpose and Theoretical Framework' : 'Mục Đích, Phạm Vi Khảo Sát & Khung Lý Thuyết'}
+            {isEn ? 'Heritage Tourism Explosion: 31.9 Million Foreign Visitors' : 'Du Lịch Di Sản: Động Lực Tăng Trưởng Kinh Tế Chiến Lược'}
           </h2>
         </div>
 
@@ -268,7 +274,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
 
           <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 space-y-4 shadow-xs dark:bg-slate-900/60 dark:border-slate-800">
             <h3 className="text-lg font-black text-slate-950 dark:text-white flex items-center gap-2">
-              <Globe className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
+              <BookOpen className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
               {isEn ? 'Global Heritage Market Context' : 'Bối Cảnh Thị Trường Du Lịch Di Sản Toàn Cầu'}
             </h3>
             <div className="grid grid-cols-2 gap-4">
@@ -294,8 +300,17 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="chinh-sach" className="py-16 bg-[#F8FCFD] border-y border-slate-200/80 dark:bg-slate-900/40 dark:border-slate-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>02 : CHƯƠNG 2 : HỆ THỐNG PHÁP LÝ & CHÍNH SÁCH</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>02 : CHƯƠNG 2 : HỆ THỐNG PHÁP LÝ & CHÍNH SÁCH</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('chinh-sach', isEn ? 'Policy Matrix' : 'Chính sách bảo tồn')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'Policy Evolution: Legal Conservation First, Tourism Action Program Follows' : 'Tiến Trình Chính Sách: Pháp Lý Đi Trước, Du Lịch Theo Sau'}
@@ -336,7 +351,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
           </div>
 
           <div className="p-5 rounded-2xl bg-[#FFF9E6] border border-[#FFE485] text-xs sm:text-sm text-slate-800 flex items-start gap-3 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300">
-            <Info className="w-5 h-5 text-[#0D7287] dark:text-[#FFD14C] shrink-0 mt-0.5" />
+            <FileText className="w-5 h-5 text-[#0D7287] dark:text-[#FFD14C] shrink-0 mt-0.5" />
             <p className="leading-relaxed">
               <b>{isEn ? 'Key Analytical Finding:' : 'Phát hiện phân tích chính:'}</b> {isEn 
                 ? 'Japan succeeded because administrative heritage conservation systems were enacted decades before mass tourism promotion, establishing robust preservation guardrails prior to the 2013 explosion.'
@@ -350,8 +365,17 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="du-lieu" className="py-16 max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>03 : CHƯƠNG 3 : PHÂN TÍCH HIỆU QUẢ DU LỊCH</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>03 : CHƯƠNG 3 : PHÂN TÍCH HIỆU QUẢ DU LỊCH</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('du-lieu', isEn ? 'Telemetry & Charts' : 'Số liệu định lượng')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'Interactive Quantitative Telemetry (6 Datasets)' : 'Trực Quan Hóa Chuỗi Số Liệu Định Lượng'}
@@ -407,8 +431,18 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
         </div>
 
         {/* Dynamic Chart Display Container */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-6 dark:bg-slate-900 dark:border-slate-800">
-          
+        <div id="heritage-japan-main-chart" className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-6 dark:bg-slate-900 dark:border-slate-800">
+          <div className="flex justify-end no-print">
+            <button
+              onClick={() => handleExportChart('heritage-japan-main-chart', `japan-heritage-${activeChartTab}`)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
+              title={isEn ? 'Export chart as PNG' : 'Tải ảnh biểu đồ PNG'}
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>{isEn ? 'Export PNG' : 'Xuất PNG'}</span>
+            </button>
+          </div>
+
           {/* TAB 1: TOÀN QUỐC */}
           {activeChartTab === 'national' && (
             <div className="space-y-4">
@@ -611,8 +645,17 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="giai-phap" className="py-16 bg-[#F8FCFD] border-t border-slate-200/80 dark:bg-slate-900/40 dark:border-slate-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>04 : CHƯƠNG 3.2 : THÁCH THỨC & GIẢI PHÁP THỰC TIỄN</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>04 : CHƯƠNG 3.2 : THÁCH THỨC & GIẢI PHÁP THỰC TIỄN</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('giai-phap', isEn ? 'Case Studies' : 'Giải pháp thực tiễn')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'Overtourism Bottlenecks & 5 Ground-Level Policy Interventions' : 'Quá Tải Du Lịch & 5 Mô Hình Ứng Phó Thực Nghiệm'}
@@ -694,9 +737,18 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="ket-luan" className="py-16 max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
         <div className="p-8 sm:p-10 rounded-3xl bg-[#090D16] text-white space-y-6">
           <div className="space-y-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#9BE7FA]">
-              KẾT LUẬN & ĐỀ XUẤT CHÍNH SÁCH
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#9BE7FA]">
+                KẾT LUẬN & ĐỀ XUẤT CHÍNH SÁCH
+              </span>
+              <button
+                onClick={() => copyDeepLink('ket-luan', isEn ? 'Synthesis' : 'Tổng kết & Đề xuất')}
+                className="p-1 rounded-md text-slate-400 hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
+            </div>
             <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
               {isEn ? 'Summary: Transition from Volume Growth to Quality & Sustainability' : 'Chuyển Đổi Chiến Lược: Từ "Số Lượng" Sang "Chất Lượng & Bền Vững"'}
             </h2>

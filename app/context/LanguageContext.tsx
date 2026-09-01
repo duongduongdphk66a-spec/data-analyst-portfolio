@@ -1,21 +1,22 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useSyncExternalStore, ReactNode, useCallback } from 'react';
+import React, { createContext, useContext, useSyncExternalStore, ReactNode, useCallback } from 'react';
 import { translations, TranslationKey } from '../data/translations';
+import { usePortfolioData } from './PortfolioDataContext';
 
 export type Language = 'vi' | 'en';
 
 interface LanguageContextType {
   language: Language;
-  setLanguage: (lang: Language) => void;
+  setLanguage: (_lang: Language) => void;
   toggleLanguage: () => void;
-  t: (key: TranslationKey | string, fallback?: string) => string;
+  t: (_key: TranslationKey | string, _fallback?: string) => string;
   isEnglish: boolean;
   dynamicTexts: {
     vi: Record<string, string>;
     en: Record<string, string>;
   };
-  setDynamicTexts: React.Dispatch<React.SetStateAction<{ vi: Record<string, string>; en: Record<string, string> }>>;
+  setDynamicTexts: (_texts: { vi: Record<string, string>; en: Record<string, string> }) => void;
   reloadTexts: () => Promise<void>;
 }
 
@@ -38,43 +39,11 @@ function subscribeLanguage(callback: () => void) {
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const language: Language = useSyncExternalStore(subscribeLanguage, getSavedLanguage, () => 'vi' as Language);
-  const [dynamicTexts, setDynamicTexts] = useState<{ vi: Record<string, string>; en: Record<string, string> }>({
-    vi: {},
-    en: {},
-  });
+  const { customTexts, refreshData } = usePortfolioData();
 
   const reloadTexts = useCallback(async () => {
-    try {
-      const res = await fetch('/api/texts').then((r) => r.json()).catch(() => null);
-      if (res && res.data) {
-        setDynamicTexts({
-          vi: res.data.vi || {},
-          en: res.data.en || {},
-        });
-      }
-    } catch {
-      // ignore network errors
-    }
-  }, []);
-
-  useEffect(() => {
-    let active = true;
-    fetch('/api/texts')
-      .then((r) => r.json())
-      .then((res) => {
-        if (active && res && res.data) {
-          setDynamicTexts({
-            vi: res.data.vi || {},
-            en: res.data.en || {},
-          });
-        }
-      })
-      .catch(() => {});
-
-    return () => {
-      active = false;
-    };
-  }, []);
+    await refreshData();
+  }, [refreshData]);
 
   const setLanguage = (newLang: Language) => {
     localStorage.setItem('portfolio_lang', newLang);
@@ -86,8 +55,8 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const t = (key: TranslationKey | string, fallback?: string): string => {
-    // 1. Check custom dynamic overrides from MySQL
-    const dynamicDict = language === 'en' ? dynamicTexts.en : dynamicTexts.vi;
+    // 1. Check custom dynamic overrides from MySQL (via PortfolioDataContext)
+    const dynamicDict = language === 'en' ? customTexts?.en : customTexts?.vi;
     if (dynamicDict && dynamicDict[key]) {
       return dynamicDict[key];
     }
@@ -115,8 +84,8 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
         toggleLanguage,
         t,
         isEnglish: language === 'en',
-        dynamicTexts,
-        setDynamicTexts,
+        dynamicTexts: customTexts,
+        setDynamicTexts: () => {},
         reloadTexts,
       }}
     >

@@ -1,26 +1,21 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { 
-  ArrowLeft, Bus, BookOpen, Database, Cpu, Zap, 
-  Clock, ShieldCheck, CheckCircle2, Award, ExternalLink, 
-  Flame, BarChart3, LineChart as LineChartIcon, RefreshCw, 
-  Layers, GitBranch, ArrowRight, Code, Server, Check
+  ArrowLeft, Bus, 
+  ExternalLink, Code, Download, Link as LinkIcon 
 } from 'lucide-react';
 import { 
-  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, 
-  Tooltip, ResponsiveContainer, Legend, AreaChart, Area
+  XAxis, YAxis, CartesianGrid, 
+  Tooltip, ResponsiveContainer, AreaChart, Area
 } from 'recharts';
 import { useRouter } from 'next/navigation';
 import { trackVisitorAction } from '../lib/visitorTracking';
 import { useLanguage } from '../context/LanguageContext';
-import { weeklyActivityData, busFleetData } from '../data/libraryBusData';
-
+import { weeklyActivityData } from '../data/libraryBusData';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
-
 import { useToast } from './ui/Toast';
 import { exportChartAsPng } from '../lib/chartExport';
-import { Link as LinkIcon } from 'lucide-react';
 
 const LIBRARY_BUS_SECTIONS = ['overview', 'kien-truc', 'thuat-toan', 'schema', 'celery', 'stack'];
 
@@ -29,8 +24,6 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
   const { language, setLanguage, t } = useLanguage();
   const { showToast } = useToast();
   const isEn = language === 'en';
-
-  const [activeChartMetric, setActiveChartMetric] = useState<'borrows' | 'efficiency'>('borrows');
 
   const copyDeepLink = (sectionId: string, title: string) => {
     if (typeof window !== 'undefined') {
@@ -139,6 +132,20 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               <span className="font-mono text-xs">GitHub</span>
             </a>
 
+            {/* Open Standalone Page if Embedded */}
+            {isEmbedded && (
+              <a
+                href="/projects/proj-library-bus"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors flex items-center gap-1.5 px-3 ml-1.5 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200"
+                title={isEn ? 'Open standalone page in new tab' : 'Mở trang độc lập'}
+              >
+                <ExternalLink className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                <span className="font-mono text-xs">{isEn ? 'Tab' : 'Tab mới'}</span>
+              </a>
+            )}
+
             {/* Quick Language Toggle */}
             <button
               onClick={() => setLanguage(isEn ? 'vi' : 'en')}
@@ -241,10 +248,20 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               </div>
 
               {/* Mini Trend Chart */}
-              <div className="pt-1">
-                <div className="text-xs font-bold text-slate-700 mb-2 dark:text-slate-300 flex justify-between">
+              <div className="pt-1" id="lib-bus-telemetry-chart">
+                <div className="text-xs font-bold text-slate-700 mb-2 dark:text-slate-300 flex justify-between items-center">
                   <span>Xu hướng mượn vs trả trong tuần</span>
-                  <span className="font-mono text-[10px] text-slate-400">DailyStats</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-mono text-[10px] text-slate-400">DailyStats</span>
+                    <button
+                      onClick={() => handleExportChart('lib-bus-telemetry-chart', 'library-bus-telemetry')}
+                      className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
+                      title={isEn ? 'Export chart as PNG' : 'Tải ảnh biểu đồ PNG'}
+                    >
+                      <Download className="w-2.5 h-2.5" />
+                      <span>PNG</span>
+                    </button>
+                  </div>
                 </div>
                 <div className="h-40 w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -279,10 +296,19 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-20">
         
         {/* SECTION 1: BỐI CẢNH & CẤU TRÚC 7 DJANGO APPS */}
-        <section className="space-y-6 reveal-element opacity-0 translate-y-8 transition-all duration-700">
+        <section id="boi-canh" className="space-y-6 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>01 : BỐI CẢNH HỆ THỐNG</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>01 : BỐI CẢNH HỆ THỐNG</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('boi-canh', isEn ? 'Context' : 'Bối cảnh hệ thống')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'Not Just a Regular Library Website' : 'Không Chỉ Là Một Website Mượn Sách'}
@@ -318,8 +344,17 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         {/* SECTION 2: KIẾN TRÚC & LUỒNG DỮ LIỆU (6-STOP ROUTE) */}
         <section id="kien-truc" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>02 : KIẾN TRÚC & LUỒNG DỮ LIỆU (ROUTE LINE)</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>02 : KIẾN TRÚC & LUỒNG DỮ LIỆU (ROUTE LINE)</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('kien-truc', isEn ? 'Architecture' : 'Kiến trúc dữ liệu')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'From a Single Book Borrow to a Dashboard Metric' : 'Từ Một Lượt Mượn Sách Đến Một Dòng Trong Báo Cáo'}
@@ -390,8 +425,17 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         {/* SECTION 3: THUẬT TOÁN & CÔNG THỨC TRỌNG SỐ */}
         <section id="thuat-toan" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>03 : CHỈ SỐ & THUẬT TOÁN TÍNH ĐIỂM</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>03 : CHỈ SỐ & THUẬT TOÁN TÍNH ĐIỂM</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('thuat-toan', isEn ? 'Algorithms' : 'Thuật toán')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'Three Transparent Weighting Formulas' : 'Ba Công Thức Điều Khiển Toàn Bộ Hệ Thống Điểm'}
@@ -462,8 +506,17 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         {/* SECTION 4: SCHEMA MODELS (MÔ HÌNH DỮ LIỆU) */}
         <section id="schema" className="space-y-6 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>04 : MÔ HÌNH DỮ LIỆU (SCHEMA MODELS)</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>04 : MÔ HÌNH DỮ LIỆU (SCHEMA MODELS)</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('schema', isEn ? 'Data Schema' : 'Mô hình dữ liệu')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'Core Analytics Models' : 'Các Bảng Cốt Lõi Của App Analytics'}
@@ -503,8 +556,17 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         {/* SECTION 5: CELERY BEAT SCHEDULE */}
         <section id="celery" className="space-y-6 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>05 : VẬN HÀNH NỀN (CELERY BEAT PIPELINE)</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>05 : VẬN HÀNH NỀN (CELERY BEAT PIPELINE)</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('celery', isEn ? 'Celery Pipeline' : 'Vận hành Celery')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'Automated Celery Beat Schedule' : 'Lịch Chạy Tác Vụ Nền Celery Beat'}
@@ -541,8 +603,17 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         {/* SECTION 6: TECH STACK CHIPS */}
         <section id="stack" className="space-y-6 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>06 : HẠ TẦNG CÔNG NGHỆ</span>
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <span>06 : HẠ TẦNG CÔNG NGHỆ</span>
+              </div>
+              <button
+                onClick={() => copyDeepLink('stack', isEn ? 'Tech Stack' : 'Hạ tầng công nghệ')}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+              >
+                <LinkIcon className="w-3.5 h-3.5" />
+              </button>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
               {isEn ? 'Configured for High-Load Scalability' : 'Cấu Hình Sẵn Sàng Cho Tải Cao'}

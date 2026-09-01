@@ -8,16 +8,24 @@ export type ResolvedTheme = 'light' | 'dark';
 interface ThemeContextType {
   theme: Theme;
   resolvedTheme: ResolvedTheme;
-  setTheme: (theme: Theme) => void;
+  setTheme: (_theme: Theme) => void;
   toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-function getSavedTheme(): Theme {
+function getThemeSnapshot(): Theme {
   if (typeof window === 'undefined') return 'system';
   const saved = localStorage.getItem('portfolio_theme') as Theme | null;
   return saved && ['light', 'dark', 'system'].includes(saved) ? saved : 'system';
+}
+
+function getResolvedThemeSnapshot(): ResolvedTheme {
+  if (typeof window === 'undefined') return 'light';
+  const saved = localStorage.getItem('portfolio_theme') as Theme | null;
+  if (saved === 'dark') return 'dark';
+  if (saved === 'light') return 'light';
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
 function subscribeTheme(callback: () => void) {
@@ -33,11 +41,8 @@ function subscribeTheme(callback: () => void) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const theme: Theme = useSyncExternalStore(subscribeTheme, getSavedTheme, () => 'system' as Theme);
-
-  // Compute resolved effective theme purely
-  const isSystemDark = typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)').matches : false;
-  const resolvedTheme: ResolvedTheme = theme === 'dark' ? 'dark' : theme === 'light' ? 'light' : isSystemDark ? 'dark' : 'light';
+  const theme = useSyncExternalStore(subscribeTheme, getThemeSnapshot, () => 'system' as Theme);
+  const resolvedTheme = useSyncExternalStore(subscribeTheme, getResolvedThemeSnapshot, () => 'light' as ResolvedTheme);
 
   // Synchronize class with DOM
   useEffect(() => {
@@ -55,7 +60,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const toggleTheme = useCallback(() => {
-    const next = resolvedTheme === 'dark' ? 'light' : 'dark';
+    const next: Theme = resolvedTheme === 'dark' ? 'light' : 'dark';
     setTheme(next);
   }, [resolvedTheme, setTheme]);
 
@@ -79,7 +84,7 @@ export function useTheme() {
     return {
       theme: 'light' as Theme,
       resolvedTheme: 'light' as ResolvedTheme,
-      setTheme: () => {},
+      setTheme: (_theme: Theme) => {},
       toggleTheme: () => {},
     };
   }

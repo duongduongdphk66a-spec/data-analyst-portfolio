@@ -3,7 +3,7 @@ import { DEFAULT_PROFILE, DEFAULT_PROJECTS } from '../defaultData';
 import { translations } from '../data/translations';
 
 let pool: Pool | null = null;
-let isInitialized = false;
+let _isInitialized = false;
 
 /**
  * Get or create the MySQL connection pool.
@@ -51,7 +51,7 @@ export async function testDbConnection(): Promise<{ connected: boolean; message:
     if (!p) {
       return { connected: false, message: 'MySQL Pool is not available.' };
     }
-    const [rows] = await p.query('SELECT 1 + 1 AS solution');
+    const [_rows] = await p.query('SELECT 1 + 1 AS solution');
     return {
       connected: true,
       message: 'Successfully connected to MySQL database.',
@@ -240,7 +240,7 @@ export async function initDatabase(): Promise<{ success: boolean; message: strin
       }
     }
 
-    isInitialized = true;
+    _isInitialized = true;
     return {
       success: true,
       message: 'Database schema created and initial seed completed successfully.',

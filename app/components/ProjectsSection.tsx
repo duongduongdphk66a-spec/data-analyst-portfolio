@@ -15,7 +15,7 @@ import { gsap, useGSAP } from '../lib/gsap';
 
 interface ProjectsSectionProps {
   projects: ProjectData[];
-  onSelectProject?: (projId: string) => void;
+  onSelectProject?: (_projId: string) => void;
 }
 
 export default React.memo(function ProjectsSection({ projects, onSelectProject }: ProjectsSectionProps) {

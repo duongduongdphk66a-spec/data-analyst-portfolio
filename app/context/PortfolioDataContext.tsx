@@ -26,12 +26,12 @@ interface PortfolioDataContextType {
   dbStatus: DbStatus;
   isLoading: boolean;
   isSaving: boolean;
-  updateProfile: (updated: Partial<ProfileData>) => Promise<{ success: boolean; message: string }>;
-  updateCustomTexts: (updates: Array<{ text_key: string; lang: 'vi' | 'en'; value_text: string; section?: string }>) => Promise<{ success: boolean; message: string }>;
-  updateProjects: (updated: ProjectData[]) => Promise<{ success: boolean; message: string }>;
+  updateProfile: (_updated: Partial<ProfileData>) => Promise<{ success: boolean; message: string }>;
+  updateCustomTexts: (_updates: Array<{ text_key: string; lang: 'vi' | 'en'; value_text: string; section?: string }>) => Promise<{ success: boolean; message: string }>;
+  updateProjects: (_updated: ProjectData[]) => Promise<{ success: boolean; message: string }>;
   refreshData: () => Promise<void>;
   resetToDefault: () => Promise<{ success: boolean; message: string }>;
-  getCustomText: (key: string, lang: 'vi' | 'en', fallback?: string) => string;
+  getCustomText: (_key: string, _lang: 'vi' | 'en', _fallback?: string) => string;
 }
 
 const PortfolioDataContext = createContext<PortfolioDataContextType | undefined>(undefined);

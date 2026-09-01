@@ -7,7 +7,7 @@ import {
 } from 'recharts';
 import { 
   DollarSign, Users, Activity, TrendingUp, BarChart3, 
-  Download, Upload, Search, RefreshCw, Database, Sparkles, Filter, Check, Edit3, ShieldCheck
+  Download, Upload, Search, RefreshCw, Database, Sparkles, Filter, Edit3
 } from 'lucide-react';
 import Papa from 'papaparse';
 import { DashboardData, KpiItem, ChartConfig } from '../types';
@@ -69,6 +69,15 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
   const filteredRows = useMemo(() => {
     let list = activeTable;
 
+    if (channelFilter !== 'all') {
+      const matchKeyword = channelFilter === 'live' ? 'live' : 'affiliate';
+      list = list.filter(row =>
+        Object.values(row).some(val =>
+          String(val).toLowerCase().includes(matchKeyword)
+        )
+      );
+    }
+
     if (searchTerm.trim()) {
       const lower = searchTerm.toLowerCase();
       list = list.filter(row => 
@@ -79,7 +88,7 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
     }
 
     return list;
-  }, [activeTable, searchTerm]);
+  }, [activeTable, searchTerm, channelFilter]);
 
   // Extract table column headers
   const columns = useMemo(() => {
@@ -131,6 +140,7 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
   const handleResetTable = () => {
     setCustomTableData(null);
     setSearchTerm('');
+    setChannelFilter('all');
     showToast(isEn ? 'Reset to default data' : 'Đã khôi phục dữ liệu mặc định', 'info');
   };
 
@@ -142,10 +152,21 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
     }
   };
 
-  // Export Dashboard / Print Executive Report
+  // Export Dashboard / Print Executive Report with Loading State
   const exportPDF = () => {
-    window.print();
-    showToast(isEn ? 'Opening print preview...' : 'Đang mở chế độ xem in báo cáo...', 'info');
+    setIsExporting(true);
+    showToast(isEn ? 'Preparing print view...' : 'Đang chuẩn bị báo cáo in...', 'info');
+
+    const handleAfterPrint = () => {
+      setIsExporting(false);
+      window.removeEventListener('afterprint', handleAfterPrint);
+    };
+    window.addEventListener('afterprint', handleAfterPrint);
+
+    setTimeout(() => {
+      window.print();
+      setTimeout(() => setIsExporting(false), 2000);
+    }, 350);
   };
 
   // Export Table Data to CSV
@@ -320,7 +341,7 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-base font-extrabold text-slate-900 dark:text-white">
-                  Quản Trị Nội Dung & Cơ Sở Dữ Liệu MySQL (pplo)
+                  Quản Trị Nội Dung & Cơ Sở Dữ Liệu MySQL (portfolio_db)
                 </h2>
                 <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                   dbStatus.connected
@@ -349,12 +370,12 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
 
       {/* Multi-Dimension Interactive Filter Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-surface/30 dark:bg-slate-900/90 rounded-2xl border border-border-subtle dark:border-slate-800 no-print">
-        <div className="flex items-center gap-2 text-xs font-semibold text-ink-secondary dark:text-slate-300">
-          <Filter className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-          <span>{isEn ? 'Filter Time Horizon:' : 'Bộ lọc thời gian:'}</span>
-        </div>
-
+        {/* Time Horizon Filter */}
         <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-ink-secondary dark:text-slate-300 mr-1">
+            <Filter className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+            <span>{isEn ? 'Time Horizon:' : 'Chu kỳ:'}</span>
+          </div>
           {[
             { id: 'all', label: isEn ? 'All Horizons' : 'Tất cả chu kỳ' },
             { id: 'q1_q2', label: isEn ? 'H1 (Q1 - Q2)' : 'Nửa đầu năm (H1)' },
@@ -370,6 +391,30 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
               }`}
             >
               {f.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Channel Filter */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-semibold text-ink-secondary dark:text-slate-300 mr-1">
+            {isEn ? 'Channel:' : 'Kênh:'}
+          </span>
+          {[
+            { id: 'all', label: isEn ? 'All Channels' : 'Tất cả kênh' },
+            { id: 'live', label: isEn ? 'Live Shopping' : 'Live Shopping' },
+            { id: 'affiliate', label: isEn ? 'Affiliate Network' : 'Affiliate' },
+          ].map((c) => (
+            <button
+              key={c.id}
+              onClick={() => setChannelFilter(c.id as any)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-heading font-medium transition-all cursor-pointer ${
+                channelFilter === c.id
+                  ? 'bg-[#0D7287] text-white dark:bg-cyan-600 font-bold shadow-xs'
+                  : 'bg-white dark:bg-slate-800 text-ink-secondary dark:text-slate-300 border border-border-subtle dark:border-slate-700'
+              }`}
+            >
+              {c.label}
             </button>
           ))}
         </div>

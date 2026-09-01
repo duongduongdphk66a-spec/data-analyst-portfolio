@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Play, Copy, Check, ArrowRight, Upload, Download, 
-  Terminal, Sparkles, Database, FileSpreadsheet, RefreshCw
+  Sparkles, Database, FileSpreadsheet
 } from 'lucide-react';
 import {
   ResponsiveContainer, BarChart, Bar, AreaChart, Area,
@@ -23,12 +23,12 @@ import { validateUploadedFile } from '../lib/security';
 
 interface AboutSectionProps {
   profile: ProfileData;
-  onSelectProject?: (projId: string) => void;
-  onNavigateTab?: (tabId: string) => void;
+  onSelectProject?: (_projId: string) => void;
+  onNavigateTab?: (_tabId: string) => void;
 }
 
-export default function AboutSection({ profile, onSelectProject, onNavigateTab }: AboutSectionProps) {
-  const { language, t } = useLanguage();
+export default function AboutSection({ profile, onSelectProject, onNavigateTab: _onNavigateTab }: AboutSectionProps) {
+  const { language } = useLanguage();
   const { resolvedTheme } = useTheme();
   const { showToast } = useToast();
   const isEn = language === 'en';
@@ -146,7 +146,6 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
           const parsed = results.data as Record<string, any>[];
           setCustomData(parsed);
           setUploadedFileName(file.name);
-          const firstCol = Object.keys(parsed[0])[0];
           setCustomQuery(`SELECT * FROM ${file.name.replace(/\.[^/.]+$/, '')} LIMIT 10;`);
           setCustomResult(null);
           showToast(isEn ? `Loaded ${file.name} (${parsed.length} rows)` : `Đã nạp tệp ${file.name} (${parsed.length} dòng)`, 'success');

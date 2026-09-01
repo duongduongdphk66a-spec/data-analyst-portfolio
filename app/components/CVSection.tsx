@@ -12,7 +12,7 @@ interface CVSectionProps {
   title?: string;
 }
 
-export default React.memo(function CVSection({ experiences, name, title }: CVSectionProps) {
+export default React.memo(function CVSection({ experiences, name: _name, title: _title }: CVSectionProps) {
   const { language } = useLanguage();
   const isEn = language === 'en';
   const sectionRef = useRef<HTMLElement>(null);

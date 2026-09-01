@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { ArrowRight, Download, Edit3, Database } from 'lucide-react';
+import { ArrowRight, Download, Edit3 } from 'lucide-react';
 import {
   AreaChart, Area, ResponsiveContainer, YAxis, Tooltip,
 } from 'recharts';
@@ -14,8 +14,8 @@ import AnimatedCounter from './ui/AnimatedCounter';
 
 interface HeroSectionProps {
   profile: ProfileData;
-  onNavigateTab?: (tabId: string) => void;
-  onSelectProject?: (projId: string) => void;
+  onNavigateTab?: (_tabId: string) => void;
+  onSelectProject?: (_projId: string) => void;
   onOpenAdmin?: () => void;
 }
 

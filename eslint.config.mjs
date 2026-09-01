@@ -13,6 +13,7 @@ export default defineConfig([
       "@next/next/no-html-link-for-pages": "off",
       "@next/next/no-img-element": "off",
       "@next/next/no-page-custom-font": "off",
+      "no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }]
     }
   }
 ]);

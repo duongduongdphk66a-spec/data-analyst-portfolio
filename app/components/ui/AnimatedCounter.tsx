@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useRef } from 'react';
-import { gsap, useGSAP } from '../../lib/gsap';
+import React, { useRef, useEffect } from 'react';
+import { gsap } from '../../lib/gsap';
 
 interface AnimatedCounterProps {
   value: string | number;
@@ -19,6 +19,7 @@ export default function AnimatedCounter({
   triggerOnScroll = true,
 }: AnimatedCounterProps) {
   const spanRef = useRef<HTMLSpanElement>(null);
+  const animatedRef = useRef(false);
 
   // Parse string value into prefix, numeric target, suffix, and decimal precision
   const { prefix, numericVal, suffix, decimals } = React.useMemo(() => {
@@ -54,38 +55,72 @@ export default function AnimatedCounter({
     };
   }, [value]);
 
-  useGSAP(() => {
-    if (!spanRef.current) return;
+  useEffect(() => {
+    const el = spanRef.current;
+    if (!el) return;
 
     // Check prefers-reduced-motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      spanRef.current.innerText = `${prefix}${numericVal.toLocaleString('vi-VN', {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.innerText = `${prefix}${numericVal.toLocaleString('vi-VN', {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals,
       })}${suffix}`;
       return;
     }
 
-    const counterObj = { val: 0 };
+    let tween: gsap.core.Tween | null = null;
 
-    const updateText = () => {
-      if (spanRef.current) {
-        const formattedNum = counterObj.val.toLocaleString('vi-VN', {
-          minimumFractionDigits: decimals,
-          maximumFractionDigits: decimals,
-        });
-        spanRef.current.innerText = `${prefix}${formattedNum}${suffix}`;
-      }
+    const startAnimation = () => {
+      if (animatedRef.current) return;
+      animatedRef.current = true;
+
+      const counterObj = { val: 0 };
+
+      const updateText = () => {
+        if (el) {
+          const formattedNum = counterObj.val.toLocaleString('vi-VN', {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals,
+          });
+          el.innerText = `${prefix}${formattedNum}${suffix}`;
+        }
+      };
+
+      tween = gsap.to(counterObj, {
+        val: numericVal,
+        duration,
+        delay,
+        ease: 'power2.out',
+        onUpdate: updateText,
+      });
     };
 
-    gsap.to(counterObj, {
-      val: numericVal,
-      duration,
-      delay,
-      ease: 'power2.out',
-      onUpdate: updateText,
-    });
-  }, { scope: spanRef, dependencies: [numericVal, prefix, suffix, decimals, duration, delay] });
+    if (!triggerOnScroll) {
+      startAnimation();
+      return () => {
+        if (tween) tween.kill();
+      };
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            startAnimation();
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      if (tween) tween.kill();
+    };
+  }, [numericVal, prefix, suffix, decimals, duration, delay, triggerOnScroll]);
 
   return (
     <span ref={spanRef} className={className}>

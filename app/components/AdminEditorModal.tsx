@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   X, Save, User, FileText, Database, Plus, Trash2, 
   Check, RefreshCw, Sparkles, Copy, CheckCheck, ShieldCheck,
-  Lock, KeyRound, LogOut, ExternalLink, Eye, EyeOff, FolderGit2
+  Lock, KeyRound, LogOut, Eye, EyeOff, FolderGit2
 } from 'lucide-react';
 import { usePortfolioData } from '../context/PortfolioDataContext';
 import { useLanguage } from '../context/LanguageContext';

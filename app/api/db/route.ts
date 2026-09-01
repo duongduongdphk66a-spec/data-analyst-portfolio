@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDbPool, testDbConnection, initDatabase } from '@/app/lib/db';
-import { DEFAULT_PROFILE } from '@/app/defaultData';
-import { translations } from '@/app/data/translations';
 import { verifyAdminRequest } from '@/app/lib/auth';
 
 export async function GET() {
