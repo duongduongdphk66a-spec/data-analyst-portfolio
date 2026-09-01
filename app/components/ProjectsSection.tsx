@@ -91,15 +91,10 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
   useGSAP(() => {
     gsap.from('.project-card-item', {
       autoAlpha: 0,
-      y: 35,
-      stagger: 0.15,
-      duration: 0.7,
+      y: 25,
+      stagger: 0.1,
+      duration: 0.5,
       ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.projects-list',
-        start: 'top 85%',
-        once: true,
-      },
     });
   }, { scope: containerRef, dependencies: [filteredProjects.length, selectedTag] });
 
@@ -118,7 +113,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-200/90 dark:border-slate-800">
         <div className="space-y-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
             <Sparkles className="w-3.5 h-3.5" />
             <span>{t('projects_badge', 'Case Studies & Phân Tích Thực Tế')}</span>
           </div>
@@ -188,7 +183,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
               
               <div className="relative h-56 sm:h-64 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700 group">
                 {proj.featured && (
-                  <div className="absolute top-3 left-3 z-10 bg-[#FFD14C] text-slate-950 px-2.5 py-1 rounded-full text-[11px] font-bold shadow-xs flex items-center gap-1 font-mono">
+                  <div className="absolute top-3 left-3 z-10 bg-[#FFD14C] text-slate-950 px-2.5 py-1 rounded-full text-[11px] font-bold shadow-xs flex items-center gap-1 font-serif">
                     <Star className="w-3 h-3 fill-current" />
                     <span>CASE STUDY 0{idx + 1}</span>
                   </div>
@@ -214,7 +209,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
                 
                 {/* Overlay quick open */}
                 <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs font-semibold">
-                  <span className="font-mono">{proj.tags.slice(0, 2).join(' · ')}</span>
+                  <span>{proj.tags.slice(0, 2).join(' · ')}</span>
                   <button 
                     onClick={() => handleOpenDetail(proj.id)}
                     className="p-2 rounded-lg bg-white/20 hover:bg-white/40 backdrop-blur-md transition-colors cursor-pointer"
@@ -230,10 +225,10 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
                 <div className="grid grid-cols-2 gap-2.5">
                   {proj.metrics.slice(0, 2).map((m) => (
                     <div key={m.label} className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-0.5 dark:bg-slate-800/80 dark:border-slate-700">
-                      <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block dark:text-slate-400">
+                      <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block dark:text-slate-400">
                         {m.label}
                       </span>
-                      <div className="text-lg font-bold font-mono text-slate-950 tabular-nums dark:text-white">
+                      <div className="text-lg font-bold font-serif text-slate-950 tabular-nums dark:text-white">
                         {m.value}
                       </div>
                       {m.change && (
@@ -315,7 +310,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-slate-100 dark:border-slate-800">
                 
                 {/* Tools */}
-                <div className="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-slate-400">
+                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                   <Cpu className="w-3.5 h-3.5 text-slate-700 dark:text-slate-300" />
                   <span>{proj.tools ? proj.tools.join(' · ') : proj.tags.join(' · ')}</span>
                 </div>

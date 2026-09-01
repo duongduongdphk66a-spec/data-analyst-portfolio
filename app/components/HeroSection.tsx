@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { ArrowRight, Download } from 'lucide-react';
+import { ArrowRight, Download, Edit3, Database } from 'lucide-react';
 import {
   AreaChart, Area, ResponsiveContainer, YAxis, Tooltip,
 } from 'recharts';
@@ -16,6 +16,7 @@ interface HeroSectionProps {
   profile: ProfileData;
   onNavigateTab?: (tabId: string) => void;
   onSelectProject?: (projId: string) => void;
+  onOpenAdmin?: () => void;
 }
 
 const heroChartData = [
@@ -42,7 +43,7 @@ const STATS_EN = [
   { value: '93.7%', label: 'Performance gain' },
 ];
 
-export default function HeroSection({ profile, onNavigateTab, onSelectProject }: HeroSectionProps) {
+export default function HeroSection({ profile, onNavigateTab, onSelectProject, onOpenAdmin }: HeroSectionProps) {
   const { language, t } = useLanguage();
   const { resolvedTheme } = useTheme();
   const isEn = language === 'en';
@@ -100,7 +101,7 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject }:
             <div className="hero-badge inline-flex items-center gap-2 px-3.5 py-1.5 bg-surface/40 border border-surface-vivid/30 dark:bg-slate-800 dark:border-slate-700 rounded-full shadow-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-accent dark:bg-amber-400 animate-pulse" />
               <span className="text-xs font-heading font-medium text-ink-secondary dark:text-slate-300 tracking-wide">
-                {t('hero_badge', 'Data Analyst | Business Intelligence & Analytics')}
+                {t('hero_badge', profile.title ? `${profile.title} | Business Intelligence & Analytics` : 'Data Analyst | Business Intelligence & Analytics')}
               </span>
             </div>
 
@@ -110,17 +111,17 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject }:
                 {profile.name || 'Ma Văn Hùng'}
               </h1>
               <p className="hero-subtitle text-xl sm:text-2xl lg:text-[1.7rem] font-heading font-medium text-ink-secondary dark:text-slate-300 leading-snug max-w-xl">
-                {isEn
+                {profile.subtitle || t('hero_subtitle', isEn
                   ? 'Turning raw data into strategic insights that drive business decisions.'
-                  : 'Chuyển hóa dữ liệu thô thành insight chiến lược, hỗ trợ ra quyết định kinh doanh.'}
+                  : 'Chuyển hóa dữ liệu thô thành insight chiến lược, hỗ trợ ra quyết định kinh doanh.')}
               </p>
             </div>
 
             {/* Bio line */}
             <p className="hero-bio text-base text-ink-secondary dark:text-slate-300 leading-relaxed max-w-lg" style={{ fontFamily: 'var(--font-body)' }}>
-              {isEn
+              {profile.bio || t('about_default_bio', isEn
                 ? 'SQL, Python, Power BI specialist. I extract, clean, model, and visualize data to help leadership teams make evidence-based decisions.'
-                : 'Chuyên SQL, Python, Power BI. Khai thác, chuẩn hóa, mô hình hóa và trực quan hóa dữ liệu, giúp đội ngũ quản trị ra quyết định dựa trên bằng chứng.'}
+                : 'Chuyên SQL, Python, Power BI. Khai thác, chuẩn hóa, mô hình hóa và trực quan hóa dữ liệu, giúp đội ngũ quản trị ra quyết định dựa trên bằng chứng.')}
             </p>
 
             {/* Stats row */}
@@ -151,6 +152,16 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject }:
                 <Download className="w-4 h-4" />
                 {t('cta_view_cv', 'Tải CV PDF')}
               </button>
+              {onOpenAdmin && (
+                <button
+                  onClick={onOpenAdmin}
+                  className="hero-cta-btn flex items-center gap-2 px-4 py-3 bg-[#0D7287]/10 hover:bg-[#0D7287]/20 text-[#0D7287] dark:bg-[#9BE7FA]/10 dark:hover:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] border border-[#0D7287]/30 dark:border-[#9BE7FA]/30 font-heading font-semibold text-sm rounded-lg transition-all duration-200 cursor-pointer shadow-xs"
+                  title="Chỉnh sửa thông tin cá nhân & MySQL CMS"
+                >
+                  <Edit3 className="w-4 h-4" />
+                  <span>Sửa Thông Tin (CMS)</span>
+                </button>
+              )}
             </div>
           </div>
 
@@ -197,8 +208,8 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject }:
                         boxShadow: isDark ? '0 4px 16px rgba(0,0,0,0.4)' : '0 4px 12px rgba(26,35,50,0.06)',
                       }}
                       labelStyle={{ color: isDark ? '#94a3b8' : '#7b8fa6', fontWeight: 500, marginBottom: 2 }}
-                      formatter={(value: any) => [`${value}M`, isEn ? 'Tourists' : 'Khách']}
-                      labelFormatter={(label: any) => `${isEn ? 'Year' : 'Năm'} ${label}`}
+                      formatter={(value: number | string | readonly (string | number)[] | undefined) => [`${value}M`, isEn ? 'Tourists' : 'Khách']}
+                      labelFormatter={(label: React.ReactNode) => `${isEn ? 'Year' : 'Năm'} ${label ?? ''}`}
                     />
                     <Area
                       type="monotone"

@@ -3,28 +3,31 @@ import { Lora, Merriweather, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { ToastProvider } from './components/ui/Toast';
+import { PortfolioDataProvider } from './context/PortfolioDataContext';
 
 const lora = Lora({
   subsets: ['latin', 'vietnamese'],
-  variable: '--font-lora',
-  display: 'swap',
   weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],
+  variable: '--font-lora',
+  display: 'swap',
 });
 
 const merriweather = Merriweather({
   subsets: ['latin', 'vietnamese'],
-  variable: '--font-merriweather',
-  display: 'swap',
   weight: ['300', '400', '700', '900'],
   style: ['normal', 'italic'],
+  variable: '--font-merriweather',
+  display: 'swap',
 });
 
-const jetbrains = JetBrains_Mono({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin', 'vietnamese'],
-  variable: '--font-jetbrains',
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-mono',
   display: 'swap',
-  weight: ['400', '500'],
 });
 
 export const metadata: Metadata = {
@@ -51,8 +54,6 @@ const themeInitScript = `
     } catch (e) {}
   })();
 `;
-
-import { ToastProvider } from './components/ui/Toast';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -81,21 +82,29 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`scroll-smooth ${lora.variable} ${merriweather.variable} ${jetbrains.variable}`}
+      className={`${lora.variable} ${merriweather.variable} ${jetbrainsMono.variable} scroll-smooth font-lora`}
       suppressHydrationWarning
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
+        />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body suppressHydrationWarning className="bg-ground text-ink min-h-screen transition-colors duration-200">
+      <body suppressHydrationWarning className="bg-ground text-ink font-lora min-h-screen transition-colors duration-200">
         <ThemeProvider>
           <LanguageProvider>
             <ToastProvider>
-              {children}
+              <PortfolioDataProvider>
+                {children}
+              </PortfolioDataProvider>
             </ToastProvider>
           </LanguageProvider>
         </ThemeProvider>

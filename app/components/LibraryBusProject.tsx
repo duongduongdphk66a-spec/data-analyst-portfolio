@@ -94,7 +94,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-[#FFE485]/40 dark:bg-slate-950 dark:text-slate-100">
+    <div className="min-h-screen bg-white font-lora text-slate-900 selection:bg-[#FFE485]/40 dark:bg-slate-950 dark:text-slate-100">
       
       {/* Top Navbar */}
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/90 transition-all dark:bg-slate-900/90 dark:border-slate-800">
@@ -160,7 +160,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
           <div className="flex flex-col lg:flex-row gap-10 justify-between items-start mb-12">
             <div className="max-w-2xl space-y-4">
               
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#C8EEF7]/60 border border-[#9BE7FA] rounded-md text-xs font-bold font-mono tracking-wide text-slate-900 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#C8EEF7]/60 border border-[#9BE7FA] rounded-md text-xs font-bold tracking-wide text-slate-900 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
                 <Bus className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#FFD14C]" />
                 <span>{isEn ? 'LINE 01 · DATA ARCHITECTURE & ANALYTICS CASE STUDY' : 'LINE 01 : CASE STUDY KIẾN TRÚC DỮ LIỆU & TẦNG ANALYTICS'}</span>
               </div>
@@ -183,10 +183,10 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
                   {isEn ? 'Core Role:' : 'Vai trò:'} <b className="text-[#0D7287] dark:text-[#9BE7FA]">Thiết kế Backend & Tầng Analytics</b>
                 </span>
                 <span className="text-xs font-bold px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
-                  {isEn ? 'Core Stack:' : 'Stack:'} <b className="text-[#0D7287] dark:text-[#9BE7FA] font-mono">Django · MySQL · Redis · Celery</b>
+                  {isEn ? 'Core Stack:' : 'Stack:'} <b className="text-[#0D7287] dark:text-[#9BE7FA]">Django · MySQL · Redis · Celery</b>
                 </span>
                 <span className="text-xs font-bold px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
-                  {isEn ? 'Capacity Target:' : 'Mục tiêu tải:'} <b className="text-[#0D7287] dark:text-[#FFD14C] font-mono">50k Users / 500 Conns</b>
+                  {isEn ? 'Capacity Target:' : 'Mục tiêu tải:'} <b className="text-[#0D7287] dark:text-[#FFD14C] font-serif font-bold">50k Users / 500 Conns</b>
                 </span>
               </div>
 
@@ -206,7 +206,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
             {/* Live Dashboard Mock Widget */}
             <div className="bg-white/95 border border-slate-200/90 rounded-3xl p-6 shadow-xl w-full lg:max-w-md space-y-4 dark:bg-slate-900/90 dark:border-slate-800">
               <div className="flex justify-between items-center border-b border-slate-100 pb-3 dark:border-slate-800">
-                <div className="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-slate-400">
+                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                   <div className="flex gap-1">
                     <span className="w-2 h-2 rounded-full bg-red-400"></span>
                     <span className="w-2 h-2 rounded-full bg-amber-400"></span>
@@ -214,7 +214,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
                   </div>
                   <span>/analytics/reports · Dashboard</span>
                 </div>
-                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-green-100 text-green-800 dark:bg-green-950/60 dark:text-green-300">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-green-100 text-green-800 dark:bg-green-950/60 dark:text-green-300">
                   LIVE TELEMETRY
                 </span>
               </div>
@@ -222,20 +222,20 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               {/* 4 Mock Stats */}
               <div className="grid grid-cols-2 gap-2.5">
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 dark:bg-slate-800/60 dark:border-slate-700">
-                  <div className="text-[10px] uppercase tracking-wider text-slate-500 font-mono dark:text-slate-400">Lượt mượn (kỳ)</div>
-                  <div className="text-xl font-black font-mono text-[#0D7287] dark:text-[#9BE7FA]">1.284</div>
+                  <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold dark:text-slate-400">Lượt mượn (kỳ)</div>
+                  <div className="text-xl font-black font-serif text-[#0D7287] dark:text-[#9BE7FA]">1.284</div>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 dark:bg-slate-800/60 dark:border-slate-700">
-                  <div className="text-[10px] uppercase tracking-wider text-slate-500 font-mono dark:text-slate-400">Người dùng mới</div>
-                  <div className="text-xl font-black font-mono text-slate-950 dark:text-white">96</div>
+                  <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold dark:text-slate-400">Người dùng mới</div>
+                  <div className="text-xl font-black font-serif text-slate-950 dark:text-white">96</div>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 dark:bg-slate-800/60 dark:border-slate-700">
-                  <div className="text-[10px] uppercase tracking-wider text-slate-500 font-mono dark:text-slate-400">Tỷ lệ hoàn trả</div>
-                  <div className="text-xl font-black font-mono text-[#0D7287] dark:text-[#FFD14C]">91.4%</div>
+                  <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold dark:text-slate-400">Tỷ lệ hoàn trả</div>
+                  <div className="text-xl font-black font-serif text-[#0D7287] dark:text-[#FFD14C]">91.4%</div>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 dark:bg-slate-800/60 dark:border-slate-700">
-                  <div className="text-[10px] uppercase tracking-wider text-slate-500 font-mono dark:text-slate-400">Xe bus hoạt động</div>
-                  <div className="text-xl font-black font-mono text-slate-950 dark:text-white">7 / 9 xe</div>
+                  <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold dark:text-slate-400">Xe bus hoạt động</div>
+                  <div className="text-xl font-black font-serif text-slate-950 dark:text-white">7 / 9 xe</div>
                 </div>
               </div>
 
@@ -371,13 +371,13 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               }
             ].map((s) => (
               <div key={s.stop} className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex items-start gap-4 dark:bg-slate-900 dark:border-slate-800">
-                <div className="w-8 h-8 rounded-full bg-[#0D7287] text-white flex items-center justify-center font-mono font-bold text-xs shrink-0 dark:bg-[#9BE7FA] dark:text-slate-950">
+                <div className="w-8 h-8 rounded-full bg-[#0D7287] text-white flex items-center justify-center font-serif font-bold text-xs shrink-0 dark:bg-[#9BE7FA] dark:text-slate-950">
                   {s.stop}
                 </div>
                 <div className="space-y-1.5 flex-1">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                     <h3 className="text-base font-black text-slate-950 dark:text-white">{s.title}</h3>
-                    <span className="font-mono text-xs text-[#0D7287] dark:text-[#9BE7FA]">{s.tag}</span>
+                    <span className="text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA]">{s.tag}</span>
                   </div>
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">{s.desc}</p>
                 </div>
@@ -389,7 +389,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         {/* SECTION 3: THUẬT TOÁN & CÔNG THỨC TRỌNG SỐ */}
         <section id="thuat-toan" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
               <span>03 : CHỈ SỐ & THUẬT TOÁN TÍNH ĐIỂM</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
@@ -407,7 +407,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
             {/* Formula 1 */}
             <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-[#FFE485] text-slate-950 flex items-center justify-center font-mono font-bold text-xs dark:bg-[#FFD14C]">01</span>
+                <span className="w-6 h-6 rounded-full bg-[#FFE485] text-slate-950 flex items-center justify-center font-serif font-bold text-xs dark:bg-[#FFD14C]">01</span>
                 <h4 className="text-sm font-black text-slate-950 dark:text-white">Điểm Phổ Biến Sách</h4>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
@@ -425,7 +425,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
             {/* Formula 2 */}
             <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-[#C8EEF7] text-slate-950 flex items-center justify-center font-mono font-bold text-xs dark:bg-slate-800 dark:text-[#9BE7FA]">02</span>
+                <span className="w-6 h-6 rounded-full bg-[#C8EEF7] text-slate-950 flex items-center justify-center font-serif font-bold text-xs dark:bg-slate-800 dark:text-[#9BE7FA]">02</span>
                 <h4 className="text-sm font-black text-slate-950 dark:text-white">Hiệu Suất Xe Bus</h4>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
@@ -440,7 +440,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
             {/* Formula 3 */}
             <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-[#FFE485] text-slate-950 flex items-center justify-center font-mono font-bold text-xs dark:bg-[#FFD14C]">03</span>
+                <span className="w-6 h-6 rounded-full bg-[#FFE485] text-slate-950 flex items-center justify-center font-serif font-bold text-xs dark:bg-[#FFD14C]">03</span>
                 <h4 className="text-sm font-black text-slate-950 dark:text-white">Cấp Độ Thành Viên</h4>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
@@ -461,7 +461,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         {/* SECTION 4: SCHEMA MODELS (MÔ HÌNH DỮ LIỆU) */}
         <section id="schema" className="space-y-6 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
               <span>04 : MÔ HÌNH DỮ LIỆU (SCHEMA MODELS)</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
@@ -471,7 +471,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
 
           <div className="overflow-x-auto rounded-3xl border border-slate-200/90 bg-white shadow-sm dark:bg-slate-900 dark:border-slate-800">
             <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-slate-50 text-slate-700 font-mono font-bold uppercase border-b border-slate-200 dark:bg-slate-800/80 dark:text-slate-300 dark:border-slate-700">
+              <thead className="bg-slate-50 text-slate-700 font-bold uppercase border-b border-slate-200 dark:bg-slate-800/80 dark:text-slate-300 dark:border-slate-700">
                 <tr>
                   <th className="p-4">Model Name</th>
                   <th className="p-4">Vai Trò Chính</th>
@@ -502,7 +502,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         {/* SECTION 5: CELERY BEAT SCHEDULE */}
         <section id="celery" className="space-y-6 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
               <span>05 : VẬN HÀNH NỀN (CELERY BEAT PIPELINE)</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
@@ -527,7 +527,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               ].map((b) => (
                 <div key={b.tag} className="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors dark:hover:bg-slate-800/50">
                   <div className="flex items-center gap-4">
-                    <span className="w-24 font-mono font-bold text-xs text-[#0D7287] dark:text-[#FFD14C]">{b.time}</span>
+                    <span className="w-24 font-serif font-bold text-xs text-[#0D7287] dark:text-[#FFD14C]">{b.time}</span>
                     <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{b.task}</span>
                   </div>
                   <span className="font-mono text-[11px] text-slate-400 hidden sm:inline-block">{b.tag}</span>
@@ -540,7 +540,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         {/* SECTION 6: TECH STACK CHIPS */}
         <section id="stack" className="space-y-6 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
               <span>06 : HẠ TẦNG CÔNG NGHỆ</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">

@@ -19,6 +19,7 @@ import { gsap, useGSAP } from '../lib/gsap';
 import { executeClientSql, SqlQueryResult } from '../lib/sqlEngine';
 import { exportChartAsPng } from '../lib/chartExport';
 import { useToast } from './ui/Toast';
+import { validateUploadedFile } from '../lib/security';
 
 interface AboutSectionProps {
   profile: ProfileData;
@@ -41,7 +42,12 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
   const [isRunning, setIsRunning] = useState(false);
   const [showResult, setShowResult] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [typedQuery, setTypedQuery] = useState('');
+  const [typedQuery, setTypedQuery] = useState(SQL_SCENARIOS[0].query);
+  const isMounted = React.useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
   const sectionRef = useRef<HTMLElement>(null);
 
   // Custom SQL state
@@ -64,7 +70,6 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
     if (sandboxMode !== 'presets') return;
     const fullQuery = scenario.query;
     let i = 0;
-    setTypedQuery('');
     const timer = setInterval(() => {
       i += 3;
       if (i >= fullQuery.length) {
@@ -82,26 +87,16 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
     gsap.from('.about-goal-item', {
       autoAlpha: 0,
       y: 20,
-      stagger: 0.12,
-      duration: 0.6,
+      stagger: 0.1,
+      duration: 0.5,
       ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.about-goals-grid',
-        start: 'top 85%',
-        once: true,
-      },
     });
 
     gsap.from('.about-sql-demo', {
       autoAlpha: 0,
-      y: 30,
-      duration: 0.7,
+      y: 25,
+      duration: 0.6,
       ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.about-sql-demo',
-        start: 'top 85%',
-        once: true,
-      },
     });
   }, { scope: sectionRef });
 
@@ -134,6 +129,13 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    const validation = validateUploadedFile(file, { allowedExtensions: ['.csv'], maxSizeBytes: 5 * 1024 * 1024 });
+    if (!validation.isValid) {
+      showToast(validation.error || (isEn ? 'Invalid file.' : 'Tệp không hợp lệ.'), 'error');
+      e.target.value = '';
+      return;
+    }
 
     Papa.parse(file, {
       header: true,
@@ -178,6 +180,9 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
   };
 
   const renderPresetChart = () => {
+    if (!isMounted) {
+      return <div className="h-[160px] w-full flex items-center justify-center text-xs text-ink-muted animate-pulse font-heading">Đang tải trực quan hóa...</div>;
+    }
     const s = scenario;
     const tooltipStyle = {
       backgroundColor: isDark ? '#1e293b' : '#fafcfd',
@@ -197,7 +202,7 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
           <BarChart data={s.data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
             <XAxis dataKey={s.xAxisKey} tick={{ fontSize: 10, fontFamily: 'var(--font-heading)', fill: axisColor }} axisLine={false} tickLine={false} />
             <YAxis hide />
-            <Tooltip contentStyle={tooltipStyle} cursor={false} formatter={(val: any) => [`${val} ${s.unit}`, '']} />
+            <Tooltip contentStyle={tooltipStyle} cursor={false} formatter={(val: number | string | readonly (string | number)[] | undefined) => [`${val} ${s.unit}`, '']} />
             <Bar dataKey={s.dataKey} radius={[4, 4, 0, 0]} barSize={36}>
               {s.data.map((_, i) => (
                 <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
@@ -220,7 +225,7 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
             </defs>
             <XAxis dataKey={s.xAxisKey} tick={{ fontSize: 10, fontFamily: 'var(--font-heading)', fill: axisColor }} axisLine={false} tickLine={false} />
             <YAxis hide />
-            <Tooltip contentStyle={tooltipStyle} cursor={false} formatter={(val: any) => [`${val} ${s.unit}`, '']} />
+            <Tooltip contentStyle={tooltipStyle} cursor={false} formatter={(val: number | string | readonly (string | number)[] | undefined) => [`${val} ${s.unit}`, '']} />
             <Area type="monotone" dataKey={s.dataKey} stroke="#9BE7FA" strokeWidth={2} fill="url(#sqlAreaGrad)" dot={false} activeDot={{ r: 4, fill: '#9BE7FA', stroke: isDark ? '#1e293b' : '#fafcfd', strokeWidth: 2 }} />
           </AreaChart>
         </ResponsiveContainer>
@@ -240,17 +245,21 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab }
     );
   };
 
-  const goals = isEn
-    ? [
-        { title: 'Optimize Data Pipelines', desc: 'Design clean ETL/ELT workflows, master relational databases, and standardize multi-source data for automated analysis.' },
-        { title: 'Build Advanced Dashboards', desc: 'Develop real-time BI dashboards on Power BI/Tableau, apply segmentation models and time-series forecasting.' },
-        { title: 'Data Storytelling', desc: 'Translate complex technical insights into clear data narratives that help leadership make growth decisions.' },
-      ]
-    : [
-        { title: 'Tối ưu hóa Data Pipeline', desc: 'Thiết kế quy trình ETL/ELT sạch, làm chủ CSDL quan hệ và chuẩn hóa dữ liệu đa nguồn phục vụ phân tích tự động.' },
-        { title: 'Xây dựng Dashboard nâng cao', desc: 'Phát triển báo cáo trực quan hóa thời gian thực trên Power BI/Tableau, áp dụng phân khúc và dự báo chuỗi thời gian.' },
-        { title: 'Data Storytelling', desc: 'Truyền tải insight kỹ thuật phức tạp thành câu chuyện dữ liệu rõ ràng, hỗ trợ quản trị ra quyết định tăng trưởng.' },
-      ];
+  const defaultGoalsEn = [
+    { title: 'Optimize Data Pipelines', desc: 'Design clean ETL/ELT workflows, master relational databases, and standardize multi-source data for automated analysis.' },
+    { title: 'Build Advanced Dashboards', desc: 'Develop real-time BI dashboards on Power BI/Tableau, apply segmentation models and time-series forecasting.' },
+    { title: 'Data Storytelling', desc: 'Translate complex technical insights into clear data narratives that help leadership make growth decisions.' },
+  ];
+
+  const defaultGoalsVi = [
+    { title: 'Tối ưu hóa Data Pipeline', desc: 'Thiết kế quy trình ETL/ELT sạch, làm chủ CSDL quan hệ và chuẩn hóa dữ liệu đa nguồn phục vụ phân tích tự động.' },
+    { title: 'Xây dựng Dashboard nâng cao', desc: 'Phát triển báo cáo trực quan hóa thời gian thực trên Power BI/Tableau, áp dụng phân khúc và dự báo chuỗi thời gian.' },
+    { title: 'Data Storytelling', desc: 'Truyền tải insight kỹ thuật phức tạp thành câu chuyện dữ liệu rõ ràng, hỗ trợ quản trị ra quyết định tăng trưởng.' },
+  ];
+
+  const goals = (profile.careerGoalsList && profile.careerGoalsList.length > 0)
+    ? profile.careerGoalsList.map(g => ({ title: g.title, desc: g.desc }))
+    : (isEn ? defaultGoalsEn : defaultGoalsVi);
 
   return (
     <section id="about" ref={sectionRef} className="section-alt py-20 md:py-28 transition-colors duration-200">

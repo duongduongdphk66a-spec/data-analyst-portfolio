@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
+import { gsap, useGSAP } from '../../lib/gsap';
 
 interface AnimatedCounterProps {
   value: string | number;
@@ -78,29 +78,14 @@ export default function AnimatedCounter({
       }
     };
 
-    if (triggerOnScroll) {
-      gsap.to(counterObj, {
-        val: numericVal,
-        duration,
-        delay,
-        ease: 'power2.out',
-        onUpdate: updateText,
-        scrollTrigger: {
-          trigger: spanRef.current,
-          start: 'top 90%',
-          once: true,
-        },
-      });
-    } else {
-      gsap.to(counterObj, {
-        val: numericVal,
-        duration,
-        delay,
-        ease: 'power2.out',
-        onUpdate: updateText,
-      });
-    }
-  }, { scope: spanRef, dependencies: [numericVal, prefix, suffix, decimals, duration, delay, triggerOnScroll] });
+    gsap.to(counterObj, {
+      val: numericVal,
+      duration,
+      delay,
+      ease: 'power2.out',
+      onUpdate: updateText,
+    });
+  }, { scope: spanRef, dependencies: [numericVal, prefix, suffix, decimals, duration, delay] });
 
   return (
     <span ref={spanRef} className={className}>

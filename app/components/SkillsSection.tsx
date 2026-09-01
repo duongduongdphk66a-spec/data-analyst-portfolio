@@ -86,41 +86,26 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
     gsap.from('.skills-header', {
       autoAlpha: 0,
       y: 20,
-      duration: 0.6,
+      duration: 0.5,
       ease: 'power2.out',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 85%',
-        once: true,
-      },
     });
 
     // Stagger pipeline stages
     gsap.from('.pipeline-stage-card', {
       autoAlpha: 0,
-      y: 30,
-      stagger: 0.12,
-      duration: 0.7,
+      y: 25,
+      stagger: 0.08,
+      duration: 0.6,
       ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.pipeline-grid',
-        start: 'top 80%',
-        once: true,
-      },
     });
 
     // Stagger proficiency skills
     gsap.from('.skill-bar-item', {
       autoAlpha: 0,
       y: 15,
-      stagger: 0.06,
+      stagger: 0.05,
       duration: 0.5,
       ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.skills-legend',
-        start: 'top 90%',
-        once: true,
-      },
     });
   }, { scope: sectionRef });
 

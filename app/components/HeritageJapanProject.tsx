@@ -97,7 +97,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-[#FFE485]/40 dark:bg-slate-950 dark:text-slate-100">
+    <div className="min-h-screen bg-white font-lora text-slate-900 selection:bg-[#FFE485]/40 dark:bg-slate-950 dark:text-slate-100">
       
       {/* Sticky Top Navigation Bar */}
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/90 transition-all dark:bg-slate-900/90 dark:border-slate-800">
@@ -163,7 +163,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
           
           {/* Metadata pill badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#C8EEF7]/60 border border-[#9BE7FA] rounded-md text-xs font-bold font-mono tracking-wide text-slate-900 mb-6 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#C8EEF7]/60 border border-[#9BE7FA] rounded-md text-xs font-bold tracking-wide text-slate-900 mb-6 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
             <BookOpen className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
             <span>{isEn ? 'ACADEMIC THESIS & DATA ANALYTICS CASE STUDY' : 'CÔNG TRÌNH NIÊN LUẬN & TRỰC QUAN HÓA DỮ LIỆU ĐỊNH LƯỢNG'}</span>
           </div>
@@ -184,7 +184,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
           {/* Academic Origin Box */}
           <div className="p-4 sm:p-5 rounded-2xl bg-white/90 border border-slate-200/90 shadow-xs mb-10 max-w-3xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 dark:bg-slate-900/90 dark:border-slate-800">
             <div className="space-y-1">
-              <div className="text-xs font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+              <div className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
                 {isEn ? 'RESEARCHER & ACADEMIC ADVISOR' : 'TÁC GIẢ NGHIÊN CỨU & GIẢNG VIÊN HƯỚNG DẪN'}
               </div>
               <div className="text-sm font-bold text-slate-950 dark:text-white">
@@ -195,7 +195,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full bg-[#FFE485]/40 text-slate-900 border border-[#FFD14C] text-xs font-mono font-bold dark:bg-slate-800 dark:text-[#FFD14C] dark:border-slate-700">
+              <span className="px-3 py-1 rounded-full bg-[#FFE485]/40 text-slate-900 border border-[#FFD14C] text-xs font-serif font-bold dark:bg-slate-800 dark:text-[#FFD14C] dark:border-slate-700">
                 {isEn ? 'Grade: Excellent' : 'Hà Nội, 2024'}
               </span>
             </div>
@@ -204,27 +204,27 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
           {/* Key Metric Telemetry Badges */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl">
             <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-slate-950 dark:text-white">31.9M</div>
+              <div className="text-2xl sm:text-3xl font-black font-serif text-slate-950 dark:text-white">31.9M</div>
               <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? 'Peak Inbound Tourists (2019)' : 'Đỉnh khách quốc tế (2019)'}</div>
-              <div className="text-[10px] font-mono text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '+207% vs 2013' : 'Gấp ~3 lần năm 2013'}</div>
+              <div className="text-[11px] text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '+207% vs 2013' : 'Gấp ~3 lần năm 2013'}</div>
             </div>
 
             <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-slate-950 dark:text-white">4.81T ¥</div>
+              <div className="text-2xl sm:text-3xl font-black font-serif text-slate-950 dark:text-white">4.81T ¥</div>
               <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? 'Tourist Spending (2019)' : 'Chi tiêu khách quốc tế (2019)'}</div>
-              <div className="text-[10px] font-mono text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '3.4x surge in 7 yrs' : 'Tăng gấp 3.4 lần trong 7 năm'}</div>
+              <div className="text-[11px] text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '3.4x surge in 7 yrs' : 'Tăng gấp 3.4 lần trong 7 năm'}</div>
             </div>
 
             <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-slate-950 dark:text-white">7.5%</div>
+              <div className="text-2xl sm:text-3xl font-black font-serif text-slate-950 dark:text-white">7.5%</div>
               <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? 'GDP Contribution (2019)' : 'Tỷ trọng đóng góp GDP (2019)'}</div>
-              <div className="text-[10px] font-mono text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? 'Rank #3 Global Tourism' : 'Đứng #3 nền kinh tế du lịch'}</div>
+              <div className="text-[11px] text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? 'Rank #3 Global Tourism' : 'Đứng #3 nền kinh tế du lịch'}</div>
             </div>
 
             <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-slate-950 dark:text-white">25</div>
+              <div className="text-2xl sm:text-3xl font-black font-serif text-slate-950 dark:text-white">25</div>
               <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? 'UNESCO World Heritage Sites' : 'Di sản Thế giới UNESCO'}</div>
-              <div className="text-[10px] font-mono text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '20 Cultural · 5 Natural' : '20 Văn hóa : 5 Thiên nhiên'}</div>
+              <div className="text-[11px] text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '20 Cultural · 5 Natural' : '20 Văn hóa : 5 Thiên nhiên'}</div>
             </div>
           </div>
 
@@ -234,7 +234,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       {/* SECTION 1: BỐI CẢNH NGHIÊN CỨU & KHUNG KHẢO SÁT */}
       <section id="boi-canh" className="py-16 max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
         <div className="space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
             <span>01 : CHƯƠNG 1 : BỐI CẢNH & KHÁI NIỆM</span>
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
@@ -272,11 +272,11 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="p-4 rounded-2xl bg-[#FFF9E6] border border-[#FFE485] dark:bg-slate-800/80 dark:border-slate-700">
-                <div className="text-2xl font-black font-mono text-slate-950 dark:text-[#FFD14C]">40%</div>
+                <div className="text-2xl font-black font-serif text-slate-950 dark:text-[#FFD14C]">40%</div>
                 <div className="text-xs text-slate-600 mt-1 dark:text-slate-400">{isEn ? 'of global travelers choose cultural heritage destinations (UNWTO)' : 'du khách toàn cầu chọn điểm đến di sản văn hóa (UNWTO)'}</div>
               </div>
               <div className="p-4 rounded-2xl bg-[#C8EEF7]/50 border border-[#9BE7FA] dark:bg-slate-800/80 dark:border-slate-700">
-                <div className="text-2xl font-black font-mono text-slate-950 dark:text-[#9BE7FA]">556.9B $</div>
+                <div className="text-2xl font-black font-serif text-slate-950 dark:text-[#9BE7FA]">556.9B $</div>
                 <div className="text-xs text-slate-600 mt-1 dark:text-slate-400">{isEn ? 'Global Heritage Tourism Revenue (CAGR 3.8% to $778B in 2030)' : 'Quy mô doanh thu du lịch di sản toàn cầu năm 2021'}</div>
               </div>
             </div>
@@ -293,7 +293,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="chinh-sach" className="py-16 bg-[#F8FCFD] border-y border-slate-200/80 dark:bg-slate-900/40 dark:border-slate-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
               <span>02 : CHƯƠNG 2 : HỆ THỐNG PHÁP LÝ & CHÍNH SÁCH</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
@@ -325,7 +325,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
               }
             ].map((item) => (
               <div key={item.period} className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-2 dark:bg-slate-900 dark:border-slate-800">
-                <span className="inline-block px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-800 font-mono text-xs font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
+                <span className="inline-block px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-800 font-serif text-xs font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
                   {item.period}
                 </span>
                 <h4 className="text-sm font-black text-slate-950 leading-snug dark:text-white">{item.title}</h4>
@@ -349,7 +349,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="du-lieu" className="py-16 max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
               <span>03 : CHƯƠNG 3 : PHÂN TÍCH HIỆU QUẢ DU LỊCH</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
@@ -400,7 +400,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                   : 'text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white'
               }`}
             >
-              {isEn ? '4. Macro GDP Impact' : '4. Tác Động GDP'}
+              {isEn ? '4. Macro GDP Impact' : '4. GDP & Việc Làm'}
             </button>
           </div>
         </div>
@@ -416,11 +416,11 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                   <h3 className="text-lg font-black text-slate-950 dark:text-white">
                     {isEn ? 'Biểu đồ 3.1: International Inbound Arrivals to Japan (2003 - 2022)' : 'Biểu đồ 3.1: Số lượng khách du lịch nước ngoài đến Nhật Bản (2003 - 2022)'}
                   </h3>
-                  <p className="text-xs text-slate-500 font-mono dark:text-slate-400">
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     Nguồn: Sách trắng Bộ Đất đai, Cơ sở hạ tầng, Giao thông và Du lịch Nhật Bản (MLIT)
                   </p>
                 </div>
-                <span className="text-xs font-mono font-bold px-2.5 py-1 rounded bg-[#C8EEF7]/50 text-slate-900 border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
+                <span className="text-xs font-bold px-2.5 py-1 rounded bg-[#C8EEF7]/50 text-slate-900 border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
                   Đơn vị: Triệu lượt khách
                 </span>
               </div>
@@ -439,7 +439,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                     <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
                     <Tooltip 
                       contentStyle={{ borderRadius: '12px', border: '1px solid #CBD5E1', fontSize: '12px' }}
-                      formatter={(val: any) => [`${val} triệu khách`, 'Lượng khách']}
+                      formatter={(val: number | string | readonly (string | number)[] | undefined) => [`${val} triệu lượt`, 'Khách quốc tế']}
                     />
                     <Area type="monotone" dataKey="value" stroke="#0D7287" strokeWidth={2.5} fill="url(#nationalInboundGrad)" />
                   </AreaChart>
@@ -471,11 +471,11 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                   <h3 className="text-lg font-black text-slate-950 dark:text-white">
                     {isEn ? 'Biểu đồ 3.2 & 3.3: Inbound Tourists to Historic Kyoto and Nara (2009 - 2023)' : 'Biểu đồ 3.2 & 3.3: Lượng khách quốc tế tại Cố đô Kyoto và Cố đô Nara'}
                   </h3>
-                  <p className="text-xs text-slate-500 font-mono dark:text-slate-400">
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     Nguồn: Cục Du lịch Tỉnh Kyoto & Ban Xúc tiến Du lịch Tỉnh Nara
                   </p>
                 </div>
-                <span className="text-xs font-mono font-bold px-2.5 py-1 rounded bg-[#FFE485]/40 text-slate-900 border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C]">
+                <span className="text-xs font-bold px-2.5 py-1 rounded bg-[#FFE485]/40 text-slate-900 border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C]">
                   Đơn vị: Nghìn lượt khách
                 </span>
               </div>
@@ -488,7 +488,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                     <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
                     <Tooltip 
                       contentStyle={{ borderRadius: '12px', border: '1px solid #CBD5E1', fontSize: '12px' }}
-                      formatter={(val: any) => [`${val} nghìn khách`, '']}
+                      formatter={(val: number | string | readonly (string | number)[] | undefined) => [`${val} nghìn khách`, '']}
                     />
                     <Legend verticalAlign="top" height={36} iconType="circle" />
                     <Line type="monotone" dataKey="kyoto" name="Cố đô Kyoto" stroke="#0D7287" strokeWidth={3} dot={{ r: 3 }} activeDot={{ r: 5 }} />
@@ -518,11 +518,11 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                   <h3 className="text-lg font-black text-slate-950 dark:text-white">
                     {isEn ? 'Biểu đồ 3.4 & 3.5: International Inbound Spending Surge (2010 - 2021)' : 'Biểu đồ 3.4 & 3.5: Tăng trưởng Chi tiêu Du khách Quốc tế'}
                   </h3>
-                  <p className="text-xs text-slate-500 font-mono dark:text-slate-400">
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     Nguồn: Honichi Inbound Insights & Sở Du lịch Kyoto / Nara
                   </p>
                 </div>
-                <span className="text-xs font-mono font-bold px-2.5 py-1 rounded bg-[#C8EEF7]/50 text-slate-900 border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
+                <span className="text-xs font-bold px-2.5 py-1 rounded bg-[#C8EEF7]/50 text-slate-900 border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
                   Đơn vị: Nghìn tỷ Yên (¥)
                 </span>
               </div>
@@ -535,7 +535,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                     <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
                     <Tooltip 
                       contentStyle={{ borderRadius: '12px', border: '1px solid #CBD5E1', fontSize: '12px' }}
-                      formatter={(val: any) => [`${val} nghìn tỷ Yên`, 'Tổng chi tiêu']}
+                      formatter={(val: number | string | readonly (string | number)[] | undefined) => [`${val} nghìn tỷ Yên`, 'Tổng chi tiêu']}
                     />
                     <Bar dataKey="value" fill="#FFD14C" radius={[6, 6, 0, 0]} maxBarSize={38} />
                   </BarChart>
@@ -560,11 +560,11 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                   <h3 className="text-lg font-black text-slate-950 dark:text-white">
                     {isEn ? 'Macroeconomic GDP Share & Employment Impact' : 'Đóng Góp Vào GDP Nhật Bản & Việc Làm Toàn Quốc'}
                   </h3>
-                  <p className="text-xs text-slate-500 font-mono dark:text-slate-400">
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     Nguồn: Bộ Kinh tế, Thương mại và Công nghiệp Nhật Bản (METI) & WTTC
                   </p>
                 </div>
-                <span className="text-xs font-mono font-bold px-2.5 py-1 rounded bg-[#FFE485]/40 text-slate-900 border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C]">
+                <span className="text-xs font-bold px-2.5 py-1 rounded bg-[#FFE485]/40 text-slate-900 border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C]">
                   Đơn vị: % GDP & Nghìn tỷ Yên
                 </span>
               </div>
@@ -577,7 +577,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                     <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
                     <Tooltip 
                       contentStyle={{ borderRadius: '12px', border: '1px solid #CBD5E1', fontSize: '12px' }}
-                      formatter={(val: any, name: any) => [name === 'gdpShare' ? `${val}% GDP` : `${val} nghìn tỷ Yên`, name === 'gdpShare' ? 'Tỷ trọng GDP' : 'Doanh thu Lữ hành']}
+                      formatter={(val: number | string | readonly (string | number)[] | undefined, name?: string | number) => [name === 'gdpShare' ? `${val}% GDP` : `${val} nghìn tỷ Yên`, name === 'gdpShare' ? 'Tỷ trọng GDP' : 'Doanh thu Lữ hành']}
                     />
                     <Legend verticalAlign="top" height={36} iconType="circle" />
                     <Bar dataKey="gdpShare" fill="#0D7287" name="gdpShare" radius={[4, 4, 0, 0]} maxBarSize={30} />
@@ -610,7 +610,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="giai-phap" className="py-16 bg-[#F8FCFD] border-t border-slate-200/80 dark:bg-slate-900/40 dark:border-slate-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
               <span>04 : CHƯƠNG 3.2 : THÁCH THỨC & GIẢI PHÁP THỰC TIỄN</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
@@ -622,7 +622,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
             
             {/* Case Study 1: Kyoto IoT Camera */}
             <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
-              <div className="w-9 h-9 rounded-xl bg-[#C8EEF7] text-slate-950 flex items-center justify-center font-bold font-mono text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">
+              <div className="w-9 h-9 rounded-xl bg-[#C8EEF7] text-slate-950 flex items-center justify-center font-bold font-serif text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">
                 01
               </div>
               <h3 className="text-base font-black text-slate-950 dark:text-white">
@@ -635,7 +635,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
 
             {/* Case Study 2: Itsukushima Tourist Tax */}
             <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
-              <div className="w-9 h-9 rounded-xl bg-[#FFE485] text-slate-950 flex items-center justify-center font-bold font-mono text-sm dark:bg-[#FFD14C] dark:text-slate-950">
+              <div className="w-9 h-9 rounded-xl bg-[#FFE485] text-slate-950 flex items-center justify-center font-bold font-serif text-sm dark:bg-[#FFD14C] dark:text-slate-950">
                 02
               </div>
               <h3 className="text-base font-black text-slate-950 dark:text-white">
@@ -648,7 +648,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
 
             {/* Case Study 3: Shirakawa-go Reservation */}
             <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
-              <div className="w-9 h-9 rounded-xl bg-[#C8EEF7] text-slate-950 flex items-center justify-center font-bold font-mono text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">
+              <div className="w-9 h-9 rounded-xl bg-[#C8EEF7] text-slate-950 flex items-center justify-center font-bold font-serif text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">
                 03
               </div>
               <h3 className="text-base font-black text-slate-950 dark:text-white">
@@ -661,7 +661,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
 
             {/* Case Study 4: Mt. Fuji VR & Fund */}
             <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
-              <div className="w-9 h-9 rounded-xl bg-[#FFE485] text-slate-950 flex items-center justify-center font-bold font-mono text-sm dark:bg-[#FFD14C] dark:text-slate-950">
+              <div className="w-9 h-9 rounded-xl bg-[#FFE485] text-slate-950 flex items-center justify-center font-bold font-serif text-sm dark:bg-[#FFD14C] dark:text-slate-950">
                 04
               </div>
               <h3 className="text-base font-black text-slate-950 dark:text-white">
@@ -674,7 +674,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
 
             {/* Case Study 5: Nara Minpaku Ordinance */}
             <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800 md:col-span-2 lg:col-span-2">
-              <div className="w-9 h-9 rounded-xl bg-[#C8EEF7] text-slate-950 flex items-center justify-center font-bold font-mono text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">
+              <div className="w-9 h-9 rounded-xl bg-[#C8EEF7] text-slate-950 flex items-center justify-center font-bold font-serif text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">
                 05
               </div>
               <h3 className="text-base font-black text-slate-950 dark:text-white">
@@ -693,7 +693,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="ket-luan" className="py-16 max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
         <div className="p-8 sm:p-10 rounded-3xl bg-[#090D16] text-white space-y-6">
           <div className="space-y-2">
-            <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#9BE7FA]">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#9BE7FA]">
               KẾT LUẬN & ĐỀ XUẤT CHÍNH SÁCH
             </span>
             <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">

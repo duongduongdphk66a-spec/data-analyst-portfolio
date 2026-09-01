@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useSyncExternalStore, ReactNode, useCallback } from 'react';
 import { translations, TranslationKey } from '../data/translations';
 
 export type Language = 'vi' | 'en';
@@ -11,24 +11,73 @@ interface LanguageContextType {
   toggleLanguage: () => void;
   t: (key: TranslationKey | string, fallback?: string) => string;
   isEnglish: boolean;
+  dynamicTexts: {
+    vi: Record<string, string>;
+    en: Record<string, string>;
+  };
+  setDynamicTexts: React.Dispatch<React.SetStateAction<{ vi: Record<string, string>; en: Record<string, string> }>>;
+  reloadTexts: () => Promise<void>;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguageState] = useState<Language>('vi');
+function getSavedLanguage(): Language {
+  if (typeof window === 'undefined') return 'vi';
+  const saved = localStorage.getItem('portfolio_lang') as Language | null;
+  return saved === 'en' || saved === 'vi' ? saved : 'vi';
+}
 
-  useEffect(() => {
-    const savedLang = localStorage.getItem('portfolio_lang') as Language | null;
-    if (savedLang === 'en' || savedLang === 'vi') {
-      setLanguageState(savedLang);
+function subscribeLanguage(callback: () => void) {
+  window.addEventListener('storage', callback);
+  window.addEventListener('languagechange', callback);
+  return () => {
+    window.removeEventListener('storage', callback);
+    window.removeEventListener('languagechange', callback);
+  };
+}
+
+export const LanguageProvider = ({ children }: { children: ReactNode }) => {
+  const language: Language = useSyncExternalStore(subscribeLanguage, getSavedLanguage, () => 'vi' as Language);
+  const [dynamicTexts, setDynamicTexts] = useState<{ vi: Record<string, string>; en: Record<string, string> }>({
+    vi: {},
+    en: {},
+  });
+
+  const reloadTexts = useCallback(async () => {
+    try {
+      const res = await fetch('/api/texts').then((r) => r.json()).catch(() => null);
+      if (res && res.data) {
+        setDynamicTexts({
+          vi: res.data.vi || {},
+          en: res.data.en || {},
+        });
+      }
+    } catch {
+      // ignore network errors
     }
   }, []);
 
+  useEffect(() => {
+    let active = true;
+    fetch('/api/texts')
+      .then((r) => r.json())
+      .then((res) => {
+        if (active && res && res.data) {
+          setDynamicTexts({
+            vi: res.data.vi || {},
+            en: res.data.en || {},
+          });
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const setLanguage = (newLang: Language) => {
-    setLanguageState(newLang);
     localStorage.setItem('portfolio_lang', newLang);
-    // Dispatch event so other components or tabs can sync
     window.dispatchEvent(new Event('languagechange'));
   };
 
@@ -37,14 +86,24 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const t = (key: TranslationKey | string, fallback?: string): string => {
-    const dict = translations[language];
-    if (dict && key in dict) {
-      return (dict as any)[key];
+    // 1. Check custom dynamic overrides from MySQL
+    const dynamicDict = language === 'en' ? dynamicTexts.en : dynamicTexts.vi;
+    if (dynamicDict && dynamicDict[key]) {
+      return dynamicDict[key];
     }
+
+    // 2. Check static translations for current language
+    const dict = language === 'en' ? translations.en : translations.vi;
+    if (dict && key in dict) {
+      return (dict as unknown as Record<string, string>)[key];
+    }
+
+    // 3. Fallback to Vietnamese static
     const viDict = translations.vi;
     if (viDict && key in viDict) {
-      return (viDict as any)[key];
+      return (viDict as Record<string, string>)[key];
     }
+
     return fallback || key;
   };
 
@@ -56,6 +115,9 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
         toggleLanguage,
         t,
         isEnglish: language === 'en',
+        dynamicTexts,
+        setDynamicTexts,
+        reloadTexts,
       }}
     >
       {children}
@@ -66,13 +128,15 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (!context) {
-    // Fallback if rendered outside provider
     return {
       language: 'vi' as Language,
       setLanguage: () => {},
       toggleLanguage: () => {},
       t: (key: string, fallback?: string) => fallback || key,
       isEnglish: false,
+      dynamicTexts: { vi: {}, en: {} },
+      setDynamicTexts: () => {},
+      reloadTexts: async () => {},
     };
   }
   return context;

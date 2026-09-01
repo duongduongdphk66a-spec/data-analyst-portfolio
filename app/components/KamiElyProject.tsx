@@ -103,7 +103,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-[#FFE485]/40 dark:bg-slate-950 dark:text-slate-100">
+    <div className="min-h-screen bg-white font-lora text-slate-900 selection:bg-[#FFE485]/40 dark:bg-slate-950 dark:text-slate-100">
       
       {/* Top Navbar */}
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/90 transition-all dark:bg-slate-900/90 dark:border-slate-800">
@@ -170,7 +170,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
           <div className="flex flex-col lg:flex-row gap-10 justify-between items-start mb-12">
             <div className="max-w-2xl space-y-4">
               
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#C8EEF7]/60 border border-[#9BE7FA] rounded-md text-xs font-bold font-mono tracking-wide text-slate-900 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#C8EEF7]/60 border border-[#9BE7FA] rounded-md text-xs font-bold tracking-wide text-slate-900 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
                 <Flame className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#FFD14C]" />
                 <span>{isEn ? '90-DAY TELEMETRY DATA · MAY 22 - AUG 19, 2026' : 'DỮ LIỆU TELEMETRY 90 NGÀY · 22/05 - 19/08/2026'}</span>
               </div>
@@ -190,23 +190,23 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
               
               <div className="flex flex-wrap gap-2.5 pt-2">
                 <span className="text-xs font-bold px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
-                  {isEn ? 'National Rank:' : 'Hạng toàn quốc:'} <b className="text-[#0D7287] dark:text-[#9BE7FA] font-mono">#2.7k</b>
+                  {isEn ? 'National Rank:' : 'Hạng toàn quốc:'} <b className="text-[#0D7287] dark:text-[#9BE7FA] font-serif font-bold">#2.7k</b>
                 </span>
                 <span className="text-xs font-bold px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
-                  {isEn ? 'Sports & Outdoor Category:' : 'Ngành Sports & Outdoor:'} <b className="text-[#0D7287] dark:text-[#9BE7FA] font-mono">#88</b>
+                  {isEn ? 'Sports & Outdoor Category:' : 'Ngành Sports & Outdoor:'} <b className="text-[#0D7287] dark:text-[#9BE7FA] font-serif font-bold">#88</b>
                 </span>
                 <span className="text-xs font-bold px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
-                  {isEn ? 'Shop Rating:' : 'Đánh giá shop:'} <b className="text-[#0D7287] dark:text-[#FFD14C] font-mono">3.9 / 5.0</b>
+                  {isEn ? 'Shop Rating:' : 'Đánh giá shop:'} <b className="text-[#0D7287] dark:text-[#FFD14C] font-serif font-bold">3.9 / 5.0</b>
                 </span>
               </div>
             </div>
             
             {/* All-time Stat Card */}
             <div className="bg-white/95 border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-lg min-w-[280px] space-y-3 dark:bg-slate-900/90 dark:border-slate-800">
-              <div className="text-xs text-slate-500 uppercase tracking-widest font-mono font-bold dark:text-slate-400">
+              <div className="text-xs text-slate-500 uppercase tracking-widest font-semibold dark:text-slate-400">
                 {isEn ? 'ALL-TIME TOTAL GMV' : 'TỔNG GMV TOÀN THỜI GIAN'}
               </div>
-              <div className="text-4xl sm:text-5xl font-black font-mono text-slate-950 dark:text-white">
+              <div className="text-4xl sm:text-5xl font-black font-serif text-slate-950 dark:text-white">
                 31.4 <span className="text-lg font-bold text-[#0D7287] dark:text-[#9BE7FA]">{isEn ? 'Billion VND' : 'Tỷ đ'}</span>
               </div>
               <div className="text-xs text-slate-600 border-t border-slate-100 pt-3 dark:text-slate-400 dark:border-slate-800">
@@ -218,27 +218,27 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
           {/* 90-Day Telemetry Metric Strip */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-slate-950 dark:text-white">46.1k</div>
+              <div className="text-2xl sm:text-3xl font-black font-serif text-slate-950 dark:text-white">46.1k</div>
               <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? '90-Day Units Sold' : 'Sản phẩm bán (90 ngày)'}</div>
-              <div className="text-[10px] font-mono text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '7.35B VND 90-Day GMV' : '7,4 Tỷ đ GMV 90 ngày'}</div>
+              <div className="text-[11px] text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '7.35B VND 90-Day GMV' : '7,4 Tỷ đ GMV 90 ngày'}</div>
             </div>
 
             <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-slate-950 dark:text-white">163 / 332</div>
+              <div className="text-2xl sm:text-3xl font-black font-serif text-slate-950 dark:text-white">163 / 332</div>
               <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? 'Active / Registered SKUs' : 'SKU ra đơn / Đã đăng'}</div>
-              <div className="text-[10px] font-mono text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? 'Top SKU: CV11 (6.7k sold)' : 'Top 1: Váy chữ A CV11'}</div>
+              <div className="text-[11px] text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? 'Top SKU: CV11 (6.7k sold)' : 'Top 1: Váy chữ A CV11'}</div>
             </div>
 
             <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-slate-950 dark:text-white">73.5%</div>
+              <div className="text-2xl sm:text-3xl font-black font-serif text-slate-950 dark:text-white">73.5%</div>
               <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? 'Live Shopping Share' : 'Tỷ trọng từ Livestream'}</div>
-              <div className="text-[10px] font-mono text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '16.9h Mega Live Session' : 'Phiên đỉnh: 272M GMV/phiên'}</div>
+              <div className="text-[11px] text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '16.9h Mega Live Session' : 'Phiên đỉnh: 272M GMV/phiên'}</div>
             </div>
 
             <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-slate-950 dark:text-white">527</div>
+              <div className="text-2xl sm:text-3xl font-black font-serif text-slate-950 dark:text-white">527</div>
               <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? 'Active Nano Affiliates' : 'Nano-Affiliate (1k-5k)'}</div>
-              <div className="text-[10px] font-mono text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '3.3B VND Affiliate GMV' : 'Đóng góp 3,3 Tỷ đ GMV'}</div>
+              <div className="text-[11px] text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '3.3B VND Affiliate GMV' : 'Đóng góp 3,3 Tỷ đ GMV'}</div>
             </div>
           </div>
 
@@ -251,7 +251,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
         {/* SECTION 1: SALES TRAJECTORY & PEAK LIVE CAMPAIGN */}
         <section id="sales" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
               <span>01 : XU HƯỚNG DOANH SỐ & CHIẾN DỊCH MEGA LIVE</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
@@ -268,9 +268,9 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3 dark:border-slate-800">
               <div>
                 <h3 className="text-base font-black text-slate-950 dark:text-white">{isEn ? '90-Day Weekly Units & GMV Trajectory' : 'Biểu đồ Số Lượng Bán & GMV Theo Tuần (90 Ngày)'}</h3>
-                <p className="text-xs text-slate-500 font-mono dark:text-slate-400">Trích xuất từ dữ liệu chi tiết cửa hàng FastMoss</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Trích xuất từ dữ liệu chi tiết cửa hàng FastMoss</p>
               </div>
-              <span className="text-xs font-mono font-bold px-2.5 py-1 rounded bg-[#C8EEF7]/50 text-slate-900 border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
+              <span className="text-xs font-bold px-2.5 py-1 rounded bg-[#C8EEF7]/50 text-slate-900 border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
                 Đơn vị: Sản phẩm & Triệu VNĐ
               </span>
             </div>
@@ -303,7 +303,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
             
             <div className="overflow-x-auto rounded-2xl border border-slate-200/90 dark:border-slate-800">
               <table className="w-full text-left text-xs sm:text-sm">
-                <thead className="bg-slate-50 text-slate-700 font-mono font-bold uppercase border-b border-slate-200 dark:bg-slate-800/80 dark:text-slate-300 dark:border-slate-700">
+                <thead className="bg-slate-50 text-slate-700 font-bold uppercase border-b border-slate-200 dark:bg-slate-800/80 dark:text-slate-300 dark:border-slate-700">
                   <tr>
                     <th className="p-3">Ngày</th>
                     <th className="p-3">Tên Phiên LIVE</th>
@@ -316,12 +316,12 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   {topLiveStreams.map((l) => (
                     <tr key={`${l.date}-${l.title}`} className="hover:bg-slate-50/80 transition-colors dark:hover:bg-slate-900/50">
-                      <td className="p-3 font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">{l.date}</td>
+                      <td className="p-3 font-bold text-[#0D7287] dark:text-[#9BE7FA]">{l.date}</td>
                       <td className="p-3 font-bold text-slate-900 dark:text-white">{l.title}</td>
-                      <td className="p-3 font-mono">{l.duration}</td>
-                      <td className="p-3 font-mono">{l.viewers.toLocaleString()}</td>
-                      <td className="p-3 font-mono font-bold text-slate-900 dark:text-white">{l.units.toLocaleString()} SP</td>
-                      <td className="p-3 font-mono font-bold text-[#0D7287] dark:text-[#FFD14C]">{l.gmv} Triệu đ</td>
+                      <td className="p-3 text-slate-600 dark:text-slate-300">{l.duration}</td>
+                      <td className="p-3 font-serif font-bold text-slate-800 dark:text-slate-200">{l.viewers.toLocaleString()}</td>
+                      <td className="p-3 font-serif font-bold text-slate-900 dark:text-white">{l.units.toLocaleString()} SP</td>
+                      <td className="p-3 font-serif font-bold text-[#0D7287] dark:text-[#FFD14C]">{l.gmv} Triệu đ</td>
                     </tr>
                   ))}
                 </tbody>
@@ -333,7 +333,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
         {/* SECTION 2: CHANNELS & CONTENT BREAKDOWN */}
         <section id="channels" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
               <span>02 : KÊNH GIAO DỊCH & ĐỊNH DẠNG NỘI DUNG</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
@@ -397,7 +397,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
         {/* SECTION 3: AFFILIATE NETWORK & NANO CREATOR INSIGHT */}
         <section id="affiliates" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
               <span>03 : MẠNG LƯỚI AFFILIATE & SỨC MẠNH NANO-CREATOR</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
@@ -449,19 +449,19 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
                     <div>
                       <div className="font-bold text-sm text-slate-950 dark:text-white flex items-center gap-2">
                         <span>{c.name}</span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300">
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-bold dark:bg-slate-700 dark:text-slate-300">
                           {c.type}
                         </span>
                       </div>
-                      <div className="text-xs text-slate-500 font-mono mt-0.5 dark:text-slate-400">
+                      <div className="text-xs text-slate-500 mt-0.5 dark:text-slate-400">
                         @{c.id} · {c.followers.toLocaleString()} followers
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-black font-mono text-[#0D7287] dark:text-[#FFD14C]">
+                      <div className="text-sm font-bold font-serif text-[#0D7287] dark:text-[#FFD14C]">
                         {c.gmv.toLocaleString()} Triệu đ
                       </div>
-                      <div className="text-xs text-slate-500 font-mono dark:text-slate-400">
+                      <div className="text-xs text-slate-500 dark:text-slate-400">
                         {c.units.toLocaleString()} SP đã bán
                       </div>
                     </div>
@@ -476,7 +476,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
         {/* SECTION 4: TOP SKUs PERFORMANCE MATRIX */}
         <section id="sku" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
               <span>04 : MA TRẬN SẢN PHẨM CHỦ LỰC (TOP SKUS)</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
@@ -488,10 +488,10 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
             {topSKUData.map((sku) => (
               <div key={sku.code} className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-4 hover:border-[#9BE7FA] transition-all dark:bg-slate-900 dark:border-slate-800">
                 <div className="flex items-center justify-between">
-                  <span className="px-3 py-1 rounded-full bg-[#FFE485]/40 text-slate-950 font-mono font-bold text-xs border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C] dark:border-slate-700">
+                  <span className="px-3 py-1 rounded-full bg-[#FFE485]/40 text-slate-950 font-serif font-bold text-xs border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C] dark:border-slate-700">
                     Mã SKU: {sku.code}
                   </span>
-                  <span className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
                     Hoa hồng: {sku.commission}%
                   </span>
                 </div>
@@ -503,20 +503,20 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
                 <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
                   <div>
                     <div className="text-xs text-slate-500 dark:text-slate-400">Số lượng bán</div>
-                    <div className="text-base font-black font-mono text-slate-950 dark:text-white">
+                    <div className="text-base font-bold font-serif text-slate-950 dark:text-white">
                       {sku.units.toLocaleString()} SP
                     </div>
                   </div>
                   <div>
                     <div className="text-xs text-slate-500 dark:text-slate-400">Doanh thu GMV</div>
-                    <div className="text-base font-black font-mono text-[#0D7287] dark:text-[#9BE7FA]">
+                    <div className="text-base font-bold font-serif text-[#0D7287] dark:text-[#9BE7FA]">
                       {sku.gmv} Triệu đ
                     </div>
                   </div>
                 </div>
 
-                <div className="text-xs text-slate-500 font-mono dark:text-slate-400">
-                  Giá bán niêm yết: {sku.price.toLocaleString()} VNĐ
+                <div className="text-xs text-slate-500 dark:text-slate-400">
+                  Giá bán niêm yết: <span className="font-serif font-bold text-slate-700 dark:text-slate-300">{sku.price.toLocaleString()} VNĐ</span>
                 </div>
               </div>
             ))}
@@ -526,7 +526,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
         {/* SECTION 5: NODE.JS PPTX AUTOMATION */}
         <section id="automation" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
               <span>05 : TỰ ĐỘNG HÓA BÁO CÁO (AUTOMATION PIPELINE)</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">

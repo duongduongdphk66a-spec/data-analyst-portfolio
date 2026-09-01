@@ -81,14 +81,9 @@ export default React.memo(function CVSection({ experiences, name, title }: CVSec
     gsap.from('.timeline-item', {
       autoAlpha: 0,
       x: -20,
-      stagger: 0.12,
-      duration: 0.6,
+      stagger: 0.1,
+      duration: 0.5,
       ease: 'power2.out',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 80%',
-        once: true,
-      },
     });
   }, { scope: sectionRef });
 

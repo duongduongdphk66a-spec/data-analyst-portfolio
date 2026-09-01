@@ -3,13 +3,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
   Menu, X, User, FileText, Briefcase, LayoutDashboard, 
-  ChevronDown, ChevronRight, Globe, Sun, Moon, Laptop 
+  ChevronDown, ChevronRight, Globe, Sun, Moon, Laptop, Database, Edit3
 } from 'lucide-react';
 import { useLanguage } from './context/LanguageContext';
 import { useTheme } from './context/ThemeContext';
+import { usePortfolioData } from './context/PortfolioDataContext';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { PageSkeleton } from './components/ui/Skeleton';
-import { DEFAULT_PROFILE, DEFAULT_PROJECTS, DEFAULT_DASHBOARD } from './defaultData';
+import { DEFAULT_DASHBOARD } from './defaultData';
 
 import Sidebar from './components/Sidebar';
 import HeroSection from './components/HeroSection';
@@ -18,6 +19,7 @@ import CVSection from './components/CVSection';
 import ProjectsSection from './components/ProjectsSection';
 import ProjectDetailView from './components/ProjectDetailView';
 import CommandPalette from './components/ui/CommandPalette';
+import AdminEditorModal from './components/AdminEditorModal';
 import dynamic from 'next/dynamic';
 
 const DashboardSection = dynamic(() => import('./components/DashboardSection'), {
@@ -49,25 +51,25 @@ const TAB_LABELS: Record<string, { vi: string; en: string }> = {
 export default function Portfolio() {
   const { language, setLanguage, t } = useLanguage();
   const { theme, resolvedTheme, setTheme, toggleTheme } = useTheme();
+  const { profile, projects, dbStatus } = usePortfolioData();
+
   const [activeTab, setActiveTab] = useState<string>('about');
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
-  // Single Source of Truth from Static Data
-  const profile = DEFAULT_PROFILE;
-  const projects = DEFAULT_PROJECTS;
   const dashboard = DEFAULT_DASHBOARD;
 
-  // Update document title when tab changes
+  // Update document title when tab changes or profile name updates
   useEffect(() => {
     const label = TAB_LABELS[activeTab];
     const suffix = label
       ? (language === 'en' ? label.en : label.vi)
       : activeTab;
-    document.title = `Ma Văn Hùng | ${suffix}`;
-  }, [activeTab, language]);
+    document.title = `${profile.name || 'Ma Văn Hùng'} | ${suffix}`;
+  }, [activeTab, language, profile.name]);
 
   // Handler for tab change
   const handleTabChange = useCallback((tabId: string) => {
@@ -78,12 +80,16 @@ export default function Portfolio() {
     setIsMobileMenuOpen(false);
   }, []);
 
-  // Global Keyboard Shortcut: Ctrl + K (Command Palette)
+  // Global Keyboard Shortcut: Ctrl + K (Command Palette) & Ctrl + E (Admin CMS)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
         e.preventDefault();
         setIsCommandPaletteOpen((prev) => !prev);
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'e' || e.key === 'E')) {
+        e.preventDefault();
+        setIsAdminOpen((prev) => !prev);
       }
     };
 
@@ -107,7 +113,7 @@ export default function Portfolio() {
   ];
 
   return (
-    <div className="flex h-screen bg-white text-slate-900 font-sans overflow-hidden dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
+    <div className="flex h-screen bg-white text-slate-900 font-lora overflow-hidden dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
       {/* Desktop Sidebar */}
       <Sidebar
         activeTab={activeTab}
@@ -118,17 +124,29 @@ export default function Portfolio() {
         onProjectClick={handleProjectClick}
         selectedProjectId={selectedProjectId}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+        onOpenAdmin={() => setIsAdminOpen(true)}
       />
 
       {/* Main Content Viewport */}
       <div className="flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-slate-950">
         {/* Mobile Topbar */}
-        <header className="md:hidden bg-[#C4EEF9] text-slate-900 h-16 flex items-center justify-between px-4 border-b border-[#A8E2F2] flex-shrink-0 z-30 shadow-xs dark:bg-slate-900 dark:border-slate-800 dark:text-white transition-colors duration-200">
+        <header className="md:hidden bg-[#C4EEF9] text-slate-900 h-16 flex items-center justify-between px-4 border-b border-[#A8E2F2] flex-shrink-0 z-30 shadow-xs dark:bg-slate-900 dark:border-slate-800 dark:text-white transition-colors duration-200 font-sans">
           <div className="flex items-center gap-2.5">
             <h1 className="text-base font-extrabold text-slate-900 dark:text-white">Portfolio Hub</h1>
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Quick Admin CMS Button on Mobile */}
+            <button
+              onClick={() => setIsAdminOpen(true)}
+              className="p-2 rounded-lg bg-white/60 hover:bg-white text-slate-900 text-xs font-bold transition-all border border-[#A8E2F2] flex items-center gap-1 cursor-pointer dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200"
+              title="Quản trị nội dung & MySQL"
+              aria-label="Admin CMS"
+            >
+              <Database className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+              <span className={`w-1.5 h-1.5 rounded-full ${dbStatus.connected ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+            </button>
+
             {/* Quick Theme Toggle on Mobile */}
             <button
               onClick={toggleTheme}
@@ -164,7 +182,7 @@ export default function Portfolio() {
 
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-16 left-0 right-0 bottom-0 bg-[#C4EEF9]/95 backdrop-blur-md z-40 flex flex-col p-4 animate-in slide-in-from-top-4 duration-200 border-b border-[#A8E2F2] shadow-xl overflow-y-auto dark:bg-slate-900/95 dark:border-slate-800">
+          <div className="md:hidden absolute top-16 left-0 right-0 bottom-0 bg-[#C4EEF9]/95 backdrop-blur-md z-40 flex flex-col p-4 animate-in slide-in-from-top-4 duration-200 border-b border-[#A8E2F2] shadow-xl overflow-y-auto dark:bg-slate-900/95 dark:border-slate-800 font-sans">
             <nav className="flex-1 space-y-2">
               {navItems.map((item) => (
                 <div key={item.id} className="flex flex-col">
@@ -210,6 +228,23 @@ export default function Portfolio() {
                   )}
                 </div>
               ))}
+
+              {/* Admin CMS Trigger in Mobile Drawer */}
+              <div className="pt-2">
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsAdminOpen(true);
+                  }}
+                  className="w-full flex items-center justify-between px-4 py-3 rounded-2xl bg-white/70 hover:bg-white text-slate-900 font-extrabold text-sm border border-slate-300/60 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
+                >
+                  <div className="flex items-center gap-3">
+                    <Database className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                    <span>Quản Trị CMS (MySQL)</span>
+                  </div>
+                  <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+                </button>
+              </div>
 
               <div className="pt-2">
                 <hr className="border-t-2 border-slate-900/60 my-2 dark:border-slate-800" />
@@ -297,6 +332,7 @@ export default function Portfolio() {
                   profile={profile} 
                   onNavigateTab={handleTabChange}
                   onSelectProject={handleProjectClick}
+                  onOpenAdmin={() => setIsAdminOpen(true)}
                 />
                 <AboutSection 
                   profile={profile} 
@@ -312,7 +348,13 @@ export default function Portfolio() {
                 onNavigateTab={handleTabChange}
               />
             )}
-            {activeTab === 'cv' && <CVSection experiences={profile.experiences} name={profile.name} title={profile.title} />}
+            {activeTab === 'cv' && (
+              <CVSection 
+                experiences={profile.experiences || []} 
+                name={profile.name} 
+                title={profile.title} 
+              />
+            )}
             {activeTab === 'projects' && (
               <ProjectsSection 
                 projects={projects} 
@@ -334,9 +376,32 @@ export default function Portfolio() {
                 />
               )
             )}
-            {activeTab === 'dashboard' && <DashboardSection dashboard={dashboard} />}
+            {activeTab === 'dashboard' && (
+              <DashboardSection 
+                dashboard={dashboard} 
+                onOpenAdmin={() => setIsAdminOpen(true)}
+              />
+            )}
           </ErrorBoundary>
         </main>
+      </div>
+
+      {/* Floating Quick Action CMS Button (Always Accessible) */}
+      <div className="fixed bottom-6 right-6 z-40">
+        <button
+          onClick={() => setIsAdminOpen(true)}
+          className="group flex items-center gap-2.5 px-4 py-3 bg-gradient-to-r from-[#0D7287] via-cyan-600 to-teal-500 hover:from-cyan-700 hover:to-[#0D7287] text-white font-extrabold text-xs rounded-2xl shadow-xl shadow-cyan-900/30 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer border border-white/20"
+          title="Chỉnh sửa nội dung & Thông tin cá nhân (Ctrl + E)"
+        >
+          <div className="relative">
+            <Database className="w-4 h-4" />
+            <span className={`absolute -top-1 -right-1 w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+          </div>
+          <span className="hidden sm:inline">Chỉnh Sửa CMS</span>
+          <kbd className="hidden md:inline px-1.5 py-0.5 rounded-md bg-white/20 text-[10px] font-mono">
+            Ctrl E
+          </kbd>
+        </button>
       </div>
 
       {/* Spotlight Command Palette (Ctrl+K) */}
@@ -346,6 +411,12 @@ export default function Portfolio() {
         projects={projects}
         onSelectTab={handleTabChange}
         onSelectProject={handleProjectClick}
+      />
+
+      {/* Admin Content Editor & MySQL Modal */}
+      <AdminEditorModal
+        isOpen={isAdminOpen}
+        onClose={() => setIsAdminOpen(false)}
       />
     </div>
   );

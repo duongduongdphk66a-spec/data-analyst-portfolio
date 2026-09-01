@@ -12,11 +12,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'images.unsplash.com',
       },
     ],
   },
   devIndicators: false,
+  serverExternalPackages: ['mysql2'],
   async headers() {
     return [
       {
@@ -52,9 +53,9 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "img-src 'self' data: blob: https:",
+              "img-src 'self' data: blob: https://images.unsplash.com https:",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "connect-src 'self' https:",
+              "connect-src 'self' ws: wss: http: https:",
               "frame-ancestors 'self'",
             ].join('; '),
           },

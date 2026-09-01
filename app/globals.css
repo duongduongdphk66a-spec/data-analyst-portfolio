@@ -25,11 +25,14 @@
   --color-border-subtle: #d8e6ed;
 
   /* Typography */
-  --font-lora: var(--font-lora), "Lora", "Merriweather", "Source Serif 4", Georgia, serif;
-  --font-heading: var(--font-lora), var(--font-merriweather), "Lora", "Merriweather", "Playfair Display", "Source Serif 4", Georgia, "Times New Roman", serif;
-  --font-body: var(--font-lora), var(--font-merriweather), "Lora", "Merriweather", "Source Serif 4", "Noto Serif", Georgia, "Times New Roman", serif;
-  --font-serif: var(--font-lora), var(--font-merriweather), "Lora", "Merriweather", "Source Serif 4", Georgia, serif;
-  --font-mono: var(--font-jetbrains), "JetBrains Mono", "Fira Code", monospace;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans-ui: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-lora, "Lora"), "Merriweather", "Source Serif 4", Georgia, serif;
+  --font-heading: var(--font-lora, "Lora"), "Merriweather", "Playfair Display", "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-body: var(--font-lora, "Lora"), "Merriweather", "Source Serif 4", "Noto Serif", Georgia, "Times New Roman", serif;
+  --font-lora: var(--font-lora, "Lora"), "Merriweather", "Source Serif 4", Georgia, serif;
+  --font-merriweather: var(--font-merriweather, "Merriweather"), "Lora", Georgia, serif;
+  --font-mono: var(--font-mono, "JetBrains Mono"), "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Easing */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -60,7 +63,11 @@ section[id], header[id], div[id] {
   scroll-margin-top: 5rem;
 }
 
-body {
+*, ::before, ::after {
+  font-family: inherit;
+}
+
+html, body, button, input, select, textarea, optgroup {
   background-color: var(--color-ground);
   color: var(--color-ink);
   font-family: var(--font-body);
@@ -80,11 +87,25 @@ body {
   color: #f8fafc;
 }
 
-/* Tabular numbers for accurate data alignment */
-.tabular-data,
+/* Tabular numbers for accurate data alignment with elegant soft serif */
+.tabular-data {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-family: var(--font-lora);
+}
+
+.font-lora,
+.font-serif {
+  font-family: var(--font-lora);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
 .font-mono,
 code,
-pre {
+pre,
+kbd {
   font-variant-numeric: tabular-nums lining-nums;
   font-family: var(--font-mono);
 }

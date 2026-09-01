@@ -41,7 +41,7 @@ export default function ProjectDetailView({ project, onBack, isEmbedded }: Proje
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-yellow/30 dark:bg-slate-950 dark:text-slate-100">
+    <div className="min-h-screen bg-white text-slate-900 font-lora selection:bg-brand-yellow/30 dark:bg-slate-950 dark:text-slate-100">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-brand-blue-light/50 transition-all dark:bg-slate-900/80 dark:border-slate-800">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">

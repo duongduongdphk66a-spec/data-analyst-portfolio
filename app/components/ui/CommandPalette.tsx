@@ -23,7 +23,7 @@ interface CommandItem {
   category: 'Navigation' | 'Projects' | 'Quick Actions' | 'Skills';
   title: string;
   subtitle?: string;
-  icon: any;
+  icon: React.ElementType;
   action: () => void;
   badge?: string;
 }
@@ -48,9 +48,12 @@ export default function CommandPalette({
   // Focus input when opened
   useEffect(() => {
     if (isOpen) {
-      setQuery('');
-      setSelectedIndex(0);
-      setTimeout(() => inputRef.current?.focus(), 50);
+      const timer = setTimeout(() => {
+        setQuery('');
+        setSelectedIndex(0);
+        inputRef.current?.focus();
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [isOpen]);
 

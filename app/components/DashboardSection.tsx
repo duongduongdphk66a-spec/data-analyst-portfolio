@@ -7,25 +7,29 @@ import {
 } from 'recharts';
 import { 
   DollarSign, Users, Activity, TrendingUp, BarChart3, 
-  Download, Upload, Search, RefreshCw, Database, Sparkles, Filter, Check
+  Download, Upload, Search, RefreshCw, Database, Sparkles, Filter, Check, Edit3, ShieldCheck
 } from 'lucide-react';
 import Papa from 'papaparse';
 import { DashboardData, KpiItem, ChartConfig } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
+import { usePortfolioData } from '../context/PortfolioDataContext';
 import { gsap, useGSAP } from '../lib/gsap';
 import AnimatedCounter from './ui/AnimatedCounter';
 import { exportChartAsPng } from '../lib/chartExport';
 import { useToast } from './ui/Toast';
+import { validateUploadedFile } from '../lib/security';
 
 interface DashboardSectionProps {
   dashboard: DashboardData;
+  onOpenAdmin?: () => void;
 }
 
-export default function DashboardSection({ dashboard }: DashboardSectionProps) {
+export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSectionProps) {
   const { language, t } = useLanguage();
   const { resolvedTheme } = useTheme();
   const { showToast } = useToast();
+  const { dbStatus } = usePortfolioData();
   const isDark = resolvedTheme === 'dark';
   const isEn = language === 'en';
 
@@ -41,28 +45,18 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
   useGSAP(() => {
     gsap.from('.dash-kpi-card', {
       autoAlpha: 0,
-      y: 25,
-      stagger: 0.1,
-      duration: 0.6,
+      y: 20,
+      stagger: 0.08,
+      duration: 0.5,
       ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.dash-kpi-grid',
-        start: 'top 85%',
-        once: true,
-      },
     });
 
     gsap.from('.dash-chart-card', {
       autoAlpha: 0,
-      y: 30,
-      stagger: 0.15,
-      duration: 0.7,
+      y: 25,
+      stagger: 0.1,
+      duration: 0.6,
       ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.dash-charts-grid',
-        start: 'top 85%',
-        once: true,
-      },
     });
   }, { scope: dashboardRef, dependencies: [dashboard.kpis?.length, dashboard.charts?.length] });
 
@@ -110,13 +104,20 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    const validation = validateUploadedFile(file, { allowedExtensions: ['.csv'], maxSizeBytes: 5 * 1024 * 1024 });
+    if (!validation.isValid) {
+      showToast(validation.error || (isEn ? 'Invalid file.' : 'Tệp không hợp lệ.'), 'error');
+      e.target.value = '';
+      return;
+    }
+
     Papa.parse(file, {
       header: true,
       dynamicTyping: true,
       skipEmptyLines: true,
       complete: (results) => {
         if (results.data && results.data.length > 0) {
-          setCustomTableData(results.data.map((item: any, i: number) => ({ id: `row-${i}`, ...item })));
+          setCustomTableData((results.data as Record<string, unknown>[]).map((item, i) => ({ id: `row-${i}`, ...item })));
           showToast(isEn ? `Loaded ${file.name} (${results.data.length} rows)` : `Đã nạp tệp ${file.name} (${results.data.length} dòng)`, 'success');
         }
       },
@@ -308,6 +309,43 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
           </button>
         </div>
       </div>
+
+      {/* MySQL & Content Management Quick Card (Cài đặt) */}
+      {onOpenAdmin && (
+        <div className="bg-gradient-to-r from-[#C4EEF9]/50 via-white to-[#C4EEF9]/30 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-800/80 rounded-2xl p-5 border border-[#8CE0F4] dark:border-slate-700 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0D7287] to-cyan-500 flex items-center justify-center text-white shadow-md shadow-cyan-500/20 shrink-0">
+              <Database className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-base font-extrabold text-slate-900 dark:text-white">
+                  Quản Trị Nội Dung & Cơ Sở Dữ Liệu MySQL (pplo)
+                </h2>
+                <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                  dbStatus.connected
+                    ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300'
+                    : 'bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300'
+                }`}>
+                  <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+                  {dbStatus.connected ? 'MySQL Connected' : 'Local Fallback'}
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                Chỉnh sửa thông tin cá nhân, tiểu sử, kỹ năng, kinh nghiệm và tất cả văn bản trên toàn bộ trang web.
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={onOpenAdmin}
+            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#0D7287] hover:bg-cyan-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-cyan-500/20 transition-all cursor-pointer shrink-0"
+          >
+            <Edit3 className="w-4 h-4" />
+            <span>Mở Bảng Chỉnh Sửa CMS</span>
+          </button>
+        </div>
+      )}
 
       {/* Multi-Dimension Interactive Filter Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-surface/30 dark:bg-slate-900/90 rounded-2xl border border-border-subtle dark:border-slate-800 no-print">

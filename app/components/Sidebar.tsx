@@ -3,11 +3,12 @@
 import React, { useState, useRef } from 'react';
 import { 
   ChevronDown, ChevronRight, Github, Linkedin, Mail, 
-  Sun, Moon, Laptop, Globe, Check, Search
+  Sun, Moon, Laptop, Globe, Check, Search, Database, Edit3, Shield
 } from 'lucide-react';
 import { ProjectData } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
+import { usePortfolioData } from '../context/PortfolioDataContext';
 
 interface SidebarProps {
   activeTab: string;
@@ -18,6 +19,7 @@ interface SidebarProps {
   onProjectClick: (projId: string) => void;
   selectedProjectId?: string | null;
   onOpenCommandPalette?: () => void;
+  onOpenAdmin?: () => void;
 }
 
 export default function Sidebar({
@@ -29,9 +31,11 @@ export default function Sidebar({
   onProjectClick,
   selectedProjectId,
   onOpenCommandPalette,
+  onOpenAdmin,
 }: SidebarProps) {
   const { language, setLanguage, t } = useLanguage();
   const { theme, resolvedTheme, setTheme } = useTheme();
+  const { dbStatus } = usePortfolioData();
 
   // Settings Popover States
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -72,9 +76,9 @@ export default function Sidebar({
   ];
 
   return (
-    <aside className="w-60 bg-[#C4EEF9] text-slate-800 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-[#A8E2F2] shadow-xs relative z-40 transition-colors duration-200 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200">
+    <aside className="w-60 bg-[#C4EEF9] text-slate-800 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-[#A8E2F2] shadow-xs relative z-40 transition-colors duration-200 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200 font-sans">
       {/* Navigation Links */}
-      <nav className="flex-1 px-4 pt-12 pb-6 space-y-3 overflow-visible">
+      <nav className="flex-1 px-4 pt-8 pb-6 space-y-2.5 overflow-y-auto overflow-x-visible">
         {/* Quick Search / Command Palette Button */}
         {onOpenCommandPalette && (
           <button
@@ -111,7 +115,7 @@ export default function Sidebar({
                   }`}
                 >
                   <span className="underline decoration-slate-400/60 underline-offset-4 dark:decoration-slate-600">{item.label}</span>
-                  <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded-md bg-white/60 text-slate-700 font-bold ml-2 dark:bg-slate-800 dark:text-slate-300">
+                  <span className="text-[10px] uppercase px-1.5 py-0.5 rounded-md bg-white/60 text-slate-700 font-bold ml-2 dark:bg-slate-800 dark:text-slate-300">
                     {language.toUpperCase()}
                   </span>
                 </button>
@@ -266,6 +270,25 @@ export default function Sidebar({
                         )}
                       </div>
 
+                      {/* Divider */}
+                      <hr className="border-t border-slate-100 dark:border-slate-800 my-1" />
+
+                      {/* Menu Item 3: Quản Trị & CMS */}
+                      {onOpenAdmin && (
+                        <button
+                          onClick={() => {
+                            setIsSettingsOpen(false);
+                            onOpenAdmin();
+                          }}
+                          className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer hover:bg-slate-50 text-[#0D7287] dark:text-[#9BE7FA] dark:hover:bg-slate-800/60"
+                        >
+                          <div className="flex items-center gap-2">
+                            <Database className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                            <span>Quản Trị CMS (MySQL)</span>
+                          </div>
+                          <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+                        </button>
+                      )}
                     </div>
                   </div>
                 )}
@@ -326,6 +349,27 @@ export default function Sidebar({
             </div>
           );
         })}
+
+        {/* Quick Admin CMS Edit Trigger Button */}
+        {onOpenAdmin && (
+          <div className="pt-4">
+            <button
+              onClick={onOpenAdmin}
+              className="w-full flex items-center justify-between px-4 py-2.5 rounded-2xl bg-white/50 hover:bg-white text-slate-800 hover:text-slate-950 border border-slate-300/60 dark:bg-slate-800/60 dark:border-slate-700/80 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-white transition-all text-xs font-extrabold cursor-pointer shadow-xs group"
+            >
+              <div className="flex items-center gap-2">
+                <Database className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                <span>Chỉnh Sửa CMS</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+                <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
+                  {dbStatus.connected ? 'MySQL' : 'Local'}
+                </span>
+              </div>
+            </button>
+          </div>
+        )}
       </nav>
 
       {/* Footer Area: Circular Social Links & Quick Language Toggle */}

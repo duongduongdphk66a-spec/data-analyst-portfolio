@@ -235,13 +235,14 @@ export function executeClientSql(
       rowCount: resultRows.length,
       executionTimeMs,
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Truy vấn không hợp lệ';
     return {
       columns: [],
       rows: [],
       rowCount: 0,
       executionTimeMs: Math.round(performance.now() - startTime),
-      error: `Lỗi cú pháp SQL: ${err.message || 'Truy vấn không hợp lệ'}`,
+      error: `Lỗi cú pháp SQL: ${message}`,
     };
   }
 }
