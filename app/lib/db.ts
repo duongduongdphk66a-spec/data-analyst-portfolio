@@ -45,7 +45,7 @@ export function getDbPool(): Pool | null {
 /**
  * Test MySQL connection
  */
-export async function testDbConnection(): Promise<{ connected: boolean; message: string; config?: Record<string, any> }> {
+export async function testDbConnection(): Promise<{ connected: boolean; message: string }> {
   try {
     const p = getDbPool();
     if (!p) {
@@ -55,12 +55,6 @@ export async function testDbConnection(): Promise<{ connected: boolean; message:
     return {
       connected: true,
       message: 'Successfully connected to MySQL database.',
-      config: {
-        host: process.env.MYSQL_HOST || process.env.DB_HOST || '127.0.0.1',
-        port: process.env.MYSQL_PORT || process.env.DB_PORT || '3306',
-        database: process.env.MYSQL_DATABASE || process.env.DB_NAME || 'portfolio_db',
-        user: process.env.MYSQL_USER || process.env.DB_USER || 'root',
-      },
     };
   } catch (error: any) {
     return {

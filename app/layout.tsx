@@ -1,34 +1,9 @@
 import type { Metadata } from 'next';
-import { Lora, Merriweather, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from './components/ui/Toast';
 import { PortfolioDataProvider } from './context/PortfolioDataContext';
-
-const lora = Lora({
-  subsets: ['latin', 'vietnamese'],
-  weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
-  variable: '--font-lora',
-  display: 'swap',
-});
-
-const merriweather = Merriweather({
-  subsets: ['latin', 'vietnamese'],
-  weight: ['300', '400', '700', '900'],
-  style: ['normal', 'italic'],
-  variable: '--font-merriweather',
-  display: 'swap',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin', 'vietnamese'],
-  weight: ['400', '500', '600'],
-  style: ['normal', 'italic'],
-  variable: '--font-mono',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'Ma Văn Hùng | Data Analyst',
@@ -83,7 +58,7 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${lora.variable} ${merriweather.variable} ${jetbrainsMono.variable} scroll-smooth font-lora`}
+      className="scroll-smooth font-lora"
       suppressHydrationWarning
     >
       <head>

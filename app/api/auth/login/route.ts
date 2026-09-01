@@ -1,12 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { validateAdminPassword, generateAdminToken } from '@/app/lib/auth';
+import { 
+  validateAdminPassword, 
+  generateAdminToken, 
+  getClientIp, 
+  checkLoginRateLimit, 
+  recordFailedLogin, 
+  resetLoginAttempts 
+} from '@/app/lib/auth';
 
 /**
  * POST /api/auth/login
- * Đăng nhập quản trị viên với mật khẩu
+ * Đăng nhập quản trị viên với mật khẩu và kiểm soát Rate Limit
  */
 export async function POST(req: NextRequest) {
   try {
+    const ip = getClientIp(req);
+
+    // 1. Kiểm tra Rate Limit trước khi xử lý mật khẩu
+    const rateCheck = checkLoginRateLimit(ip);
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: `Tài khoản tạm thời bị khoá do thử sai quá nhiều lần. Vui lòng thử lại sau ${rateCheck.retryAfterSeconds || 900} giây.`,
+          retryAfter: rateCheck.retryAfterSeconds,
+        },
+        { 
+          status: 429,
+          headers: {
+            'Retry-After': String(rateCheck.retryAfterSeconds || 900),
+          }
+        }
+      );
+    }
+
     const body = await req.json().catch(() => ({}));
     const { password } = body;
 
@@ -19,14 +46,38 @@ export async function POST(req: NextRequest) {
 
     const isValid = validateAdminPassword(password);
     if (!isValid) {
-      // Giả lập delay nhỏ để phòng chống brute-force
+      const record = recordFailedLogin(ip);
+      // Giả lập delay chống timing attack
       await new Promise((resolve) => setTimeout(resolve, 300));
+
+      if (record.isLocked) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: `Mật khẩu không chính xác. Bạn đã nhập sai 5 lần, tài khoản bị khoá tạm thời trong 15 phút.`,
+            retryAfter: record.retryAfterSeconds,
+          },
+          { 
+            status: 429,
+            headers: {
+              'Retry-After': String(record.retryAfterSeconds || 900),
+            }
+          }
+        );
+      }
+
       return NextResponse.json(
-        { success: false, message: 'Mật khẩu quản trị không chính xác.' },
+        {
+          success: false,
+          message: `Mật khẩu quản trị không chính xác. Còn lại ${record.remainingAttempts} lần thử.`,
+          remainingAttempts: record.remainingAttempts,
+        },
         { status: 401 }
       );
     }
 
+    // Đăng nhập thành công -> Reset số lần thử sai
+    resetLoginAttempts(ip);
     const token = generateAdminToken();
 
     const response = NextResponse.json({

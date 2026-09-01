@@ -58,7 +58,6 @@ export async function GET() {
     return NextResponse.json({
       connected: true,
       message: 'Kết nối MySQL hoạt động bình thường.',
-      config: connTest.config,
       stats: {
         profileRows,
         textRows,

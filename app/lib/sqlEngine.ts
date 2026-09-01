@@ -323,20 +323,49 @@ function splitSelectTokens(str: string): string[] {
 }
 
 /**
+ * Loại bỏ dấu ngoặc đơn bao bọc bên ngoài nếu toàn bộ biểu thức nằm trong cùng một cặp ngoặc
+ */
+function unwrapEnclosingParentheses(str: string): string {
+  let trimmed = str.trim();
+  while (trimmed.startsWith('(') && trimmed.endsWith(')')) {
+    let depth = 0;
+    let isEnclosed = true;
+    for (let i = 0; i < trimmed.length - 1; i++) {
+      if (trimmed[i] === '(') depth++;
+      else if (trimmed[i] === ')') {
+        depth--;
+        if (depth === 0) {
+          isEnclosed = false;
+          break;
+        }
+      }
+    }
+    if (isEnclosed && depth === 1) {
+      trimmed = trimmed.slice(1, -1).trim();
+    } else {
+      break;
+    }
+  }
+  return trimmed;
+}
+
+/**
  * Xử lý các điều kiện phức hợp kết hợp OR và AND
  */
 function evaluateCompoundCondition(row: Record<string, any>, conditionStr: string): boolean {
-  const orBlocks = splitTopLevel(conditionStr, 'OR');
+  const cleanStr = unwrapEnclosingParentheses(conditionStr);
+
+  const orBlocks = splitTopLevel(cleanStr, 'OR');
   if (orBlocks.length > 1) {
     return orBlocks.some((block) => evaluateCompoundCondition(row, block));
   }
 
-  const andBlocks = splitTopLevel(conditionStr, 'AND');
+  const andBlocks = splitTopLevel(cleanStr, 'AND');
   if (andBlocks.length > 1) {
     return andBlocks.every((block) => evaluateCompoundCondition(row, block));
   }
 
-  return evaluateAtomicCondition(row, conditionStr.trim());
+  return evaluateAtomicCondition(row, cleanStr);
 }
 
 /**
@@ -366,10 +395,15 @@ function splitTopLevel(str: string, op: 'AND' | 'OR'): string[] {
       const remaining = str.slice(i);
       const match = remaining.match(regex);
       if (match && remaining.indexOf(match[0]) === 0) {
-        tokens.push(current.trim());
-        current = '';
-        i += match[0].length - 1;
-        continue;
+        // Nếu là toán tử AND, kiểm tra xem AND này có thuộc về mệnh đề BETWEEN hay không
+        if (op === 'AND' && /\bBETWEEN\s+['"]?[^'"\s]+['"]?$/i.test(current.trim())) {
+          // Đây là AND của BETWEEN ... AND ..., không tách
+        } else {
+          tokens.push(current.trim());
+          current = '';
+          i += match[0].length - 1;
+          continue;
+        }
       }
     }
 
