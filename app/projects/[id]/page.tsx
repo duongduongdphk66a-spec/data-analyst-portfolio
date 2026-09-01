@@ -1,9 +1,26 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { RowDataPacket } from 'mysql2';
 import { DEFAULT_PROJECTS } from '../../defaultData';
 import ProjectDetailClient from './ProjectDetailClient';
+import { getDbPool } from '@/app/lib/db';
+import { ProjectData } from '@/app/types';
 
-export function generateStaticParams() {
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  try {
+    const pool = getDbPool();
+    if (pool) {
+      const [rows] = await pool.query<RowDataPacket[]>('SELECT id FROM portfolio_projects');
+      if (Array.isArray(rows) && rows.length > 0) {
+        return rows.map((r) => ({ id: r.id }));
+      }
+    }
+  } catch {
+    // Fallback to static default projects
+  }
+
   return DEFAULT_PROJECTS.map((project) => ({
     id: project.id,
   }));
@@ -34,7 +51,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
   const customMeta = PROJECT_METADATA[id];
-  const project = DEFAULT_PROJECTS.find((p) => p.id === id);
 
   if (customMeta) {
     return {
@@ -44,16 +60,46 @@ export async function generateMetadata({
         title: customMeta.title,
         description: customMeta.desc,
         type: 'article',
-        images: project?.img ? [{ url: project.img }] : undefined,
       },
-      keywords: customMeta.keywords || project?.tags,
+      keywords: customMeta.keywords,
     };
+  }
+
+  // Check default projects
+  let project: ProjectData | undefined = DEFAULT_PROJECTS.find((p) => p.id === id);
+
+  // If not found in defaults, attempt to check DB
+  if (!project) {
+    try {
+      const pool = getDbPool();
+      if (pool) {
+        const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_projects WHERE id = ?', [id]);
+        if (Array.isArray(rows) && rows.length > 0) {
+          const r = rows[0];
+          project = {
+            id: r.id,
+            title: r.title,
+            desc: r.description || r.desc_text || '',
+            tags: typeof r.tags_json === 'string' ? JSON.parse(r.tags_json) : r.tags || [],
+            demoUrl: r.demo_url,
+            githubUrl: r.github_url,
+            embedUrl: r.embed_url,
+            img: r.img,
+            problem: r.problem,
+            method: r.method,
+            insight: r.insight,
+          };
+        }
+      }
+    } catch {
+      // Fallback
+    }
   }
 
   if (!project) {
     return {
-      title: 'Project Not Found | Ma Văn Hùng Portfolio',
-      description: 'The requested project could not be found.',
+      title: 'Dự Án Data Analytics | Ma Văn Hùng Portfolio',
+      description: 'Phân tích dữ liệu, trực quan hoá dashboard và nghiên cứu tình huống kinh doanh.',
     };
   }
 

@@ -380,6 +380,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
 
               <button
                 onClick={() => setActiveEmbedProject(null)}
+                aria-label="Đóng khung xem trực quan hóa nhúng"
                 className="p-2 text-slate-500 hover:text-slate-700 rounded-xl hover:bg-slate-100 cursor-pointer dark:text-slate-400 dark:hover:bg-slate-800"
               >
                 <X className="w-5 h-5" />

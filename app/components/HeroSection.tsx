@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
+import Image from 'next/image';
 import { ArrowRight, Download, Edit3 } from 'lucide-react';
 import {
   AreaChart, Area, ResponsiveContainer, YAxis, Tooltip,
@@ -101,10 +102,13 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject, o
             <div className="hero-badge flex items-center gap-3.5">
               {profile.avatarUrl ? (
                 <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden ring-2 ring-[#0D7287]/40 dark:ring-[#9BE7FA]/40 shadow-md flex-shrink-0">
-                  <img
+                  <Image
                     src={profile.avatarUrl}
                     alt={profile.name || 'Avatar'}
+                    width={56}
+                    height={56}
                     className="w-full h-full object-cover"
+                    unoptimized={profile.avatarUrl.startsWith('data:') || profile.avatarUrl.startsWith('blob:')}
                   />
                   <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" title="Sẵn sàng tiếp nhận cơ hội mới" />
                 </div>

@@ -37,14 +37,25 @@ interface PortfolioDataContextType {
 const PortfolioDataContext = createContext<PortfolioDataContextType | undefined>(undefined);
 
 function getAuthHeaders(): Record<string, string> {
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-  if (typeof window !== 'undefined') {
-    const token = sessionStorage.getItem('admin_token');
-    if (token) {
-      headers['x-admin-token'] = token;
+  return { 'Content-Type': 'application/json' };
+}
+
+function safeSetLocalStorage(key: string, data: unknown): void {
+  if (typeof window === 'undefined') return;
+  try {
+    const json = JSON.stringify(data);
+    localStorage.setItem(key, json);
+  } catch (e) {
+    console.warn(`[safeSetLocalStorage] Failed to save ${key} to localStorage:`, e);
+    if (data && typeof data === 'object' && 'avatarUrl' in data) {
+      try {
+        const copy = { ...(data as Record<string, unknown>), avatarUrl: '' };
+        localStorage.setItem(key, JSON.stringify(copy));
+      } catch {
+        // Quota fallback
+      }
     }
   }
-  return headers;
 }
 
 export function PortfolioDataProvider({ children }: { children: ReactNode }) {
@@ -174,18 +185,14 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
       }
 
       if (data.success) {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('portfolio_custom_profile', JSON.stringify(newProfile));
-        }
+        safeSetLocalStorage('portfolio_custom_profile', newProfile);
         return { success: true, message: data.message || 'Cập nhật thông tin thành công!' };
       } else {
         return { success: false, message: data.message || 'Lỗi cập nhật thông tin.' };
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.warn('[updateProfile] Saved locally:', err);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('portfolio_custom_profile', JSON.stringify(newProfile));
-      }
+      safeSetLocalStorage('portfolio_custom_profile', newProfile);
       return { success: true, message: 'Đã lưu thay đổi vào bộ nhớ cục bộ.' };
     } finally {
       setIsSaving(false);
@@ -230,7 +237,7 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
         success: data.success ?? true,
         message: data.message || 'Cập nhật văn bản thành công!',
       };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.warn('[updateCustomTexts] Error saving to API:', err);
       return { success: true, message: 'Đã lưu văn bản vào bộ nhớ cục bộ.' };
     } finally {
@@ -259,7 +266,7 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
         success: data.success ?? true,
         message: data.message || 'Cập nhật danh sách dự án thành công!',
       };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.warn('[updateProjects] Error saving to API:', err);
       return { success: true, message: 'Đã lưu danh sách dự án vào bộ nhớ cục bộ.' };
     } finally {

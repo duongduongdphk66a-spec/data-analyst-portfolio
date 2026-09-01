@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { 
   Play, Copy, Check, ArrowRight, Upload, Download, 
   Sparkles, Database, FileSpreadsheet
@@ -280,8 +281,15 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab: 
           <div className="space-y-6">
             <div className="flex items-center gap-4 p-4 rounded-2xl bg-surface/50 dark:bg-slate-900/80 border border-border-subtle dark:border-slate-800 shadow-xs">
               {profile.avatarUrl ? (
-                <div className="w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-[#0D7287]/40 dark:ring-[#9BE7FA]/40 shadow-sm shrink-0">
-                  <img src={profile.avatarUrl} alt={profile.name || 'Avatar'} className="w-full h-full object-cover" />
+                <div className="w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-[#0D7287]/40 dark:ring-[#9BE7FA]/40 shadow-sm shrink-0 relative">
+                  <Image 
+                    src={profile.avatarUrl} 
+                    alt={profile.name || 'Avatar'} 
+                    width={64} 
+                    height={64} 
+                    className="w-full h-full object-cover" 
+                    unoptimized={profile.avatarUrl.startsWith('data:') || profile.avatarUrl.startsWith('blob:')}
+                  />
                 </div>
               ) : (
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#0D7287] to-cyan-500 text-white font-black text-lg flex items-center justify-center shrink-0 shadow-md shadow-cyan-500/20">

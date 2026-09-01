@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { RowDataPacket } from 'mysql2';
 import { getDbPool, initDatabase } from '@/app/lib/db';
 import { DEFAULT_PROJECTS } from '@/app/defaultData';
 import { ProjectData } from '@/app/types';
@@ -20,13 +21,13 @@ export async function GET() {
       });
     }
 
-    const [rows]: any = await pool.query(
+    const [rows] = await pool.query<RowDataPacket[]>(
       'SELECT * FROM portfolio_projects ORDER BY sort_order ASC, updated_at DESC'
     );
 
     if (!rows || rows.length === 0) {
       await initDatabase();
-      const [newRows]: any = await pool.query(
+      const [newRows] = await pool.query<RowDataPacket[]>(
         'SELECT * FROM portfolio_projects ORDER BY sort_order ASC, updated_at DESC'
       );
       if (newRows && newRows.length > 0) {
@@ -38,13 +39,14 @@ export async function GET() {
 
     const projects = mapRowsToProjects(rows);
     return NextResponse.json({ success: true, source: 'mysql', data: projects });
-  } catch (error: any) {
-    console.warn('[API /api/projects GET] Fallback to default:', error?.message);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.warn('[API /api/projects GET] Fallback to default:', message);
     return NextResponse.json({
       success: true,
       source: 'fallback',
       data: DEFAULT_PROJECTS,
-      error: error?.message,
+      error: message,
     });
   }
 }
@@ -134,19 +136,20 @@ export async function POST(req: NextRequest) {
       message: `Đã lưu thành công ${projectsToSave.length} dự án vào MySQL!`,
       data: projectsToSave,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('[API /api/projects POST] Error:', error);
     return NextResponse.json(
       {
         success: false,
-        message: `Lỗi lưu dự án vào MySQL: ${error?.message || 'Unknown error'}`,
+        message: `Lỗi lưu dự án vào MySQL: ${message}`,
       },
       { status: 500 }
     );
   }
 }
 
-function mapRowsToProjects(rows: any[]): ProjectData[] {
+function mapRowsToProjects(rows: RowDataPacket[]): ProjectData[] {
   // Tìm default project mapping để giữ content/metrics nếu chưa có trong DB
   const defaultMap = new Map(DEFAULT_PROJECTS.map((p) => [p.id, p]));
 

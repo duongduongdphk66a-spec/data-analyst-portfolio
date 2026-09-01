@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyAdminRequest } from '@/app/lib/auth';
 
 /**
- * POST /api/auth/verify
- * Kiểm tra tính hợp lệ của token admin hiện tại
+ * GET & POST /api/auth/verify
+ * Kiểm tra tính hợp lệ của token admin hiện tại từ cookie hoặc header
  */
-export async function POST(req: NextRequest) {
+function handleVerify(req: NextRequest) {
   const auth = verifyAdminRequest(req);
   if (!auth.authenticated) {
     return NextResponse.json(
@@ -18,4 +18,12 @@ export async function POST(req: NextRequest) {
     authenticated: true,
     message: 'Phiên quản trị đang hoạt động hợp lệ.',
   });
+}
+
+export async function GET(req: NextRequest) {
+  return handleVerify(req);
+}
+
+export async function POST(req: NextRequest) {
+  return handleVerify(req);
 }

@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
     });
 
     return response;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[API /api/auth/login] Error:', error);
     return NextResponse.json(
       { success: false, message: 'Lỗi xử lý xác thực hệ thống.' },

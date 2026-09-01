@@ -1,4 +1,5 @@
 import mysql, { Pool, PoolOptions } from 'mysql2/promise';
+import { RowDataPacket } from 'mysql2';
 import { DEFAULT_PROFILE, DEFAULT_PROJECTS } from '../defaultData';
 import { translations } from '../data/translations';
 
@@ -51,35 +52,40 @@ export async function testDbConnection(): Promise<{ connected: boolean; message:
     if (!p) {
       return { connected: false, message: 'MySQL Pool is not available.' };
     }
-    const [_rows] = await p.query('SELECT 1 + 1 AS solution');
+    await p.query('SELECT 1 + 1 AS solution');
     return {
       connected: true,
       message: 'Successfully connected to MySQL database.',
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to connect to MySQL database.';
     return {
       connected: false,
-      message: error?.message || 'Failed to connect to MySQL database.',
+      message,
     };
   }
 }
 
 /**
- * Initialize Tables and Seed Initial Data if not present
+ * Initialize database schema if tables don't exist, and seed default data.
  */
 export async function initDatabase(): Promise<{ success: boolean; message: string; tables?: string[] }> {
-  try {
-    const p = getDbPool();
-    if (!p) {
-      return { success: false, message: 'No MySQL database connection available.' };
-    }
+  if (_isInitialized) {
+    return { success: true, message: 'Database already initialized in this process.' };
+  }
 
-    // 1. Create table portfolio_profile
+  const p = getDbPool();
+  if (!p) {
+    return { success: false, message: 'Cannot initialize: MySQL pool not available.' };
+  }
+
+  try {
+    // 1. Create Profile Table
     await p.query(`
       CREATE TABLE IF NOT EXISTS portfolio_profile (
         id INT NOT NULL DEFAULT 1,
         name VARCHAR(255) NOT NULL,
-        subtitle VARCHAR(255) DEFAULT '',
+        subtitle VARCHAR(500) DEFAULT '',
         title VARCHAR(255) NOT NULL,
         bio TEXT,
         career_goal TEXT,
@@ -95,24 +101,25 @@ export async function initDatabase(): Promise<{ success: boolean; message: strin
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
 
-    // 2. Create table portfolio_texts
+    // 2. Create Texts / CMS Table
     await p.query(`
       CREATE TABLE IF NOT EXISTS portfolio_texts (
-        text_key VARCHAR(120) NOT NULL,
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        text_key VARCHAR(150) NOT NULL,
         lang VARCHAR(10) NOT NULL DEFAULT 'vi',
-        value_text LONGTEXT NOT NULL,
+        value_text TEXT NOT NULL,
         section VARCHAR(50) DEFAULT 'general',
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        PRIMARY KEY (text_key, lang)
+        UNIQUE KEY uk_text_lang (text_key, lang)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
 
-    // 3. Create table portfolio_projects
+    // 3. Create Projects Table
     await p.query(`
       CREATE TABLE IF NOT EXISTS portfolio_projects (
         id VARCHAR(100) NOT NULL,
         title VARCHAR(255) NOT NULL,
-        desc_text TEXT NOT NULL,
+        desc_text TEXT,
         tags_json LONGTEXT,
         img VARCHAR(1000) DEFAULT '',
         demo_url VARCHAR(1000) DEFAULT '',
@@ -129,7 +136,7 @@ export async function initDatabase(): Promise<{ success: boolean; message: strin
     `);
 
     // Seed Profile if empty
-    const [profRows]: any = await p.query('SELECT COUNT(*) as count FROM portfolio_profile WHERE id = 1');
+    const [profRows] = await p.query<RowDataPacket[]>('SELECT COUNT(*) as count FROM portfolio_profile WHERE id = 1');
     if (profRows && profRows[0] && profRows[0].count === 0) {
       await p.query(
         `INSERT INTO portfolio_profile 
@@ -154,7 +161,7 @@ export async function initDatabase(): Promise<{ success: boolean; message: strin
     }
 
     // Seed Texts if empty
-    const [textRows]: any = await p.query('SELECT COUNT(*) as count FROM portfolio_texts');
+    const [textRows] = await p.query<RowDataPacket[]>('SELECT COUNT(*) as count FROM portfolio_texts');
     if (textRows && textRows[0] && textRows[0].count === 0) {
       // Seed Vietnamese translations
       for (const [key, val] of Object.entries(translations.vi)) {
@@ -194,7 +201,7 @@ export async function initDatabase(): Promise<{ success: boolean; message: strin
     }
 
     // Seed Projects if empty
-    const [projRows]: any = await p.query('SELECT COUNT(*) as count FROM portfolio_projects');
+    const [projRows] = await p.query<RowDataPacket[]>('SELECT COUNT(*) as count FROM portfolio_projects');
     if (projRows && projRows[0] && projRows[0].count === 0) {
       for (let i = 0; i < DEFAULT_PROJECTS.length; i++) {
         const proj = DEFAULT_PROJECTS[i];
@@ -240,11 +247,12 @@ export async function initDatabase(): Promise<{ success: boolean; message: strin
       message: 'Database schema created and initial seed completed successfully.',
       tables: ['portfolio_profile', 'portfolio_texts', 'portfolio_projects'],
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Database initialization failed.';
     console.error('[MySQL] Database init failed:', error);
     return {
       success: false,
-      message: error?.message || 'Database initialization failed.',
+      message,
     };
   }
 }

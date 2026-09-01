@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { RowDataPacket } from 'mysql2';
 import { getDbPool, testDbConnection, initDatabase } from '@/app/lib/db';
 import { verifyAdminRequest } from '@/app/lib/auth';
 
@@ -35,21 +36,21 @@ export async function GET() {
     let projectRows = 0;
 
     try {
-      const [pRows]: any = await pool.query('SELECT COUNT(*) as cnt FROM portfolio_profile');
+      const [pRows] = await pool.query<RowDataPacket[]>('SELECT COUNT(*) as cnt FROM portfolio_profile');
       profileRows = pRows[0]?.cnt || 0;
     } catch {
       // Table may not exist yet
     }
 
     try {
-      const [tRows]: any = await pool.query('SELECT COUNT(*) as cnt FROM portfolio_texts');
+      const [tRows] = await pool.query<RowDataPacket[]>('SELECT COUNT(*) as cnt FROM portfolio_texts');
       textRows = tRows[0]?.cnt || 0;
     } catch {
       // Table may not exist yet
     }
 
     try {
-      const [projRows]: any = await pool.query('SELECT COUNT(*) as cnt FROM portfolio_projects');
+      const [projRows] = await pool.query<RowDataPacket[]>('SELECT COUNT(*) as cnt FROM portfolio_projects');
       projectRows = projRows[0]?.cnt || 0;
     } catch {
       // Table may not exist yet
@@ -64,10 +65,11 @@ export async function GET() {
         projectRows,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Database check error';
     return NextResponse.json({
       connected: false,
-      message: error?.message || 'Database check error',
+      message,
       source: 'error',
     });
   }
@@ -128,12 +130,13 @@ export async function POST(req: NextRequest) {
       message: initRes.message,
       details: initRes,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('[API /api/db POST] Error:', error);
     return NextResponse.json(
       {
         success: false,
-        message: `Lỗi thao tác cơ sở dữ liệu: ${error?.message || 'Unknown error'}`,
+        message: `Lỗi thao tác cơ sở dữ liệu: ${message}`,
       },
       { status: 500 }
     );

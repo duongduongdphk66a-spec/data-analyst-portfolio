@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { RowDataPacket } from 'mysql2';
 import { getDbPool, initDatabase } from '@/app/lib/db';
 import { translations } from '@/app/data/translations';
 import { verifyAdminRequest } from '@/app/lib/auth';
@@ -13,24 +14,24 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({
         success: true,
         source: 'default',
-        data: langParam ? (translations as any)[langParam] || translations.vi : translations,
+        data: langParam ? (translations as Record<string, Record<string, string>>)[langParam] || translations.vi : translations,
       });
     }
 
     // Query all texts from database
     let query = 'SELECT text_key, lang, value_text, section FROM portfolio_texts';
-    const params: any[] = [];
+    const params: string[] = [];
     if (langParam) {
       query += ' WHERE lang = ?';
       params.push(langParam);
     }
 
-    const [rows]: any = await pool.query(query, params);
+    const [rows] = await pool.query<RowDataPacket[]>(query, params);
 
     if (!rows || rows.length === 0) {
       // Auto initialize texts if empty
       await initDatabase();
-      const [newRows]: any = await pool.query(query, params);
+      const [newRows] = await pool.query<RowDataPacket[]>(query, params);
       if (newRows && newRows.length > 0) {
         const result: Record<string, Record<string, string>> = { vi: {}, en: {} };
         for (const row of newRows) {
@@ -47,7 +48,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({
         success: true,
         source: 'default',
-        data: langParam ? (translations as any)[langParam] || translations.vi : translations,
+        data: langParam ? (translations as Record<string, Record<string, string>>)[langParam] || translations.vi : translations,
       });
     }
 
@@ -66,13 +67,14 @@ export async function GET(req: NextRequest) {
       source: 'mysql',
       data: langParam ? result[langParam] : result,
     });
-  } catch (error: any) {
-    console.warn('[API /api/texts GET] Fallback to static translations:', error?.message);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.warn('[API /api/texts GET] Fallback to static translations:', message);
     return NextResponse.json({
       success: true,
       source: 'fallback',
       data: translations,
-      error: error?.message,
+      error: message,
     });
   }
 }
@@ -88,10 +90,6 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    // Expected body format:
-    // { updates: [ { text_key: string, lang: 'vi' | 'en', value_text: string, section?: string } ] }
-    // or { text_key: string, lang: string, value_text: string, section?: string }
-    // or dictionary { vi?: { ... }, en?: { ... } }
 
     const pool = getDbPool();
     if (!pool) {
@@ -157,12 +155,13 @@ export async function POST(req: NextRequest) {
       source: 'mysql',
       message: `Đã lưu thành công ${updates.length} đoạn văn bản vào MySQL!`,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('[API /api/texts POST] Error:', error);
     return NextResponse.json(
       {
         success: false,
-        message: `Lỗi lưu văn bản vào MySQL: ${error?.message || 'Unknown error'}`,
+        message: `Lỗi lưu văn bản vào MySQL: ${message}`,
       },
       { status: 500 }
     );

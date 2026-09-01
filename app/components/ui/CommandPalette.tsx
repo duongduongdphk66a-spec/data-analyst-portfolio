@@ -210,6 +210,7 @@ export default function CommandPalette({
           />
           <button
             onClick={onClose}
+            aria-label="Đóng bảng lệnh nhanh"
             className="p-1 rounded-md text-ink-muted hover:text-ink dark:text-slate-400 dark:hover:text-white cursor-pointer"
           >
             <X className="w-4 h-4" />

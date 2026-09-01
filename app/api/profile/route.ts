@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { RowDataPacket } from 'mysql2';
 import { getDbPool, initDatabase } from '@/app/lib/db';
 import { DEFAULT_PROFILE } from '@/app/defaultData';
 import { ProfileData } from '@/app/types';
@@ -17,11 +18,11 @@ export async function GET() {
     }
 
     // Try querying profile
-    const [rows]: any = await pool.query('SELECT * FROM portfolio_profile WHERE id = 1 LIMIT 1');
+    const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_profile WHERE id = 1 LIMIT 1');
     if (!rows || rows.length === 0) {
       // Auto initialize if empty
       await initDatabase();
-      const [newRows]: any = await pool.query('SELECT * FROM portfolio_profile WHERE id = 1 LIMIT 1');
+      const [newRows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_profile WHERE id = 1 LIMIT 1');
       if (newRows && newRows.length > 0) {
         const row = newRows[0];
         const profile: ProfileData = {
@@ -60,13 +61,14 @@ export async function GET() {
     };
 
     return NextResponse.json({ success: true, source: 'mysql', data: profile });
-  } catch (error: any) {
-    console.warn('[API /api/profile GET] Falling back to default profile:', error?.message);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.warn('[API /api/profile GET] Falling back to default profile:', message);
     return NextResponse.json({
       success: true,
       source: 'fallback',
       data: DEFAULT_PROFILE,
-      error: error?.message,
+      error: message,
     });
   }
 }
@@ -141,12 +143,13 @@ export async function POST(req: NextRequest) {
       message: 'Thông tin cá nhân đã được lưu thành công vào MySQL!',
       data: profileData,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('[API /api/profile POST] Error:', error);
     return NextResponse.json(
       {
         success: false,
-        message: `Lỗi lưu thông tin MySQL: ${error?.message || 'Unknown error'}`,
+        message: `Lỗi lưu thông tin MySQL: ${message}`,
       },
       { status: 500 }
     );

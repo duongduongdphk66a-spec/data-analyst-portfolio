@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import Image from 'next/image';
 import { 
   ChevronDown, ChevronRight, Github, Linkedin, Mail, 
   Sun, Moon, Laptop, Globe, Check, Search, Database, Lock
@@ -82,8 +83,15 @@ export default function Sidebar({
         {/* User Profile Header with Avatar */}
         <div className="flex items-center gap-3 px-3 py-2.5 mb-3 bg-white/50 dark:bg-slate-800/70 rounded-2xl border border-white/60 dark:border-slate-700/60 shadow-xs">
           {profile.avatarUrl ? (
-            <div className="w-10 h-10 rounded-xl overflow-hidden ring-1 ring-cyan-500/40 shrink-0">
-              <img src={profile.avatarUrl} alt={profile.name || 'Avatar'} className="w-full h-full object-cover" />
+            <div className="w-10 h-10 rounded-xl overflow-hidden ring-1 ring-cyan-500/40 shrink-0 relative">
+              <Image 
+                src={profile.avatarUrl} 
+                alt={profile.name || 'Avatar'} 
+                width={40} 
+                height={40} 
+                className="w-full h-full object-cover" 
+                unoptimized={profile.avatarUrl.startsWith('data:') || profile.avatarUrl.startsWith('blob:')}
+              />
             </div>
           ) : (
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0D7287] to-cyan-500 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
@@ -104,6 +112,7 @@ export default function Sidebar({
         {onOpenCommandPalette && (
           <button
             onClick={onOpenCommandPalette}
+            aria-label="Mở bảng tìm kiếm và lệnh nhanh (Ctrl+K)"
             className="w-full flex items-center justify-between px-4 py-2.5 bg-white/60 hover:bg-white text-slate-700 hover:text-slate-950 border border-slate-300/60 rounded-xl text-xs font-semibold transition-all cursor-pointer shadow-xs mb-4 dark:bg-slate-800/80 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
           >
             <div className="flex items-center gap-2">
@@ -129,6 +138,7 @@ export default function Sidebar({
               >
                 <button
                   onClick={() => onTabChange(item.id)}
+                  aria-label={item.label}
                   className={`w-full flex items-center justify-between px-5 py-3 text-sm sm:text-base font-bold rounded-2xl transition-all duration-200 cursor-pointer text-left ${
                     isActive
                       ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40 dark:bg-slate-800 dark:text-[#9BE7FA] dark:shadow-none'
