@@ -83,7 +83,6 @@ export async function POST(req: NextRequest) {
     const response = NextResponse.json({
       success: true,
       message: 'Đăng nhập quản trị thành công!',
-      token,
     });
 
     // Thiết lập cookie an toàn

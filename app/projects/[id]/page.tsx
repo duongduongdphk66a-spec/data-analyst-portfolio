@@ -79,7 +79,7 @@ export async function generateMetadata({
           project = {
             id: r.id,
             title: r.title,
-            desc: r.description || r.desc_text || '',
+            desc: r.desc_text || '',
             tags: typeof r.tags_json === 'string' ? JSON.parse(r.tags_json) : r.tags || [],
             demoUrl: r.demo_url,
             githubUrl: r.github_url,

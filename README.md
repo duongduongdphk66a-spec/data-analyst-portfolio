@@ -76,11 +76,12 @@ To access the CMS Admin Panel, press `Ctrl + E` or click **"Chỉnh Sửa CMS"**
 
 ## 📋 Production Deployment Checklist
 
-Khi deploy lên môi trường Production (Vercel, VPS, Railway, Docker):
+Khi deploy lên môi trường Production (Vercel, VPS, PM2 Cluster, Docker):
 
 1. **`NEXT_PUBLIC_SITE_URL`**: Cấu hình domain thực tế của bạn (ví dụ: `https://yourdomain.com`) để đảm bảo sitemap.xml, robots.txt và metadata SEO / OpenGraph trỏ chính xác.
 2. **`ADMIN_PASSWORD`**: Thiết lập mật khẩu quản trị mạnh (tối thiểu 16 ký tự ngẫu nhiên). Trong môi trường production, ứng dụng sẽ chặn khởi động nếu thiếu mật khẩu an toàn.
-3. **`MYSQL_HOST` / `DATABASE_URL`**: Kết nối tới cơ sở dữ liệu MySQL đã cấp quyền. Hệ thống sẽ tự động khởi tạo bảng và seed dữ liệu trong lần chạy đầu tiên.
+3. **`TRUST_PROXY`**: Mặc định là `false`. Chỉ đặt `TRUST_PROXY=true` khi ứng dụng đứng sau Reverse Proxy uy tín (Cloudflare, Nginx, ALB) và cổng ứng dụng đã được firewall bảo vệ tránh truy cập trực tiếp.
+4. **`MYSQL_HOST` / `DATABASE_URL`**: Kết nối tới cơ sở dữ liệu MySQL đã cấp quyền. Hệ thống sẽ tự động khởi tạo bảng (`portfolio_profile`, `portfolio_texts`, `portfolio_projects`, `portfolio_rate_limits`, `portfolio_cache`) và đồng bộ cache tức thời giữa tất cả các tiến trình PM2 worker.
 
 ---
 

@@ -256,11 +256,21 @@ export async function initDatabase(force = false): Promise<{ success: boolean; m
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
 
+    // 5. Create Cache Table (shared API cache across PM2 cluster instances)
+    await p.query(`
+      CREATE TABLE IF NOT EXISTS portfolio_cache (
+        cache_key VARCHAR(100) PRIMARY KEY,
+        data_json LONGTEXT NOT NULL,
+        expires_at BIGINT NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
     _isInitialized = true;
     return {
       success: true,
       message: 'Database schema created and initial seed completed successfully.',
-      tables: ['portfolio_profile', 'portfolio_texts', 'portfolio_projects', 'portfolio_rate_limits'],
+      tables: ['portfolio_profile', 'portfolio_texts', 'portfolio_projects', 'portfolio_rate_limits', 'portfolio_cache'],
     };
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Database initialization failed.';
@@ -363,6 +373,72 @@ export async function resetDbRateLimit(ip: string): Promise<boolean> {
     return true;
   } catch {
     return false;
+  }
+}
+
+// ==========================================
+// Shared API Cache via MySQL (PM2 Cluster)
+// ==========================================
+
+export async function getDbCache<T>(key: string): Promise<T | null> {
+  const p = getDbPool();
+  if (!p) return null;
+
+  try {
+    const [rows] = await p.query<RowDataPacket[]>(
+      'SELECT data_json, expires_at FROM portfolio_cache WHERE cache_key = ?',
+      [key]
+    );
+    if (!rows || rows.length === 0) return null;
+    const r = rows[0];
+    const now = Date.now();
+    if (now > Number(r.expires_at)) {
+      // Hết hạn -> Xoá background
+      p.query('DELETE FROM portfolio_cache WHERE cache_key = ?', [key]).catch(() => {});
+      return null;
+    }
+    return JSON.parse(r.data_json) as T;
+  } catch {
+    return null;
+  }
+}
+
+export async function setDbCache<T>(key: string, data: T, ttlMs: number): Promise<void> {
+  const p = getDbPool();
+  if (!p) return;
+
+  const expiresAt = Date.now() + ttlMs;
+  const dataJson = JSON.stringify(data);
+
+  try {
+    await p.query(
+      `INSERT INTO portfolio_cache (cache_key, data_json, expires_at)
+       VALUES (?, ?, ?)
+       ON DUPLICATE KEY UPDATE
+         data_json = VALUES(data_json),
+         expires_at = VALUES(expires_at)`,
+      [key, dataJson, expiresAt]
+    );
+  } catch {
+    // Silent fallback
+  }
+}
+
+export async function invalidateDbCache(prefixOrKey?: string): Promise<void> {
+  const p = getDbPool();
+  if (!p) return;
+
+  try {
+    if (!prefixOrKey) {
+      await p.query('DELETE FROM portfolio_cache');
+      return;
+    }
+    await p.query(
+      'DELETE FROM portfolio_cache WHERE cache_key = ? OR cache_key LIKE ?',
+      [prefixOrKey, `${prefixOrKey}:%`]
+    );
+  } catch {
+    // Silent fallback
   }
 }
 

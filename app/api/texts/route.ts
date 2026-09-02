@@ -3,7 +3,7 @@ import { RowDataPacket } from 'mysql2';
 import { getDbPool, initDatabase } from '@/app/lib/db';
 import { translations } from '@/app/data/translations';
 import { verifyAdminRequest } from '@/app/lib/auth';
-import { getApiCache, setApiCache, invalidateApiCache } from '@/app/lib/cache';
+import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/app/lib/cache';
 
 const CACHE_HEADERS = {
   'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     const langParam = searchParams.get('lang'); // 'vi' | 'en' | null
     const cacheKey = `texts:${langParam || 'all'}`;
 
-    const cached = getApiCache<Record<string, unknown>>(cacheKey);
+    const cached = await getApiCacheAsync<Record<string, unknown>>(cacheKey);
     if (cached) {
       return NextResponse.json({ success: true, source: 'cache', data: cached }, { headers: CACHE_HEADERS });
     }
@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
           result[row.lang][row.text_key] = row.value_text;
         }
         const finalData = langParam ? result[langParam] : result;
-        setApiCache(cacheKey, finalData);
+        await setApiCacheAsync(cacheKey, finalData);
         return NextResponse.json({
           success: true,
           source: 'mysql',
@@ -78,7 +78,7 @@ export async function GET(req: NextRequest) {
     }
 
     const finalData = langParam ? result[langParam] : result;
-    setApiCache(cacheKey, finalData);
+    await setApiCacheAsync(cacheKey, finalData);
     return NextResponse.json({
       success: true,
       source: 'mysql',
@@ -175,7 +175,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    invalidateApiCache('texts');
+    await invalidateApiCacheAsync('texts');
 
     return NextResponse.json({
       success: true,

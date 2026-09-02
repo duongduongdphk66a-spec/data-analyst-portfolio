@@ -10,6 +10,7 @@ import { ProjectData } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { usePortfolioData } from '../context/PortfolioDataContext';
+import { sanitizeUrl } from '../lib/security';
 
 interface SidebarProps {
   activeTab: string;
@@ -37,6 +38,7 @@ export default function Sidebar({
   const { language, setLanguage, t } = useLanguage();
   const { theme, setTheme } = useTheme();
   const { profile, dbStatus } = usePortfolioData();
+  const safeAvatarUrl = profile.avatarUrl ? sanitizeUrl(profile.avatarUrl) : '';
 
   // Settings Popover States
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -82,15 +84,15 @@ export default function Sidebar({
       <nav className="flex-1 px-4 pt-6 pb-6 space-y-2.5 overflow-y-auto overflow-x-visible">
         {/* User Profile Header with Avatar */}
         <div className="flex items-center gap-3 px-3 py-2.5 mb-3 bg-white/50 dark:bg-slate-800/70 rounded-2xl border border-white/60 dark:border-slate-700/60 shadow-xs">
-          {profile.avatarUrl ? (
+          {safeAvatarUrl && safeAvatarUrl !== '#' ? (
             <div className="w-10 h-10 rounded-xl overflow-hidden ring-1 ring-cyan-500/40 shrink-0 relative">
               <Image 
-                src={profile.avatarUrl} 
+                src={safeAvatarUrl} 
                 alt={profile.name || 'Avatar'} 
                 width={40} 
                 height={40} 
                 className="w-full h-full object-cover" 
-                unoptimized={profile.avatarUrl.startsWith('data:') || profile.avatarUrl.startsWith('blob:')}
+                unoptimized={safeAvatarUrl.startsWith('data:') || safeAvatarUrl.startsWith('blob:')}
               />
             </div>
           ) : (

@@ -4,7 +4,7 @@ import { getDbPool, initDatabase } from '@/app/lib/db';
 import { DEFAULT_PROJECTS } from '@/app/defaultData';
 import { ProjectData } from '@/app/types';
 import { verifyAdminRequest } from '@/app/lib/auth';
-import { getApiCache, setApiCache, invalidateApiCache } from '@/app/lib/cache';
+import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/app/lib/cache';
 
 const CACHE_HEADERS = {
   'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
@@ -16,7 +16,7 @@ const CACHE_HEADERS = {
  */
 export async function GET() {
   try {
-    const cached = getApiCache<ProjectData[]>('projects');
+    const cached = await getApiCacheAsync<ProjectData[]>('projects');
     if (cached) {
       return NextResponse.json({ success: true, source: 'cache', data: cached }, { headers: CACHE_HEADERS });
     }
@@ -45,14 +45,14 @@ export async function GET() {
       );
       if (newRows && newRows.length > 0) {
         const projects = mapRowsToProjects(newRows);
-        setApiCache('projects', projects);
+        await setApiCacheAsync('projects', projects);
         return NextResponse.json({ success: true, source: 'mysql', data: projects }, { headers: CACHE_HEADERS });
       }
       return NextResponse.json({ success: true, source: 'default', data: DEFAULT_PROJECTS }, { headers: CACHE_HEADERS });
     }
 
     const projects = mapRowsToProjects(rows);
-    setApiCache('projects', projects);
+    await setApiCacheAsync('projects', projects);
     return NextResponse.json({ success: true, source: 'mysql', data: projects }, { headers: CACHE_HEADERS });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
@@ -164,7 +164,7 @@ export async function POST(req: NextRequest) {
       await pool.query(sql, values);
     }
 
-    invalidateApiCache('projects');
+    await invalidateApiCacheAsync('projects');
 
     return NextResponse.json({
       success: true,

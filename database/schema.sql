@@ -66,7 +66,15 @@ CREATE TABLE IF NOT EXISTS `portfolio_rate_limits` (
   `last_attempt` BIGINT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 5. Table: portfolio_visitor_logs (Optional logging)
+-- 5. Table: portfolio_cache (Shared API Cache across PM2 cluster instances)
+CREATE TABLE IF NOT EXISTS `portfolio_cache` (
+  `cache_key` VARCHAR(100) PRIMARY KEY,
+  `data_json` LONGTEXT NOT NULL,
+  `expires_at` BIGINT NOT NULL,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 6. Table: portfolio_visitor_logs (Optional logging)
 CREATE TABLE IF NOT EXISTS `portfolio_visitor_logs` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `action` VARCHAR(255) NOT NULL,

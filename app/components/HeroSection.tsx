@@ -10,6 +10,7 @@ import { useTheme } from '../context/ThemeContext';
 import { trackVisitorAction } from '../lib/visitorTracking';
 import { gsap, useGSAP } from '../lib/gsap';
 import AnimatedCounter from './ui/AnimatedCounter';
+import { sanitizeUrl } from '../lib/security';
 
 const HeroAreaChart = dynamic(() => import('./charts/HeroAreaChart'), {
   ssr: false,
@@ -54,6 +55,7 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject, o
   const isDark = resolvedTheme === 'dark';
   const stats = isEn ? STATS_EN : STATS_VI;
   const containerRef = useRef<HTMLElement>(null);
+  const safeAvatarUrl = profile.avatarUrl ? sanitizeUrl(profile.avatarUrl) : '';
 
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -103,15 +105,15 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject, o
 
             {/* Avatar & Badge */}
             <div className="hero-badge flex items-center gap-3.5">
-              {profile.avatarUrl ? (
+              {safeAvatarUrl && safeAvatarUrl !== '#' ? (
                 <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden ring-2 ring-[#0D7287]/40 dark:ring-[#9BE7FA]/40 shadow-md flex-shrink-0">
                   <Image
-                    src={profile.avatarUrl}
+                    src={safeAvatarUrl}
                     alt={profile.name || 'Avatar'}
                     width={56}
                     height={56}
                     className="w-full h-full object-cover"
-                    unoptimized={profile.avatarUrl.startsWith('data:') || profile.avatarUrl.startsWith('blob:')}
+                    unoptimized={safeAvatarUrl.startsWith('data:') || safeAvatarUrl.startsWith('blob:')}
                   />
                   <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" title="Sẵn sàng tiếp nhận cơ hội mới" />
                 </div>

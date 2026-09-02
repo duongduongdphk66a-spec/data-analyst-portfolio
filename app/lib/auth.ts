@@ -52,27 +52,38 @@ setInterval(() => {
 
 /**
  * Trích xuất Client IP an toàn từ Request
- * Hỗ trợ các header reverse proxy uy tín và biến môi trường TRUST_PROXY.
+ * Chỉ tin cậy các proxy header khi TRUST_PROXY='true' được bật tường minh.
+ * Ngăn chặn tuyệt đối việc kẻ tấn công tự set header giả lập IP để bypass rate limiting.
  */
 export function getClientIp(req: NextRequest): string {
-  // 1. Cloudflare header uy tín (không bị client giả lập)
-  const cfIp = req.headers.get('cf-connecting-ip');
-  if (cfIp) {
-    return cfIp.trim();
+  const isTrustProxy = process.env.TRUST_PROXY === 'true';
+
+  if (isTrustProxy) {
+    // 1. Cloudflare header (chỉ tin khi đứng sau Cloudflare Proxy tin cậy)
+    const cfIp = req.headers.get('cf-connecting-ip');
+    if (cfIp) {
+      return cfIp.trim();
+    }
+
+    // 2. Nginx/Traefik X-Real-IP header do reverse proxy thiết lập
+    const realIp = req.headers.get('x-real-ip');
+    if (realIp) {
+      return realIp.trim();
+    }
+
+    // 3. X-Forwarded-For: lấy IP đầu tiên (client IP)
+    const forwarded = req.headers.get('x-forwarded-for');
+    if (forwarded) {
+      const clientIp = forwarded.split(',')[0].trim();
+      if (clientIp) return clientIp;
+    }
   }
 
-  // 2. Nginx X-Real-IP header do reverse proxy thiết lập
-  const realIp = req.headers.get('x-real-ip');
-  if (realIp) {
-    return realIp.trim();
-  }
-
-  // 3. X-Forwarded-For: chỉ tin cậy khi được chỉ định rõ qua cấu hình TRUST_PROXY
-  const isTrustProxy = process.env.TRUST_PROXY === 'true' || process.env.NODE_ENV === 'production';
-  const forwarded = req.headers.get('x-forwarded-for');
-  if (forwarded && isTrustProxy) {
-    const clientIp = forwarded.split(',')[0].trim();
-    if (clientIp) return clientIp;
+  // Khi TRUST_PROXY=false hoặc không đứng sau proxy:
+  // Lấy IP từ NextRequest socket nếu có hoặc fallback an toàn
+  const reqIp = (req as unknown as { ip?: string }).ip;
+  if (reqIp && typeof reqIp === 'string' && reqIp.trim()) {
+    return reqIp.trim();
   }
 
   return '127.0.0.1';

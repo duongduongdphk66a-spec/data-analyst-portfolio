@@ -16,7 +16,7 @@ import { gsap, useGSAP } from '../lib/gsap';
 import { executeClientSql, SqlQueryResult } from '../lib/sqlEngine';
 import { exportChartAsPng } from '../lib/chartExport';
 import { useToast } from './ui/Toast';
-import { validateUploadedFile } from '../lib/security';
+import { validateUploadedFile, sanitizeUrl } from '../lib/security';
 
 const AboutSqlChart = dynamic(() => import('./charts/AboutSqlChart'), {
   ssr: false,
@@ -39,6 +39,7 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab: 
   const { showToast } = useToast();
   const isEn = language === 'en';
   const isDark = resolvedTheme === 'dark';
+  const safeAvatarUrl = profile.avatarUrl ? sanitizeUrl(profile.avatarUrl) : '';
 
   // Mode: Preset vs Custom SQL
   const [sandboxMode, setSandboxMode] = useState<'presets' | 'custom'>('presets');
@@ -235,15 +236,15 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab: 
           {/* Bio Column with Avatar */}
           <div className="space-y-6">
             <div className="flex items-center gap-4 p-4 rounded-2xl bg-surface/50 dark:bg-slate-900/80 border border-border-subtle dark:border-slate-800 shadow-xs">
-              {profile.avatarUrl ? (
+              {safeAvatarUrl && safeAvatarUrl !== '#' ? (
                 <div className="w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-[#0D7287]/40 dark:ring-[#9BE7FA]/40 shadow-sm shrink-0 relative">
                   <Image 
-                    src={profile.avatarUrl} 
+                    src={safeAvatarUrl} 
                     alt={profile.name || 'Avatar'} 
                     width={64} 
                     height={64} 
                     className="w-full h-full object-cover" 
-                    unoptimized={profile.avatarUrl.startsWith('data:') || profile.avatarUrl.startsWith('blob:')}
+                    unoptimized={safeAvatarUrl.startsWith('data:') || safeAvatarUrl.startsWith('blob:')}
                   />
                 </div>
               ) : (

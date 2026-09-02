@@ -22,7 +22,26 @@ describe('Admin Authentication & Rate Limiting Module', () => {
   });
 
   describe('getClientIp', () => {
-    it('should prioritize cf-connecting-ip if present', () => {
+    it('should ignore spoofed headers when TRUST_PROXY is false (default)', () => {
+      const prev = process.env.TRUST_PROXY;
+      process.env.TRUST_PROXY = 'false';
+
+      const req = new NextRequest('http://localhost:3000/api/auth/login', {
+        headers: {
+          'cf-connecting-ip': '203.0.113.195',
+          'x-real-ip': '10.0.0.1',
+          'x-forwarded-for': '1.2.3.4, 5.6.7.8',
+        },
+      });
+
+      expect(getClientIp(req)).toBe('127.0.0.1');
+      process.env.TRUST_PROXY = prev;
+    });
+
+    it('should prioritize cf-connecting-ip when TRUST_PROXY is true', () => {
+      const prev = process.env.TRUST_PROXY;
+      process.env.TRUST_PROXY = 'true';
+
       const req = new NextRequest('http://localhost:3000/api/auth/login', {
         headers: {
           'cf-connecting-ip': '203.0.113.195',
@@ -31,9 +50,13 @@ describe('Admin Authentication & Rate Limiting Module', () => {
         },
       });
       expect(getClientIp(req)).toBe('203.0.113.195');
+      process.env.TRUST_PROXY = prev;
     });
 
-    it('should use x-real-ip if cf-connecting-ip is missing', () => {
+    it('should use x-real-ip if cf-connecting-ip is missing and TRUST_PROXY is true', () => {
+      const prev = process.env.TRUST_PROXY;
+      process.env.TRUST_PROXY = 'true';
+
       const req = new NextRequest('http://localhost:3000/api/auth/login', {
         headers: {
           'x-real-ip': '198.51.100.50',
@@ -41,6 +64,7 @@ describe('Admin Authentication & Rate Limiting Module', () => {
         },
       });
       expect(getClientIp(req)).toBe('198.51.100.50');
+      process.env.TRUST_PROXY = prev;
     });
 
     it('should extract leftmost IP from x-forwarded-for when trust proxy is enabled', () => {
