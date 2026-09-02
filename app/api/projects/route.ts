@@ -4,6 +4,11 @@ import { getDbPool, initDatabase } from '@/app/lib/db';
 import { DEFAULT_PROJECTS } from '@/app/defaultData';
 import { ProjectData } from '@/app/types';
 import { verifyAdminRequest } from '@/app/lib/auth';
+import { getApiCache, setApiCache, invalidateApiCache } from '@/app/lib/cache';
+
+const CACHE_HEADERS = {
+  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+};
 
 /**
  * GET /api/projects
@@ -11,14 +16,22 @@ import { verifyAdminRequest } from '@/app/lib/auth';
  */
 export async function GET() {
   try {
+    const cached = getApiCache<ProjectData[]>('projects');
+    if (cached) {
+      return NextResponse.json({ success: true, source: 'cache', data: cached }, { headers: CACHE_HEADERS });
+    }
+
     const pool = getDbPool();
     if (!pool) {
-      return NextResponse.json({
-        success: true,
-        source: 'default',
-        data: DEFAULT_PROJECTS,
-        message: 'MySQL pool not configured, returning static default projects.',
-      });
+      return NextResponse.json(
+        {
+          success: true,
+          source: 'default',
+          data: DEFAULT_PROJECTS,
+          message: 'MySQL pool not configured, returning static default projects.',
+        },
+        { headers: CACHE_HEADERS }
+      );
     }
 
     const [rows] = await pool.query<RowDataPacket[]>(
@@ -32,13 +45,15 @@ export async function GET() {
       );
       if (newRows && newRows.length > 0) {
         const projects = mapRowsToProjects(newRows);
-        return NextResponse.json({ success: true, source: 'mysql', data: projects });
+        setApiCache('projects', projects);
+        return NextResponse.json({ success: true, source: 'mysql', data: projects }, { headers: CACHE_HEADERS });
       }
-      return NextResponse.json({ success: true, source: 'default', data: DEFAULT_PROJECTS });
+      return NextResponse.json({ success: true, source: 'default', data: DEFAULT_PROJECTS }, { headers: CACHE_HEADERS });
     }
 
     const projects = mapRowsToProjects(rows);
-    return NextResponse.json({ success: true, source: 'mysql', data: projects });
+    setApiCache('projects', projects);
+    return NextResponse.json({ success: true, source: 'mysql', data: projects }, { headers: CACHE_HEADERS });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     console.warn('[API /api/projects GET] Fallback to default:', message);
@@ -47,7 +62,7 @@ export async function GET() {
       source: 'fallback',
       data: DEFAULT_PROJECTS,
       error: message,
-    });
+    }, { headers: CACHE_HEADERS });
   }
 }
 
@@ -91,6 +106,9 @@ export async function POST(req: NextRequest) {
 
     await initDatabase();
 
+    const placeholders: string[] = [];
+    const values: any[] = [];
+
     for (let i = 0; i < projectsToSave.length; i++) {
       const proj = projectsToSave[i];
 
@@ -104,11 +122,30 @@ export async function POST(req: NextRequest) {
         );
       }
 
+      placeholders.push('(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+      values.push(
+        proj.id,
+        proj.title,
+        proj.desc,
+        JSON.stringify(proj.tags || []),
+        proj.img || '',
+        proj.demoUrl || '',
+        proj.githubUrl || '',
+        proj.embedUrl || '',
+        proj.featured ? 1 : 0,
+        proj.problem || '',
+        proj.method || '',
+        proj.insight || '',
+        i,
+      );
+    }
+
+    if (placeholders.length > 0) {
       const sql = `
         INSERT INTO portfolio_projects 
           (id, title, desc_text, tags_json, img, demo_url, github_url, embed_url, featured, problem, method, insight, sort_order)
         VALUES 
-          (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          ${placeholders.join(', ')}
         ON DUPLICATE KEY UPDATE
           title = VALUES(title),
           desc_text = VALUES(desc_text),
@@ -124,22 +161,10 @@ export async function POST(req: NextRequest) {
           sort_order = VALUES(sort_order)
       `;
 
-      await pool.query(sql, [
-        proj.id,
-        proj.title,
-        proj.desc,
-        JSON.stringify(proj.tags || []),
-        proj.img || '',
-        proj.demoUrl || '',
-        proj.githubUrl || '',
-        proj.embedUrl || '',
-        proj.featured ? 1 : 0,
-        proj.problem || '',
-        proj.method || '',
-        proj.insight || '',
-        i,
-      ]);
+      await pool.query(sql, values);
     }
+
+    invalidateApiCache('projects');
 
     return NextResponse.json({
       success: true,

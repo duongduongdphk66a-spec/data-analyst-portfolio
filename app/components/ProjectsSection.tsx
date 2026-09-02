@@ -392,7 +392,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
                 src={sanitizeEmbedUrl(activeEmbedProject.embedUrl)}
                 title={activeEmbedProject.title}
                 className="w-full h-full border-0"
-                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                sandbox="allow-scripts allow-popups allow-forms"
               />
             </div>
           </div>

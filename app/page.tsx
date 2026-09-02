@@ -19,8 +19,11 @@ import CVSection from './components/CVSection';
 import ProjectsSection from './components/ProjectsSection';
 import ProjectDetailView from './components/ProjectDetailView';
 import CommandPalette from './components/ui/CommandPalette';
-import AdminEditorModal from './components/AdminEditorModal';
 import dynamic from 'next/dynamic';
+
+const AdminEditorModal = dynamic(() => import('./components/AdminEditorModal'), {
+  ssr: false,
+});
 
 const DashboardSection = dynamic(() => import('./components/DashboardSection'), {
   loading: () => <PageSkeleton label="Loading Dashboard..." />,
@@ -325,7 +328,7 @@ export default function Portfolio() {
 
         {/* Dynamic Main View */}
         <main className="flex-1 overflow-y-auto bg-white relative dark:bg-slate-950 transition-colors duration-200">
-          <ErrorBoundary>
+          <ErrorBoundary key={activeTab + (selectedProjectId ? `-${selectedProjectId}` : '')} resetKeys={[activeTab, selectedProjectId]}>
             {activeTab === 'home' && (
               <>
                 <HeroSection 

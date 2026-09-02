@@ -3,19 +3,31 @@ import { RowDataPacket } from 'mysql2';
 import { getDbPool, initDatabase } from '@/app/lib/db';
 import { translations } from '@/app/data/translations';
 import { verifyAdminRequest } from '@/app/lib/auth';
+import { getApiCache, setApiCache, invalidateApiCache } from '@/app/lib/cache';
+
+const CACHE_HEADERS = {
+  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+};
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const langParam = searchParams.get('lang'); // 'vi' | 'en' | null
+    const cacheKey = `texts:${langParam || 'all'}`;
+
+    const cached = getApiCache<Record<string, unknown>>(cacheKey);
+    if (cached) {
+      return NextResponse.json({ success: true, source: 'cache', data: cached }, { headers: CACHE_HEADERS });
+    }
 
     const pool = getDbPool();
     if (!pool) {
+      const data = langParam ? (translations as Record<string, Record<string, string>>)[langParam] || translations.vi : translations;
       return NextResponse.json({
         success: true,
         source: 'default',
-        data: langParam ? (translations as Record<string, Record<string, string>>)[langParam] || translations.vi : translations,
-      });
+        data,
+      }, { headers: CACHE_HEADERS });
     }
 
     // Query all texts from database
@@ -38,18 +50,21 @@ export async function GET(req: NextRequest) {
           if (!result[row.lang]) result[row.lang] = {};
           result[row.lang][row.text_key] = row.value_text;
         }
+        const finalData = langParam ? result[langParam] : result;
+        setApiCache(cacheKey, finalData);
         return NextResponse.json({
           success: true,
           source: 'mysql',
-          data: langParam ? result[langParam] : result,
-        });
+          data: finalData,
+        }, { headers: CACHE_HEADERS });
       }
 
+      const defaultData = langParam ? (translations as Record<string, Record<string, string>>)[langParam] || translations.vi : translations;
       return NextResponse.json({
         success: true,
         source: 'default',
-        data: langParam ? (translations as Record<string, Record<string, string>>)[langParam] || translations.vi : translations,
-      });
+        data: defaultData,
+      }, { headers: CACHE_HEADERS });
     }
 
     const result: Record<string, Record<string, string>> = {
@@ -62,11 +77,13 @@ export async function GET(req: NextRequest) {
       result[row.lang][row.text_key] = row.value_text;
     }
 
+    const finalData = langParam ? result[langParam] : result;
+    setApiCache(cacheKey, finalData);
     return NextResponse.json({
       success: true,
       source: 'mysql',
-      data: langParam ? result[langParam] : result,
-    });
+      data: finalData,
+    }, { headers: CACHE_HEADERS });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     console.warn('[API /api/texts GET] Fallback to static translations:', message);
@@ -75,7 +92,7 @@ export async function GET(req: NextRequest) {
       source: 'fallback',
       data: translations,
       error: message,
-    });
+    }, { headers: CACHE_HEADERS });
   }
 }
 
@@ -130,6 +147,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: 'No updates provided' }, { status: 400 });
     }
 
+    const placeholders: string[] = [];
+    const values: (string | number)[] = [];
+
     for (const item of updates) {
       let section = item.section;
       if (!section) {
@@ -142,13 +162,20 @@ export async function POST(req: NextRequest) {
         else section = 'general';
       }
 
+      placeholders.push('(?, ?, ?, ?)');
+      values.push(item.text_key, item.lang, item.value_text, section);
+    }
+
+    if (placeholders.length > 0) {
       await pool.query(
         `INSERT INTO portfolio_texts (text_key, lang, value_text, section)
-         VALUES (?, ?, ?, ?)
+         VALUES ${placeholders.join(', ')}
          ON DUPLICATE KEY UPDATE value_text = VALUES(value_text), section = VALUES(section)`,
-        [item.text_key, item.lang, item.value_text, section]
+        values
       );
     }
+
+    invalidateApiCache('texts');
 
     return NextResponse.json({
       success: true,

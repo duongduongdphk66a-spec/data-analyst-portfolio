@@ -5,6 +5,7 @@ import React, { Component, ReactNode } from 'react';
 interface ErrorBoundaryProps {
   children: ReactNode;
   fallback?: ReactNode;
+  resetKeys?: unknown[];
   onError?: (_error: Error, _errorInfo: React.ErrorInfo) => void;
 }
 
@@ -17,6 +18,7 @@ interface ErrorBoundaryState {
 /**
  * Error Boundary component — catches rendering errors in child tree
  * and displays a bilingual fallback UI instead of crashing the entire app.
+ * Supports auto-resetting when resetKeys change (e.g. switching tabs).
  */
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
@@ -36,6 +38,17 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       }
     } catch {
       // Ignore localStorage access issues
+    }
+  }
+
+  componentDidUpdate(prevProps: ErrorBoundaryProps) {
+    if (this.state.hasError && this.props.resetKeys) {
+      const hasChanged = this.props.resetKeys.some(
+        (key, idx) => !prevProps.resetKeys || key !== prevProps.resetKeys[idx]
+      );
+      if (hasChanged) {
+        this.setState({ hasError: false, error: null });
+      }
     }
   }
 

@@ -72,15 +72,18 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Fetch initial profile, projects, custom texts, and db status
+  // Fetch initial profile, projects, custom texts, and db status in parallel
   const refreshData = useCallback(async () => {
     try {
-      // 1. Fetch DB Status
-      const dbRes = await fetch('/api/db').then((r) => r.json()).catch(() => ({ connected: false, message: 'Offline' }));
+      const [dbRes, profRes, projRes, textRes] = await Promise.all([
+        fetch('/api/db').then((r) => r.json()).catch(() => ({ connected: false, message: 'Offline' })),
+        fetch('/api/profile').then((r) => r.json()).catch(() => null),
+        fetch('/api/projects').then((r) => r.json()).catch(() => null),
+        fetch('/api/texts').then((r) => r.json()).catch(() => null),
+      ]);
+
       if (dbRes) setDbStatus(dbRes);
 
-      // 2. Fetch Profile Data
-      const profRes = await fetch('/api/profile').then((r) => r.json()).catch(() => null);
       if (profRes && profRes.data) {
         setProfile((prev) => ({
           ...prev,
@@ -91,14 +94,10 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
         }));
       }
 
-      // 3. Fetch Projects Data
-      const projRes = await fetch('/api/projects').then((r) => r.json()).catch(() => null);
       if (projRes && Array.isArray(projRes.data) && projRes.data.length > 0) {
         setProjects(projRes.data);
       }
 
-      // 4. Fetch Texts
-      const textRes = await fetch('/api/texts').then((r) => r.json()).catch(() => null);
       if (textRes && textRes.data) {
         setCustomTexts({
           vi: { ...translations.vi, ...(textRes.data.vi || {}) },
@@ -113,9 +112,9 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    let active = true;
+    let ignore = false;
 
-    const init = async () => {
+    const initData = async () => {
       try {
         const [dbRes, profRes, projRes, textRes] = await Promise.all([
           fetch('/api/db').then((r) => r.json()).catch(() => ({ connected: false, message: 'Offline' })),
@@ -124,7 +123,7 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
           fetch('/api/texts').then((r) => r.json()).catch(() => null),
         ]);
 
-        if (!active) return;
+        if (ignore) return;
 
         if (dbRes) setDbStatus(dbRes);
 
@@ -149,16 +148,16 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
           });
         }
       } catch (err) {
-        console.warn('[PortfolioDataProvider] Init load:', err);
+        console.warn('[PortfolioDataProvider] Init fetch fallback to static:', err);
       } finally {
-        if (active) setIsLoading(false);
+        if (!ignore) setIsLoading(false);
       }
     };
 
-    init();
+    initData();
 
     return () => {
-      active = false;
+      ignore = true;
     };
   }, []);
 

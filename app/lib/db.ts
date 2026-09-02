@@ -74,8 +74,8 @@ export async function testDbConnection(): Promise<{ connected: boolean; message:
 /**
  * Initialize database schema if tables don't exist, and seed default data.
  */
-export async function initDatabase(): Promise<{ success: boolean; message: string; tables?: string[] }> {
-  if (_isInitialized) {
+export async function initDatabase(force = false): Promise<{ success: boolean; message: string; tables?: string[] }> {
+  if (_isInitialized && !force) {
     return { success: true, message: 'Database already initialized in this process.' };
   }
 

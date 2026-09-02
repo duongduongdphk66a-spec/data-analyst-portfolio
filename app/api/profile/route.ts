@@ -4,17 +4,30 @@ import { getDbPool, initDatabase } from '@/app/lib/db';
 import { DEFAULT_PROFILE } from '@/app/defaultData';
 import { ProfileData } from '@/app/types';
 import { verifyAdminRequest } from '@/app/lib/auth';
+import { getApiCache, setApiCache, invalidateApiCache } from '@/app/lib/cache';
+
+const CACHE_HEADERS = {
+  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+};
 
 export async function GET() {
   try {
+    const cached = getApiCache<ProfileData>('profile');
+    if (cached) {
+      return NextResponse.json({ success: true, source: 'cache', data: cached }, { headers: CACHE_HEADERS });
+    }
+
     const pool = getDbPool();
     if (!pool) {
-      return NextResponse.json({
-        success: true,
-        source: 'default',
-        data: DEFAULT_PROFILE,
-        message: 'MySQL pool not configured, returning default static profile.',
-      });
+      return NextResponse.json(
+        {
+          success: true,
+          source: 'default',
+          data: DEFAULT_PROFILE,
+          message: 'MySQL pool not configured, returning default static profile.',
+        },
+        { headers: CACHE_HEADERS }
+      );
     }
 
     // Try querying profile
@@ -39,9 +52,10 @@ export async function GET() {
           experiences: row.experiences_json ? JSON.parse(row.experiences_json) : DEFAULT_PROFILE.experiences,
           careerGoalsList: row.career_goals_json ? JSON.parse(row.career_goals_json) : DEFAULT_PROFILE.careerGoalsList,
         };
-        return NextResponse.json({ success: true, source: 'mysql', data: profile });
+        setApiCache('profile', profile);
+        return NextResponse.json({ success: true, source: 'mysql', data: profile }, { headers: CACHE_HEADERS });
       }
-      return NextResponse.json({ success: true, source: 'default', data: DEFAULT_PROFILE });
+      return NextResponse.json({ success: true, source: 'default', data: DEFAULT_PROFILE }, { headers: CACHE_HEADERS });
     }
 
     const row = rows[0];
@@ -60,7 +74,8 @@ export async function GET() {
       careerGoalsList: row.career_goals_json ? (typeof row.career_goals_json === 'string' ? JSON.parse(row.career_goals_json) : row.career_goals_json) : DEFAULT_PROFILE.careerGoalsList,
     };
 
-    return NextResponse.json({ success: true, source: 'mysql', data: profile });
+    setApiCache('profile', profile);
+    return NextResponse.json({ success: true, source: 'mysql', data: profile }, { headers: CACHE_HEADERS });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     console.warn('[API /api/profile GET] Falling back to default profile:', message);
@@ -69,7 +84,7 @@ export async function GET() {
       source: 'fallback',
       data: DEFAULT_PROFILE,
       error: message,
-    });
+    }, { headers: CACHE_HEADERS });
   }
 }
 
@@ -136,6 +151,8 @@ export async function POST(req: NextRequest) {
       JSON.stringify(profileData.experiences || DEFAULT_PROFILE.experiences),
       JSON.stringify(profileData.careerGoalsList || DEFAULT_PROFILE.careerGoalsList),
     ]);
+
+    invalidateApiCache('profile');
 
     return NextResponse.json({
       success: true,

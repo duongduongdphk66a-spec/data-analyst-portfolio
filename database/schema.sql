@@ -30,19 +30,20 @@ CREATE TABLE IF NOT EXISTS `portfolio_profile` (
 
 -- 2. Table: portfolio_texts (Custom CMS Texts across all pages)
 CREATE TABLE IF NOT EXISTS `portfolio_texts` (
-  `text_key` VARCHAR(120) NOT NULL,
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `text_key` VARCHAR(150) NOT NULL,
   `lang` VARCHAR(10) NOT NULL DEFAULT 'vi',
-  `value_text` LONGTEXT NOT NULL,
+  `value_text` TEXT NOT NULL,
   `section` VARCHAR(50) DEFAULT 'general',
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`text_key`, `lang`)
+  UNIQUE KEY `uk_text_lang` (`text_key`, `lang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 3. Table: portfolio_projects
 CREATE TABLE IF NOT EXISTS `portfolio_projects` (
   `id` VARCHAR(100) NOT NULL,
   `title` VARCHAR(255) NOT NULL,
-  `desc_text` TEXT NOT NULL,
+  `desc_text` TEXT,
   `tags_json` LONGTEXT,
   `img` VARCHAR(1000) DEFAULT '',
   `demo_url` VARCHAR(1000) DEFAULT '',
@@ -57,7 +58,15 @@ CREATE TABLE IF NOT EXISTS `portfolio_projects` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 4. Table: portfolio_visitor_logs (Optional logging)
+-- 4. Table: portfolio_rate_limits (Shared across PM2 cluster instances)
+CREATE TABLE IF NOT EXISTS `portfolio_rate_limits` (
+  `ip` VARCHAR(64) PRIMARY KEY,
+  `failed_attempts` INT NOT NULL DEFAULT 0,
+  `locked_until` BIGINT DEFAULT NULL,
+  `last_attempt` BIGINT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 5. Table: portfolio_visitor_logs (Optional logging)
 CREATE TABLE IF NOT EXISTS `portfolio_visitor_logs` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `action` VARCHAR(255) NOT NULL,

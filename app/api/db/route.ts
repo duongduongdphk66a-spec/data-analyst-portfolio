@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { RowDataPacket } from 'mysql2';
 import { getDbPool, testDbConnection, initDatabase } from '@/app/lib/db';
 import { verifyAdminRequest } from '@/app/lib/auth';
+import { invalidateApiCache } from '@/app/lib/cache';
 
 export async function GET(req: NextRequest) {
   try {
@@ -123,7 +124,8 @@ export async function POST(req: NextRequest) {
       await pool.query('DROP TABLE IF EXISTS portfolio_texts');
       await pool.query('DROP TABLE IF EXISTS portfolio_profile');
       await pool.query('DROP TABLE IF EXISTS portfolio_projects');
-      const initRes = await initDatabase();
+      const initRes = await initDatabase(true);
+      invalidateApiCache();
       return NextResponse.json({
         success: initRes.success,
         message: 'Đã thiết lập lại cơ sở dữ liệu về mặc định ban đầu!',
