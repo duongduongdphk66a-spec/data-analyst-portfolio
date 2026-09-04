@@ -30,21 +30,6 @@ export const THESIS_METADATA: ThesisMetadata = {
   scopeYears: '2013 – 2023',
 };
 
-export interface AcronymItem {
-  stt: number;
-  abbr: string;
-  meaningEn: string;
-  meaningVi: string;
-}
-
-export const ACRONYMS: AcronymItem[] = [
-  { stt: 1, abbr: 'CAGR', meaningEn: 'Compounded Annual Growth Rate', meaningVi: 'Tốc độ tăng trưởng kép hàng năm' },
-  { stt: 2, abbr: 'JNTO', meaningEn: 'Japan National Tourism Organization', meaningVi: 'Cơ quan Xúc tiến Du lịch Nhật Bản' },
-  { stt: 3, abbr: 'MICE', meaningEn: 'Meeting Incentives Conventions Exhibitions', meaningVi: 'Du lịch kết hợp hội nghị, hội thảo, triển lãm' },
-  { stt: 4, abbr: 'UNESCO', meaningEn: 'United Nations Educational, Scientific and Cultural Organization', meaningVi: 'Tổ chức Giáo dục, Khoa học và Văn hóa LHQ' },
-  { stt: 5, abbr: 'UNWTO', meaningEn: 'United Nations World Tourism Organization', meaningVi: 'Tổ chức Du lịch Thế giới' },
-  { stt: 6, abbr: 'VR', meaningEn: 'Virtual Reality', meaningVi: 'Công nghệ Thực tế ảo' },
-];
 
 export interface ChartCatalogItem {
   stt: number;
