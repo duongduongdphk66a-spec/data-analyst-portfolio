@@ -62,9 +62,13 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
   const { showToast } = useToast();
   const isEn = language === 'en';
 
-  // Active chart in Chapter 3
-  const [selectedChartId, setSelectedChartId] = useState<string>('3.1');
-  const [chartViewMode, setChartViewMode] = useState<'interactive' | 'authentic'>('interactive');
+  // Volume Charts (3.1, 3.2, 3.3)
+  const [volumeChartId, setVolumeChartId] = useState<string>('3.1');
+  const [volumeViewMode, setVolumeViewMode] = useState<'interactive' | 'authentic'>('interactive');
+
+  // Revenue Charts (3.4, 3.5, 3.6)
+  const [revenueChartId, setRevenueChartId] = useState<string>('3.4');
+  const [revenueViewMode, setRevenueViewMode] = useState<'interactive' | 'authentic'>('interactive');
 
   // Case study active tab
   const [activeCaseStudy, setActiveCaseStudy] = useState<'kyoto' | 'nara' | 'fuji' | 'shirakawago' | 'miyajima'>('kyoto');
@@ -131,7 +135,11 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
     });
   }, [unescoFilter, unescoSearch]);
 
-  const selectedChartMeta = THESIS_CHARTS_CATALOG.find(c => c.chartId === selectedChartId) || THESIS_CHARTS_CATALOG[0];
+  const volumeCharts = useMemo(() => THESIS_CHARTS_CATALOG.filter(c => ['3.1', '3.2', '3.3'].includes(c.chartId)), []);
+  const revenueCharts = useMemo(() => THESIS_CHARTS_CATALOG.filter(c => ['3.4', '3.5', '3.6'].includes(c.chartId)), []);
+
+  const selectedVolumeMeta = volumeCharts.find(c => c.chartId === volumeChartId) || volumeCharts[0];
+  const selectedRevenueMeta = revenueCharts.find(c => c.chartId === revenueChartId) || revenueCharts[0];
 
   return (
     <div className="min-h-screen bg-slate-50 font-lora text-slate-900 selection:bg-[#FFE485]/40 dark:bg-slate-950 dark:text-slate-100">
@@ -741,31 +749,34 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
               </div>
             </div>
 
-            {/* CHART EXPLORER WIDGET */}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 dark:bg-slate-900 dark:border-slate-800">
+            {/* ==================================================== */}
+            {/* 3.1.1 BIỂU ĐỒ SỐ LƯỢNG KHÁCH (VOLUME TELEMETRY HUB)   */}
+            {/* ==================================================== */}
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 mb-8 dark:bg-slate-900 dark:border-slate-800">
               
-              {/* Header with Selector and Mode Switch */}
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="px-2.5 py-0.5 rounded text-xs font-black bg-[#8CE0F4] text-slate-950 dark:bg-slate-800 dark:text-[#9BE7FA]">
-                      Biểu đồ {selectedChartMeta.chartId}
+                      Nhóm 1 • Số lượng khách
                     </span>
-                    <span className="text-xs text-slate-500 font-semibold">(Trang {selectedChartMeta.pageInDoc} trong bài Niên luận)</span>
+                    <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                      Biểu đồ {selectedVolumeMeta.chartId}
+                    </span>
+                    <span className="text-xs text-slate-500 font-semibold">(Trang {selectedVolumeMeta.pageInDoc} trong Niên luận)</span>
                   </div>
                   <h4 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
-                    {isEn ? selectedChartMeta.nameEn : selectedChartMeta.nameVi}
+                    {isEn ? selectedVolumeMeta.nameEn : selectedVolumeMeta.nameVi}
                   </h4>
-                  <p className="text-xs text-slate-500">Đơn vị đo lường: <strong>{isEn ? selectedChartMeta.unitEn : selectedChartMeta.unitVi}</strong></p>
+                  <p className="text-xs text-slate-500">Đơn vị đo lường: <strong>{isEn ? selectedVolumeMeta.unitEn : selectedVolumeMeta.unitVi}</strong></p>
                 </div>
 
-                {/* View Mode Toggle: Interactive Recharts vs Authentic Image */}
                 <div className="flex items-center gap-2">
                   <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
                     <button
-                      onClick={() => setChartViewMode('interactive')}
+                      onClick={() => setVolumeViewMode('interactive')}
                       className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                        chartViewMode === 'interactive'
+                        volumeViewMode === 'interactive'
                           ? 'bg-white text-slate-950 shadow-xs font-black dark:bg-slate-700 dark:text-white'
                           : 'text-slate-600 hover:text-slate-950 dark:text-slate-300'
                       }`}
@@ -774,9 +785,9 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                       <span>Biểu đồ Tương tác</span>
                     </button>
                     <button
-                      onClick={() => setChartViewMode('authentic')}
+                      onClick={() => setVolumeViewMode('authentic')}
                       className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                        chartViewMode === 'authentic'
+                        volumeViewMode === 'authentic'
                           ? 'bg-white text-slate-950 shadow-xs font-black dark:bg-slate-700 dark:text-white'
                           : 'text-slate-600 hover:text-slate-950 dark:text-slate-300'
                       }`}
@@ -787,7 +798,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                   </div>
 
                   <button
-                    onClick={() => handleExportChart(`chart-container-${selectedChartId}`, `Bieu-do-${selectedChartId}`)}
+                    onClick={() => handleExportChart(`volume-chart-container-${volumeChartId}`, `Bieu-do-So-luong-${volumeChartId}`)}
                     className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 cursor-pointer"
                     title="Tải ảnh biểu đồ PNG"
                   >
@@ -796,28 +807,28 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 </div>
               </div>
 
-              {/* Chart Tabs (3.1 to 3.6 + Comparison) */}
-              <div className="flex items-center gap-1.5 overflow-x-auto py-3 border-b border-slate-100 dark:border-slate-800 scrollbar-thin">
-                {THESIS_CHARTS_CATALOG.map((item) => (
+              {/* Volume Chart Tabs (3.1, 3.2, 3.3) */}
+              <div className="flex items-center gap-2 overflow-x-auto py-3 border-b border-slate-100 dark:border-slate-800 scrollbar-thin">
+                {volumeCharts.map((item) => (
                   <button
                     key={item.chartId}
-                    onClick={() => setSelectedChartId(item.chartId)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
-                      selectedChartId === item.chartId
+                    onClick={() => setVolumeChartId(item.chartId)}
+                    className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                      volumeChartId === item.chartId
                         ? 'bg-[#0D7287] text-white shadow-xs font-black dark:bg-[#9BE7FA] dark:text-slate-950'
                         : 'bg-slate-50 text-slate-600 hover:bg-slate-100 dark:bg-slate-800/60 dark:text-slate-300 dark:hover:bg-slate-800'
                     }`}
                   >
-                    Biểu đồ {item.chartId}
+                    Biểu đồ {item.chartId} • {item.chartId === '3.1' ? 'Toàn quốc' : item.chartId === '3.2' ? 'Cố đô Kyoto' : 'Cố đô Nara'}
                   </button>
                 ))}
               </div>
 
-              {/* Chart View Content */}
-              <div id={`chart-container-${selectedChartId}`} className="pt-6 min-h-[360px]">
-                {chartViewMode === 'interactive' ? (
+              {/* Volume Chart Rendering */}
+              <div id={`volume-chart-container-${volumeChartId}`} className="pt-6 min-h-[360px]">
+                {volumeViewMode === 'interactive' ? (
                   <div className="h-[340px] w-full">
-                    {selectedChartId === '3.1' && (
+                    {volumeChartId === '3.1' && (
                       <ResponsiveContainer width="100%" height="100%">
                         <AreaChart data={touristsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                           <defs>
@@ -835,7 +846,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                       </ResponsiveContainer>
                     )}
 
-                    {selectedChartId === '3.2' && (
+                    {volumeChartId === '3.2' && (
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={kyotoVisitorsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -847,7 +858,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                       </ResponsiveContainer>
                     )}
 
-                    {selectedChartId === '3.3' && (
+                    {volumeChartId === '3.3' && (
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={naraVisitorsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -858,8 +869,156 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                         </BarChart>
                       </ResponsiveContainer>
                     )}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border border-slate-200 dark:bg-slate-800/50 dark:border-slate-700">
+                    <div className="relative w-full max-w-3xl aspect-[16/9] overflow-hidden rounded-lg shadow-sm border border-slate-300 dark:border-slate-600 bg-white">
+                      <Image 
+                        src={selectedVolumeMeta.imageSrc} 
+                        alt={selectedVolumeMeta.nameVi}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <p className="text-xs text-slate-500 mt-3 italic text-center">
+                      Ảnh đồ thị nguyên bản trích xuất trực tiếp từ trang {selectedVolumeMeta.pageInDoc} văn bản Niên luận.
+                    </p>
+                  </div>
+                )}
+              </div>
 
-                    {selectedChartId === '3.4' && (
+              {/* Volume Commentary & Comparison Table */}
+              <div className="mt-6 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-700 dark:bg-slate-800/70 dark:border-slate-700 dark:text-slate-300">
+                <strong className="text-slate-900 block font-bold mb-1 dark:text-white">
+                  Phân tích học thuật về Lượng du khách (Niên luận):
+                </strong>
+                {volumeChartId === '3.1' && (
+                  <p>
+                    Lượng khách quốc tế đến Nhật Bản trước năm 2013 dao động ổn định trong khoảng 6 đến 8 triệu. Kể từ năm 2013, nhờ Chương trình hành động quốc gia, con số này tăng phi mã, chạm ngưỡng 19.7 triệu (2015) và đạt đỉnh lịch sử <strong>31.9 triệu lượt</strong> vào năm 2019. Năm 2020–2021 suy giảm mạnh do đại dịch COVID-19 và đã phục hồi ngoạn mục từ năm 2022–2023 đạt hơn 25 triệu lượt <CitationLink id={20} />.
+                  </p>
+                )}
+                {volumeChartId === '3.2' && (
+                  <p>
+                    Tại Thành phố Kyoto, trước năm 2013 lượng khách nước ngoài chưa bao giờ vượt quá 1 triệu người. Từ 2013, số lượng tăng vọt lên 1.8 triệu (2015), 3.1 triệu (2016) và lập kỷ lục <strong>4.5 triệu lượt</strong> năm 2019, đóng góp tới 12% tổng sản phẩm GRDP của cố đô <CitationLink id={21} /><CitationLink id={28} />.
+                  </p>
+                )}
+                {volumeChartId === '3.3' && (
+                  <p>
+                    Cố đô Nara ghi nhận tốc độ tăng trưởng hàng năm ấn tượng 40%–60%, từ 174 nghìn lượt khách quốc tế (2011) lên tới <strong>3.3 triệu lượt</strong> vào năm 2019. Lượng khách tăng nhanh gấp gần 20 lần trong vòng chưa đầy một thập kỷ <CitationLink id={22} /><CitationLink id={25} />.
+                  </p>
+                )}
+
+                {/* Kyoto vs Nara Table */}
+                <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+                  <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white text-xs">
+                    <span>Đối sánh Lượng khách du lịch: Kyoto vs Nara (2013 - 2019)</span>
+                    <span className="text-[10px] font-mono text-slate-400">Đơn vị: Nghìn người</span>
+                  </h5>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead>
+                        <tr className="border-b border-slate-200 text-slate-500 text-[10px] uppercase font-bold dark:border-slate-700">
+                          <th className="py-1.5 px-2">Năm khảo sát</th>
+                          <th className="py-1.5 px-2 text-[#0D7287] dark:text-[#9BE7FA]">Cố đô Kyoto (Khách quốc tế)</th>
+                          <th className="py-1.5 px-2 text-amber-600 dark:text-amber-400">Cố đô Nara (Khách quốc tế)</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                        {kyotoNaraVisitorsData.filter(d => ['2013', '2015', '2017', '2019'].includes(d.year)).map(d => (
+                          <tr key={d.year}>
+                            <td className="py-1.5 px-2 font-mono font-bold text-slate-600 dark:text-slate-400">{d.year}</td>
+                            <td className="py-1.5 px-2 font-bold text-slate-900 dark:text-white">{d.kyoto.toLocaleString()}k khách</td>
+                            <td className="py-1.5 px-2 font-bold text-slate-900 dark:text-white">{d.nara?.toLocaleString()}k khách</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* ==================================================== */}
+            {/* 3.1.2 BIỂU ĐỒ DOANH THU & CHI TIÊU (REVENUE HUB)     */}
+            {/* ==================================================== */}
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 dark:bg-slate-900 dark:border-slate-800">
+              
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="px-2.5 py-0.5 rounded text-xs font-black bg-emerald-100 text-emerald-950 dark:bg-emerald-950/60 dark:text-emerald-300">
+                      Nhóm 2 • Doanh thu & Chi tiêu
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                      Biểu đồ {selectedRevenueMeta.chartId}
+                    </span>
+                    <span className="text-xs text-slate-500 font-semibold">(Trang {selectedRevenueMeta.pageInDoc} trong Niên luận)</span>
+                  </div>
+                  <h4 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
+                    {isEn ? selectedRevenueMeta.nameEn : selectedRevenueMeta.nameVi}
+                  </h4>
+                  <p className="text-xs text-slate-500">Đơn vị đo lường: <strong>{isEn ? selectedRevenueMeta.unitEn : selectedRevenueMeta.unitVi}</strong></p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                    <button
+                      onClick={() => setRevenueViewMode('interactive')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                        revenueViewMode === 'interactive'
+                          ? 'bg-white text-slate-950 shadow-xs font-black dark:bg-slate-700 dark:text-white'
+                          : 'text-slate-600 hover:text-slate-950 dark:text-slate-300'
+                      }`}
+                    >
+                      <TrendingUp className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                      <span>Biểu đồ Tương tác</span>
+                    </button>
+                    <button
+                      onClick={() => setRevenueViewMode('authentic')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                        revenueViewMode === 'authentic'
+                          ? 'bg-white text-slate-950 shadow-xs font-black dark:bg-slate-700 dark:text-white'
+                          : 'text-slate-600 hover:text-slate-950 dark:text-slate-300'
+                      }`}
+                    >
+                      <Eye className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                      <span>Ảnh Đồ thị Gốc</span>
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={() => handleExportChart(`revenue-chart-container-${revenueChartId}`, `Bieu-do-Doanh-thu-${revenueChartId}`)}
+                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 cursor-pointer"
+                    title="Tải ảnh biểu đồ PNG"
+                  >
+                    <Download className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Revenue Chart Tabs (3.4, 3.5, 3.6) */}
+              <div className="flex items-center gap-2 overflow-x-auto py-3 border-b border-slate-100 dark:border-slate-800 scrollbar-thin">
+                {revenueCharts.map((item) => (
+                  <button
+                    key={item.chartId}
+                    onClick={() => setRevenueChartId(item.chartId)}
+                    className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                      revenueChartId === item.chartId
+                        ? 'bg-emerald-700 text-white shadow-xs font-black dark:bg-emerald-500 dark:text-slate-950'
+                        : 'bg-slate-50 text-slate-600 hover:bg-slate-100 dark:bg-slate-800/60 dark:text-slate-300 dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    Biểu đồ {item.chartId} • {item.chartId === '3.4' ? 'Chi tiêu Toàn quốc' : item.chartId === '3.5' ? 'Doanh thu Kyoto' : 'Chi tiêu Nara'}
+                  </button>
+                ))}
+              </div>
+
+              {/* Revenue Chart Rendering */}
+              <div id={`revenue-chart-container-${revenueChartId}`} className="pt-6 min-h-[360px]">
+                {revenueViewMode === 'interactive' ? (
+                  <div className="h-[340px] w-full">
+                    {revenueChartId === '3.4' && (
                       <ResponsiveContainer width="100%" height="100%">
                         <AreaChart data={spendNationalData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                           <defs>
@@ -877,7 +1036,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                       </ResponsiveContainer>
                     )}
 
-                    {selectedChartId === '3.5' && (
+                    {revenueChartId === '3.5' && (
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={kyotoSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -889,7 +1048,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                       </ResponsiveContainer>
                     )}
 
-                    {selectedChartId === '3.6' && (
+                    {revenueChartId === '3.6' && (
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={naraSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -905,103 +1064,61 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                   <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border border-slate-200 dark:bg-slate-800/50 dark:border-slate-700">
                     <div className="relative w-full max-w-3xl aspect-[16/9] overflow-hidden rounded-lg shadow-sm border border-slate-300 dark:border-slate-600 bg-white">
                       <Image 
-                        src={selectedChartMeta.imageSrc} 
-                        alt={selectedChartMeta.nameVi}
+                        src={selectedRevenueMeta.imageSrc} 
+                        alt={selectedRevenueMeta.nameVi}
                         fill
                         className="object-contain"
                       />
                     </div>
                     <p className="text-xs text-slate-500 mt-3 italic text-center">
-                      Ảnh đồ thị nguyên bản trích xuất trực tiếp từ trang {selectedChartMeta.pageInDoc} văn bản Niên luận.
+                      Ảnh đồ thị nguyên bản trích xuất trực tiếp từ trang {selectedRevenueMeta.pageInDoc} văn bản Niên luận.
                     </p>
                   </div>
                 )}
               </div>
 
-              {/* Analytical Findings Commentary */}
+              {/* Revenue Commentary & GDP Contribution Table */}
               <div className="mt-6 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-700 dark:bg-slate-800/70 dark:border-slate-700 dark:text-slate-300">
                 <strong className="text-slate-900 block font-bold mb-1 dark:text-white">
-                  Phân tích học thuật từ Niên luận:
+                  Phân tích học thuật về Doanh thu & Đóng góp Kinh tế:
                 </strong>
-                {selectedChartId === '3.1' && (
-                  <p>
-                    Lượng khách quốc tế đến Nhật Bản trước năm 2013 dao động ổn định trong khoảng 6 đến 8 triệu. Kể từ năm 2013, nhờ Chương trình hành động quốc gia, con số này tăng phi mã, chạm ngưỡng 19.7 triệu (2015) và đạt đỉnh lịch sử <strong>31.9 triệu lượt</strong> vào năm 2019. Năm 2020–2021 suy giảm mạnh do đại dịch COVID-19 và đã phục hồi ngoạn mục từ năm 2022–2023 đạt hơn 25 triệu lượt <CitationLink id={20} />.
-                  </p>
-                )}
-                {selectedChartId === '3.2' && (
-                  <p>
-                    Tại Thành phố Kyoto, trước năm 2013 lượng khách nước ngoài chưa bao giờ vượt quá 1 triệu người. Từ 2013, số lượng tăng vọt lên 1.8 triệu (2015), 3.1 triệu (2016) và lập kỷ lục <strong>4.5 triệu lượt</strong> năm 2019, đóng góp tới 12% tổng sản phẩm GRDP của cố đô <CitationLink id={21} /><CitationLink id={28} />.
-                  </p>
-                )}
-                {selectedChartId === '3.3' && (
-                  <p>
-                    Cố đô Nara ghi nhận tốc độ tăng trưởng hàng năm ấn tượng 40%–60%, từ 174 nghìn lượt khách quốc tế (2011) lên tới <strong>3.3 triệu lượt</strong> vào năm 2019. Lượng khách tăng nhanh gấp gần 20 lần trong vòng chưa đầy một thập kỷ <CitationLink id={22} /><CitationLink id={25} />.
-                  </p>
-                )}
-                {selectedChartId === '3.4' && (
+                {revenueChartId === '3.4' && (
                   <p>
                     Tổng chi tiêu du lịch của khách quốc tế tại Nhật Bản tăng từ 1.41 nghìn tỷ Yên (2013) lên đỉnh điểm <strong>4.81 nghìn tỷ Yên</strong> (2019) — tăng gấp 3.4 lần trong 7 năm, đưa ngành du lịch trở thành động lực xuất khẩu dịch vụ hàng đầu đất nước <CitationLink id={23} />.
                   </p>
                 )}
-                {selectedChartId === '3.5' && (
+                {revenueChartId === '3.5' && (
                   <p>
                     Doanh thu du lịch tại Kyoto tăng trưởng bền bỉ từ 601 tỷ Yên (2008) lên <strong>1.308 tỷ Yên</strong> (2019), tạo nguồn thu thuế trực tiếp 39 tỷ Yên, tương đương 12.8% tổng thu ngân sách thành phố <CitationLink id={27} /><CitationLink id={28} />.
                   </p>
                 )}
-                {selectedChartId === '3.6' && (
+                {revenueChartId === '3.6' && (
                   <p>
                     Tại Cố đô Nara, tổng chi tiêu du lịch tăng từ 872 tỷ Yên (2013) lên đỉnh <strong>1.208 tỷ Yên</strong> (2018). Mức chi tiêu duy trì ổn định và nhanh chóng hồi phục đạt 598 tỷ Yên vào năm 2022 sau cú sốc đại dịch <CitationLink id={24} />.
                   </p>
                 )}
-              {/* 3.1.3 Macro GDP & Kyoto vs Nara Telemetry Matrix */}
-              <div className="mt-6 pt-6 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs dark:border-slate-800">
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
-                  <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white">
-                    <span>So sánh Lượng khách: Kyoto vs Nara (2013 - 2019)</span>
-                    <span className="text-[10px] font-mono text-slate-400">Đơn vị: Nghìn người</span>
-                  </h5>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                      <thead>
-                        <tr className="border-b border-slate-200 text-slate-500 text-[10px] uppercase font-bold dark:border-slate-700">
-                          <th className="py-1 px-2">Năm</th>
-                          <th className="py-1 px-2 text-[#0D7287] dark:text-[#9BE7FA]">Cố đô Kyoto</th>
-                          <th className="py-1 px-2 text-amber-600 dark:text-amber-400">Cố đô Nara</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                        {kyotoNaraVisitorsData.filter(d => ['2013', '2015', '2017', '2019'].includes(d.year)).map(d => (
-                          <tr key={d.year}>
-                            <td className="py-1 px-2 font-mono font-bold text-slate-600 dark:text-slate-400">{d.year}</td>
-                            <td className="py-1 px-2 font-bold text-slate-900 dark:text-white">{d.kyoto.toLocaleString()}k</td>
-                            <td className="py-1 px-2 font-bold text-slate-900 dark:text-white">{d.nara?.toLocaleString()}k</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
 
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
-                  <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white">
-                    <span>Tăng trưởng Đóng góp GDP Quốc gia (2000 - 2019)</span>
+                {/* GDP Contribution Table */}
+                <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+                  <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white text-xs">
+                    <span>Tăng trưởng Đóng góp GDP Quốc gia của Ngành Du lịch (2000 - 2019)</span>
                     <span className="text-[10px] font-mono text-slate-400">Nguồn: METI & WTTC [26]</span>
                   </h5>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left">
+                    <table className="w-full text-left text-xs">
                       <thead>
                         <tr className="border-b border-slate-200 text-slate-500 text-[10px] uppercase font-bold dark:border-slate-700">
-                          <th className="py-1 px-2">Năm</th>
-                          <th className="py-1 px-2 text-emerald-600 dark:text-emerald-400">Tỷ trọng GDP</th>
-                          <th className="py-1 px-2">Quy mô Doanh thu</th>
+                          <th className="py-1.5 px-2">Năm thống kê</th>
+                          <th className="py-1.5 px-2 text-emerald-600 dark:text-emerald-400">Tỷ trọng trong tổng GDP</th>
+                          <th className="py-1.5 px-2">Quy mô Doanh thu trực tiếp</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                         {gdpShareData.map(d => (
                           <tr key={d.year}>
-                            <td className="py-1 px-2 font-mono font-bold text-slate-600 dark:text-slate-400">{d.year}</td>
-                            <td className="py-1 px-2 font-bold text-emerald-600 dark:text-emerald-400">{d.gdpShare}% GDP</td>
-                            <td className="py-1 px-2 font-bold text-slate-900 dark:text-white">{d.directRevenue} Nghìn tỷ ¥</td>
+                            <td className="py-1.5 px-2 font-mono font-bold text-slate-600 dark:text-slate-400">{d.year}</td>
+                            <td className="py-1.5 px-2 font-bold text-emerald-600 dark:text-emerald-400">{d.gdpShare}% GDP</td>
+                            <td className="py-1.5 px-2 font-bold text-slate-900 dark:text-white">{d.directRevenue} Nghìn tỷ ¥</td>
                           </tr>
                         ))}
                       </tbody>
@@ -1009,8 +1126,8 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                   </div>
                 </div>
               </div>
+
             </div>
-          </div>
           </div>
 
           {/* ==================================================== */}
