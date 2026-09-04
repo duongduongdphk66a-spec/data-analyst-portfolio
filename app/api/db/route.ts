@@ -6,16 +6,21 @@ import { invalidateApiCacheAsync } from '@/app/lib/cache';
 
 export async function GET(req: NextRequest) {
   try {
+    const connTest = await testDbConnection();
     const auth = verifyAdminRequest(req);
+
+    // Public health check: trả trạng thái kết nối cơ bản cho mọi visitor (không lộ stats)
     if (!auth.authenticated) {
-      return NextResponse.json(
-        { success: false, message: auth.error || 'Quyền truy cập bị từ chối. Vui lòng đăng nhập Admin.' },
-        { status: 401 }
-      );
+      return NextResponse.json({
+        connected: connTest.connected,
+        message: connTest.connected
+          ? 'Kết nối MySQL hoạt động bình thường.'
+          : connTest.message,
+        source: connTest.connected ? 'mysql' : 'local_fallback',
+      });
     }
 
-    const connTest = await testDbConnection();
-
+    // Admin authenticated: trả full stats
     if (!connTest.connected) {
       return NextResponse.json({
         connected: false,
@@ -39,7 +44,7 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    // Check table row counts
+    // Check table row counts (admin only)
     let profileRows = 0;
     let textRows = 0;
     let projectRows = 0;

@@ -5,6 +5,7 @@ import { DEFAULT_PROJECTS } from '@/app/defaultData';
 import { ProjectData } from '@/app/types';
 import { verifyAdminRequest } from '@/app/lib/auth';
 import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/app/lib/cache';
+import { sanitizeTextInput, sanitizeUrl } from '@/app/lib/security';
 
 const CACHE_HEADERS = {
   'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
@@ -96,12 +97,15 @@ export async function POST(req: NextRequest) {
 
     const pool = getDbPool();
     if (!pool) {
-      return NextResponse.json({
-        success: false,
-        source: 'local',
-        message: 'MySQL pool is not available. Projects will be kept in local state.',
-        data: projectsToSave,
-      });
+      return NextResponse.json(
+        {
+          success: false,
+          source: 'local',
+          message: 'Hệ thống CSDL MySQL không khả dụng. Vui lòng kiểm tra lại cấu hình.',
+          data: projectsToSave,
+        },
+        { status: 503 }
+      );
     }
 
     await initDatabase();
@@ -122,20 +126,31 @@ export async function POST(req: NextRequest) {
         );
       }
 
+      const cleanId = sanitizeTextInput(proj.id, 100);
+      const cleanTitle = sanitizeTextInput(proj.title, 255);
+      const cleanDesc = sanitizeTextInput(proj.desc, 10000);
+      const cleanImg = proj.img ? sanitizeUrl(sanitizeTextInput(proj.img, 1000)) : '';
+      const cleanDemoUrl = proj.demoUrl ? sanitizeUrl(sanitizeTextInput(proj.demoUrl, 1000)) : '';
+      const cleanGithubUrl = proj.githubUrl ? sanitizeUrl(sanitizeTextInput(proj.githubUrl, 1000)) : '';
+      const cleanEmbedUrl = proj.embedUrl ? sanitizeUrl(sanitizeTextInput(proj.embedUrl, 1000)) : '';
+      const cleanProblem = sanitizeTextInput(proj.problem, 10000);
+      const cleanMethod = sanitizeTextInput(proj.method, 10000);
+      const cleanInsight = sanitizeTextInput(proj.insight, 10000);
+
       placeholders.push('(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
       values.push(
-        proj.id,
-        proj.title,
-        proj.desc,
-        JSON.stringify(proj.tags || []),
-        proj.img || '',
-        proj.demoUrl || '',
-        proj.githubUrl || '',
-        proj.embedUrl || '',
+        cleanId,
+        cleanTitle,
+        cleanDesc,
+        JSON.stringify((proj.tags || []).map((tag: string) => sanitizeTextInput(tag, 100))),
+        cleanImg,
+        cleanDemoUrl,
+        cleanGithubUrl,
+        cleanEmbedUrl,
         proj.featured ? 1 : 0,
-        proj.problem || '',
-        proj.method || '',
-        proj.insight || '',
+        cleanProblem,
+        cleanMethod,
+        cleanInsight,
         i,
       );
     }

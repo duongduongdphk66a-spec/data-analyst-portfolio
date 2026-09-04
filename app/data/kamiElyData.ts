@@ -43,8 +43,8 @@ export const getChannelData = (isEn: boolean) => ({
     { name: isEn ? 'Creator Affiliates' : 'Mạng Lưới Affiliate', value: 60.4 }
   ],
   gmv: [
-    { name: isEn ? 'Self-Operated Store' : 'Kênh Tự Vận Hành', value: 39.6 },
-    { name: isEn ? 'Creator Affiliates' : 'Mạng Lưới Affiliate', value: 60.4 }
+    { name: isEn ? 'Self-Operated Store' : 'Kênh Tự Vận Hành', value: 63.8 },
+    { name: isEn ? 'Creator Affiliates' : 'Mạng Lưới Affiliate', value: 36.2 }
   ]
 });
 

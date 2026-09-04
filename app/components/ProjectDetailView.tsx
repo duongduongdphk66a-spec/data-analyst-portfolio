@@ -107,7 +107,7 @@ export default function ProjectDetailView({
             {/* Quick Language Toggle */}
             <button
               onClick={() => setLanguage(isEn ? 'vi' : 'en')}
-              className="px-2.5 py-1 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer dark:bg-brand-yellow dark:text-slate-950"
+              className="px-2.5 py-1 rounded-xl bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 text-xs font-black transition-all shadow-xs flex items-center gap-1 cursor-pointer border border-[#FFD14C] dark:bg-slate-900 dark:text-white dark:border-slate-800 dark:hover:bg-slate-800"
               title={isEn ? 'Chuyển sang Tiếng Việt' : 'Switch to English'}
               aria-label={isEn ? 'Switch to Vietnamese' : 'Chuyển sang Tiếng Anh'}
             >
@@ -174,7 +174,7 @@ export default function ProjectDetailView({
       {/* Main Content / Markdown Case Study */}
       <main className="max-w-6xl mx-auto px-6 py-8">
         {project.content ? (
-          <article className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-a:text-amber-600 prose-img:rounded-3xl prose-img:shadow-lg prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-800 dark:prose-invert dark:prose-a:text-brand-yellow">
+          <article className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-a:text-[#0D7287] prose-img:rounded-3xl prose-img:shadow-lg prose-pre:bg-[#FFE485] prose-pre:text-slate-950 prose-pre:border-2 prose-pre:border-[#FFD14C] prose-pre:font-mono prose-pre:font-semibold dark:prose-invert dark:prose-pre:bg-slate-900 dark:prose-pre:text-slate-200 dark:prose-pre:border-slate-800 dark:prose-a:text-[#FFD14C]">
             <ReactMarkdown 
               remarkPlugins={[remarkGfm]}
               components={{

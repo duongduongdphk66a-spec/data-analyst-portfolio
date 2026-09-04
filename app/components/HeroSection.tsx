@@ -58,6 +58,9 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject, o
   const safeAvatarUrl = profile.avatarUrl ? sanitizeUrl(profile.avatarUrl) : '';
 
   useGSAP(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
     tl.from('.hero-badge', { autoAlpha: 0, y: 15, duration: 0.5 })

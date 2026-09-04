@@ -148,7 +148,7 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
             {/* Quick Language Toggle */}
             <button
               onClick={() => setLanguage(isEn ? 'vi' : 'en')}
-              className="px-2.5 py-1 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer ml-1 dark:bg-[#9BE7FA] dark:text-slate-950"
+              className="px-2.5 py-1 rounded-xl bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 text-xs font-black transition-all shadow-xs flex items-center gap-1 cursor-pointer ml-1 border border-[#FFD14C] dark:bg-slate-900 dark:text-white dark:border-slate-800 dark:hover:bg-slate-800"
               title={isEn ? 'Chuyển sang Tiếng Việt' : 'Switch to English'}
             >
               <span>{isEn ? '🇬🇧 EN' : '🇻🇳 VI'}</span>
@@ -390,12 +390,28 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <RechartsPieChart>
-                    <Pie data={channelData[channelMetric]} cx="50%" cy="50%" innerRadius="55%" outerRadius="80%" paddingAngle={3} dataKey="value">
+                    <Pie
+                      key={`channel-pie-${channelMetric}`}
+                      data={channelData[channelMetric]}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius="55%"
+                      outerRadius="80%"
+                      paddingAngle={3}
+                      dataKey="value"
+                      isAnimationActive={true}
+                    >
                       {channelData[channelMetric].map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={PALETTE[index % PALETTE.length]} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(value) => [`${value}%`, 'Tỷ trọng']} contentStyle={{ borderRadius: '8px', fontSize: '12px' }} />
+                    <Tooltip
+                      formatter={(value) => [
+                        `${value}%`,
+                        channelMetric === 'gmv' ? (isEn ? 'GMV Share' : 'Tỷ trọng GMV') : (isEn ? 'Unit Share' : 'Tỷ trọng Số lượng')
+                      ]}
+                      contentStyle={{ borderRadius: '8px', fontSize: '12px' }}
+                    />
                     <Legend layout="horizontal" verticalAlign="bottom" align="center" wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
                   </RechartsPieChart>
                 </ResponsiveContainer>
@@ -424,12 +440,28 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <RechartsPieChart>
-                    <Pie data={contentData[contentMetric]} cx="50%" cy="50%" innerRadius="55%" outerRadius="80%" paddingAngle={3} dataKey="value">
+                    <Pie
+                      key={`content-pie-${contentMetric}`}
+                      data={contentData[contentMetric]}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius="55%"
+                      outerRadius="80%"
+                      paddingAngle={3}
+                      dataKey="value"
+                      isAnimationActive={true}
+                    >
                       {contentData[contentMetric].map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={PALETTE[index % PALETTE.length]} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(value) => [`${value}%`, 'Tỷ trọng']} contentStyle={{ borderRadius: '8px', fontSize: '12px' }} />
+                    <Tooltip
+                      formatter={(value) => [
+                        `${value}%`,
+                        contentMetric === 'gmv' ? (isEn ? 'GMV Share' : 'Tỷ trọng GMV') : (isEn ? 'Unit Share' : 'Tỷ trọng Số lượng')
+                      ]}
+                      contentStyle={{ borderRadius: '8px', fontSize: '12px' }}
+                    />
                     <Legend layout="horizontal" verticalAlign="bottom" align="center" wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
                   </RechartsPieChart>
                 </ResponsiveContainer>
@@ -611,33 +643,33 @@ export default function KamiElyProject({ onBack, isEmbedded }: { onBack?: () => 
             </p>
           </div>
 
-          <div className="bg-slate-950 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900">
+          <div className="bg-[#FFE485] rounded-3xl border-2 border-[#FFD14C] overflow-hidden shadow-xl dark:bg-slate-950 dark:border-slate-800">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#FFD14C] bg-[#FFD14C] dark:bg-slate-900 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#FFD14C]"></div>
-                <div className="w-3 h-3 rounded-full bg-[#FFE485]"></div>
-                <div className="w-3 h-3 rounded-full bg-[#9BE7FA]"></div>
+                <div className="w-3 h-3 rounded-full bg-slate-950 dark:bg-[#FFD14C]"></div>
+                <div className="w-3 h-3 rounded-full bg-slate-800 dark:bg-[#FFE485]"></div>
+                <div className="w-3 h-3 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]"></div>
               </div>
-              <div className="text-xs font-mono text-slate-400">generate-slides.js</div>
+              <div className="text-xs font-mono font-black text-slate-950 dark:text-slate-400">generate-slides.js</div>
             </div>
-            <div className="p-6 sm:p-8 overflow-x-auto text-xs sm:text-sm font-mono text-slate-300 leading-relaxed">
-              <pre>
-<span className="text-[#FFD14C]">const</span> pptx = <span className="text-[#9BE7FA]">require</span>(<span className="text-[#FFE485]">&apos;pptxgenjs&apos;</span>);
-<span className="text-[#FFD14C]">const</span> fs = <span className="text-[#9BE7FA]">require</span>(<span className="text-[#FFE485]">&apos;fs&apos;</span>);
-<span className="text-[#FFD14C]">const</span> DATA = <span className="text-[#C8EEF7]">JSON</span>.<span className="text-[#9BE7FA]">parse</span>(fs.<span className="text-[#9BE7FA]">readFileSync</span>(<span className="text-[#FFE485]">&apos;data.json&apos;</span>, <span className="text-[#FFE485]">&apos;utf-8&apos;</span>));
+            <div className="p-6 sm:p-8 overflow-x-auto text-xs sm:text-sm font-mono text-slate-950 leading-relaxed bg-[#FFE485] dark:bg-slate-950 dark:text-slate-300">
+              <pre className="font-semibold">
+<span className="text-[#0D7287] font-black dark:text-[#FFD14C]">const</span> pptx = <span className="text-slate-950 font-black underline decoration-slate-400 dark:text-[#9BE7FA] dark:no-underline">require</span>(<span className="text-[#713f12] font-bold dark:text-[#FFE485]">&apos;pptxgenjs&apos;</span>);
+<span className="text-[#0D7287] font-black dark:text-[#FFD14C]">const</span> fs = <span className="text-slate-950 font-black underline decoration-slate-400 dark:text-[#9BE7FA] dark:no-underline">require</span>(<span className="text-[#713f12] font-bold dark:text-[#FFE485]">&apos;fs&apos;</span>);
+<span className="text-[#0D7287] font-black dark:text-[#FFD14C]">const</span> DATA = <span className="text-slate-950 font-black dark:text-[#C8EEF7]">JSON</span>.<span className="text-slate-950 font-black underline decoration-slate-400 dark:text-[#9BE7FA] dark:no-underline">parse</span>(fs.<span className="text-slate-950 font-black underline decoration-slate-400 dark:text-[#9BE7FA] dark:no-underline">readFileSync</span>(<span className="text-[#713f12] font-bold dark:text-[#FFE485]">&apos;data.json&apos;</span>, <span className="text-[#713f12] font-bold dark:text-[#FFE485]">&apos;utf-8&apos;</span>));
 
-<span className="text-slate-500">{'// Initialize presentation layout & theme tokens'}</span>
-<span className="text-[#FFD14C]">const</span> pres = <span className="text-[#FFD14C]">new</span> <span className="text-[#C8EEF7]">pptx</span>();
-pres.<span className="text-[#9BE7FA]">defineLayout</span>(&#123; name: <span className="text-[#FFE485]">&apos;WIDE&apos;</span>, width: 13.333, height: 7.5 &#125;);
-pres.layout = <span className="text-[#FFE485]">&apos;WIDE&apos;</span>;
+<span className="text-slate-700 italic dark:text-slate-500">{'// Initialize presentation layout & theme tokens'}</span>
+<span className="text-[#0D7287] font-black dark:text-[#FFD14C]">const</span> pres = <span className="text-[#0D7287] font-black dark:text-[#FFD14C]">new</span> <span className="text-slate-950 font-bold dark:text-[#C8EEF7]">pptx</span>();
+pres.<span className="text-slate-950 font-black underline decoration-slate-400 dark:text-[#9BE7FA] dark:no-underline">defineLayout</span>(&#123; name: <span className="text-[#713f12] font-bold dark:text-[#FFE485]">&apos;WIDE&apos;</span>, width: 13.333, height: 7.5 &#125;);
+pres.layout = <span className="text-[#713f12] font-bold dark:text-[#FFE485]">&apos;WIDE&apos;</span>;
 
-<span className="text-slate-500">{'// Slide 1: Executive KPI Summary'}</span>
-<span className="text-[#FFD14C]">const</span> s1 = pres.<span className="text-[#9BE7FA]">addSlide</span>();
-s1.background = &#123; color: <span className="text-[#FFE485]">&apos;081C29&apos;</span> &#125;;
-s1.<span className="text-[#9BE7FA]">addText</span>(<span className="text-[#FFE485]">&apos;KAMI ELY · PERFORMANCE REVIEW&apos;</span>, &#123; x: 0.6, y: 1.5, fontSize: 36, color: <span className="text-[#FFE485]">&apos;FFFFFF&apos;</span>, bold: <span className="text-[#FFD14C]">true</span> &#125;);
-s1.<span className="text-[#9BE7FA]">addText</span>(fmtVND(DATA.overview.kpis.total_gmv_period), &#123; x: 0.6, y: 3.2, fontSize: 24, color: <span className="text-[#FFE485]">&apos;FFD14C&apos;</span> &#125;);
+<span className="text-slate-700 italic dark:text-slate-500">{'// Slide 1: Executive KPI Summary'}</span>
+<span className="text-[#0D7287] font-black dark:text-[#FFD14C]">const</span> s1 = pres.<span className="text-slate-950 font-black underline decoration-slate-400 dark:text-[#9BE7FA] dark:no-underline">addSlide</span>();
+s1.background = &#123; color: <span className="text-[#713f12] font-bold dark:text-[#FFE485]">&apos;081C29&apos;</span> &#125;;
+s1.<span className="text-slate-950 font-black underline decoration-slate-400 dark:text-[#9BE7FA] dark:no-underline">addText</span>(<span className="text-[#713f12] font-bold dark:text-[#FFE485]">&apos;KAMI ELY · PERFORMANCE REVIEW&apos;</span>, &#123; x: 0.6, y: 1.5, fontSize: 36, color: <span className="text-[#713f12] font-bold dark:text-[#FFE485]">&apos;FFFFFF&apos;</span>, bold: <span className="text-[#0D7287] font-black dark:text-[#FFD14C]">true</span> &#125;);
+s1.<span className="text-slate-950 font-black underline decoration-slate-400 dark:text-[#9BE7FA] dark:no-underline">addText</span>(fmtVND(DATA.overview.kpis.total_gmv_period), &#123; x: 0.6, y: 3.2, fontSize: 24, color: <span className="text-[#713f12] font-bold dark:text-[#FFE485]">&apos;FFD14C&apos;</span> &#125;);
 
-pres.<span className="text-[#9BE7FA]">writeFile</span>(&#123; fileName: <span className="text-[#FFE485]">&apos;Kami_Ely_Automated_Deck.pptx&apos;</span> &#125;);
+pres.<span className="text-slate-950 font-black underline decoration-slate-400 dark:text-[#9BE7FA] dark:no-underline">writeFile</span>(&#123; fileName: <span className="text-[#713f12] font-bold dark:text-[#FFE485]">&apos;Kami_Ely_Automated_Deck.pptx&apos;</span> &#125;);
               </pre>
             </div>
           </div>

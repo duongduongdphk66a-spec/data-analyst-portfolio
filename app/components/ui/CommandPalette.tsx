@@ -189,7 +189,7 @@ export default function CommandPalette({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/60 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/60 backdrop-blur-sm animate-fade-in" onClick={onClose}>
       <div 
         className="relative w-full max-w-xl bg-ground-alt/95 dark:bg-slate-900/95 border border-[#9BE7FA]/40 dark:border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden font-heading"
         onClick={(e) => e.stopPropagation()}
@@ -218,7 +218,7 @@ export default function CommandPalette({
         </div>
 
         {/* Command List */}
-        <div ref={listRef} className="max-h-80 overflow-y-auto p-2 divide-y divide-border-subtle/50 dark:divide-slate-800/50">
+        <div ref={listRef} className="max-h-80 overflow-y-auto p-2">
           {filteredCommands.length === 0 ? (
             <div className="py-8 text-center text-sm text-ink-muted dark:text-slate-400">
               {isEn ? 'No commands matching your query' : 'Không tìm thấy kết quả phù hợp'}

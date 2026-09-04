@@ -142,3 +142,16 @@ export function validateUploadedFile(file: File, options: { maxSizeBytes?: numbe
 
   return { isValid: true };
 }
+
+/**
+ * Làm sạch, cắt ngắn và chuẩn hóa chuỗi text tự do đầu vào.
+ * Ngăn chặn injection payload khổng lồ gây DoS bộ nhớ đệm và cơ sở dữ liệu MySQL.
+ */
+export function sanitizeTextInput(text: unknown, maxLength = 10000, fallback = ''): string {
+  if (text === null || text === undefined) return fallback;
+  if (typeof text !== 'string') {
+    return String(text).trim().slice(0, maxLength);
+  }
+  return text.trim().slice(0, maxLength);
+}
+

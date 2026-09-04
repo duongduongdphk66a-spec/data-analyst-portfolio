@@ -1,7 +1,20 @@
 import { describe, it, expect } from 'vitest';
-import { sanitizeUrl, sanitizeEmbedUrl, sanitizeObject, safeJsonParse, validateUploadedFile } from '../app/lib/security';
+import { sanitizeUrl, sanitizeEmbedUrl, sanitizeObject, safeJsonParse, validateUploadedFile, sanitizeTextInput } from '../app/lib/security';
 
 describe('Security Utility Module', () => {
+  describe('sanitizeTextInput', () => {
+    it('should trim and limit length of strings', () => {
+      expect(sanitizeTextInput('  hello world  ', 5)).toBe('hello');
+      expect(sanitizeTextInput('short', 100)).toBe('short');
+    });
+
+    it('should handle non-string and nullish values safely', () => {
+      expect(sanitizeTextInput(null, 10, 'default')).toBe('default');
+      expect(sanitizeTextInput(undefined, 10, 'default')).toBe('default');
+      expect(sanitizeTextInput(12345, 3)).toBe('123');
+    });
+  });
+
   describe('sanitizeUrl', () => {
     it('should block javascript: XSS vectors', () => {
       expect(sanitizeUrl("javascript:alert('XSS')")).toBe('#');

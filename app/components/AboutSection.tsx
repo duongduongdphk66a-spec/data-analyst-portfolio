@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react';
 import Image from 'next/image';
 import { 
   Play, Copy, Check, ArrowRight, Upload, Download, 
@@ -27,13 +27,15 @@ const AboutSqlChart = dynamic(() => import('./charts/AboutSqlChart'), {
   ),
 });
 
+const emptySubscribe = () => () => {};
+
 interface AboutSectionProps {
   profile: ProfileData;
   onSelectProject?: (_projId: string) => void;
   onNavigateTab?: (_tabId: string) => void;
 }
 
-export default function AboutSection({ profile, onSelectProject, onNavigateTab: _onNavigateTab }: AboutSectionProps) {
+export default function AboutSection({ profile, onSelectProject }: AboutSectionProps) {
   const { language } = useLanguage();
   const { resolvedTheme } = useTheme();
   const { showToast } = useToast();
@@ -50,11 +52,7 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab: 
   const [showResult, setShowResult] = useState(true);
   const [copied, setCopied] = useState(false);
   const [typedQuery, setTypedQuery] = useState(SQL_SCENARIOS[0].query);
-  const isMounted = React.useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false
-  );
+  const isMounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const sectionRef = useRef<HTMLElement>(null);
 
   // Custom SQL state
@@ -303,9 +301,14 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab: 
         <div className="about-sql-demo">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
-              <p className="text-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-muted mb-1">
-                {isEn ? 'Interactive In-Browser SQL Engine' : 'Trình Thực Thi SQL Tương Tác Trực Tiếp'}
-              </p>
+              <div className="flex items-center gap-2 flex-wrap mb-1">
+                <p className="text-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-muted">
+                  {isEn ? 'Interactive In-Browser SQL Engine' : 'Trình Thực Thi SQL Tương Tác Trực Tiếp'}
+                </p>
+                <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-surface/80 dark:bg-slate-800 text-ink-muted border border-border-subtle dark:border-slate-700">
+                  {isEn ? 'Supported Subset: SELECT, WHERE, GROUP BY, ORDER BY, LIMIT' : 'Tập lệnh hỗ trợ: SELECT, WHERE, GROUP BY, ORDER BY, LIMIT'}
+                </span>
+              </div>
               <h3 className="text-2xl font-heading font-bold text-ink dark:text-white">
                 {isEn ? 'Query Data in Real-Time' : 'Truy vấn & Trực quan hóa dữ liệu tức thì'}
               </h3>
@@ -359,32 +362,32 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab: 
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 {/* Query panel */}
-                <div className="sql-block overflow-hidden dark:bg-slate-900 dark:border-slate-800">
-                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-border-subtle bg-ground dark:bg-slate-950 dark:border-slate-800">
-                    <span className="text-[11px] font-heading font-medium text-ink-muted">SQL Query (PostgreSQL / ANSI)</span>
+                <div className="rounded-xl overflow-hidden bg-[#FFE485] border-2 border-[#FFD14C] shadow-sm dark:bg-slate-900 dark:border-slate-800">
+                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#FFD14C] bg-[#FFD14C] dark:bg-slate-950 dark:border-slate-800">
+                    <span className="text-[11px] font-heading font-bold text-slate-950 dark:text-ink-muted">SQL Query (PostgreSQL / ANSI)</span>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={handleCopyPreset}
-                        className="p-1.5 text-ink-muted hover:text-ink dark:hover:text-white rounded transition-colors cursor-pointer"
+                        className="p-1.5 text-slate-900 hover:text-slate-950 dark:text-ink-muted dark:hover:text-white rounded transition-colors cursor-pointer"
                         aria-label="Copy SQL"
                       >
-                        {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                        {copied ? <Check className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                       </button>
                       <button
                         onClick={handleRunPreset}
                         disabled={isRunning}
-                        className="flex items-center gap-1.5 px-3 py-1 bg-accent hover:bg-accent-deep dark:bg-amber-400 dark:hover:bg-amber-300 text-slate-950 text-xs font-heading font-semibold rounded transition-colors cursor-pointer disabled:opacity-50"
+                        className="flex items-center gap-1.5 px-3 py-1 bg-slate-950 hover:bg-slate-800 text-white dark:bg-[#FFD14C] dark:hover:bg-amber-300 dark:text-slate-950 text-xs font-heading font-bold rounded-lg transition-colors cursor-pointer disabled:opacity-50"
                       >
-                        <Play className="w-3 h-3" />
+                        <Play className="w-3 h-3 text-[#FFD14C] dark:text-slate-950" />
                         {isRunning ? (isEn ? 'Running...' : 'Đang chạy...') : 'Run'}
                       </button>
                     </div>
                   </div>
-                  <pre className="px-4 py-4 text-[13px] leading-relaxed overflow-x-auto whitespace-pre text-slate-800 dark:text-slate-200">
+                  <pre className="px-4 py-4 text-[13px] leading-relaxed overflow-x-auto whitespace-pre text-slate-950 font-bold font-mono dark:text-slate-200">
                     <code>
                       {typedQuery}
                       {typedQuery.length < scenario.query.length && (
-                        <span className="inline-block w-2 h-4 bg-emerald-500 dark:bg-[#9BE7FA] ml-0.5 animate-pulse align-middle" />
+                        <span className="inline-block w-2 h-4 bg-slate-950 dark:bg-[#9BE7FA] ml-0.5 animate-pulse align-middle" />
                       )}
                     </code>
                   </pre>
@@ -474,15 +477,15 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab: 
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 {/* Custom Query Editor */}
-                <div className="sql-block overflow-hidden dark:bg-slate-900 dark:border-slate-800 flex flex-col">
-                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-border-subtle bg-ground dark:bg-slate-950 dark:border-slate-800">
-                    <span className="text-[11px] font-heading font-medium text-ink-muted">Custom Query Editor</span>
+                <div className="rounded-xl overflow-hidden bg-[#FFE485] border-2 border-[#FFD14C] shadow-sm flex flex-col dark:bg-slate-900 dark:border-slate-800">
+                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#FFD14C] bg-[#FFD14C] dark:bg-slate-950 dark:border-slate-800">
+                    <span className="text-[11px] font-heading font-bold text-slate-950 dark:text-ink-muted">Custom Query Editor</span>
                     <button
                       onClick={handleRunCustomSql}
                       disabled={isRunning}
-                      className="flex items-center gap-1.5 px-3 py-1 bg-accent hover:bg-accent-deep dark:bg-amber-400 dark:hover:bg-amber-300 text-slate-950 text-xs font-heading font-semibold rounded transition-colors cursor-pointer disabled:opacity-50"
+                      className="flex items-center gap-1.5 px-3 py-1 bg-slate-950 hover:bg-slate-800 text-white dark:bg-[#FFD14C] dark:hover:bg-amber-300 dark:text-slate-950 text-xs font-heading font-bold rounded-lg transition-colors cursor-pointer disabled:opacity-50"
                     >
-                      <Play className="w-3 h-3" />
+                      <Play className="w-3 h-3 text-[#FFD14C] dark:text-slate-950" />
                       {isRunning ? (isEn ? 'Running...' : 'Đang chạy...') : 'Run SQL'}
                     </button>
                   </div>
@@ -490,10 +493,10 @@ export default function AboutSection({ profile, onSelectProject, onNavigateTab: 
                     value={customQuery}
                     onChange={(e) => setCustomQuery(e.target.value)}
                     rows={7}
-                    className="w-full p-4 bg-transparent text-[13px] font-mono leading-relaxed text-slate-800 dark:text-slate-200 focus:outline-hidden resize-none"
+                    className="w-full p-4 bg-transparent text-[13px] font-mono font-bold leading-relaxed text-slate-950 placeholder:text-slate-700 dark:text-slate-200 dark:placeholder:text-slate-500 focus:outline-hidden resize-none"
                     placeholder="SELECT * FROM table..."
                   />
-                  <div className="px-4 py-2 bg-ground/50 dark:bg-slate-950/50 border-t border-border-subtle dark:border-slate-800/80 text-[11px] text-ink-muted">
+                  <div className="px-4 py-2 bg-[#FFD14C]/40 border-t border-[#FFD14C] text-[11px] font-bold text-slate-900 dark:bg-slate-950/50 dark:border-slate-800/80 dark:text-ink-muted">
                     Hỗ trợ: <code>SELECT</code>, <code>WHERE</code>, <code>GROUP BY</code>, <code>ORDER BY</code>, <code>LIMIT</code>, <code>SUM()</code>, <code>AVG()</code>, <code>COUNT()</code>
                   </div>
                 </div>

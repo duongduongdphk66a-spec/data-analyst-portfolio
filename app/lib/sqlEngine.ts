@@ -86,22 +86,13 @@ export function executeClientSql(
         groups.get(groupKey)!.items.push(row);
       });
 
-      // Parse aggregates in SELECT (e.g. SUM(col) AS total, AVG(col) AS avg_col, COUNT(*) AS count)
       const fieldTokens = splitSelectTokens(selectFields);
 
       resultRows = Array.from(groups.values()).map(({ keyValues, items: groupItems }) => {
         const rowResult: Record<string, any> = {};
 
         fieldTokens.forEach((token) => {
-          const aliasMatch = token.match(/^(.*?)\s+(?:AS\s+)?([a-zA-Z0-9_]+)$/i);
-          const expr = aliasMatch ? aliasMatch[1].trim() : token.trim();
-          const alias = aliasMatch ? aliasMatch[2].trim() : expr;
-
-          const sumMatch = expr.match(/^SUM\((.*?)\)$/i);
-          const avgMatch = expr.match(/^AVG\((.*?)\)$/i);
-          const countMatch = expr.match(/^COUNT\((.*?)\)$/i);
-          const maxMatch = expr.match(/^MAX\((.*?)\)$/i);
-          const minMatch = expr.match(/^MIN\((.*?)\)$/i);
+          const { expr, alias } = parseFieldAlias(token);
           const roundMatch = expr.match(/^ROUND\((.*?)(?:,\s*(\d+))?\)$/i);
 
           if (roundMatch) {
@@ -109,49 +100,12 @@ export function executeClientSql(
             const decimals = roundMatch[2] ? parseInt(roundMatch[2], 10) : 2;
             const innerVal = computeAggregateOrValue(innerExpr, groupItems, keyValues);
             rowResult[alias] = typeof innerVal === 'number' ? Number(innerVal.toFixed(decimals)) : innerVal;
-          } else if (sumMatch) {
-            const col = sumMatch[1].trim().replace(/[`"']/g, '');
-            const sum = groupItems.reduce((acc, item) => {
-              const val = Number(item[col] ?? item[findCaseInsensitiveKey(item, col)] ?? 0);
-              return acc + (isNaN(val) ? 0 : val);
-            }, 0);
-            rowResult[alias] = Math.round(sum * 100) / 100;
-          } else if (avgMatch) {
-            const col = avgMatch[1].trim().replace(/[`"']/g, '');
-            const sum = groupItems.reduce((acc, item) => {
-              const val = Number(item[col] ?? item[findCaseInsensitiveKey(item, col)] ?? 0);
-              return acc + (isNaN(val) ? 0 : val);
-            }, 0);
-            rowResult[alias] = groupItems.length ? Math.round((sum / groupItems.length) * 100) / 100 : 0;
-          } else if (countMatch) {
-            rowResult[alias] = groupItems.length;
-          } else if (maxMatch) {
-            const col = maxMatch[1].trim().replace(/[`"']/g, '');
-            const maxVal = Math.max(
-              ...groupItems.map((item) => Number(item[col] ?? item[findCaseInsensitiveKey(item, col)] ?? 0))
-            );
-            rowResult[alias] = isFinite(maxVal) ? maxVal : 0;
-          } else if (minMatch) {
-            const col = minMatch[1].trim().replace(/[`"']/g, '');
-            const minVal = Math.min(
-              ...groupItems.map((item) => Number(item[col] ?? item[findCaseInsensitiveKey(item, col)] ?? 0))
-            );
-            rowResult[alias] = isFinite(minVal) ? minVal : 0;
+          } else if (isAggregateExpr(expr)) {
+            const val = computeAggregateOrValue(expr, groupItems, keyValues);
+            rowResult[alias] = typeof val === 'number' ? Math.round(val * 100) / 100 : val;
           } else {
             const cleanExpr = expr.replace(/[`"']/g, '');
-            if (keyValues[cleanExpr] !== undefined) {
-              rowResult[alias] = keyValues[cleanExpr];
-            } else {
-              const matchKey = findCaseInsensitiveKey(keyValues, cleanExpr);
-              if (keyValues[matchKey] !== undefined) {
-                rowResult[alias] = keyValues[matchKey];
-              } else {
-                rowResult[alias] =
-                  groupItems[0]?.[cleanExpr] ??
-                  groupItems[0]?.[findCaseInsensitiveKey(groupItems[0] || {}, cleanExpr)] ??
-                  '';
-              }
-            }
+            rowResult[alias] = resolveColumnValue(cleanExpr, keyValues, groupItems[0]);
           }
         });
 
@@ -166,11 +120,8 @@ export function executeClientSql(
         resultRows = currentRows.map((row) => {
           const projected: Record<string, any> = {};
           fieldTokens.forEach((token) => {
-            const aliasMatch = token.match(/^(.*?)\s+(?:AS\s+)?([a-zA-Z0-9_]+)$/i);
-            const expr = aliasMatch ? aliasMatch[1].trim() : token.trim();
-            const alias = aliasMatch ? aliasMatch[2].trim() : expr;
+            const { expr, alias } = parseFieldAlias(token);
             const cleanExpr = expr.replace(/[`"']/g, '');
-
             projected[alias] = row[cleanExpr] ?? row[findCaseInsensitiveKey(row, cleanExpr)] ?? '';
           });
           return projected;
@@ -245,6 +196,38 @@ export function executeClientSql(
       error: `Lỗi cú pháp SQL: ${message}`,
     };
   }
+}
+
+/**
+ * Phân tích alias từ SELECT token: "SUM(col) AS total" → { expr: "SUM(col)", alias: "total" }
+ */
+function parseFieldAlias(token: string): { expr: string; alias: string } {
+  const aliasMatch = token.match(/^(.*?)\s+(?:AS\s+)?([a-zA-Z0-9_]+)$/i);
+  const expr = aliasMatch ? aliasMatch[1].trim() : token.trim();
+  const alias = aliasMatch ? aliasMatch[2].trim() : expr;
+  return { expr, alias };
+}
+
+/**
+ * Kiểm tra xem biểu thức có phải hàm tổng hợp (SUM, AVG, COUNT, MAX, MIN)
+ */
+function isAggregateExpr(expr: string): boolean {
+  return /^(SUM|AVG|COUNT|MAX|MIN)\s*\(/i.test(expr);
+}
+
+/**
+ * Tìm giá trị cột với fallback case-insensitive từ keyValues hoặc row
+ */
+function resolveColumnValue(
+  colName: string,
+  primary: Record<string, any>,
+  fallbackRow?: Record<string, any>
+): any {
+  if (primary[colName] !== undefined) return primary[colName];
+  const matchKey = findCaseInsensitiveKey(primary, colName);
+  if (primary[matchKey] !== undefined) return primary[matchKey];
+  if (!fallbackRow) return '';
+  return fallbackRow[colName] ?? fallbackRow[findCaseInsensitiveKey(fallbackRow, colName)] ?? '';
 }
 
 /**

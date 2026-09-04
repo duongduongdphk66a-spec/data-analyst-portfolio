@@ -111,59 +111,29 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // Fetch initial data on mount — delegates to refreshData to avoid code duplication
   useEffect(() => {
     let ignore = false;
 
     const initData = async () => {
-      try {
-        const [dbRes, profRes, projRes, textRes] = await Promise.all([
-          fetch('/api/db').then((r) => r.json()).catch(() => ({ connected: false, message: 'Offline' })),
-          fetch('/api/profile').then((r) => r.json()).catch(() => null),
-          fetch('/api/projects').then((r) => r.json()).catch(() => null),
-          fetch('/api/texts').then((r) => r.json()).catch(() => null),
-        ]);
-
-        if (ignore) return;
-
-        if (dbRes) setDbStatus(dbRes);
-
-        if (profRes && profRes.data) {
-          setProfile((prev) => ({
-            ...prev,
-            ...profRes.data,
-            skills: profRes.data.skills || prev.skills,
-            experiences: profRes.data.experiences || prev.experiences,
-            careerGoalsList: profRes.data.careerGoalsList || prev.careerGoalsList,
-          }));
-        }
-
-        if (projRes && Array.isArray(projRes.data) && projRes.data.length > 0) {
-          setProjects(projRes.data);
-        }
-
-        if (textRes && textRes.data) {
-          setCustomTexts({
-            vi: { ...translations.vi, ...(textRes.data.vi || {}) },
-            en: { ...translations.en, ...(textRes.data.en || {}) },
-          });
-        }
-      } catch (err) {
-        console.warn('[PortfolioDataProvider] Init fetch fallback to static:', err);
-      } finally {
-        if (!ignore) setIsLoading(false);
-      }
+      await refreshData();
+      // refreshData already sets isLoading = false internally
     };
 
-    initData();
+    if (!ignore) {
+      initData();
+    }
 
     return () => {
       ignore = true;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Update Profile
   const updateProfile = async (updated: Partial<ProfileData>): Promise<{ success: boolean; message: string }> => {
     setIsSaving(true);
+    const previousProfile = profile;
     const newProfile: ProfileData = {
       ...profile,
       ...updated,
@@ -179,20 +149,17 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
       });
       const data = await res.json();
 
-      if (res.status === 401) {
-        return { success: false, message: data.message || 'Chưa được cấp quyền Admin.' };
+      if (!res.ok || !data.success) {
+        setProfile(previousProfile);
+        return { success: false, message: data.message || 'Lỗi cập nhật thông tin lên máy chủ.' };
       }
 
-      if (data.success) {
-        safeSetLocalStorage('portfolio_custom_profile', newProfile);
-        return { success: true, message: data.message || 'Cập nhật thông tin thành công!' };
-      } else {
-        return { success: false, message: data.message || 'Lỗi cập nhật thông tin.' };
-      }
-    } catch (err: unknown) {
-      console.warn('[updateProfile] Saved locally:', err);
       safeSetLocalStorage('portfolio_custom_profile', newProfile);
-      return { success: true, message: 'Đã lưu thay đổi vào bộ nhớ cục bộ.' };
+      return { success: true, message: data.message || 'Cập nhật thông tin thành công!' };
+    } catch (err: unknown) {
+      console.error('[updateProfile] Network/Server error:', err);
+      setProfile(previousProfile);
+      return { success: false, message: 'Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại kết nối mạng.' };
     } finally {
       setIsSaving(false);
     }
@@ -203,6 +170,7 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
     updates: Array<{ text_key: string; lang: 'vi' | 'en'; value_text: string; section?: string }>
   ): Promise<{ success: boolean; message: string }> => {
     setIsSaving(true);
+    const previousTexts = customTexts;
 
     // Optimistic update
     setCustomTexts((prev) => {
@@ -228,17 +196,19 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
       });
       const data = await res.json();
 
-      if (res.status === 401) {
-        return { success: false, message: data.message || 'Chưa được cấp quyền Admin.' };
+      if (!res.ok || !data.success) {
+        setCustomTexts(previousTexts);
+        return { success: false, message: data.message || 'Lỗi lưu văn bản lên máy chủ.' };
       }
 
       return {
-        success: data.success ?? true,
+        success: true,
         message: data.message || 'Cập nhật văn bản thành công!',
       };
     } catch (err: unknown) {
-      console.warn('[updateCustomTexts] Error saving to API:', err);
-      return { success: true, message: 'Đã lưu văn bản vào bộ nhớ cục bộ.' };
+      console.error('[updateCustomTexts] Network/Server error:', err);
+      setCustomTexts(previousTexts);
+      return { success: false, message: 'Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại kết nối mạng.' };
     } finally {
       setIsSaving(false);
     }
@@ -247,6 +217,7 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
   // Update Projects
   const updateProjects = async (updatedProjects: ProjectData[]): Promise<{ success: boolean; message: string }> => {
     setIsSaving(true);
+    const previousProjects = projects;
     setProjects(updatedProjects);
 
     try {
@@ -257,17 +228,19 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
       });
       const data = await res.json();
 
-      if (res.status === 401) {
-        return { success: false, message: data.message || 'Chưa được cấp quyền Admin.' };
+      if (!res.ok || !data.success) {
+        setProjects(previousProjects);
+        return { success: false, message: data.message || 'Lỗi cập nhật danh sách dự án.' };
       }
 
       return {
-        success: data.success ?? true,
+        success: true,
         message: data.message || 'Cập nhật danh sách dự án thành công!',
       };
     } catch (err: unknown) {
-      console.warn('[updateProjects] Error saving to API:', err);
-      return { success: true, message: 'Đã lưu danh sách dự án vào bộ nhớ cục bộ.' };
+      console.error('[updateProjects] Network/Server error:', err);
+      setProjects(previousProjects);
+      return { success: false, message: 'Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại kết nối mạng.' };
     } finally {
       setIsSaving(false);
     }
@@ -276,6 +249,10 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
   // Reset all to default
   const resetToDefault = async (): Promise<{ success: boolean; message: string }> => {
     setIsSaving(true);
+    const prevProfile = profile;
+    const prevProjects = projects;
+    const prevTexts = customTexts;
+
     setProfile(DEFAULT_PROFILE);
     setProjects(DEFAULT_PROJECTS);
     setCustomTexts({
@@ -291,17 +268,24 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
       });
       const data = await res.json();
 
-      if (res.status === 401) {
-        return { success: false, message: data.message || 'Chưa được cấp quyền Admin.' };
+      if (!res.ok || !data.success) {
+        setProfile(prevProfile);
+        setProjects(prevProjects);
+        setCustomTexts(prevTexts);
+        return { success: false, message: data.message || 'Lỗi khôi phục dữ liệu mặc định.' };
       }
 
       await refreshData();
       return {
-        success: data.success ?? true,
+        success: true,
         message: data.message || 'Đã khôi phục dữ liệu mặc định thành công!',
       };
-    } catch {
-      return { success: true, message: 'Đã khôi phục dữ liệu mặc định.' };
+    } catch (err: unknown) {
+      console.error('[resetToDefault] Error:', err);
+      setProfile(prevProfile);
+      setProjects(prevProjects);
+      setCustomTexts(prevTexts);
+      return { success: false, message: 'Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại kết nối mạng.' };
     } finally {
       setIsSaving(false);
     }

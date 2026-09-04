@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import crypto from 'crypto';
+import net from 'net';
 import { getDbRateLimit, recordDbFailedLogin, resetDbRateLimit } from './db';
 
 /**
@@ -50,6 +51,12 @@ setInterval(() => {
   }
 }, 10 * 60 * 1000).unref?.();
 
+function isValidIp(ip: string | null | undefined): boolean {
+  if (!ip) return false;
+  const trimmed = ip.trim();
+  return Boolean(trimmed && net.isIP(trimmed) !== 0);
+}
+
 /**
  * Trích xuất Client IP an toàn từ Request
  * Chỉ tin cậy các proxy header khi TRUST_PROXY='true' được bật tường minh.
@@ -61,28 +68,33 @@ export function getClientIp(req: NextRequest): string {
   if (isTrustProxy) {
     // 1. Cloudflare header (chỉ tin khi đứng sau Cloudflare Proxy tin cậy)
     const cfIp = req.headers.get('cf-connecting-ip');
-    if (cfIp) {
+    if (cfIp && isValidIp(cfIp)) {
       return cfIp.trim();
     }
 
     // 2. Nginx/Traefik X-Real-IP header do reverse proxy thiết lập
     const realIp = req.headers.get('x-real-ip');
-    if (realIp) {
+    if (realIp && isValidIp(realIp)) {
       return realIp.trim();
     }
 
-    // 3. X-Forwarded-For: lấy IP đầu tiên (client IP)
+    // 3. X-Forwarded-For: lấy IP hợp lệ đầu tiên (client IP)
     const forwarded = req.headers.get('x-forwarded-for');
     if (forwarded) {
-      const clientIp = forwarded.split(',')[0].trim();
-      if (clientIp) return clientIp;
+      const parts = forwarded.split(',');
+      for (const part of parts) {
+        const candidate = part.trim();
+        if (isValidIp(candidate)) {
+          return candidate;
+        }
+      }
     }
   }
 
   // Khi TRUST_PROXY=false hoặc không đứng sau proxy:
   // Lấy IP từ NextRequest socket nếu có hoặc fallback an toàn
   const reqIp = (req as unknown as { ip?: string }).ip;
-  if (reqIp && typeof reqIp === 'string' && reqIp.trim()) {
+  if (reqIp && typeof reqIp === 'string' && isValidIp(reqIp)) {
     return reqIp.trim();
   }
 
@@ -274,13 +286,8 @@ export function verifyAdminToken(token: string | null | undefined): boolean {
   const trimmed = token.trim();
   if (!trimmed) return false;
 
-  // 1. Cho phép dùng trực tiếp ADMIN_PASSWORD cho các cuộc gọi programmatic API nếu trùng khớp
-  // Sử dụng validateAdminPassword để đảm bảo constant-time comparison
-  if (validateAdminPassword(trimmed)) {
-    return true;
-  }
-
-  // 2. Kiểm tra HMAC Signed Token (timestamp.signature)
+  // Chỉ chấp nhận HMAC Signed Token (timestamp.signature) để bảo mật tuyệt đối,
+  // không chấp nhận mật khẩu thô qua network để tránh rò rỉ qua log/proxy/devtools.
   const parts = trimmed.split('.');
   if (parts.length !== 2) return false;
 

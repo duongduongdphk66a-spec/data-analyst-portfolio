@@ -8,7 +8,7 @@ Built with **Next.js 15 (App Router)**, **React 19**, **Tailwind CSS 4**, **MySQ
 
 ## 🌟 Key Features
 
-- **In-Browser SQL Engine & CSV Upload**: Client-side in-memory SQL execution (`SELECT`, `WHERE`, `GROUP BY`, `ORDER BY`, `SUM`, `AVG`, `COUNT`, `LIMIT`) with support for custom user CSV uploads.
+- **In-Browser SQL Engine & CSV Upload**: Client-side in-memory SQL execution supporting a dedicated SQL subset (`SELECT`, `WHERE`, `GROUP BY`, `ORDER BY`, `SUM`, `AVG`, `COUNT`, `LIMIT`) with live Recharts visualization and custom user CSV uploads.
 - **Spotlight Command Palette (`Ctrl + K` / `Cmd + K`)**: Quick keyboard navigation across case studies, skills, theme toggling, language switching, and CMS editing shortcuts.
 - **Secure Admin CMS Portal (`Ctrl + E`)**:
   - **Password-Protected Authentication Gate**: Protected with session tokens, timing-safe validation, and HTTP 401 API guards.

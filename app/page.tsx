@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { 
   Menu, X, User, FileText, Briefcase, LayoutDashboard, 
   ChevronDown, ChevronRight, Globe, Sun, Moon, Laptop, Database
@@ -55,8 +55,9 @@ export default function Portfolio() {
   const { language, setLanguage, t } = useLanguage();
   const { theme, resolvedTheme, setTheme, toggleTheme } = useTheme();
   const { profile, projects, dbStatus } = usePortfolioData();
+  const mainRef = useRef<HTMLElement>(null);
 
-  const [activeTab, setActiveTab] = useState<string>('about');
+  const [activeTab, setActiveTab] = useState<string>('home');
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
@@ -81,6 +82,9 @@ export default function Portfolio() {
       setSelectedProjectId(null);
     }
     setIsMobileMenuOpen(false);
+    if (mainRef.current) {
+      mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, []);
 
   // Global Keyboard Shortcut: Ctrl + K (Command Palette) & Ctrl + E (Admin CMS)
@@ -112,11 +116,11 @@ export default function Portfolio() {
     { id: 'about', label: t('nav_about', 'Giới Thiệu'), icon: User },
     { id: 'cv', label: t('nav_cv', 'Học Vấn & Kinh Nghiệm'), icon: FileText },
     { id: 'projects', label: t('nav_projects', 'Dự Án'), icon: Briefcase, hasChildren: true },
-    { id: 'dashboard', label: t('nav_dashboard', 'Cài Đặt'), icon: LayoutDashboard },
+    { id: 'dashboard', label: t('nav_dashboard', 'Bảng Điều Khiển'), icon: LayoutDashboard },
   ];
 
   return (
-    <div className="flex h-screen bg-white text-slate-900 font-lora overflow-hidden dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
+    <div className="flex h-screen bg-ground text-slate-900 font-sans overflow-hidden dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
       {/* Desktop Sidebar */}
       <Sidebar
         activeTab={activeTab}
@@ -133,7 +137,7 @@ export default function Portfolio() {
       {/* Main Content Viewport */}
       <div className="flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-slate-950">
         {/* Mobile Topbar */}
-        <header className="md:hidden bg-[#C4EEF9] text-slate-900 h-16 flex items-center justify-between px-4 border-b border-[#A8E2F2] flex-shrink-0 z-30 shadow-xs dark:bg-slate-900 dark:border-slate-800 dark:text-white transition-colors duration-200 font-sans">
+        <header className="md:hidden bg-[#C8EEF7] text-slate-900 h-16 flex items-center justify-between px-4 border-b border-[#9BE7FA] flex-shrink-0 z-30 shadow-xs dark:bg-slate-900 dark:border-slate-800 dark:text-white transition-colors duration-200 font-sans">
           <div className="flex items-center gap-2.5">
             <h1 className="text-base font-extrabold text-slate-900 dark:text-white">Portfolio Hub</h1>
           </div>
@@ -142,23 +146,23 @@ export default function Portfolio() {
             {/* Quick Admin CMS Button on Mobile */}
             <button
               onClick={() => setIsAdminOpen(true)}
-              className="p-2 rounded-lg bg-white/60 hover:bg-white text-slate-900 text-xs font-bold transition-all border border-[#A8E2F2] flex items-center gap-1 cursor-pointer dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200"
+              className="p-2 rounded-lg bg-white/70 hover:bg-white text-slate-900 text-xs font-bold transition-all border border-[#9BE7FA] flex items-center gap-1 cursor-pointer dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200"
               title="Quản trị nội dung & MySQL"
               aria-label="Admin CMS"
             >
               <Database className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-              <span className={`w-1.5 h-1.5 rounded-full ${dbStatus.connected ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+              <span className={`w-1.5 h-1.5 rounded-full ${dbStatus.connected ? 'bg-emerald-500' : 'bg-[#FFD14C]'}`} />
             </button>
 
             {/* Quick Theme Toggle on Mobile */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-white/60 hover:bg-white text-slate-900 text-xs font-bold transition-all border border-[#A8E2F2] flex items-center cursor-pointer dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700"
+              className="p-2 rounded-lg bg-white/70 hover:bg-white text-slate-900 text-xs font-bold transition-all border border-[#9BE7FA] flex items-center cursor-pointer dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700"
               title="Toggle Theme"
               aria-label="Toggle Theme"
             >
               {resolvedTheme === 'dark' ? (
-                <Sun className="w-4 h-4 text-amber-400" />
+                <Sun className="w-4 h-4 text-[#FFD14C]" />
               ) : (
                 <Moon className="w-4 h-4 text-slate-700" />
               )}
@@ -167,10 +171,11 @@ export default function Portfolio() {
             {/* Quick Language Toggle on Mobile Topbar */}
             <button
               onClick={() => setLanguage(language === 'vi' ? 'en' : 'vi')}
-              className="px-2 py-1 rounded-lg bg-white/60 hover:bg-white text-slate-900 text-xs font-bold transition-all border border-[#A8E2F2] flex items-center gap-1 cursor-pointer dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700"
+              className="px-2 py-1 rounded-lg bg-white/70 hover:bg-white text-slate-900 text-xs font-bold transition-all border border-[#9BE7FA] flex items-center gap-1 cursor-pointer dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700"
               title="Toggle Language"
             >
-              <span>{language === 'vi' ? '🇻🇳 VI' : '🇬🇧 EN'}</span>
+              <Globe className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+              <span>{language.toUpperCase()}</span>
             </button>
 
             <button
@@ -185,7 +190,7 @@ export default function Portfolio() {
 
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-16 left-0 right-0 bottom-0 bg-[#C4EEF9]/95 backdrop-blur-md z-40 flex flex-col p-4 animate-in slide-in-from-top-4 duration-200 border-b border-[#A8E2F2] shadow-xl overflow-y-auto dark:bg-slate-900/95 dark:border-slate-800 font-sans">
+          <div className="md:hidden absolute top-16 left-0 right-0 bottom-0 bg-[#C8EEF7]/95 backdrop-blur-md z-40 flex flex-col p-4 animate-in slide-in-from-top-4 duration-200 border-b border-[#9BE7FA] shadow-xl overflow-y-auto dark:bg-slate-900/95 dark:border-slate-800 font-sans">
             <nav className="flex-1 space-y-2">
               {navItems.map((item) => (
                 <div key={item.id} className="flex flex-col">
@@ -198,12 +203,12 @@ export default function Portfolio() {
                     }}
                     className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl text-sm font-bold transition-all cursor-pointer ${
                       activeTab === item.id || (item.id === 'home' && activeTab === 'home') || (item.id === 'projects' && activeTab === 'project-detail')
-                        ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold dark:bg-slate-800 dark:text-[#9BE7FA]'
-                        : 'text-slate-800 hover:bg-white/40 dark:text-slate-300 dark:hover:bg-slate-800/60 dark:hover:text-white'
+                        ? 'bg-[#9BE7FA] text-slate-950 shadow-sm font-black border-l-4 border-[#0D7287] dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-[#9BE7FA]'
+                        : 'text-slate-800 hover:bg-white/50 dark:text-slate-300 dark:hover:bg-slate-800/60 dark:hover:text-white'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <item.icon className="w-5 h-5" />
+                      <item.icon className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
                       <span>{item.label}</span>
                     </div>
                     {item.hasChildren && (
@@ -218,9 +223,9 @@ export default function Portfolio() {
                         <button
                           key={proj.id}
                           onClick={() => handleProjectClick(proj.id)}
-                          className={`text-left text-xs py-2 px-3 font-medium rounded-xl transition-all truncate cursor-pointer ${
+                          className={`text-left text-xs py-2 px-3 font-semibold rounded-xl transition-all truncate cursor-pointer ${
                             activeTab === 'project-detail' && selectedProjectId === proj.id
-                              ? 'bg-white text-slate-950 font-bold shadow-xs dark:bg-slate-800 dark:text-[#9BE7FA]'
+                              ? 'bg-white text-slate-950 font-bold shadow-xs border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]'
                               : 'text-slate-700 hover:text-slate-950 hover:bg-white/40 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800/40'
                           }`}
                         >
@@ -239,24 +244,24 @@ export default function Portfolio() {
                     setIsMobileMenuOpen(false);
                     setIsAdminOpen(true);
                   }}
-                  className="w-full flex items-center justify-between px-4 py-3 rounded-2xl bg-white/70 hover:bg-white text-slate-900 font-extrabold text-sm border border-slate-300/60 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
+                  className="w-full flex items-center justify-between px-4 py-3 rounded-2xl bg-white/70 hover:bg-white text-slate-900 font-extrabold text-sm border border-[#9BE7FA]/60 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
                 >
                   <div className="flex items-center gap-3">
                     <Database className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
                     <span>Quản Trị CMS (MySQL)</span>
                   </div>
-                  <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+                  <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-[#FFD14C]'}`} />
                 </button>
               </div>
 
               <div className="pt-2">
-                <hr className="border-t-2 border-slate-900/60 my-2 dark:border-slate-800" />
+                <hr className="border-t border-[#9BE7FA]/60 my-2 dark:border-slate-800" />
               </div>
 
               {/* Theme Switcher in Mobile Drawer */}
-              <div className="p-3 bg-white/40 rounded-2xl border border-white/60 flex items-center justify-between dark:bg-slate-800/60 dark:border-slate-700/60">
+              <div className="p-3 bg-white/50 rounded-2xl border border-white/80 flex items-center justify-between dark:bg-slate-800/60 dark:border-slate-700/60">
                 <div className="flex items-center gap-2 text-xs font-bold text-slate-800 dark:text-slate-200">
-                  {theme === 'dark' ? <Moon className="w-4 h-4 text-indigo-400" /> : theme === 'light' ? <Sun className="w-4 h-4 text-amber-500" /> : <Laptop className="w-4 h-4 text-slate-500" />}
+                  {theme === 'dark' ? <Moon className="w-4 h-4 text-indigo-400" /> : theme === 'light' ? <Sun className="w-4 h-4 text-[#FFD14C]" /> : <Laptop className="w-4 h-4 text-slate-500" />}
                   <span>{t('nav_theme', 'Giao Diện')}</span>
                 </div>
                 <div className="flex items-center gap-1">
@@ -264,61 +269,61 @@ export default function Portfolio() {
                     onClick={() => setTheme('light')}
                     className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       theme === 'light' 
-                        ? 'bg-[#8CE0F4] text-slate-950 shadow-xs dark:bg-slate-700 dark:text-white' 
+                        ? 'bg-[#FFD14C] text-slate-950 shadow-xs dark:bg-slate-700 dark:text-white' 
                         : 'text-slate-700 hover:bg-white/60 dark:text-slate-400 dark:hover:bg-slate-700/60'
                     }`}
                   >
-                    ☀️ {t('nav_theme_light', 'Sáng')}
+                    {t('nav_theme_light', 'Sáng')}
                   </button>
                   <button
                     onClick={() => setTheme('dark')}
                     className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       theme === 'dark' 
-                        ? 'bg-[#8CE0F4] text-slate-950 shadow-xs dark:bg-slate-700 dark:text-[#9BE7FA]' 
+                        ? 'bg-[#9BE7FA] text-slate-950 shadow-xs dark:bg-slate-700 dark:text-[#9BE7FA]' 
                         : 'text-slate-700 hover:bg-white/60 dark:text-slate-400 dark:hover:bg-slate-700/60'
                     }`}
                   >
-                    🌙 {t('nav_theme_dark', 'Tối')}
+                    {t('nav_theme_dark', 'Tối')}
                   </button>
                   <button
                     onClick={() => setTheme('system')}
                     className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       theme === 'system' 
-                        ? 'bg-[#8CE0F4] text-slate-950 shadow-xs dark:bg-slate-700 dark:text-[#9BE7FA]' 
+                        ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-700 dark:text-[#9BE7FA]' 
                         : 'text-slate-700 hover:bg-white/60 dark:text-slate-400 dark:hover:bg-slate-700/60'
                     }`}
                   >
-                    💻 {t('nav_theme_system', 'Hệ thống')}
+                    {t('nav_theme_system', 'Hệ thống')}
                   </button>
                 </div>
               </div>
 
               {/* Language Switcher in Mobile Drawer */}
-              <div className="p-3 bg-white/40 rounded-2xl border border-white/60 flex items-center justify-between dark:bg-slate-800/60 dark:border-slate-700/60">
+              <div className="p-3 bg-white/50 rounded-2xl border border-white/80 flex items-center justify-between dark:bg-slate-800/60 dark:border-slate-700/60">
                 <div className="flex items-center gap-2 text-xs font-bold text-slate-800 dark:text-slate-200">
-                  <Globe className="w-4 h-4 text-slate-700 dark:text-slate-400" />
+                  <Globe className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                   <span>{t('nav_language', 'Ngôn Ngữ')}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => setLanguage('vi')}
-                    className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       language === 'vi' 
-                        ? 'bg-[#8CE0F4] text-slate-950 shadow-xs dark:bg-slate-700 dark:text-white' 
+                        ? 'bg-[#9BE7FA] text-slate-950 shadow-xs dark:bg-slate-700 dark:text-white' 
                         : 'text-slate-700 hover:bg-white/60 dark:text-slate-400 dark:hover:bg-slate-700/60'
                     }`}
                   >
-                    🇻🇳 VI
+                    VI
                   </button>
                   <button
                     onClick={() => setLanguage('en')}
-                    className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       language === 'en' 
-                        ? 'bg-[#8CE0F4] text-slate-950 shadow-xs dark:bg-slate-700 dark:text-white' 
+                        ? 'bg-[#9BE7FA] text-slate-950 shadow-xs dark:bg-slate-700 dark:text-white' 
                         : 'text-slate-700 hover:bg-white/60 dark:text-slate-400 dark:hover:bg-slate-700/60'
                     }`}
                   >
-                    🇬🇧 EN
+                    EN
                   </button>
                 </div>
               </div>
@@ -327,7 +332,7 @@ export default function Portfolio() {
         )}
 
         {/* Dynamic Main View */}
-        <main className="flex-1 overflow-y-auto bg-white relative dark:bg-slate-950 transition-colors duration-200">
+        <main ref={mainRef} className="flex-1 overflow-y-auto bg-white relative dark:bg-slate-950 transition-colors duration-200">
           <ErrorBoundary key={activeTab + (selectedProjectId ? `-${selectedProjectId}` : '')} resetKeys={[activeTab, selectedProjectId]}>
             {activeTab === 'home' && (
               <>

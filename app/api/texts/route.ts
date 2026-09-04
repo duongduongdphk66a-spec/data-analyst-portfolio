@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { RowDataPacket } from 'mysql2';
-import { getDbPool, initDatabase } from '@/app/lib/db';
+import { getDbPool, initDatabase, resolveSection } from '@/app/lib/db';
 import { translations } from '@/app/data/translations';
 import { verifyAdminRequest } from '@/app/lib/auth';
 import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/app/lib/cache';
+import { sanitizeTextInput } from '@/app/lib/security';
 
 const CACHE_HEADERS = {
   'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
@@ -151,19 +152,15 @@ export async function POST(req: NextRequest) {
     const values: (string | number)[] = [];
 
     for (const item of updates) {
-      let section = item.section;
-      if (!section) {
-        if (item.text_key.startsWith('nav_')) section = 'navigation';
-        else if (item.text_key.startsWith('hero_') || item.text_key.startsWith('cta_')) section = 'hero';
-        else if (item.text_key.startsWith('about_') || item.text_key.startsWith('goal_')) section = 'about';
-        else if (item.text_key.startsWith('cv_')) section = 'cv';
-        else if (item.text_key.startsWith('proj_')) section = 'projects';
-        else if (item.text_key.startsWith('dash_')) section = 'dashboard';
-        else section = 'general';
-      }
+      const cleanKey = sanitizeTextInput(item.text_key, 150);
+      if (!cleanKey) continue;
+
+      const cleanLang = sanitizeTextInput(item.lang || 'vi', 10);
+      const cleanVal = sanitizeTextInput(item.value_text, 10000);
+      const cleanSection = sanitizeTextInput(item.section || resolveSection(cleanKey), 50);
 
       placeholders.push('(?, ?, ?, ?)');
-      values.push(item.text_key, item.lang, item.value_text, section);
+      values.push(cleanKey, cleanLang, cleanVal, cleanSection);
     }
 
     if (placeholders.length > 0) {

@@ -5,6 +5,7 @@ import { DEFAULT_PROFILE } from '@/app/defaultData';
 import { ProfileData } from '@/app/types';
 import { verifyAdminRequest } from '@/app/lib/auth';
 import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/app/lib/cache';
+import { sanitizeTextInput, sanitizeUrl } from '@/app/lib/security';
 
 const CACHE_HEADERS = {
   'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
@@ -107,10 +108,10 @@ export async function POST(req: NextRequest) {
         {
           success: false,
           source: 'local',
-          message: 'MySQL pool is not available. Changes can be saved in local state.',
+          message: 'Hệ thống CSDL MySQL không khả dụng. Vui lòng kiểm tra lại cấu hình.',
           data: profileData,
         },
-        { status: 200 }
+        { status: 503 }
       );
     }
 
@@ -137,16 +138,26 @@ export async function POST(req: NextRequest) {
         career_goals_json = VALUES(career_goals_json)
     `;
 
+    const cleanName = sanitizeTextInput(profileData.name || DEFAULT_PROFILE.name, 255);
+    const cleanSubtitle = sanitizeTextInput(profileData.subtitle || '', 500);
+    const cleanTitle = sanitizeTextInput(profileData.title || DEFAULT_PROFILE.title, 255);
+    const cleanBio = sanitizeTextInput(profileData.bio || DEFAULT_PROFILE.bio, 10000);
+    const cleanCareerGoal = sanitizeTextInput(profileData.careerGoal || DEFAULT_PROFILE.careerGoal, 10000);
+    const cleanAvatarUrl = profileData.avatarUrl ? sanitizeUrl(sanitizeTextInput(profileData.avatarUrl, 1000)) : '';
+    const cleanEmail = sanitizeTextInput(profileData.email || '', 255);
+    const cleanGithub = profileData.github ? sanitizeUrl(sanitizeTextInput(profileData.github, 500)) : '';
+    const cleanLinkedin = profileData.linkedin ? sanitizeUrl(sanitizeTextInput(profileData.linkedin, 500)) : '';
+
     await pool.query(sql, [
-      profileData.name || DEFAULT_PROFILE.name,
-      profileData.subtitle || '',
-      profileData.title || DEFAULT_PROFILE.title,
-      profileData.bio || DEFAULT_PROFILE.bio,
-      profileData.careerGoal || DEFAULT_PROFILE.careerGoal,
-      profileData.avatarUrl || '',
-      profileData.email || '',
-      profileData.github || '',
-      profileData.linkedin || '',
+      cleanName,
+      cleanSubtitle,
+      cleanTitle,
+      cleanBio,
+      cleanCareerGoal,
+      cleanAvatarUrl,
+      cleanEmail,
+      cleanGithub,
+      cleanLinkedin,
       JSON.stringify(profileData.skills || DEFAULT_PROFILE.skills),
       JSON.stringify(profileData.experiences || DEFAULT_PROFILE.experiences),
       JSON.stringify(profileData.careerGoalsList || DEFAULT_PROFILE.careerGoalsList),

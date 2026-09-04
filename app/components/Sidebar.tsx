@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { 
   ChevronDown, ChevronRight, Github, Linkedin, Mail, 
-  Sun, Moon, Laptop, Globe, Check, Search, Database, Lock
+  Sun, Moon, Laptop, Globe, Search, Database,
+  Home, UserCheck, FileText, Briefcase, LayoutDashboard, Sparkles
 } from 'lucide-react';
 import { ProjectData } from '../types';
 import { useLanguage } from '../context/LanguageContext';
@@ -40,52 +41,24 @@ export default function Sidebar({
   const { profile, dbStatus } = usePortfolioData();
   const safeAvatarUrl = profile.avatarUrl ? sanitizeUrl(profile.avatarUrl) : '';
 
-  // Settings Popover States
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [activeSubMenu, setActiveSubMenu] = useState<'none' | 'language' | 'theme'>('none');
-  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleSelectTheme = (newTheme: 'light' | 'dark' | 'system') => {
-    setTheme(newTheme);
-  };
-
-  const handleSelectLanguage = (newLang: 'vi' | 'en') => {
-    setLanguage(newLang);
-    setIsSettingsOpen(false);
-    setActiveSubMenu('none');
-  };
-
-  const handleMouseEnterSettings = () => {
-    if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current);
-      closeTimeoutRef.current = null;
-    }
-    setIsSettingsOpen(true);
-  };
-
-  const handleMouseLeaveSettings = () => {
-    closeTimeoutRef.current = setTimeout(() => {
-      setIsSettingsOpen(false);
-      setActiveSubMenu('none');
-    }, 250);
-  };
-
   const navItems = [
-    { id: 'home', label: t('nav_home', 'Trang Chủ') },
-    { id: 'about', label: t('nav_about', 'Giới Thiệu') },
-    { id: 'cv', label: t('nav_cv', 'Học Vấn & Kinh Nghiệm') },
-    { id: 'projects', label: t('nav_projects', 'Dự Án'), hasChildren: true },
-    { id: 'dashboard', label: t('nav_dashboard', 'Cài Đặt'), isSettings: true },
+    { id: 'home', label: t('nav_home', 'Trang Chủ'), icon: Home },
+    { id: 'about', label: t('nav_about', 'Giới Thiệu'), icon: UserCheck },
+    { id: 'cv', label: t('nav_cv', 'Học Vấn & Kinh Nghiệm'), icon: FileText },
+    { id: 'projects', label: t('nav_projects', 'Dự Án'), icon: Briefcase, hasChildren: true },
+    { id: 'dashboard', label: t('nav_dashboard', 'Bảng Điều Khiển'), icon: LayoutDashboard, isHighlighted: true },
   ];
 
   return (
-    <aside className="w-60 bg-[#C4EEF9] text-slate-800 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-[#A8E2F2] shadow-xs relative z-40 transition-colors duration-200 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200 font-sans">
-      {/* Navigation Links */}
-      <nav className="flex-1 px-4 pt-6 pb-6 space-y-2.5 overflow-y-auto overflow-x-visible">
-        {/* User Profile Header with Avatar */}
-        <div className="flex items-center gap-3 px-3 py-2.5 mb-3 bg-white/50 dark:bg-slate-800/70 rounded-2xl border border-white/60 dark:border-slate-700/60 shadow-xs">
+    <aside 
+      aria-label="Thanh điều hướng chính"
+      className="w-64 bg-[#C8EEF7] text-slate-900 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-[#9BE7FA] shadow-xs relative z-40 transition-colors duration-200 dark:bg-slate-950 dark:border-slate-800 dark:text-slate-200 font-sans"
+    >
+      {/* Top Header: User Profile Card */}
+      <div className="p-4 border-b border-[#9BE7FA]/60 dark:border-slate-800/60">
+        <div className="flex items-center gap-3 p-2 bg-white/60 dark:bg-slate-900/70 rounded-2xl border border-white/80 dark:border-slate-800/80 shadow-xs">
           {safeAvatarUrl && safeAvatarUrl !== '#' ? (
-            <div className="w-10 h-10 rounded-xl overflow-hidden ring-1 ring-cyan-500/40 shrink-0 relative">
+            <div className="w-10 h-10 rounded-xl overflow-hidden ring-2 ring-[#0D7287]/30 shrink-0 relative">
               <Image 
                 src={safeAvatarUrl} 
                 alt={profile.name || 'Avatar'} 
@@ -96,242 +69,49 @@ export default function Sidebar({
               />
             </div>
           ) : (
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0D7287] to-cyan-500 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0D7287] to-[#9BE7FA] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
               {profile.name ? profile.name.split(' ').map((n) => n[0]).join('').slice(0, 3).toUpperCase() : 'MVH'}
             </div>
           )}
           <div className="overflow-hidden min-w-0">
-            <h3 className="text-xs font-black text-slate-900 dark:text-white truncate">
+            <h2 className="text-xs font-bold text-slate-900 dark:text-white truncate">
               {profile.name || 'Ma Văn Hùng'}
-            </h3>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">
+            </h2>
+            <p className="text-[10px] text-slate-600 dark:text-slate-400 font-semibold truncate flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
               {profile.title || 'Data Analyst'}
             </p>
           </div>
         </div>
 
-        {/* Quick Search / Command Palette Button */}
+        {/* Quick Search / Command Palette (Ctrl+K) */}
         {onOpenCommandPalette && (
           <button
             onClick={onOpenCommandPalette}
             aria-label="Mở bảng tìm kiếm và lệnh nhanh (Ctrl+K)"
-            className="w-full flex items-center justify-between px-4 py-2.5 bg-white/60 hover:bg-white text-slate-700 hover:text-slate-950 border border-slate-300/60 rounded-xl text-xs font-semibold transition-all cursor-pointer shadow-xs mb-4 dark:bg-slate-800/80 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+            className="w-full mt-3 flex items-center justify-between px-3.5 py-2 bg-white/70 hover:bg-white text-slate-700 hover:text-slate-950 border border-white/80 rounded-xl text-xs font-semibold transition-all cursor-pointer shadow-2xs dark:bg-slate-900/80 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white focus-visible:ring-2 focus-visible:ring-[#0D7287] dark:focus-visible:ring-[#9BE7FA]"
           >
             <div className="flex items-center gap-2">
               <Search className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
-              <span>{language === 'en' ? 'Quick Search...' : 'Tìm kiếm nhanh...'}</span>
+              <span>{language === 'en' ? 'Quick search...' : 'Tìm kiếm nhanh...'}</span>
             </div>
-            <kbd className="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700 font-mono text-[10px] text-slate-500 dark:text-slate-300 border border-slate-200 dark:border-slate-600">
+            <kbd className="px-1.5 py-0.5 rounded-md bg-white/80 dark:bg-slate-800 font-mono text-[10px] text-slate-600 dark:text-slate-400 border border-[#9BE7FA]/50 dark:border-slate-700">
               Ctrl K
             </kbd>
           </button>
         )}
+      </div>
 
+      {/* Navigation Links */}
+      <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto overflow-x-visible">
         {navItems.map((item) => {
           const isActive = activeTab === item.id || (item.id === 'home' && activeTab === 'home') || (item.id === 'projects' && activeTab === 'project-detail');
-          
-          if (item.isSettings) {
-            return (
-              <div 
-                key={item.id} 
-                className="relative"
-                onMouseEnter={handleMouseEnterSettings}
-                onMouseLeave={handleMouseLeaveSettings}
-              >
-                <button
-                  onClick={() => onTabChange(item.id)}
-                  aria-label={item.label}
-                  className={`w-full flex items-center justify-between px-5 py-3 text-sm sm:text-base font-bold rounded-2xl transition-all duration-200 cursor-pointer text-left ${
-                    isActive
-                      ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40 dark:bg-slate-800 dark:text-[#9BE7FA] dark:shadow-none'
-                      : 'text-slate-800 hover:text-slate-950 hover:bg-white/40 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/60'
-                  }`}
-                >
-                  <span className="underline decoration-slate-400/60 underline-offset-4 dark:decoration-slate-600">{item.label}</span>
-                  <span className="text-[10px] uppercase px-1.5 py-0.5 rounded-md bg-white/60 text-slate-700 font-bold ml-2 dark:bg-slate-800 dark:text-slate-300">
-                    {language.toUpperCase()}
-                  </span>
-                </button>
-
-                {/* Settings Speech-Bubble Popover */}
-                {isSettingsOpen && (
-                  <div 
-                    className="absolute left-[calc(100%+14px)] top-1/2 -translate-y-1/2 z-50 animate-in fade-in zoom-in-95 duration-150"
-                    onMouseEnter={handleMouseEnterSettings}
-                    onMouseLeave={handleMouseLeaveSettings}
-                  >
-                    {/* Speech bubble pointer arrow */}
-                    <div className="absolute -left-2.5 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[9px] border-y-transparent border-r-[10px] border-r-white drop-shadow-[-2px_0px_1px_rgba(0,0,0,0.06)] dark:border-r-slate-800" />
-
-                    {/* Bridge overlay to prevent mouse exit flicker */}
-                    <div className="absolute -left-5 top-0 bottom-0 w-6" />
-
-                    {/* Popover Card */}
-                    <div className="w-52 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-2 text-slate-800 relative dark:bg-slate-900/95 dark:border-slate-800 dark:text-slate-200">
-                      
-                      {/* Menu Item 1: Ngôn Ngữ */}
-                      <div 
-                        className="relative group/lang"
-                        onMouseEnter={() => setActiveSubMenu('language')}
-                      >
-                        <button
-                          className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
-                            activeSubMenu === 'language' 
-                              ? 'bg-slate-100 text-slate-950 dark:bg-slate-800 dark:text-white' 
-                              : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60 dark:hover:text-white'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2">
-                            <Globe className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-                            <span>{t('nav_language', 'Ngôn Ngữ')}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400">{language === 'vi' ? 'VI' : 'EN'}</span>
-                            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-                          </div>
-                        </button>
-
-                        {/* Nested Submenu: Languages */}
-                        {activeSubMenu === 'language' && (
-                          <div className="absolute left-[calc(100%+8px)] top-0 w-48 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-1.5 space-y-1 animate-in fade-in zoom-in-95 duration-150 z-50 dark:bg-slate-900/95 dark:border-slate-800">
-                            {/* Bridge */}
-                            <div className="absolute -left-3 top-0 bottom-0 w-4" />
-                            
-                            <button
-                              onClick={() => handleSelectLanguage('vi')}
-                              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                                language === 'vi' 
-                                  ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]' 
-                                  : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60'
-                              }`}
-                            >
-                              <div className="flex items-center gap-2.5">
-                                <span className="text-base leading-none">🇻🇳</span>
-                                <span>Tiếng Việt</span>
-                              </div>
-                              {language === 'vi' && <Check className="w-3.5 h-3.5 text-[#155A8A] dark:text-[#9BE7FA]" />}
-                            </button>
-
-                            <button
-                              onClick={() => handleSelectLanguage('en')}
-                              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                                language === 'en' 
-                                  ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]' 
-                                  : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60'
-                              }`}
-                            >
-                              <div className="flex items-center gap-2.5">
-                                <span className="text-base leading-none">🇬🇧</span>
-                                <span>English</span>
-                              </div>
-                              {language === 'en' && <Check className="w-3.5 h-3.5 text-[#155A8A] dark:text-[#9BE7FA]" />}
-                            </button>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Menu Item 2: Giao Diện */}
-                      <div 
-                        className="relative group/theme mt-1"
-                        onMouseEnter={() => setActiveSubMenu('theme')}
-                      >
-                        <button
-                          className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
-                            activeSubMenu === 'theme' 
-                              ? 'bg-slate-100 text-slate-950 dark:bg-slate-800 dark:text-white' 
-                              : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60 dark:hover:text-white'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2">
-                            {theme === 'dark' ? <Moon className="w-4 h-4 text-indigo-400" /> : theme === 'light' ? <Sun className="w-4 h-4 text-amber-500" /> : <Laptop className="w-4 h-4 text-slate-500 dark:text-slate-400" />}
-                            <span>{t('nav_theme', 'Giao Diện')}</span>
-                          </div>
-                          <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-                        </button>
-
-                        {/* Nested Submenu: Theme Options */}
-                        {activeSubMenu === 'theme' && (
-                          <div className="absolute left-[calc(100%+8px)] top-0 w-44 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-1.5 space-y-1 animate-in fade-in zoom-in-95 duration-150 z-50 dark:bg-slate-900/95 dark:border-slate-800">
-                            {/* Bridge */}
-                            <div className="absolute -left-3 top-0 bottom-0 w-4" />
-                            
-                            <button
-                              onClick={() => handleSelectTheme('light')}
-                              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                                theme === 'light' 
-                                  ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]' 
-                                  : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60'
-                              }`}
-                            >
-                              <div className="flex items-center gap-2.5">
-                                <Sun className="w-4 h-4 text-amber-500" />
-                                <span>{t('nav_theme_light', 'Sáng')}</span>
-                              </div>
-                              {theme === 'light' && <Check className="w-3.5 h-3.5 text-[#155A8A] dark:text-[#9BE7FA]" />}
-                            </button>
-
-                            <button
-                              onClick={() => handleSelectTheme('dark')}
-                              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                                theme === 'dark' 
-                                  ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]' 
-                                  : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60'
-                              }`}
-                            >
-                              <div className="flex items-center gap-2.5">
-                                <Moon className="w-4 h-4 text-indigo-400" />
-                                <span>{t('nav_theme_dark', 'Tối')}</span>
-                              </div>
-                              {theme === 'dark' && <Check className="w-3.5 h-3.5 text-[#155A8A] dark:text-[#9BE7FA]" />}
-                            </button>
-
-                            <button
-                              onClick={() => handleSelectTheme('system')}
-                              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                                theme === 'system' 
-                                  ? 'bg-[#C4EEF9]/50 text-slate-950 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]' 
-                                  : 'hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60'
-                              }`}
-                            >
-                              <div className="flex items-center gap-2.5">
-                                <Laptop className="w-4 h-4 text-slate-500 dark:text-slate-400" />
-                                <span>{t('nav_theme_system', 'Hệ thống')}</span>
-                              </div>
-                              {theme === 'system' && <Check className="w-3.5 h-3.5 text-[#155A8A] dark:text-[#9BE7FA]" />}
-                            </button>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Divider */}
-                      <hr className="border-t border-slate-100 dark:border-slate-800 my-1" />
-
-                      {/* Menu Item 3: Quản Trị & CMS */}
-                      {onOpenAdmin && (
-                        <button
-                          onClick={() => {
-                            setIsSettingsOpen(false);
-                            onOpenAdmin();
-                          }}
-                          className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer hover:bg-slate-50 text-[#0D7287] dark:text-[#9BE7FA] dark:hover:bg-slate-800/60"
-                        >
-                          <div className="flex items-center gap-2">
-                            <Lock className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-                            <span>{language === 'en' ? 'Admin CMS (Locked)' : 'Admin CMS (Khóa)'}</span>
-                          </div>
-                          <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          }
+          const ItemIcon = item.icon;
 
           return (
             <div key={item.id} className="flex flex-col">
               <button
+                type="button"
                 onClick={() => {
                   if (item.hasChildren) {
                     if (activeTab === 'projects') {
@@ -344,35 +124,46 @@ export default function Sidebar({
                     onTabChange(item.id);
                   }
                 }}
-                className={`w-full flex items-center justify-between px-5 py-3 text-sm sm:text-base font-bold rounded-2xl transition-all duration-200 cursor-pointer text-left ${
+                aria-current={isActive ? 'page' : undefined}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 cursor-pointer text-left text-xs font-semibold group ${
                   isActive
-                    ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40 dark:bg-slate-800 dark:text-[#9BE7FA] dark:shadow-none'
-                    : 'text-slate-800 hover:text-slate-950 hover:bg-white/40 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/60'
+                    ? 'bg-[#9BE7FA] text-slate-950 font-black shadow-xs border-l-4 border-[#0D7287] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] dark:border-[#9BE7FA]'
+                    : 'text-slate-800 hover:text-slate-950 hover:bg-white/50 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-900/60'
                 }`}
               >
-                <span>{item.label}</span>
+                <div className="flex items-center gap-2.5">
+                  <ItemIcon className={`w-4 h-4 transition-transform group-hover:scale-110 ${isActive ? 'text-[#0D7287] dark:text-[#9BE7FA]' : 'text-slate-600 dark:text-slate-400'}`} />
+                  <span>{item.label}</span>
+                </div>
                 {item.hasChildren && (
-                  isProjectsOpen ? <ChevronDown className="w-4 h-4 text-slate-600 dark:text-slate-400" /> : <ChevronRight className="w-4 h-4 text-slate-600 dark:text-slate-400" />
+                  isProjectsOpen ? <ChevronDown className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
+                )}
+                {item.isHighlighted && !isActive && (
+                  <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-[#FFD14C] text-slate-950 shadow-2xs border border-[#FFE485]">
+                    <Sparkles className="w-2.5 h-2.5" />
+                    BI
+                  </span>
                 )}
               </button>
 
-              {/* Sub-projects list if expanded */}
+              {/* Sub-projects nested list */}
               {item.hasChildren && isProjectsOpen && (
-                <div className="flex flex-col gap-1 mt-1.5 pl-5 pr-2 animate-in slide-in-from-top-2 duration-150">
+                <div className="flex flex-col gap-1 mt-1 pl-6 pr-1 animate-in slide-in-from-top-1 duration-150">
                   {projects.map((proj) => {
                     const isSelected = activeTab === 'project-detail' && selectedProjectId === proj.id;
                     return (
                       <button
+                        type="button"
                         key={proj.id}
                         onClick={() => onProjectClick(proj.id)}
-                        className={`text-left text-xs py-2 px-2.5 font-medium rounded-xl transition-all truncate cursor-pointer flex items-center gap-2 ${
+                        className={`text-left text-[11px] py-1.5 px-2.5 font-semibold rounded-lg transition-all truncate cursor-pointer flex items-center gap-2 ${
                           isSelected
-                            ? 'bg-white text-slate-950 font-bold shadow-xs border border-[#8CE0F4] dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700'
-                            : 'text-slate-700 hover:text-slate-950 hover:bg-white/50 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800/50'
+                            ? 'bg-white text-slate-950 font-bold shadow-2xs border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700'
+                            : 'text-slate-700 hover:text-slate-950 hover:bg-white/50 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-900/40'
                         }`}
                         title={proj.title}
                       >
-                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isSelected ? 'bg-amber-500 ring-2 ring-amber-200 dark:ring-amber-900/50' : 'bg-slate-400 dark:bg-slate-600'}`}></span>
+                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isSelected ? 'bg-[#FFD14C] ring-2 ring-[#FFE485]' : 'bg-slate-400 dark:bg-slate-600'}`} />
                         <span className="truncate">{proj.title}</span>
                       </button>
                     );
@@ -382,67 +173,126 @@ export default function Sidebar({
             </div>
           );
         })}
-
-        {/* Quick Admin CMS Edit Trigger Button */}
-        {onOpenAdmin && (
-          <div className="pt-4">
-            <button
-              onClick={onOpenAdmin}
-              className="w-full flex items-center justify-between px-4 py-2.5 rounded-2xl bg-white/50 hover:bg-white text-slate-800 hover:text-slate-950 border border-slate-300/60 dark:bg-slate-800/60 dark:border-slate-700/80 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-white transition-all text-xs font-extrabold cursor-pointer shadow-xs group"
-            >
-              <div className="flex items-center gap-2">
-                <Database className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
-                <span>Chỉnh Sửa CMS</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
-                <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
-                  {dbStatus.connected ? 'MySQL' : 'Local'}
-                </span>
-              </div>
-            </button>
-          </div>
-        )}
       </nav>
 
-      {/* Footer Area: Circular Social Links & Quick Language Toggle */}
-      <div className="p-6 flex items-center justify-between text-white border-t border-transparent dark:border-slate-800/50">
-        <div className="flex items-center gap-3">
-          <a 
-            href="https://linkedin.com" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-xs dark:bg-slate-800 dark:hover:bg-slate-700 dark:border dark:border-slate-700"
-            title="LinkedIn"
+      {/* Footer Controls & System Settings */}
+      <div className="p-3 border-t border-[#9BE7FA]/60 dark:border-slate-800/60 space-y-2.5 bg-white/40 dark:bg-slate-900/40">
+        {/* Quick Admin CMS Trigger */}
+        {onOpenAdmin && (
+          <button
+            type="button"
+            onClick={onOpenAdmin}
+            aria-label="Mở trang quản trị CMS"
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-white/70 hover:bg-white text-slate-800 hover:text-slate-950 border border-white/80 dark:bg-slate-900/80 dark:border-slate-800 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-white transition-all text-xs font-bold cursor-pointer shadow-2xs"
           >
-            <Linkedin className="w-4 h-4 fill-white text-white" />
-          </a>
-          <a 
-            href="https://github.com" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-xs dark:bg-slate-800 dark:hover:bg-slate-700 dark:border dark:border-slate-700"
-            title="GitHub"
+            <div className="flex items-center gap-2">
+              <Database className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+              <span>{language === 'en' ? 'Admin CMS' : 'Quản trị CMS'}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-[#FFD14C]'}`} />
+              <span className="text-[10px] font-mono text-slate-600 dark:text-slate-400">
+                {dbStatus.connected ? 'MySQL' : 'Local'}
+              </span>
+            </div>
+          </button>
+        )}
+
+        {/* Theme & Language Controls Bar */}
+        <div className="flex items-center justify-between gap-1 p-1 bg-white/70 dark:bg-slate-900/80 rounded-xl border border-white/80 dark:border-slate-800">
+          {/* Theme Selector (Light / Dark / System) */}
+          <div className="flex items-center gap-0.5">
+            <button
+              type="button"
+              onClick={() => setTheme('light')}
+              aria-label="Chế độ sáng"
+              title="Chế độ sáng"
+              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                theme === 'light' 
+                  ? 'bg-[#FFD14C] text-slate-950 shadow-2xs font-bold' 
+                  : 'text-slate-600 hover:text-slate-900 dark:text-slate-500 dark:hover:text-slate-300'
+              }`}
+            >
+              <Sun className="w-3.5 h-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setTheme('dark')}
+              aria-label="Chế độ tối"
+              title="Chế độ tối"
+              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                theme === 'dark' 
+                  ? 'bg-[#9BE7FA] text-slate-950 shadow-2xs font-bold' 
+                  : 'text-slate-600 hover:text-slate-900 dark:text-slate-500 dark:hover:text-slate-300'
+              }`}
+            >
+              <Moon className="w-3.5 h-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setTheme('system')}
+              aria-label="Chế độ theo hệ thống"
+              title="Chế độ hệ thống"
+              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                theme === 'system' 
+                  ? 'bg-slate-300/70 text-slate-950 dark:bg-slate-800 dark:text-slate-200 shadow-2xs' 
+                  : 'text-slate-600 hover:text-slate-900 dark:text-slate-500 dark:hover:text-slate-300'
+              }`}
+            >
+              <Laptop className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          <div className="h-4 w-px bg-[#9BE7FA]/60 dark:bg-slate-800" />
+
+          {/* Language Switcher */}
+          <button
+            type="button"
+            onClick={() => setLanguage(language === 'vi' ? 'en' : 'vi')}
+            aria-label={`Đổi ngôn ngữ (Hiện tại: ${language === 'vi' ? 'Tiếng Việt' : 'English'})`}
+            title={language === 'vi' ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
+            className="flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-bold text-slate-800 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white transition-all cursor-pointer hover:bg-white/60 dark:hover:bg-slate-800"
           >
-            <Github className="w-4 h-4 fill-white text-white" />
-          </a>
-          <a 
-            href="mailto:mavanhung.da@gmail.com" 
-            className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center hover:scale-110 hover:bg-slate-800 transition-all shadow-xs dark:bg-slate-800 dark:hover:bg-slate-700 dark:border dark:border-slate-700"
-            title="Email"
-          >
-            <Mail className="w-4 h-4 text-white" />
-          </a>
+            <Globe className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+            <span>{language.toUpperCase()}</span>
+          </button>
         </div>
 
-        {/* Quick Language Toggle Button */}
-        <button
-          onClick={() => setLanguage(language === 'vi' ? 'en' : 'vi')}
-          className="px-2.5 py-1 rounded-xl bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 dark:border dark:border-slate-700"
-          title={language === 'vi' ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
-        >
-          <span>{language === 'vi' ? '🇻🇳 VI' : '🇬🇧 EN'}</span>
-        </button>
+        {/* Social Links */}
+        <div className="flex items-center justify-between pt-1 text-slate-600 dark:text-slate-400">
+          <div className="flex items-center gap-2">
+            <a 
+              href="https://linkedin.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label="LinkedIn Profile"
+              className="p-1.5 rounded-lg hover:bg-white/70 hover:text-slate-950 dark:hover:bg-slate-800 dark:hover:text-white transition-all cursor-pointer"
+              title="LinkedIn"
+            >
+              <Linkedin className="w-3.5 h-3.5" />
+            </a>
+            <a 
+              href="https://github.com/duongduongdphk66a-spec/data-analyst-portfolio" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label="GitHub Repository"
+              className="p-1.5 rounded-lg hover:bg-white/70 hover:text-slate-950 dark:hover:bg-slate-800 dark:hover:text-white transition-all cursor-pointer"
+              title="GitHub"
+            >
+              <Github className="w-3.5 h-3.5" />
+            </a>
+            <a 
+              href="mailto:mavanhung.da@gmail.com" 
+              aria-label="Email Ma Văn Hùng"
+              className="p-1.5 rounded-lg hover:bg-white/70 hover:text-slate-950 dark:hover:bg-slate-800 dark:hover:text-white transition-all cursor-pointer"
+              title="Email"
+            >
+              <Mail className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          <span className="text-[10px] font-mono text-slate-600 dark:text-slate-500 font-medium">v2.13</span>
+        </div>
       </div>
     </aside>
   );

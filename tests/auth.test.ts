@@ -67,7 +67,7 @@ describe('Admin Authentication & Rate Limiting Module', () => {
       process.env.TRUST_PROXY = prev;
     });
 
-    it('should extract leftmost IP from x-forwarded-for when trust proxy is enabled', () => {
+    it('should extract leftmost valid IP from x-forwarded-for when trust proxy is enabled', () => {
       const prevEnv = process.env.TRUST_PROXY;
       process.env.TRUST_PROXY = 'true';
       const req = new NextRequest('http://localhost:3000/api/auth/login', {
@@ -76,6 +76,32 @@ describe('Admin Authentication & Rate Limiting Module', () => {
         },
       });
       expect(getClientIp(req)).toBe('203.0.113.10');
+      process.env.TRUST_PROXY = prevEnv;
+    });
+
+    it('should ignore malformed/poisoned IPs in x-forwarded-for and find first valid IP', () => {
+      const prevEnv = process.env.TRUST_PROXY;
+      process.env.TRUST_PROXY = 'true';
+      const req = new NextRequest('http://localhost:3000/api/auth/login', {
+        headers: {
+          'x-forwarded-for': 'garbage-injection-string, 198.51.100.77, 10.0.0.2',
+        },
+      });
+      expect(getClientIp(req)).toBe('198.51.100.77');
+      process.env.TRUST_PROXY = prevEnv;
+    });
+
+    it('should fallback to 127.0.0.1 when headers contain only invalid IP strings', () => {
+      const prevEnv = process.env.TRUST_PROXY;
+      process.env.TRUST_PROXY = 'true';
+      const req = new NextRequest('http://localhost:3000/api/auth/login', {
+        headers: {
+          'cf-connecting-ip': 'invalid-cf-ip',
+          'x-real-ip': 'not-an-ip',
+          'x-forwarded-for': 'malicious-string, also-invalid',
+        },
+      });
+      expect(getClientIp(req)).toBe('127.0.0.1');
       process.env.TRUST_PROXY = prevEnv;
     });
 
@@ -91,6 +117,12 @@ describe('Admin Authentication & Rate Limiting Module', () => {
       expect(typeof token).toBe('string');
       expect(token.includes('.')).toBe(true);
       expect(verifyAdminToken(token)).toBe(true);
+    });
+
+    it('should reject raw admin password passed directly as a token', () => {
+      // Raw passwords must never be accepted directly as session tokens
+      expect(verifyAdminToken('Hung@2025')).toBe(false);
+      expect(verifyAdminToken(process.env.ADMIN_PASSWORD || 'Hung@2025')).toBe(false);
     });
 
     it('should reject invalid or tampered tokens', () => {

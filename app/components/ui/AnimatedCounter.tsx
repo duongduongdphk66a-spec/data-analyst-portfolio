@@ -19,7 +19,6 @@ export default function AnimatedCounter({
   triggerOnScroll = true,
 }: AnimatedCounterProps) {
   const spanRef = useRef<HTMLSpanElement>(null);
-  const animatedRef = useRef(false);
 
   // Parse string value into prefix, numeric target, suffix, and decimal precision
   const { prefix, numericVal, suffix, decimals } = React.useMemo(() => {
@@ -71,9 +70,6 @@ export default function AnimatedCounter({
     let tween: gsap.core.Tween | null = null;
 
     const startAnimation = () => {
-      if (animatedRef.current) return;
-      animatedRef.current = true;
-
       const counterObj = { val: 0 };
 
       const updateText = () => {
@@ -86,6 +82,7 @@ export default function AnimatedCounter({
         }
       };
 
+      if (tween) tween.kill();
       tween = gsap.to(counterObj, {
         val: numericVal,
         duration,
@@ -124,7 +121,12 @@ export default function AnimatedCounter({
 
   return (
     <span ref={spanRef} className={className}>
-      {prefix}0{suffix}
+      {prefix}
+      {numericVal.toLocaleString('vi-VN', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      })}
+      {suffix}
     </span>
   );
 }

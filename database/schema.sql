@@ -13,7 +13,7 @@ USE `portfolio_db`;
 CREATE TABLE IF NOT EXISTS `portfolio_profile` (
   `id` INT NOT NULL DEFAULT 1,
   `name` VARCHAR(255) NOT NULL,
-  `subtitle` VARCHAR(255) DEFAULT '',
+  `subtitle` VARCHAR(500) DEFAULT '',
   `title` VARCHAR(255) NOT NULL,
   `bio` TEXT,
   `career_goal` TEXT,
@@ -74,11 +74,3 @@ CREATE TABLE IF NOT EXISTS `portfolio_cache` (
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 6. Table: portfolio_visitor_logs (Optional logging)
-CREATE TABLE IF NOT EXISTS `portfolio_visitor_logs` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `action` VARCHAR(255) NOT NULL,
-  `target` VARCHAR(255) DEFAULT '',
-  `category` VARCHAR(100) DEFAULT 'general',
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

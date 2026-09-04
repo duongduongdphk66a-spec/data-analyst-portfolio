@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architecture Knowledge Graph — Data Analyst Portfolio</title>
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --surface-border: #262626;
+      --accent: #d4a574;
+      --accent-hover: #e5b98a;
+      --text: #f5f5f5;
+      --text-muted: #888888;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--surface-border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      z-index: 10;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand h1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+    .stats-badges {
+      display: flex;
+      gap: 8px;
+    }
+    .badge {
+      background: rgba(212, 165, 116, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(212, 165, 116, 0.25);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-weight: 600;
+    }
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    input[type="text"] {
+      background: #1c1c1c;
+      border: 1px solid var(--surface-border);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      width: 220px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: var(--accent);
+    }
+    select {
+      background: #1c1c1c;
+      border: 1px solid var(--surface-border);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+    }
+    button.btn {
+      background: #222;
+      border: 1px solid var(--surface-border);
+      color: #ddd;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button.btn:hover {
+      background: var(--surface-border);
+      color: #fff;
+    }
+    button.btn.active {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+    #main-container {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 61px);
+      position: relative;
+    }
+    #network-canvas {
+      flex: 1;
+      height: 100%;
+      background: radial-gradient(circle at center, #141414 0%, #080808 100%);
+    }
+    #sidebar {
+      width: 380px;
+      background: var(--surface);
+      border-left: 1px solid var(--surface-border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 5;
+    }
+    .sidebar-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--surface-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sidebar-header h2 {
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .sidebar-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .node-title {
+      font-size: 18px;
+      font-weight: 700;
+      word-break: break-all;
+    }
+    .node-path {
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: #0d0d0d;
+      padding: 6px 10px;
+      border-radius: 4px;
+      border: 1px solid #222;
+      margin-top: 6px;
+    }
+    .meta-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .chip {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: #242424;
+      color: #ccc;
+    }
+    .chip.simple { color: #4ade80; border: 1px solid #166534; }
+    .chip.moderate { color: #facc15; border: 1px solid #854d0e; }
+    .chip.complex { color: #f87171; border: 1px solid #991b1b; }
+    .node-summary {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #ddd;
+      background: #181818;
+      padding: 12px;
+      border-radius: 6px;
+      border-left: 3px solid var(--accent);
+    }
+    .relation-section h4 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .relation-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .relation-item {
+      font-size: 12px;
+      padding: 6px 10px;
+      background: #1b1b1b;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid #282828;
+      transition: all 0.15s;
+    }
+    .relation-item:hover {
+      border-color: var(--accent);
+      background: #222;
+    }
+    .tour-dock {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(20, 20, 20, 0.95);
+      border: 1px solid var(--accent);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+      border-radius: 12px;
+      padding: 16px 20px;
+      width: 560px;
+      max-width: 90vw;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+      display: none;
+    }
+    .tour-dock.active {
+      display: block;
+    }
+    .tour-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .tour-desc {
+      font-size: 12px;
+      color: #ccc;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .tour-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .legend {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(18, 18, 18, 0.85);
+      border: 1px solid var(--surface-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 11px;
+      backdrop-filter: blur(6px);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <h1>Data Analyst Portfolio — Architecture Graph</h1>
+      <div class="stats-badges">
+        <span class="badge">78 Nodes</span>
+        <span class="badge">171 Edges</span>
+        <span class="badge">7 Layers</span>
+      </div>
+    </div>
+    <div class="controls">
+      <input type="text" id="search-input" placeholder="Tìm kiếm component, file, API...">
+      <select id="layer-select">
+        <option value="all">Tất cả các tầng (7 Layers)</option>
+        <option value="layer:presentation-ui">Presentation and UI</option>
+        <option value="layer:state-and-context">State and Context</option>
+        <option value="layer:core-engines-and-utils">Core Engines and Utils</option>
+        <option value="layer:api-backend-routes">API and Backend</option>
+        <option value="layer:data-models-datasets">Data and Datasets</option>
+        <option value="layer:tests-quality">Tests and Quality</option>
+        <option value="layer:infrastructure-config">Infra and Config</option>
+      </select>
+      <button class="btn" id="btn-tour">Lộ trình Onboarding (Tour)</button>
+      <button class="btn" id="btn-reset">Đặt lại góc nhìn</button>
+    </div>
+  </header>
+
+  <div id="main-container">
+    <div class="legend">
+      <div style="font-weight: 700; color: #aaa; margin-bottom: 2px;">TẦNG KIẾN TRÚC</div>
+      <div class="legend-item"><div class="legend-dot" style="background: #60a5fa;"></div>Presentation and UI</div>
+      <div class="legend-item"><div class="legend-dot" style="background: #c084fc;"></div>State and Context</div>
+      <div class="legend-item"><div class="legend-dot" style="background: #fb923c;"></div>Core Engines and Utils</div>
+      <div class="legend-item"><div class="legend-dot" style="background: #34d399;"></div>API and Backend</div>
+      <div class="legend-item"><div class="legend-dot" style="background: #facc15;"></div>Data and Datasets</div>
+      <div class="legend-item"><div class="legend-dot" style="background: #9ca3af;"></div>Tests and Quality</div>
+      <div class="legend-item"><div class="legend-dot" style="background: #94a3b8;"></div>Infra and Config</div>
+    </div>
+
+    <div id="network-canvas"></div>
+
+    <div id="sidebar">
+      <div class="sidebar-header">
+        <h2>Chi tiết Thành phần</h2>
+        <span id="node-type-badge" class="badge">FILE</span>
+      </div>
+      <div class="sidebar-body" id="sidebar-content">
+        <div style="color: #666; font-size: 13px; text-align: center; margin-top: 40px;">
+          Chọn một node bất kỳ trên đồ thị để xem chi tiết kiến trúc, chức năng và liên kết.
+        </div>
+      </div>
+    </div>
+
+    <div class="tour-dock" id="tour-dock">
+      <div class="tour-title" id="tour-step-title">Chặng 1/6</div>
+      <div class="tour-desc" id="tour-step-desc">Mô tả lộ trình...</div>
+      <div class="tour-actions">
+        <button class="btn" id="btn-tour-prev">&#8592; Chặng trước</button>
+        <span style="font-size: 11px; color: #aaa;" id="tour-step-indicator">1 / 6</span>
+        <button class="btn" id="btn-tour-next">Chặng tiếp theo &#8594;</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const graphData = {"version":"1.0.0","project":{"name":"data-analyst-portfolio","languages":["TypeScript","JavaScript","SQL","CSS","JSON","Markdown"],"frameworks":["Next.js","React","TailwindCSS","Recharts","GSAP"],"description":"Interactive Data Analyst Portfolio featuring interactive SQL engine, Recharts visualizations, and admin dashboard.","analyzedAt":"2026-09-03T10:44:05.545Z","gitCommitHash":"71d83bdaaafb9cce236fecfc596b52c6fdd8a787"},"nodes":[{"id":"file:.dockerignore","type":"file","name":".dockerignore","filePath":".dockerignore","summary":"Source module for .dockerignore","tags":["unknown"],"complexity":"moderate"},{"id":"config:.env.example","type":"config","name":".env.example","filePath":".env.example","summary":"Source module for .env.example","tags":["config","configuration"],"complexity":"simple"},{"id":"pipeline:.github/workflows/ci.yml","type":"pipeline","name":"ci.yml","filePath":".github/workflows/ci.yml","summary":"Source module for ci.yml","tags":["yaml","ci/cd","github-actions"],"complexity":"moderate"},{"id":"service:Dockerfile","type":"service","name":"Dockerfile","filePath":"Dockerfile","summary":"Source module for Dockerfile","tags":["dockerfile","docker","container"],"complexity":"moderate"},{"id":"document:README.md","type":"document","name":"README.md","filePath":"README.md","summary":"Source module for README.md","tags":["markdown","documentation"],"complexity":"simple"},{"id":"endpoint:app/api/auth/login/route.ts","type":"endpoint","name":"route.ts","filePath":"app/api/auth/login/route.ts","summary":"Source module for route.ts","tags":["typescript","api","backend","route-handler"],"complexity":"moderate"},{"id":"endpoint:app/api/auth/logout/route.ts","type":"endpoint","name":"route.ts","filePath":"app/api/auth/logout/route.ts","summary":"Source module for route.ts","tags":["typescript","api","backend","route-handler"],"complexity":"moderate"},{"id":"endpoint:app/api/auth/verify/route.ts","type":"endpoint","name":"route.ts","filePath":"app/api/auth/verify/route.ts","summary":"Source module for route.ts","tags":["typescript","api","backend","route-handler"],"complexity":"moderate"},{"id":"endpoint:app/api/db/route.ts","type":"endpoint","name":"route.ts","filePath":"app/api/db/route.ts","summary":"Source module for route.ts","tags":["typescript","api","backend","route-handler"],"complexity":"moderate"},{"id":"endpoint:app/api/profile/route.ts","type":"endpoint","name":"route.ts","filePath":"app/api/profile/route.ts","summary":"Source module for route.ts","tags":["typescript","api","backend","route-handler"],"complexity":"moderate"},{"id":"endpoint:app/api/projects/route.ts","type":"endpoint","name":"route.ts","filePath":"app/api/projects/route.ts","summary":"Source module for route.ts","tags":["typescript","api","backend","route-handler"],"complexity":"moderate"},{"id":"endpoint:app/api/texts/route.ts","type":"endpoint","name":"route.ts","filePath":"app/api/texts/route.ts","summary":"Source module for route.ts","tags":["typescript","api","backend","route-handler"],"complexity":"moderate"},{"id":"file:app/components/AboutSection.tsx","type":"file","name":"AboutSection.tsx","filePath":"app/components/AboutSection.tsx","summary":"Section giới thiệu bản thân kèm biểu đồ SQL phân tích năng lực và kinh nghiệm.","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/AdminEditorModal.tsx","type":"file","name":"AdminEditorModal.tsx","filePath":"app/components/AdminEditorModal.tsx","summary":"Source module for AdminEditorModal.tsx","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/CVSection.tsx","type":"file","name":"CVSection.tsx","filePath":"app/components/CVSection.tsx","summary":"Section hồ sơ nghề nghiệp CV chi tiết về học vấn, chứng chỉ và kinh nghiệm làm việc.","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/ContactSection.tsx","type":"file","name":"ContactSection.tsx","filePath":"app/components/ContactSection.tsx","summary":"Source module for ContactSection.tsx","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/DashboardSection.tsx","type":"file","name":"DashboardSection.tsx","filePath":"app/components/DashboardSection.tsx","summary":"Khu vực dashboard phân tích dữ liệu tương tác với các KPI cards và biểu đồ Recharts.","tags":["typescript","ui-component","react","analytics-dashboard"],"complexity":"complex"},{"id":"file:app/components/FooterSection.tsx","type":"file","name":"FooterSection.tsx","filePath":"app/components/FooterSection.tsx","summary":"Source module for FooterSection.tsx","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/HeritageJapanProject.tsx","type":"file","name":"HeritageJapanProject.tsx","filePath":"app/components/HeritageJapanProject.tsx","summary":"Case study chuyên sâu về dự án Di sản Văn hóa Nhật Bản với mô hình dữ liệu phong phú.","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/HeroSection.tsx","type":"file","name":"HeroSection.tsx","filePath":"app/components/HeroSection.tsx","summary":"Source module for HeroSection.tsx","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/KamiElyProject.tsx","type":"file","name":"KamiElyProject.tsx","filePath":"app/components/KamiElyProject.tsx","summary":"Case study phân tích dữ liệu thương mại điện tử / giải pháp phân tích hành vi người dùng.","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/LibraryBusProject.tsx","type":"file","name":"LibraryBusProject.tsx","filePath":"app/components/LibraryBusProject.tsx","summary":"Case study phân tích tối ưu hóa tuyến xe bus thư viện di động bằng số liệu thực tế.","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/ProjectDetailView.tsx","type":"file","name":"ProjectDetailView.tsx","filePath":"app/components/ProjectDetailView.tsx","summary":"Source module for ProjectDetailView.tsx","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/ProjectsSection.tsx","type":"file","name":"ProjectsSection.tsx","filePath":"app/components/ProjectsSection.tsx","summary":"Danh mục các dự án phân tích dữ liệu nổi bật kèm bộ lọc theo công nghệ và tag.","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/Sidebar.tsx","type":"file","name":"Sidebar.tsx","filePath":"app/components/Sidebar.tsx","summary":"Source module for Sidebar.tsx","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/SkillsSection.tsx","type":"file","name":"SkillsSection.tsx","filePath":"app/components/SkillsSection.tsx","summary":"Source module for SkillsSection.tsx","tags":["typescript","ui-component","react"],"complexity":"moderate"},{"id":"file:app/components/admin/AdminLoginView.tsx","type":"file","name":"AdminLoginView.tsx","filePath":"app/components/admin/AdminLoginView.tsx","summary":"Giao diện đăng nhập quản trị viên an toàn bảo vệ quyền cập nhật nội dung.","tags":["typescript","admin-dashboard","cms"],"complexity":"moderate"},{"id":"file:app/components/admin/DatabaseTab.tsx","type":"file","name":"DatabaseTab.tsx","filePath":"app/components/admin/DatabaseTab.tsx","summary":"Source module for DatabaseTab.tsx","tags":["typescript","admin-dashboard","cms"],"complexity":"moderate"},{"id":"file:app/components/admin/ProfileEditorTab.tsx","type":"file","name":"ProfileEditorTab.tsx","filePath":"app/components/admin/ProfileEditorTab.tsx","summary":"Source module for ProfileEditorTab.tsx","tags":["typescript","admin-dashboard","cms"],"complexity":"moderate"},{"id":"file:app/components/admin/ProjectsManagerTab.tsx","type":"file","name":"ProjectsManagerTab.tsx","filePath":"app/components/admin/ProjectsManagerTab.tsx","summary":"Source module for ProjectsManagerTab.tsx","tags":["typescript","admin-dashboard","cms"],"complexity":"moderate"},{"id":"file:app/components/admin/TextsEditorTab.tsx","type":"file","name":"TextsEditorTab.tsx","filePath":"app/components/admin/TextsEditorTab.tsx","summary":"Source module for TextsEditorTab.tsx","tags":["typescript","admin-dashboard","cms"],"complexity":"moderate"},{"id":"file:app/components/charts/AboutSqlChart.tsx","type":"file","name":"AboutSqlChart.tsx","filePath":"app/components/charts/AboutSqlChart.tsx","summary":"Source module for AboutSqlChart.tsx","tags":["typescript","data-viz","recharts"],"complexity":"moderate"},{"id":"file:app/components/charts/HeroAreaChart.tsx","type":"file","name":"HeroAreaChart.tsx","filePath":"app/components/charts/HeroAreaChart.tsx","summary":"Source module for HeroAreaChart.tsx","tags":["typescript","data-viz","recharts"],"complexity":"moderate"},{"id":"file:app/components/ui/AnimatedCounter.tsx","type":"file","name":"AnimatedCounter.tsx","filePath":"app/components/ui/AnimatedCounter.tsx","summary":"Source module for AnimatedCounter.tsx","tags":["typescript","ui-atom","design-system"],"complexity":"moderate"},{"id":"file:app/components/ui/CommandPalette.tsx","type":"file","name":"CommandPalette.tsx","filePath":"app/components/ui/CommandPalette.tsx","summary":"Source module for CommandPalette.tsx","tags":["typescript","ui-atom","design-system"],"complexity":"moderate"},{"id":"file:app/components/ui/ErrorBoundary.tsx","type":"file","name":"ErrorBoundary.tsx","filePath":"app/components/ui/ErrorBoundary.tsx","summary":"Source module for ErrorBoundary.tsx","tags":["typescript","ui-atom","design-system"],"complexity":"moderate"},{"id":"file:app/components/ui/Skeleton.tsx","type":"file","name":"Skeleton.tsx","filePath":"app/components/ui/Skeleton.tsx","summary":"Source module for Skeleton.tsx","tags":["typescript","ui-atom","design-system"],"complexity":"moderate"},{"id":"file:app/components/ui/Toast.tsx","type":"file","name":"Toast.tsx","filePath":"app/components/ui/Toast.tsx","summary":"Source module for Toast.tsx","tags":["typescript","ui-atom","design-system"],"complexity":"moderate"},{"id":"file:app/context/LanguageContext.tsx","type":"file","name":"LanguageContext.tsx","filePath":"app/context/LanguageContext.tsx","summary":"React Context hỗ trợ chuyển đổi đa ngôn ngữ (Tiếng Việt / English) linh hoạt.","tags":["typescript","react-context","state-management"],"complexity":"moderate"},{"id":"file:app/context/PortfolioDataContext.tsx","type":"file","name":"PortfolioDataContext.tsx","filePath":"app/context/PortfolioDataContext.tsx","summary":"State Provider toàn cục quản lý dữ liệu portfolio có thể chỉnh sửa động từ trang Admin.","tags":["typescript","react-context","state-management"],"complexity":"complex"},{"id":"file:app/context/ThemeContext.tsx","type":"file","name":"ThemeContext.tsx","filePath":"app/context/ThemeContext.tsx","summary":"React Context quản lý Dark/Light mode theme trên toàn bộ ứng dụng portfolio.","tags":["typescript","react-context","state-management"],"complexity":"moderate"},{"id":"file:app/data/aboutSqlData.ts","type":"file","name":"aboutSqlData.ts","filePath":"app/data/aboutSqlData.ts","summary":"Tập dữ liệu bảng SQL mẫu phục vụ truy vấn demo trong About section.","tags":["typescript","static-data","dataset"],"complexity":"moderate"},{"id":"file:app/data/heritageJapanData.ts","type":"file","name":"heritageJapanData.ts","filePath":"app/data/heritageJapanData.ts","summary":"Source module for heritageJapanData.ts","tags":["typescript","static-data","dataset"],"complexity":"moderate"},{"id":"file:app/data/kamiElyData.ts","type":"file","name":"kamiElyData.ts","filePath":"app/data/kamiElyData.ts","summary":"Source module for kamiElyData.ts","tags":["typescript","static-data","dataset"],"complexity":"moderate"},{"id":"file:app/data/libraryBusContent.ts","type":"file","name":"libraryBusContent.ts","filePath":"app/data/libraryBusContent.ts","summary":"Source module for libraryBusContent.ts","tags":["typescript","static-data","dataset"],"complexity":"moderate"},{"id":"file:app/data/libraryBusData.ts","type":"file","name":"libraryBusData.ts","filePath":"app/data/libraryBusData.ts","summary":"Source module for libraryBusData.ts","tags":["typescript","static-data","dataset"],"complexity":"moderate"},{"id":"file:app/data/translations.ts","type":"file","name":"translations.ts","filePath":"app/data/translations.ts","summary":"Source module for translations.ts","tags":["typescript","static-data","dataset"],"complexity":"moderate"},{"id":"file:app/defaultData.ts","type":"file","name":"defaultData.ts","filePath":"app/defaultData.ts","summary":"Source module for defaultData.ts","tags":["typescript"],"complexity":"moderate"},{"id":"file:app/globals.css","type":"file","name":"globals.css","filePath":"app/globals.css","summary":"Source module for globals.css","tags":["css"],"complexity":"moderate"},{"id":"file:app/layout.tsx","type":"file","name":"layout.tsx","filePath":"app/layout.tsx","summary":"Root layout của ứng dụng Next.js: cấu hình font chữ, thẻ meta SEO và bọc các ThemeContext, LanguageContext.","tags":["typescript","root-layout"],"complexity":"moderate"},{"id":"file:app/lib/auth.ts","type":"file","name":"auth.ts","filePath":"app/lib/auth.ts","summary":"Xử lý xác thực JWT / token cho phiên đăng nhập Admin.","tags":["typescript","utility","engine","core-logic","authentication","security"],"complexity":"moderate"},{"id":"file:app/lib/cache.ts","type":"file","name":"cache.ts","filePath":"app/lib/cache.ts","summary":"Source module for cache.ts","tags":["typescript","utility","engine","core-logic"],"complexity":"moderate"},{"id":"file:app/lib/chartExport.ts","type":"file","name":"chartExport.ts","filePath":"app/lib/chartExport.ts","summary":"Tiện ích xuất biểu đồ ra các định dạng hình ảnh PNG, PDF hoặc tải dữ liệu CSV.","tags":["typescript","utility","engine","core-logic"],"complexity":"moderate"},{"id":"file:app/lib/db.ts","type":"file","name":"db.ts","filePath":"app/lib/db.ts","summary":"Kết nối MySQL cơ sở dữ liệu với Connection Pool phục vụ các API routes backend.","tags":["typescript","utility","engine","core-logic","mysql","database-pool"],"complexity":"moderate"},{"id":"file:app/lib/gsap.ts","type":"file","name":"gsap.ts","filePath":"app/lib/gsap.ts","summary":"Source module for gsap.ts","tags":["typescript","utility","engine","core-logic"],"complexity":"moderate"},{"id":"file:app/lib/security.ts","type":"file","name":"security.ts","filePath":"app/lib/security.ts","summary":"Source module for security.ts","tags":["typescript","utility","engine","core-logic"],"complexity":"moderate"},{"id":"file:app/lib/sqlEngine.ts","type":"file","name":"sqlEngine.ts","filePath":"app/lib/sqlEngine.ts","summary":"Engine xử lý truy vấn SQL mô phỏng chạy trực tiếp trên client để người dùng chạy query phân tích tương tác.","tags":["typescript","utility","engine","core-logic","sql-engine","interactive"],"complexity":"complex"},{"id":"file:app/lib/visitorTracking.ts","type":"file","name":"visitorTracking.ts","filePath":"app/lib/visitorTracking.ts","summary":"Source module for visitorTracking.ts","tags":["typescript","utility","engine","core-logic"],"complexity":"moderate"},{"id":"file:app/page.tsx","type":"file","name":"page.tsx","filePath":"app/page.tsx","summary":"Trang chủ chính của Portfolio: tích hợp các section Hero, About, Skills, Projects, Dashboard, CV và Contact.","tags":["typescript","entry-point","main-page"],"complexity":"complex"},{"id":"file:app/projects/[id]/ProjectDetailClient.tsx","type":"file","name":"ProjectDetailClient.tsx","filePath":"app/projects/[id]/ProjectDetailClient.tsx","summary":"Source module for ProjectDetailClient.tsx","tags":["typescript"],"complexity":"moderate"},{"id":"file:app/projects/[id]/page.tsx","type":"file","name":"page.tsx","filePath":"app/projects/[id]/page.tsx","summary":"Source module for page.tsx","tags":["typescript"],"complexity":"moderate"},{"id":"file:app/robots.ts","type":"file","name":"robots.ts","filePath":"app/robots.ts","summary":"Source module for robots.ts","tags":["typescript"],"complexity":"moderate"},{"id":"file:app/sitemap.ts","type":"file","name":"sitemap.ts","filePath":"app/sitemap.ts","summary":"Source module for sitemap.ts","tags":["typescript"],"complexity":"moderate"},{"id":"file:app/types.ts","type":"file","name":"types.ts","filePath":"app/types.ts","summary":"Source module for types.ts","tags":["typescript"],"complexity":"moderate"},{"id":"table:database/schema.sql","type":"table","name":"schema.sql","filePath":"database/schema.sql","summary":"Tệp DDL định nghĩa các bảng cơ sở dữ liệu MySQL (projects, texts, users, analytics).","tags":["sql","database","sql-schema"],"complexity":"moderate"},{"id":"file:deploy.sh","type":"file","name":"deploy.sh","filePath":"deploy.sh","summary":"Source module for deploy.sh","tags":["shell"],"complexity":"moderate"},{"id":"file:ecosystem.config.js","type":"file","name":"ecosystem.config.js","filePath":"ecosystem.config.js","summary":"Cấu hình quản lý tiến trình PM2 cho việc triển khai production trên máy chủ VPS.","tags":["javascript"],"complexity":"moderate"},{"id":"config:eslint.config.mjs","type":"config","name":"eslint.config.mjs","filePath":"eslint.config.mjs","summary":"Source module for eslint.config.mjs","tags":["javascript","configuration"],"complexity":"simple"},{"id":"file:hooks/useScrollSpy.ts","type":"file","name":"useScrollSpy.ts","filePath":"hooks/useScrollSpy.ts","summary":"Source module for useScrollSpy.ts","tags":["typescript"],"complexity":"moderate"},{"id":"file:next-env.d.ts","type":"file","name":"next-env.d.ts","filePath":"next-env.d.ts","summary":"Source module for next-env.d.ts","tags":["typescript"],"complexity":"moderate"},{"id":"config:next.config.ts","type":"config","name":"next.config.ts","filePath":"next.config.ts","summary":"Source module for next.config.ts","tags":["typescript","configuration"],"complexity":"simple"},{"id":"config:package.json","type":"config","name":"package.json","filePath":"package.json","summary":"Source module for package.json","tags":["json","configuration"],"complexity":"simple"},{"id":"config:postcss.config.mjs","type":"config","name":"postcss.config.mjs","filePath":"postcss.config.mjs","summary":"Source module for postcss.config.mjs","tags":["javascript","configuration"],"complexity":"simple"},{"id":"file:public/.gitkeep","type":"file","name":".gitkeep","filePath":"public/.gitkeep","summary":"Source module for .gitkeep","tags":["unknown"],"complexity":"moderate"},{"id":"file:tests/auth.test.ts","type":"file","name":"auth.test.ts","filePath":"tests/auth.test.ts","summary":"Source module for auth.test.ts","tags":["typescript","test","vitest"],"complexity":"moderate"},{"id":"file:tests/security.test.ts","type":"file","name":"security.test.ts","filePath":"tests/security.test.ts","summary":"Source module for security.test.ts","tags":["typescript","test","vitest"],"complexity":"moderate"},{"id":"file:tests/sqlEngine.test.ts","type":"file","name":"sqlEngine.test.ts","filePath":"tests/sqlEngine.test.ts","summary":"Source module for sqlEngine.test.ts","tags":["typescript","test","vitest"],"complexity":"moderate"},{"id":"config:tsconfig.json","type":"config","name":"tsconfig.json","filePath":"tsconfig.json","summary":"Source module for tsconfig.json","tags":["json","configuration"],"complexity":"simple"}],"edges":[{"source":"endpoint:app/api/auth/login/route.ts","target":"file:app/lib/auth.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/auth/verify/route.ts","target":"file:app/lib/auth.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/db/route.ts","target":"file:app/lib/auth.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/db/route.ts","target":"file:app/lib/cache.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/db/route.ts","target":"file:app/lib/db.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/profile/route.ts","target":"file:app/defaultData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/profile/route.ts","target":"file:app/lib/auth.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/profile/route.ts","target":"file:app/lib/cache.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/profile/route.ts","target":"file:app/lib/db.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/profile/route.ts","target":"file:app/lib/security.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/profile/route.ts","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/projects/route.ts","target":"file:app/defaultData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/projects/route.ts","target":"file:app/lib/auth.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/projects/route.ts","target":"file:app/lib/cache.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/projects/route.ts","target":"file:app/lib/db.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/projects/route.ts","target":"file:app/lib/security.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/projects/route.ts","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/texts/route.ts","target":"file:app/data/translations.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/texts/route.ts","target":"file:app/lib/auth.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/texts/route.ts","target":"file:app/lib/cache.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/texts/route.ts","target":"file:app/lib/db.ts","type":"imports","direction":"forward","weight":0.7},{"source":"endpoint:app/api/texts/route.ts","target":"file:app/lib/security.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AboutSection.tsx","target":"file:app/components/ui/Toast.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AboutSection.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/AboutSection.tsx","target":"file:app/context/ThemeContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/AboutSection.tsx","target":"file:app/data/aboutSqlData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AboutSection.tsx","target":"file:app/lib/chartExport.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AboutSection.tsx","target":"file:app/lib/gsap.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AboutSection.tsx","target":"file:app/lib/security.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AboutSection.tsx","target":"file:app/lib/sqlEngine.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AboutSection.tsx","target":"file:app/lib/visitorTracking.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AboutSection.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AdminEditorModal.tsx","target":"file:app/components/admin/AdminLoginView.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AdminEditorModal.tsx","target":"file:app/components/admin/DatabaseTab.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AdminEditorModal.tsx","target":"file:app/components/admin/ProfileEditorTab.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AdminEditorModal.tsx","target":"file:app/components/admin/ProjectsManagerTab.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AdminEditorModal.tsx","target":"file:app/components/admin/TextsEditorTab.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AdminEditorModal.tsx","target":"file:app/components/ui/Toast.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/AdminEditorModal.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/AdminEditorModal.tsx","target":"file:app/context/PortfolioDataContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/AdminEditorModal.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/CVSection.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/CVSection.tsx","target":"file:app/lib/gsap.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/CVSection.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/ContactSection.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/ContactSection.tsx","target":"file:app/lib/security.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/ContactSection.tsx","target":"file:app/lib/visitorTracking.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/ContactSection.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/DashboardSection.tsx","target":"file:app/components/ui/AnimatedCounter.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/DashboardSection.tsx","target":"file:app/components/ui/Toast.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/DashboardSection.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/DashboardSection.tsx","target":"file:app/context/PortfolioDataContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/DashboardSection.tsx","target":"file:app/context/ThemeContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/DashboardSection.tsx","target":"file:app/lib/chartExport.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/DashboardSection.tsx","target":"file:app/lib/gsap.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/DashboardSection.tsx","target":"file:app/lib/security.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/DashboardSection.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/FooterSection.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/HeritageJapanProject.tsx","target":"file:app/components/ui/Toast.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/HeritageJapanProject.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/HeritageJapanProject.tsx","target":"file:app/data/heritageJapanData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/HeritageJapanProject.tsx","target":"file:app/lib/chartExport.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/HeritageJapanProject.tsx","target":"file:app/lib/visitorTracking.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/HeritageJapanProject.tsx","target":"file:hooks/useScrollSpy.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/HeroSection.tsx","target":"file:app/components/ui/AnimatedCounter.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/HeroSection.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/HeroSection.tsx","target":"file:app/context/ThemeContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/HeroSection.tsx","target":"file:app/lib/gsap.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/HeroSection.tsx","target":"file:app/lib/security.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/HeroSection.tsx","target":"file:app/lib/visitorTracking.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/HeroSection.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/KamiElyProject.tsx","target":"file:app/components/ui/Toast.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/KamiElyProject.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/KamiElyProject.tsx","target":"file:app/data/kamiElyData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/KamiElyProject.tsx","target":"file:app/lib/chartExport.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/KamiElyProject.tsx","target":"file:app/lib/visitorTracking.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/KamiElyProject.tsx","target":"file:hooks/useScrollSpy.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/LibraryBusProject.tsx","target":"file:app/components/ui/Toast.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/LibraryBusProject.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/LibraryBusProject.tsx","target":"file:app/data/libraryBusData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/LibraryBusProject.tsx","target":"file:app/lib/chartExport.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/LibraryBusProject.tsx","target":"file:app/lib/visitorTracking.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/LibraryBusProject.tsx","target":"file:hooks/useScrollSpy.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/ProjectDetailView.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/ProjectDetailView.tsx","target":"file:app/lib/security.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/ProjectDetailView.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/ProjectsSection.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/ProjectsSection.tsx","target":"file:app/lib/gsap.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/ProjectsSection.tsx","target":"file:app/lib/security.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/ProjectsSection.tsx","target":"file:app/lib/visitorTracking.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/ProjectsSection.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/Sidebar.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/Sidebar.tsx","target":"file:app/context/PortfolioDataContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/Sidebar.tsx","target":"file:app/context/ThemeContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/Sidebar.tsx","target":"file:app/lib/security.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/Sidebar.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/SkillsSection.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/SkillsSection.tsx","target":"file:app/lib/gsap.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/SkillsSection.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/admin/AdminLoginView.tsx","target":"file:app/components/ui/Toast.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/admin/DatabaseTab.tsx","target":"file:app/components/ui/Toast.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/admin/DatabaseTab.tsx","target":"file:app/data/translations.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/admin/ProfileEditorTab.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/admin/ProjectsManagerTab.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/admin/TextsEditorTab.tsx","target":"file:app/data/translations.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/charts/AboutSqlChart.tsx","target":"file:app/data/aboutSqlData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/ui/AnimatedCounter.tsx","target":"file:app/lib/gsap.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/ui/CommandPalette.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/ui/CommandPalette.tsx","target":"file:app/context/ThemeContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/components/ui/CommandPalette.tsx","target":"file:app/lib/visitorTracking.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/components/ui/CommandPalette.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/context/LanguageContext.tsx","target":"file:app/context/PortfolioDataContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/context/LanguageContext.tsx","target":"file:app/data/translations.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/context/PortfolioDataContext.tsx","target":"file:app/data/translations.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/context/PortfolioDataContext.tsx","target":"file:app/defaultData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/context/PortfolioDataContext.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/defaultData.ts","target":"file:app/data/libraryBusContent.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/defaultData.ts","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/layout.tsx","target":"file:app/components/ui/Toast.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/layout.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/layout.tsx","target":"file:app/context/PortfolioDataContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/layout.tsx","target":"file:app/context/ThemeContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/layout.tsx","target":"file:app/globals.css","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/lib/auth.ts","target":"file:app/lib/db.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/lib/cache.ts","target":"file:app/lib/db.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/lib/db.ts","target":"file:app/data/translations.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/lib/db.ts","target":"file:app/defaultData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/page.tsx","target":"file:app/components/AboutSection.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/page.tsx","target":"file:app/components/CVSection.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/page.tsx","target":"file:app/components/HeroSection.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/page.tsx","target":"file:app/components/ProjectDetailView.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/page.tsx","target":"file:app/components/ProjectsSection.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/page.tsx","target":"file:app/components/Sidebar.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/page.tsx","target":"file:app/components/ui/CommandPalette.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/page.tsx","target":"file:app/components/ui/ErrorBoundary.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/page.tsx","target":"file:app/components/ui/Skeleton.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/page.tsx","target":"file:app/context/LanguageContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/page.tsx","target":"file:app/context/PortfolioDataContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/page.tsx","target":"file:app/context/ThemeContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/page.tsx","target":"file:app/defaultData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/projects/[id]/ProjectDetailClient.tsx","target":"file:app/components/HeritageJapanProject.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/projects/[id]/ProjectDetailClient.tsx","target":"file:app/components/KamiElyProject.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/projects/[id]/ProjectDetailClient.tsx","target":"file:app/components/LibraryBusProject.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/projects/[id]/ProjectDetailClient.tsx","target":"file:app/components/ProjectDetailView.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/projects/[id]/ProjectDetailClient.tsx","target":"file:app/context/PortfolioDataContext.tsx","type":"depends_on","direction":"forward","weight":0.8},{"source":"file:app/projects/[id]/ProjectDetailClient.tsx","target":"file:app/defaultData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/projects/[id]/ProjectDetailClient.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/projects/[id]/page.tsx","target":"file:app/defaultData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/projects/[id]/page.tsx","target":"file:app/lib/db.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/projects/[id]/page.tsx","target":"file:app/projects/[id]/ProjectDetailClient.tsx","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/projects/[id]/page.tsx","target":"file:app/types.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/sitemap.ts","target":"file:app/defaultData.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/sitemap.ts","target":"file:app/lib/db.ts","type":"imports","direction":"forward","weight":0.7},{"source":"file:app/lib/auth.ts","target":"file:tests/auth.test.ts","type":"tested_by","direction":"forward","weight":0.8,"description":"Kiểm thử mã nguồn"},{"source":"file:app/lib/security.ts","target":"file:tests/security.test.ts","type":"tested_by","direction":"forward","weight":0.8,"description":"Kiểm thử mã nguồn"},{"source":"file:app/lib/sqlEngine.ts","target":"file:tests/sqlEngine.test.ts","type":"tested_by","direction":"forward","weight":0.8,"description":"Kiểm thử mã nguồn"},{"source":"file:app/layout.tsx","target":"file:app/page.tsx","type":"contains","direction":"forward","weight":0.9,"description":"Layout bọc và hiển thị Page chính"},{"source":"file:app/page.tsx","target":"file:app/components/HeroSection.tsx","type":"contains","direction":"forward","weight":0.85,"description":"Page tích hợp section HeroSection.tsx"},{"source":"file:app/page.tsx","target":"file:app/components/AboutSection.tsx","type":"contains","direction":"forward","weight":0.85,"description":"Page tích hợp section AboutSection.tsx"},{"source":"file:app/page.tsx","target":"file:app/components/SkillsSection.tsx","type":"contains","direction":"forward","weight":0.85,"description":"Page tích hợp section SkillsSection.tsx"},{"source":"file:app/page.tsx","target":"file:app/components/ProjectsSection.tsx","type":"contains","direction":"forward","weight":0.85,"description":"Page tích hợp section ProjectsSection.tsx"},{"source":"file:app/page.tsx","target":"file:app/components/DashboardSection.tsx","type":"contains","direction":"forward","weight":0.85,"description":"Page tích hợp section DashboardSection.tsx"},{"source":"file:app/page.tsx","target":"file:app/components/CVSection.tsx","type":"contains","direction":"forward","weight":0.85,"description":"Page tích hợp section CVSection.tsx"},{"source":"file:app/page.tsx","target":"file:app/components/ContactSection.tsx","type":"contains","direction":"forward","weight":0.85,"description":"Page tích hợp section ContactSection.tsx"},{"source":"file:app/page.tsx","target":"file:app/components/FooterSection.tsx","type":"contains","direction":"forward","weight":0.85,"description":"Page tích hợp section FooterSection.tsx"},{"source":"file:app/page.tsx","target":"file:app/components/Sidebar.tsx","type":"contains","direction":"forward","weight":0.85,"description":"Page tích hợp section Sidebar.tsx"},{"source":"file:app/components/AboutSection.tsx","target":"file:app/data/aboutSqlData.ts","type":"reads_from","direction":"forward","weight":0.8,"description":"Đọc dữ liệu SQL demo"},{"source":"file:app/components/AboutSection.tsx","target":"file:app/lib/sqlEngine.ts","type":"calls","direction":"forward","weight":0.85,"description":"Chạy truy vấn SQL trực quan"},{"source":"file:app/components/DashboardSection.tsx","target":"file:app/lib/chartExport.ts","type":"calls","direction":"forward","weight":0.75,"description":"Xuất biểu đồ phân tích"},{"source":"service:Dockerfile","target":"config:package.json","type":"deploys","direction":"forward","weight":0.7,"description":"Build container đóng gói ứng dụng"},{"source":"file:ecosystem.config.js","target":"config:package.json","type":"configures","direction":"forward","weight":0.7,"description":"Chạy tiến trình PM2"}],"layers":[{"id":"layer:presentation-ui","name":"Presentation & UI Layer","description":"Các React component giao diện người dùng, layout, sections giới thiệu, case studies và dashboard phân tích.","nodeIds":["file:app/components/AboutSection.tsx","file:app/components/AdminEditorModal.tsx","file:app/components/CVSection.tsx","file:app/components/ContactSection.tsx","file:app/components/DashboardSection.tsx","file:app/components/FooterSection.tsx","file:app/components/HeritageJapanProject.tsx","file:app/components/HeroSection.tsx","file:app/components/KamiElyProject.tsx","file:app/components/LibraryBusProject.tsx","file:app/components/ProjectDetailView.tsx","file:app/components/ProjectsSection.tsx","file:app/components/Sidebar.tsx","file:app/components/SkillsSection.tsx","file:app/components/admin/AdminLoginView.tsx","file:app/components/admin/DatabaseTab.tsx","file:app/components/admin/ProfileEditorTab.tsx","file:app/components/admin/ProjectsManagerTab.tsx","file:app/components/admin/TextsEditorTab.tsx","file:app/components/charts/AboutSqlChart.tsx","file:app/components/charts/HeroAreaChart.tsx","file:app/components/ui/AnimatedCounter.tsx","file:app/components/ui/CommandPalette.tsx","file:app/components/ui/ErrorBoundary.tsx","file:app/components/ui/Skeleton.tsx","file:app/components/ui/Toast.tsx","file:app/layout.tsx","file:app/page.tsx"]},{"id":"layer:state-and-context","name":"State & Context Layer","description":"Tầng quản lý trạng thái toàn cục, Theme Dark/Light, chuyển đổi ngôn ngữ và Provider dữ liệu danh mục.","nodeIds":["file:app/context/LanguageContext.tsx","file:app/context/PortfolioDataContext.tsx","file:app/context/ThemeContext.tsx"]},{"id":"layer:core-engines-and-utils","name":"Core Engines & Utilities","description":"Các thư viện xử lý nghiệp vụ lõi: In-browser SQL Engine, Chart Export, Cache, Security, CSDL MySQL pool.","nodeIds":["file:app/lib/auth.ts","file:app/lib/cache.ts","file:app/lib/chartExport.ts","file:app/lib/db.ts","file:app/lib/gsap.ts","file:app/lib/security.ts","file:app/lib/sqlEngine.ts","file:app/lib/visitorTracking.ts"]},{"id":"layer:api-backend-routes","name":"API & Backend Layer","description":"Next.js App Router Route Handlers xử lý authentication, kết nối database và cung cấp API REST.","nodeIds":["endpoint:app/api/auth/login/route.ts","endpoint:app/api/auth/logout/route.ts","endpoint:app/api/auth/verify/route.ts","endpoint:app/api/db/route.ts","endpoint:app/api/profile/route.ts","endpoint:app/api/projects/route.ts","endpoint:app/api/texts/route.ts"]},{"id":"layer:data-models-datasets","name":"Data Layer & Datasets","description":"Các tập dữ liệu tĩnh mẫu, DDL schema MySQL và nội dung các bài nghiên cứu tình huống (Case studies).","nodeIds":["file:app/data/aboutSqlData.ts","file:app/data/heritageJapanData.ts","file:app/data/kamiElyData.ts","file:app/data/libraryBusContent.ts","file:app/data/libraryBusData.ts","file:app/data/translations.ts","table:database/schema.sql"]},{"id":"layer:tests-quality","name":"Testing & Quality Assurance","description":"Bộ kiểm thử tự động Vitest cho SQL Engine, Security và Auth.","nodeIds":["file:tests/auth.test.ts","file:tests/security.test.ts","file:tests/sqlEngine.test.ts"]},{"id":"layer:infrastructure-config","name":"Configuration & DevOps Layer","description":"Cấu hình Next.js, TailwindCSS, TypeScript, PM2 ecosystem, Dockerfile và GitHub Actions CI.","nodeIds":["file:.dockerignore","config:.env.example","pipeline:.github/workflows/ci.yml","service:Dockerfile","document:README.md","file:deploy.sh","file:ecosystem.config.js","config:eslint.config.mjs","file:hooks/useScrollSpy.ts","file:next-env.d.ts","config:next.config.ts","config:package.json","config:postcss.config.mjs","file:public/.gitkeep","config:tsconfig.json"]}],"tour":[{"order":1,"title":"Khởi đầu từ Root Layout & Theme Context","description":"Bắt đầu từ app/layout.tsx để nắm cách ứng dụng khởi tạo khung giao diện, thiết lập thẻ meta SEO và bọc các Context Provider (ThemeContext, LanguageContext).","nodeIds":["file:app/layout.tsx","file:app/context/ThemeContext.tsx","file:app/context/LanguageContext.tsx"],"languageLesson":"Next.js App Router sử dụng Server Components bọc Client Context Providers nhằm tối ưu SSR."},{"order":2,"title":"Trang chủ trung tâm (Single Page Layout)","description":"Khám phá app/page.tsx - trung tâm điều phối tất cả các thành phần giao diện của Portfolio, kết nối Sidebar và các Section nội dung.","nodeIds":["file:app/page.tsx","file:app/components/Sidebar.tsx"],"languageLesson":"Kỹ thuật chia nhỏ Single Page Application thành các section độc lập giúp quản lý trạng thái cuộn (ScrollSpy)."},{"order":3,"title":"Dashboard phân tích tương tác & Xuất biểu đồ","description":"Xem cách DashboardSection.tsx hiển thị các chỉ số phân tích, trực quan hoá bằng Recharts và kết nối với thư viện chartExport.ts để tải báo cáo.","nodeIds":["file:app/components/DashboardSection.tsx","file:app/lib/chartExport.ts","file:app/components/charts/HeroAreaChart.tsx"],"languageLesson":"Tách biệt logic hiển thị Recharts và module xử lý xuất dữ liệu tĩnh (html2canvas / CSV)."},{"order":4,"title":"SQL Engine tương tác & Dữ liệu thực nghiệm","description":"Trọng tâm kỹ thuật độc đáo: app/lib/sqlEngine.ts cho phép người xem tự tay viết và chạy truy vấn SQL trực tiếp trên dữ liệu mẫu app/data/aboutSqlData.ts.","nodeIds":["file:app/lib/sqlEngine.ts","file:app/data/aboutSqlData.ts","file:app/components/AboutSection.tsx"],"languageLesson":"Xây dựng in-memory SQL parser và execution filter bằng TypeScript strict types."},{"order":5,"title":"Hệ thống Quản trị & Backend API Routes","description":"Tìm hiểu khu vực quản trị app/components/admin/ và các API routes trong app/api/ phục vụ cập nhật thông tin và xác thực đăng nhập.","nodeIds":["file:app/components/admin/AdminLoginView.tsx","endpoint:app/api/auth/login/route.ts","file:app/lib/auth.ts","file:app/lib/db.ts"]},{"order":6,"title":"Triển khai VPS & Vận hành Production","description":"Tìm hiểu cách dự án được đóng gói với Dockerfile và quản lý tiến trình không gián đoạn bằng PM2 qua ecosystem.config.js.","nodeIds":["service:Dockerfile","file:ecosystem.config.js","pipeline:.github/workflows/ci.yml"]}]};
+    const layerColors = {"layer:presentation-ui":{"background":"#1e3a8a","border":"#60a5fa","font":"#ffffff"},"layer:state-and-context":{"background":"#581c87","border":"#c084fc","font":"#ffffff"},"layer:core-engines-and-utils":{"background":"#9a3412","border":"#fb923c","font":"#ffffff"},"layer:api-backend-routes":{"background":"#065f46","border":"#34d399","font":"#ffffff"},"layer:data-models-datasets":{"background":"#854d0e","border":"#facc15","font":"#ffffff"},"layer:tests-quality":{"background":"#374151","border":"#9ca3af","font":"#ffffff"},"layer:infrastructure-config":{"background":"#1e293b","border":"#94a3b8","font":"#ffffff"}};
+
+    const nodeLayerMap = {};
+    graphData.layers.forEach(layer => {
+      layer.nodeIds.forEach(id => {
+        nodeLayerMap[id] = layer.id;
+      });
+    });
+
+    const visNodes = graphData.nodes.map(n => {
+      const layerId = nodeLayerMap[n.id] || 'layer:infrastructure-config';
+      const col = layerColors[layerId] || { background: '#333', border: '#777', font: '#fff' };
+      
+      let shape = 'dot';
+      let size = 18;
+      if (n.id === 'file:app/page.tsx' || n.id === 'file:app/layout.tsx') {
+        size = 28;
+      } else if (n.type === 'endpoint') {
+        shape = 'hexagon';
+        size = 20;
+      } else if (n.type === 'table') {
+        shape = 'database';
+        size = 22;
+      } else if (n.type === 'config') {
+        shape = 'diamond';
+        size = 15;
+      } else if (n.type === 'service') {
+        shape = 'square';
+        size = 22;
+      }
+
+      return {
+        id: n.id,
+        label: n.name,
+        shape: shape,
+        size: size,
+        color: {
+          background: col.background,
+          border: col.border,
+          highlight: { background: '#d4a574', border: '#ffffff' }
+        },
+        font: { color: '#ffffff', size: 12 },
+        borderWidth: 2,
+        rawNode: n,
+        layerId: layerId
+      };
+    });
+
+    const visEdges = graphData.edges.map(e => {
+      let color = 'rgba(255, 255, 255, 0.15)';
+      let dashes = false;
+      let width = 1;
+      if (e.type === 'contains') {
+        color = 'rgba(212, 165, 116, 0.45)';
+        width = 2;
+      } else if (e.type === 'calls') {
+        color = 'rgba(251, 146, 60, 0.5)';
+        width = 1.5;
+      } else if (e.type === 'tested_by') {
+        dashes = true;
+        color = 'rgba(156, 163, 175, 0.4)';
+      }
+      return {
+        from: e.source,
+        to: e.target,
+        arrows: 'to',
+        color: { color: color, highlight: '#d4a574' },
+        dashes: dashes,
+        width: width,
+        rawEdge: e
+      };
+    });
+
+    const container = document.getElementById('network-canvas');
+    const data = {
+      nodes: new vis.DataSet(visNodes),
+      edges: new vis.DataSet(visEdges)
+    };
+
+    const options = {
+      physics: {
+        solver: 'forceAtlas2Based',
+        forceAtlas2Based: {
+          gravitationalConstant: -45,
+          centralGravity: 0.008,
+          springLength: 90,
+          springConstant: 0.12,
+          damping: 0.88
+        },
+        stabilization: { iterations: 120 }
+      },
+      interaction: {
+        hover: true,
+        tooltipDelay: 100,
+        navigationButtons: false,
+        keyboard: true
+      }
+    };
+
+    const network = new vis.Network(container, data, options);
+
+    function showNodeDetails(nodeId) {
+      const node = graphData.nodes.find(n => n.id === nodeId);
+      if (!node) return;
+
+      const layer = graphData.layers.find(l => l.nodeIds.includes(node.id));
+      const incoming = graphData.edges.filter(e => e.target === node.id);
+      const outgoing = graphData.edges.filter(e => e.source === node.id);
+
+      document.getElementById('node-type-badge').textContent = (node.type || 'FILE').toUpperCase();
+
+      const html = `
+        <div>
+          <div class="node-title">${node.name}</div>
+          <div class="node-path">${node.filePath || node.id}</div>
+        </div>
+        <div class="meta-row">
+          <span class="chip ${node.complexity}">${(node.complexity || 'moderate').toUpperCase()}</span>
+          <span class="chip" style="background: #2d261e; color: #d4a574;">${layer ? layer.name : 'Chung'}</span>
+          ${(node.tags || []).map(t => '<span class="chip">#' + t + '</span>').join('')}
+        </div>
+        <div class="node-summary">
+          ${node.summary || 'Không có tóm tắt.'}
+        </div>
+        <div class="relation-section">
+          <h4>ĐƯỢC GỌI / PHỤ THUỘC TỪ (${incoming.length})</h4>
+          <ul class="relation-list">
+            ${incoming.slice(0, 8).map(e => {
+              const src = graphData.nodes.find(n => n.id === e.source);
+              return '<li class="relation-item" onclick="focusNode(\'' + e.source + '\')">' +
+                '<span>' + (src ? src.name : e.source) + '</span>' +
+                '<span style="color: #888;">' + e.type + '</span>' +
+              '</li>';
+            }).join('') || '<li style="color:#555;font-size:12px;">Không có</li>'}
+          </ul>
+        </div>
+        <div class="relation-section">
+          <h4>LIÊN KẾT ĐẾN (${outgoing.length})</h4>
+          <ul class="relation-list">
+            ${outgoing.slice(0, 8).map(e => {
+              const tgt = graphData.nodes.find(n => n.id === e.target);
+              return '<li class="relation-item" onclick="focusNode(\'' + e.target + '\')">' +
+                '<span>' + (tgt ? tgt.name : e.target) + '</span>' +
+                '<span style="color: #888;">' + e.type + '</span>' +
+              '</li>';
+            }).join('') || '<li style="color:#555;font-size:12px;">Không có</li>'}
+          </ul>
+        </div>
+      `;
+
+      document.getElementById('sidebar-content').innerHTML = html;
+    }
+
+    window.focusNode = function(nodeId) {
+      network.selectNodes([nodeId]);
+      network.focus(nodeId, { scale: 1.2, animation: true });
+      showNodeDetails(nodeId);
+    };
+
+    network.on('click', function(params) {
+      if (params.nodes.length > 0) {
+        showNodeDetails(params.nodes[0]);
+      }
+    });
+
+    // Search filter
+    document.getElementById('search-input').addEventListener('input', function(e) {
+      const q = e.target.value.toLowerCase().trim();
+      if (!q) {
+        data.nodes.update(visNodes);
+        return;
+      }
+      const matched = visNodes.map(n => {
+        const match = n.label.toLowerCase().includes(q) || 
+                      (n.rawNode.filePath && n.rawNode.filePath.toLowerCase().includes(q)) ||
+                      (n.rawNode.tags && n.rawNode.tags.some(t => t.toLowerCase().includes(q)));
+        return {
+          id: n.id,
+          hidden: !match
+        };
+      });
+      data.nodes.update(matched);
+    });
+
+    // Layer filter
+    document.getElementById('layer-select').addEventListener('change', function(e) {
+      const layerId = e.target.value;
+      if (layerId === 'all') {
+        data.nodes.update(visNodes.map(n => ({ id: n.id, hidden: false })));
+        return;
+      }
+      const updated = visNodes.map(n => ({
+        id: n.id,
+        hidden: n.layerId !== layerId
+      }));
+      data.nodes.update(updated);
+    });
+
+    // Reset view
+    document.getElementById('btn-reset').addEventListener('click', function() {
+      document.getElementById('search-input').value = '';
+      document.getElementById('layer-select').value = 'all';
+      data.nodes.update(visNodes.map(n => ({ id: n.id, hidden: false })));
+      network.fit({ animation: true });
+    });
+
+    // Tour Logic
+    let currentTourStep = 0;
+    const tourDock = document.getElementById('tour-dock');
+    const btnTour = document.getElementById('btn-tour');
+
+    btnTour.addEventListener('click', function() {
+      tourDock.classList.toggle('active');
+      btnTour.classList.toggle('active');
+      if (tourDock.classList.contains('active')) {
+        updateTourStep(0);
+      }
+    });
+
+    function updateTourStep(stepIdx) {
+      if (stepIdx < 0 || stepIdx >= graphData.tour.length) return;
+      currentTourStep = stepIdx;
+      const step = graphData.tour[stepIdx];
+
+      document.getElementById('tour-step-title').textContent = 'Chặng ' + step.order + ': ' + step.title;
+      document.getElementById('tour-step-desc').textContent = step.description;
+      document.getElementById('tour-step-indicator').textContent = step.order + ' / ' + graphData.tour.length;
+
+      network.selectNodes(step.nodeIds);
+      if (step.nodeIds.length > 0) {
+        network.fit({ nodes: step.nodeIds, animation: true });
+        showNodeDetails(step.nodeIds[0]);
+      }
+    }
+
+    document.getElementById('btn-tour-prev').addEventListener('click', function() {
+      if (currentTourStep > 0) updateTourStep(currentTourStep - 1);
+    });
+    document.getElementById('btn-tour-next').addEventListener('click', function() {
+      if (currentTourStep < graphData.tour.length - 1) updateTourStep(currentTourStep + 1);
+    });
+
+    setTimeout(() => {
+      focusNode('file:app/page.tsx');
+    }, 600);
+  </script>
+</body>
+</html>

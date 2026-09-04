@@ -7,6 +7,7 @@ import { getDbPool } from '@/app/lib/db';
 import { ProjectData } from '@/app/types';
 
 export const dynamicParams = true;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   try {
@@ -50,50 +51,50 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const customMeta = PROJECT_METADATA[id];
 
-  if (customMeta) {
-    return {
-      title: customMeta.title,
-      description: customMeta.desc,
-      openGraph: {
-        title: customMeta.title,
-        description: customMeta.desc,
-        type: 'article',
-      },
-      keywords: customMeta.keywords,
-    };
+  // 1. Prioritize querying MySQL database for latest real-time CMS edits
+  let project: ProjectData | undefined;
+  try {
+    const pool = getDbPool();
+    if (pool) {
+      const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_projects WHERE id = ? LIMIT 1', [id]);
+      if (Array.isArray(rows) && rows.length > 0) {
+        const r = rows[0];
+        project = {
+          id: r.id,
+          title: r.title,
+          desc: r.desc_text || '',
+          tags: typeof r.tags_json === 'string' ? JSON.parse(r.tags_json) : r.tags || [],
+          demoUrl: r.demo_url,
+          githubUrl: r.github_url,
+          embedUrl: r.embed_url,
+          img: r.img,
+          problem: r.problem,
+          method: r.method,
+          insight: r.insight,
+        };
+      }
+    }
+  } catch {
+    // Database query fallback
   }
 
-  // Check default projects
-  let project: ProjectData | undefined = DEFAULT_PROJECTS.find((p) => p.id === id);
-
-  // If not found in defaults, attempt to check DB
+  // 2. If not found in DB or DB not connected, check custom metadata then static defaults
   if (!project) {
-    try {
-      const pool = getDbPool();
-      if (pool) {
-        const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_projects WHERE id = ?', [id]);
-        if (Array.isArray(rows) && rows.length > 0) {
-          const r = rows[0];
-          project = {
-            id: r.id,
-            title: r.title,
-            desc: r.desc_text || '',
-            tags: typeof r.tags_json === 'string' ? JSON.parse(r.tags_json) : r.tags || [],
-            demoUrl: r.demo_url,
-            githubUrl: r.github_url,
-            embedUrl: r.embed_url,
-            img: r.img,
-            problem: r.problem,
-            method: r.method,
-            insight: r.insight,
-          };
-        }
-      }
-    } catch {
-      // Fallback
+    const customMeta = PROJECT_METADATA[id];
+    if (customMeta) {
+      return {
+        title: customMeta.title,
+        description: customMeta.desc,
+        openGraph: {
+          title: customMeta.title,
+          description: customMeta.desc,
+          type: 'article',
+        },
+        keywords: customMeta.keywords,
+      };
     }
+    project = DEFAULT_PROJECTS.find((p) => p.id === id);
   }
 
   if (!project) {

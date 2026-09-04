@@ -16,7 +16,6 @@ interface LanguageContextType {
     vi: Record<string, string>;
     en: Record<string, string>;
   };
-  setDynamicTexts: (_texts: { vi: Record<string, string>; en: Record<string, string> }) => void;
   reloadTexts: () => Promise<void>;
 }
 
@@ -85,7 +84,6 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
         t,
         isEnglish: language === 'en',
         dynamicTexts: customTexts,
-        setDynamicTexts: () => {},
         reloadTexts,
       }}
     >
@@ -104,7 +102,6 @@ export const useLanguage = () => {
       t: (key: string, fallback?: string) => fallback || key,
       isEnglish: false,
       dynamicTexts: { vi: {}, en: {} },
-      setDynamicTexts: () => {},
       reloadTexts: async () => {},
     };
   }

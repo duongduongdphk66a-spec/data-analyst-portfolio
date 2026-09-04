@@ -13,9 +13,36 @@ import { useRouter } from 'next/navigation';
 import { trackVisitorAction } from '../lib/visitorTracking';
 import { useLanguage } from '../context/LanguageContext';
 import { weeklyActivityData } from '../data/libraryBusData';
+import { DJANGO_APPS, PIPELINE_STOPS, SCHEMA_MODELS, CELERY_TASKS, TECH_STACK } from '../data/libraryBusContent';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { useToast } from './ui/Toast';
 import { exportChartAsPng } from '../lib/chartExport';
+
+/** Reusable section header with badge, title, and deep-link button */
+function SectionHeader({ badge, title, sectionId, isEn, onCopyLink }: {
+  badge: string; title: string; sectionId: string; isEn: boolean;
+  onCopyLink: (_id: string, _label: string) => void;
+}) {
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center gap-2">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+          <span>{badge}</span>
+        </div>
+        <button
+          onClick={() => onCopyLink(sectionId, title)}
+          className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
+          title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
+        >
+          <LinkIcon className="w-3.5 h-3.5" />
+        </button>
+      </div>
+      <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
+        {title}
+      </h2>
+    </div>
+  );
+}
 
 const LIBRARY_BUS_SECTIONS = ['overview', 'kien-truc', 'thuat-toan', 'schema', 'celery', 'stack'];
 
@@ -149,7 +176,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
             {/* Quick Language Toggle */}
             <button
               onClick={() => setLanguage(isEn ? 'vi' : 'en')}
-              className="px-2.5 py-1 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer ml-1 dark:bg-[#9BE7FA] dark:text-slate-950"
+              className="px-2.5 py-1 rounded-xl bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 text-xs font-black transition-all shadow-xs flex items-center gap-1 cursor-pointer ml-1 border border-[#FFD14C] dark:bg-slate-900 dark:text-white dark:border-slate-800 dark:hover:bg-slate-800"
               title={isEn ? 'Chuyển sang Tiếng Việt' : 'Switch to English'}
             >
               <span>{isEn ? '🇬🇧 EN' : '🇻🇳 VI'}</span>
@@ -203,10 +230,10 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
                   href="https://github.com/duongduongdphk66a-spec/prj"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all dark:bg-[#FFD14C] dark:text-slate-950 dark:hover:bg-amber-400"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 font-black text-xs shadow-md border border-[#FFD14C] transition-all cursor-pointer dark:bg-slate-900 dark:text-white dark:border-slate-800 dark:hover:bg-slate-800"
                 >
                   <span>{isEn ? 'Explore GitHub Repository' : 'Xem mã nguồn trên GitHub'}</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-950 dark:text-white" />
                 </a>
               </div>
             </div>
@@ -297,40 +324,15 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         
         {/* SECTION 1: BỐI CẢNH & CẤU TRÚC 7 DJANGO APPS */}
         <section id="boi-canh" className="space-y-6 reveal-element opacity-0 translate-y-8 transition-all duration-700">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-                <span>01 : BỐI CẢNH HỆ THỐNG</span>
-              </div>
-              <button
-                onClick={() => copyDeepLink('boi-canh', isEn ? 'Context' : 'Bối cảnh hệ thống')}
-                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
-                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
-              >
-                <LinkIcon className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
-              {isEn ? 'Not Just a Regular Library Website' : 'Không Chỉ Là Một Website Mượn Sách'}
-            </h2>
+          <SectionHeader badge="01 : BỐI CẢNH HỆ THỐNG" title={isEn ? 'Not Just a Regular Library Website' : 'Không Chỉ Là Một Website Mượn Sách'} sectionId="boi-canh" isEn={isEn} onCopyLink={copyDeepLink} />
             <p className="text-sm sm:text-base text-slate-700 max-w-3xl leading-relaxed dark:text-slate-300">
               {isEn 
                 ? 'The mobile "bus" model fundamentally changes the operational dynamics: books travel along routes rather than staying stationary. Each bus has distinct capacity, route schedules, and operational status (active / resting / maintenance). The system must measure performance per vehicle and run gamification mechanics to foster regular reading habits.'
                 : 'Mô hình "xe bus" khiến bài toán khác hẳn một thư viện tĩnh: sách di chuyển theo tuyến, mỗi xe có sức chứa và trạng thái vận hành riêng (đang chạy / tạm nghỉ / bảo trì). Hệ thống đòi hỏi khả năng đo lường hiệu suất theo từng xe, kết hợp cơ chế Gamification (điểm uy tín, 5 cấp thành viên) để duy trì thói quen đọc sách.'}
             </p>
-          </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              { app: 'core', desc: 'CacheMixin, audit base models, common utilities' },
-              { app: 'users', desc: 'Custom user model, authentication, profiles' },
-              { app: 'inventory', desc: 'Quản lý sách, danh mục và đội xe LibraryBus' },
-              { app: 'transactions', desc: 'Mượn/trả, đặt trước sách, giao nhận, tiền phạt' },
-              { app: 'notifications', desc: 'Thông báo quá hạn, nhắc lịch xe bus, email' },
-              { app: 'blog', desc: 'Tin tức khuyến đọc, bài viết giới thiệu sách' },
-              { app: 'analytics', desc: 'UserReadingStats, BookAnalytics, BusAnalytics' },
-              { app: 'celery_tasks', desc: 'Celery Beat cron jobs, async worker pipelines' },
-            ].map((a) => (
+            {DJANGO_APPS.map((a) => (
               <div key={a.app} className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-1 dark:bg-slate-900 dark:border-slate-800">
                 <span className="font-mono text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA] block">
                   app : {a.app}
@@ -344,21 +346,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         {/* SECTION 2: KIẾN TRÚC & LUỒNG DỮ LIỆU (6-STOP ROUTE) */}
         <section id="kien-truc" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold font-mono tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-                <span>02 : KIẾN TRÚC & LUỒNG DỮ LIỆU (ROUTE LINE)</span>
-              </div>
-              <button
-                onClick={() => copyDeepLink('kien-truc', isEn ? 'Architecture' : 'Kiến trúc dữ liệu')}
-                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
-                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
-              >
-                <LinkIcon className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
-              {isEn ? 'From a Single Book Borrow to a Dashboard Metric' : 'Từ Một Lượt Mượn Sách Đến Một Dòng Trong Báo Cáo'}
-            </h2>
+            <SectionHeader badge="02 : KIẾN TRÚC & LUỒNG DỮ LIỆU (ROUTE LINE)" title={isEn ? 'From a Single Book Borrow to a Dashboard Metric' : 'Từ Một Lượt Mượn Sách Đến Một Dòng Trong Báo Cáo'} sectionId="kien-truc" isEn={isEn} onCopyLink={copyDeepLink} />
             <p className="text-sm sm:text-base text-slate-700 max-w-3xl leading-relaxed dark:text-slate-300">
               {isEn
                 ? 'Tracing the exact flow of data through the system: from user event, through async queue workers, to versioned Redis caching and pre-aggregated dashboards.'
@@ -368,44 +356,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
 
           {/* 6-Stop Timeline */}
           <div className="space-y-4">
-            {[
-              {
-                stop: '1',
-                title: 'Sự kiện gốc: mượn / trả / xem / đánh giá',
-                desc: 'Mỗi hành động của người dùng ghi ra một dòng UserActivity: bảng log trung tâm có compound index theo (user, created_at) để truy vấn lịch sử cá nhân nhanh, và index theo activity_type cho báo cáo tổng hợp.',
-                tag: 'model : UserActivity'
-              },
-              {
-                stop: '2',
-                title: 'Xử lý bất đồng bộ bằng Celery, không chặn request',
-                desc: 'View chỉ đẩy job vào hàng đợi (.delay()) rồi trả response ngay. Việc cộng dồn điểm uy tín, tính lại độ phổ biến sách hay hiệu suất xe bus diễn ra trong Celery worker, bọc trong transaction.atomic() và dùng F() expression để chống race condition.',
-                tag: 'tasks.py : update_analytics_on_borrow_task'
-              },
-              {
-                stop: '3',
-                title: 'Ba tầng thống kê được tính riêng biệt',
-                desc: 'UserReadingStats (điểm uy tín, chuỗi đọc, 5 cấp thành viên) · BookAnalytics (điểm phổ biến sách) · BusAnalytics (hiệu suất từng xe bus). Tách riêng để mỗi loại có nhịp cập nhật và thời gian cache độc lập.',
-                tag: 'models : UserReadingStats · BookAnalytics · BusAnalytics'
-              },
-              {
-                stop: '4',
-                title: 'Cache theo version, không xoá key thủ công',
-                desc: 'Thay vì dò quét xoá từng cache key khi dữ liệu đổi, mỗi model có một "version" riêng trong Redis; key thực tế sinh ra gồm cả version đó. Chỉ cần tăng version lên 1 là toàn bộ cache cũ tự động hết hạn mà không cần biết danh sách key.',
-                tag: 'core/models.py : CacheMixin'
-              },
-              {
-                stop: '5',
-                title: 'Job định kỳ tổng hợp lại theo ngày',
-                desc: 'Celery Beat chạy generate_daily_stats_task mỗi đêm để chốt số liệu của app DailyStats (tổng user, active user, lượt mượn/trả, người dùng mới, lượt xem, review), là nguồn dữ liệu cho biểu đồ xu hướng tuần/tháng.',
-                tag: 'DailyStats.generate_daily_stats()'
-              },
-              {
-                stop: '6',
-                title: 'Hiển thị: Dashboard cá nhân & Dashboard vận hành',
-                desc: 'Độc giả theo dõi hạng, chuỗi ngày đọc và gợi ý sách. Quản trị viên theo dõi sách phổ biến, độc giả dẫn đầu, phân bố cấp độ, xe bus hiệu quả nhất và biểu đồ xu hướng kèm xuất PDF/Excel.',
-                tag: 'templates/analytics/*.html · Recharts / Chart.js'
-              }
-            ].map((s) => (
+            {PIPELINE_STOPS.map((s) => (
               <div key={s.stop} className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex items-start gap-4 dark:bg-slate-900 dark:border-slate-800">
                 <div className="w-8 h-8 rounded-full bg-[#0D7287] text-white flex items-center justify-center font-serif font-bold text-xs shrink-0 dark:bg-[#9BE7FA] dark:text-slate-950">
                   {s.stop}
@@ -425,21 +376,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         {/* SECTION 3: THUẬT TOÁN & CÔNG THỨC TRỌNG SỐ */}
         <section id="thuat-toan" className="space-y-8 reveal-element opacity-0 translate-y-8 transition-all duration-700">
           <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-                <span>03 : CHỈ SỐ & THUẬT TOÁN TÍNH ĐIỂM</span>
-              </div>
-              <button
-                onClick={() => copyDeepLink('thuat-toan', isEn ? 'Algorithms' : 'Thuật toán')}
-                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
-                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
-              >
-                <LinkIcon className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
-              {isEn ? 'Three Transparent Weighting Formulas' : 'Ba Công Thức Điều Khiển Toàn Bộ Hệ Thống Điểm'}
-            </h2>
+            <SectionHeader badge="03 : CHỈ SỐ & THUẬT TOÁN TÍNH ĐIỂM" title={isEn ? 'Three Transparent Weighting Formulas' : 'Ba Công Thức Điều Khiển Toàn Bộ Hệ Thống Điểm'} sectionId="thuat-toan" isEn={isEn} onCopyLink={copyDeepLink} />
             <p className="text-sm sm:text-base text-slate-700 max-w-3xl leading-relaxed dark:text-slate-300">
               {isEn 
                 ? 'No black-box ML required: formulas use explicit weights that are easily explainable to non-technical library operators and easily fine-tunable over time.'
@@ -458,7 +395,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
                 Kết hợp lượt mượn, đánh giá và lượt xem, cộng thêm điểm thưởng nếu sách vừa được mượn trong 30 ngày gần nhất để sách hot nổi lên nhanh hơn.
               </p>
-              <div className="p-3.5 rounded-xl bg-slate-950 text-[#FFE485] font-mono text-xs leading-relaxed border border-slate-800 overflow-x-auto">
+              <div className="p-3.5 rounded-xl bg-[#FFE485] text-slate-950 font-mono text-xs font-bold leading-relaxed border border-[#FFD14C] overflow-x-auto shadow-2xs dark:bg-slate-950 dark:text-[#FFE485] dark:border-slate-800">
                 popularity =<br/>
                 &nbsp;&nbsp;0.6 * min(borrows * 5, 100)<br/>
                 + 0.3 * (avg_rating * 20)<br/>
@@ -476,7 +413,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
                 Tỷ lệ chuyển đổi từ lượt ghé thăm sang lượt mượn thực tế trên từng xe, giúp so sánh hiệu quả giữa các tuyến xe và điểm dừng.
               </p>
-              <div className="p-3.5 rounded-xl bg-slate-950 text-[#9BE7FA] font-mono text-xs leading-relaxed border border-slate-800 overflow-x-auto">
+              <div className="p-3.5 rounded-xl bg-[#FFE485] text-slate-950 font-mono text-xs font-bold leading-relaxed border border-[#FFD14C] overflow-x-auto shadow-2xs dark:bg-slate-950 dark:text-[#9BE7FA] dark:border-slate-800">
                 efficiency =<br/>
                 &nbsp;&nbsp;min(borrows / visits * 100, 100)
               </div>
@@ -491,7 +428,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
                 Điểm uy tín tích lũy từ hoạt động đọc (mượn +5, trả +10, review +3...) được ánh xạ sang 5 cấp độ thành viên tự động.
               </p>
-              <div className="p-3.5 rounded-xl bg-slate-950 text-slate-200 font-mono text-xs leading-relaxed border border-slate-800 overflow-x-auto">
+              <div className="p-3.5 rounded-xl bg-[#FFE485] text-slate-950 font-mono text-xs font-bold leading-relaxed border border-[#FFD14C] overflow-x-auto shadow-2xs dark:bg-slate-950 dark:text-slate-200 dark:border-slate-800">
                 0 - 199 &nbsp;&nbsp;&nbsp;→ Đồng (Bronze)<br/>
                 200 - 399 &nbsp;→ Bạc (Silver)<br/>
                 400 - 599 &nbsp;→ Vàng (Gold)<br/>
@@ -505,23 +442,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
 
         {/* SECTION 4: SCHEMA MODELS (MÔ HÌNH DỮ LIỆU) */}
         <section id="schema" className="space-y-6 reveal-element opacity-0 translate-y-8 transition-all duration-700">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-                <span>04 : MÔ HÌNH DỮ LIỆU (SCHEMA MODELS)</span>
-              </div>
-              <button
-                onClick={() => copyDeepLink('schema', isEn ? 'Data Schema' : 'Mô hình dữ liệu')}
-                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
-                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
-              >
-                <LinkIcon className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
-              {isEn ? 'Core Analytics Models' : 'Các Bảng Cốt Lõi Của App Analytics'}
-            </h2>
-          </div>
+          <SectionHeader badge="04 : MÔ HÌNH DỮ LIỆU (SCHEMA MODELS)" title={isEn ? 'Core Analytics Models' : 'Các Bảng Cốt Lõi Của App Analytics'} sectionId="schema" isEn={isEn} onCopyLink={copyDeepLink} />
 
           <div className="overflow-x-auto rounded-3xl border border-slate-200/90 bg-white shadow-sm dark:bg-slate-900 dark:border-slate-800">
             <table className="w-full text-left text-xs sm:text-sm">
@@ -533,15 +454,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {[
-                  { name: 'UserReadingStats', role: 'Hồ sơ đọc & Gamification của từng user', feat: 'Có total_points, completion_rate, reading_velocity tính động qua property' },
-                  { name: 'BookAnalytics', role: 'Thống kê & điểm phổ biến từng đầu sách', feat: 'Có classmethod get_trending_books() lọc theo cửa sổ thời gian, cache 15 phút' },
-                  { name: 'BusAnalytics', role: 'Thống kê & hiệu suất từng xe bus', feat: 'Liên kết 1-1 với inventory.LibraryBus, cache Redis 30 phút' },
-                  { name: 'UserActivity', role: 'Log sự kiện trung tâm kiêm audit trail', feat: 'Trường metadata dạng JSONField để mở rộng linh hoạt không cần migration' },
-                  { name: 'BookRecommendation', role: 'Gợi ý sách theo 5 thuật toán', feat: 'popular, similar_users, same_category, trending, personalized' },
-                  { name: 'DailyStats', role: 'Tổng hợp theo ngày cho biểu đồ xu hướng', feat: 'Sinh tự động mỗi đêm qua Celery Beat, unique constraint theo ngày' },
-                  { name: 'ArchivedUserActivity', role: 'Lưu trữ hoạt động >90 ngày', feat: 'Soft-delete pattern dọn nhẹ bảng chính nhưng không mất dữ liệu' },
-                ].map((row) => (
+                {SCHEMA_MODELS.map((row) => (
                   <tr key={row.name} className="hover:bg-slate-50/80 transition-colors dark:hover:bg-slate-800/50">
                     <td className="p-4 font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">{row.name}</td>
                     <td className="p-4 font-medium text-slate-900 dark:text-white">{row.role}</td>
@@ -555,39 +468,16 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
 
         {/* SECTION 5: CELERY BEAT SCHEDULE */}
         <section id="celery" className="space-y-6 reveal-element opacity-0 translate-y-8 transition-all duration-700">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-                <span>05 : VẬN HÀNH NỀN (CELERY BEAT PIPELINE)</span>
-              </div>
-              <button
-                onClick={() => copyDeepLink('celery', isEn ? 'Celery Pipeline' : 'Vận hành Celery')}
-                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
-                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
-              >
-                <LinkIcon className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
-              {isEn ? 'Automated Celery Beat Schedule' : 'Lịch Chạy Tác Vụ Nền Celery Beat'}
-            </h2>
+          <SectionHeader badge="05 : VẬN HÀNH NỀN (CELERY BEAT PIPELINE)" title={isEn ? 'Automated Celery Beat Schedule' : 'Lịch Chạy Tác Vụ Nền Celery Beat'} sectionId="celery" isEn={isEn} onCopyLink={copyDeepLink} />
             <p className="text-sm sm:text-base text-slate-700 max-w-3xl leading-relaxed dark:text-slate-300">
               {isEn 
                 ? 'Metrics are not calculated on-the-fly inside every request; they are pre-aggregated on fixed schedules, ensuring fast page loads under heavy concurrency.'
                 : 'Toàn bộ số liệu tổng hợp không tính trực tiếp trong mỗi request: chúng được chốt theo lịch cố định, giữ cho trang dashboard luôn phản hồi tức thì.'}
             </p>
-          </div>
 
           <div className="rounded-3xl border border-slate-200/90 overflow-hidden bg-white shadow-sm dark:bg-slate-900 dark:border-slate-800">
             <div className="divide-y divide-slate-100 dark:divide-slate-800">
-              {[
-                { time: '00:00', task: 'Bảo trì hệ thống & tính DailyStats', tag: 'daily_maintenance' },
-                { time: 'CN · 03:00', task: 'Tính lại điểm phổ biến toàn bộ sách', tag: 'recalculate_popularity_scores_task' },
-                { time: '05:00', task: 'Làm nóng cache (top sách, top độc giả, tuần)', tag: 'cache_warmup_task' },
-                { time: '06:00', task: 'Quét sách quá hạn trả', tag: 'check_overdue_books' },
-                { time: '08:00', task: 'Gửi thông báo nhắc hạn trả sách', tag: 'send_due_reminders' },
-                { time: 'Mỗi 30 phút', task: 'Xử lý hàng đợi đặt trước sách', tag: 'process_reservation_queue' },
-              ].map((b) => (
+              {CELERY_TASKS.map((b) => (
                 <div key={b.tag} className="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors dark:hover:bg-slate-800/50">
                   <div className="flex items-center gap-4">
                     <span className="w-24 font-serif font-bold text-xs text-[#0D7287] dark:text-[#FFD14C]">{b.time}</span>
@@ -602,36 +492,10 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
 
         {/* SECTION 6: TECH STACK CHIPS */}
         <section id="stack" className="space-y-6 reveal-element opacity-0 translate-y-8 transition-all duration-700">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-                <span>06 : HẠ TẦNG CÔNG NGHỆ</span>
-              </div>
-              <button
-                onClick={() => copyDeepLink('stack', isEn ? 'Tech Stack' : 'Hạ tầng công nghệ')}
-                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
-                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
-              >
-                <LinkIcon className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
-              {isEn ? 'Configured for High-Load Scalability' : 'Cấu Hình Sẵn Sàng Cho Tải Cao'}
-            </h2>
-          </div>
+          <SectionHeader badge="06 : HẠ TẦNG CÔNG NGHỆ" title={isEn ? 'Configured for High-Load Scalability' : 'Cấu Hình Sẵn Sàng Cho Tải Cao'} sectionId="stack" isEn={isEn} onCopyLink={copyDeepLink} />
 
           <div className="flex flex-wrap gap-2.5">
-            {[
-              { name: 'Django 5', role: 'Web Framework' },
-              { name: 'MySQL', role: 'Relational Database' },
-              { name: 'Redis + django-redis', role: 'Cache Layer' },
-              { name: 'Celery + Celery Beat', role: 'Async Queue & Scheduled Tasks' },
-              { name: 'WhiteNoise', role: 'Static Files Compression' },
-              { name: 'Jazzmin', role: 'Admin Interface' },
-              { name: 'Argon2', role: 'Password Hashing' },
-              { name: 'Recharts / Chart.js', role: 'Interactive Telemetry' },
-              { name: 'i18n', role: 'Asia/Ho_Chi_Minh Timezone' },
-            ].map((tech) => (
+            {TECH_STACK.map((tech) => (
               <div key={tech.name} className="px-4 py-2 rounded-xl bg-white border border-slate-200/90 shadow-xs flex items-center gap-2 dark:bg-slate-900 dark:border-slate-800">
                 <span className="font-bold text-xs text-slate-950 dark:text-white">{tech.name}</span>
                 <span className="text-[11px] font-mono text-slate-400">({tech.role})</span>

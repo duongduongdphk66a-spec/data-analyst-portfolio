@@ -1,11 +1,36 @@
 import type { Metadata } from 'next';
+import { Plus_Jakarta_Sans, JetBrains_Mono, Lora } from 'next/font/google';
 import './globals.css';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from './components/ui/Toast';
 import { PortfolioDataProvider } from './context/PortfolioDataContext';
 
+const sansFont = Plus_Jakarta_Sans({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+const monoFont = JetBrains_Mono({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600'],
+  variable: '--font-mono',
+  display: 'swap',
+});
+
+const serifFont = Lora({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-serif',
+  display: 'swap',
+});
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mavanhung-portfolio.vercel.app';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'Ma Văn Hùng | Data Analyst',
   description: 'Data Analyst chuyên SQL, Python, Power BI. Phân tích hiệu suất E-Commerce, chuỗi thời gian du lịch di sản, kiến trúc dữ liệu. Portfolio trực quan hóa và case studies tương tác.',
   openGraph: {
@@ -13,6 +38,7 @@ export const metadata: Metadata = {
     description: 'Evidence-driven Data Analyst: SQL, Python, Power BI, Recharts. Interactive case studies and live data visualizations.',
     type: 'website',
     locale: 'vi_VN',
+    url: siteUrl,
   },
 };
 
@@ -29,8 +55,6 @@ const themeInitScript = `
     } catch (e) {}
   })();
 `;
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mavanhung-portfolio.vercel.app';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -58,23 +82,17 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className="scroll-smooth font-lora"
+      className={`${sansFont.variable} ${monoFont.variable} ${serifFont.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap"
-        />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body suppressHydrationWarning className="bg-ground text-ink font-lora min-h-screen transition-colors duration-200">
+      <body suppressHydrationWarning className="bg-ground text-ink font-sans min-h-screen transition-colors duration-200 antialiased selection:bg-brand-yellow-light/80 dark:selection:bg-slate-700">
         <ThemeProvider>
           <PortfolioDataProvider>
             <LanguageProvider>

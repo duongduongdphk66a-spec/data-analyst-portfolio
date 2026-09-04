@@ -143,7 +143,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
             {/* Quick Language Toggle */}
             <button
               onClick={() => setLanguage(isEn ? 'vi' : 'en')}
-              className="px-2.5 py-1 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer ml-1 dark:bg-[#9BE7FA] dark:text-slate-950"
+              className="px-2.5 py-1 rounded-xl bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 text-xs font-black transition-all shadow-xs flex items-center gap-1 cursor-pointer ml-1 border border-[#FFD14C] dark:bg-slate-900 dark:text-white dark:border-slate-800 dark:hover:bg-slate-800"
               title={isEn ? 'Chuyển sang Tiếng Việt' : 'Switch to English'}
             >
               <span>{isEn ? '🇬🇧 EN' : '🇻🇳 VI'}</span>
@@ -735,45 +735,45 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
 
       {/* SECTION 5: KẾT LUẬN & ĐỀ XUẤT */}
       <section id="ket-luan" className="py-16 max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
-        <div className="p-8 sm:p-10 rounded-3xl bg-[#090D16] text-white space-y-6">
+        <div className="p-8 sm:p-10 rounded-3xl bg-[#FFE485] text-slate-950 border-2 border-[#FFD14C] space-y-6 shadow-md dark:bg-[#090D16] dark:text-white dark:border-slate-800">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#9BE7FA]">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#0D7287] dark:text-[#9BE7FA]">
                 KẾT LUẬN & ĐỀ XUẤT CHÍNH SÁCH
               </span>
               <button
                 onClick={() => copyDeepLink('ket-luan', isEn ? 'Synthesis' : 'Tổng kết & Đề xuất')}
-                className="p-1 rounded-md text-slate-400 hover:text-white transition-colors cursor-pointer"
+                className="p-1 rounded-md text-slate-700 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
                 title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
               >
                 <LinkIcon className="w-3.5 h-3.5" />
               </button>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950 dark:text-white">
               {isEn ? 'Summary: Transition from Volume Growth to Quality & Sustainability' : 'Chuyển Đổi Chiến Lược: Từ "Số Lượng" Sang "Chất Lượng & Bền Vững"'}
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
-            <div className="space-y-2">
-              <div className="text-[#FFD14C] font-bold text-sm">1. Nền Tảng Pháp Lý Trước Tiên</div>
+          <div className="grid md:grid-cols-3 gap-6 text-xs sm:text-sm text-slate-900 leading-relaxed font-medium dark:text-slate-300">
+            <div className="space-y-2 bg-white/60 p-4 rounded-2xl border border-[#FFD14C]/70 shadow-2xs dark:bg-slate-900/50 dark:border-slate-800">
+              <div className="text-[#0D7287] font-black text-sm dark:text-[#FFD14C]">1. Nền Tảng Pháp Lý Trước Tiên</div>
               <p>Chính sách bảo tồn di sản phải được thể chế hóa và đi trước các đợt bùng nổ truyền thông, tạo hành lang pháp lý bảo vệ không gian cảnh quan.</p>
             </div>
-            <div className="space-y-2">
-              <div className="text-[#9BE7FA] font-bold text-sm">2. Công Nghệ Điều Tiết Dòng Khách</div>
+            <div className="space-y-2 bg-white/60 p-4 rounded-2xl border border-[#FFD14C]/70 shadow-2xs dark:bg-slate-900/50 dark:border-slate-800">
+              <div className="text-[#0D7287] font-black text-sm dark:text-[#9BE7FA]">2. Công Nghệ Điều Tiết Dòng Khách</div>
               <p>Ứng dụng IoT, camera thời gian thực và hệ thống đặt chỗ trực tuyến giúp phân tán mật độ, tránh xung đột lợi ích với cư dân bản địa.</p>
             </div>
-            <div className="space-y-2">
-              <div className="text-[#FFD14C] font-bold text-sm">3. Tái Đầu Tư Doanh Thu Du Lịch</div>
+            <div className="space-y-2 bg-white/60 p-4 rounded-2xl border border-[#FFD14C]/70 shadow-2xs dark:bg-slate-900/50 dark:border-slate-800">
+              <div className="text-[#0D7287] font-black text-sm dark:text-[#FFD14C]">3. Tái Đầu Tư Doanh Thu Du Lịch</div>
               <p>Các khoản thuế du khách và quỹ hợp tác bảo tồn đảm bảo nguồn tài chính nội sinh bền vững cho việc tôn tạo và trùng tu di sản cho thế hệ mai sau.</p>
             </div>
           </div>
 
-          <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-slate-400 font-mono">
+          <div className="pt-4 border-t border-[#FFD14C] flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-slate-800 font-mono dark:border-slate-800 dark:text-slate-400">
             <div>
               Trích xuất từ Niên luận Nghiên cứu Nhật Bản học, Khoa Đông Phương học, ĐHKHXH&NV, ĐHQGHN.
             </div>
-            <div className="text-[#9BE7FA]">
+            <div className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">
               Tác giả: Ma Văn Hùng · 2024
             </div>
           </div>

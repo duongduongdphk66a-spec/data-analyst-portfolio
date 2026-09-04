@@ -43,6 +43,9 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
   const [channelFilter, setChannelFilter] = useState<'all' | 'live' | 'affiliate'>('all');
 
   useGSAP(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
     gsap.from('.dash-kpi-card', {
       autoAlpha: 0,
       y: 20,
@@ -298,24 +301,24 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
   return (
     <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in duration-500 bg-white dark:bg-slate-950 transition-colors duration-200" ref={dashboardRef}>
       {/* Header with Export & CSV actions */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-brand-blue-light dark:border-slate-800">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-[#9BE7FA]/50 dark:border-slate-800">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-yellow-light/50 text-slate-900 rounded-full text-xs font-semibold tracking-wide border border-brand-blue-light mb-2 dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-            <Sparkles className="w-3.5 h-3.5 text-slate-900 dark:text-[#FFD14C]" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FFE485]/60 text-slate-950 rounded-full text-xs font-bold tracking-wide border border-[#FFD14C]/50 mb-2 dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+            <Sparkles className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#FFD14C]" />
             Executive Business Intelligence
           </div>
           <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             {dashboard.title || t('dash_title', 'Analytics Dashboard')}
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-2xl">
+          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-2xl">
             {dashboard.description || t('dash_subtitle', 'Trực quan hóa chỉ số dữ liệu và xu hướng tăng trưởng')}
           </p>
         </div>
 
         {/* Top actions */}
         <div className="flex flex-wrap items-center gap-3 no-print">
-          <label className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-brand-blue-light hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl cursor-pointer transition-all shadow-xs dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200 dark:hover:bg-slate-800">
-            <Upload className="w-4 h-4 text-slate-900 dark:text-slate-200" />
+          <label className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-[#9BE7FA] hover:bg-[#C8EEF7]/30 text-slate-800 text-xs sm:text-sm font-semibold rounded-xl cursor-pointer transition-all shadow-xs dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200 dark:hover:bg-slate-800">
+            <Upload className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
             {t('dash_upload_csv', 'Nạp CSV Bảng')}
             <input type="file" accept=".csv" className="hidden" onChange={handleCsvUpload} />
           </label>
@@ -323,7 +326,7 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
           <button
             onClick={exportPDF}
             disabled={isExporting}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-brand-yellow hover:bg-brand-yellow-light text-slate-950 text-xs sm:text-sm font-semibold rounded-xl shadow-xs transition-all disabled:opacity-60 cursor-pointer dark:bg-amber-400 dark:hover:bg-amber-300 dark:text-slate-950 font-bold"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-all disabled:opacity-60 cursor-pointer border border-[#FFE485]"
           >
             <Download className="w-4 h-4" />
             {isExporting ? t('loading', 'Đang xuất...') : t('dash_export_pdf', 'Xuất Báo cáo PDF')}
@@ -331,11 +334,11 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
         </div>
       </div>
 
-      {/* MySQL & Content Management Quick Card (Cài đặt) */}
+      {/* MySQL & Content Management Quick Card */}
       {onOpenAdmin && (
-        <div className="bg-gradient-to-r from-[#C4EEF9]/50 via-white to-[#C4EEF9]/30 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-800/80 rounded-2xl p-5 border border-[#8CE0F4] dark:border-slate-700 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print">
+        <div className="bg-gradient-to-r from-[#C8EEF7]/60 via-white to-[#C8EEF7]/40 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-800/80 rounded-2xl p-5 border border-[#9BE7FA] dark:border-slate-700 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print">
           <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0D7287] to-cyan-500 flex items-center justify-center text-white shadow-md shadow-cyan-500/20 shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0D7287] to-[#9BE7FA] flex items-center justify-center text-white shadow-md shadow-cyan-500/20 shrink-0">
               <Database className="w-6 h-6" />
             </div>
             <div>
@@ -348,19 +351,19 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
                     ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300'
                     : 'bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300'
                 }`}>
-                  <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
-                  {dbStatus.connected ? 'MySQL Connected' : 'Local Fallback'}
+                  <span className={`w-1.5 h-1.5 rounded-full ${dbStatus.connected ? 'bg-emerald-500' : 'bg-[#FFD14C]'}`} />
+                  {dbStatus.connected ? 'MySQL Connected' : 'Local Storage Mode'}
                 </span>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                Chỉnh sửa thông tin cá nhân, tiểu sử, kỹ năng, kinh nghiệm và tất cả văn bản trên toàn bộ trang web.
+                Cập nhật thông tin profile, kỹ năng, kinh nghiệm, biểu đồ và dự án realtime.
               </p>
             </div>
           </div>
 
           <button
             onClick={onOpenAdmin}
-            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#0D7287] hover:bg-cyan-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-cyan-500/20 transition-all cursor-pointer shrink-0"
+            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#0D7287] hover:bg-[#095869] text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition-all cursor-pointer shrink-0"
           >
             <Edit3 className="w-4 h-4" />
             <span>Mở Bảng Chỉnh Sửa CMS</span>
@@ -369,10 +372,10 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
       )}
 
       {/* Multi-Dimension Interactive Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-surface/30 dark:bg-slate-900/90 rounded-2xl border border-border-subtle dark:border-slate-800 no-print">
+      <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-[#C8EEF7]/30 dark:bg-slate-900/90 rounded-2xl border border-[#9BE7FA]/50 dark:border-slate-800 no-print">
         {/* Time Horizon Filter */}
         <div className="flex flex-wrap items-center gap-2">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-ink-secondary dark:text-slate-300 mr-1">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 mr-1">
             <Filter className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
             <span>{isEn ? 'Time Horizon:' : 'Chu kỳ:'}</span>
           </div>
@@ -384,10 +387,10 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
             <button
               key={f.id}
               onClick={() => setTimeFilter(f.id as any)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-heading font-medium transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 timeFilter === f.id
-                  ? 'bg-accent text-slate-950 dark:bg-amber-400 font-bold shadow-xs'
-                  : 'bg-white dark:bg-slate-800 text-ink-secondary dark:text-slate-300 border border-border-subtle dark:border-slate-700'
+                  ? 'bg-[#FFD14C] text-slate-950 font-bold shadow-xs border border-[#FFE485]'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
               }`}
             >
               {f.label}
@@ -397,7 +400,7 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
 
         {/* Channel Filter */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-semibold text-ink-secondary dark:text-slate-300 mr-1">
+          <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 mr-1">
             {isEn ? 'Channel:' : 'Kênh:'}
           </span>
           {[
@@ -408,10 +411,10 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
             <button
               key={c.id}
               onClick={() => setChannelFilter(c.id as any)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-heading font-medium transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 channelFilter === c.id
-                  ? 'bg-[#0D7287] text-white dark:bg-cyan-600 font-bold shadow-xs'
-                  : 'bg-white dark:bg-slate-800 text-ink-secondary dark:text-slate-300 border border-border-subtle dark:border-slate-700'
+                  ? 'bg-[#0D7287] text-white font-bold shadow-xs'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
               }`}
             >
               {c.label}
@@ -426,13 +429,13 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
           {dashboard.kpis.map((kpi) => (
             <div
               key={kpi.id}
-              className="dash-kpi-card bg-white p-6 rounded-3xl border border-brand-blue-light shadow-sm hover:shadow-md transition-all dark:bg-slate-900 dark:border-slate-800 dark:shadow-none"
+              className="dash-kpi-card bg-white p-6 rounded-3xl border border-[#9BE7FA]/60 shadow-xs hover:border-[#9BE7FA] hover:shadow-md transition-all dark:bg-slate-900 dark:border-slate-800 dark:shadow-none"
             >
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">
                   {kpi.title}
                 </span>
-                <div className="p-2.5 bg-slate-50 rounded-2xl dark:bg-slate-800">
+                <div className="p-2.5 bg-[#C8EEF7]/50 rounded-2xl dark:bg-slate-800">
                   {renderKpiIcon(kpi.icon)}
                 </div>
               </div>
@@ -442,7 +445,7 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
               </div>
 
               {kpi.change && (
-                <div className="text-xs font-medium mt-2 flex items-center gap-1 text-slate-900 dark:text-[#9BE7FA]">
+                <div className="text-xs font-bold mt-2 flex items-center gap-1 text-[#0D7287] dark:text-[#9BE7FA]">
                   <TrendingUp className="w-3.5 h-3.5" />
                   {kpi.change}
                 </div>

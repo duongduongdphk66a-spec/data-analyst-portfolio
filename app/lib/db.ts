@@ -72,6 +72,19 @@ export async function testDbConnection(): Promise<{ connected: boolean; message:
 }
 
 /**
+ * Phân loại section của văn bản dựa theo tiền tố key (nav_, hero_, about_, cv_, proj_, dash_)
+ */
+export function resolveSection(key: string): string {
+  if (key.startsWith('nav_')) return 'navigation';
+  if (key.startsWith('hero_') || key.startsWith('cta_')) return 'hero';
+  if (key.startsWith('about_') || key.startsWith('goal_')) return 'about';
+  if (key.startsWith('cv_')) return 'cv';
+  if (key.startsWith('proj_')) return 'projects';
+  if (key.startsWith('dash_')) return 'dashboard';
+  return 'general';
+}
+
+/**
  * Initialize database schema if tables don't exist, and seed default data.
  */
 export async function initDatabase(force = false): Promise<{ success: boolean; message: string; tables?: string[] }> {
@@ -170,14 +183,7 @@ export async function initDatabase(force = false): Promise<{ success: boolean; m
     if (textRows && textRows[0] && textRows[0].count === 0) {
       // Seed Vietnamese translations
       for (const [key, val] of Object.entries(translations.vi)) {
-        let section = 'general';
-        if (key.startsWith('nav_')) section = 'navigation';
-        else if (key.startsWith('hero_') || key.startsWith('cta_')) section = 'hero';
-        else if (key.startsWith('about_') || key.startsWith('goal_')) section = 'about';
-        else if (key.startsWith('cv_')) section = 'cv';
-        else if (key.startsWith('proj_')) section = 'projects';
-        else if (key.startsWith('dash_')) section = 'dashboard';
-
+        const section = resolveSection(key);
         await p.query(
           `INSERT INTO portfolio_texts (text_key, lang, value_text, section) 
            VALUES (?, 'vi', ?, ?) 
@@ -188,14 +194,7 @@ export async function initDatabase(force = false): Promise<{ success: boolean; m
 
       // Seed English translations
       for (const [key, val] of Object.entries(translations.en)) {
-        let section = 'general';
-        if (key.startsWith('nav_')) section = 'navigation';
-        else if (key.startsWith('hero_') || key.startsWith('cta_')) section = 'hero';
-        else if (key.startsWith('about_') || key.startsWith('goal_')) section = 'about';
-        else if (key.startsWith('cv_')) section = 'cv';
-        else if (key.startsWith('proj_')) section = 'projects';
-        else if (key.startsWith('dash_')) section = 'dashboard';
-
+        const section = resolveSection(key);
         await p.query(
           `INSERT INTO portfolio_texts (text_key, lang, value_text, section) 
            VALUES (?, 'en', ?, ?) 
@@ -267,6 +266,18 @@ export async function initDatabase(force = false): Promise<{ success: boolean; m
     `);
 
     _isInitialized = true;
+
+    // Cleanup stale rate limit records (older than 24h, not currently locked)
+    try {
+      const cleanupThreshold = Date.now() - 24 * 60 * 60 * 1000; // 24 giờ trước
+      await p.query(
+        'DELETE FROM portfolio_rate_limits WHERE last_attempt < ? AND (locked_until IS NULL OR locked_until < ?)',
+        [cleanupThreshold, Date.now()]
+      );
+    } catch {
+      // Non-critical: cleanup failure should not block initialization
+    }
+
     return {
       success: true,
       message: 'Database schema created and initial seed completed successfully.',

@@ -194,3 +194,86 @@ class LoginHistory(TimestampedModel):
 
 Thông qua dự án này, tôi tự tin vào khả năng giải quyết các vấn đề liên quan đến độ trễ hệ thống (Latency), tính toàn vẹn của dữ liệu (Data Integrity) và kiến trúc ứng dụng (Software Architecture) trong các môi trường doanh nghiệp quy mô lớn.
 `;
+
+// ---- Static content data arrays (extracted from LibraryBusProject.tsx) ----
+
+export const DJANGO_APPS = [
+  { app: 'core', desc: 'CacheMixin, audit base models, common utilities' },
+  { app: 'users', desc: 'Custom user model, authentication, profiles' },
+  { app: 'inventory', desc: 'Quản lý sách, danh mục và đội xe LibraryBus' },
+  { app: 'transactions', desc: 'Mượn/trả, đặt trước sách, giao nhận, tiền phạt' },
+  { app: 'notifications', desc: 'Thông báo quá hạn, nhắc lịch xe bus, email' },
+  { app: 'blog', desc: 'Tin tức khuyến đọc, bài viết giới thiệu sách' },
+  { app: 'analytics', desc: 'UserReadingStats, BookAnalytics, BusAnalytics' },
+  { app: 'celery_tasks', desc: 'Celery Beat cron jobs, async worker pipelines' },
+];
+
+export const PIPELINE_STOPS = [
+  {
+    stop: '1',
+    title: 'Sự kiện gốc: mượn / trả / xem / đánh giá',
+    desc: 'Mỗi hành động của người dùng ghi ra một dòng UserActivity: bảng log trung tâm có compound index theo (user, created_at) để truy vấn lịch sử cá nhân nhanh, và index theo activity_type cho báo cáo tổng hợp.',
+    tag: 'model : UserActivity'
+  },
+  {
+    stop: '2',
+    title: 'Xử lý bất đồng bộ bằng Celery, không chặn request',
+    desc: 'View chỉ đẩy job vào hàng đợi (.delay()) rồi trả response ngay. Việc cộng dồn điểm uy tín, tính lại độ phổ biến sách hay hiệu suất xe bus diễn ra trong Celery worker, bọc trong transaction.atomic() và dùng F() expression để chống race condition.',
+    tag: 'tasks.py : update_analytics_on_borrow_task'
+  },
+  {
+    stop: '3',
+    title: 'Ba tầng thống kê được tính riêng biệt',
+    desc: 'UserReadingStats (điểm uy tín, chuỗi đọc, 5 cấp thành viên) · BookAnalytics (điểm phổ biến sách) · BusAnalytics (hiệu suất từng xe bus). Tách riêng để mỗi loại có nhịp cập nhật và thời gian cache độc lập.',
+    tag: 'models : UserReadingStats · BookAnalytics · BusAnalytics'
+  },
+  {
+    stop: '4',
+    title: 'Cache theo version, không xoá key thủ công',
+    desc: 'Thay vì dò quét xoá từng cache key khi dữ liệu đổi, mỗi model có một "version" riêng trong Redis; key thực tế sinh ra gồm cả version đó. Chỉ cần tăng version lên 1 là toàn bộ cache cũ tự động hết hạn mà không cần biết danh sách key.',
+    tag: 'core/models.py : CacheMixin'
+  },
+  {
+    stop: '5',
+    title: 'Job định kỳ tổng hợp lại theo ngày',
+    desc: 'Celery Beat chạy generate_daily_stats_task mỗi đêm để chốt số liệu của app DailyStats (tổng user, active user, lượt mượn/trả, người dùng mới, lượt xem, review), là nguồn dữ liệu cho biểu đồ xu hướng tuần/tháng.',
+    tag: 'DailyStats.generate_daily_stats()'
+  },
+  {
+    stop: '6',
+    title: 'Hiển thị: Dashboard cá nhân & Dashboard vận hành',
+    desc: 'Độc giả theo dõi hạng, chuỗi ngày đọc và gợi ý sách. Quản trị viên theo dõi sách phổ biến, độc giả dẫn đầu, phân bố cấp độ, xe bus hiệu quả nhất và biểu đồ xu hướng kèm xuất PDF/Excel.',
+    tag: 'templates/analytics/*.html · Recharts / Chart.js'
+  }
+];
+
+export const SCHEMA_MODELS = [
+  { name: 'UserReadingStats', role: 'Hồ sơ đọc & Gamification của từng user', feat: 'Có total_points, completion_rate, reading_velocity tính động qua property' },
+  { name: 'BookAnalytics', role: 'Thống kê & điểm phổ biến từng đầu sách', feat: 'Có classmethod get_trending_books() lọc theo cửa sổ thời gian, cache 15 phút' },
+  { name: 'BusAnalytics', role: 'Thống kê & hiệu suất từng xe bus', feat: 'Liên kết 1-1 với inventory.LibraryBus, cache Redis 30 phút' },
+  { name: 'UserActivity', role: 'Log sự kiện trung tâm kiêm audit trail', feat: 'Trường metadata dạng JSONField để mở rộng linh hoạt không cần migration' },
+  { name: 'BookRecommendation', role: 'Gợi ý sách theo 5 thuật toán', feat: 'popular, similar_users, same_category, trending, personalized' },
+  { name: 'DailyStats', role: 'Tổng hợp theo ngày cho biểu đồ xu hướng', feat: 'Sinh tự động mỗi đêm qua Celery Beat, unique constraint theo ngày' },
+  { name: 'ArchivedUserActivity', role: 'Lưu trữ hoạt động >90 ngày', feat: 'Soft-delete pattern dọn nhẹ bảng chính nhưng không mất dữ liệu' },
+];
+
+export const CELERY_TASKS = [
+  { time: '00:00', task: 'Bảo trì hệ thống & tính DailyStats', tag: 'daily_maintenance' },
+  { time: 'CN · 03:00', task: 'Tính lại điểm phổ biến toàn bộ sách', tag: 'recalculate_popularity_scores_task' },
+  { time: '05:00', task: 'Làm nóng cache (top sách, top độc giả, tuần)', tag: 'cache_warmup_task' },
+  { time: '06:00', task: 'Quét sách quá hạn trả', tag: 'check_overdue_books' },
+  { time: '08:00', task: 'Gửi thông báo nhắc hạn trả sách', tag: 'send_due_reminders' },
+  { time: 'Mỗi 30 phút', task: 'Xử lý hàng đợi đặt trước sách', tag: 'process_reservation_queue' },
+];
+
+export const TECH_STACK = [
+  { name: 'Django 5', role: 'Web Framework' },
+  { name: 'MySQL', role: 'Relational Database' },
+  { name: 'Redis + django-redis', role: 'Cache Layer' },
+  { name: 'Celery + Celery Beat', role: 'Async Queue & Scheduled Tasks' },
+  { name: 'WhiteNoise', role: 'Static Files Compression' },
+  { name: 'Jazzmin', role: 'Admin Interface' },
+  { name: 'Argon2', role: 'Password Hashing' },
+  { name: 'Recharts / Chart.js', role: 'Interactive Telemetry' },
+  { name: 'i18n', role: 'Asia/Ho_Chi_Minh Timezone' },
+];

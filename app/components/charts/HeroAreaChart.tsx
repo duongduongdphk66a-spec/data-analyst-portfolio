@@ -13,8 +13,8 @@ export interface HeroAreaChartProps {
 
 export default function HeroAreaChart({ data, isDark, isEn }: HeroAreaChartProps) {
   return (
-    <div className="h-44 sm:h-52 w-full">
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="h-44 sm:h-52 w-full min-h-[176px]">
+      <ResponsiveContainer width="100%" height="100%" minHeight={176}>
         <AreaChart data={data} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="heroGradient" x1="0" y1="0" x2="0" y2="1">
