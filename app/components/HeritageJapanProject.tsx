@@ -1,28 +1,77 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import Image from 'next/image';
 import { 
-  ArrowLeft, Landmark, FileText, 
-  BookOpen, ExternalLink, Download, Link as LinkIcon
+  ArrowLeft, Landmark, BookOpen, ExternalLink, Download, 
+  Link as LinkIcon, Search, Compass, ShieldCheck, TrendingUp, 
+  AlertTriangle, Sparkles, Eye, Camera, Layers, 
+  Calendar, Users, Award, Info, GraduationCap
 } from 'lucide-react';
 import { 
-  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, 
-  Tooltip, ResponsiveContainer, Legend, AreaChart, Area
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, 
+  Tooltip, ResponsiveContainer, AreaChart, Area
 } from 'recharts';
 import { useRouter } from 'next/navigation';
 import { trackVisitorAction } from '../lib/visitorTracking';
 import { useLanguage } from '../context/LanguageContext';
 
 import {
-  touristsData, kyotoNaraVisitorsData, spendNationalData,
+  THESIS_METADATA,
+  ACRONYMS,
+  THESIS_CHARTS_CATALOG,
+  touristsData,
+  kyotoVisitorsData,
+  naraVisitorsData,
+  kyotoNaraVisitorsData,
+  spendNationalData,
+  kyotoSpendData,
+  naraSpendData,
   gdpShareData,
+  UNESCO_SITES_JAPAN,
+  REFERENCES_DATA
 } from '../data/heritageJapanData';
 
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { useToast } from './ui/Toast';
 import { exportChartAsPng } from '../lib/chartExport';
 
-const HERITAGE_JAPAN_SECTIONS = ['overview', 'boi-canh', 'chinh-sach', 'du-lieu', 'giai-phap', 'ket-luan'];
+
+function CitationLink({ id }: { id: number }) {
+  const refData = REFERENCES_DATA.find(r => r.id === id);
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('highlight-citation', { detail: id }));
+    }
+    const el = document.getElementById(`ref-item-${id}`);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      const sec = document.getElementById('tai-lieu-tham-khao');
+      if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+  return (
+    <button
+      onClick={handleClick}
+      title={refData ? `[${id}] ${refData.title}` : `Tài liệu tham khảo [${id}]`}
+      className="inline-flex items-center justify-center px-1.5 py-0.5 mx-0.5 text-[11px] font-bold text-[#0D7287] bg-[#E2F7FC] hover:bg-[#8CE0F4] hover:text-slate-950 rounded border border-[#9BE7FA] transition-all cursor-pointer dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 dark:hover:bg-slate-700"
+    >
+      [{id}]
+    </button>
+  );
+}
+
+const HERITAGE_JAPAN_SECTIONS = [
+  'trang-bia',
+  'mo-dau',
+  'chuong-1',
+  'chuong-2',
+  'chuong-3',
+  'ket-luan',
+  'tai-lieu-tham-khao'
+];
 
 export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
   const router = useRouter();
@@ -30,7 +79,41 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
   const { showToast } = useToast();
   const isEn = language === 'en';
 
-  const [activeChartTab, setActiveChartTab] = useState<'national' | 'kyotonara' | 'spending' | 'macro'>('national');
+  // Active chart in Chapter 3
+  const [selectedChartId, setSelectedChartId] = useState<string>('3.1');
+  const [chartViewMode, setChartViewMode] = useState<'interactive' | 'authentic'>('interactive');
+
+  // Case study active tab
+  const [activeCaseStudy, setActiveCaseStudy] = useState<'kyoto' | 'nara' | 'fuji' | 'shirakawago' | 'miyajima'>('kyoto');
+
+  // UNESCO list filter
+  const [unescoFilter, setUnescoFilter] = useState<'all' | 'Văn hóa' | 'Thiên nhiên'>('all');
+  const [unescoSearch, setUnescoSearch] = useState<string>('');
+
+  // References list filter and search
+  const [refLangFilter, setRefLangFilter] = useState<'all' | 'vi' | 'en' | 'ja'>('all');
+  const [refSearch, setRefSearch] = useState<string>('');
+  const [highlightedRefId, setHighlightedRefId] = useState<number | null>(null);
+
+  const activeSection = useScrollSpy(HERITAGE_JAPAN_SECTIONS, 130);
+
+  const navItems = [
+    { id: 'trang-bia', label: isEn ? 'Cover & Thesis' : 'Trang bìa' },
+    { id: 'mo-dau', label: isEn ? 'Introduction' : 'Mở đầu' },
+    { id: 'chuong-1', label: isEn ? 'Ch1: Heritage Concept' : 'Chương 1' },
+    { id: 'chuong-2', label: isEn ? 'Ch2: Policies' : 'Chương 2' },
+    { id: 'chuong-3', label: isEn ? 'Ch3: Analytics & Cases' : 'Chương 3' },
+    { id: 'ket-luan', label: isEn ? 'Conclusion' : 'Kết luận' },
+    { id: 'tai-lieu-tham-khao', label: isEn ? 'References (41)' : 'Tài liệu (41)' },
+  ];
+
+  const handleNavClick = (id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const copyDeepLink = (sectionId: string, title: string) => {
     if (typeof window !== 'undefined') {
@@ -47,43 +130,18 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
     }
   };
 
-  const activeSection = useScrollSpy(HERITAGE_JAPAN_SECTIONS, 130);
-
-  const navItems = [
-    { id: 'boi-canh', label: isEn ? 'Context' : 'Bối cảnh' },
-    { id: 'chinh-sach', label: isEn ? 'Policy Matrix' : 'Chính sách' },
-    { id: 'du-lieu', label: isEn ? 'Telemetry & Charts' : 'Dữ liệu' },
-    { id: 'giai-phap', label: isEn ? 'Case Studies' : 'Thực nghiệm' },
-    { id: 'ket-luan', label: isEn ? 'Synthesis' : 'Tổng kết' },
-  ];
-
-  const handleNavClick = (id: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    const targetId = id === 'boi-canh' ? 'boi-canh' : id;
-    const el = document.getElementById(targetId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
 
   useEffect(() => {
-    trackVisitorAction('Xem chi tiết dự án: Sự phát triển của Du lịch Di sản tại Nhật Bản', 'proj-heritage-japan', 'project');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100', 'translate-y-0');
-          entry.target.classList.remove('opacity-0', 'translate-y-8');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+    trackVisitorAction('Xem chi tiết dự án: Niên luận Du lịch Di sản Nhật Bản (Ma Văn Hùng)', 'proj-heritage-japan', 'project');
 
-    document.querySelectorAll('.reveal-element').forEach((el) => {
-      observer.observe(el);
-    });
-
-    return () => observer.disconnect();
+    const handleHighlight = (e: Event) => {
+      const customEvent = e as CustomEvent<number>;
+      setHighlightedRefId(customEvent.detail);
+      setRefLangFilter('all');
+      setTimeout(() => setHighlightedRefId(null), 3500);
+    };
+    window.addEventListener('highlight-citation', handleHighlight);
+    return () => window.removeEventListener('highlight-citation', handleHighlight);
   }, []);
 
   const handleBack = () => {
@@ -94,12 +152,40 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
     }
   };
 
+  // Filtered UNESCO sites
+  const filteredUnescoSites = useMemo(() => {
+    return UNESCO_SITES_JAPAN.filter(site => {
+      const matchesType = unescoFilter === 'all' || site.type === unescoFilter;
+      const matchesSearch = !unescoSearch.trim() || 
+        site.nameVi.toLowerCase().includes(unescoSearch.toLowerCase()) ||
+        site.nameJa.includes(unescoSearch) ||
+        site.prefecture.toLowerCase().includes(unescoSearch.toLowerCase()) ||
+        site.highlight.toLowerCase().includes(unescoSearch.toLowerCase());
+      return matchesType && matchesSearch;
+    });
+  }, [unescoFilter, unescoSearch]);
+
+  // Filtered references
+  const filteredReferences = useMemo(() => {
+    return REFERENCES_DATA.filter(ref => {
+      const matchesLang = refLangFilter === 'all' || ref.language === refLangFilter;
+      const matchesSearch = !refSearch.trim() || 
+        ref.title.toLowerCase().includes(refSearch.toLowerCase()) ||
+        (ref.url && ref.url.toLowerCase().includes(refSearch.toLowerCase()));
+      return matchesLang && matchesSearch;
+    });
+  }, [refLangFilter, refSearch]);
+
+  const selectedChartMeta = THESIS_CHARTS_CATALOG.find(c => c.chartId === selectedChartId) || THESIS_CHARTS_CATALOG[0];
+
   return (
-    <div className="min-h-screen bg-white font-lora text-slate-900 selection:bg-[#FFE485]/40 dark:bg-slate-950 dark:text-slate-100">
+    <div className="min-h-screen bg-slate-50 font-lora text-slate-900 selection:bg-[#FFE485]/40 dark:bg-slate-950 dark:text-slate-100">
       
-      {/* Sticky Top Navigation Bar */}
-      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/90 transition-all dark:bg-slate-900/90 dark:border-slate-800">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      {/* ======================================================== */}
+      {/* STICKY TOP NAVIGATION                                     */}
+      {/* ======================================================== */}
+      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs dark:bg-slate-900/95 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <button 
             onClick={handleBack}
             className="flex items-center gap-2 text-slate-700 hover:text-slate-950 transition-colors font-bold text-sm group cursor-pointer dark:text-slate-300 dark:hover:text-white"
@@ -108,9 +194,9 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
             <span>{t('nav_back_to_portfolio', 'Quay lại Portfolio')}</span>
           </button>
           
-          <div className="hidden md:flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300">
+          <div className="hidden lg:flex items-center gap-1 text-xs font-bold text-slate-700 dark:text-slate-300">
             {navItems.map((item) => {
-              const isActive = activeSection === item.id || (item.id === 'boi-canh' && activeSection === 'overview');
+              const isActive = activeSection === item.id;
               return (
                 <a
                   key={item.id}
@@ -118,676 +204,1369 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                   onClick={(e) => handleNavClick(item.id, e)}
                   className={`px-3 py-1.5 rounded-xl transition-all duration-200 cursor-pointer ${
                     isActive
-                      ? 'bg-[#8CE0F4] text-slate-950 shadow-sm font-extrabold shadow-sky-300/40 dark:bg-slate-800 dark:text-[#9BE7FA] dark:shadow-none'
-                      : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/60 font-semibold'
+                      ? 'bg-[#8CE0F4] text-slate-950 font-black shadow-xs dark:bg-slate-800 dark:text-[#9BE7FA]'
+                      : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/60 font-semibold'
                   }`}
                 >
                   {item.label}
                 </a>
               );
             })}
-            
-            {/* Open Standalone Page if Embedded */}
+          </div>
+
+          <div className="flex items-center gap-2">
             {isEmbedded && (
               <a
                 href="/projects/proj-heritage-japan"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors ml-1.5 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200"
-                title={isEn ? 'Open in new tab' : 'Mở toàn trang trong tab mới'}
+                className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200"
+                title={isEn ? 'Open full page in new tab' : 'Mở toàn trang trong tab mới'}
               >
                 <ExternalLink className="w-4 h-4" />
               </a>
             )}
 
-            {/* Quick Language Toggle */}
             <button
               onClick={() => setLanguage(isEn ? 'vi' : 'en')}
-              className="px-2.5 py-1 rounded-xl bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 text-xs font-black transition-all shadow-xs flex items-center gap-1 cursor-pointer ml-1 border border-[#FFD14C] dark:bg-slate-900 dark:text-white dark:border-slate-800 dark:hover:bg-slate-800"
+              className="px-3 py-1.5 rounded-xl bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 text-xs font-black transition-all shadow-xs flex items-center gap-1 cursor-pointer border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C] dark:border-slate-700"
               title={isEn ? 'Chuyển sang Tiếng Việt' : 'Switch to English'}
             >
-              <span>{isEn ? '🇬🇧 EN' : '🇻🇳 VI'}</span>
+              <span>{isEn ? '🇬🇧 English' : '🇻🇳 Tiếng Việt'}</span>
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <header id="overview" className="relative bg-gradient-to-b from-[#F3FCFE] via-[#FFFDF5] to-[#FFF9E6] text-slate-900 pt-16 pb-20 overflow-hidden border-b border-slate-200/80 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900 dark:text-white dark:border-slate-800">
-        
-        {/* Subtle Sun Accent Graphic */}
-        <div className="absolute right-[6%] top-[12%] w-52 h-52 rounded-full bg-gradient-to-tr from-[#FFE485] via-[#FFD14C] to-[#E5B830] opacity-35 blur-2xl pointer-events-none hidden md:block" />
-
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
+      {/* ======================================================== */}
+      {/* 1. TRANG BÌA & THÔNG TIN HỌC THUẬT (#trang-bia)            */}
+      {/* ======================================================== */}
+      <header id="trang-bia" className="relative bg-gradient-to-b from-[#F3FCFE] via-white to-amber-50/30 text-slate-900 pt-16 pb-20 border-b border-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900 dark:text-white dark:border-slate-800">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           
-          {/* Metadata pill badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#C8EEF7]/60 border border-[#9BE7FA] rounded-md text-xs font-bold tracking-wide text-slate-900 mb-6 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-            <BookOpen className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
-            <span>{isEn ? 'ACADEMIC THESIS & DATA ANALYTICS CASE STUDY' : 'CÔNG TRÌNH NIÊN LUẬN & TRỰC QUAN HÓA DỮ LIỆU ĐỊNH LƯỢNG'}</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.15] mb-6 tracking-tight text-slate-950 dark:text-white">
-            {isEn ? 'The Evolution of Heritage Tourism in Japan' : 'Sự Phát Triển Của Du Lịch Di Sản Tại Nhật Bản'} <br/>
-            <span className="text-[#0D7287] dark:text-[#9BE7FA] text-2xl sm:text-4xl lg:text-5xl font-extrabold">
-              {isEn ? 'From 2013 Policy Shift to Sustainable Transformation' : 'Giai Đoạn Từ Năm 2013 Đến Nay'}
-            </span>
-          </h1>
-
-          <p className="text-base sm:text-lg text-slate-700 max-w-3xl mb-8 leading-relaxed dark:text-slate-300">
-            {isEn 
-              ? 'Quantitative empirical study investigating 20 years of international inbound tourist flow, regional expenditure trajectories (Kyoto, Nara, Mt. Fuji, Shirakawa-go), macroeconomic GDP contributions, and policy tensions between explosive growth and sustainable preservation.'
-              : 'Công trình nghiên cứu định lượng phân tích chuỗi số liệu 20 năm về lượng du khách quốc tế, chi tiêu du lịch tại các điểm di sản trọng điểm (Kyoto, Nara, Núi Phú Sĩ, Shirakawa-go), tỷ trọng đóng góp GDP và bài toán cân bằng giữa tăng trưởng nóng với bảo tồn bền vững.'}
-          </p>
-
-          {/* Academic Origin Box */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-white/90 border border-slate-200/90 shadow-xs mb-10 max-w-3xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 dark:bg-slate-900/90 dark:border-slate-800">
-            <div className="space-y-1">
-              <div className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                {isEn ? 'RESEARCHER & ACADEMIC ADVISOR' : 'TÁC GIẢ NGHIÊN CỨU & GIẢNG VIÊN HƯỚNG DẪN'}
+          {/* Institutional crest header */}
+          <div className="border-b border-slate-300/80 pb-6 mb-8 dark:border-slate-800">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-bold text-slate-600 tracking-wider uppercase dark:text-slate-400">
+              <div>
+                <p className="text-slate-900 font-extrabold text-sm dark:text-white">{THESIS_METADATA.universityVi}</p>
+                <p className="text-[#0D7287] dark:text-[#9BE7FA] font-bold">{THESIS_METADATA.facultyVi} — {THESIS_METADATA.majorVi}</p>
               </div>
-              <div className="text-sm font-bold text-slate-950 dark:text-white">
-                Ma Văn Hùng <span className="text-slate-500 font-normal">({isEn ? 'Japanese Studies, USSH - VNU, Cohort QH-2021-X' : 'Ngành Nhật Bản học, Khoa Đông Phương học, ĐHKHXH&NV, ĐHQGHN'})</span>
+              <div className="sm:text-right">
+                <span className="inline-block px-3 py-1 bg-amber-100 text-amber-900 rounded-full border border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800">
+                  {isEn ? 'ACADEMIC MONOGRAPH / NIÊN LUẬN' : 'CÔNG TRÌNH NGHIÊN CỨU NIÊN LUẬN'}
+                </span>
+                <p className="mt-1 text-slate-500">{THESIS_METADATA.scopeYears}</p>
               </div>
-              <div className="text-xs text-slate-600 dark:text-slate-400">
-                {isEn ? 'Supervised by: Dr. Vo Minh Vu' : 'Giảng viên hướng dẫn: TS Võ Minh Vũ'}
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full bg-[#FFE485]/40 text-slate-900 border border-[#FFD14C] text-xs font-serif font-bold dark:bg-slate-800 dark:text-[#FFD14C] dark:border-slate-700">
-                {isEn ? 'Grade: Excellent' : 'Hà Nội, 2024'}
-              </span>
             </div>
           </div>
 
-          {/* Key Metric Telemetry Badges */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl">
-            <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-serif text-slate-950 dark:text-white">31.9M</div>
-              <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? 'Peak Inbound Tourists (2019)' : 'Đỉnh khách quốc tế (2019)'}</div>
-              <div className="text-[11px] text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '+207% vs 2013' : 'Gấp ~3 lần năm 2013'}</div>
+          {/* Thesis Title */}
+          <div className="max-w-4xl mb-10">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.18] text-slate-950 mb-4 dark:text-white">
+              {isEn ? THESIS_METADATA.titleEn : THESIS_METADATA.titleVi}
+            </h1>
+            <p className="text-lg sm:text-xl text-[#0D7287] font-semibold italic dark:text-[#9BE7FA]">
+              {isEn ? THESIS_METADATA.titleVi : THESIS_METADATA.titleEn}
+            </p>
+          </div>
+
+          {/* Metadata Cards Grid: Student, Advisor, Completion, Scope */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            <div className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider mb-1 dark:text-slate-400">
+                <GraduationCap className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                <span>{isEn ? 'Author' : 'Sinh viên thực hiện'}</span>
+              </div>
+              <p className="text-base font-black text-slate-900 dark:text-white">{THESIS_METADATA.author}</p>
+              <p className="text-xs text-slate-500">Khóa: {THESIS_METADATA.cohort}</p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-serif text-slate-950 dark:text-white">4.81T ¥</div>
-              <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? 'Tourist Spending (2019)' : 'Chi tiêu khách quốc tế (2019)'}</div>
-              <div className="text-[11px] text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '3.4x surge in 7 yrs' : 'Tăng gấp 3.4 lần trong 7 năm'}</div>
+            <div className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider mb-1 dark:text-slate-400">
+                <Award className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                <span>{isEn ? 'Advisor' : 'Giảng viên hướng dẫn'}</span>
+              </div>
+              <p className="text-base font-black text-slate-900 dark:text-white">{THESIS_METADATA.advisor}</p>
+              <p className="text-xs text-slate-500">Bộ môn Nhật Bản học</p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-serif text-slate-950 dark:text-white">7.5%</div>
-              <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? 'GDP Contribution (2019)' : 'Tỷ trọng đóng góp GDP (2019)'}</div>
-              <div className="text-[11px] text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? 'Rank #3 Global Tourism' : 'Đứng #3 nền kinh tế du lịch'}</div>
+            <div className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider mb-1 dark:text-slate-400">
+                <Calendar className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span>{isEn ? 'Defense Date' : 'Thời gian hoàn thành'}</span>
+              </div>
+              <p className="text-base font-black text-slate-900 dark:text-white">{THESIS_METADATA.completionDate}</p>
+              <p className="text-xs text-slate-500">Hà Nội, 2024</p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-2xl sm:text-3xl font-black font-serif text-slate-950 dark:text-white">25</div>
-              <div className="text-xs text-slate-500 mt-1 font-medium dark:text-slate-400">{isEn ? 'UNESCO World Heritage Sites' : 'Di sản Thế giới UNESCO'}</div>
-              <div className="text-[11px] text-[#0D7287] font-bold mt-1 dark:text-[#9BE7FA]">{isEn ? '20 Cultural · 5 Natural' : '20 Văn hóa : 5 Thiên nhiên'}</div>
+            <div className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider mb-1 dark:text-slate-400">
+                <Layers className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                <span>{isEn ? 'Scope & Charts' : 'Phạm vi & Dữ liệu'}</span>
+              </div>
+              <p className="text-base font-black text-slate-900 dark:text-white">6 Biểu đồ • 41 Nguồn</p>
+              <p className="text-xs text-slate-500">Chuỗi thời gian 2003 – 2023</p>
+            </div>
+          </div>
+
+          {/* Lời cam đoan (Declaration of Originality) */}
+          <div className="p-5 rounded-2xl bg-amber-50/70 border border-amber-200/80 mb-8 dark:bg-amber-950/20 dark:border-amber-900/60">
+            <div className="flex items-start gap-3">
+              <ShieldCheck className="w-5 h-5 text-amber-700 mt-0.5 shrink-0 dark:text-amber-400" />
+              <div className="text-sm leading-relaxed text-slate-800 dark:text-slate-200">
+                <strong className="block text-amber-900 font-black mb-1 dark:text-amber-300">
+                  {isEn ? 'Author Declaration of Originality' : 'Lời cam đoan của tác giả'}:
+                </strong>
+                <p className="italic">
+                  {isEn 
+                    ? '"I hereby declare that this research monograph is my own original work carried out during my academic study at the University of Social Sciences and Humanities, VNU Hanoi. All data, statistical tables, and citations derived from external publications are objectively surveyed and rigorously cited with transparent references."'
+                    : '"Tôi xin cam đoan đề tài nghiên cứu này là công trình nghiên cứu cá nhân của tôi trong thời gian học tập tại trường Đại học Khoa học Xã hội và Nhân văn, Đại học Quốc gia Hà Nội. Các kết quả, số liệu khảo sát trong niên luận là hoàn toàn trung thực, các tài liệu tham khảo và trích dẫn đều được ghi rõ nguồn gốc rõ ràng theo chuẩn mực học thuật." — Ma Văn Hùng (19/01/2024)'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Danh mục từ viết tắt (Table 2 in Thesis) */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2 dark:text-white">
+                <BookOpen className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                <span>{isEn ? 'Table of Acronyms & Abbreviations' : 'Danh mục các từ viết tắt trong đề tài'}</span>
+              </h2>
+              <span className="text-xs text-slate-500 font-semibold">(Bảng 2 trong Niên luận)</span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider dark:border-slate-800">
+                    <th className="py-2.5 px-3">STT</th>
+                    <th className="py-2.5 px-4 font-extrabold text-[#0D7287] dark:text-[#9BE7FA]">Từ viết tắt</th>
+                    <th className="py-2.5 px-4">Nghĩa tiếng Anh (Nguyên gốc)</th>
+                    <th className="py-2.5 px-4">Giải nghĩa tiếng Việt</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+                  {ACRONYMS.map((acr) => (
+                    <tr key={acr.abbr} className="hover:bg-slate-50 transition-colors dark:hover:bg-slate-800/40">
+                      <td className="py-2.5 px-3 text-slate-400 font-mono text-xs">{acr.stt}</td>
+                      <td className="py-2.5 px-4 font-black font-mono text-slate-900 dark:text-white">{acr.abbr}</td>
+                      <td className="py-2.5 px-4 text-slate-700 italic dark:text-slate-300">{acr.meaningEn}</td>
+                      <td className="py-2.5 px-4 text-slate-900 font-medium dark:text-slate-200">{acr.meaningVi}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
 
         </div>
       </header>
 
-      {/* SECTION 1: BỐI CẢNH & CÂU HỎI NGHIÊN CỨU */}
-      <section id="boi-canh" className="py-16 max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-              <span>01 : CHƯƠNG 1 : TỔNG QUAN & BỐI CẢNH</span>
-            </div>
-            <button
-              onClick={() => copyDeepLink('boi-canh', isEn ? 'Context' : 'Bối cảnh nghiên cứu')}
-              className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
-              title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
-            >
-              <LinkIcon className="w-3.5 h-3.5" />
-            </button>
-          </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
-            {isEn ? 'Heritage Tourism Explosion: 31.9 Million Foreign Visitors' : 'Du Lịch Di Sản: Động Lực Tăng Trưởng Kinh Tế Chiến Lược'}
-          </h2>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="p-6 sm:p-8 rounded-3xl bg-[#F8FCFD] border border-slate-200/90 space-y-4 dark:bg-slate-900/60 dark:border-slate-800">
-            <h3 className="text-lg font-black text-slate-950 dark:text-white flex items-center gap-2">
-              <Landmark className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
-              {isEn ? 'Core Research Question' : 'Câu Hỏi Nghiên Cứu Cốt Lõi'}
-            </h3>
-            <p className="text-sm sm:text-base text-slate-700 leading-relaxed italic border-l-4 border-[#9BE7FA] pl-4 dark:text-slate-300">
-              {isEn
-                ? '"How has heritage tourism in Japan evolved since the 2013 Action Program, and how does the nation balance economic returns against overtourism pressures?"'
-                : '"Du lịch di sản tại Nhật Bản đã phát triển như thế nào từ năm 2013 đến nay dưới tác động của Chương trình hành động quốc gia du lịch, và Nhật Bản đã giải quyết bài toán mâu thuẫn giữa hiệu quả kinh tế với áp lực quá tải di sản ra sao?"'}
-            </p>
-            <div className="space-y-2 pt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-              <div className="flex items-start gap-2">
-                <span className="text-[#0D7287] dark:text-[#9BE7FA] font-bold">•</span>
-                <span><b>{isEn ? 'Temporal Scope:' : 'Phạm vi thời gian:'}</b> 2013 - 2023 (Cột mốc Hội nghị Bộ trưởng Xúc tiến Du lịch lần 2 thông qua chiến lược Japan is Back).</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-[#0D7287] dark:text-[#9BE7FA] font-bold">•</span>
-                <span><b>{isEn ? 'Spatial Scope:' : 'Phạm vi không gian:'}</b> 25 Di sản Thế giới UNESCO tại Nhật Bản, tập trung sâu vào Cố đô Kyoto, Cố đô Nara, Núi Phú Sĩ, Làng cổ Shirakawa-go và Đền Itsukushima.</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 space-y-4 shadow-xs dark:bg-slate-900/60 dark:border-slate-800">
-            <h3 className="text-lg font-black text-slate-950 dark:text-white flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
-              {isEn ? 'Global Heritage Market Context' : 'Bối Cảnh Thị Trường Du Lịch Di Sản Toàn Cầu'}
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 rounded-2xl bg-[#FFF9E6] border border-[#FFE485] dark:bg-slate-800/80 dark:border-slate-700">
-                <div className="text-2xl font-black font-serif text-slate-950 dark:text-[#FFD14C]">40%</div>
-                <div className="text-xs text-slate-600 mt-1 dark:text-slate-400">{isEn ? 'of global travelers choose cultural heritage destinations (UNWTO)' : 'du khách toàn cầu chọn điểm đến di sản văn hóa (UNWTO)'}</div>
-              </div>
-              <div className="p-4 rounded-2xl bg-[#C8EEF7]/50 border border-[#9BE7FA] dark:bg-slate-800/80 dark:border-slate-700">
-                <div className="text-2xl font-black font-serif text-slate-950 dark:text-[#9BE7FA]">556.9B $</div>
-                <div className="text-xs text-slate-600 mt-1 dark:text-slate-400">{isEn ? 'Global Heritage Tourism Revenue (CAGR 3.8% to $778B in 2030)' : 'Quy mô doanh thu du lịch di sản toàn cầu năm 2021'}</div>
-              </div>
-            </div>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
-              {isEn
-                ? 'Asia-Pacific accounts for ~40% global heritage tourism market share, predominantly driven by China, India and Japan.'
-                : 'Khu vực Châu Á - Thái Bình Dương nắm giữ khoảng 40% thị phần doanh thu du lịch di sản toàn cầu, chủ yếu được đóng góp bởi Nhật Bản, Trung Quốc và Ấn Độ.'}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 2: CHÍNH SÁCH BẢO TỒN VÀ DU LỊCH DI SẢN */}
-      <section id="chinh-sach" className="py-16 bg-[#F8FCFD] border-y border-slate-200/80 dark:bg-slate-900/40 dark:border-slate-800">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-                <span>02 : CHƯƠNG 2 : HỆ THỐNG PHÁP LÝ & CHÍNH SÁCH</span>
-              </div>
-              <button
-                onClick={() => copyDeepLink('chinh-sach', isEn ? 'Policy Matrix' : 'Chính sách bảo tồn')}
-                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
-                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
-              >
-                <LinkIcon className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
-              {isEn ? 'Policy Evolution: Legal Conservation First, Tourism Action Program Follows' : 'Tiến Trình Chính Sách: Pháp Lý Đi Trước, Du Lịch Theo Sau'}
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-4">
-            {[
-              {
-                period: '1897 - 1950',
-                title: isEn ? 'Cultural Properties Protection Law' : 'Luật Bảo vệ Di sản Văn hóa (1950)',
-                desc: isEn ? 'Unified 3 early preservation laws from Meiji era; established core protections for tangible and intangible cultural assets.' : 'Hợp nhất 3 đạo luật từ thời Minh Trị (1897), bảo vệ toàn diện di sản vật thể, phi vật thể, cổ vật và công trình kiến trúc cổ.'
-              },
-              {
-                period: '2004',
-                title: isEn ? '2004 Law Revision: Cultural Landscapes' : 'Sửa đổi Luật Di sản Văn hóa (2004)',
-                desc: isEn ? 'Added legal preservation for Cultural Landscapes (文化的景観) and Traditional Building Clusters, safeguarding surrounding buffer zones.' : 'Bổ sung chế độ bảo tồn “Cảnh quan Văn hóa” và Quần thể kiến trúc truyền thống, bảo vệ toàn diện không gian đệm bao quanh di sản.'
-              },
-              {
-                period: '2006 - 2008',
-                title: isEn ? 'Tourism Nation Act & JTA Agency' : 'Luật Du lịch Quốc gia & JTA (2008)',
-                desc: isEn ? 'Established Japan Tourism Agency (JTA) and chartered the Historic Towns Planning Act (2008) resolving regional development with heritage.' : 'Ban hành Luật Quy hoạch Thị trấn Lịch sử (2008), thành lập Cơ quan Du lịch Nhật Bản (JTA) để phát triển bền vững.'
-              },
-              {
-                period: '2013 - Nay',
-                title: isEn ? '2013 Action Program: Japan is Back' : 'Chương trình hành động Du lịch (2013)',
-                desc: isEn ? 'Relaxed visas for ASEAN, expanded hospitality capacity, deployed multilingual systems, promoted "Brand Japan" globally.' : 'Nới lỏng visa cho Đông Nam Á (Việt Nam, Thái Lan), mở rộng lưu trú, thanh toán thẻ quốc tế, phát triển chiến lược "Thương hiệu Nhật Bản".'
-              }
-            ].map((item) => (
-              <div key={item.period} className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-2 dark:bg-slate-900 dark:border-slate-800">
-                <span className="inline-block px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-800 font-serif text-xs font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
-                  {item.period}
-                </span>
-                <h4 className="text-sm font-black text-slate-950 leading-snug dark:text-white">{item.title}</h4>
-                <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="p-5 rounded-2xl bg-[#FFF9E6] border border-[#FFE485] text-xs sm:text-sm text-slate-800 flex items-start gap-3 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300">
-            <FileText className="w-5 h-5 text-[#0D7287] dark:text-[#FFD14C] shrink-0 mt-0.5" />
-            <p className="leading-relaxed">
-              <b>{isEn ? 'Key Analytical Finding:' : 'Phát hiện phân tích chính:'}</b> {isEn 
-                ? 'Japan succeeded because administrative heritage conservation systems were enacted decades before mass tourism promotion, establishing robust preservation guardrails prior to the 2013 explosion.'
-                : 'Sự thành công của Nhật Bản bắt nguồn từ việc xây dựng thể chế bảo tồn di sản vững chắc từ trước (Luật 1950, 2004), tạo hàng rào bảo vệ trước khi mở cửa bùng nổ du lịch năm 2013.'}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 3: TRỰC QUAN HÓA SỐ LIỆU ĐỊNH LƯỢNG (INTERACTIVE TELEMETRY) */}
-      <section id="du-lieu" className="py-16 max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-                <span>03 : CHƯƠNG 3 : PHÂN TÍCH HIỆU QUẢ DU LỊCH</span>
-              </div>
-              <button
-                onClick={() => copyDeepLink('du-lieu', isEn ? 'Telemetry & Charts' : 'Số liệu định lượng')}
-                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
-                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
-              >
-                <LinkIcon className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
-              {isEn ? 'Interactive Quantitative Telemetry (6 Datasets)' : 'Trực Quan Hóa Chuỗi Số Liệu Định Lượng'}
-            </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
-              {isEn ? 'Select an analytical perspective to inspect data points transcribed from the thesis.' : 'Chọn góc nhìn phân tích để khám phá chi tiết các bảng số liệu trích xuất từ niên luận.'}
-            </p>
-          </div>
-
-          {/* Tab Switcher */}
-          <div className="flex flex-wrap gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200/80 dark:bg-slate-900 dark:border-slate-800">
-            <button
-              onClick={() => setActiveChartTab('national')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                activeChartTab === 'national' 
-                  ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-800 dark:text-[#9BE7FA]' 
-                  : 'text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white'
-              }`}
-            >
-              {isEn ? '1. National Inbound (2003-22)' : '1. Khách Toàn Quốc'}
-            </button>
-            <button
-              onClick={() => setActiveChartTab('kyotonara')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                activeChartTab === 'kyotonara' 
-                  ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-800 dark:text-[#9BE7FA]' 
-                  : 'text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white'
-              }`}
-            >
-              {isEn ? '2. Kyoto vs Nara Inbound' : '2. Kyoto & Nara'}
-            </button>
-            <button
-              onClick={() => setActiveChartTab('spending')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                activeChartTab === 'spending' 
-                  ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-800 dark:text-[#9BE7FA]' 
-                  : 'text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white'
-              }`}
-            >
-              {isEn ? '3. Expenditure Surge' : '3. Chi Tiêu Du Lịch'}
-            </button>
-            <button
-              onClick={() => setActiveChartTab('macro')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                activeChartTab === 'macro' 
-                  ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-800 dark:text-[#9BE7FA]' 
-                  : 'text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white'
-              }`}
-            >
-              {isEn ? '4. Macro GDP Impact' : '4. GDP & Việc Làm'}
-            </button>
-          </div>
-        </div>
-
-        {/* Dynamic Chart Display Container */}
-        <div id="heritage-japan-main-chart" className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm space-y-6 dark:bg-slate-900 dark:border-slate-800">
-          <div className="flex justify-end no-print">
-            <button
-              onClick={() => handleExportChart('heritage-japan-main-chart', `japan-heritage-${activeChartTab}`)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
-              title={isEn ? 'Export chart as PNG' : 'Tải ảnh biểu đồ PNG'}
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>{isEn ? 'Export PNG' : 'Xuất PNG'}</span>
-            </button>
-          </div>
-
-          {/* TAB 1: TOÀN QUỐC */}
-          {activeChartTab === 'national' && (
-            <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3 dark:border-slate-800">
-                <div>
-                  <h3 className="text-lg font-black text-slate-950 dark:text-white">
-                    {isEn ? 'Biểu đồ 3.1: International Inbound Arrivals to Japan (2003 - 2022)' : 'Biểu đồ 3.1: Số lượng khách du lịch nước ngoài đến Nhật Bản (2003 - 2022)'}
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Nguồn: Sách trắng Bộ Đất đai, Cơ sở hạ tầng, Giao thông và Du lịch Nhật Bản (MLIT)
-                  </p>
-                </div>
-                <span className="text-xs font-bold px-2.5 py-1 rounded bg-[#C8EEF7]/50 text-slate-900 border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
-                  Đơn vị: Triệu lượt khách
-                </span>
-              </div>
-
-              <div className="h-72 sm:h-80 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={touristsData} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
-                    <defs>
-                      <linearGradient id="nationalInboundGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#9BE7FA" stopOpacity={0.7}/>
-                        <stop offset="95%" stopColor="#9BE7FA" stopOpacity={0.05}/>
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                    <XAxis dataKey="year" stroke="#64748B" fontSize={11} tickLine={false} />
-                    <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
-                    <Tooltip 
-                      contentStyle={{ borderRadius: '12px', border: '1px solid #CBD5E1', fontSize: '12px' }}
-                      formatter={(val: number | string | readonly (string | number)[] | undefined) => [`${val} triệu lượt`, 'Khách quốc tế']}
-                    />
-                    <Area type="monotone" dataKey="value" stroke="#0D7287" strokeWidth={2.5} fill="url(#nationalInboundGrad)" />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-
-              <div className="grid sm:grid-cols-3 gap-3 pt-2 text-xs text-slate-700 dark:text-slate-300">
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 dark:bg-slate-800/60 dark:border-slate-700">
-                  <span className="font-bold text-slate-900 block mb-0.5 dark:text-white">Giai đoạn 2003 - 2012:</span>
-                  Khách quốc tế đi ngang quanh mức 6.2M - 8.6M lượt khách/năm.
-                </div>
-                <div className="p-3 rounded-xl bg-[#FFF9E6] border border-[#FFE485] dark:bg-slate-800/60 dark:border-slate-700">
-                  <span className="font-bold text-slate-900 block mb-0.5 dark:text-white">Giai đoạn 2013 - 2019:</span>
-                  Tăng trưởng vượt bậc từ 10.4M lên 31.9M lượt khách (tăng 207% trong 6 năm).
-                </div>
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 dark:bg-slate-800/60 dark:border-slate-700">
-                  <span className="font-bold text-slate-900 block mb-0.5 dark:text-white">Giai đoạn 2020 - 2022:</span>
-                  Sụt giảm do COVID-19 (chạm đáy 0.2M năm 2021) và phục hồi mạnh mẽ từ 2023.
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* TAB 2: SO SÁNH KYOTO VS NARA */}
-          {activeChartTab === 'kyotonara' && (
-            <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3 dark:border-slate-800">
-                <div>
-                  <h3 className="text-lg font-black text-slate-950 dark:text-white">
-                    {isEn ? 'Biểu đồ 3.2 & 3.3: Inbound Tourists to Historic Kyoto and Nara (2009 - 2023)' : 'Biểu đồ 3.2 & 3.3: Lượng khách quốc tế tại Cố đô Kyoto và Cố đô Nara'}
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Nguồn: Cục Du lịch Tỉnh Kyoto & Ban Xúc tiến Du lịch Tỉnh Nara
-                  </p>
-                </div>
-                <span className="text-xs font-bold px-2.5 py-1 rounded bg-[#FFE485]/40 text-slate-900 border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C]">
-                  Đơn vị: Nghìn lượt khách
-                </span>
-              </div>
-
-              <div className="h-72 sm:h-80 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={kyotoNaraVisitorsData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                    <XAxis dataKey="year" stroke="#64748B" fontSize={11} tickLine={false} />
-                    <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
-                    <Tooltip 
-                      contentStyle={{ borderRadius: '12px', border: '1px solid #CBD5E1', fontSize: '12px' }}
-                      formatter={(val: number | string | readonly (string | number)[] | undefined) => [`${val} nghìn khách`, '']}
-                    />
-                    <Legend verticalAlign="top" height={36} iconType="circle" />
-                    <Line type="monotone" dataKey="kyoto" name="Cố đô Kyoto" stroke="#0D7287" strokeWidth={3} dot={{ r: 3 }} activeDot={{ r: 5 }} />
-                    <Line type="monotone" dataKey="nara" name="Cố đô Nara" stroke="#FFD14C" strokeWidth={3} dot={{ r: 3 }} activeDot={{ r: 5 }} />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-4 pt-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                <div className="p-4 rounded-2xl bg-white border border-slate-200/90 dark:bg-slate-800/60 dark:border-slate-700">
-                  <span className="font-bold text-slate-950 block mb-1 text-sm dark:text-white">Tại Thành phố Kyoto:</span>
-                  Trước 2013 chưa từng vượt 1 triệu khách; đạt 3.1 triệu (2016) và chạm đỉnh 4.5 triệu (2019), gây áp lực quá tải hạ tầng xe bus.
-                </div>
-                <div className="p-4 rounded-2xl bg-white border border-slate-200/90 dark:bg-slate-800/60 dark:border-slate-700">
-                  <span className="font-bold text-slate-950 block mb-1 text-sm dark:text-white">Tại Cố đô Nara:</span>
-                  Tăng trưởng liên tục 40% - 60% mỗi năm sau 2013; từ 435 nghìn khách (2013) lên đỉnh 3.3 triệu lượt khách (2019).
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* TAB 3: CHI TIÊU DU LỊCH */}
-          {activeChartTab === 'spending' && (
-            <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3 dark:border-slate-800">
-                <div>
-                  <h3 className="text-lg font-black text-slate-950 dark:text-white">
-                    {isEn ? 'Biểu đồ 3.4 & 3.5: International Inbound Spending Surge (2010 - 2021)' : 'Biểu đồ 3.4 & 3.5: Tăng trưởng Chi tiêu Du khách Quốc tế'}
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Nguồn: Honichi Inbound Insights & Sở Du lịch Kyoto / Nara
-                  </p>
-                </div>
-                <span className="text-xs font-bold px-2.5 py-1 rounded bg-[#C8EEF7]/50 text-slate-900 border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
-                  Đơn vị: Nghìn tỷ Yên (¥)
-                </span>
-              </div>
-
-              <div className="h-72 sm:h-80 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={spendNationalData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                    <XAxis dataKey="year" stroke="#64748B" fontSize={11} tickLine={false} />
-                    <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
-                    <Tooltip 
-                      contentStyle={{ borderRadius: '12px', border: '1px solid #CBD5E1', fontSize: '12px' }}
-                      formatter={(val: number | string | readonly (string | number)[] | undefined) => [`${val} nghìn tỷ Yên`, 'Tổng chi tiêu']}
-                    />
-                    <Bar dataKey="value" fill="#FFD14C" radius={[6, 6, 0, 0]} maxBarSize={38} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs sm:text-sm text-slate-700 dark:bg-slate-800/60 dark:border-slate-700 dark:text-slate-300">
-                <b>Đóng góp chi tiêu cục bộ tại các di sản trọng điểm:</b>
-                <ul className="mt-1.5 space-y-1 list-disc list-inside">
-                  <li><b>Kyoto:</b> Chi tiêu du lịch tăng từ 649 tỷ Yên (2008) lên 1.308 tỷ Yên (2019) (Biểu đồ 3.5).</li>
-                  <li><b>Nara:</b> Chi tiêu du lịch tăng từ 872 tỷ Yên (2013) lên đỉnh 1.208 tỷ Yên (2018) (Biểu đồ 3.6).</li>
-                </ul>
-              </div>
-            </div>
-          )}
-
-          {/* TAB 4: KINH TẾ VĨ MÔ & VIỆC LÀM */}
-          {activeChartTab === 'macro' && (
-            <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3 dark:border-slate-800">
-                <div>
-                  <h3 className="text-lg font-black text-slate-950 dark:text-white">
-                    {isEn ? 'Macroeconomic GDP Share & Employment Impact' : 'Đóng Góp Vào GDP Nhật Bản & Việc Làm Toàn Quốc'}
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Nguồn: Bộ Kinh tế, Thương mại và Công nghiệp Nhật Bản (METI) & WTTC
-                  </p>
-                </div>
-                <span className="text-xs font-bold px-2.5 py-1 rounded bg-[#FFE485]/40 text-slate-900 border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C]">
-                  Đơn vị: % GDP & Nghìn tỷ Yên
-                </span>
-              </div>
-
-              <div className="h-72 sm:h-80 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={gdpShareData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                    <XAxis dataKey="year" stroke="#64748B" fontSize={11} tickLine={false} />
-                    <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
-                    <Tooltip 
-                      contentStyle={{ borderRadius: '12px', border: '1px solid #CBD5E1', fontSize: '12px' }}
-                      formatter={(val: number | string | readonly (string | number)[] | undefined, name?: string | number) => [name === 'gdpShare' ? `${val}% GDP` : `${val} nghìn tỷ Yên`, name === 'gdpShare' ? 'Tỷ trọng GDP' : 'Doanh thu Lữ hành']}
-                    />
-                    <Legend verticalAlign="top" height={36} iconType="circle" />
-                    <Bar dataKey="gdpShare" fill="#0D7287" name="gdpShare" radius={[4, 4, 0, 0]} maxBarSize={30} />
-                    <Bar dataKey="directRevenue" fill="#FFD14C" name="directRevenue" radius={[4, 4, 0, 0]} maxBarSize={30} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-
-              <div className="grid sm:grid-cols-3 gap-3 pt-2 text-xs text-slate-700 dark:text-slate-300">
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 dark:bg-slate-800/60 dark:border-slate-700">
-                  <span className="font-bold text-slate-900 block mb-0.5 dark:text-white">4.0+ Triệu Việc Làm:</span>
-                  Ngành du lịch hỗ trợ 6.9% tổng số việc làm trên toàn lãnh thổ Nhật Bản.
-                </div>
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 dark:bg-slate-800/60 dark:border-slate-700">
-                  <span className="font-bold text-slate-900 block mb-0.5 dark:text-white">Thành phố Kyoto:</span>
-                  Thuế du lịch đạt 39 tỷ Yên (12.8% ngân sách), tạo 153.000 việc làm (12.4% lao động).
-                </div>
-                <div className="p-3 rounded-xl bg-[#FFF9E6] border border-[#FFE485] dark:bg-slate-800/60 dark:border-slate-700">
-                  <span className="font-bold text-slate-900 block mb-0.5 dark:text-white">Xếp Hạng Thế Giới:</span>
-                  Năm 2019, Nhật Bản vượt Đức trở thành nền kinh tế du lịch lớn thứ 3 toàn cầu.
-                </div>
-              </div>
-            </div>
-          )}
-
-        </div>
-      </section>
-
-      {/* SECTION 4: THÁCH THỨC QUÁ TẢI & 5 CASE STUDY ĐIỂN HÌNH */}
-      <section id="giai-phap" className="py-16 bg-[#F8FCFD] border-t border-slate-200/80 dark:bg-slate-900/40 dark:border-slate-800">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10">
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-                <span>04 : CHƯƠNG 3.2 : THÁCH THỨC & GIẢI PHÁP THỰC TIỄN</span>
-              </div>
-              <button
-                onClick={() => copyDeepLink('giai-phap', isEn ? 'Case Studies' : 'Giải pháp thực tiễn')}
-                className="p-1 rounded-md text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
-                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
-              >
-                <LinkIcon className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
-              {isEn ? 'Overtourism Bottlenecks & 5 Ground-Level Policy Interventions' : 'Quá Tải Du Lịch & 5 Mô Hình Ứng Phó Thực Nghiệm'}
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            {/* Case Study 1: Kyoto IoT Camera */}
-            <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
-              <div className="w-9 h-9 rounded-xl bg-[#C8EEF7] text-slate-950 flex items-center justify-center font-bold font-serif text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">
-                01
-              </div>
-              <h3 className="text-base font-black text-slate-950 dark:text-white">
-                {isEn ? 'Kyoto: Real-Time Congestion IoT Cameras' : 'Kyoto: Camera IoT & Phân Tán 6 Khu Vực'}
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
-                Lắp đặt mạng lưới camera livestream trực tiếp phân tích mật độ tắc nghẽn giao thông quanh chùa Kinkakuji, Gion; đưa lên Bản đồ tiện nghi du lịch Kyoto (京都観光快適度マップ) để điều hướng dòng khách phân tán ra 6 khu vực ngoại ô.
-              </p>
-            </div>
-
-            {/* Case Study 2: Itsukushima Tourist Tax */}
-            <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
-              <div className="w-9 h-9 rounded-xl bg-[#FFE485] text-slate-950 flex items-center justify-center font-bold font-serif text-sm dark:bg-[#FFD14C] dark:text-slate-950">
-                02
-              </div>
-              <h3 className="text-base font-black text-slate-950 dark:text-white">
-                {isEn ? 'Itsukushima Shrine: Inbound Visitor Tax' : 'Đền Itsukushima: Thuế Lên Đảo (入島税)'}
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
-                Đối mặt với lượng khách 4.6 triệu người (2019), Thành phố Hatsukaichi áp thuế 100 Yên/người lên đảo Miyajima; tạo nguồn ngân sách chuyên biệt phục vụ trùng tu đền cổ và dọn rác thải bảo vệ môi trường biển.
-              </p>
-            </div>
-
-            {/* Case Study 3: Shirakawa-go Reservation */}
-            <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
-              <div className="w-9 h-9 rounded-xl bg-[#C8EEF7] text-slate-950 flex items-center justify-center font-bold font-serif text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">
-                03
-              </div>
-              <h3 className="text-base font-black text-slate-950 dark:text-white">
-                {isEn ? 'Shirakawa-go: Strict Pre-Booking System' : 'Shirakawa-go: Đặt Chỗ 100% (Light-up)'}
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
-                Ngôi làng 600 dân đón 1.8 triệu khách/năm; sự kiện mùa đông Shirakawa-go Winter Light up chuyển sang cơ chế đăng ký và giữ chỗ trực tuyến 100%, giới hạn số lượng xe buýt và người lên đài quan sát.
-              </p>
-            </div>
-
-            {/* Case Study 4: Mt. Fuji VR & Fund */}
-            <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
-              <div className="w-9 h-9 rounded-xl bg-[#FFE485] text-slate-950 flex items-center justify-center font-bold font-serif text-sm dark:bg-[#FFD14C] dark:text-slate-950">
-                04
-              </div>
-              <h3 className="text-base font-black text-slate-950 dark:text-white">
-                {isEn ? 'Mt. Fuji: Virtual Trekking VR & Fund' : 'Núi Phú Sĩ: VR 6.100m² & Quỹ Bảo Tồn'}
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
-                Đón 5.06 triệu khách (2019); thành lập Trung tâm Di sản 6.100 m² với mô hình leo núi thực tế ảo (VR) giảm tải leo núi thực; vận hành Quỹ hợp tác bảo tồn Phú Sĩ (2014) thu phí bảo tồn và quy hoạch đường sắt leo núi.
-              </p>
-            </div>
-
-            {/* Case Study 5: Nara Minpaku Ordinance */}
-            <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800 md:col-span-2 lg:col-span-2">
-              <div className="w-9 h-9 rounded-xl bg-[#C8EEF7] text-slate-950 flex items-center justify-center font-bold font-serif text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">
-                05
-              </div>
-              <h3 className="text-base font-black text-slate-950 dark:text-white">
-                {isEn ? 'Nara: Luxury Hotels & Minpaku Residential Ordinance' : 'Nara: Pháp Lệnh Quản Lý Homestay (Minpaku) & Khách Sạn Sang Trọng'}
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
-                Ban hành &quot;Pháp lệnh đảm bảo quản lý hợp lý doanh nghiệp lưu trú&quot;, cho phép sử dụng công trình di sản làm cơ sở lưu trú cao cấp (JW Marriott Hotel Nara, Fufu Nara, Fairfield by Marriott Tenri); đồng thời kiểm soát lượng rác thải bảo vệ đàn hươu 1.200 con tại Công viên Nara.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 5: KẾT LUẬN & ĐỀ XUẤT */}
-      <section id="ket-luan" className="py-16 max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
-        <div className="p-8 sm:p-10 rounded-3xl bg-[#FFE485] text-slate-950 border-2 border-[#FFD14C] space-y-6 shadow-md dark:bg-[#090D16] dark:text-white dark:border-slate-800">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#0D7287] dark:text-[#9BE7FA]">
-                KẾT LUẬN & ĐỀ XUẤT CHÍNH SÁCH
-              </span>
-              <button
-                onClick={() => copyDeepLink('ket-luan', isEn ? 'Synthesis' : 'Tổng kết & Đề xuất')}
-                className="p-1 rounded-md text-slate-700 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
-                title={isEn ? 'Copy link to section' : 'Sao chép liên kết mục'}
-              >
-                <LinkIcon className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950 dark:text-white">
-              {isEn ? 'Summary: Transition from Volume Growth to Quality & Sustainability' : 'Chuyển Đổi Chiến Lược: Từ "Số Lượng" Sang "Chất Lượng & Bền Vững"'}
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 text-xs sm:text-sm text-slate-900 leading-relaxed font-medium dark:text-slate-300">
-            <div className="space-y-2 bg-white/60 p-4 rounded-2xl border border-[#FFD14C]/70 shadow-2xs dark:bg-slate-900/50 dark:border-slate-800">
-              <div className="text-[#0D7287] font-black text-sm dark:text-[#FFD14C]">1. Nền Tảng Pháp Lý Trước Tiên</div>
-              <p>Chính sách bảo tồn di sản phải được thể chế hóa và đi trước các đợt bùng nổ truyền thông, tạo hành lang pháp lý bảo vệ không gian cảnh quan.</p>
-            </div>
-            <div className="space-y-2 bg-white/60 p-4 rounded-2xl border border-[#FFD14C]/70 shadow-2xs dark:bg-slate-900/50 dark:border-slate-800">
-              <div className="text-[#0D7287] font-black text-sm dark:text-[#9BE7FA]">2. Công Nghệ Điều Tiết Dòng Khách</div>
-              <p>Ứng dụng IoT, camera thời gian thực và hệ thống đặt chỗ trực tuyến giúp phân tán mật độ, tránh xung đột lợi ích với cư dân bản địa.</p>
-            </div>
-            <div className="space-y-2 bg-white/60 p-4 rounded-2xl border border-[#FFD14C]/70 shadow-2xs dark:bg-slate-900/50 dark:border-slate-800">
-              <div className="text-[#0D7287] font-black text-sm dark:text-[#FFD14C]">3. Tái Đầu Tư Doanh Thu Du Lịch</div>
-              <p>Các khoản thuế du khách và quỹ hợp tác bảo tồn đảm bảo nguồn tài chính nội sinh bền vững cho việc tôn tạo và trùng tu di sản cho thế hệ mai sau.</p>
-            </div>
-          </div>
-
-          <div className="pt-4 border-t border-[#FFD14C] flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-slate-800 font-mono dark:border-slate-800 dark:text-slate-400">
+      {/* ======================================================== */}
+      {/* 2. PHẦN MỞ ĐẦU (#mo-dau)                                 */}
+      {/* ======================================================== */}
+      <section id="mo-dau" className="py-16 bg-white border-b border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          
+          <div className="flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800">
             <div>
-              Trích xuất từ Niên luận Nghiên cứu Nhật Bản học, Khoa Đông Phương học, ĐHKHXH&NV, ĐHQGHN.
+              <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
+                {isEn ? 'Part I • Introduction' : 'Phần Mở Đầu • Đề cương nghiên cứu'}
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
+                {isEn ? 'Research Rationale & Methodological Framework' : 'Lý do, Mục tiêu & Phương pháp nghiên cứu'}
+              </h2>
             </div>
-            <div className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">
-              Tác giả: Ma Văn Hùng · 2024
+            <button
+              onClick={() => copyDeepLink('mo-dau', isEn ? 'Introduction' : 'Phần Mở Đầu')}
+              className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800"
+              title="Sao chép liên kết mục"
+            >
+              <LinkIcon className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="space-y-8 text-base sm:text-lg leading-relaxed text-slate-800 dark:text-slate-200">
+            
+            {/* 1. Lý do nghiên cứu */}
+            <div className="space-y-3">
+              <h3 className="text-xl font-black text-slate-950 flex items-center gap-2 dark:text-white">
+                <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#8CE0F4]/40 text-[#0D7287] font-black text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">1</span>
+                <span>{isEn ? '1. Research Rationale' : '1. Lý do nghiên cứu'}</span>
+              </h3>
+              <p>
+                Bước vào thế kỷ 21, du lịch di sản (Heritage Tourism) đã vươn lên thành một trong những phân khúc phát triển bùng nổ nhất của ngành du lịch toàn cầu, chiếm hơn 40% lượng du khách quốc tế theo số liệu của Tổ chức Du lịch Thế giới <CitationLink id={8} />. Đối với Nhật Bản, sau giai đoạn trì trệ kinh tế kéo dài cùng biến cố động đất sóng thần năm 2011, chính phủ đã xác định du lịch là trụ cột kinh tế chiến lược nhằm hồi sinh các vùng địa phương và nâng cao vị thế quốc gia.
+              </p>
+              <p>
+                Mốc năm <strong>2013</strong> mang tính bước ngoặt lịch sử: Chính phủ Nhật Bản ban hành <em>"Chương trình hành động hướng tới quốc gia du lịch"</em> (観光立国実現に向けたアクション・プログラム) <CitationLink id={15} />, đồng thời Tokyo giành quyền đăng cai Thế vận hội Olympic 2020 và Núi Phú Sĩ chính thức được UNESCO công nhận là Di sản Thế giới. Sự kết hợp giữa chính sách mở cửa visa, mở rộng đường bay và chiến lược quảng bá thương hiệu quốc gia đã tạo ra làn sóng tăng trưởng chưa từng có. Nghiên cứu kinh nghiệm quản trị, cân bằng giữa phát triển du lịch di sản với bảo tồn nguyên vẹn các giá trị văn hóa của Nhật Bản đem lại những hàm ý và bài học quý giá cho các quốc gia đang phát triển như Việt Nam <CitationLink id={4} /><CitationLink id={6} />.
+              </p>
             </div>
+
+            {/* 2. Mục đích và câu hỏi nghiên cứu */}
+            <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+              <h3 className="text-xl font-black text-slate-950 flex items-center gap-2 dark:text-white">
+                <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#8CE0F4]/40 text-[#0D7287] font-black text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">2</span>
+                <span>{isEn ? '2. Objectives & Research Questions' : '2. Mục đích và câu hỏi nghiên cứu'}</span>
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
+                  <h4 className="font-extrabold text-slate-900 mb-2 flex items-center gap-2 text-sm uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA]">
+                    <Compass className="w-4 h-4" />
+                    <span>2.1 Mục đích nghiên cứu</span>
+                  </h4>
+                  <p className="text-sm leading-relaxed">
+                    Khảo sát, phân tích toàn diện quá trình phát triển của du lịch di sản tại Nhật Bản giai đoạn 2013 đến nay dưới hai tiêu chí then chốt: <strong>Hiệu quả du lịch</strong> (lượng khách, chi tiêu, GDP, việc làm) và <strong>Công tác bảo tồn - quản lý di sản</strong> (quá tải du lịch, thương mại hóa, bảo vệ môi trường).
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
+                  <h4 className="font-extrabold text-slate-900 mb-2 flex items-center gap-2 text-sm uppercase tracking-wider text-amber-700 dark:text-amber-400">
+                    <Info className="w-4 h-4" />
+                    <span>2.2 Ba câu hỏi nghiên cứu chính</span>
+                  </h4>
+                  <ul className="text-sm space-y-1.5 list-disc list-inside text-slate-700 dark:text-slate-300">
+                    <li>Chính sách phát triển và bảo tồn di sản của Nhật Bản được hoạch định và chuyển dịch như thế nào?</li>
+                    <li>Sự phát triển của du lịch di sản được phản ánh qua các chỉ số định lượng nào tại Kyoto, Nara và cả nước?</li>
+                    <li>Chính quyền Nhật Bản đã giải quyết xung đột lợi ích dân cư và hệ lụy quá tải (Overtourism) ra sao?</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* 3, 4, 5, 6: Nhiệm vụ, Đối tượng, Phương pháp, Bố cục */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+              <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-800 dark:border-slate-700">
+                <h4 className="font-bold text-slate-900 text-sm mb-2 flex items-center gap-2 dark:text-white">
+                  <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span>3. Nhiệm vụ nghiên cứu & 4. Phạm vi</span>
+                </h4>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
+                  Hệ thống hóa cơ sở lý luận về du lịch di sản; thu thập và phân tích chuỗi dữ liệu thống kê khách du lịch, doanh thu tại Nhật Bản và các di sản trọng điểm (Kyoto, Nara, Shirakawa-go, Núi Phú Sĩ, Đền Itsukushima) trong phạm vi thời gian từ năm <strong>2013 đến 2023</strong>.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-800 dark:border-slate-700">
+                <h4 className="font-bold text-slate-900 text-sm mb-2 flex items-center gap-2 dark:text-white">
+                  <Layers className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                  <span>5. Phương pháp & 6. Bố cục đề tài</span>
+                </h4>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
+                  Kết hợp phân tích thống kê định lượng (thống kê JNTO, MLIT, Cục Văn hóa), phân tích chính sách và nghiên cứu trường hợp (Case study). Đề tài gồm 3 chương chính: <strong>Chương 1</strong> (Cơ sở lý luận & 25 di sản), <strong>Chương 2</strong> (Hệ thống chính sách), <strong>Chương 3</strong> (Thực chứng dữ liệu & bảo tồn).
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 bg-slate-50 border-t border-slate-200/80 text-center text-xs text-slate-500 dark:bg-slate-950 dark:border-slate-900 dark:text-slate-400">
-        <div className="max-w-4xl mx-auto px-4 space-y-1">
-          <p className="font-bold text-slate-700 dark:text-slate-300">
-            Dự án nghiên cứu & trực quan hóa dữ liệu du lịch di sản Nhật Bản
+      {/* ======================================================== */}
+      {/* 3. CHƯƠNG 1: DI SẢN VÀ DU LỊCH DI SẢN (#chuong-1)         */}
+      {/* ======================================================== */}
+      <section id="chuong-1" className="py-16 bg-slate-50 border-b border-slate-200 dark:bg-slate-950 dark:border-slate-800">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          
+          <div className="flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800">
+            <div>
+              <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
+                {isEn ? 'Chapter 1 • Theoretical Foundation' : 'Chương 1 • Cơ sở lý luận & Thực tiễn'}
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
+                {isEn ? 'Heritage & Heritage Tourism in the World and Japan' : 'Di sản và Du lịch di sản trên thế giới và Nhật Bản'}
+              </h2>
+            </div>
+            <button
+              onClick={() => copyDeepLink('chuong-1', isEn ? 'Chapter 1' : 'Chương 1')}
+              className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800"
+              title="Sao chép liên kết"
+            >
+              <LinkIcon className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="space-y-8 text-base sm:text-lg leading-relaxed text-slate-800 dark:text-slate-200">
+            
+            {/* 1.1 Di sản */}
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-950 mb-4 dark:text-white">
+                1.1. Di sản và Di sản thế giới tại Nhật Bản
+              </h3>
+              
+              <div className="space-y-4 text-sm sm:text-base">
+                <p>
+                  <strong>Khái niệm di sản:</strong> Di sản bao gồm các tài sản văn hóa, lịch sử và thiên nhiên được các thế hệ trước để lại, có giá trị khoa học, thẩm mỹ và tinh thần to lớn. Theo Công ước Bảo vệ Di sản Văn hóa và Thiên nhiên Thế giới năm 1972 của UNESCO <CitationLink id={13} />, Di sản Thế giới là những di sản đáp ứng các tiêu chí khắt khe về "Giá trị nổi bật toàn cầu" (Outstanding Universal Value - OUV) <CitationLink id={14} />.
+                </p>
+                <p>
+                  <strong>Vai trò trong du lịch:</strong> Di sản là thỏi nam châm thu hút du khách, mang lại sức cạnh tranh khác biệt cho điểm đến. Khách du lịch di sản thường có thời gian lưu trú dài hơn và mức chi tiêu cao hơn đáng kể so với khách du lịch đại trà <CitationLink id={9} /><CitationLink id={10} />.
+                </p>
+                <p>
+                  <strong>Nhật Bản:</strong> Tính đến năm 2023, Nhật Bản sở hữu <strong>25 Di sản Thế giới</strong> được UNESCO công nhận, bao gồm <strong>20 Di sản Văn hóa</strong> và <strong>5 Di sản Thiên nhiên</strong> <CitationLink id={19} />. Hệ thống di sản phong phú trải dài từ kiến trúc gỗ cổ nhất thế giới (Chùa Horyuji), các cố đô ngàn năm (Kyoto, Nara) đến những kiệt tác thiên nhiên biệt lập (Yakushima, Shiretoko, Ogasawara).
+                </p>
+              </div>
+
+              {/* Interactive UNESCO Explorer */}
+              <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                  <div>
+                    <h4 className="font-extrabold text-slate-900 text-sm sm:text-base flex items-center gap-2 dark:text-white">
+                      <Landmark className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                      <span>Tra cứu 25 Di sản Thế giới UNESCO tại Nhật Bản</span>
+                    </h4>
+                    <p className="text-xs text-slate-500">Bảng dữ liệu định danh 20 Di sản Văn hóa & 5 Di sản Thiên nhiên</p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="inline-flex rounded-lg p-1 bg-slate-100 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                      {(['all', 'Văn hóa', 'Thiên nhiên'] as const).map((type) => (
+                        <button
+                          key={type}
+                          onClick={() => setUnescoFilter(type)}
+                          className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
+                            unescoFilter === type 
+                              ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-700 dark:text-white' 
+                              : 'text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white'
+                          }`}
+                        >
+                          {type === 'all' ? 'Tất cả (25)' : `${type} (${type === 'Văn hóa' ? 20 : 5})`}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Search bar */}
+                <div className="relative mb-4">
+                  <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
+                  <input
+                    type="text"
+                    value={unescoSearch}
+                    onChange={(e) => setUnescoSearch(e.target.value)}
+                    placeholder="Tìm theo tên di sản, tỉnh (Kyoto, Nara, Hiroshima, Tokyo...)..."
+                    className="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#8CE0F4] transition-all dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+                  />
+                </div>
+
+                {/* Grid of UNESCO sites */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[380px] overflow-y-auto pr-1">
+                  {filteredUnescoSites.map((site) => (
+                    <div 
+                      key={site.id}
+                      className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-[#8CE0F4] transition-all text-xs dark:bg-slate-800/70 dark:border-slate-700/80"
+                    >
+                      <div className="flex items-center justify-between gap-1 mb-1">
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-extrabold ${
+                          site.type === 'Văn hóa' 
+                            ? 'bg-amber-100 text-amber-900 border border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800' 
+                            : 'bg-emerald-100 text-emerald-900 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
+                        }`}>
+                          {site.type} • {site.year}
+                        </span>
+                        <span className="text-slate-400 font-mono text-[10px]">{site.prefecture}</span>
+                      </div>
+                      <p className="font-extrabold text-slate-900 mb-0.5 dark:text-white">{site.nameVi}</p>
+                      <p className="text-[11px] text-slate-500 font-japanese mb-1.5 dark:text-slate-400">{site.nameJa}</p>
+                      <p className="text-slate-600 leading-normal text-[11px] dark:text-slate-300">{site.highlight}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* 1.2 Du lịch di sản */}
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-950 mb-4 dark:text-white">
+                1.2. Khái niệm Du lịch di sản & Ma trận tác động hai chiều
+              </h3>
+
+              <div className="space-y-4 text-sm sm:text-base">
+                <p>
+                  Theo ICOMOS (Hội đồng Quốc tế về Di tích và Di chỉ) và UNWTO, <strong>Du lịch di sản</strong> là hoạt động di chuyển của các cá nhân nhằm trải nghiệm, khám phá và tìm hiểu về các di tích lịch sử, khảo cổ, kiến trúc, cảnh quan và lối sống truyền thống. Các hoạt động cốt lõi bao gồm: chiêm bái tâm linh, hành hương, tham gia lễ hội dân gian (Matsuri), thưởng thức ẩm thực di sản và học nghề thủ công truyền thống <CitationLink id={1} /><CitationLink id={8} />.
+                </p>
+
+                {/* 2-column impact matrix */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                  <div className="p-5 rounded-xl bg-emerald-50/70 border border-emerald-200 dark:bg-emerald-950/20 dark:border-emerald-900/60">
+                    <div className="flex items-center gap-2 text-emerald-800 font-black text-sm uppercase tracking-wider mb-2 dark:text-emerald-300">
+                      <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                      <span>Tác động tích cực (Positive Impacts)</span>
+                    </div>
+                    <ul className="text-xs sm:text-sm space-y-2 text-slate-700 list-disc list-inside dark:text-slate-300">
+                      <li><strong>Kinh tế:</strong> Tạo nguồn thu ngân sách trực tiếp thông qua vé tham quan, dịch vụ lưu trú và chi tiêu mua sắm hàng thủ công.</li>
+                      <li><strong>Tái đầu tư:</strong> Cung cấp tài chính dồi dào cho các dự án trùng tu, bảo dưỡng định kỳ các công trình cổ bằng gỗ quý giá.</li>
+                      <li><strong>Việc làm:</strong> Giải quyết công ăn việc làm cho cư dân bản địa, khuyến khích giới trẻ ở lại quê hương giữ nghề truyền thống.</li>
+                      <li><strong>Tự hào văn hóa:</strong> Khơi dậy ý thức cộng đồng, bảo vệ các nghi lễ và văn hóa dân gian đứng trước nguy cơ mai một.</li>
+                    </ul>
+                  </div>
+
+                  <div className="p-5 rounded-xl bg-rose-50/70 border border-rose-200 dark:bg-rose-950/20 dark:border-rose-900/60">
+                    <div className="flex items-center gap-2 text-rose-800 font-black text-sm uppercase tracking-wider mb-2 dark:text-rose-300">
+                      <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+                      <span>Tác động tiêu cực (Negative Impacts)</span>
+                    </div>
+                    <ul className="text-xs sm:text-sm space-y-2 text-slate-700 list-disc list-inside dark:text-slate-300">
+                      <li><strong>Hao mòn vật chất:</strong> Áp lực bước chân hàng triệu du khách gây mòn nền gỗ, bậc đá và rung chấn kết cấu công trình cổ.</li>
+                      <li><strong>Quá tải du lịch (Overtourism):</strong> Nghẽn đường, ách tắc phương tiện công cộng, tiếng ồn xáo trộn nếp sống cư dân bản địa.</li>
+                      <li><strong>Thương mại hóa thái quá:</strong> Hàng hóa lưu niệm sản xuất hàng loạt từ nước ngoài lấn át sản phẩm thủ công tinh xảo nguyên bản.</li>
+                      <li><strong>Ô nhiễm môi trường:</strong> Lượng rác thải khổng lồ, đặc biệt là bao bì nhựa và hộp đựng thức ăn du khách vứt bừa bãi.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-[#F3FCFE] border border-[#9BE7FA] mt-4 text-xs sm:text-sm text-slate-800 dark:bg-slate-800/60 dark:border-slate-700 dark:text-slate-200">
+                  <strong className="text-[#0D7287] dark:text-[#9BE7FA]">Nguyên tắc phát triển bền vững:</strong> 
+                  {" "}Phát triển du lịch di sản bền vững đòi hỏi phải duy trì cân bằng động giữa 3 trụ cột: <em>Hiệu quả kinh tế lâu dài</em>, <em>Bảo tồn nguyên vẹn tính chân xác của di sản</em> và <em>Đảm bảo chất lượng cuộc sống bình yên cho cộng đồng địa phương</em> <CitationLink id={1} /><CitationLink id={11} />.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 4. CHƯƠNG 2: CHÍNH SÁCH DU LỊCH DI SẢN CỦA NHẬT BẢN (#chuong-2) */}
+      {/* ======================================================== */}
+      <section id="chuong-2" className="py-16 bg-white border-b border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          
+          <div className="flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800">
+            <div>
+              <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
+                {isEn ? 'Chapter 2 • Governance & Policy Matrix' : 'Chương 2 • Thể chế & Hệ thống chính sách'}
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
+                {isEn ? 'Japan\'s Strategic Policy on Heritage Tourism' : 'Chính sách của Nhật Bản về Du lịch Di sản'}
+              </h2>
+            </div>
+            <button
+              onClick={() => copyDeepLink('chuong-2', isEn ? 'Chapter 2' : 'Chương 2')}
+              className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800"
+              title="Sao chép liên kết"
+            >
+              <LinkIcon className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="space-y-8 text-base sm:text-lg leading-relaxed text-slate-800 dark:text-slate-200">
+            
+            {/* 2.1 Chính sách trong Chương trình hành động 2013 */}
+            <div className="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs dark:bg-slate-950 dark:border-slate-800">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-950 mb-3 flex items-center gap-2 dark:text-white">
+                <Compass className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                <span>2.1. "Chương trình hành động hướng tới quốc gia du lịch" (2013)</span>
+              </h3>
+              <p className="text-sm sm:text-base text-slate-700 mb-6 dark:text-slate-300">
+                Tháng 6 năm 2013, Thủ tướng Shinzo Abe chủ trì Hội nghị Bộ trưởng ban hành văn kiện chiến lược quốc gia mang tên <em>"Chương trình hành động hướng tới quốc gia du lịch"</em> (観光立国実現に向けたアクション・プログラム) <CitationLink id={15} />. Đây là bước đột phá toàn diện với 4 nhóm biện pháp trọng tâm:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+                  <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-[#0D7287] dark:text-[#9BE7FA]">
+                    <Sparkles className="w-4 h-4" />
+                    <span>2.1.1 Quảng bá "Thương hiệu Nhật Bản" (日本ブランド)</span>
+                  </h4>
+                  <p className="text-slate-600 leading-relaxed dark:text-slate-300">
+                    Xây dựng thương hiệu quốc gia thông qua chiến lược <em>"Cool Japan"</em>, kết hợp quảng bá ẩm thực truyền thống Washoku (được UNESCO công nhận 2013) và văn hóa Omotenashi (sự hiếu khách tận tụy). Tận dụng truyền thông số và JNTO tại 22 quốc gia để định vị Nhật Bản là điểm đến di sản an toàn, tinh tế <CitationLink id={5} />.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+                  <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+                    <TrendingUp className="w-4 h-4" />
+                    <span>2.1.2 Nới lỏng Visa, Hàng không LCC & Miễn thuế</span>
+                  </h4>
+                  <p className="text-slate-600 leading-relaxed dark:text-slate-300">
+                    Miễn thị thực nhập cảnh ngắn hạn cho các nước ASEAN (Thái Lan, Malaysia...) và cấp visa nhiều lần cho Trung Quốc; mở rộng slot bay tại Haneda/Narita và cấp phép cho các hãng hàng không giá rẻ LCC; mở rộng chính sách hoàn thuế tiêu thụ (Tax-free Shopping) áp dụng cho cả thực phẩm, mỹ phẩm tại các phố cổ <CitationLink id={17} />.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+                  <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-indigo-700 dark:text-indigo-400">
+                    <Camera className="w-4 h-4" />
+                    <span>2.1.3 Hạ tầng đa ngôn ngữ, Wi-Fi & Cashless</span>
+                  </h4>
+                  <p className="text-slate-600 leading-relaxed dark:text-slate-300">
+                    Phổ cập mạng lưới <em>"Japan Connected-free Wi-Fi"</em> tại tất cả các đền chùa và nhà ga; chuẩn hóa biển chỉ dẫn giao thông 4 thứ tiếng (Nhật, Anh, Trung, Hàn); khuyến khích lắp đặt máy quẹt thẻ tín dụng và thanh toán quét mã QR nhằm tháo gỡ rào cản tiền mặt cố hữu <CitationLink id={15} />.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+                  <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-purple-700 dark:text-purple-400">
+                    <Users className="w-4 h-4" />
+                    <span>2.1.4 Phát triển Du lịch MICE & Hội nghị Quốc tế</span>
+                  </h4>
+                  <p className="text-slate-600 leading-relaxed dark:text-slate-300">
+                    Đưa Nhật Bản trở thành trung tâm tổ chức hội nghị quốc tế số 1 châu Á; tổ chức các sự kiện tầm cỡ như Hội nghị Văn hóa Du lịch Thế giới UNWTO/UNESCO lần thứ 4 tại Kyoto (2019) <CitationLink id={8} />, kết hợp chiêu đãi và trải nghiệm di sản văn hóa truyền thống cho quan khách cấp cao.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 2.2 Chính sách bảo tồn di sản & Luật 1950/2004 */}
+            <div className="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs dark:bg-slate-950 dark:border-slate-800">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-950 mb-3 flex items-center gap-2 dark:text-white">
+                <ShieldCheck className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                <span>2.2. Khung pháp lý: Luật Bảo vệ Di sản Văn hóa (1950 & Sửa đổi 2004)</span>
+              </h3>
+              
+              <div className="space-y-4 text-sm sm:text-base">
+                <p>
+                  <strong>Nguồn gốc lịch sử (1950):</strong> Ngày 26/1/1949, một vụ hỏa hoạn nghiêm trọng đã thiêu rụi tòa Kim Đường (Kondo) của Chùa Horyuji cùng 12 bức bích họa cổ vô giá thế kỷ thứ 7. Thảm họa này đã thúc đẩy Quốc hội Nhật Bản ban hành <strong>Luật Bảo vệ Di sản Văn hóa</strong> vào ngày 30/5/1950 <CitationLink id={3} /><CitationLink id={16} />. Kể từ đó, ngày 26 tháng 1 hàng năm được ấn định là <em>"Ngày Phòng chống Cháy nổ Di sản Văn hóa"</em> trên toàn quốc.
+                </p>
+                
+                <p>
+                  <strong>Luật sửa đổi năm 2004 (Cải cách toàn diện):</strong> Nhận thấy mô hình bảo tồn đơn lẻ không còn theo kịp thực tiễn đô thị hóa, bản sửa đổi năm 2004 đã thiết lập <strong>4 chế độ bảo tồn then chốt</strong> <CitationLink id={16} />:
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                  <div className="p-3.5 rounded-lg bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+                    <strong className="text-slate-900 block font-bold mb-1 dark:text-white">1. Di sản văn hóa vật thể:</strong>
+                    Quy định phân hạng nghiêm ngặt thành <em>"Tài sản văn hóa quan trọng"</em> và <em>"Bảo vật quốc gia"</em> (Kokuho). Mọi hoạt động can thiệp trùng tu phải được Cục Văn hóa phê duyệt.
+                  </div>
+                  <div className="p-3.5 rounded-lg bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+                    <strong className="text-slate-900 block font-bold mb-1 dark:text-white">2. Di tích, Danh thắng & Đài kỷ niệm thiên nhiên:</strong>
+                    Bảo vệ các địa điểm khảo cổ, hoa viên cổ và hệ sinh vật đặc hữu theo ranh giới vùng đệm bảo tồn.
+                  </div>
+                  <div className="p-3.5 rounded-lg bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+                    <strong className="text-[#0D7287] block font-bold mb-1 dark:text-[#9BE7FA]">3. Cảnh quan văn hóa (文化的景観):</strong>
+                    <em>(Điểm bổ sung đột phá năm 2004)</em>. Lần đầu tiên công nhận giá trị của cảnh quan được hình thành từ mối tương tác hài hòa giữa con người và tự nhiên (như ruộng bậc thang, làng chài, rừng bách).
+                  </div>
+                  <div className="p-3.5 rounded-lg bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+                    <strong className="text-slate-900 block font-bold mb-1 dark:text-white">4. Quần thể công trình kiến trúc truyền thống:</strong>
+                    Bảo tồn toàn bộ diện mạo đô thị cổ (như làng Gassho-zukuri Shirakawa-go, phố cổ Gion Kyoto, phố Samurai Kakunodate).
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 2.3 Chuyển dịch tư duy: Dự án Japan Heritage 2015 */}
+            <div className="p-6 rounded-2xl bg-amber-50/70 border border-amber-200 dark:bg-amber-950/20 dark:border-amber-900/60">
+              <h3 className="text-lg sm:text-xl font-black text-amber-900 mb-2 flex items-center gap-2 dark:text-amber-300">
+                <Sparkles className="w-5 h-5 text-amber-700 dark:text-amber-400" />
+                <span>2.3. Chuyển dịch tư duy: Dự án "Japan Heritage" (日本遺産) năm 2015</span>
+              </h3>
+              <p className="text-sm sm:text-base leading-relaxed text-slate-800 dark:text-slate-200">
+                Nếu như trước đây, quan điểm của Nhật Bản là <strong>"Bảo tồn thụ động"</strong> (đóng khung di sản trong tủ kính, hạn chế du khách), thì từ năm 2015, Cục Văn hóa (Agency for Cultural Affairs) đã khởi xướng đề án <strong>"Japan Heritage" (Di sản Nhật Bản)</strong>. Điểm mấu chốt của đề án là phương pháp <em>Kể chuyện (Storytelling)</em>: kết nối các di tích vật thể và phi vật thể rời rạc thành một câu chuyện văn hóa mạch lạc, biến di sản thành tài nguyên sống động phục vụ du khách và giáo dục thế hệ tương lai <CitationLink id={15} /><CitationLink id={20} />.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 5. CHƯƠNG 3: SỰ PHÁT TRIỂN CỦA DU LỊCH DI SẢN (#chuong-3)  */}
+      {/* ======================================================== */}
+      <section id="chuong-3" className="py-16 bg-slate-50 border-b border-slate-200 dark:bg-slate-950 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          
+          <div className="flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800">
+            <div>
+              <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
+                {isEn ? 'Chapter 3 • Quantitative Telemetry & In-depth Case Studies' : 'Chương 3 • Dữ liệu Định lượng & Khảo sát Thực tiễn'}
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
+                {isEn ? 'Development of Heritage Tourism: Efficiency & Conservation' : 'Sự Phát Triển của Du Lịch Di Sản tại Nhật Bản'}
+              </h2>
+            </div>
+            <button
+              onClick={() => copyDeepLink('chuong-3', isEn ? 'Chapter 3' : 'Chương 3')}
+              className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800"
+              title="Sao chép liên kết"
+            >
+              <LinkIcon className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* ==================================================== */}
+          {/* 3.1 TIÊU CHÍ HIỆU QUẢ DU LỊCH (DATA ANALYTICS HUB)  */}
+          {/* ==================================================== */}
+          <div className="mb-14">
+            <div className="max-w-4xl mb-6">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-950 flex items-center gap-2 dark:text-white">
+                <TrendingUp className="w-6 h-6 text-[#0D7287] dark:text-[#9BE7FA]" />
+                <span>3.1. Sự phát triển nhìn từ tiêu chí Hiệu quả du lịch (Quantitative Analytics)</span>
+              </h3>
+              <p className="text-sm sm:text-base text-slate-700 mt-2 leading-relaxed dark:text-slate-300">
+                Sau khi Chương trình hành động 2013 được triển khai, các chỉ số hiệu quả du lịch tại Nhật Bản và hai trung tâm di sản hàng đầu là <strong>Thành phố Kyoto</strong> và <strong>Cố đô Nara</strong> đã có bước tăng trưởng nhảy vọt cả về quy mô lượng khách lẫn tổng mức chi tiêu <CitationLink id={20} /><CitationLink id={21} /><CitationLink id={22} />.
+              </p>
+            </div>
+
+            {/* KPI Summary Cards */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+              <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Khách quốc tế toàn quốc</span>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">31.9 Triệu</span>
+                  <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">+207%</span>
+                </div>
+                <p className="text-xs text-slate-500 mt-1">Đỉnh 2019 (từ 10.4 triệu năm 2013)</p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Chi tiêu du khách quốc tế</span>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">4.81 Nghìn tỷ ¥</span>
+                  <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">x3.4 lần</span>
+                </div>
+                <p className="text-xs text-slate-500 mt-1">Gấp 3.4 lần so với 1.41T¥ (2013)</p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Đóng góp vào GDP Nhật</span>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">7.5% GDP</span>
+                  <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">41.9T ¥</span>
+                </div>
+                <p className="text-xs text-slate-500 mt-1">Nền kinh tế du lịch Top 3 thế giới <CitationLink id={26} /></p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Tác động ngân sách Kyoto</span>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">39 Tỷ ¥ Thuế</span>
+                  <span className="text-xs font-bold text-purple-600 dark:text-purple-400">12.8%</span>
+                </div>
+                <p className="text-xs text-slate-500 mt-1">Tạo 153.000 việc làm cho Kyoto <CitationLink id={27} /></p>
+              </div>
+            </div>
+
+            {/* CHART EXPLORER WIDGET */}
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 dark:bg-slate-900 dark:border-slate-800">
+              
+              {/* Header with Selector and Mode Switch */}
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="px-2.5 py-0.5 rounded text-xs font-black bg-[#8CE0F4] text-slate-950 dark:bg-slate-800 dark:text-[#9BE7FA]">
+                      Biểu đồ {selectedChartMeta.chartId}
+                    </span>
+                    <span className="text-xs text-slate-500 font-semibold">(Trang {selectedChartMeta.pageInDoc} trong bài Niên luận)</span>
+                  </div>
+                  <h4 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
+                    {isEn ? selectedChartMeta.nameEn : selectedChartMeta.nameVi}
+                  </h4>
+                  <p className="text-xs text-slate-500">Đơn vị đo lường: <strong>{isEn ? selectedChartMeta.unitEn : selectedChartMeta.unitVi}</strong></p>
+                </div>
+
+                {/* View Mode Toggle: Interactive Recharts vs Authentic Image */}
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                    <button
+                      onClick={() => setChartViewMode('interactive')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                        chartViewMode === 'interactive'
+                          ? 'bg-white text-slate-950 shadow-xs font-black dark:bg-slate-700 dark:text-white'
+                          : 'text-slate-600 hover:text-slate-950 dark:text-slate-300'
+                      }`}
+                    >
+                      <TrendingUp className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                      <span>Biểu đồ Tương tác</span>
+                    </button>
+                    <button
+                      onClick={() => setChartViewMode('authentic')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                        chartViewMode === 'authentic'
+                          ? 'bg-white text-slate-950 shadow-xs font-black dark:bg-slate-700 dark:text-white'
+                          : 'text-slate-600 hover:text-slate-950 dark:text-slate-300'
+                      }`}
+                    >
+                      <Eye className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                      <span>Ảnh Đồ thị Gốc</span>
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={() => handleExportChart(`chart-container-${selectedChartId}`, `Bieu-do-${selectedChartId}`)}
+                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 cursor-pointer"
+                    title="Tải ảnh biểu đồ PNG"
+                  >
+                    <Download className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Chart Tabs (3.1 to 3.6 + Comparison) */}
+              <div className="flex items-center gap-1.5 overflow-x-auto py-3 border-b border-slate-100 dark:border-slate-800 scrollbar-thin">
+                {THESIS_CHARTS_CATALOG.map((item) => (
+                  <button
+                    key={item.chartId}
+                    onClick={() => setSelectedChartId(item.chartId)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                      selectedChartId === item.chartId
+                        ? 'bg-[#0D7287] text-white shadow-xs font-black dark:bg-[#9BE7FA] dark:text-slate-950'
+                        : 'bg-slate-50 text-slate-600 hover:bg-slate-100 dark:bg-slate-800/60 dark:text-slate-300 dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    Biểu đồ {item.chartId}
+                  </button>
+                ))}
+              </div>
+
+              {/* Chart View Content */}
+              <div id={`chart-container-${selectedChartId}`} className="pt-6 min-h-[360px]">
+                {chartViewMode === 'interactive' ? (
+                  <div className="h-[340px] w-full">
+                    {selectedChartId === '3.1' && (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={touristsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                          <defs>
+                            <linearGradient id="colorTourists" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#0D7287" stopOpacity={0.8}/>
+                              <stop offset="95%" stopColor="#0D7287" stopOpacity={0.05}/>
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                          <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                          <YAxis tick={{ fontSize: 12 }} unit="M" />
+                          <Tooltip formatter={(value: any) => [`${value} Triệu khách`, 'Khách quốc tế']} />
+                          <Area type="monotone" dataKey="value" stroke="#0D7287" strokeWidth={3} fillOpacity={1} fill="url(#colorTourists)" name="Lượng khách quốc tế (triệu người)" />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    )}
+
+                    {selectedChartId === '3.2' && (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={kyotoVisitorsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                          <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                          <YAxis tick={{ fontSize: 12 }} unit="k" />
+                          <Tooltip formatter={(value: any) => [`${value} Nghìn khách`, 'Khách quốc tế đến Kyoto']} />
+                          <Bar dataKey="value" fill="#8CE0F4" stroke="#0D7287" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến TP Kyoto (nghìn người)" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    )}
+
+                    {selectedChartId === '3.3' && (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={naraVisitorsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                          <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                          <YAxis tick={{ fontSize: 12 }} unit="k" />
+                          <Tooltip formatter={(value: any) => [`${value} Nghìn khách`, 'Khách quốc tế đến Nara']} />
+                          <Bar dataKey="value" fill="#FFD14C" stroke="#B8860B" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến Cố đô Nara (nghìn người)" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    )}
+
+                    {selectedChartId === '3.4' && (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={spendNationalData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                          <defs>
+                            <linearGradient id="colorSpend" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
+                              <stop offset="95%" stopColor="#10B981" stopOpacity={0.05}/>
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                          <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                          <YAxis tick={{ fontSize: 12 }} unit="T¥" />
+                          <Tooltip formatter={(value: any) => [`${value} Nghìn tỷ Yên`, 'Chi tiêu khách quốc tế']} />
+                          <Area type="monotone" dataKey="value" stroke="#059669" strokeWidth={3} fillOpacity={1} fill="url(#colorSpend)" name="Chi tiêu quốc tế (nghìn tỷ Yên)" />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    )}
+
+                    {selectedChartId === '3.5' && (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={kyotoSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                          <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                          <YAxis tick={{ fontSize: 12 }} unit="B¥" />
+                          <Tooltip formatter={(value: any) => [`${value} Tỷ Yên`, 'Chi tiêu tại Kyoto']} />
+                          <Bar dataKey="value" fill="#6366F1" radius={[4, 4, 0, 0]} name="Chi tiêu du lịch TP Kyoto (tỷ Yên)" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    )}
+
+                    {selectedChartId === '3.6' && (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={naraSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                          <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                          <YAxis tick={{ fontSize: 12 }} unit="B¥" />
+                          <Tooltip formatter={(value: any) => [`${value} Tỷ Yên`, 'Chi tiêu tại Nara']} />
+                          <Bar dataKey="value" fill="#F59E0B" radius={[4, 4, 0, 0]} name="Chi tiêu du lịch Cố đô Nara (tỷ Yên)" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border border-slate-200 dark:bg-slate-800/50 dark:border-slate-700">
+                    <div className="relative w-full max-w-3xl aspect-[16/9] overflow-hidden rounded-lg shadow-sm border border-slate-300 dark:border-slate-600 bg-white">
+                      <Image 
+                        src={selectedChartMeta.imageSrc} 
+                        alt={selectedChartMeta.nameVi}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <p className="text-xs text-slate-500 mt-3 italic text-center">
+                      Ảnh đồ thị nguyên bản trích xuất trực tiếp từ trang {selectedChartMeta.pageInDoc} văn bản Niên luận.
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Analytical Findings Commentary */}
+              <div className="mt-6 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-700 dark:bg-slate-800/70 dark:border-slate-700 dark:text-slate-300">
+                <strong className="text-slate-900 block font-bold mb-1 dark:text-white">
+                  Phân tích học thuật từ Niên luận:
+                </strong>
+                {selectedChartId === '3.1' && (
+                  <p>
+                    Lượng khách quốc tế đến Nhật Bản trước năm 2013 dao động ổn định trong khoảng 6 đến 8 triệu. Kể từ năm 2013, nhờ Chương trình hành động quốc gia, con số này tăng phi mã, chạm ngưỡng 19.7 triệu (2015) và đạt đỉnh lịch sử <strong>31.9 triệu lượt</strong> vào năm 2019. Năm 2020–2021 suy giảm mạnh do đại dịch COVID-19 và đã phục hồi ngoạn mục từ năm 2022–2023 đạt hơn 25 triệu lượt <CitationLink id={20} />.
+                  </p>
+                )}
+                {selectedChartId === '3.2' && (
+                  <p>
+                    Tại Thành phố Kyoto, trước năm 2013 lượng khách nước ngoài chưa bao giờ vượt quá 1 triệu người. Từ 2013, số lượng tăng vọt lên 1.8 triệu (2015), 3.1 triệu (2016) và lập kỷ lục <strong>4.5 triệu lượt</strong> năm 2019, đóng góp tới 12% tổng sản phẩm GRDP của cố đô <CitationLink id={21} /><CitationLink id={28} />.
+                  </p>
+                )}
+                {selectedChartId === '3.3' && (
+                  <p>
+                    Cố đô Nara ghi nhận tốc độ tăng trưởng hàng năm ấn tượng 40%–60%, từ 174 nghìn lượt khách quốc tế (2011) lên tới <strong>3.3 triệu lượt</strong> vào năm 2019. Lượng khách tăng nhanh gấp gần 20 lần trong vòng chưa đầy một thập kỷ <CitationLink id={22} /><CitationLink id={25} />.
+                  </p>
+                )}
+                {selectedChartId === '3.4' && (
+                  <p>
+                    Tổng chi tiêu du lịch của khách quốc tế tại Nhật Bản tăng từ 1.41 nghìn tỷ Yên (2013) lên đỉnh điểm <strong>4.81 nghìn tỷ Yên</strong> (2019) — tăng gấp 3.4 lần trong 7 năm, đưa ngành du lịch trở thành động lực xuất khẩu dịch vụ hàng đầu đất nước <CitationLink id={23} />.
+                  </p>
+                )}
+                {selectedChartId === '3.5' && (
+                  <p>
+                    Doanh thu du lịch tại Kyoto tăng trưởng bền bỉ từ 601 tỷ Yên (2008) lên <strong>1.308 tỷ Yên</strong> (2019), tạo nguồn thu thuế trực tiếp 39 tỷ Yên, tương đương 12.8% tổng thu ngân sách thành phố <CitationLink id={27} /><CitationLink id={28} />.
+                  </p>
+                )}
+                {selectedChartId === '3.6' && (
+                  <p>
+                    Tại Cố đô Nara, tổng chi tiêu du lịch tăng từ 872 tỷ Yên (2013) lên đỉnh <strong>1.208 tỷ Yên</strong> (2018). Mức chi tiêu duy trì ổn định và nhanh chóng hồi phục đạt 598 tỷ Yên vào năm 2022 sau cú sốc đại dịch <CitationLink id={24} />.
+                  </p>
+                )}
+              {/* 3.1.3 Macro GDP & Kyoto vs Nara Telemetry Matrix */}
+              <div className="mt-6 pt-6 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs dark:border-slate-800">
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
+                  <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white">
+                    <span>So sánh Lượng khách: Kyoto vs Nara (2013 - 2019)</span>
+                    <span className="text-[10px] font-mono text-slate-400">Đơn vị: Nghìn người</span>
+                  </h5>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                      <thead>
+                        <tr className="border-b border-slate-200 text-slate-500 text-[10px] uppercase font-bold dark:border-slate-700">
+                          <th className="py-1 px-2">Năm</th>
+                          <th className="py-1 px-2 text-[#0D7287] dark:text-[#9BE7FA]">Cố đô Kyoto</th>
+                          <th className="py-1 px-2 text-amber-600 dark:text-amber-400">Cố đô Nara</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                        {kyotoNaraVisitorsData.filter(d => ['2013', '2015', '2017', '2019'].includes(d.year)).map(d => (
+                          <tr key={d.year}>
+                            <td className="py-1 px-2 font-mono font-bold text-slate-600 dark:text-slate-400">{d.year}</td>
+                            <td className="py-1 px-2 font-bold text-slate-900 dark:text-white">{d.kyoto.toLocaleString()}k</td>
+                            <td className="py-1 px-2 font-bold text-slate-900 dark:text-white">{d.nara?.toLocaleString()}k</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
+                  <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white">
+                    <span>Tăng trưởng Đóng góp GDP Quốc gia (2000 - 2019)</span>
+                    <span className="text-[10px] font-mono text-slate-400">Nguồn: METI & WTTC [26]</span>
+                  </h5>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                      <thead>
+                        <tr className="border-b border-slate-200 text-slate-500 text-[10px] uppercase font-bold dark:border-slate-700">
+                          <th className="py-1 px-2">Năm</th>
+                          <th className="py-1 px-2 text-emerald-600 dark:text-emerald-400">Tỷ trọng GDP</th>
+                          <th className="py-1 px-2">Quy mô Doanh thu</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                        {gdpShareData.map(d => (
+                          <tr key={d.year}>
+                            <td className="py-1 px-2 font-mono font-bold text-slate-600 dark:text-slate-400">{d.year}</td>
+                            <td className="py-1 px-2 font-bold text-emerald-600 dark:text-emerald-400">{d.gdpShare}% GDP</td>
+                            <td className="py-1 px-2 font-bold text-slate-900 dark:text-white">{d.directRevenue} Nghìn tỷ ¥</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+
+          {/* ==================================================== */}
+          {/* 3.2 TIÊU CHÍ BẢO TỒN VÀ QUẢN LÝ (CASE STUDIES)     */}
+          {/* ==================================================== */}
+          <div className="pt-6">
+            <div className="max-w-4xl mb-8">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-950 flex items-center gap-2 dark:text-white">
+                <ShieldCheck className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                <span>3.2. Sự phát triển nhìn từ tiêu chí bảo tồn và quản lý di sản (Case Studies)</span>
+              </h3>
+              <p className="text-sm sm:text-base text-slate-700 mt-2 leading-relaxed dark:text-slate-300">
+                Song hành cùng tăng trưởng kinh tế là những hệ lụy tiêu cực sâu sắc: tình trạng <strong>quá tải du lịch (Overtourism / 観光公害 - Kanko Kogai)</strong>, mâu thuẫn dân cư bản địa, thương mại hóa làm xói mòn tính nguyên bản và ô nhiễm môi trường. Dưới đây là khảo sát thực tiễn 5 trường hợp điển hình cùng các giải pháp quản trị sáng tạo của Nhật Bản <CitationLink id={7} /><CitationLink id={29} /><CitationLink id={30} />.
+              </p>
+            </div>
+
+            {/* Case Studies Selector Tabs */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-6 border-b border-slate-200 dark:border-slate-800">
+              {[
+                { id: 'kyoto', label: 'Cố đô Kyoto', sub: 'Camera AI & Thuế du lịch' },
+                { id: 'nara', label: 'Cố đô Nara', sub: 'Bảo tồn hươu & Minpaku' },
+                { id: 'fuji', label: 'Núi Phú Sĩ', sub: 'Quỹ 1.000¥ & Bảo tàng VR' },
+                { id: 'shirakawago', label: 'Làng Shirakawa-go', sub: 'Đặt trước 100% Light-up' },
+                { id: 'miyajima', label: 'Đền Itsukushima', sub: 'Thuế vào đảo 100¥ Miyajima' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveCaseStudy(tab.id as any)}
+                  className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all text-left whitespace-nowrap cursor-pointer ${
+                    activeCaseStudy === tab.id
+                      ? 'bg-[#8CE0F4] text-slate-950 shadow-xs font-black dark:bg-slate-800 dark:text-[#9BE7FA]'
+                      : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:bg-slate-800/60'
+                  }`}
+                >
+                  <span className="block">{tab.label}</span>
+                  <span className="block text-[11px] font-normal text-slate-500 dark:text-slate-400">{tab.sub}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Case Study Detailed View */}
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8 dark:bg-slate-900 dark:border-slate-800">
+              
+              {/* CASE 1: KYOTO */}
+              {activeCaseStudy === 'kyoto' && (
+                <div className="space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 dark:border-slate-800">
+                    <div>
+                      <span className="text-xs font-extrabold text-[#0D7287] uppercase tracking-wider dark:text-[#9BE7FA]">Case Study 01</span>
+                      <h4 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
+                        Cố đô Kyoto: Quá tải xe buýt, Live camera Kyoto Comfort Map & Rác thải
+                      </h4>
+                    </div>
+                    <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold w-fit dark:bg-amber-950/60 dark:text-amber-300">
+                      4.5M du khách (2019)
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div className="space-y-3">
+                      <h5 className="font-bold text-rose-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-rose-400">
+                        <AlertTriangle className="w-4 h-4" />
+                        <span>Thực trạng khủng hoảng (Overtourism)</span>
+                      </h5>
+                      <p className="leading-relaxed text-slate-700 dark:text-slate-300">
+                        Lượng khách bùng nổ quanh các địa điểm Gion và Kinkakuji khiến mạng lưới xe buýt công cộng bị tê liệt. Người dân bản địa thường xuyên không thể lên xe để đi làm hoặc đi khám bệnh do xe buýt luôn chật kín du khách với hành lý cồng kềnh <CitationLink id={29} />.
+                      </p>
+                      <p className="leading-relaxed text-slate-700 dark:text-slate-300">
+                        <strong>"Trò chơi mèo vờn chuột" với rác thải:</strong> Tại các con phố cổ Arashiyama và Higashiyama, vỏ lon và hộp nhựa chất đống tràn ngập các thùng rác công cộng, phát sinh chi phí dọn dẹp khổng lồ cho thành phố <CitationLink id={39} />. Khách sạn tăng từ 30.000 lên 53.000 phòng vẫn thiếu, dẫn đến làn sóng minpaku tự phát trong khu chung cư gây xung đột nếp sống <CitationLink id={38} />.
+                      </p>
+                    </div>
+
+                    <div className="space-y-3">
+                      <h5 className="font-bold text-emerald-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-emerald-400">
+                        <ShieldCheck className="w-4 h-4" />
+                        <span>Giải pháp quản trị của Thành phố Kyoto</span>
+                      </h5>
+                      <ul className="space-y-2 text-slate-700 list-disc list-inside dark:text-slate-300">
+                        <li>
+                          <strong>Kyoto Comfort Map (京都観光快適度マップ):</strong> Lắp đặt camera AI tại các điểm nóng để phát trực tiếp mức độ đông đúc theo thời gian thực, khuyến khích du khách chủ động né giờ cao điểm <CitationLink id={34} />.
+                        </li>
+                        <li>
+                          <strong>Phân tán không gian & thời gian:</strong> Quảng bá 6 khu vực di sản ngoại ô ít người biết; kết hợp với tập đoàn JR Tokai triển khai các tour tham quan sáng sớm (Morning Tours) và ngắm cảnh đêm (Night Tours) <CitationLink id={27} /><CitationLink id={35} />.
+                        </li>
+                        <li>
+                          <strong>Chất lượng hơn số lượng:</strong> Thu hút các chuỗi nghỉ dưỡng siêu sang (Park Hyatt Kyoto, Aman Kyoto) để gia tăng nguồn thu từ đối tượng có mức chi tiêu cao mà không làm gia tăng quá mức áp lực dân số vãng lai <CitationLink id={35} />.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* CASE 2: NARA */}
+              {activeCaseStudy === 'nara' && (
+                <div className="space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 dark:border-slate-800">
+                    <div>
+                      <span className="text-xs font-extrabold text-amber-600 uppercase tracking-wider dark:text-amber-400">Case Study 02</span>
+                      <h4 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
+                        Cố đô Nara: Vấn nạn bảo vệ đàn hươu thần & Pháp lệnh lưu trú cao cấp
+                      </h4>
+                    </div>
+                    <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-bold w-fit dark:bg-emerald-950/60 dark:text-emerald-300">
+                      3.3M du khách (2019)
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div className="space-y-3">
+                      <h5 className="font-bold text-rose-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-rose-400">
+                        <AlertTriangle className="w-4 h-4" />
+                        <span>Mối lo ngại sinh thái đàn hươu công viên Nara</span>
+                      </h5>
+                      <p className="leading-relaxed text-slate-700 dark:text-slate-300">
+                        Hơn 1.200 chú hươu tại Công viên Nara và Đền Kasuga Taisha là biểu tượng văn hóa thiêng liêng. Tuy nhiên, du khách đông đúc thường cho hươu ăn thức ăn không phù hợp, vứt túi nilon khiến nhiều chú hươu nuốt phải và tử vong <CitationLink id={40} />. Ngoài ra, việc bảo tồn nghiêm ngặt khiến đàn hươu gia tăng số lượng, tràn ra ngoài phá hoại cây trồng nông nghiệp của người dân.
+                      </p>
+                    </div>
+
+                    <div className="space-y-3">
+                      <h5 className="font-bold text-emerald-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-emerald-400">
+                        <ShieldCheck className="w-4 h-4" />
+                        <span>Pháp lệnh lưu trú & Tái thiết di sản</span>
+                      </h5>
+                      <p className="leading-relaxed text-slate-700 dark:text-slate-300">
+                        Tỉnh Nara ban hành <em>"Pháp lệnh đảm bảo quản lý hợp lý doanh nghiệp lưu trú"</em> (奈良県住宅宿泊事業の適正な運営の確保に関する条例) <CitationLink id={37} />. Cung cấp trợ cấp đặc biệt để thu hút các khách sạn đẳng cấp quốc tế (Fufu Nara, JW Marriott Hotel Nara, Fairfield by Marriott Tenri), đồng thời cho phép cải tạo các công trình cổ có giá trị văn hóa thành cơ sở lưu trú cao cấp giữ chân du khách qua đêm thay vì chỉ đi về trong ngày từ Osaka/Kyoto <CitationLink id={25} />.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* CASE 3: FUJI */}
+              {activeCaseStudy === 'fuji' && (
+                <div className="space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 dark:border-slate-800">
+                    <div>
+                      <span className="text-xs font-extrabold text-indigo-600 uppercase tracking-wider dark:text-indigo-400">Case Study 03</span>
+                      <h4 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
+                        Núi Phú Sĩ: Quỹ bảo tồn tự nguyện 1.000¥, Đề án đường sắt & Trung tâm VR
+                      </h4>
+                    </div>
+                    <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-900 text-xs font-bold w-fit dark:bg-indigo-950/60 dark:text-indigo-300">
+                      5.06M du khách (2019)
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div className="space-y-3">
+                      <h5 className="font-bold text-rose-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-rose-400">
+                        <AlertTriangle className="w-4 h-4" />
+                        <span>Áp lực quá tải sườn núi & Khí thải xe cá nhân</span>
+                      </h5>
+                      <p className="leading-relaxed text-slate-700 dark:text-slate-300">
+                        Năm 2019, 5.06 triệu người đến thăm núi Phú Sĩ (gấp 2.2 lần so với năm 2012 trước khi được công nhận di sản) <CitationLink id={33} />. Hàng vạn người leo núi cùng lúc gây tắc nghẽn nguy hiểm trên các cung đường dốc, tắc nghẽn nhà vệ sinh và lượng khí thải khổng lồ từ xe buýt, ô tô cá nhân đổ dồn lên trạm số 5 Subaru Line.
+                      </p>
+                    </div>
+
+                    <div className="space-y-3">
+                      <h5 className="font-bold text-emerald-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-emerald-400">
+                        <ShieldCheck className="w-4 h-4" />
+                        <span>Bộ công cụ giải pháp bền vững</span>
+                      </h5>
+                      <ul className="space-y-2 text-slate-700 list-disc list-inside dark:text-slate-300">
+                        <li>
+                          <strong>Quỹ hợp tác bảo tồn Núi Phú Sĩ (2014):</strong> Vận động phí đóng góp tự nguyện 1.000 Yên/người leo núi, tạo nguồn tài chính bảo trì nhà vệ sinh sinh thái, xử lý rác và cứu hộ y tế <CitationLink id={41} />.
+                        </li>
+                        <li>
+                          <strong>Đề án Đường sắt leo núi Fuji (Fuji Mountain Railway):</strong> Đề xuất cấm hoàn toàn xe ô tô cá nhân, chỉ cho phép đi tàu điện leo núi có kiểm soát số lượng theo giờ <CitationLink id={33} />.
+                        </li>
+                        <li>
+                          <strong>Trung tâm Di sản Thế giới Núi Phú Sĩ (2017):</strong> Xây dựng bảo tàng rộng 6.100 m² tại Shizuoka với công nghệ leo núi thực tế ảo VR, giúp du khách trải nghiệm đỉnh Phú Sĩ từ xa mà không cần leo núi thực <CitationLink id={36} />.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* CASE 4: SHIRAKAWA-GO */}
+              {activeCaseStudy === 'shirakawago' && (
+                <div className="space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 dark:border-slate-800">
+                    <div>
+                      <span className="text-xs font-extrabold text-emerald-600 uppercase tracking-wider dark:text-emerald-400">Case Study 04</span>
+                      <h4 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
+                        Làng cổ Shirakawa-go: Chế độ đặt chỗ trước 100% Lễ hội Ánh sáng Winter Light-up
+                      </h4>
+                    </div>
+                    <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-900 text-xs font-bold w-fit dark:bg-purple-950/60 dark:text-purple-300">
+                      600 dân vs 1.8M khách
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div className="space-y-3">
+                      <h5 className="font-bold text-rose-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-rose-400">
+                        <AlertTriangle className="w-4 h-4" />
+                        <span>Tỷ lệ nghịch ngạc nhiên: Du khách gấp 3.000 lần dân số</span>
+                      </h5>
+                      <p className="leading-relaxed text-slate-700 dark:text-slate-300">
+                        Ngôi làng cổ kính nép mình giữa thung lũng tuyết chỉ có vỏn vẹn khoảng 600 cư dân sinh sống nhưng đón tới <strong>1.8 triệu lượt du khách mỗi năm</strong> (gấp 3.000 lần dân số) <CitationLink id={30} />. Trong các đêm Lễ hội Ánh sáng Mùa đông (Shirakawago Winter Light-up), hàng nghìn du khách chen lấn trên đài quan sát hẹp và đường làng, gây nguy cơ giẫm đạp và làm đảo lộn hoàn toàn sự yên bình của làng quê.
+                      </p>
+                    </div>
+
+                    <div className="space-y-3">
+                      <h5 className="font-bold text-emerald-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-emerald-400">
+                        <ShieldCheck className="w-4 h-4" />
+                        <span>Hệ thống đặt chỗ nghiêm ngặt (Advance Reservation)</span>
+                      </h5>
+                      <p className="leading-relaxed text-slate-700 dark:text-slate-300">
+                        Chính quyền làng quyết định chuyển đổi Lễ hội Ánh sáng sang hình thức <strong>đặt chỗ trước 100% (Complete Reservation System)</strong> <CitationLink id={32} />. Chỉ những khách đặt trước qua đêm tại làng hoặc mua vé xe buýt có số ghế kèm vé lên đài quan sát mới được phép vào làng sau 17h. Xe ô tô cá nhân không có giấy phép đăng ký đỗ xe trước bị cấm vào làng tuyệt đối. Giải pháp này đã xóa bỏ hoàn toàn cảnh hỗn loạn, đảm bảo an toàn tuyệt đối và nâng tầm trải nghiệm của du khách <CitationLink id={30} /><CitationLink id={32} />.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* CASE 5: MIYAJIMA */}
+              {activeCaseStudy === 'miyajima' && (
+                <div className="space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 dark:border-slate-800">
+                    <div>
+                      <span className="text-xs font-extrabold text-purple-600 uppercase tracking-wider dark:text-purple-400">Case Study 05</span>
+                      <h4 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
+                        Đền Itsukushima (Miyajima): Thuế vào đảo 100 Yên tái thiết di sản
+                      </h4>
+                    </div>
+                    <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-900 text-xs font-bold w-fit dark:bg-blue-950/60 dark:text-blue-300">
+                      4.6M du khách (2019)
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div className="space-y-3">
+                      <h5 className="font-bold text-rose-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-rose-400">
+                        <AlertTriangle className="w-4 h-4" />
+                        <span>Chi phí duy tu đền nổi & Quá tải hòn đảo</span>
+                      </h5>
+                      <p className="leading-relaxed text-slate-700 dark:text-slate-300">
+                        Đền Thần đạo Itsukushima với cổng Torii màu đỏ son khổng lồ cắm thẳng xuống biển thủy triều đón tới <strong>4.6 triệu du khách</strong> năm 2019 <CitationLink id={31} />. Việc các công trình bằng gỗ liên tục tiếp xúc với nước biển mặn khiến chi phí bảo dưỡng, trùng tu và thu dọn vệ sinh trên đảo là gánh nặng tài chính khổng lồ đối với ngân sách thị trấn Hatsukaichi.
+                      </p>
+                    </div>
+
+                    <div className="space-y-3">
+                      <h5 className="font-bold text-emerald-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-emerald-400">
+                        <ShieldCheck className="w-4 h-4" />
+                        <span>Chính sách thuế vào đảo (Miyajima Visitor Tax)</span>
+                      </h5>
+                      <p className="leading-relaxed text-slate-700 dark:text-slate-300">
+                        Thành phố Hatsukaichi chính thức áp dụng <strong>Thuế vào đảo Miyajima (入島税)</strong> với mức 100 Yên/người thu trực tiếp qua giá vé phà <CitationLink id={31} />. Nguồn thu thuế chuyên dụng này được chuyển thẳng vào quỹ bảo tồn cảnh quan và trùng tu đền thờ, vừa san sẻ chi phí với du khách một cách công bằng, vừa điều tiết mật độ khách lên đảo bền vững qua nhiều thế hệ.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 6. KẾT LUẬN (#ket-luan)                                  */}
+      {/* ======================================================== */}
+      <section id="ket-luan" className="py-16 bg-white border-b border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          
+          <div className="flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800">
+            <div>
+              <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
+                {isEn ? 'Part III • Synthesis & Policy Implications' : 'Phần Kết Luận • Tổng kết & Hàm ý chính sách'}
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
+                {isEn ? 'Synthesis & Key Takeaways for Sustainable Heritage Tourism' : 'Kết luận & Bài học kinh nghiệm từ Nhật Bản'}
+              </h2>
+            </div>
+            <button
+              onClick={() => copyDeepLink('ket-luan', isEn ? 'Conclusion' : 'Phần Kết Luận')}
+              className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800"
+              title="Sao chép liên kết"
+            >
+              <LinkIcon className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="space-y-6 text-base sm:text-lg leading-relaxed text-slate-800 dark:text-slate-200">
+            <p>
+              Qua toàn bộ khảo sát định lượng và nghiên cứu chính sách từ năm 2013 đến nay, bài niên luận đã khẳng định rằng du lịch di sản tại Nhật Bản đã có sự phát triển vượt bậc cả về quy mô lượng khách, doanh thu và tỷ trọng đóng góp vào nền kinh tế quốc gia. Sự thành công này được xây dựng trên nền tảng vững chắc của <strong>Luật Bảo vệ Di sản Văn hóa (1950 & sửa đổi 2004)</strong> cùng sự vào cuộc quyết liệt, đồng bộ của chính phủ qua <strong>Chương trình hành động hướng tới quốc gia du lịch (2013)</strong>.
+            </p>
+
+            {/* 4 Key Policy Lessons */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
+              <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#8CE0F4] text-slate-950 font-black text-sm mb-3">01</span>
+                <h4 className="font-black text-slate-900 text-base mb-1 dark:text-white">Chuyển dịch sang bảo tồn động</h4>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
+                  Từ bỏ tư duy bảo tồn khép kín trong bảo tàng sang mô hình kết hợp bảo tồn với phát huy giá trị di sản (tiêu biểu là đề án Japan Heritage), biến di sản thành tài sản phát triển kinh tế sinh lời cho xã hội.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-200 text-amber-950 font-black text-sm mb-3">02</span>
+                <h4 className="font-black text-slate-900 text-base mb-1 dark:text-white">Ứng dụng công nghệ quản trị thông minh</h4>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
+                  Sử dụng bản đồ trực tiếp camera AI mật độ (Kyoto Comfort Map), hệ thống đặt chỗ trước bắt buộc (Shirakawa-go) và công nghệ thực tế ảo VR (Núi Phú Sĩ) để chủ động điều tiết dòng du khách.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-200 text-emerald-950 font-black text-sm mb-3">03</span>
+                <h4 className="font-black text-slate-900 text-base mb-1 dark:text-white">Đa dạng hóa công cụ tài chính</h4>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
+                  Linh hoạt áp dụng thuế du khách vào đảo (Miyajima), quỹ bảo tồn tự nguyện (Núi Phú Sĩ) và thuế lưu trú để tạo nguồn ngân sách bền vững tái đầu tư cho công tác trùng tu và dọn dẹp vệ sinh.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-purple-200 text-purple-950 font-black text-sm mb-3">04</span>
+                <h4 className="font-black text-slate-900 text-base mb-1 dark:text-white">Đặt cư dân bản địa làm trung tâm</h4>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
+                  Không đánh đổi cuộc sống bình yên của người dân lấy tăng trưởng du lịch nóng. Khi có xung đột lợi ích, các chính quyền địa phương lập tức ban hành chế tài quản lý lưu trú và giải tỏa giao thông dân sinh.
+                </p>
+              </div>
+            </div>
+
+            <p className="text-sm italic text-slate-600 border-l-4 border-[#0D7287] pl-4 py-1 dark:text-slate-400 dark:border-[#9BE7FA]">
+              "Du lịch di sản chỉ có thể phát triển bền vững khi và chỉ khi nó tôn trọng tính nguyên bản của lịch sử, nâng cao phúc lợi kinh tế cho cộng đồng sở tại và bảo toàn trọn vẹn cảnh quan môi trường cho muôn đời sau." — Ma Văn Hùng (2024).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 7. TÀI LIỆU THAM KHẢO (#tai-lieu-tham-khao)              */}
+      {/* ======================================================== */}
+      <section id="tai-lieu-tham-khao" className="py-16 bg-slate-50 border-b border-slate-200 dark:bg-slate-950 dark:border-slate-800">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 mb-8 border-b border-slate-200 dark:border-slate-800">
+            <div>
+              <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
+                {isEn ? 'Part IV • Bibliography & Citations' : 'Phần Tài Liệu Tham Khảo • Danh mục trích dẫn đầy đủ'}
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
+                {isEn ? 'Comprehensive Bibliography (41 References with Direct Links)' : 'Danh Mục 41 Tài Liệu Tham Khảo (Kèm Liên Kết Trực Tiếp)'}
+              </h2>
+            </div>
+            <button
+              onClick={() => copyDeepLink('tai-lieu-tham-khao', isEn ? 'References' : 'Tài liệu tham khảo')}
+              className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800"
+              title="Sao chép liên kết"
+            >
+              <LinkIcon className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Filters & Search Toolbar */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-4 mb-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4 dark:bg-slate-900 dark:border-slate-800">
+            {/* Language filter pills */}
+            <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200 w-full sm:w-auto overflow-x-auto dark:bg-slate-800 dark:border-slate-700">
+              {[
+                { id: 'all', label: 'Tất cả (41)' },
+                { id: 'vi', label: '🇻🇳 Tiếng Việt (7)' },
+                { id: 'en', label: '🇬🇧 Tiếng Anh (7)' },
+                { id: 'ja', label: '🇯🇵 Tiếng Nhật (27)' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setRefLangFilter(tab.id as any)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                    refLangFilter === tab.id
+                      ? 'bg-white text-slate-950 shadow-xs font-black dark:bg-slate-700 dark:text-white'
+                      : 'text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Keyword search input */}
+            <div className="relative w-full sm:w-80">
+              <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
+              <input
+                type="text"
+                value={refSearch}
+                onChange={(e) => setRefSearch(e.target.value)}
+                placeholder="Tìm tác giả, tạp chí, từ khóa..."
+                className="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#8CE0F4] transition-all dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+              />
+            </div>
+          </div>
+
+          {/* References List */}
+          <div className="space-y-3">
+            {filteredReferences.map((ref) => {
+              const isHighlighted = highlightedRefId === ref.id;
+              return (
+                <div
+                  key={ref.id}
+                  id={`ref-item-${ref.id}`}
+                  className={`p-4 rounded-xl border transition-all text-xs sm:text-sm ${
+                    isHighlighted
+                      ? 'bg-amber-100/90 border-amber-400 shadow-md ring-2 ring-amber-300 scale-[1.01] dark:bg-amber-950/70 dark:border-amber-700 dark:ring-amber-800'
+                      : 'bg-white border-slate-200/90 hover:border-slate-300 dark:bg-slate-900 dark:border-slate-800 dark:hover:border-slate-700'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-3 flex-1">
+                      <span className="px-2 py-0.5 rounded font-mono font-bold text-xs bg-[#E2F7FC] text-[#0D7287] border border-[#9BE7FA] shrink-0 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700">
+                        [{ref.id}]
+                      </span>
+                      <div className="space-y-1">
+                        <p className="font-semibold text-slate-900 dark:text-slate-100 leading-relaxed">
+                          {ref.title}
+                        </p>
+                        <div className="flex items-center gap-2 text-xs text-slate-400">
+                          <span className="uppercase font-mono font-bold text-[10px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+                            {ref.language === 'vi' ? 'Tiếng Việt' : ref.language === 'en' ? 'English' : '日本語'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {ref.url && (
+                      <a
+                        href={ref.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-lg bg-slate-50 hover:bg-[#8CE0F4]/30 text-slate-600 hover:text-[#0D7287] transition-all shrink-0 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:text-[#9BE7FA]"
+                        title="Mở tài liệu nguồn gốc trong tab mới"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+
+            {filteredReferences.length === 0 && (
+              <div className="text-center py-12 text-slate-400 text-sm">
+                Không tìm thấy tài liệu nào phù hợp với bộ lọc hiện tại.
+              </div>
+            )}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* FOOTER                                                   */}
+      {/* ======================================================== */}
+      <footer className="py-10 bg-slate-900 text-slate-400 border-t border-slate-800 text-xs text-center">
+        <div className="max-w-5xl mx-auto px-4 space-y-2">
+          <p className="text-slate-300 font-bold text-sm">
+            {THESIS_METADATA.universityVi} — {THESIS_METADATA.facultyVi}
           </p>
           <p>
-            Ma Văn Hùng · Portfolio Data Analyst · Cập nhật 2026
+            Đề tài niên luận: <em>"{THESIS_METADATA.titleVi}"</em> • Tác giả: {THESIS_METADATA.author} ({THESIS_METADATA.cohort}) • GVHD: {THESIS_METADATA.advisor}
+          </p>
+          <p className="text-slate-500 pt-2 border-t border-slate-800">
+            Dữ liệu trực quan hóa học thuật và chuyển giao công nghệ phân tích dữ liệu du lịch bền vững.
           </p>
         </div>
       </footer>
