@@ -3,10 +3,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Image from 'next/image';
 import { 
-  ArrowLeft, Landmark, BookOpen, ExternalLink, Download, 
+  ArrowLeft, Landmark, ExternalLink, Download, 
   Link as LinkIcon, Search, Compass, ShieldCheck, TrendingUp, 
   AlertTriangle, Sparkles, Eye, Camera, Layers, 
-  Calendar, Users, Award, Info, GraduationCap
+  Users, Award, Info, ChevronRight
 } from 'lucide-react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, 
@@ -18,7 +18,6 @@ import { useLanguage } from '../context/LanguageContext';
 
 import {
   THESIS_METADATA,
-  ACRONYMS,
   THESIS_CHARTS_CATALOG,
   touristsData,
   kyotoVisitorsData,
@@ -39,38 +38,22 @@ import { exportChartAsPng } from '../lib/chartExport';
 
 function CitationLink({ id }: { id: number }) {
   const refData = REFERENCES_DATA.find(r => r.id === id);
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('highlight-citation', { detail: id }));
-    }
-    const el = document.getElementById(`ref-item-${id}`);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else {
-      const sec = document.getElementById('tai-lieu-tham-khao');
-      if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
   return (
-    <button
-      onClick={handleClick}
+    <span
       title={refData ? `[${id}] ${refData.title}` : `Tài liệu tham khảo [${id}]`}
-      className="inline-flex items-center justify-center px-1.5 py-0.5 mx-0.5 text-[11px] font-bold text-[#0D7287] bg-[#E2F7FC] hover:bg-[#8CE0F4] hover:text-slate-950 rounded border border-[#9BE7FA] transition-all cursor-pointer dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 dark:hover:bg-slate-700"
+      className="inline-flex items-center justify-center px-1.5 py-0.2 mx-0.5 text-[11px] font-bold text-[#0D7287] bg-[#E2F7FC] rounded border border-[#9BE7FA] select-none cursor-help dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700"
     >
       [{id}]
-    </button>
+    </span>
   );
 }
 
 const HERITAGE_JAPAN_SECTIONS = [
-  'trang-bia',
   'mo-dau',
   'chuong-1',
   'chuong-2',
   'chuong-3',
-  'ket-luan',
-  'tai-lieu-tham-khao'
+  'ket-luan'
 ];
 
 export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
@@ -90,21 +73,14 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
   const [unescoFilter, setUnescoFilter] = useState<'all' | 'Văn hóa' | 'Thiên nhiên'>('all');
   const [unescoSearch, setUnescoSearch] = useState<string>('');
 
-  // References list filter and search
-  const [refLangFilter, setRefLangFilter] = useState<'all' | 'vi' | 'en' | 'ja'>('all');
-  const [refSearch, setRefSearch] = useState<string>('');
-  const [highlightedRefId, setHighlightedRefId] = useState<number | null>(null);
-
   const activeSection = useScrollSpy(HERITAGE_JAPAN_SECTIONS, 130);
 
   const navItems = [
-    { id: 'trang-bia', label: isEn ? 'Cover & Thesis' : 'Trang bìa' },
     { id: 'mo-dau', label: isEn ? 'Introduction' : 'Mở đầu' },
     { id: 'chuong-1', label: isEn ? 'Ch1: Heritage Concept' : 'Chương 1' },
     { id: 'chuong-2', label: isEn ? 'Ch2: Policies' : 'Chương 2' },
     { id: 'chuong-3', label: isEn ? 'Ch3: Analytics & Cases' : 'Chương 3' },
     { id: 'ket-luan', label: isEn ? 'Conclusion' : 'Kết luận' },
-    { id: 'tai-lieu-tham-khao', label: isEn ? 'References (41)' : 'Tài liệu (41)' },
   ];
 
   const handleNavClick = (id: string, e: React.MouseEvent) => {
@@ -130,18 +106,8 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
     }
   };
 
-
   useEffect(() => {
     trackVisitorAction('Xem chi tiết dự án: Niên luận Du lịch Di sản Nhật Bản (Ma Văn Hùng)', 'proj-heritage-japan', 'project');
-
-    const handleHighlight = (e: Event) => {
-      const customEvent = e as CustomEvent<number>;
-      setHighlightedRefId(customEvent.detail);
-      setRefLangFilter('all');
-      setTimeout(() => setHighlightedRefId(null), 3500);
-    };
-    window.addEventListener('highlight-citation', handleHighlight);
-    return () => window.removeEventListener('highlight-citation', handleHighlight);
   }, []);
 
   const handleBack = () => {
@@ -164,17 +130,6 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       return matchesType && matchesSearch;
     });
   }, [unescoFilter, unescoSearch]);
-
-  // Filtered references
-  const filteredReferences = useMemo(() => {
-    return REFERENCES_DATA.filter(ref => {
-      const matchesLang = refLangFilter === 'all' || ref.language === refLangFilter;
-      const matchesSearch = !refSearch.trim() || 
-        ref.title.toLowerCase().includes(refSearch.toLowerCase()) ||
-        (ref.url && ref.url.toLowerCase().includes(refSearch.toLowerCase()));
-      return matchesLang && matchesSearch;
-    });
-  }, [refLangFilter, refSearch]);
 
   const selectedChartMeta = THESIS_CHARTS_CATALOG.find(c => c.chartId === selectedChartId) || THESIS_CHARTS_CATALOG[0];
 
@@ -241,125 +196,79 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       {/* ======================================================== */}
       {/* 1. TRANG BÌA & THÔNG TIN HỌC THUẬT (#trang-bia)            */}
       {/* ======================================================== */}
-      <header id="trang-bia" className="relative bg-gradient-to-b from-[#F3FCFE] via-white to-amber-50/30 text-slate-900 pt-16 pb-20 border-b border-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900 dark:text-white dark:border-slate-800">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          
-          {/* Institutional crest header */}
-          <div className="border-b border-slate-300/80 pb-6 mb-8 dark:border-slate-800">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-bold text-slate-600 tracking-wider uppercase dark:text-slate-400">
-              <div>
-                <p className="text-slate-900 font-extrabold text-sm dark:text-white">{THESIS_METADATA.universityVi}</p>
-                <p className="text-[#0D7287] dark:text-[#9BE7FA] font-bold">{THESIS_METADATA.facultyVi} — {THESIS_METADATA.majorVi}</p>
-              </div>
-              <div className="sm:text-right">
-                <span className="inline-block px-3 py-1 bg-amber-100 text-amber-900 rounded-full border border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800">
-                  {isEn ? 'ACADEMIC MONOGRAPH / NIÊN LUẬN' : 'CÔNG TRÌNH NGHIÊN CỨU NIÊN LUẬN'}
-                </span>
-                <p className="mt-1 text-slate-500">{THESIS_METADATA.scopeYears}</p>
-              </div>
-            </div>
-          </div>
+      {/* ======================================================== */}
+      {/* HERO HEADER (PORTFOLIO PROJECT OVERVIEW)                 */}
+      {/* ======================================================== */}
+      <header className="relative bg-gradient-to-b from-[#F3FCFE] via-[#FFFDF5] to-[#FFF9E6] text-slate-900 pt-16 pb-16 overflow-hidden border-b border-slate-200/80 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900 dark:text-white dark:border-slate-800">
+        
+        {/* Ambient background glow */}
+        <div className="absolute right-[8%] top-[10%] w-72 h-72 rounded-full bg-gradient-to-tr from-[#FFE485] via-[#FFD14C] to-[#9BE7FA] opacity-35 blur-3xl pointer-events-none hidden md:block" />
 
-          {/* Thesis Title */}
-          <div className="max-w-4xl mb-10">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.18] text-slate-950 mb-4 dark:text-white">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="max-w-4xl space-y-5">
+            
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#C8EEF7]/60 border border-[#9BE7FA] rounded-md text-xs font-bold tracking-wide text-slate-900 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+              <Landmark className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#FFD14C]" />
+              <span>{isEn ? 'LINE 03 · HERITAGE TOURISM & QUANTITATIVE RESEARCH' : 'LINE 03 : PHÂN TÍCH ĐỊNH LƯỢNG & DU LỊCH DI SẢN NHẬT BẢN'}</span>
+            </div>
+            
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.18] tracking-tight text-slate-950 dark:text-white">
               {isEn ? THESIS_METADATA.titleEn : THESIS_METADATA.titleVi}
             </h1>
-            <p className="text-lg sm:text-xl text-[#0D7287] font-semibold italic dark:text-[#9BE7FA]">
+            
+            <p className="text-base sm:text-xl text-[#0D7287] font-semibold italic dark:text-[#9BE7FA]">
               {isEn ? THESIS_METADATA.titleVi : THESIS_METADATA.titleEn}
             </p>
+
+            <p className="text-sm sm:text-base text-slate-700 leading-relaxed max-w-3xl dark:text-slate-300">
+              {isEn
+                ? 'A comprehensive quantitative research & case study on Japan’s heritage tourism trajectory (2013–2023): examining inbound growth catalysts, the overtourism crisis across UNESCO cultural hotspots, and actionable governance models for sustainable preservation.'
+                : 'Khảo sát thực tiễn toàn diện về lộ trình phát triển du lịch di sản tại Nhật Bản giai đoạn 2013–2023: phân tích động lực bùng nổ du khách quốc tế, khủng hoảng quá tải du lịch (Overtourism) tại các di sản UNESCO và các mô hình quản trị di sản bền vững.'}
+            </p>
+            
+            {/* Quick Metadata Badges */}
+            <div className="flex flex-wrap gap-2.5 pt-2">
+              <span className="text-xs font-bold px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
+                {isEn ? 'Research Scope:' : 'Phạm vi nghiên cứu:'} <b className="text-[#0D7287] dark:text-[#9BE7FA]">2013 – 2023</b>
+              </span>
+              <span className="text-xs font-bold px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
+                {isEn ? 'UNESCO Sites:' : 'Di sản Thế giới:'} <b className="text-[#0D7287] dark:text-[#9BE7FA]">25 Điểm đến (20 VH / 5 TN)</b>
+              </span>
+              <span className="text-xs font-bold px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
+                {isEn ? 'Telemetry Datasets:' : 'Dữ liệu phân tích:'} <b className="text-[#0D7287] dark:text-[#9BE7FA]">6 Chuỗi số liệu thống kê</b>
+              </span>
+              <span className="text-xs font-bold px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
+                {isEn ? 'Key Hotspots:' : 'Khảo sát thực tiễn:'} <b className="text-[#0D7287] dark:text-[#9BE7FA]">Kyoto · Nara · Phú Sĩ · Shirakawa-go · Miyajima</b>
+              </span>
+            </div>
+
+            {/* Quick Jump Buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-3">
+              <a
+                href="#mo-dau"
+                onClick={(e) => handleNavClick('mo-dau', e)}
+                className="px-4 py-2 rounded-xl bg-[#0D7287] text-white font-bold text-xs hover:bg-[#095262] transition-colors shadow-xs flex items-center gap-1.5 dark:bg-[#9BE7FA] dark:text-slate-950 dark:hover:bg-[#8CE0F4] cursor-pointer"
+              >
+                <span>Bắt đầu đọc đề tài</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </a>
+              <a
+                href="#chuong-1"
+                onClick={(e) => handleNavClick('chuong-1', e)}
+                className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 transition-colors shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 cursor-pointer"
+              >
+                Khám phá 25 Di sản UNESCO
+              </a>
+              <a
+                href="#chuong-3"
+                onClick={(e) => handleNavClick('chuong-3', e)}
+                className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 transition-colors shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 cursor-pointer"
+              >
+                Xem Dữ liệu & Biểu đồ 3.1 - 3.6
+              </a>
+            </div>
+
           </div>
-
-          {/* Metadata Cards Grid: Student, Advisor, Completion, Scope */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-            <div className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider mb-1 dark:text-slate-400">
-                <GraduationCap className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-                <span>{isEn ? 'Author' : 'Sinh viên thực hiện'}</span>
-              </div>
-              <p className="text-base font-black text-slate-900 dark:text-white">{THESIS_METADATA.author}</p>
-              <p className="text-xs text-slate-500">Khóa: {THESIS_METADATA.cohort}</p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider mb-1 dark:text-slate-400">
-                <Award className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                <span>{isEn ? 'Advisor' : 'Giảng viên hướng dẫn'}</span>
-              </div>
-              <p className="text-base font-black text-slate-900 dark:text-white">{THESIS_METADATA.advisor}</p>
-              <p className="text-xs text-slate-500">Bộ môn Nhật Bản học</p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider mb-1 dark:text-slate-400">
-                <Calendar className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>{isEn ? 'Defense Date' : 'Thời gian hoàn thành'}</span>
-              </div>
-              <p className="text-base font-black text-slate-900 dark:text-white">{THESIS_METADATA.completionDate}</p>
-              <p className="text-xs text-slate-500">Hà Nội, 2024</p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider mb-1 dark:text-slate-400">
-                <Layers className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                <span>{isEn ? 'Scope & Charts' : 'Phạm vi & Dữ liệu'}</span>
-              </div>
-              <p className="text-base font-black text-slate-900 dark:text-white">6 Biểu đồ • 41 Nguồn</p>
-              <p className="text-xs text-slate-500">Chuỗi thời gian 2003 – 2023</p>
-            </div>
-          </div>
-
-          {/* Lời cam đoan (Declaration of Originality) */}
-          <div className="p-5 rounded-2xl bg-amber-50/70 border border-amber-200/80 mb-8 dark:bg-amber-950/20 dark:border-amber-900/60">
-            <div className="flex items-start gap-3">
-              <ShieldCheck className="w-5 h-5 text-amber-700 mt-0.5 shrink-0 dark:text-amber-400" />
-              <div className="text-sm leading-relaxed text-slate-800 dark:text-slate-200">
-                <strong className="block text-amber-900 font-black mb-1 dark:text-amber-300">
-                  {isEn ? 'Author Declaration of Originality' : 'Lời cam đoan của tác giả'}:
-                </strong>
-                <p className="italic">
-                  {isEn 
-                    ? '"I hereby declare that this research monograph is my own original work carried out during my academic study at the University of Social Sciences and Humanities, VNU Hanoi. All data, statistical tables, and citations derived from external publications are objectively surveyed and rigorously cited with transparent references."'
-                    : '"Tôi xin cam đoan đề tài nghiên cứu này là công trình nghiên cứu cá nhân của tôi trong thời gian học tập tại trường Đại học Khoa học Xã hội và Nhân văn, Đại học Quốc gia Hà Nội. Các kết quả, số liệu khảo sát trong niên luận là hoàn toàn trung thực, các tài liệu tham khảo và trích dẫn đều được ghi rõ nguồn gốc rõ ràng theo chuẩn mực học thuật." — Ma Văn Hùng (19/01/2024)'}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Danh mục từ viết tắt (Table 2 in Thesis) */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2 dark:text-white">
-                <BookOpen className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-                <span>{isEn ? 'Table of Acronyms & Abbreviations' : 'Danh mục các từ viết tắt trong đề tài'}</span>
-              </h2>
-              <span className="text-xs text-slate-500 font-semibold">(Bảng 2 trong Niên luận)</span>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider dark:border-slate-800">
-                    <th className="py-2.5 px-3">STT</th>
-                    <th className="py-2.5 px-4 font-extrabold text-[#0D7287] dark:text-[#9BE7FA]">Từ viết tắt</th>
-                    <th className="py-2.5 px-4">Nghĩa tiếng Anh (Nguyên gốc)</th>
-                    <th className="py-2.5 px-4">Giải nghĩa tiếng Việt</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
-                  {ACRONYMS.map((acr) => (
-                    <tr key={acr.abbr} className="hover:bg-slate-50 transition-colors dark:hover:bg-slate-800/40">
-                      <td className="py-2.5 px-3 text-slate-400 font-mono text-xs">{acr.stt}</td>
-                      <td className="py-2.5 px-4 font-black font-mono text-slate-900 dark:text-white">{acr.abbr}</td>
-                      <td className="py-2.5 px-4 text-slate-700 italic dark:text-slate-300">{acr.meaningEn}</td>
-                      <td className="py-2.5 px-4 text-slate-900 font-medium dark:text-slate-200">{acr.meaningVi}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
         </div>
       </header>
 
@@ -1436,123 +1345,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
         </div>
       </section>
 
-      {/* ======================================================== */}
-      {/* 7. TÀI LIỆU THAM KHẢO (#tai-lieu-tham-khao)              */}
-      {/* ======================================================== */}
-      <section id="tai-lieu-tham-khao" className="py-16 bg-slate-50 border-b border-slate-200 dark:bg-slate-950 dark:border-slate-800">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 mb-8 border-b border-slate-200 dark:border-slate-800">
-            <div>
-              <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
-                {isEn ? 'Part IV • Bibliography & Citations' : 'Phần Tài Liệu Tham Khảo • Danh mục trích dẫn đầy đủ'}
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
-                {isEn ? 'Comprehensive Bibliography (41 References with Direct Links)' : 'Danh Mục 41 Tài Liệu Tham Khảo (Kèm Liên Kết Trực Tiếp)'}
-              </h2>
-            </div>
-            <button
-              onClick={() => copyDeepLink('tai-lieu-tham-khao', isEn ? 'References' : 'Tài liệu tham khảo')}
-              className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800"
-              title="Sao chép liên kết"
-            >
-              <LinkIcon className="w-4 h-4" />
-            </button>
-          </div>
 
-          {/* Filters & Search Toolbar */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-4 mb-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4 dark:bg-slate-900 dark:border-slate-800">
-            {/* Language filter pills */}
-            <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200 w-full sm:w-auto overflow-x-auto dark:bg-slate-800 dark:border-slate-700">
-              {[
-                { id: 'all', label: 'Tất cả (41)' },
-                { id: 'vi', label: '🇻🇳 Tiếng Việt (7)' },
-                { id: 'en', label: '🇬🇧 Tiếng Anh (7)' },
-                { id: 'ja', label: '🇯🇵 Tiếng Nhật (27)' },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setRefLangFilter(tab.id as any)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
-                    refLangFilter === tab.id
-                      ? 'bg-white text-slate-950 shadow-xs font-black dark:bg-slate-700 dark:text-white'
-                      : 'text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Keyword search input */}
-            <div className="relative w-full sm:w-80">
-              <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
-              <input
-                type="text"
-                value={refSearch}
-                onChange={(e) => setRefSearch(e.target.value)}
-                placeholder="Tìm tác giả, tạp chí, từ khóa..."
-                className="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#8CE0F4] transition-all dark:bg-slate-800 dark:border-slate-700 dark:text-white"
-              />
-            </div>
-          </div>
-
-          {/* References List */}
-          <div className="space-y-3">
-            {filteredReferences.map((ref) => {
-              const isHighlighted = highlightedRefId === ref.id;
-              return (
-                <div
-                  key={ref.id}
-                  id={`ref-item-${ref.id}`}
-                  className={`p-4 rounded-xl border transition-all text-xs sm:text-sm ${
-                    isHighlighted
-                      ? 'bg-amber-100/90 border-amber-400 shadow-md ring-2 ring-amber-300 scale-[1.01] dark:bg-amber-950/70 dark:border-amber-700 dark:ring-amber-800'
-                      : 'bg-white border-slate-200/90 hover:border-slate-300 dark:bg-slate-900 dark:border-slate-800 dark:hover:border-slate-700'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-3 flex-1">
-                      <span className="px-2 py-0.5 rounded font-mono font-bold text-xs bg-[#E2F7FC] text-[#0D7287] border border-[#9BE7FA] shrink-0 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700">
-                        [{ref.id}]
-                      </span>
-                      <div className="space-y-1">
-                        <p className="font-semibold text-slate-900 dark:text-slate-100 leading-relaxed">
-                          {ref.title}
-                        </p>
-                        <div className="flex items-center gap-2 text-xs text-slate-400">
-                          <span className="uppercase font-mono font-bold text-[10px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
-                            {ref.language === 'vi' ? 'Tiếng Việt' : ref.language === 'en' ? 'English' : '日本語'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {ref.url && (
-                      <a
-                        href={ref.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 rounded-lg bg-slate-50 hover:bg-[#8CE0F4]/30 text-slate-600 hover:text-[#0D7287] transition-all shrink-0 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:text-[#9BE7FA]"
-                        title="Mở tài liệu nguồn gốc trong tab mới"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-
-            {filteredReferences.length === 0 && (
-              <div className="text-center py-12 text-slate-400 text-sm">
-                Không tìm thấy tài liệu nào phù hợp với bộ lọc hiện tại.
-              </div>
-            )}
-          </div>
-
-        </div>
-      </section>
 
       {/* ======================================================== */}
       {/* FOOTER                                                   */}
