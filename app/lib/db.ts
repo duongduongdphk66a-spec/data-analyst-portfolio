@@ -8,12 +8,6 @@ import {
   shopWeeklyTrendData,
   shopTopSKUs,
   topAffiliatesList,
-  topShopLiveSessions,
-  topShoppableVideos,
-  creatorTopLiveStreams,
-  creatorTopVideos,
-  creatorCollaborativeStores,
-  KAMI_DATA_SCOPES,
 } from '../data/kamiElyData';
 
 let pool: Pool | null = null;

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
   Bus, Download, Maximize2, Minimize2, Wifi, Wind, 
   BatteryCharging, Coffee, Layers, Grid, 
-  ZoomIn, ZoomOut, X, ArrowRight,
+  ZoomIn, ZoomOut, X, ArrowRight, BookOpen,
   CheckCircle2, Sparkles, FileCode2,
   ChevronLeft, ChevronRight, SplitSquareVertical, Columns2, ArrowLeftRight,
   Smartphone, Monitor
@@ -367,20 +367,32 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
           </div>
 
           <div className="grid grid-cols-4 gap-2">
-            <div className="col-span-3 rounded-xl overflow-hidden shadow-xs border border-[#ED9040]/30 relative group">
-              <img 
-                src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80" 
-                alt="Book cover" 
-                className="w-full h-32 object-cover"
-              />
-              <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#4E0705]/85 text-white text-[9px] font-bold">
-                ⭐ 4.8 / 5.0
+            <div className="col-span-3 rounded-xl overflow-hidden shadow-xs border border-[#ED9040]/30 relative group bg-gradient-to-br from-[#4E0705] via-[#7B1D0E] to-[#BD5705] p-3 text-white flex flex-col justify-between h-32">
+              <div className="flex justify-between items-start">
+                <span className="px-2 py-0.5 rounded bg-black/40 backdrop-blur-xs text-[#FFC270] text-[9px] font-bold">
+                  ⭐ 4.8 / 5.0
+                </span>
+                <BookOpen className="w-4 h-4 text-[#FFC270] opacity-80" />
+              </div>
+              <div className="space-y-0.5 border-l-2 border-[#FFC270] pl-2">
+                <div className="text-[11px] font-serif font-black tracking-wide text-[#FFFDF9]">ORIGIN</div>
+                <div className="text-[8px] font-sans text-amber-200">DAN BROWN</div>
+              </div>
+              <div className="flex justify-between text-[7px] font-mono text-amber-100/70 border-t border-white/20 pt-1">
+                <span>THƯ VIỆN SỐ</span>
+                <span>BẢN CHUẨN</span>
               </div>
             </div>
             <div className="col-span-1 flex flex-col gap-1.5">
-              <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=200&auto=format&fit=crop&q=80" alt="thumb1" className="w-full h-9 rounded-lg object-cover border border-[#ED9040]/30" />
-              <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=200&auto=format&fit=crop&q=80" alt="thumb2" className="w-full h-9 rounded-lg object-cover border border-[#ED9040]/30" />
-              <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=200&auto=format&fit=crop&q=80" alt="thumb3" className="w-full h-9 rounded-lg object-cover border border-[#ED9040]/30" />
+              <div className="w-full h-9 rounded-lg border border-[#ED9040]/30 bg-gradient-to-r from-[#BD5705] to-[#ED9040] p-1 flex items-center justify-center text-[7px] font-bold text-white shadow-2xs">
+                Bìa 1
+              </div>
+              <div className="w-full h-9 rounded-lg border border-[#ED9040]/30 bg-gradient-to-r from-[#4E0705] to-[#7B1D0E] p-1 flex items-center justify-center text-[7px] font-bold text-[#FFC270] shadow-2xs">
+                Mục lục
+              </div>
+              <div className="w-full h-9 rounded-lg border border-[#ED9040]/30 bg-gradient-to-r from-[#ED9040] to-[#FFC270] p-1 flex items-center justify-center text-[7px] font-bold text-[#4E0705] shadow-2xs">
+                Lời tựa
+              </div>
             </div>
           </div>
 
@@ -464,13 +476,16 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
           <div className="text-[10px] font-serif font-bold text-[#4E0705]">Sách cùng tác giả / thể loại:</div>
           <div className="grid grid-cols-4 gap-1.5">
             {[
-              { title: 'Mật Mã Da Vinci', img: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=200&auto=format&fit=crop&q=80' },
-              { title: 'Thiên Thần & Ác Quỷ', img: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=200&auto=format&fit=crop&q=80' },
-              { title: 'Biểu Tượng Thất Truyền', img: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=200&auto=format&fit=crop&q=80' },
-              { title: 'Hỏa Ngục', img: 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=200&auto=format&fit=crop&q=80' },
+              { title: 'Mật Mã Da Vinci', color: 'from-[#4E0705] to-[#7B1D0E]', textColor: 'text-[#FFC270]' },
+              { title: 'Thiên Thần & Ác Quỷ', color: 'from-[#BD5705] to-[#ED9040]', textColor: 'text-white' },
+              { title: 'Biểu Tượng Thất Truyền', color: 'from-[#7B1D0E] to-[#BD5705]', textColor: 'text-[#FFFDF9]' },
+              { title: 'Hỏa Ngục', color: 'from-[#1E293B] to-[#334155]', textColor: 'text-sky-200' },
             ].map((book, idx) => (
-              <div key={idx} className="p-1 rounded-lg border border-[#ED9040]/30 bg-white text-center group cursor-pointer">
-                <img src={book.img} alt={book.title} className="w-full h-11 object-cover rounded mb-1" />
+              <div key={idx} className="p-1.5 rounded-lg border border-[#ED9040]/30 bg-white text-center group cursor-pointer hover:border-[#BD5705] transition-colors">
+                <div className={`w-full h-11 rounded mb-1 bg-gradient-to-br ${book.color} flex flex-col items-center justify-center p-1 shadow-2xs`}>
+                  <BookOpen className={`w-3 h-3 ${book.textColor} mb-0.5 opacity-90`} />
+                  <span className={`text-[7px] font-black ${book.textColor} leading-none truncate max-w-full`}>DAN BROWN</span>
+                </div>
                 <div className="text-[8px] font-bold text-[#4E0705] truncate">{book.title}</div>
               </div>
             ))}

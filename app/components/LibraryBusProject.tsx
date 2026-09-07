@@ -30,6 +30,7 @@ import LibraryBusVisualComparison from './LibraryBusVisualComparison';
 import { scrollToSection, centerTabInContainer, useCaseStudyActions } from '../lib/uiHelpers';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 import SectionHeader from './ui/SectionHeader';
+import { LibraryBusShowcaseCard } from './ui/LibraryBusShowcaseCard';
 
 export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
   const router = useRouter();
@@ -39,7 +40,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
 
   // Active showcase demo tab: 'gallery' | 'architecture-graph' | 'understand-radar' | 'presentation-slides' | 'website-pdf'
   const [activeShowcaseTab, setActiveShowcaseTab] = useState<string>('gallery');
-  const [selectedGalleryImg, setSelectedGalleryImg] = useState<string | null>(null);
+  const [selectedGalleryItem, setSelectedGalleryItem] = useState<(typeof realUIGallery)[0] | null>(null);
 
   // Navigation Items matching the 3 Chapters from "Thiết kế chưa có tên.pdf"
   const navItems = useMemo(() => [
@@ -901,10 +902,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
           />
 
           {/* Interactive 20-Screen & Side-by-Side Spread Component */}
-          <LibraryBusVisualComparison 
-            isEn={isEn} 
-            onOpenZoom={(src) => setSelectedGalleryImg(src)} 
-          />
+          <LibraryBusVisualComparison isEn={isEn} />
         </section>
 
 
@@ -960,44 +958,17 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
           {activeShowcaseTab === 'gallery' && (
             <div className="grid md:grid-cols-3 gap-6 animate-in fade-in duration-300">
               {realUIGallery.map((item) => (
-                <div 
+                <LibraryBusShowcaseCard
                   key={item.id}
-                  className="rounded-3xl bg-white border border-slate-200/80 overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col group dark:bg-slate-900 dark:border-slate-800"
-                >
-                  <div className="relative h-56 w-full bg-slate-100 overflow-hidden dark:bg-slate-800">
-                    <img 
-                      src={item.src} 
-                      alt={item.titleVi}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
-                      onClick={() => setSelectedGalleryImg(item.src)}
-                    />
-                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md text-white text-[11px] font-bold">
-                      {item.tag}
-                    </div>
-                  </div>
-                  <div className="p-5 flex-1 flex flex-col justify-between space-y-2">
-                    <div>
-                      <h3 className="text-base font-black text-slate-900 dark:text-white">
-                        {isEn ? item.titleEn : item.titleVi}
-                      </h3>
-                      <p className="text-xs text-slate-600 mt-1.5 leading-relaxed dark:text-slate-400">
-                        {isEn ? item.descEn : item.descVi}
-                      </p>
-                    </div>
-                    <div className="pt-3 border-t border-slate-100 flex justify-between items-center dark:border-slate-800">
-                      <span className="text-[11px] font-mono text-slate-400">Source: static_presentation</span>
-                      <a 
-                        href={item.src} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-xs font-bold text-[#0D7287] hover:underline flex items-center gap-1 dark:text-[#9BE7FA]"
-                      >
-                        <span>{isEn ? 'View full size' : 'Xem kích thước gốc'}</span>
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                  id={item.id}
+                  titleVi={item.titleVi}
+                  titleEn={item.titleEn}
+                  descVi={item.descVi}
+                  descEn={item.descEn}
+                  tag={item.tag}
+                  isEn={isEn}
+                  onOpenZoom={() => setSelectedGalleryItem(item)}
+                />
               ))}
             </div>
           )}
@@ -1387,24 +1358,48 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
         </div>
       </main>
 
-      {/* Image Zoom Modal */}
-      {selectedGalleryImg && (
+      {/* Code Showcase Modal */}
+      {selectedGalleryItem && (
         <div 
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-          onClick={() => setSelectedGalleryImg(null)}
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setSelectedGalleryItem(null)}
         >
-          <div className="relative max-w-5xl max-h-[90vh] bg-transparent rounded-2xl overflow-hidden shadow-2xl">
-            <img 
-              src={selectedGalleryImg} 
-              alt="Zoomed UI preview" 
-              className="w-full h-auto max-h-[85vh] object-contain rounded-2xl"
-            />
-            <button
-              onClick={() => setSelectedGalleryImg(null)}
-              className="absolute top-4 right-4 p-2 rounded-full bg-black/60 text-white hover:bg-black transition-colors cursor-pointer"
-            >
-              ✕
-            </button>
+          <div 
+            className="relative w-full max-w-4xl bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 p-6 space-y-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div className="space-y-0.5">
+                <span className="px-2.5 py-0.5 rounded-md bg-[#BD5705]/10 text-[#BD5705] font-mono text-[10px] font-bold">
+                  {selectedGalleryItem.tag}
+                </span>
+                <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                  {isEn ? selectedGalleryItem.titleEn : selectedGalleryItem.titleVi}
+                </h3>
+              </div>
+              <button
+                onClick={() => setSelectedGalleryItem(null)}
+                className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="h-[50vh] min-h-[300px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700">
+              <LibraryBusShowcaseCard
+                id={selectedGalleryItem.id}
+                titleVi={selectedGalleryItem.titleVi}
+                titleEn={selectedGalleryItem.titleEn}
+                descVi={selectedGalleryItem.descVi}
+                descEn={selectedGalleryItem.descEn}
+                tag={selectedGalleryItem.tag}
+                isEn={isEn}
+              />
+            </div>
+
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              {isEn ? selectedGalleryItem.descEn : selectedGalleryItem.descVi}
+            </p>
           </div>
         </div>
       )}

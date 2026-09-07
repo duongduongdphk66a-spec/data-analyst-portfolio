@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useMemo } from 'react';
-import Image from 'next/image';
+import { AcademicThesisMockup } from './ui/AcademicThesisMockup';
 import { 
   ArrowLeft, Landmark, ExternalLink, Download, 
   Search, Compass, ShieldCheck, TrendingUp, 
@@ -799,19 +799,16 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                     )}
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border border-slate-200 dark:bg-slate-800/50 dark:border-slate-700">
-                    <div className="relative w-full max-w-3xl aspect-[16/9] overflow-hidden rounded-lg shadow-sm border border-slate-300 dark:border-slate-600 bg-white">
-                      <Image 
-                        src={selectedVolumeMeta.imageSrc} 
-                        alt={selectedVolumeMeta.nameVi}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                    <p className="text-xs text-slate-500 mt-3 italic text-center">
-                      Ảnh đồ thị nguyên bản trích xuất trực tiếp từ trang {selectedVolumeMeta.pageInDoc} văn bản Niên luận.
-                    </p>
-                  </div>
+                  <AcademicThesisMockup
+                    chartId={selectedVolumeMeta.chartId}
+                    nameVi={selectedVolumeMeta.nameVi}
+                    nameEn={selectedVolumeMeta.nameEn}
+                    unitVi={selectedVolumeMeta.unitVi}
+                    unitEn={selectedVolumeMeta.unitEn}
+                    pageInDoc={selectedVolumeMeta.pageInDoc}
+                    data={volumeChartId === '3.1' ? touristsData : volumeChartId === '3.2' ? kyotoVisitorsData : naraVisitorsData}
+                    isEn={isEn}
+                  />
                 )}
               </div>
 
@@ -989,19 +986,16 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                     )}
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border border-slate-200 dark:bg-slate-800/50 dark:border-slate-700">
-                    <div className="relative w-full max-w-3xl aspect-[16/9] overflow-hidden rounded-lg shadow-sm border border-slate-300 dark:border-slate-600 bg-white">
-                      <Image 
-                        src={selectedRevenueMeta.imageSrc} 
-                        alt={selectedRevenueMeta.nameVi}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                    <p className="text-xs text-slate-500 mt-3 italic text-center">
-                      Ảnh đồ thị nguyên bản trích xuất trực tiếp từ trang {selectedRevenueMeta.pageInDoc} văn bản Niên luận.
-                    </p>
-                  </div>
+                  <AcademicThesisMockup
+                    chartId={selectedRevenueMeta.chartId}
+                    nameVi={selectedRevenueMeta.nameVi}
+                    nameEn={selectedRevenueMeta.nameEn}
+                    unitVi={selectedRevenueMeta.unitVi}
+                    unitEn={selectedRevenueMeta.unitEn}
+                    pageInDoc={selectedRevenueMeta.pageInDoc}
+                    data={revenueChartId === '3.4' ? spendNationalData : revenueChartId === '3.5' ? kyotoSpendData : naraSpendData}
+                    isEn={isEn}
+                  />
                 )}
               </div>
 

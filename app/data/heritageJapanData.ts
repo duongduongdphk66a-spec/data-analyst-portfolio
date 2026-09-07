@@ -38,7 +38,7 @@ export interface ChartCatalogItem {
   nameEn: string;
   unitVi: string;
   unitEn: string;
-  imageSrc: string;
+  imageSrc?: string;
   pageInDoc: number;
 }
 
@@ -50,7 +50,6 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
     nameEn: 'International Visitors to Japan (2003 – 2022)',
     unitVi: 'Triệu người',
     unitEn: 'Million visitors',
-    imageSrc: '/heritage_japan/image1.png',
     pageInDoc: 30,
   },
   {
@@ -60,7 +59,6 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
     nameEn: 'International Inbound Visitors to Kyoto City (2008 – 2023)',
     unitVi: 'Nghìn người',
     unitEn: 'Thousand visitors',
-    imageSrc: '/heritage_japan/image2.png',
     pageInDoc: 31,
   },
   {
@@ -70,7 +68,6 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
     nameEn: 'International Inbound Visitors to Nara Prefecture (2011 – 2020)',
     unitVi: 'Nghìn người',
     unitEn: 'Thousand visitors',
-    imageSrc: '/heritage_japan/image3.png',
     pageInDoc: 31,
   },
   {
@@ -80,7 +77,6 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
     nameEn: 'Inbound Tourism Expenditure in Japan (2010 – 2021)',
     unitVi: 'Nghìn tỷ Yên',
     unitEn: 'Trillion JPY',
-    imageSrc: '/heritage_japan/image4.png',
     pageInDoc: 33,
   },
   {
@@ -90,7 +86,6 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
     nameEn: 'Tourism Expenditure in Kyoto City (2008 – 2020)',
     unitVi: 'Tỷ Yên',
     unitEn: 'Billion JPY',
-    imageSrc: '/heritage_japan/image5.png',
     pageInDoc: 33,
   },
   {
@@ -100,7 +95,6 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
     nameEn: 'Tourism Expenditure in Nara Prefecture (2013 – 2022)',
     unitVi: 'Tỷ Yên',
     unitEn: 'Billion JPY',
-    imageSrc: '/heritage_japan/image6.png',
     pageInDoc: 34,
   },
 ];

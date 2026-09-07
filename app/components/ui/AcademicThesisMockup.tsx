@@ -1,0 +1,115 @@
+'use client';
+
+import React from 'react';
+import { FileText, CheckCircle2 } from 'lucide-react';
+
+interface AcademicThesisMockupProps {
+  chartId: string;
+  nameVi: string;
+  nameEn: string;
+  unitVi: string;
+  unitEn: string;
+  pageInDoc: number;
+  data: Array<{ year: string; value: number }>;
+  isEn?: boolean;
+}
+
+export function AcademicThesisMockup({
+  chartId,
+  nameVi,
+  nameEn,
+  unitVi,
+  unitEn,
+  pageInDoc,
+  data,
+  isEn = false
+}: AcademicThesisMockupProps) {
+  const maxVal = Math.max(...data.map(d => d.value), 1);
+
+  return (
+    <div className="w-full max-w-4xl mx-auto p-6 sm:p-8 bg-[#FFFDF9] border border-amber-200/80 rounded-2xl shadow-lg dark:bg-slate-950 dark:border-slate-800 text-slate-800 dark:text-slate-100 font-serif">
+      {/* Archival Document Header */}
+      <div className="border-b-2 border-stone-800 dark:border-stone-400 pb-4 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div className="text-[11px] font-sans font-black tracking-wider uppercase text-stone-600 dark:text-stone-300">
+              {isEn 
+                ? 'VIETNAM NATIONAL UNIVERSITY, HANOI • USSH' 
+                : 'ĐẠI HỌC QUỐC GIA HÀ NỘI • TRƯỜNG ĐH KHOA HỌC XÃ HỘI & NHÂN VĂN'}
+            </div>
+            <div className="text-xs font-sans text-stone-500 dark:text-stone-400 mt-0.5">
+              {isEn 
+                ? 'Faculty of Tourism Studies — Master of Science Thesis / Monograph' 
+                : 'Khoa Du lịch học — Văn bản trích lục Niên luận & Luận văn Thạc sĩ'}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <span className="px-2.5 py-1 rounded-md bg-stone-100 text-stone-800 border border-stone-300 font-mono text-[11px] font-bold dark:bg-slate-900 dark:text-stone-300 dark:border-stone-700">
+              {isEn ? `Page ${pageInDoc}` : `Trang ${pageInDoc}`}
+            </span>
+            <span className="px-2.5 py-1 rounded-md bg-amber-100 text-amber-900 border border-amber-300 font-sans text-[11px] font-extrabold dark:bg-amber-950/80 dark:text-amber-300 dark:border-amber-800">
+              {isEn ? 'Archival Document' : 'Tư liệu gốc'}
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-4 pt-3 border-t border-dashed border-stone-300 dark:border-stone-700 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+          <h3 className="text-base sm:text-lg font-black text-stone-900 dark:text-white font-serif">
+            {isEn ? `Figure ${chartId}: ${nameEn}` : `Biểu đồ ${chartId}: ${nameVi}`}
+          </h3>
+          <span className="text-xs font-sans italic text-stone-500 dark:text-stone-400 shrink-0">
+            {isEn ? `Unit: ${unitEn}` : `Đơn vị tính: ${unitVi}`}
+          </span>
+        </div>
+      </div>
+
+      {/* Vector Academic Graph Simulation Canvas */}
+      <div className="relative p-4 rounded-xl bg-white border border-stone-200 dark:bg-slate-900 dark:border-slate-800 shadow-inner">
+        {/* Academic Grid Coordinate System */}
+        <div className="h-56 sm:h-64 w-full flex items-end gap-1.5 sm:gap-3 pt-6 pb-2 px-2 border-b-2 border-l-2 border-stone-800 dark:border-stone-400">
+          {data.map((item, idx) => {
+            const heightPercent = Math.max(8, Math.round((item.value / maxVal) * 100));
+            return (
+              <div key={idx} className="flex-1 flex flex-col items-center justify-end h-full group">
+                <span className="text-[10px] font-mono text-stone-600 dark:text-stone-300 mb-1 opacity-80 group-hover:opacity-100 font-bold">
+                  {item.value}
+                </span>
+                <div 
+                  className="w-full max-w-[28px] bg-gradient-to-t from-stone-800 to-stone-600 rounded-t-xs dark:from-sky-700 dark:to-sky-500 group-hover:brightness-125 transition-all"
+                  style={{ height: `${heightPercent}%` }}
+                />
+                <span className="text-[9px] sm:text-[10px] font-mono text-stone-500 dark:text-stone-400 mt-1.5 -rotate-45 sm:rotate-0 origin-center">
+                  {item.year.replace('20', "'")}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 flex justify-between items-center text-[10px] font-sans text-stone-500 dark:text-stone-400 border-t border-stone-100 dark:border-stone-800 pt-2">
+          <span>{isEn ? 'Coordinate System: Cartesian 2D' : 'Hệ quy chiếu: Lưới tọa độ Đề-các chuẩn học thuật'}</span>
+          <span className="font-mono font-bold text-stone-700 dark:text-stone-300">
+            {isEn ? `Max Range: ${maxVal} ${unitEn}` : `Ngưỡng cực đại: ${maxVal} ${unitVi}`}
+          </span>
+        </div>
+      </div>
+
+      {/* Academic Citation & Footnote */}
+      <div className="mt-5 pt-3 border-t border-stone-200 dark:border-stone-800 text-xs font-sans text-stone-600 dark:text-stone-400 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <div className="flex items-center gap-1.5">
+          <FileText className="w-3.5 h-3.5 text-stone-500 shrink-0" />
+          <span>
+            {isEn 
+              ? 'Source: Japan National Tourism Organization (JNTO) & Kyoto / Nara Statistical Bureaus.' 
+              : 'Nguồn: Tổng cục Du lịch Nhật Bản (JNTO), Cục Thống kê Kyoto & Nara (Dữ liệu thẩm tra luận văn).'}
+          </span>
+        </div>
+        <div className="flex items-center gap-1 font-mono text-[11px] text-emerald-700 dark:text-emerald-400 font-bold">
+          <CheckCircle2 className="w-3.5 h-3.5" />
+          <span>{isEn ? 'Digitized Code Reconstruction' : 'Số hóa dạng Code chuẩn xác'}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
