@@ -35,3 +35,21 @@ export async function exportChartAsPng(elementId: string, fileName = 'data-chart
     return false;
   }
 }
+
+/**
+ * Trích xuất biểu đồ ra ảnh PNG kèm thông báo Toast song ngữ tự động
+ */
+export async function exportChartWithToast(
+  elementId: string,
+  name: string,
+  showToast: (_msg: string, _type?: 'success' | 'error' | 'info') => void,
+  isEn = false
+): Promise<boolean> {
+  const ok = await exportChartAsPng(elementId, `${name}.png`);
+  if (ok) {
+    showToast(isEn ? `Exported ${name} as PNG!` : `Đã tải ảnh biểu đồ ${name}!`, 'success');
+  } else {
+    showToast(isEn ? 'Failed to export chart image.' : 'Không thể xuất ảnh biểu đồ.', 'error');
+  }
+  return ok;
+}

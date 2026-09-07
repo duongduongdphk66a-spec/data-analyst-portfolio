@@ -37,7 +37,7 @@ function AdminEditorContent({ onClose }: { onClose: () => void }) {
   const { reloadTexts } = useLanguage();
   const { showToast } = useToast();
 
-  // Authentication State — verified via httpOnly cookie
+  // Authentication State: verified via httpOnly cookie
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   // Active Tab
@@ -143,7 +143,7 @@ function AdminEditorContent({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-6xl h-[90vh] shadow-2xl flex flex-col overflow-hidden text-slate-900 dark:text-slate-100 font-sans">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-6xl h-[90vh] shadow-2xl flex flex-col overflow-hidden text-slate-900 dark:text-slate-100 font-sans animate-in fade-in zoom-in-95 duration-200 origin-center ease-out">
         
         {/* Modal Top Header */}
         <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 flex items-center justify-between flex-shrink-0">

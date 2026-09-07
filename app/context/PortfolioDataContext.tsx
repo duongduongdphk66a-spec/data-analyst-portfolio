@@ -111,7 +111,7 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Fetch initial data on mount — delegates to refreshData to avoid code duplication
+  // Fetch initial data on mount: delegates to refreshData to avoid code duplication
   useEffect(() => {
     let ignore = false;
 

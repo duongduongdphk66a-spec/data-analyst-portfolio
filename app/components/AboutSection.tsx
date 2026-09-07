@@ -218,11 +218,6 @@ export default function AboutSection({ profile, onSelectProject }: AboutSectionP
   return (
     <section id="about" ref={sectionRef} className="section-alt py-20 md:py-28 transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
-
-        {/* Section label */}
-        <p className="text-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-muted mb-3">
-          {isEn ? 'About' : 'Giới thiệu'}
-        </p>
         <h2 className="text-3xl sm:text-4xl font-heading font-bold text-ink mb-10 max-w-2xl leading-tight dark:text-white">
           {isEn
             ? 'Evidence-driven analyst focused on measurable impact.'
@@ -362,39 +357,44 @@ export default function AboutSection({ profile, onSelectProject }: AboutSectionP
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 {/* Query panel */}
-                <div className="rounded-xl overflow-hidden bg-[#FFE485] border-2 border-[#FFD14C] shadow-sm dark:bg-slate-900 dark:border-slate-800">
-                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#FFD14C] bg-[#FFD14C] dark:bg-slate-950 dark:border-slate-800">
-                    <span className="text-[11px] font-heading font-bold text-slate-950 dark:text-ink-muted">SQL Query (PostgreSQL / ANSI)</span>
+                <div className="rounded-2xl overflow-hidden bg-[#0F172A] border border-[#9BE7FA]/30 shadow-md">
+                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-800 bg-[#0A1120]">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#FFD14C]/80" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                      <span className="text-[11px] font-mono font-bold text-[#9BE7FA] ml-1">SQL Studio (PostgreSQL)</span>
+                    </div>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={handleCopyPreset}
-                        className="p-1.5 text-slate-900 hover:text-slate-950 dark:text-ink-muted dark:hover:text-white rounded transition-colors cursor-pointer"
+                        className="p-1.5 text-slate-400 hover:text-white rounded transition-colors cursor-pointer"
                         aria-label="Copy SQL"
                       >
-                        {copied ? <Check className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                        {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                       </button>
                       <button
                         onClick={handleRunPreset}
                         disabled={isRunning}
-                        className="flex items-center gap-1.5 px-3 py-1 bg-slate-950 hover:bg-slate-800 text-white dark:bg-[#FFD14C] dark:hover:bg-amber-300 dark:text-slate-950 text-xs font-heading font-bold rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 text-xs font-heading font-bold rounded-lg shadow-xs transition-[transform,background-color,box-shadow] duration-160 ease-[var(--ease-out)] active:scale-[0.97] cursor-pointer disabled:opacity-50"
                       >
-                        <Play className="w-3 h-3 text-[#FFD14C] dark:text-slate-950" />
+                        <Play className="w-3 h-3 fill-current text-slate-950" />
                         {isRunning ? (isEn ? 'Running...' : 'Đang chạy...') : 'Run'}
                       </button>
                     </div>
                   </div>
-                  <pre className="px-4 py-4 text-[13px] leading-relaxed overflow-x-auto whitespace-pre text-slate-950 font-bold font-mono dark:text-slate-200">
+                  <pre className="px-4 py-4 text-[13px] leading-relaxed overflow-x-auto whitespace-pre text-slate-100 font-mono">
                     <code>
                       {typedQuery}
                       {typedQuery.length < scenario.query.length && (
-                        <span className="inline-block w-2 h-4 bg-slate-950 dark:bg-[#9BE7FA] ml-0.5 animate-pulse align-middle" />
+                        <span className="inline-block w-2 h-4 bg-[#9BE7FA] ml-0.5 animate-pulse align-middle" />
                       )}
                     </code>
                   </pre>
                 </div>
 
                 {/* Results panel */}
-                <div id="about-sql-chart-container" className="bg-ground border border-border-subtle rounded-xl overflow-hidden dark:bg-slate-900 dark:border-slate-800">
+                <div id="about-sql-chart-container" className="bg-ground border border-border-subtle rounded-2xl overflow-hidden dark:bg-slate-900 dark:border-slate-800 shadow-sm">
                   <div className="flex items-center justify-between px-4 py-2.5 border-b border-border-subtle dark:border-slate-800 dark:bg-slate-950">
                     <span className="text-[11px] font-heading font-medium text-ink-muted">
                       {isEn ? 'Result' : 'Kết quả'}
@@ -418,7 +418,7 @@ export default function AboutSection({ profile, onSelectProject }: AboutSectionP
                       {showResult && onSelectProject && (
                         <button
                           onClick={() => onSelectProject(scenario.projectId)}
-                          className="flex items-center gap-1 text-[11px] font-heading font-medium text-ink-muted hover:text-ink dark:hover:text-white transition-colors cursor-pointer"
+                          className="flex items-center gap-1 text-[11px] font-heading font-medium text-[#0D7287] dark:text-[#9BE7FA] hover:underline transition-colors cursor-pointer"
                         >
                           {isEn ? 'Full case study' : 'Xem chi tiết'}
                           <ArrowRight className="w-3 h-3" />
@@ -430,7 +430,7 @@ export default function AboutSection({ profile, onSelectProject }: AboutSectionP
                   {showResult ? (
                     <div className="px-4 py-4 space-y-4">
                       {renderPresetChart()}
-                      <p className="text-xs text-ink-secondary dark:text-slate-300 leading-relaxed border-l-2 border-accent dark:border-amber-400 pl-3" style={{ fontFamily: 'var(--font-body)' }}>
+                      <p className="text-xs text-ink-secondary dark:text-slate-300 leading-relaxed border-l-2 border-[#FFD14C] pl-3" style={{ fontFamily: 'var(--font-body)' }}>
                         {isEn ? scenario.insightEn : scenario.insight}
                       </p>
                     </div>
@@ -438,7 +438,7 @@ export default function AboutSection({ profile, onSelectProject }: AboutSectionP
                     <div className="px-4 py-12 text-center text-sm text-ink-muted font-heading">
                       {isRunning ? (
                         <span className="inline-flex items-center gap-2">
-                          <span className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+                          <span className="w-4 h-4 border-2 border-[#FFD14C] border-t-transparent rounded-full animate-spin" />
                           {isEn ? 'Executing query...' : 'Đang thực thi truy vấn...'}
                         </span>
                       ) : (
@@ -453,9 +453,9 @@ export default function AboutSection({ profile, onSelectProject }: AboutSectionP
             /* CUSTOM SQL & CSV UPLOAD MODE */
             <div className="space-y-5">
               {/* CSV Upload banner */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-ground border border-dashed border-[#9BE7FA] dark:bg-slate-900/80 dark:border-slate-700 rounded-xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-ground border border-dashed border-[#9BE7FA] dark:bg-slate-900/80 dark:border-slate-700 rounded-2xl">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-surface/50 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA]">
+                  <div className="p-2 rounded-xl bg-[#C8EEF7]/50 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA]">
                     <FileSpreadsheet className="w-5 h-5" />
                   </div>
                   <div>
@@ -468,7 +468,7 @@ export default function AboutSection({ profile, onSelectProject }: AboutSectionP
                   </div>
                 </div>
 
-                <label className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-surface/60 hover:bg-surface border border-border-subtle dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-semibold rounded-lg text-ink dark:text-white cursor-pointer transition-colors shrink-0">
+                <label className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#C8EEF7]/60 hover:bg-[#C8EEF7] border border-[#9BE7FA]/60 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-semibold rounded-xl text-ink dark:text-white cursor-pointer transition-colors shrink-0">
                   <Upload className="w-3.5 h-3.5" />
                   <span>{isEn ? 'Upload CSV' : 'Chọn tệp CSV'}</span>
                   <input type="file" accept=".csv" onChange={handleFileUpload} className="hidden" />
@@ -477,15 +477,20 @@ export default function AboutSection({ profile, onSelectProject }: AboutSectionP
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 {/* Custom Query Editor */}
-                <div className="rounded-xl overflow-hidden bg-[#FFE485] border-2 border-[#FFD14C] shadow-sm flex flex-col dark:bg-slate-900 dark:border-slate-800">
-                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#FFD14C] bg-[#FFD14C] dark:bg-slate-950 dark:border-slate-800">
-                    <span className="text-[11px] font-heading font-bold text-slate-950 dark:text-ink-muted">Custom Query Editor</span>
+                <div className="rounded-2xl overflow-hidden bg-[#0F172A] border border-[#9BE7FA]/30 shadow-md flex flex-col">
+                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-800 bg-[#0A1120]">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#FFD14C]/80" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                      <span className="text-[11px] font-mono font-bold text-[#9BE7FA] ml-1">Custom SQL Editor</span>
+                    </div>
                     <button
                       onClick={handleRunCustomSql}
                       disabled={isRunning}
-                      className="flex items-center gap-1.5 px-3 py-1 bg-slate-950 hover:bg-slate-800 text-white dark:bg-[#FFD14C] dark:hover:bg-amber-300 dark:text-slate-950 text-xs font-heading font-bold rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 text-xs font-heading font-bold rounded-lg shadow-xs transition-[transform,background-color,box-shadow] duration-160 ease-[var(--ease-out)] active:scale-[0.97] cursor-pointer disabled:opacity-50"
                     >
-                      <Play className="w-3 h-3 text-[#FFD14C] dark:text-slate-950" />
+                      <Play className="w-3 h-3 fill-current text-slate-950" />
                       {isRunning ? (isEn ? 'Running...' : 'Đang chạy...') : 'Run SQL'}
                     </button>
                   </div>
@@ -493,11 +498,11 @@ export default function AboutSection({ profile, onSelectProject }: AboutSectionP
                     value={customQuery}
                     onChange={(e) => setCustomQuery(e.target.value)}
                     rows={7}
-                    className="w-full p-4 bg-transparent text-[13px] font-mono font-bold leading-relaxed text-slate-950 placeholder:text-slate-700 dark:text-slate-200 dark:placeholder:text-slate-500 focus:outline-hidden resize-none"
+                    className="w-full p-4 bg-transparent text-[13px] font-mono leading-relaxed text-slate-100 placeholder:text-slate-500 focus:outline-hidden resize-none"
                     placeholder="SELECT * FROM table..."
                   />
-                  <div className="px-4 py-2 bg-[#FFD14C]/40 border-t border-[#FFD14C] text-[11px] font-bold text-slate-900 dark:bg-slate-950/50 dark:border-slate-800/80 dark:text-ink-muted">
-                    Hỗ trợ: <code>SELECT</code>, <code>WHERE</code>, <code>GROUP BY</code>, <code>ORDER BY</code>, <code>LIMIT</code>, <code>SUM()</code>, <code>AVG()</code>, <code>COUNT()</code>
+                  <div className="px-4 py-2 bg-[#0A1120] border-t border-slate-800 text-[11px] font-mono text-slate-400">
+                    Hỗ trợ: <code className="text-[#9BE7FA]">SELECT</code>, <code className="text-[#9BE7FA]">WHERE</code>, <code className="text-[#9BE7FA]">GROUP BY</code>, <code className="text-[#9BE7FA]">ORDER BY</code>, <code className="text-[#9BE7FA]">LIMIT</code>, <code className="text-[#FFD14C]">SUM()</code>, <code className="text-[#FFD14C]">AVG()</code>, <code className="text-[#FFD14C]">COUNT()</code>
                   </div>
                 </div>
 

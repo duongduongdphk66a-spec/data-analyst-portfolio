@@ -1,6 +1,6 @@
 /**
- * About Section — SQL Interactive Demo Data
- * Extracted from AboutSection.tsx for separation of concerns.
+ * About Section: SQL Interactive Demo Data
+ * Interactive SQL scenarios for visitors to test in-browser query execution.
  */
 
 export const SQL_SCENARIOS = [

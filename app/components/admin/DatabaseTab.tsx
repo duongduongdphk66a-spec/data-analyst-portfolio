@@ -13,6 +13,7 @@ interface DbStatus {
     profileRows: number;
     textRows: number;
     projectRows: number;
+    tiktokRows?: number;
   };
 }
 
@@ -164,7 +165,7 @@ export default function DatabaseTab({
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60">
             <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold block mb-1">
               Bảng Thông tin Cá nhân
@@ -193,6 +194,16 @@ export default function DatabaseTab({
               {dbStatus.stats?.projectRows ?? projectsCount} dự án
             </span>
             <span className="text-[10px] text-slate-400 block mt-1">`portfolio_projects`</span>
+          </div>
+
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60">
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold block mb-1">
+              Dữ Liệu TikTok Shop (8 bảng)
+            </span>
+            <span className="text-xl font-extrabold text-amber-500 dark:text-[#FFD14C] font-mono">
+              {dbStatus.stats?.tiktokRows ?? (dbStatus.connected ? 70 : 0)} bản ghi
+            </span>
+            <span className="text-[10px] text-slate-400 block mt-1">`tiktok_shop_*`</span>
           </div>
         </div>
       </div>

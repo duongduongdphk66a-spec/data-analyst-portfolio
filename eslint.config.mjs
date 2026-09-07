@@ -8,6 +8,18 @@ const __dirname = path.dirname(__filename);
 
 export default defineConfig([
   {
+    ignores: [
+      ".next/**",
+      "out/**",
+      "build/**",
+      "dist/**",
+      "node_modules/**",
+      ".agents/**",
+      "scripts/**",
+      "coverage/**"
+    ]
+  },
+  {
     extends: [...next],
     rules: {
       "@next/next/no-html-link-for-pages": "off",

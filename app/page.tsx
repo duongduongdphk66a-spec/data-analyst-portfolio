@@ -41,6 +41,13 @@ const LibraryBusProject = dynamic(() => import('./components/LibraryBusProject')
   loading: () => <PageSkeleton label="Loading Project..." />,
 });
 
+// Bespoke case study components mapping
+const SPECIAL_CASE_STUDIES: Record<string, React.ComponentType<any>> = {
+  'proj-kami-ely': KamiElyProject,
+  'proj-heritage-japan': HeritageJapanProject,
+  'proj-library-bus': LibraryBusProject,
+};
+
 // Tab labels for document title
 const TAB_LABELS: Record<string, { vi: string; en: string }> = {
   about: { vi: 'Giới thiệu', en: 'About' },
@@ -369,21 +376,19 @@ export default function Portfolio() {
                 onSelectProject={handleProjectClick}
               />
             )}
-            {activeTab === 'project-detail' && (
-              selectedProjectId === 'proj-kami-ely' ? (
-                <KamiElyProject onBack={() => setActiveTab('projects')} isEmbedded={true} />
-              ) : selectedProjectId === 'proj-heritage-japan' ? (
-                <HeritageJapanProject onBack={() => setActiveTab('projects')} isEmbedded={true} />
-              ) : selectedProjectId === 'proj-library-bus' ? (
-                <LibraryBusProject onBack={() => setActiveTab('projects')} isEmbedded={true} />
-              ) : (
+            {activeTab === 'project-detail' && (() => {
+              const SpecialCase = selectedProjectId ? SPECIAL_CASE_STUDIES[selectedProjectId] : null;
+              if (SpecialCase) {
+                return <SpecialCase onBack={() => setActiveTab('projects')} isEmbedded={true} />;
+              }
+              return (
                 <ProjectDetailView 
                   project={projects.find(p => p.id === selectedProjectId)} 
                   onBack={() => setActiveTab('projects')} 
                   isEmbedded={true} 
                 />
-              )
-            )}
+              );
+            })()}
             {activeTab === 'dashboard' && (
               <DashboardSection 
                 dashboard={dashboard} 

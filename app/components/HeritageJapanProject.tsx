@@ -4,7 +4,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import Image from 'next/image';
 import { 
   ArrowLeft, Landmark, ExternalLink, Download, 
-  Link as LinkIcon, Search, Compass, ShieldCheck, TrendingUp, 
+  Search, Compass, ShieldCheck, TrendingUp, 
   AlertTriangle, Sparkles, Eye, Camera, Layers, 
   Users, Award, Info, ChevronRight
 } from 'lucide-react';
@@ -27,26 +27,12 @@ import {
   kyotoSpendData,
   naraSpendData,
   gdpShareData,
-  UNESCO_SITES_JAPAN,
-  REFERENCES_DATA
+  UNESCO_SITES_JAPAN
 } from '../data/heritageJapanData';
 
 import { useScrollSpy } from '@/hooks/useScrollSpy';
-import { useToast } from './ui/Toast';
-import { exportChartAsPng } from '../lib/chartExport';
-
-
-function CitationLink({ id }: { id: number }) {
-  const refData = REFERENCES_DATA.find(r => r.id === id);
-  return (
-    <span
-      title={refData ? `[${id}] ${refData.title}` : `Tài liệu tham khảo [${id}]`}
-      className="inline-flex items-center justify-center px-1.5 py-0.2 mx-0.5 text-[11px] font-bold text-[#0D7287] bg-[#E2F7FC] rounded border border-[#9BE7FA] select-none cursor-help dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700"
-    >
-      [{id}]
-    </span>
-  );
-}
+import { scrollToSection, useCaseStudyActions } from '../lib/uiHelpers';
+import SectionHeader from './ui/SectionHeader';
 
 const HERITAGE_JAPAN_SECTIONS = [
   'mo-dau',
@@ -59,8 +45,8 @@ const HERITAGE_JAPAN_SECTIONS = [
 export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: () => void; isEmbedded?: boolean } = {}) {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
-  const { showToast } = useToast();
   const isEn = language === 'en';
+  const { copyDeepLink, handleExportChart } = useCaseStudyActions(isEn);
 
   // Volume Charts (3.1, 3.2, 3.3)
   const [volumeChartId, setVolumeChartId] = useState<string>('3.1');
@@ -77,7 +63,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
   const [unescoFilter, setUnescoFilter] = useState<'all' | 'Văn hóa' | 'Thiên nhiên'>('all');
   const [unescoSearch, setUnescoSearch] = useState<string>('');
 
-  const activeSection = useScrollSpy(HERITAGE_JAPAN_SECTIONS, 130);
+  const { activeSection } = useScrollSpy(HERITAGE_JAPAN_SECTIONS, 130);
 
   const navItems = [
     { id: 'mo-dau', label: isEn ? 'Introduction' : 'Mở đầu' },
@@ -89,25 +75,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
 
   const handleNavClick = (id: string, e: React.MouseEvent) => {
     e.preventDefault();
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
-  const copyDeepLink = (sectionId: string, title: string) => {
-    if (typeof window !== 'undefined') {
-      const url = `${window.location.origin}${window.location.pathname}#${sectionId}`;
-      navigator.clipboard.writeText(url);
-      showToast(isEn ? `Copied link to ${title}!` : `Đã sao chép liên kết mục ${title}!`, 'success');
-    }
-  };
-
-  const handleExportChart = async (elementId: string, name: string) => {
-    const ok = await exportChartAsPng(elementId, `${name}.png`);
-    if (ok) {
-      showToast(isEn ? `Exported ${name} as PNG!` : `Đã tải ảnh biểu đồ ${name}!`, 'success');
-    }
+    scrollToSection(id, 16);
   };
 
   useEffect(() => {
@@ -286,23 +254,13 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="mo-dau" className="py-16 bg-white border-b border-slate-200 dark:bg-slate-900 dark:border-slate-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           
-          <div className="flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800">
-            <div>
-              <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
-                {isEn ? 'Part I • Introduction' : 'Phần Mở Đầu • Đề cương nghiên cứu'}
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
-                {isEn ? 'Research Rationale & Methodological Framework' : 'Lý do, Mục tiêu & Phương pháp nghiên cứu'}
-              </h2>
-            </div>
-            <button
-              onClick={() => copyDeepLink('mo-dau', isEn ? 'Introduction' : 'Phần Mở Đầu')}
-              className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800"
-              title="Sao chép liên kết mục"
-            >
-              <LinkIcon className="w-4 h-4" />
-            </button>
-          </div>
+          <SectionHeader
+            variant="stacked"
+            id="mo-dau"
+            badge={isEn ? 'Part I • Introduction' : 'Phần Mở Đầu • Đề cương nghiên cứu'}
+            title={isEn ? 'Research Rationale & Methodological Framework' : 'Lý do, Mục tiêu & Phương pháp nghiên cứu'}
+            onCopy={copyDeepLink}
+          />
 
           <div className="space-y-8 text-base sm:text-lg leading-relaxed text-slate-800 dark:text-slate-200">
             
@@ -313,10 +271,10 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 <span>{isEn ? '1. Research Rationale' : '1. Lý do nghiên cứu'}</span>
               </h3>
               <p>
-                Bước vào thế kỷ 21, du lịch di sản (Heritage Tourism) đã vươn lên thành một trong những phân khúc phát triển bùng nổ nhất của ngành du lịch toàn cầu, chiếm hơn 40% lượng du khách quốc tế theo số liệu của Tổ chức Du lịch Thế giới <CitationLink id={8} />. Đối với Nhật Bản, sau giai đoạn trì trệ kinh tế kéo dài cùng biến cố động đất sóng thần năm 2011, chính phủ đã xác định du lịch là trụ cột kinh tế chiến lược nhằm hồi sinh các vùng địa phương và nâng cao vị thế quốc gia.
+                Bước vào thế kỷ 21, du lịch di sản (Heritage Tourism) đã vươn lên thành một trong những phân khúc phát triển bùng nổ nhất của ngành du lịch toàn cầu, chiếm hơn 40% lượng du khách quốc tế theo số liệu của Tổ chức Du lịch Thế giới. Đối với Nhật Bản, sau giai đoạn trì trệ kinh tế kéo dài cùng biến cố động đất sóng thần năm 2011, chính phủ đã xác định du lịch là trụ cột kinh tế chiến lược nhằm hồi sinh các vùng địa phương và nâng cao vị thế quốc gia.
               </p>
               <p>
-                Mốc năm <strong>2013</strong> mang tính bước ngoặt lịch sử: Chính phủ Nhật Bản ban hành <em>"Chương trình hành động hướng tới quốc gia du lịch"</em> (観光立国実現に向けたアクション・プログラム) <CitationLink id={15} />, đồng thời Tokyo giành quyền đăng cai Thế vận hội Olympic 2020 và Núi Phú Sĩ chính thức được UNESCO công nhận là Di sản Thế giới. Sự kết hợp giữa chính sách mở cửa visa, mở rộng đường bay và chiến lược quảng bá thương hiệu quốc gia đã tạo ra làn sóng tăng trưởng chưa từng có. Nghiên cứu kinh nghiệm quản trị, cân bằng giữa phát triển du lịch di sản với bảo tồn nguyên vẹn các giá trị văn hóa của Nhật Bản đem lại những hàm ý và bài học quý giá cho các quốc gia đang phát triển như Việt Nam <CitationLink id={4} /><CitationLink id={6} />.
+                Mốc năm <strong>2013</strong> mang tính bước ngoặt lịch sử: Chính phủ Nhật Bản ban hành <em>"Chương trình hành động hướng tới quốc gia du lịch"</em> (観光立国実現に向けたアクション・プログラム), đồng thời Tokyo giành quyền đăng cai Thế vận hội Olympic 2020 và Núi Phú Sĩ chính thức được UNESCO công nhận là Di sản Thế giới. Sự kết hợp giữa chính sách mở cửa visa, mở rộng đường bay và chiến lược quảng bá thương hiệu quốc gia đã tạo ra làn sóng tăng trưởng chưa từng có. Nghiên cứu kinh nghiệm quản trị, cân bằng giữa phát triển du lịch di sản với bảo tồn nguyên vẹn các giá trị văn hóa của Nhật Bản đem lại những hàm ý và bài học quý giá cho các quốc gia đang phát triển như Việt Nam.
               </p>
             </div>
 
@@ -384,23 +342,13 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="chuong-1" className="py-16 bg-slate-50 border-b border-slate-200 dark:bg-slate-950 dark:border-slate-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           
-          <div className="flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800">
-            <div>
-              <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
-                {isEn ? 'Chapter 1 • Theoretical Foundation' : 'Chương 1 • Cơ sở lý luận & Thực tiễn'}
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
-                {isEn ? 'Heritage & Heritage Tourism in the World and Japan' : 'Di sản và Du lịch di sản trên thế giới và Nhật Bản'}
-              </h2>
-            </div>
-            <button
-              onClick={() => copyDeepLink('chuong-1', isEn ? 'Chapter 1' : 'Chương 1')}
-              className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800"
-              title="Sao chép liên kết"
-            >
-              <LinkIcon className="w-4 h-4" />
-            </button>
-          </div>
+          <SectionHeader
+            variant="stacked"
+            id="chuong-1"
+            badge={isEn ? 'Chapter 1 • Theoretical Foundation' : 'Chương 1 • Cơ sở lý luận & Thực tiễn'}
+            title={isEn ? 'Heritage & Heritage Tourism in the World and Japan' : 'Di sản và Du lịch di sản trên thế giới và Nhật Bản'}
+            onCopy={copyDeepLink}
+          />
 
           <div className="space-y-8 text-base sm:text-lg leading-relaxed text-slate-800 dark:text-slate-200">
             
@@ -412,13 +360,13 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
               
               <div className="space-y-4 text-sm sm:text-base">
                 <p>
-                  <strong>Khái niệm di sản:</strong> Di sản bao gồm các tài sản văn hóa, lịch sử và thiên nhiên được các thế hệ trước để lại, có giá trị khoa học, thẩm mỹ và tinh thần to lớn. Theo Công ước Bảo vệ Di sản Văn hóa và Thiên nhiên Thế giới năm 1972 của UNESCO <CitationLink id={13} />, Di sản Thế giới là những di sản đáp ứng các tiêu chí khắt khe về "Giá trị nổi bật toàn cầu" (Outstanding Universal Value - OUV) <CitationLink id={14} />.
+                  <strong>Khái niệm di sản:</strong> Di sản bao gồm các tài sản văn hóa, lịch sử và thiên nhiên được các thế hệ trước để lại, có giá trị khoa học, thẩm mỹ và tinh thần to lớn. Theo Công ước Bảo vệ Di sản Văn hóa và Thiên nhiên Thế giới năm 1972 của UNESCO, Di sản Thế giới là những di sản đáp ứng các tiêu chí khắt khe về "Giá trị nổi bật toàn cầu" (Outstanding Universal Value - OUV).
                 </p>
                 <p>
-                  <strong>Vai trò trong du lịch:</strong> Di sản là thỏi nam châm thu hút du khách, mang lại sức cạnh tranh khác biệt cho điểm đến. Khách du lịch di sản thường có thời gian lưu trú dài hơn và mức chi tiêu cao hơn đáng kể so với khách du lịch đại trà <CitationLink id={9} /><CitationLink id={10} />.
+                  <strong>Vai trò trong du lịch:</strong> Di sản là thỏi nam châm thu hút du khách, mang lại sức cạnh tranh khác biệt cho điểm đến. Khách du lịch di sản thường có thời gian lưu trú dài hơn và mức chi tiêu cao hơn đáng kể so với khách du lịch đại trà.
                 </p>
                 <p>
-                  <strong>Nhật Bản:</strong> Tính đến năm 2023, Nhật Bản sở hữu <strong>25 Di sản Thế giới</strong> được UNESCO công nhận, bao gồm <strong>20 Di sản Văn hóa</strong> và <strong>5 Di sản Thiên nhiên</strong> <CitationLink id={19} />. Hệ thống di sản phong phú trải dài từ kiến trúc gỗ cổ nhất thế giới (Chùa Horyuji), các cố đô ngàn năm (Kyoto, Nara) đến những kiệt tác thiên nhiên biệt lập (Yakushima, Shiretoko, Ogasawara).
+                  <strong>Nhật Bản:</strong> Tính đến năm 2023, Nhật Bản sở hữu <strong>25 Di sản Thế giới</strong> được UNESCO công nhận, bao gồm <strong>20 Di sản Văn hóa</strong> và <strong>5 Di sản Thiên nhiên</strong>. Hệ thống di sản phong phú trải dài từ kiến trúc gỗ cổ nhất thế giới (Chùa Horyuji), các cố đô ngàn năm (Kyoto, Nara) đến những kiệt tác thiên nhiên biệt lập (Yakushima, Shiretoko, Ogasawara).
                 </p>
               </div>
 
@@ -498,7 +446,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
 
               <div className="space-y-4 text-sm sm:text-base">
                 <p>
-                  Theo ICOMOS (Hội đồng Quốc tế về Di tích và Di chỉ) và UNWTO, <strong>Du lịch di sản</strong> là hoạt động di chuyển của các cá nhân nhằm trải nghiệm, khám phá và tìm hiểu về các di tích lịch sử, khảo cổ, kiến trúc, cảnh quan và lối sống truyền thống. Các hoạt động cốt lõi bao gồm: chiêm bái tâm linh, hành hương, tham gia lễ hội dân gian (Matsuri), thưởng thức ẩm thực di sản và học nghề thủ công truyền thống <CitationLink id={1} /><CitationLink id={8} />.
+                  Theo ICOMOS (Hội đồng Quốc tế về Di tích và Di chỉ) và UNWTO, <strong>Du lịch di sản</strong> là hoạt động di chuyển của các cá nhân nhằm trải nghiệm, khám phá và tìm hiểu về các di tích lịch sử, khảo cổ, kiến trúc, cảnh quan và lối sống truyền thống. Các hoạt động cốt lõi bao gồm: chiêm bái tâm linh, hành hương, tham gia lễ hội dân gian (Matsuri), thưởng thức ẩm thực di sản và học nghề thủ công truyền thống.
                 </p>
 
                 {/* 2-column impact matrix */}
@@ -532,7 +480,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
 
                 <div className="p-4 rounded-xl bg-[#F3FCFE] border border-[#9BE7FA] mt-4 text-xs sm:text-sm text-slate-800 dark:bg-slate-800/60 dark:border-slate-700 dark:text-slate-200">
                   <strong className="text-[#0D7287] dark:text-[#9BE7FA]">Nguyên tắc phát triển bền vững:</strong> 
-                  {" "}Phát triển du lịch di sản bền vững đòi hỏi phải duy trì cân bằng động giữa 3 trụ cột: <em>Hiệu quả kinh tế lâu dài</em>, <em>Bảo tồn nguyên vẹn tính chân xác của di sản</em> và <em>Đảm bảo chất lượng cuộc sống bình yên cho cộng đồng địa phương</em> <CitationLink id={1} /><CitationLink id={11} />.
+                  {" "}Phát triển du lịch di sản bền vững đòi hỏi phải duy trì cân bằng động giữa 3 trụ cột: <em>Hiệu quả kinh tế lâu dài</em>, <em>Bảo tồn nguyên vẹn tính chân xác của di sản</em> và <em>Đảm bảo chất lượng cuộc sống bình yên cho cộng đồng địa phương</em>.
                 </div>
               </div>
             </div>
@@ -547,23 +495,13 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="chuong-2" className="py-16 bg-white border-b border-slate-200 dark:bg-slate-900 dark:border-slate-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           
-          <div className="flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800">
-            <div>
-              <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
-                {isEn ? 'Chapter 2 • Governance & Policy Matrix' : 'Chương 2 • Thể chế & Hệ thống chính sách'}
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
-                {isEn ? 'Japan\'s Strategic Policy on Heritage Tourism' : 'Chính sách của Nhật Bản về Du lịch Di sản'}
-              </h2>
-            </div>
-            <button
-              onClick={() => copyDeepLink('chuong-2', isEn ? 'Chapter 2' : 'Chương 2')}
-              className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800"
-              title="Sao chép liên kết"
-            >
-              <LinkIcon className="w-4 h-4" />
-            </button>
-          </div>
+          <SectionHeader
+            variant="stacked"
+            id="chuong-2"
+            badge={isEn ? 'Chapter 2 • Governance & Policy Matrix' : 'Chương 2 • Thể chế & Hệ thống chính sách'}
+            title={isEn ? "Japan's Strategic Policy on Heritage Tourism" : 'Chính sách của Nhật Bản về Du lịch Di sản'}
+            onCopy={copyDeepLink}
+          />
 
           <div className="space-y-8 text-base sm:text-lg leading-relaxed text-slate-800 dark:text-slate-200">
             
@@ -574,7 +512,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 <span>2.1. "Chương trình hành động hướng tới quốc gia du lịch" (2013)</span>
               </h3>
               <p className="text-sm sm:text-base text-slate-700 mb-6 dark:text-slate-300">
-                Tháng 6 năm 2013, Thủ tướng Shinzo Abe chủ trì Hội nghị Bộ trưởng ban hành văn kiện chiến lược quốc gia mang tên <em>"Chương trình hành động hướng tới quốc gia du lịch"</em> (観光立国実現に向けたアクション・プログラム) <CitationLink id={15} />. Đây là bước đột phá toàn diện với 4 nhóm biện pháp trọng tâm:
+                Tháng 6 năm 2013, Thủ tướng Shinzo Abe chủ trì Hội nghị Bộ trưởng ban hành văn kiện chiến lược quốc gia mang tên <em>"Chương trình hành động hướng tới quốc gia du lịch"</em> (観光立国実現に向けたアクション・プログラム). Đây là bước đột phá toàn diện với 4 nhóm biện pháp trọng tâm:
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
@@ -584,7 +522,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                     <span>2.1.1 Quảng bá "Thương hiệu Nhật Bản" (日本ブランド)</span>
                   </h4>
                   <p className="text-slate-600 leading-relaxed dark:text-slate-300">
-                    Xây dựng thương hiệu quốc gia thông qua chiến lược <em>"Cool Japan"</em>, kết hợp quảng bá ẩm thực truyền thống Washoku (được UNESCO công nhận 2013) và văn hóa Omotenashi (sự hiếu khách tận tụy). Tận dụng truyền thông số và JNTO tại 22 quốc gia để định vị Nhật Bản là điểm đến di sản an toàn, tinh tế <CitationLink id={5} />.
+                    Xây dựng thương hiệu quốc gia thông qua chiến lược <em>"Cool Japan"</em>, kết hợp quảng bá ẩm thực truyền thống Washoku (được UNESCO công nhận 2013) và văn hóa Omotenashi (sự hiếu khách tận tụy). Tận dụng truyền thông số và JNTO tại 22 quốc gia để định vị Nhật Bản là điểm đến di sản an toàn, tinh tế.
                   </p>
                 </div>
 
@@ -594,7 +532,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                     <span>2.1.2 Nới lỏng Visa, Hàng không LCC & Miễn thuế</span>
                   </h4>
                   <p className="text-slate-600 leading-relaxed dark:text-slate-300">
-                    Miễn thị thực nhập cảnh ngắn hạn cho các nước ASEAN (Thái Lan, Malaysia...) và cấp visa nhiều lần cho Trung Quốc; mở rộng slot bay tại Haneda/Narita và cấp phép cho các hãng hàng không giá rẻ LCC; mở rộng chính sách hoàn thuế tiêu thụ (Tax-free Shopping) áp dụng cho cả thực phẩm, mỹ phẩm tại các phố cổ <CitationLink id={17} />.
+                    Miễn thị thực nhập cảnh ngắn hạn cho các nước ASEAN (Thái Lan, Malaysia...) và cấp visa nhiều lần cho Trung Quốc; mở rộng slot bay tại Haneda/Narita và cấp phép cho các hãng hàng không giá rẻ LCC; mở rộng chính sách hoàn thuế tiêu thụ (Tax-free Shopping) áp dụng cho cả thực phẩm, mỹ phẩm tại các phố cổ.
                   </p>
                 </div>
 
@@ -604,7 +542,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                     <span>2.1.3 Hạ tầng đa ngôn ngữ, Wi-Fi & Cashless</span>
                   </h4>
                   <p className="text-slate-600 leading-relaxed dark:text-slate-300">
-                    Phổ cập mạng lưới <em>"Japan Connected-free Wi-Fi"</em> tại tất cả các đền chùa và nhà ga; chuẩn hóa biển chỉ dẫn giao thông 4 thứ tiếng (Nhật, Anh, Trung, Hàn); khuyến khích lắp đặt máy quẹt thẻ tín dụng và thanh toán quét mã QR nhằm tháo gỡ rào cản tiền mặt cố hữu <CitationLink id={15} />.
+                    Phổ cập mạng lưới <em>"Japan Connected-free Wi-Fi"</em> tại tất cả các đền chùa và nhà ga; chuẩn hóa biển chỉ dẫn giao thông 4 thứ tiếng (Nhật, Anh, Trung, Hàn); khuyến khích lắp đặt máy quẹt thẻ tín dụng và thanh toán quét mã QR nhằm tháo gỡ rào cản tiền mặt cố hữu.
                   </p>
                 </div>
 
@@ -614,7 +552,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                     <span>2.1.4 Phát triển Du lịch MICE & Hội nghị Quốc tế</span>
                   </h4>
                   <p className="text-slate-600 leading-relaxed dark:text-slate-300">
-                    Đưa Nhật Bản trở thành trung tâm tổ chức hội nghị quốc tế số 1 châu Á; tổ chức các sự kiện tầm cỡ như Hội nghị Văn hóa Du lịch Thế giới UNWTO/UNESCO lần thứ 4 tại Kyoto (2019) <CitationLink id={8} />, kết hợp chiêu đãi và trải nghiệm di sản văn hóa truyền thống cho quan khách cấp cao.
+                    Đưa Nhật Bản trở thành trung tâm tổ chức hội nghị quốc tế số 1 châu Á; tổ chức các sự kiện tầm cỡ như Hội nghị Văn hóa Du lịch Thế giới UNWTO/UNESCO lần thứ 4 tại Kyoto (2019), kết hợp chiêu đãi và trải nghiệm di sản văn hóa truyền thống cho quan khách cấp cao.
                   </p>
                 </div>
               </div>
@@ -629,11 +567,11 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
               
               <div className="space-y-4 text-sm sm:text-base">
                 <p>
-                  <strong>Nguồn gốc lịch sử (1950):</strong> Ngày 26/1/1949, một vụ hỏa hoạn nghiêm trọng đã thiêu rụi tòa Kim Đường (Kondo) của Chùa Horyuji cùng 12 bức bích họa cổ vô giá thế kỷ thứ 7. Thảm họa này đã thúc đẩy Quốc hội Nhật Bản ban hành <strong>Luật Bảo vệ Di sản Văn hóa</strong> vào ngày 30/5/1950 <CitationLink id={3} /><CitationLink id={16} />. Kể từ đó, ngày 26 tháng 1 hàng năm được ấn định là <em>"Ngày Phòng chống Cháy nổ Di sản Văn hóa"</em> trên toàn quốc.
+                  <strong>Nguồn gốc lịch sử (1950):</strong> Ngày 26/1/1949, một vụ hỏa hoạn nghiêm trọng đã thiêu rụi tòa Kim Đường (Kondo) của Chùa Horyuji cùng 12 bức bích họa cổ vô giá thế kỷ thứ 7. Thảm họa này đã thúc đẩy Quốc hội Nhật Bản ban hành <strong>Luật Bảo vệ Di sản Văn hóa</strong> vào ngày 30/5/1950. Kể từ đó, ngày 26 tháng 1 hàng năm được ấn định là <em>"Ngày Phòng chống Cháy nổ Di sản Văn hóa"</em> trên toàn quốc.
                 </p>
                 
                 <p>
-                  <strong>Luật sửa đổi năm 2004 (Cải cách toàn diện):</strong> Nhận thấy mô hình bảo tồn đơn lẻ không còn theo kịp thực tiễn đô thị hóa, bản sửa đổi năm 2004 đã thiết lập <strong>4 chế độ bảo tồn then chốt</strong> <CitationLink id={16} />:
+                  <strong>Luật sửa đổi năm 2004 (Cải cách toàn diện):</strong> Nhận thấy mô hình bảo tồn đơn lẻ không còn theo kịp thực tiễn đô thị hóa, bản sửa đổi năm 2004 đã thiết lập <strong>4 chế độ bảo tồn then chốt</strong>:
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
@@ -664,7 +602,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 <span>2.3. Chuyển dịch tư duy: Dự án "Japan Heritage" (日本遺産) năm 2015</span>
               </h3>
               <p className="text-sm sm:text-base leading-relaxed text-slate-800 dark:text-slate-200">
-                Nếu như trước đây, quan điểm của Nhật Bản là <strong>"Bảo tồn thụ động"</strong> (đóng khung di sản trong tủ kính, hạn chế du khách), thì từ năm 2015, Cục Văn hóa (Agency for Cultural Affairs) đã khởi xướng đề án <strong>"Japan Heritage" (Di sản Nhật Bản)</strong>. Điểm mấu chốt của đề án là phương pháp <em>Kể chuyện (Storytelling)</em>: kết nối các di tích vật thể và phi vật thể rời rạc thành một câu chuyện văn hóa mạch lạc, biến di sản thành tài nguyên sống động phục vụ du khách và giáo dục thế hệ tương lai <CitationLink id={15} /><CitationLink id={20} />.
+                Nếu như trước đây, quan điểm của Nhật Bản là <strong>"Bảo tồn thụ động"</strong> (đóng khung di sản trong tủ kính, hạn chế du khách), thì từ năm 2015, Cục Văn hóa (Agency for Cultural Affairs) đã khởi xướng đề án <strong>"Japan Heritage" (Di sản Nhật Bản)</strong>. Điểm mấu chốt của đề án là phương pháp <em>Kể chuyện (Storytelling)</em>: kết nối các di tích vật thể và phi vật thể rời rạc thành một câu chuyện văn hóa mạch lạc, biến di sản thành tài nguyên sống động phục vụ du khách và giáo dục thế hệ tương lai.
               </p>
             </div>
 
@@ -678,23 +616,13 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="chuong-3" className="py-16 bg-slate-50 border-b border-slate-200 dark:bg-slate-950 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           
-          <div className="flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800">
-            <div>
-              <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
-                {isEn ? 'Chapter 3 • Quantitative Telemetry & In-depth Case Studies' : 'Chương 3 • Dữ liệu Định lượng & Khảo sát Thực tiễn'}
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
-                {isEn ? 'Development of Heritage Tourism: Efficiency & Conservation' : 'Sự Phát Triển của Du Lịch Di Sản tại Nhật Bản'}
-              </h2>
-            </div>
-            <button
-              onClick={() => copyDeepLink('chuong-3', isEn ? 'Chapter 3' : 'Chương 3')}
-              className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800"
-              title="Sao chép liên kết"
-            >
-              <LinkIcon className="w-4 h-4" />
-            </button>
-          </div>
+          <SectionHeader
+            variant="stacked"
+            id="chuong-3"
+            badge={isEn ? 'Chapter 3 • Quantitative Telemetry & In-depth Case Studies' : 'Chương 3 • Dữ liệu Định lượng & Khảo sát Thực tiễn'}
+            title={isEn ? 'Development of Heritage Tourism: Efficiency & Conservation' : 'Sự Phát Triển của Du Lịch Di Sản tại Nhật Bản'}
+            onCopy={copyDeepLink}
+          />
 
           {/* ==================================================== */}
           {/* 3.1 TIÊU CHÍ HIỆU QUẢ DU LỊCH (DATA ANALYTICS HUB)  */}
@@ -706,7 +634,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 <span>3.1. Sự phát triển nhìn từ tiêu chí Hiệu quả du lịch (Quantitative Analytics)</span>
               </h3>
               <p className="text-sm sm:text-base text-slate-700 mt-2 leading-relaxed dark:text-slate-300">
-                Sau khi Chương trình hành động 2013 được triển khai, các chỉ số hiệu quả du lịch tại Nhật Bản và hai trung tâm di sản hàng đầu là <strong>Thành phố Kyoto</strong> và <strong>Cố đô Nara</strong> đã có bước tăng trưởng nhảy vọt cả về quy mô lượng khách lẫn tổng mức chi tiêu <CitationLink id={20} /><CitationLink id={21} /><CitationLink id={22} />.
+                Sau khi Chương trình hành động 2013 được triển khai, các chỉ số hiệu quả du lịch tại Nhật Bản và hai trung tâm di sản hàng đầu là <strong>Thành phố Kyoto</strong> và <strong>Cố đô Nara</strong> đã có bước tăng trưởng nhảy vọt cả về quy mô lượng khách lẫn tổng mức chi tiêu.
               </p>
             </div>
 
@@ -736,7 +664,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                   <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">7.5% GDP</span>
                   <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">41.9T ¥</span>
                 </div>
-                <p className="text-xs text-slate-500 mt-1">Nền kinh tế du lịch Top 3 thế giới <CitationLink id={26} /></p>
+                <p className="text-xs text-slate-500 mt-1">Nền kinh tế du lịch Top 3 thế giới</p>
               </div>
 
               <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
@@ -745,7 +673,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                   <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">39 Tỷ ¥ Thuế</span>
                   <span className="text-xs font-bold text-purple-600 dark:text-purple-400">12.8%</span>
                 </div>
-                <p className="text-xs text-slate-500 mt-1">Tạo 153.000 việc làm cho Kyoto <CitationLink id={27} /></p>
+                <p className="text-xs text-slate-500 mt-1">Tạo 153.000 việc làm cho Kyoto</p>
               </div>
             </div>
 
@@ -894,17 +822,17 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 </strong>
                 {volumeChartId === '3.1' && (
                   <p>
-                    Lượng khách quốc tế đến Nhật Bản trước năm 2013 dao động ổn định trong khoảng 6 đến 8 triệu. Kể từ năm 2013, nhờ Chương trình hành động quốc gia, con số này tăng phi mã, chạm ngưỡng 19.7 triệu (2015) và đạt đỉnh lịch sử <strong>31.9 triệu lượt</strong> vào năm 2019. Năm 2020–2021 suy giảm mạnh do đại dịch COVID-19 và đã phục hồi ngoạn mục từ năm 2022–2023 đạt hơn 25 triệu lượt <CitationLink id={20} />.
+                    Lượng khách quốc tế đến Nhật Bản trước năm 2013 dao động ổn định trong khoảng 6 đến 8 triệu. Kể từ năm 2013, nhờ Chương trình hành động quốc gia, con số này tăng phi mã, chạm ngưỡng 19.7 triệu (2015) và đạt đỉnh lịch sử <strong>31.9 triệu lượt</strong> vào năm 2019. Năm 2020–2021 suy giảm mạnh do đại dịch COVID-19 và đã phục hồi ngoạn mục từ năm 2022–2023 đạt hơn 25 triệu lượt.
                   </p>
                 )}
                 {volumeChartId === '3.2' && (
                   <p>
-                    Tại Thành phố Kyoto, trước năm 2013 lượng khách nước ngoài chưa bao giờ vượt quá 1 triệu người. Từ 2013, số lượng tăng vọt lên 1.8 triệu (2015), 3.1 triệu (2016) và lập kỷ lục <strong>4.5 triệu lượt</strong> năm 2019, đóng góp tới 12% tổng sản phẩm GRDP của cố đô <CitationLink id={21} /><CitationLink id={28} />.
+                    Tại Thành phố Kyoto, trước năm 2013 lượng khách nước ngoài chưa bao giờ vượt quá 1 triệu người. Từ 2013, số lượng tăng vọt lên 1.8 triệu (2015), 3.1 triệu (2016) và lập kỷ lục <strong>4.5 triệu lượt</strong> năm 2019, đóng góp tới 12% tổng sản phẩm GRDP của cố đô.
                   </p>
                 )}
                 {volumeChartId === '3.3' && (
                   <p>
-                    Cố đô Nara ghi nhận tốc độ tăng trưởng hàng năm ấn tượng 40%–60%, từ 174 nghìn lượt khách quốc tế (2011) lên tới <strong>3.3 triệu lượt</strong> vào năm 2019. Lượng khách tăng nhanh gấp gần 20 lần trong vòng chưa đầy một thập kỷ <CitationLink id={22} /><CitationLink id={25} />.
+                    Cố đô Nara ghi nhận tốc độ tăng trưởng hàng năm ấn tượng 40%–60%, từ 174 nghìn lượt khách quốc tế (2011) lên tới <strong>3.3 triệu lượt</strong> vào năm 2019. Lượng khách tăng nhanh gấp gần 20 lần trong vòng chưa đầy một thập kỷ.
                   </p>
                 )}
 
@@ -1084,17 +1012,17 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 </strong>
                 {revenueChartId === '3.4' && (
                   <p>
-                    Tổng chi tiêu du lịch của khách quốc tế tại Nhật Bản tăng từ 1.41 nghìn tỷ Yên (2013) lên đỉnh điểm <strong>4.81 nghìn tỷ Yên</strong> (2019) — tăng gấp 3.4 lần trong 7 năm, đưa ngành du lịch trở thành động lực xuất khẩu dịch vụ hàng đầu đất nước <CitationLink id={23} />.
+                    Tổng chi tiêu du lịch của khách quốc tế tại Nhật Bản tăng từ 1.41 nghìn tỷ Yên (2013) lên đỉnh điểm <strong>4.81 nghìn tỷ Yên</strong> (2019), tăng gấp 3.4 lần trong 7 năm, đưa ngành du lịch trở thành động lực xuất khẩu dịch vụ hàng đầu đất nước.
                   </p>
                 )}
                 {revenueChartId === '3.5' && (
                   <p>
-                    Doanh thu du lịch tại Kyoto tăng trưởng bền bỉ từ 601 tỷ Yên (2008) lên <strong>1.308 tỷ Yên</strong> (2019), tạo nguồn thu thuế trực tiếp 39 tỷ Yên, tương đương 12.8% tổng thu ngân sách thành phố <CitationLink id={27} /><CitationLink id={28} />.
+                    Doanh thu du lịch tại Kyoto tăng trưởng bền bỉ từ 601 tỷ Yên (2008) lên <strong>1.308 tỷ Yên</strong> (2019), tạo nguồn thu thuế trực tiếp 39 tỷ Yên, tương đương 12.8% tổng thu ngân sách thành phố.
                   </p>
                 )}
                 {revenueChartId === '3.6' && (
                   <p>
-                    Tại Cố đô Nara, tổng chi tiêu du lịch tăng từ 872 tỷ Yên (2013) lên đỉnh <strong>1.208 tỷ Yên</strong> (2018). Mức chi tiêu duy trì ổn định và nhanh chóng hồi phục đạt 598 tỷ Yên vào năm 2022 sau cú sốc đại dịch <CitationLink id={24} />.
+                    Tại Cố đô Nara, tổng chi tiêu du lịch tăng từ 872 tỷ Yên (2013) lên đỉnh <strong>1.208 tỷ Yên</strong> (2018). Mức chi tiêu duy trì ổn định và nhanh chóng hồi phục đạt 598 tỷ Yên vào năm 2022 sau cú sốc đại dịch.
                   </p>
                 )}
 
@@ -1102,7 +1030,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
                   <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white text-xs">
                     <span>Tăng trưởng Đóng góp GDP Quốc gia của Ngành Du lịch (2000 - 2019)</span>
-                    <span className="text-[10px] font-mono text-slate-400">Nguồn: METI & WTTC [26]</span>
+                    <span className="text-[10px] font-mono text-slate-400">Nguồn: METI & WTTC</span>
                   </h5>
                   <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs">
@@ -1140,7 +1068,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 <span>3.2. Sự phát triển nhìn từ tiêu chí bảo tồn và quản lý di sản (Case Studies)</span>
               </h3>
               <p className="text-sm sm:text-base text-slate-700 mt-2 leading-relaxed dark:text-slate-300">
-                Song hành cùng tăng trưởng kinh tế là những hệ lụy tiêu cực sâu sắc: tình trạng <strong>quá tải du lịch (Overtourism / 観光公害 - Kanko Kogai)</strong>, mâu thuẫn dân cư bản địa, thương mại hóa làm xói mòn tính nguyên bản và ô nhiễm môi trường. Dưới đây là khảo sát thực tiễn 5 trường hợp điển hình cùng các giải pháp quản trị sáng tạo của Nhật Bản <CitationLink id={7} /><CitationLink id={29} /><CitationLink id={30} />.
+                Song hành cùng tăng trưởng kinh tế là những hệ lụy tiêu cực sâu sắc: tình trạng <strong>quá tải du lịch (Overtourism / 観光公害 - Kanko Kogai)</strong>, mâu thuẫn dân cư bản địa, thương mại hóa làm xói mòn tính nguyên bản và ô nhiễm môi trường. Dưới đây là khảo sát thực tiễn 5 trường hợp điển hình cùng các giải pháp quản trị sáng tạo của Nhật Bản.
               </p>
             </div>
 
@@ -1193,10 +1121,10 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                         <span>Thực trạng khủng hoảng (Overtourism)</span>
                       </h5>
                       <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                        Lượng khách bùng nổ quanh các địa điểm Gion và Kinkakuji khiến mạng lưới xe buýt công cộng bị tê liệt. Người dân bản địa thường xuyên không thể lên xe để đi làm hoặc đi khám bệnh do xe buýt luôn chật kín du khách với hành lý cồng kềnh <CitationLink id={29} />.
+                        Lượng khách bùng nổ quanh các địa điểm Gion và Kinkakuji khiến mạng lưới xe buýt công cộng bị tê liệt. Người dân bản địa thường xuyên không thể lên xe để đi làm hoặc đi khám bệnh do xe buýt luôn chật kín du khách với hành lý cồng kềnh.
                       </p>
                       <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                        <strong>"Trò chơi mèo vờn chuột" với rác thải:</strong> Tại các con phố cổ Arashiyama và Higashiyama, vỏ lon và hộp nhựa chất đống tràn ngập các thùng rác công cộng, phát sinh chi phí dọn dẹp khổng lồ cho thành phố <CitationLink id={39} />. Khách sạn tăng từ 30.000 lên 53.000 phòng vẫn thiếu, dẫn đến làn sóng minpaku tự phát trong khu chung cư gây xung đột nếp sống <CitationLink id={38} />.
+                        <strong>"Trò chơi mèo vờn chuột" với rác thải:</strong> Tại các con phố cổ Arashiyama và Higashiyama, vỏ lon và hộp nhựa chất đống tràn ngập các thùng rác công cộng, phát sinh chi phí dọn dẹp khổng lồ cho thành phố. Khách sạn tăng từ 30.000 lên 53.000 phòng vẫn thiếu, dẫn đến làn sóng minpaku tự phát trong khu chung cư gây xung đột nếp sống.
                       </p>
                     </div>
 
@@ -1207,13 +1135,13 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                       </h5>
                       <ul className="space-y-2 text-slate-700 list-disc list-inside dark:text-slate-300">
                         <li>
-                          <strong>Kyoto Comfort Map (京都観光快適度マップ):</strong> Lắp đặt camera AI tại các điểm nóng để phát trực tiếp mức độ đông đúc theo thời gian thực, khuyến khích du khách chủ động né giờ cao điểm <CitationLink id={34} />.
+                          <strong>Kyoto Comfort Map (京都観光快適度マップ):</strong> Lắp đặt camera AI tại các điểm nóng để phát trực tiếp mức độ đông đúc theo thời gian thực, khuyến khích du khách chủ động né giờ cao điểm.
                         </li>
                         <li>
-                          <strong>Phân tán không gian & thời gian:</strong> Quảng bá 6 khu vực di sản ngoại ô ít người biết; kết hợp với tập đoàn JR Tokai triển khai các tour tham quan sáng sớm (Morning Tours) và ngắm cảnh đêm (Night Tours) <CitationLink id={27} /><CitationLink id={35} />.
+                          <strong>Phân tán không gian & thời gian:</strong> Quảng bá 6 khu vực di sản ngoại ô ít người biết; kết hợp với tập đoàn JR Tokai triển khai các tour tham quan sáng sớm (Morning Tours) và ngắm cảnh đêm (Night Tours).
                         </li>
                         <li>
-                          <strong>Chất lượng hơn số lượng:</strong> Thu hút các chuỗi nghỉ dưỡng siêu sang (Park Hyatt Kyoto, Aman Kyoto) để gia tăng nguồn thu từ đối tượng có mức chi tiêu cao mà không làm gia tăng quá mức áp lực dân số vãng lai <CitationLink id={35} />.
+                          <strong>Chất lượng hơn số lượng:</strong> Thu hút các chuỗi nghỉ dưỡng siêu sang (Park Hyatt Kyoto, Aman Kyoto) để gia tăng nguồn thu từ đối tượng có mức chi tiêu cao mà không làm gia tăng quá mức áp lực dân số vãng lai.
                         </li>
                       </ul>
                     </div>
@@ -1243,7 +1171,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                         <span>Mối lo ngại sinh thái đàn hươu công viên Nara</span>
                       </h5>
                       <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                        Hơn 1.200 chú hươu tại Công viên Nara và Đền Kasuga Taisha là biểu tượng văn hóa thiêng liêng. Tuy nhiên, du khách đông đúc thường cho hươu ăn thức ăn không phù hợp, vứt túi nilon khiến nhiều chú hươu nuốt phải và tử vong <CitationLink id={40} />. Ngoài ra, việc bảo tồn nghiêm ngặt khiến đàn hươu gia tăng số lượng, tràn ra ngoài phá hoại cây trồng nông nghiệp của người dân.
+                        Hơn 1.200 chú hươu tại Công viên Nara và Đền Kasuga Taisha là biểu tượng văn hóa thiêng liêng. Tuy nhiên, du khách đông đúc thường cho hươu ăn thức ăn không phù hợp, vứt túi nilon khiến nhiều chú hươu nuốt phải và tử vong. Ngoài ra, việc bảo tồn nghiêm ngặt khiến đàn hươu gia tăng số lượng, tràn ra ngoài phá hoại cây trồng nông nghiệp của người dân.
                       </p>
                     </div>
 
@@ -1253,7 +1181,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                         <span>Pháp lệnh lưu trú & Tái thiết di sản</span>
                       </h5>
                       <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                        Tỉnh Nara ban hành <em>"Pháp lệnh đảm bảo quản lý hợp lý doanh nghiệp lưu trú"</em> (奈良県住宅宿泊事業の適正な運営の確保に関する条例) <CitationLink id={37} />. Cung cấp trợ cấp đặc biệt để thu hút các khách sạn đẳng cấp quốc tế (Fufu Nara, JW Marriott Hotel Nara, Fairfield by Marriott Tenri), đồng thời cho phép cải tạo các công trình cổ có giá trị văn hóa thành cơ sở lưu trú cao cấp giữ chân du khách qua đêm thay vì chỉ đi về trong ngày từ Osaka/Kyoto <CitationLink id={25} />.
+                        Tỉnh Nara ban hành <em>"Pháp lệnh đảm bảo quản lý hợp lý doanh nghiệp lưu trú"</em> (奈良県住宅宿泊事業の適正な運営の確保に関する条例). Cung cấp trợ cấp đặc biệt để thu hút các khách sạn đẳng cấp quốc tế (Fufu Nara, JW Marriott Hotel Nara, Fairfield by Marriott Tenri), đồng thời cho phép cải tạo các công trình cổ có giá trị văn hóa thành cơ sở lưu trú cao cấp giữ chân du khách qua đêm thay vì chỉ đi về trong ngày từ Osaka/Kyoto.
                       </p>
                     </div>
                   </div>
@@ -1282,7 +1210,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                         <span>Áp lực quá tải sườn núi & Khí thải xe cá nhân</span>
                       </h5>
                       <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                        Năm 2019, 5.06 triệu người đến thăm núi Phú Sĩ (gấp 2.2 lần so với năm 2012 trước khi được công nhận di sản) <CitationLink id={33} />. Hàng vạn người leo núi cùng lúc gây tắc nghẽn nguy hiểm trên các cung đường dốc, tắc nghẽn nhà vệ sinh và lượng khí thải khổng lồ từ xe buýt, ô tô cá nhân đổ dồn lên trạm số 5 Subaru Line.
+                        Năm 2019, 5.06 triệu người đến thăm núi Phú Sĩ (gấp 2.2 lần so với năm 2012 trước khi được công nhận di sản). Hàng vạn người leo núi cùng lúc gây tắc nghẽn nguy hiểm trên các cung đường dốc, tắc nghẽn nhà vệ sinh và lượng khí thải khổng lồ từ xe buýt, ô tô cá nhân đổ dồn lên trạm số 5 Subaru Line.
                       </p>
                     </div>
 
@@ -1293,13 +1221,13 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                       </h5>
                       <ul className="space-y-2 text-slate-700 list-disc list-inside dark:text-slate-300">
                         <li>
-                          <strong>Quỹ hợp tác bảo tồn Núi Phú Sĩ (2014):</strong> Vận động phí đóng góp tự nguyện 1.000 Yên/người leo núi, tạo nguồn tài chính bảo trì nhà vệ sinh sinh thái, xử lý rác và cứu hộ y tế <CitationLink id={41} />.
+                          <strong>Quỹ hợp tác bảo tồn Núi Phú Sĩ (2014):</strong> Vận động phí đóng góp tự nguyện 1.000 Yên/người leo núi, tạo nguồn tài chính bảo trì nhà vệ sinh sinh thái, xử lý rác và cứu hộ y tế.
                         </li>
                         <li>
-                          <strong>Đề án Đường sắt leo núi Fuji (Fuji Mountain Railway):</strong> Đề xuất cấm hoàn toàn xe ô tô cá nhân, chỉ cho phép đi tàu điện leo núi có kiểm soát số lượng theo giờ <CitationLink id={33} />.
+                          <strong>Đề án Đường sắt leo núi Fuji (Fuji Mountain Railway):</strong> Đề xuất cấm hoàn toàn xe ô tô cá nhân, chỉ cho phép đi tàu điện leo núi có kiểm soát số lượng theo giờ.
                         </li>
                         <li>
-                          <strong>Trung tâm Di sản Thế giới Núi Phú Sĩ (2017):</strong> Xây dựng bảo tàng rộng 6.100 m² tại Shizuoka với công nghệ leo núi thực tế ảo VR, giúp du khách trải nghiệm đỉnh Phú Sĩ từ xa mà không cần leo núi thực <CitationLink id={36} />.
+                          <strong>Trung tâm Di sản Thế giới Núi Phú Sĩ (2017):</strong> Xây dựng bảo tàng rộng 6.100 m² tại Shizuoka với công nghệ leo núi thực tế ảo VR, giúp du khách trải nghiệm đỉnh Phú Sĩ từ xa mà không cần leo núi thực.
                         </li>
                       </ul>
                     </div>
@@ -1329,7 +1257,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                         <span>Tỷ lệ nghịch ngạc nhiên: Du khách gấp 3.000 lần dân số</span>
                       </h5>
                       <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                        Ngôi làng cổ kính nép mình giữa thung lũng tuyết chỉ có vỏn vẹn khoảng 600 cư dân sinh sống nhưng đón tới <strong>1.8 triệu lượt du khách mỗi năm</strong> (gấp 3.000 lần dân số) <CitationLink id={30} />. Trong các đêm Lễ hội Ánh sáng Mùa đông (Shirakawago Winter Light-up), hàng nghìn du khách chen lấn trên đài quan sát hẹp và đường làng, gây nguy cơ giẫm đạp và làm đảo lộn hoàn toàn sự yên bình của làng quê.
+                        Ngôi làng cổ kính nép mình giữa thung lũng tuyết chỉ có vỏn vẹn khoảng 600 cư dân sinh sống nhưng đón tới <strong>1.8 triệu lượt du khách mỗi năm</strong> (gấp 3.000 lần dân số). Trong các đêm Lễ hội Ánh sáng Mùa đông (Shirakawago Winter Light-up), hàng nghìn du khách chen lấn trên đài quan sát hẹp và đường làng, gây nguy cơ giẫm đạp và làm đảo lộn hoàn toàn sự yên bình của làng quê.
                       </p>
                     </div>
 
@@ -1339,7 +1267,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                         <span>Hệ thống đặt chỗ nghiêm ngặt (Advance Reservation)</span>
                       </h5>
                       <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                        Chính quyền làng quyết định chuyển đổi Lễ hội Ánh sáng sang hình thức <strong>đặt chỗ trước 100% (Complete Reservation System)</strong> <CitationLink id={32} />. Chỉ những khách đặt trước qua đêm tại làng hoặc mua vé xe buýt có số ghế kèm vé lên đài quan sát mới được phép vào làng sau 17h. Xe ô tô cá nhân không có giấy phép đăng ký đỗ xe trước bị cấm vào làng tuyệt đối. Giải pháp này đã xóa bỏ hoàn toàn cảnh hỗn loạn, đảm bảo an toàn tuyệt đối và nâng tầm trải nghiệm của du khách <CitationLink id={30} /><CitationLink id={32} />.
+                        Chính quyền làng quyết định chuyển đổi Lễ hội Ánh sáng sang hình thức <strong>đặt chỗ trước 100% (Complete Reservation System)</strong>. Chỉ những khách đặt trước qua đêm tại làng hoặc mua vé xe buýt có số ghế kèm vé lên đài quan sát mới được phép vào làng sau 17h. Xe ô tô cá nhân không có giấy phép đăng ký đỗ xe trước bị cấm vào làng tuyệt đối. Giải pháp này đã xóa bỏ hoàn toàn cảnh hỗn loạn, đảm bảo an toàn tuyệt đối và nâng tầm trải nghiệm của du khách.
                       </p>
                     </div>
                   </div>
@@ -1368,7 +1296,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                         <span>Chi phí duy tu đền nổi & Quá tải hòn đảo</span>
                       </h5>
                       <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                        Đền Thần đạo Itsukushima với cổng Torii màu đỏ son khổng lồ cắm thẳng xuống biển thủy triều đón tới <strong>4.6 triệu du khách</strong> năm 2019 <CitationLink id={31} />. Việc các công trình bằng gỗ liên tục tiếp xúc với nước biển mặn khiến chi phí bảo dưỡng, trùng tu và thu dọn vệ sinh trên đảo là gánh nặng tài chính khổng lồ đối với ngân sách thị trấn Hatsukaichi.
+                        Đền Thần đạo Itsukushima với cổng Torii màu đỏ son khổng lồ cắm thẳng xuống biển thủy triều đón tới <strong>4.6 triệu du khách</strong> năm 2019. Việc các công trình bằng gỗ liên tục tiếp xúc với nước biển mặn khiến chi phí bảo dưỡng, trùng tu và thu dọn vệ sinh trên đảo là gánh nặng tài chính khổng lồ đối với ngân sách thị trấn Hatsukaichi.
                       </p>
                     </div>
 
@@ -1378,7 +1306,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                         <span>Chính sách thuế vào đảo (Miyajima Visitor Tax)</span>
                       </h5>
                       <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                        Thành phố Hatsukaichi chính thức áp dụng <strong>Thuế vào đảo Miyajima (入島税)</strong> với mức 100 Yên/người thu trực tiếp qua giá vé phà <CitationLink id={31} />. Nguồn thu thuế chuyên dụng này được chuyển thẳng vào quỹ bảo tồn cảnh quan và trùng tu đền thờ, vừa san sẻ chi phí với du khách một cách công bằng, vừa điều tiết mật độ khách lên đảo bền vững qua nhiều thế hệ.
+                        Thành phố Hatsukaichi chính thức áp dụng <strong>Thuế vào đảo Miyajima (入島税)</strong> với mức 100 Yên/người thu trực tiếp qua giá vé phà. Nguồn thu thuế chuyên dụng này được chuyển thẳng vào quỹ bảo tồn cảnh quan và trùng tu đền thờ, vừa san sẻ chi phí với du khách một cách công bằng, vừa điều tiết mật độ khách lên đảo bền vững qua nhiều thế hệ.
                       </p>
                     </div>
                   </div>
@@ -1397,23 +1325,13 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <section id="ket-luan" className="py-16 bg-white border-b border-slate-200 dark:bg-slate-900 dark:border-slate-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           
-          <div className="flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800">
-            <div>
-              <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
-                {isEn ? 'Part III • Synthesis & Policy Implications' : 'Phần Kết Luận • Tổng kết & Hàm ý chính sách'}
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
-                {isEn ? 'Synthesis & Key Takeaways for Sustainable Heritage Tourism' : 'Kết luận & Bài học kinh nghiệm từ Nhật Bản'}
-              </h2>
-            </div>
-            <button
-              onClick={() => copyDeepLink('ket-luan', isEn ? 'Conclusion' : 'Phần Kết Luận')}
-              className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800"
-              title="Sao chép liên kết"
-            >
-              <LinkIcon className="w-4 h-4" />
-            </button>
-          </div>
+          <SectionHeader
+            variant="stacked"
+            id="ket-luan"
+            badge={isEn ? 'Part III • Synthesis & Policy Implications' : 'Phần Kết Luận • Tổng kết & Hàm ý chính sách'}
+            title={isEn ? 'Synthesis & Key Takeaways for Sustainable Heritage Tourism' : 'Kết luận & Bài học kinh nghiệm từ Nhật Bản'}
+            onCopy={copyDeepLink}
+          />
 
           <div className="space-y-6 text-base sm:text-lg leading-relaxed text-slate-800 dark:text-slate-200">
             <p>
@@ -1456,7 +1374,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
             </div>
 
             <p className="text-sm italic text-slate-600 border-l-4 border-[#0D7287] pl-4 py-1 dark:text-slate-400 dark:border-[#9BE7FA]">
-              "Du lịch di sản chỉ có thể phát triển bền vững khi và chỉ khi nó tôn trọng tính nguyên bản của lịch sử, nâng cao phúc lợi kinh tế cho cộng đồng sở tại và bảo toàn trọn vẹn cảnh quan môi trường cho muôn đời sau." — Ma Văn Hùng (2024).
+              "Du lịch di sản chỉ có thể phát triển bền vững khi và chỉ khi nó tôn trọng tính nguyên bản của lịch sử, nâng cao phúc lợi kinh tế cho cộng đồng sở tại và bảo toàn trọn vẹn cảnh quan môi trường cho muôn đời sau." - Ma Văn Hùng (2024).
             </p>
           </div>
         </div>
@@ -1470,7 +1388,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
       <footer className="py-10 bg-slate-900 text-slate-400 border-t border-slate-800 text-xs text-center">
         <div className="max-w-5xl mx-auto px-4 space-y-2">
           <p className="text-slate-300 font-bold text-sm">
-            {THESIS_METADATA.universityVi} — {THESIS_METADATA.facultyVi}
+            {THESIS_METADATA.universityVi} • {THESIS_METADATA.facultyVi}
           </p>
           <p>
             Đề tài niên luận: <em>"{THESIS_METADATA.titleVi}"</em> • Tác giả: {THESIS_METADATA.author} ({THESIS_METADATA.cohort}) • GVHD: {THESIS_METADATA.advisor}

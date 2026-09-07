@@ -9,13 +9,20 @@ import LibraryBusProject from '../../components/LibraryBusProject';
 import { usePortfolioData } from '../../context/PortfolioDataContext';
 import { ProjectData } from '../../types';
 
+const CASE_STUDY_COMPONENTS: Record<string, React.ComponentType<{ isEmbedded?: boolean; onBack?: () => void }>> = {
+  'proj-kami-ely': KamiElyProject,
+  'proj-heritage-japan': HeritageJapanProject,
+  'proj-library-bus': LibraryBusProject,
+};
+
 export default function ProjectDetailClient({ id }: { id: string }) {
   const { projects: contextProjects, isLoading } = usePortfolioData();
   const [apiProject, setApiProject] = useState<ProjectData | null>(null);
   const [fetchFinished, setFetchFinished] = useState(false);
 
+  const SpecialComponent = CASE_STUDY_COMPONENTS[id];
+
   // 1. Lookup in Context Projects (including MySQL DB / CMS dynamic projects)
-  const isSpecialCaseStudy = id === 'proj-kami-ely' || id === 'proj-heritage-japan' || id === 'proj-library-bus';
   const allProjects = contextProjects && contextProjects.length > 0 ? contextProjects : DEFAULT_PROJECTS;
   const project = allProjects.find((p) => p.id === id) || apiProject;
 
@@ -23,7 +30,7 @@ export default function ProjectDetailClient({ id }: { id: string }) {
   useEffect(() => {
     let active = true;
 
-    if (!isSpecialCaseStudy && !project && !isLoading && !fetchFinished) {
+    if (!SpecialComponent && !project && !isLoading && !fetchFinished) {
       fetch('/api/projects')
         .then((res) => res.json())
         .then((data) => {
@@ -46,17 +53,10 @@ export default function ProjectDetailClient({ id }: { id: string }) {
     return () => {
       active = false;
     };
-  }, [id, project, isLoading, fetchFinished, isSpecialCaseStudy]);
+  }, [id, project, isLoading, fetchFinished, SpecialComponent]);
 
-  // 3. Static Case Studies with custom bespoke interactive visualizations
-  if (id === 'proj-kami-ely') {
-    return <KamiElyProject isEmbedded={false} />;
-  }
-  if (id === 'proj-heritage-japan') {
-    return <HeritageJapanProject isEmbedded={false} />;
-  }
-  if (id === 'proj-library-bus') {
-    return <LibraryBusProject isEmbedded={false} />;
+  if (SpecialComponent) {
+    return <SpecialComponent isEmbedded={false} />;
   }
 
   const isStillLoading = !project && (isLoading || !fetchFinished);

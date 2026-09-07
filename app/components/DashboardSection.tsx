@@ -429,7 +429,7 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
           {dashboard.kpis.map((kpi) => (
             <div
               key={kpi.id}
-              className="dash-kpi-card bg-white p-6 rounded-3xl border border-[#9BE7FA]/60 shadow-xs hover:border-[#9BE7FA] hover:shadow-md transition-all dark:bg-slate-900 dark:border-slate-800 dark:shadow-none"
+              className="dash-kpi-card card-bento p-6 hover:border-[#9BE7FA] transition-all"
             >
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">
@@ -462,7 +462,7 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
             <div
               key={chart.id}
               id={`chart-box-${chart.id}`}
-              className="dash-chart-card bg-white p-6 sm:p-7 rounded-3xl border border-brand-blue-light shadow-sm hover:shadow-md transition-all flex flex-col dark:bg-slate-900 dark:border-slate-800 dark:shadow-none"
+              className="dash-chart-card card-bento p-6 sm:p-7 flex flex-col hover:border-[#9BE7FA] transition-all"
             >
               <div className="flex items-start justify-between gap-4 mb-6">
                 <div>

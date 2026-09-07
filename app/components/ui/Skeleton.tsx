@@ -5,8 +5,8 @@ interface SkeletonProps {
 }
 
 /**
- * Skeleton loading placeholder — used as fallback for dynamic imports
- * and lazy-loaded content.
+ * Skeleton loading placeholder: used as fallback for dynamic imports
+ * and asynchronous content loads. Prevents layout shift (CLS).
  */
 export function Skeleton({ className = '' }: SkeletonProps) {
   return (

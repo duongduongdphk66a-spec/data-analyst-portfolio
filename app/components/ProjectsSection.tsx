@@ -32,11 +32,11 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
 
     const enMeta: Record<string, { title: string; desc: string; problem?: string; method?: string; insight?: string }> = {
       'proj-kami-ely': {
-        title: 'Kami Ely: TikTok Shop Performance & Affiliate Network Analytics',
-        desc: 'Comprehensive analysis of sales performance, creator affiliate networks, and self-operated livestream channels for Sports & Outdoor e-commerce.',
-        problem: 'Difficulty assessing cost-efficiency between self-operated livestream accounts and external creator affiliate tiers, causing suboptimal commission spending.',
-        method: 'Extracted and cleaned 15 sales cycles in Python, categorized creators by follower cohorts (>100k, 10k-50k, 1k-5k), and computed average GMV per collaborator.',
-        insight: 'Nano-creators (1k-5k followers) generated over 527 collaborations and contributed 3.3 Billion VND GMV (38.6% of affiliate GMV) with 40% lower acquisition cost than mega-influencers.'
+        title: 'Kami Ely: TikTok Shop (31.6B VND) & Creator Kamielyn (@kamielyhn) Telemetry',
+        desc: 'Comprehensive 2-part report: (1) Shop performance across 338 products, 5.7k affiliates, 11.2k videos, 7k live sessions; and (2) Top creator @kamielyhn demographics, 24h curve, and commercial conversion matrix.',
+        problem: 'Optimizing the commercial synergy between brand-owned LIVE accounts and external creator affiliate tiers, while finding the optimal engagement windows for creator content.',
+        method: 'Extracted and synthesized 45 FastMoss telemetry files in Python, categorized 5.7k creators across follower tiers, and mapped 24h posting behavioral curves.',
+        insight: 'LIVE Shopping drives 55.9% of shop GMV. Nano-creators (1k-5k followers) generate 52.7% of affiliate GMV (2.5B VND). Creator @kamielyhn peaked at 15:00-16:00 with 0.74% engagement.'
       },
       'proj-heritage-japan': {
         title: 'The Evolution of Heritage Tourism in Japan: Time-Series Analysis',
@@ -176,15 +176,15 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
           <div
             id={proj.id}
             key={proj.id}
-            className="project-card-item bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:border-[#9BE7FA] hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col lg:flex-row gap-6 p-6 sm:p-8 dark:bg-slate-900/80 dark:border-slate-800"
+            className="project-card-item card-bento overflow-hidden flex flex-col lg:flex-row gap-6 p-6 sm:p-8 hover:border-[#9BE7FA] transition-all duration-300"
           >
             {/* Left/Top Media & Thumbnail */}
             <div className="lg:w-5/12 flex flex-col justify-between space-y-4">
               
               <div className="relative h-56 sm:h-64 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700 group">
                 {proj.featured && (
-                  <div className="absolute top-3 left-3 z-10 bg-[#FFD14C] text-slate-950 px-2.5 py-1 rounded-full text-[11px] font-bold shadow-xs flex items-center gap-1 font-serif">
-                    <Star className="w-3 h-3 fill-current" />
+                  <div className="absolute top-3 left-3 z-10 bg-[#FFD14C] text-slate-950 px-2.5 py-1 rounded-full text-[11px] font-bold shadow-xs flex items-center gap-1 font-serif border border-[#FFE485]">
+                    <Star className="w-3 h-3 fill-current text-slate-950" />
                     <span>CASE STUDY 0{idx + 1}</span>
                   </div>
                 )}
@@ -224,7 +224,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
               {proj.metrics && proj.metrics.length > 0 && (
                 <div className="grid grid-cols-2 gap-2.5">
                   {proj.metrics.slice(0, 2).map((m) => (
-                    <div key={m.label} className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-0.5 dark:bg-slate-800/80 dark:border-slate-700">
+                    <div key={m.label} className="p-3 rounded-xl bg-[#FAFDFE] dark:bg-slate-800/80 border border-[#E2F1F8] dark:border-slate-700 space-y-0.5">
                       <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block dark:text-slate-400">
                         {m.label}
                       </span>
@@ -252,7 +252,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
                   {proj.tags.map(tag => (
                     <span
                       key={tag}
-                      className="px-2.5 py-0.5 bg-[#C8EEF7]/40 text-slate-800 rounded-lg text-xs font-semibold border border-[#9BE7FA]/60 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300"
+                      className="px-2.5 py-1 bg-[#C8EEF7]/50 text-[#0D7287] dark:bg-[#9BE7FA]/10 dark:text-[#9BE7FA] rounded-lg text-xs font-semibold border border-[#9BE7FA]/50"
                     >
                       {tag}
                     </span>
@@ -269,7 +269,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
               </div>
 
               {/* 3 Pillars: Problem -> Method -> Key Insight */}
-              <div className="space-y-3 p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80 dark:bg-slate-800/40 dark:border-slate-800 text-xs sm:text-sm">
+              <div className="space-y-3 p-4 rounded-2xl bg-[#FAFDFE] dark:bg-slate-800/40 border border-[#E2F1F8] dark:border-slate-800 text-xs sm:text-sm">
                 
                 {/* Problem */}
                 <div className="space-y-1">
@@ -296,7 +296,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
                 {/* Insight / Result */}
                 <div className="space-y-1">
                   <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-slate-200">
-                    <span className="w-2 h-2 rounded-full bg-amber-500" />
+                    <span className="w-2 h-2 rounded-full bg-[#FFD14C]" />
                     <span>{language === 'en' ? 'Strategic Insight & Impact:' : 'Insight & Kết Quả Then Chốt:'}</span>
                   </div>
                   <p className="text-slate-600 dark:text-slate-400 pl-3.5 leading-relaxed font-normal">
@@ -311,7 +311,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
                 
                 {/* Tools */}
                 <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                  <Cpu className="w-3.5 h-3.5 text-slate-700 dark:text-slate-300" />
+                  <Cpu className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
                   <span>{proj.tools ? proj.tools.join(' · ') : proj.tags.join(' · ')}</span>
                 </div>
 
@@ -322,7 +322,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
                       href={sanitizeUrl(proj.demoUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-xs border border-slate-200 shadow-xs transition-all inline-flex items-center gap-1.5 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200"
+                      className="px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-xs border border-slate-200 shadow-xs transition-[transform,background-color,border-color] duration-160 inline-flex items-center gap-1.5 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 active:scale-[0.97]"
                     >
                       <FileText className="w-3.5 h-3.5" />
                       <span>{language === 'en' ? 'PDF Documentation' : 'Tài Liệu PDF'}</span>
@@ -331,7 +331,7 @@ export default React.memo(function ProjectsSection({ projects, onSelectProject }
 
                   <button
                     onClick={() => handleOpenDetail(proj.id)}
-                    className="px-4 py-2 rounded-xl bg-[#0F172A] hover:bg-[#1E293B] text-white font-bold text-xs shadow-xs transition-all inline-flex items-center gap-1.5 cursor-pointer dark:bg-[#9BE7FA] dark:text-slate-950 dark:hover:bg-[#C8EEF7]"
+                    className="px-4 py-2.5 rounded-xl bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 font-heading font-bold text-xs shadow-xs hover:shadow-md shadow-amber-500/15 transition-[transform,background-color,box-shadow] duration-160 ease-[var(--ease-out)] inline-flex items-center gap-1.5 cursor-pointer active:scale-[0.97]"
                   >
                     <span>{language === 'en' ? 'Explore Case Study' : 'Xem Case Study Chi Tiết'}</span>
                     <ArrowRight className="w-3.5 h-3.5" />

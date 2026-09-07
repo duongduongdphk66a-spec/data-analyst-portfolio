@@ -189,7 +189,7 @@ export default function CommandPalette({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/60 backdrop-blur-sm animate-fade-in" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/60 backdrop-blur-sm" onClick={onClose}>
       <div 
         className="relative w-full max-w-xl bg-ground-alt/95 dark:bg-slate-900/95 border border-[#9BE7FA]/40 dark:border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden font-heading"
         onClick={(e) => e.stopPropagation()}

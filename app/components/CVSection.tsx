@@ -80,9 +80,9 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
   useGSAP(() => {
     gsap.from('.timeline-item', {
       autoAlpha: 0,
-      x: -20,
-      stagger: 0.1,
-      duration: 0.5,
+      x: -10,
+      stagger: 0.05,
+      duration: 0.28,
       ease: 'power2.out',
     });
   }, { scope: sectionRef });
@@ -132,10 +132,6 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
   return (
     <section id="experience" ref={sectionRef} className="section-ground py-20 md:py-28 transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
-
-        <p className="text-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-muted mb-3">
-          {isEn ? 'Experience' : 'Kinh nghiệm'}
-        </p>
         <h2 className="text-3xl sm:text-4xl font-heading font-bold text-ink dark:text-white mb-14 max-w-2xl leading-tight">
           {isEn ? 'Education & professional timeline.' : 'Học vấn và lộ trình nghề nghiệp.'}
         </h2>

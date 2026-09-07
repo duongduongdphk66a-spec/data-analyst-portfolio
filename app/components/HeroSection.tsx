@@ -170,14 +170,14 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject, o
             <div className="flex flex-wrap gap-3 pt-2">
               <button
                 onClick={handleGoToProjects}
-                className="hero-cta-btn group flex items-center gap-2.5 px-6 py-3 bg-accent hover:bg-accent-deep dark:bg-amber-400 dark:hover:bg-amber-300 text-slate-950 font-heading font-semibold text-sm rounded-lg transition-all duration-200 cursor-pointer shadow-xs"
+                className="hero-cta-btn group flex items-center gap-2.5 px-6 py-3.5 bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 font-heading font-bold text-sm rounded-xl transition-[transform,background-color,box-shadow] duration-160 ease-[var(--ease-out)] cursor-pointer shadow-md hover:shadow-lg shadow-amber-500/20 active:scale-[0.97]"
               >
                 {t('cta_view_projects', 'Khám Phá Dự Án')}
-                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
               </button>
               <button
                 onClick={handleDownloadCV}
-                className="hero-cta-btn flex items-center gap-2 px-6 py-3 border border-border-subtle hover:border-ink-muted text-ink-secondary hover:text-ink dark:border-slate-700 dark:text-slate-300 dark:hover:text-white dark:hover:border-slate-500 font-heading font-medium text-sm rounded-lg transition-all duration-200 cursor-pointer shadow-xs"
+                className="hero-cta-btn flex items-center gap-2 px-6 py-3.5 border border-[#9BE7FA]/60 hover:border-[#0D7287] bg-white/80 hover:bg-white text-slate-900 dark:bg-slate-900/80 dark:border-slate-700 dark:text-slate-200 dark:hover:text-white dark:hover:border-[#9BE7FA] font-heading font-semibold text-sm rounded-xl transition-[transform,background-color,border-color,box-shadow] duration-160 ease-[var(--ease-out)] cursor-pointer shadow-2xs active:scale-[0.97]"
               >
                 <Download className="w-4 h-4" />
                 {t('cta_view_cv', 'Tải CV PDF')}
@@ -185,7 +185,7 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject, o
               {onOpenAdmin && (
                 <button
                   onClick={onOpenAdmin}
-                  className="hero-cta-btn flex items-center gap-2 px-4 py-3 bg-[#0D7287]/10 hover:bg-[#0D7287]/20 text-[#0D7287] dark:bg-[#9BE7FA]/10 dark:hover:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] border border-[#0D7287]/30 dark:border-[#9BE7FA]/30 font-heading font-semibold text-sm rounded-lg transition-all duration-200 cursor-pointer shadow-xs"
+                  className="hero-cta-btn flex items-center gap-2 px-4 py-3.5 bg-[#C8EEF7]/50 hover:bg-[#C8EEF7] text-[#0D7287] dark:bg-[#9BE7FA]/10 dark:hover:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] border border-[#9BE7FA] font-heading font-bold text-sm rounded-xl transition-[transform,background-color,box-shadow] duration-160 ease-[var(--ease-out)] cursor-pointer shadow-2xs active:scale-[0.97]"
                   title="Chỉnh sửa thông tin cá nhân & MySQL CMS"
                 >
                   <Edit3 className="w-4 h-4" />
@@ -197,19 +197,19 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject, o
 
           {/* Right column: micro visualization (5 cols) */}
           <div className="lg:col-span-5 hero-card-viz">
-            <div className="relative bg-ground-alt border border-border-subtle dark:bg-slate-900/90 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-sm">
+            <div className="relative card-bento p-5 sm:p-6 hover:border-[#9BE7FA]">
               {/* Mini chart header */}
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-xs font-heading font-medium text-ink-muted dark:text-slate-400 uppercase tracking-wider">
+                  <p className="text-xs font-heading font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                     {isEn ? 'Japan Inbound Tourists' : 'Khách quốc tế đến Nhật Bản'}
                   </p>
-                  <p className="text-2xl font-heading font-bold text-ink dark:text-white mt-0.5 tabular-data">
+                  <p className="text-2xl font-heading font-bold text-slate-900 dark:text-white mt-0.5 tabular-data">
                     <AnimatedCounter value="31.9" duration={1.8} triggerOnScroll={false} />
-                    <span className="text-sm font-medium text-ink-muted dark:text-slate-400 ml-1">{isEn ? 'M (2019)' : 'Triệu (2019)'}</span>
+                    <span className="text-sm font-medium text-slate-500 dark:text-slate-400 ml-1">{isEn ? 'M (2019)' : 'Triệu (2019)'}</span>
                   </p>
                 </div>
-                <span className="text-xs font-heading font-medium text-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 dark:text-emerald-400 px-2 py-0.5 rounded-md border border-emerald-200/60 dark:border-emerald-800/60">
+                <span className="text-xs font-heading font-bold text-slate-950 bg-[#FFE485] px-2.5 py-1 rounded-lg border border-[#FFD14C] shadow-2xs">
                   +513%
                 </span>
               </div>
@@ -218,16 +218,16 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject, o
               <HeroAreaChart data={heroChartData} isDark={isDark} isEn={isEn} />
 
               {/* Chart footer */}
-              <div className="flex items-center justify-between mt-3 pt-3 border-t border-border-subtle dark:border-slate-800/80">
-                <p className="text-[11px] text-ink-muted dark:text-slate-400 font-heading">
+              <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100 dark:border-slate-800/80">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 font-heading">
                   {isEn ? 'Source: JNTO, 2003-2019' : 'Nguồn: JNTO, 2003-2019'}
                 </p>
                 <button
                   onClick={handleViewCaseStudy}
-                  className="text-[11px] font-heading font-medium text-[#0D7287] dark:text-[#9BE7FA] hover:underline cursor-pointer flex items-center gap-1"
+                  className="text-xs font-heading font-bold text-[#0D7287] dark:text-[#9BE7FA] hover:underline cursor-pointer flex items-center gap-1 group"
                 >
                   <span>{isEn ? 'View Case Study' : 'Xem Case Study'}</span>
-                  <ArrowRight className="w-3 h-3" />
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                 </button>
               </div>
             </div>

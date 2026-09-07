@@ -16,7 +16,7 @@ interface ErrorBoundaryState {
 }
 
 /**
- * Error Boundary component — catches rendering errors in child tree
+ * Error Boundary component: catches rendering errors in child tree
  * and displays a bilingual fallback UI instead of crashing the entire app.
  * Supports auto-resetting when resetKeys change (e.g. switching tabs).
  */

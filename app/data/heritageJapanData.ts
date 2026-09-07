@@ -1,6 +1,6 @@
 /**
- * Heritage Japan Tourism — Academic Thesis Data & Research Telemetry
- * Source: Ma Van Hung (2024), Academic Thesis, Faculty of Oriental Studies (USSH - VNU Hanoi)
+ * Heritage Japan Tourism: Academic Thesis Data & Research Telemetry
+ * Source: Japan National Tourism Organization (JNTO) & MLIT Statistical Reports, Faculty of Oriental Studies (USSH - VNU Hanoi)
  * Supervisor: Dr. Vo Minh Vu
  */
 

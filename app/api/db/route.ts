@@ -70,6 +70,30 @@ export async function GET(req: NextRequest) {
       // Table may not exist yet
     }
 
+    let tiktokRows = 0;
+    try {
+      const tiktokTables = [
+        'tiktok_shop_overview',
+        'tiktok_shop_weekly_trends',
+        'tiktok_shop_top_skus',
+        'tiktok_shop_top_affiliates',
+        'tiktok_shop_livestreams',
+        'tiktok_shop_videos',
+        'tiktok_shop_data_scopes',
+        'tiktok_shop_collaborative_stores',
+      ];
+      for (const t of tiktokTables) {
+        try {
+          const [res] = await pool.query<RowDataPacket[]>(`SELECT COUNT(*) as cnt FROM ${t}`);
+          tiktokRows += Number(res[0]?.cnt || 0);
+        } catch {
+          // table might not exist yet
+        }
+      }
+    } catch {
+      // Non-critical
+    }
+
     return NextResponse.json({
       connected: true,
       message: 'Kết nối MySQL hoạt động bình thường.',
@@ -77,6 +101,7 @@ export async function GET(req: NextRequest) {
         profileRows,
         textRows,
         projectRows,
+        tiktokRows,
       },
     });
   } catch (error: unknown) {

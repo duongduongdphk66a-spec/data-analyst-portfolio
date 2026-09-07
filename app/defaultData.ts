@@ -94,21 +94,21 @@ export const DEFAULT_PROFILE: ProfileData = {
 export const DEFAULT_PROJECTS: ProjectData[] = [
   {
     id: 'proj-kami-ely',
-    title: 'Kami Ely: Báo cáo Phân tích Hiệu suất TikTok Shop & Mạng lưới Affiliate',
-    desc: 'Phân tích tổng hợp hiệu suất bán hàng, cơ cấu kênh doanh thu và mạng lưới 1,000+ nhà sáng tạo affiliate trên TikTok Shop cho ngành hàng Sports & Outdoor.',
-    tags: ['TikTok Shop', 'Data Analytics', 'Python', 'Power BI', 'Recharts'],
+    title: 'Tối ưu hóa Phân bổ Nguồn lực Đa kênh bằng Thống kê Thực nghiệm & Phân tích Chuỗi thời gian: Case Study Thương hiệu Kami Ely',
+    desc: 'Báo cáo Phân tích Dữ liệu chuyên sâu đánh giá hiệu suất kênh (Video vs Livestream), phân tích năng suất cận biên giảm dần của thời lượng phát sóng và bóc tách chu kỳ mùa vụ 180 ngày cho quần thể 238,4k đơn hàng & 31,6 Tỷ VNĐ GMV tích lũy từ khi thành lập shop.',
+    tags: ['Data Analytics', 'Statistical Testing', 'Time-Series Analysis', 'Resource Optimization', 'Python', 'Recharts'],
     img: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop&q=80',
     featured: true,
-    problem: 'Doanh nghiệp gặp khó khăn trong việc đánh giá hiệu quả chi phí giữa kênh tự vận hành (Live/Video) và mạng lưới Creator Affiliates, dẫn đến phân bổ hoa hồng chưa tối ưu.',
-    method: 'Trích xuất và làm sạch dữ liệu giao dịch 15 đợt bán hàng, phân nhóm Creators theo tệp followers (>100k, 50k-100k, 10k-50k, 1k-5k, <=1k), tính toán GMV trung bình trên mỗi creator.',
-    insight: 'Nhóm Nano-creator (1k-5k followers) tạo ra hơn 527 lượt cộng tác và đóng góp 3.3 tỷ VNĐ GMV (chiếm 38.6% tổng GMV affiliate), có chi phí chuyển đổi tối ưu hơn 40% so với nhóm Mega-creator.',
+    problem: 'Nghịch lý phân bổ tài nguyên: Kênh Live chiếm đa số thời lượng nhưng chỉ đạt GPM 30,2k VNĐ, trong khi Short-video đạt 135,2k VNĐ. Đồng thời cần bóc tách sụt giảm doanh số tháng 8-9 do mùa vụ khách quan hay lỗi vận hành.',
+    method: 'So sánh hiệu suất 2 nhóm mẫu độc lập (551 video và 470 phiên live), mô hình hóa đường cong hiệu suất xác định điểm bão hòa thời lượng live ~3.1h/ngày, và bóc tách 3 thành phần chuỗi thời gian 180 ngày (Xu hướng + Mùa vụ + Nhiễu biến động).',
+    insight: 'Video sinh lời vượt trội 4.48 lần có ý nghĩa thống kê cao (p < 0.0001). Chu kỳ mùa vụ du lịch hè lý giải 85% mức sụt giảm sau tháng 7. Cắt giảm 50% giờ live vượt ngưỡng hiệu quả và phủ 100% video giỏ hàng giúp tối ưu dòng tiền và tăng trưởng doanh thu.',
     metrics: [
-      { label: 'Tổng Doanh Thu Phân Tích', value: '8.5 Tỷ VNĐ', change: '+34% MoM', isPositive: true },
-      { label: 'Số Lượng Affiliate Creators', value: '1,087+', change: '527 Nano-KOC', isPositive: true },
-      { label: 'Kênh Đóng Góp GMV Cao Nhất', value: 'Live Shopping', change: '63.04% GMV', isPositive: true },
-      { label: 'Tối Ưu Chi Phí Hoa Hồng', value: '-32%', change: 'Tiết kiệm ngân sách', isPositive: true }
+      { label: 'Quy Mô Quần Thể Toàn Thời Gian', value: '238.4k', change: '31.6 Tỷ VNĐ (Từ 2022)', isPositive: true },
+      { label: 'Chênh Lệch GPM Video vs Live', value: '4.48x', change: 'Ưu thế bền vững', isPositive: true },
+      { label: 'Ngưỡng Giờ Live Hiệu Quả', value: '3.1h', change: 'Điểm bão hòa doanh số', isPositive: true },
+      { label: 'Chu Kỳ Phân Rã Dữ Liệu', value: '180 Ngày', change: 'Xu hướng & Mùa vụ hè', isPositive: true }
     ],
-    tools: ['Python (Pandas)', 'Power BI', 'Recharts', 'SQL', 'Excel']
+    tools: ['Python (scipy.stats & statsmodels)', 'Statistical Analysis', 'Time-Series Modeling', 'Recharts']
   },
   {
     id: 'proj-heritage-japan',
