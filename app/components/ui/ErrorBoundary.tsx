@@ -32,7 +32,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   componentDidMount() {
     try {
-      const savedLang = localStorage.getItem('portfolio_language');
+      const savedLang = localStorage.getItem('portfolio_lang');
       if (savedLang === 'en') {
         this.setState({ isEn: true });
       }

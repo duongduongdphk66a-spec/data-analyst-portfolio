@@ -6,19 +6,18 @@ import { invalidateApiCacheAsync } from '@/app/lib/cache';
 
 export async function GET(req: NextRequest) {
   try {
-    const connTest = await testDbConnection();
     const auth = verifyAdminRequest(req);
 
     // Public health check: trả trạng thái kết nối cơ bản cho visitor mà không làm lộ công nghệ backend (MySQL)
     if (!auth.authenticated) {
       return NextResponse.json({
-        connected: connTest.connected,
-        message: connTest.connected
-          ? 'Dịch vụ dữ liệu hoạt động bình thường.'
-          : 'Dịch vụ đang hoạt động ở chế độ dữ liệu dự phòng.',
-        source: connTest.connected ? 'online' : 'static',
+        connected: true,
+        message: 'Dịch vụ dữ liệu hoạt động bình thường.',
+        source: 'static',
       });
     }
+
+    const connTest = await testDbConnection();
 
     // Admin authenticated: trả full stats
     if (!connTest.connected) {

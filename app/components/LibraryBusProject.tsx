@@ -968,7 +968,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
                   <span>Interactive Architecture Graph (7 Apps, Models & Foreign Keys)</span>
                 </div>
                 <a
-                  href="/library-bus/architecture-graph.html"
+                  href="/projects/library-bus/architecture"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3 py-1 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs dark:bg-slate-700 dark:text-white dark:border-slate-600"
@@ -979,7 +979,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               </div>
               <div className="w-full h-[650px] bg-slate-50 dark:bg-slate-950">
                 <iframe
-                  src="/library-bus/architecture-graph.html"
+                  src="/projects/library-bus/architecture"
                   title="Library Bus Architecture Graph"
                   className="w-full h-full border-0"
                 />
@@ -996,7 +996,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
                   <span>Concentric Architecture Radar: Bản đồ Vòng Tròn Đồng Tâm</span>
                 </div>
                 <a
-                  href="/library-bus/understand_dashboard.html"
+                  href="/projects/library-bus/dashboard"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3 py-1 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs dark:bg-slate-700 dark:text-white dark:border-slate-600"
@@ -1007,7 +1007,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               </div>
               <div className="w-full h-[650px] bg-slate-50 dark:bg-slate-950">
                 <iframe
-                  src="/library-bus/understand_dashboard.html"
+                  src="/projects/library-bus/dashboard"
                   title="Library Bus Concentric Radar"
                   className="w-full h-full border-0"
                 />
@@ -1024,7 +1024,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
                   <span>30-Slide Project Presentation Deck (Research, Architecture & Data Spec)</span>
                 </div>
                 <a
-                  href="/library-bus/presentation.html"
+                  href="/projects/library-bus/presentation"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3 py-1 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs dark:bg-slate-700 dark:text-white dark:border-slate-600"
@@ -1035,7 +1035,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
               </div>
               <div className="w-full h-[650px] bg-slate-50 dark:bg-slate-950">
                 <iframe
-                  src="/library-bus/presentation.html"
+                  src="/projects/library-bus/presentation"
                   title="Library Bus 30-Slide Presentation"
                   className="w-full h-full border-0"
                 />

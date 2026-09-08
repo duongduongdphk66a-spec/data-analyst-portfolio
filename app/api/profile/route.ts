@@ -8,7 +8,7 @@ import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/a
 import { sanitizeTextInput, sanitizeUrl } from '@/app/lib/security';
 
 const CACHE_HEADERS = {
-  'Cache-Control': 'private, no-store',
+  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
 };
 
 export async function GET() {

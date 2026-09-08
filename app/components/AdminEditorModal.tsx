@@ -32,7 +32,8 @@ function AdminEditorContent({ onClose }: { onClose: () => void }) {
     updateCustomTexts, 
     updateProjects,
     refreshData, 
-    resetToDefault 
+    resetToDefault,
+    checkDbHealth
   } = usePortfolioData();
   const { reloadTexts } = useLanguage();
   const { showToast } = useToast();
@@ -67,6 +68,12 @@ function AdminEditorContent({ onClose }: { onClose: () => void }) {
   }, []);
 
   // Sync state if context updates externally
+  useEffect(() => {
+    if (isAuthenticated) {
+      checkDbHealth();
+    }
+  }, [isAuthenticated]);
+
   useEffect(() => {
     setProfileForm(JSON.parse(JSON.stringify(profile)));
   }, [profile]);

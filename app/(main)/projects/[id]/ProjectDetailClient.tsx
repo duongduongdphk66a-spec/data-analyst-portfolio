@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { DEFAULT_PROJECTS } from '../../defaultData';
-import ProjectDetailView from '../../components/ProjectDetailView';
-import { usePortfolioData } from '../../context/PortfolioDataContext';
-import { ProjectData } from '../../types';
+import { DEFAULT_PROJECTS } from '../../../defaultData';
+import ProjectDetailView from '../../../components/ProjectDetailView';
+import { usePortfolioData } from '../../../context/PortfolioDataContext';
+import { ProjectData } from '../../../types';
 
 const CaseStudyLoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-[#FAFDFE] dark:bg-[#0B0F17]">
@@ -16,13 +16,13 @@ const CaseStudyLoadingFallback = () => (
   </div>
 );
 
-const KamiElyProject = dynamic(() => import('../../components/KamiElyProject'), {
+const KamiElyProject = dynamic(() => import('../../../components/KamiElyProject'), {
   loading: CaseStudyLoadingFallback,
 });
-const HeritageJapanProject = dynamic(() => import('../../components/HeritageJapanProject'), {
+const HeritageJapanProject = dynamic(() => import('../../../components/HeritageJapanProject'), {
   loading: CaseStudyLoadingFallback,
 });
-const LibraryBusProject = dynamic(() => import('../../components/LibraryBusProject'), {
+const LibraryBusProject = dynamic(() => import('../../../components/LibraryBusProject'), {
   loading: CaseStudyLoadingFallback,
 });
 

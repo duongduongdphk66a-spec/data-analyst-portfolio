@@ -32,6 +32,7 @@ interface PortfolioDataContextType {
   refreshData: () => Promise<void>;
   resetToDefault: () => Promise<{ success: boolean; message: string }>;
   getCustomText: (_key: string, _lang: 'vi' | 'en', _fallback?: string) => string;
+  checkDbHealth: () => Promise<void>;
 }
 
 const PortfolioDataContext = createContext<PortfolioDataContextType | undefined>(undefined);
@@ -72,17 +73,14 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Fetch initial profile, projects, custom texts, and db status in parallel
+  // Fetch initial profile, projects, custom texts in parallel
   const refreshData = useCallback(async () => {
     try {
-      const [dbRes, profRes, projRes, textRes] = await Promise.all([
-        fetch('/api/db').then((r) => r.json()).catch(() => ({ connected: false, message: 'Offline' })),
+      const [profRes, projRes, textRes] = await Promise.all([
         fetch('/api/profile').then((r) => r.json()).catch(() => null),
         fetch('/api/projects').then((r) => r.json()).catch(() => null),
         fetch('/api/texts').then((r) => r.json()).catch(() => null),
       ]);
-
-      if (dbRes) setDbStatus(dbRes);
 
       if (profRes && profRes.data) {
         setProfile((prev) => ({
@@ -303,6 +301,15 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
     return fallback || key;
   };
 
+  const checkDbHealth = async () => {
+    try {
+      const dbRes = await fetch('/api/db').then((r) => r.json());
+      if (dbRes) setDbStatus(dbRes);
+    } catch {
+      setDbStatus({ connected: false, message: 'Lỗi kiểm tra CSDL' });
+    }
+  };
+
   return (
     <PortfolioDataContext.Provider
       value={{
@@ -318,6 +325,7 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
         refreshData,
         resetToDefault,
         getCustomText,
+        checkDbHealth,
       }}
     >
       {children}

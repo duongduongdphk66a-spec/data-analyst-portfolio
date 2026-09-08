@@ -189,7 +189,13 @@ export default function CommandPalette({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/60 backdrop-blur-sm" onClick={onClose}>
+    <div 
+      className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/60 backdrop-blur-sm" 
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Command Palette"
+    >
       <div 
         className="relative w-full max-w-xl bg-ground-alt/95 dark:bg-slate-900/95 border border-[#9BE7FA]/40 dark:border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden font-heading"
         onClick={(e) => e.stopPropagation()}
@@ -218,7 +224,7 @@ export default function CommandPalette({
         </div>
 
         {/* Command List */}
-        <div ref={listRef} className="max-h-80 overflow-y-auto p-2">
+        <div ref={listRef} className="max-h-80 overflow-y-auto p-2" role="listbox">
           {filteredCommands.length === 0 ? (
             <div className="py-8 text-center text-sm text-ink-muted dark:text-slate-400">
               {isEn ? 'No commands matching your query' : 'Không tìm thấy kết quả phù hợp'}
@@ -231,6 +237,8 @@ export default function CommandPalette({
               return (
                 <div
                   key={cmd.id}
+                  role="option"
+                  aria-selected={isSelected}
                   onClick={() => {
                     cmd.action();
                     trackVisitorAction(`Command Palette: ${cmd.title}`, 'command_palette', 'navigation');

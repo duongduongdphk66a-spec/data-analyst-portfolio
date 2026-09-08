@@ -98,27 +98,33 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject }:
           {/* Left column: Editorial Content (7 cols) */}
           <div className="lg:col-span-7 space-y-8 hero-content-reveal">
 
-            {/* Kicker & Availability */}
-            <div className="flex items-center gap-3">
-              <span className="editorial-kicker">
+            {/* Kicker (Identity) & Availability */}
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="font-heading font-black text-slate-950 dark:text-white tracking-wide text-sm sm:text-base">
+                {profile.name || 'MA VĂN HÙNG'}
+              </span>
+              <span className="h-3 w-px bg-slate-300 dark:bg-slate-700" />
+              <span className="editorial-kicker text-xs">
                 {profile.title ? profile.title.toUpperCase() : 'DATA ANALYST'}
               </span>
-              <span className="h-3 w-px bg-slate-200 dark:bg-slate-700" />
-              <div className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-600 dark:text-slate-400">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span>{isEn ? 'AVAILABLE FOR ROLES' : 'SẴN SÀNG NHẬN DỰ ÁN'}</span>
+              <span className="h-3 w-px hidden sm:block bg-slate-300 dark:bg-slate-700" />
+              <div className="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span>{isEn ? 'AVAILABLE' : 'SẴN SÀNG'}</span>
               </div>
             </div>
 
-            {/* 96px Editorial Headline & Subtitle */}
-            <div className="space-y-3">
-              <h1 className="editorial-hero-title text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6rem]">
-                {profile.name || 'Ma Văn Hùng'}
+            {/* Value Proposition Headline */}
+            <div className="space-y-4">
+              <h1 className="editorial-hero-title text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5rem] leading-[1.05] tracking-tight">
+                {isEn 
+                  ? 'I turn messy data into clear business decisions.' 
+                  : 'Biến dữ liệu phức tạp thành quyết định kinh doanh rõ ràng.'}
               </h1>
-              <p className="text-xl sm:text-2xl lg:text-3xl font-heading font-semibold text-slate-800 dark:text-slate-200 leading-snug max-w-2xl">
+              <p className="text-lg sm:text-xl font-heading text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
                 {profile.subtitle || t('hero_subtitle', isEn
-                  ? 'Turning raw data into strategic insights that drive business decisions.'
-                  : 'Chuyển hóa dữ liệu thô thành insight chiến lược, hỗ trợ ra quyết định kinh doanh.')}
+                  ? 'Specializing in analytics engineering, quantitative research, and interactive data visualization.'
+                  : 'Chuyên sâu về phân tích dữ liệu, nghiên cứu định lượng và trực quan hóa dữ liệu tương tác.')}
               </p>
             </div>
 

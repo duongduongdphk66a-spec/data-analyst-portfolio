@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { RowDataPacket } from 'mysql2';
-import { DEFAULT_PROJECTS } from '../../defaultData';
+import { DEFAULT_PROJECTS } from '../../../defaultData';
 import ProjectDetailClient from './ProjectDetailClient';
 import { getDbPool } from '@/app/lib/db';
 import { ProjectData } from '@/app/types';

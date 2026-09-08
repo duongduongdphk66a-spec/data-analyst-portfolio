@@ -29,8 +29,8 @@ export const DEFAULT_PROFILE: ProfileData = {
   ],
   avatarUrl: "",
   email: "mavanhung.da@gmail.com",
-  github: "https://github.com",
-  linkedin: "https://linkedin.com",
+  github: "",
+  linkedin: "",
   skills: [
     { id: 'sk-1', name: 'SQL (PostgreSQL / MySQL)', category: 'Languages & Querying', level: 5, icon: 'sql', proficiencyNote: 'Complex Joins, CTEs, Window Functions, Subqueries, Query Optimization', tags: ['Joins', 'CTEs', 'Window Functions', 'Optimization'] },
     { id: 'sk-2', name: 'Python for Analytics', category: 'Languages & Querying', level: 5, icon: 'python', proficiencyNote: 'Pandas, NumPy, Matplotlib, Seaborn, Automated Data Wrangling', tags: ['Pandas', 'NumPy', 'Data Cleaning', 'Automation'] },

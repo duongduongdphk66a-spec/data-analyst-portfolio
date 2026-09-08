@@ -9,6 +9,7 @@ import { ProjectData } from '../types';
 import { sanitizeUrl, sanitizeEmbedUrl } from '../lib/security';
 import { trackVisitorAction } from '../lib/visitorTracking';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useLanguage } from '../context/LanguageContext';
 import { gsap, useGSAP } from '../lib/gsap';
 
@@ -213,10 +214,16 @@ export default React.memo(function ProjectsSection({
           const presentation = getProjectPresentation(proj, isEn);
 
           return (
-            <div
+            <Link
+              href={`/projects/${proj.id}`}
               id={proj.id}
               key={proj.id}
-              onClick={() => handleOpenDetail(proj.id)}
+              onClick={() => {
+                trackVisitorAction(`Xem bài viết chi tiết dự án: ${proj.id}`, proj.id, 'project');
+                if (onSelectProject) {
+                  onSelectProject(proj.id);
+                }
+              }}
               className="project-card-item card-minimal flex flex-col justify-between overflow-hidden p-0 group cursor-pointer border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-[#0E1524] rounded-2xl hover:border-[#0D7287]/40 dark:hover:border-[#9BE7FA]/40 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
             >
               {/* 1. Project Image Thumbnail */}
@@ -233,7 +240,6 @@ export default React.memo(function ProjectsSection({
                     className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     referrerPolicy="no-referrer"
-                    unoptimized
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-slate-400">
@@ -292,7 +298,7 @@ export default React.memo(function ProjectsSection({
                   </span>
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

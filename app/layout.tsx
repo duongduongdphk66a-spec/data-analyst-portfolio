@@ -34,6 +34,17 @@ const themeInitScript = `
   })();
 `;
 
+const langInitScript = `
+  (function() {
+    try {
+      var savedLang = localStorage.getItem('portfolio_lang');
+      if (savedLang) {
+        document.documentElement.lang = savedLang;
+      }
+    } catch (e) {}
+  })();
+`;
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -71,6 +82,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: langInitScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

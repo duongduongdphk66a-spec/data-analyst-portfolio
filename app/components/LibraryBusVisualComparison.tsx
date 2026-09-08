@@ -799,7 +799,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                     alt={`${selectedScreen.titleVi} Wireframe`}
                     width={1200}
                     height={800}
-                    unoptimized
+
                     className={`${viewFitMode === 'fit' ? 'h-full max-h-full' : 'max-h-[750px]'} w-auto max-w-full object-contain rounded transition-transform duration-300 group-hover:scale-[1.01]`} 
                   />
                 </div>
@@ -904,7 +904,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                     alt={`${selectedScreen.titleVi} UI Design`} 
                     width={1200}
                     height={800}
-                    unoptimized
+
                     className={`${viewFitMode === 'fit' ? 'h-full max-h-full' : 'max-h-[750px]'} w-auto max-w-full object-contain rounded transition-transform duration-300 group-hover:scale-[1.01]`} 
                   />
                 </div>
@@ -1113,7 +1113,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                         alt={LIBRARY_BUS_20_SCREENS[crossDeviceIdx].titleVi}
                         width={1200}
                         height={800}
-                        unoptimized
+
                         className="w-full h-auto max-h-[500px] object-contain rounded-xl"
                       />
                       <button
@@ -1194,7 +1194,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                         alt={LIBRARY_BUS_MOBILE_SCREENS[crossDeviceIdx].titleVi}
                         width={400}
                         height={800}
-                        unoptimized
+
                         className="w-auto h-auto max-h-[480px] object-contain rounded-2xl"
                       />
                       <button
@@ -1432,7 +1432,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                         alt={`${screen.titleVi} Wireframe`} 
                         width={800}
                         height={600}
-                        unoptimized
+
                         className="max-h-[500px] w-auto max-w-full object-contain rounded"
                       />
                     </div>
@@ -1470,7 +1470,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                         alt={`${screen.titleVi} UI Design`} 
                         width={800}
                         height={600}
-                        unoptimized
+
                         className="max-h-[500px] w-auto max-w-full object-contain rounded"
                       />
                     </div>
@@ -1570,7 +1570,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                     alt="Wireframe Library Bus All 20 Screens" 
                     width={1400}
                     height={1833}
-                    unoptimized
+
                     className="w-full h-auto object-contain group-hover:scale-[1.01] transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center pointer-events-none">
@@ -1628,7 +1628,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                     alt="UI Design Library Bus All 20 Screens" 
                     width={1290}
                     height={3388}
-                    unoptimized
+
                     className="w-full h-auto object-contain group-hover:scale-[1.01] transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center pointer-events-none">
@@ -1688,7 +1688,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                   alt="UI Design Library Bus Full" 
                   width={1290}
                   height={3388}
-                  unoptimized
+
                   className="max-h-[85vh] w-auto object-contain rounded-lg shadow-sm"
                 />
               </div>
@@ -1731,7 +1731,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                   alt="Wireframe Library Bus Full" 
                   width={1400}
                   height={1833}
-                  unoptimized
+
                   className="max-h-[85vh] w-auto object-contain rounded-lg shadow-sm"
                 />
               </div>
@@ -1774,7 +1774,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                   alt="Reference Template Wireframe vs UI" 
                   width={1600}
                   height={900}
-                  unoptimized
+
                   className="max-h-[85vh] w-auto object-contain rounded-lg shadow-sm"
                 />
               </div>
@@ -1916,7 +1916,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                 alt={lightboxImg.title} 
                 width={1600}
                 height={1200}
-                unoptimized
+
                 style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'center' }}
                 className="max-h-[80vh] w-auto object-contain transition-transform duration-200 select-none shadow-xl"
               />
