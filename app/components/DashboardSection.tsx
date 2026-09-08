@@ -7,13 +7,12 @@ import {
 } from 'recharts';
 import { 
   DollarSign, Users, Activity, TrendingUp, BarChart3, 
-  Download, Upload, Search, RefreshCw, Database, Sparkles, Filter, Edit3
+  Download, Upload, Search, RefreshCw, Sparkles, Filter, Database
 } from 'lucide-react';
 import Papa from 'papaparse';
 import { DashboardData, KpiItem, ChartConfig } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
-import { usePortfolioData } from '../context/PortfolioDataContext';
 import { gsap, useGSAP } from '../lib/gsap';
 import AnimatedCounter from './ui/AnimatedCounter';
 import { exportChartAsPng } from '../lib/chartExport';
@@ -25,11 +24,10 @@ interface DashboardSectionProps {
   onOpenAdmin?: () => void;
 }
 
-export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSectionProps) {
+export default function DashboardSection({ dashboard }: DashboardSectionProps) {
   const { language, t } = useLanguage();
   const { resolvedTheme } = useTheme();
   const { showToast } = useToast();
-  const { dbStatus } = usePortfolioData();
   const isDark = resolvedTheme === 'dark';
   const isEn = language === 'en';
 
@@ -334,42 +332,7 @@ export default function DashboardSection({ dashboard, onOpenAdmin }: DashboardSe
         </div>
       </div>
 
-      {/* MySQL & Content Management Quick Card */}
-      {onOpenAdmin && (
-        <div className="bg-gradient-to-r from-[#C8EEF7]/60 via-white to-[#C8EEF7]/40 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-800/80 rounded-2xl p-5 border border-[#9BE7FA] dark:border-slate-700 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0D7287] to-[#9BE7FA] flex items-center justify-center text-white shadow-md shadow-cyan-500/20 shrink-0">
-              <Database className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-base font-extrabold text-slate-900 dark:text-white">
-                  Quản Trị Nội Dung & Cơ Sở Dữ Liệu MySQL (portfolio_db)
-                </h2>
-                <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                  dbStatus.connected
-                    ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300'
-                    : 'bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300'
-                }`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${dbStatus.connected ? 'bg-emerald-500' : 'bg-[#FFD14C]'}`} />
-                  {dbStatus.connected ? 'MySQL Connected' : 'Local Storage Mode'}
-                </span>
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                Cập nhật thông tin profile, kỹ năng, kinh nghiệm, biểu đồ và dự án realtime.
-              </p>
-            </div>
-          </div>
 
-          <button
-            onClick={onOpenAdmin}
-            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#0D7287] hover:bg-[#095869] text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition-all cursor-pointer shrink-0"
-          >
-            <Edit3 className="w-4 h-4" />
-            <span>Mở Bảng Chỉnh Sửa CMS</span>
-          </button>
-        </div>
-      )}
 
       {/* Multi-Dimension Interactive Filter Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-[#C8EEF7]/30 dark:bg-slate-900/90 rounded-2xl border border-[#9BE7FA]/50 dark:border-slate-800 no-print">

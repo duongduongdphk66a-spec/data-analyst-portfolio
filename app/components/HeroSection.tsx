@@ -35,18 +35,18 @@ const heroChartData = [
 ];
 
 const STATS_VI = [
-  { value: '3+', label: 'Dự án phân tích' },
-  { value: '8.5 Tỷ', label: 'VNĐ dữ liệu xử lý' },
-  { value: '93.7%', label: 'Cải thiện hiệu suất' },
+  { value: '3+', label: 'Dự án phân tích chuyên sâu' },
+  { value: '8.5 Tỷ', label: 'VNĐ quy mô xử lý' },
+  { value: '450ms → 28ms', label: 'Tối ưu độ trễ truy vấn' },
 ];
 
 const STATS_EN = [
-  { value: '3+', label: 'Analytics projects' },
-  { value: '8.5B', label: 'VND data processed' },
-  { value: '93.7%', label: 'Performance gain' },
+  { value: '3+', label: 'In-depth case studies' },
+  { value: '8.5B', label: 'VND volume processed' },
+  { value: '450ms → 28ms', label: 'Query latency reduction' },
 ];
 
-export default function HeroSection({ profile, onNavigateTab, onSelectProject, onOpenAdmin }: HeroSectionProps) {
+export default function HeroSection({ profile, onNavigateTab, onSelectProject }: HeroSectionProps) {
   const { language, t } = useLanguage();
   const { resolvedTheme } = useTheme();
   const isEn = language === 'en';
@@ -161,15 +161,6 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject, o
                 <Download className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                 <span>{t('cta_view_cv', 'Tải CV PDF')}</span>
               </button>
-              {onOpenAdmin && (
-                <button
-                  onClick={onOpenAdmin}
-                  className="text-xs font-medium text-slate-500 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white underline-offset-4 hover:underline ml-2 transition-colors cursor-pointer"
-                  title="Chỉnh sửa thông tin qua CMS"
-                >
-                  <span>CMS Quản trị</span>
-                </button>
-              )}
             </div>
           </div>
 

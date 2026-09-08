@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { 
-  Menu, X, FileText, Briefcase, LayoutDashboard, 
-  ChevronDown, ChevronRight, Sun, Moon, Database,
+  Menu, X, FileText, Briefcase, 
+  ChevronDown, ChevronRight, Sun, Moon,
   Terminal, Download, Home, UserCheck
 } from 'lucide-react';
 import { useLanguage } from './context/LanguageContext';
@@ -56,18 +56,18 @@ const SPECIAL_CASE_STUDIES: Record<string, React.ComponentType<any>> = {
 // Tab labels for document title
 const TAB_LABELS: Record<string, { vi: string; en: string }> = {
   home: { vi: 'Trang Chủ', en: 'Home' },
-  projects: { vi: 'Dự Án', en: 'Projects' },
-  lab: { vi: 'Interactive Lab', en: 'Interactive Lab' },
+  projects: { vi: 'Dự Án', en: 'Work' },
+  lab: { vi: 'Interactive Lab', en: 'Lab' },
   dashboard: { vi: 'Executive Dashboard', en: 'Executive Dashboard' },
-  cv: { vi: 'Học Vấn & Kinh Nghiệm', en: 'CV & Experience' },
+  cv: { vi: 'Kinh Nghiệm', en: 'Experience' },
   about: { vi: 'Giới Thiệu', en: 'About' },
   'project-detail': { vi: 'Chi tiết Dự án', en: 'Project Detail' },
 };
 
 export default function Portfolio() {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const { resolvedTheme, toggleTheme } = useTheme();
-  const { profile, projects, dbStatus } = usePortfolioData();
+  const { profile, projects } = usePortfolioData();
   const mainRef = useRef<HTMLElement>(null);
 
   const [activeTab, setActiveTab] = useState<string>('home');
@@ -125,12 +125,11 @@ export default function Portfolio() {
   }, []);
 
   const navItems = [
-    { id: 'home', label: t('nav_home', 'Trang Chủ'), icon: Home },
-    { id: 'projects', label: t('nav_projects', 'Dự Án'), icon: Briefcase, hasChildren: true },
-    { id: 'lab', label: t('nav_lab', 'Interactive Lab'), icon: Terminal },
-    { id: 'dashboard', label: t('nav_dashboard', 'Bảng Điều Khiển'), icon: LayoutDashboard },
-    { id: 'cv', label: t('nav_cv', 'Học Vấn & Kinh Nghiệm'), icon: FileText },
-    { id: 'about', label: t('nav_about', 'Giới Thiệu'), icon: UserCheck },
+    { id: 'home', label: language === 'en' ? 'Home' : 'Trang Chủ', icon: Home },
+    { id: 'projects', label: language === 'en' ? 'Work' : 'Dự Án', icon: Briefcase, hasChildren: true },
+    { id: 'cv', label: language === 'en' ? 'Experience' : 'Kinh Nghiệm', icon: FileText },
+    { id: 'about', label: language === 'en' ? 'About' : 'Giới Thiệu', icon: UserCheck },
+    { id: 'lab', label: language === 'en' ? 'Lab' : 'Interactive Lab', icon: Terminal },
   ];
 
   return (
@@ -145,7 +144,6 @@ export default function Portfolio() {
         onProjectClick={handleProjectClick}
         selectedProjectId={selectedProjectId}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-        onOpenAdmin={() => setIsAdminOpen(true)}
       />
 
       {/* Main Content Viewport */}
@@ -250,23 +248,6 @@ export default function Portfolio() {
                   <span>{language === 'en' ? 'Download CV PDF' : 'Tải CV PDF'}</span>
                 </button>
               </div>
-
-              {/* Quick Admin CMS Trigger in Mobile Drawer */}
-              <div className="pt-2">
-                <button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    setIsAdminOpen(true);
-                  }}
-                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs border border-slate-200/80 shadow-2xs dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <Database className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-                    <span>Quản Trị CMS (MySQL)</span>
-                  </div>
-                  <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-[#FFD14C]'}`} />
-                </button>
-              </div>
             </nav>
           </div>
         )}
@@ -282,7 +263,6 @@ export default function Portfolio() {
                   profile={profile} 
                   onNavigateTab={handleTabChange}
                   onSelectProject={handleProjectClick}
-                  onOpenAdmin={() => setIsAdminOpen(true)}
                 />
 
                 {/* 2. Featured Projects (Selected Work Stream) */}
@@ -302,7 +282,11 @@ export default function Portfolio() {
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
-                  <ProjectsSection projects={projects.slice(0, 3)} onSelectProject={handleProjectClick} />
+                  <ProjectsSection 
+                    projects={projects.slice(0, 3)} 
+                    onSelectProject={handleProjectClick} 
+                    isFeaturedView={true}
+                  />
                 </section>
 
                 {/* 3. Experience & Career Timeline */}
@@ -359,7 +343,7 @@ export default function Portfolio() {
             {activeTab === 'about' && (
               <AboutSection 
                 profile={profile} 
-                onSelectProject={handleProjectClick}
+                onSelectProject={handleProjectClick} 
                 onNavigateTab={handleTabChange}
               />
             )}
@@ -407,24 +391,6 @@ export default function Portfolio() {
             )}
           </ErrorBoundary>
         </main>
-      </div>
-
-      {/* Floating Quick Action CMS Button (Always Accessible) */}
-      <div className="fixed bottom-6 right-6 z-40">
-        <button
-          onClick={() => setIsAdminOpen(true)}
-          className="group flex items-center gap-2.5 px-4 py-3 bg-gradient-to-r from-[#0D7287] via-cyan-600 to-teal-500 hover:from-cyan-700 hover:to-[#0D7287] text-white font-extrabold text-xs rounded-2xl shadow-xl shadow-cyan-900/30 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer border border-white/20"
-          title="Chỉnh sửa nội dung & Thông tin cá nhân (Ctrl + E)"
-        >
-          <div className="relative">
-            <Database className="w-4 h-4" />
-            <span className={`absolute -top-1 -right-1 w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
-          </div>
-          <span className="hidden sm:inline">Chỉnh Sửa CMS</span>
-          <kbd className="hidden md:inline px-1.5 py-0.5 rounded-md bg-white/20 text-[10px] font-mono">
-            Ctrl E
-          </kbd>
-        </button>
       </div>
 
       {/* Spotlight Command Palette (Ctrl+K) */}
