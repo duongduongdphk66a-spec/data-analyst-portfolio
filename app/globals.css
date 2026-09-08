@@ -18,20 +18,20 @@
   --color-brand-blue: #0D7287;            /* Deep Teal Anchor for Contrast */
   --color-brand-blue-hover: #095869;
 
-  /* Theme Tokens mapped to the 4 Brand Colors */
-  --color-accent: #FFD14C;
+  /* Theme Tokens mapped to the 4 Brand Colors (Editorial Palette) */
+  --color-accent: #FFD14C;          /* Yellow: CTA / important KPI */
   --color-accent-soft: #FFE485;
   --color-accent-deep: #E6B830;
-  --color-surface: #C8EEF7;
-  --color-surface-tint: #C8EEF7;
-  --color-surface-vivid: #9BE7FA;
-  --color-ink: #1A2332;
-  --color-ink-secondary: #4A5C72;
+  --color-surface: #FAFDFE;         /* Calmer, cleaner surface */
+  --color-surface-tint: #F1F5F9;
+  --color-surface-vivid: #9BE7FA;   /* Cyan: Data / Active Link */
+  --color-ink: #0F172A;             /* High contrast text */
+  --color-ink-secondary: #475569;
   --color-ink-muted: #64748B;
-  --color-ground: #FAFDFE;
-  --color-ground-alt: #F0F9FB;
-  --color-border-subtle: #D2EDF6;
-  --color-border-strong: #A3DFF0;
+  --color-ground: #FAFDFE;          /* Clean airy background */
+  --color-ground-alt: #F8FAFC;
+  --color-border-subtle: #E2E8F0;
+  --color-border-strong: #CBD5E1;
 
   /* Typography */
   --font-sans: var(--font-sans, "Plus Jakarta Sans"), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -41,7 +41,7 @@
   --font-body: var(--font-sans, "Plus Jakarta Sans"), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono, "JetBrains Mono"), ui-monospace, SFMono-Regular, monospace;
 
-  /* Easing & Motion (Emil Kowalski Standards) */
+  /* Easing & Motion (Minimalist & Emil Kowalski Standards) */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
@@ -56,16 +56,16 @@
   --color-accent: #FFD14C;
   --color-accent-soft: #FFE485;
   --color-accent-deep: #FFCF75;
-  --color-surface: #131E2E;
-  --color-surface-tint: #162438;
+  --color-surface: #0F172A;
+  --color-surface-tint: #1E293B;
   --color-surface-vivid: #9BE7FA;
   --color-ink: #F8FAFC;
   --color-ink-secondary: #CBD5E1;
   --color-ink-muted: #94A3B8;
   --color-ground: #0B0F17;
   --color-ground-alt: #101726;
-  --color-border-subtle: #1E2B3E;
-  --color-border-strong: #2D3F59;
+  --color-border-subtle: #1E293B;
+  --color-border-strong: #334155;
 }
 
 html {
@@ -273,21 +273,62 @@ a {
   border-radius: 6px;
 }
 
-/* UI/UX Pro Max Component Utilities (4-Color Palette & Emil Kowalski Feedback) */
+/* UI/UX Pro Max Component Utilities (60% Editorial / 30% Cards / 10% Bento) */
+.editorial-hero-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+  color: var(--color-ink);
+}
+
+.editorial-section-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--color-ink);
+}
+
+.editorial-lead {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-ink-secondary);
+}
+
+.editorial-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  color: var(--color-brand-blue);
+}
+.dark .editorial-kicker {
+  color: var(--color-brand-blue-vivid);
+}
+
+/* Button System: Single primary gold CTA + crisp secondary editorial */
 .btn-primary-gold {
   background-color: #FFD14C;
-  color: #020617;
+  color: #0F172A;
   font-weight: 700;
+  font-family: var(--font-heading);
   border-radius: 0.75rem;
   padding: 0.75rem 1.5rem;
-  box-shadow: 0 2px 8px rgba(255, 209, 76, 0.25);
+  box-shadow: 0 2px 6px rgba(255, 209, 76, 0.2);
   transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 @media (hover: hover) and (pointer: fine) {
   .btn-primary-gold:hover {
     background-color: #FFE485;
-    box-shadow: 0 4px 12px rgba(255, 209, 76, 0.35);
+    box-shadow: 0 4px 12px rgba(255, 209, 76, 0.3);
     transform: translateY(-1px);
   }
 }
@@ -295,53 +336,118 @@ a {
   transform: scale(0.97);
 }
 
-.card-bento {
-  background-color: #FFFFFF;
-  border: 1px solid #E2F1F8;
-  border-radius: 1.25rem;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
-  transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out), border-color 200ms var(--ease-out);
+.btn-secondary-editorial {
+  background-color: transparent;
+  color: var(--color-ink);
+  font-weight: 600;
+  font-family: var(--font-heading);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), color 160ms var(--ease-out);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 @media (hover: hover) and (pointer: fine) {
-  .card-bento:hover {
-    border-color: #9BE7FA;
-    box-shadow: 0 10px 25px -4px rgba(155, 231, 250, 0.2), 0 4px 10px -2px rgba(15, 23, 42, 0.05);
+  .btn-secondary-editorial:hover {
+    background-color: var(--color-surface-tint);
+    border-color: var(--color-brand-blue);
+  }
+  .dark .btn-secondary-editorial:hover {
+    border-color: var(--color-brand-blue-vivid);
   }
 }
-.dark .card-bento {
-  background-color: #131E2E;
-  border-color: #1E2B3E;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+.btn-secondary-editorial:active {
+  transform: scale(0.97);
+}
+
+/* 30% Cards: Minimal, calm, restrained elevation */
+.card-minimal {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+.dark .card-minimal {
+  background-color: #0F172A;
+  border-color: #1E293B;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 @media (hover: hover) and (pointer: fine) {
-  .dark .card-bento:hover {
-    border-color: #9BE7FA;
-    box-shadow: 0 10px 25px -4px rgba(155, 231, 250, 0.12);
+  .card-minimal:hover {
+    border-color: #CBD5E1;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+  }
+  .dark .card-minimal:hover {
+    border-color: #334155;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 }
 
+/* Legacy alias & normalized card-bento: tone down heavy borders and colored shadows */
+.card-bento {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 1rem;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.03);
+  transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .card-bento:hover {
+    border-color: #CBD5E1;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  }
+}
+.dark .card-bento {
+  background-color: #0F172A;
+  border-color: #1E293B;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+@media (hover: hover) and (pointer: fine) {
+  .dark .card-bento:hover {
+    border-color: #334155;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* 10% Bento Telemetry: High-density multi-metric grid (3-5 KPIs) */
+.bento-telemetry {
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+.dark .bento-telemetry {
+  background-color: #0F172A;
+  border-color: #1E293B;
+}
+
 .badge-cyan {
-  background-color: rgba(200, 238, 247, 0.5);
-  border: 1px solid rgba(155, 231, 250, 0.8);
+  background-color: rgba(155, 231, 250, 0.25);
+  border: 1px solid rgba(155, 231, 250, 0.6);
   color: #0D7287;
   font-weight: 600;
   border-radius: 9999px;
-  padding: 0.25rem 0.75rem;
+  padding: 0.2rem 0.65rem;
   font-size: 0.75rem;
 }
 .dark .badge-cyan {
-  background-color: rgba(155, 231, 250, 0.15);
-  border-color: rgba(155, 231, 250, 0.4);
+  background-color: rgba(155, 231, 250, 0.12);
+  border-color: rgba(155, 231, 250, 0.3);
   color: #9BE7FA;
 }
 
 .badge-gold {
   background-color: #FFD14C;
   border: 1px solid #FFE485;
-  color: #020617;
+  color: #0F172A;
   font-weight: 700;
   border-radius: 9999px;
-  padding: 0.25rem 0.75rem;
+  padding: 0.2rem 0.65rem;
   font-size: 0.75rem;
 }
 

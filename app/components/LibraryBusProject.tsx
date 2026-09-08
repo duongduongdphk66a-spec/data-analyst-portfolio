@@ -229,96 +229,82 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
       </nav>
 
       {/* Main Hero Header */}
-      <header className="relative bg-gradient-to-b from-[#C8EEF7]/40 via-white to-[#FAFDFE] text-slate-900 pt-12 pb-16 overflow-hidden border-b border-[#D2EDF6] dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 dark:text-white dark:border-slate-800">
-        
-        {/* Soft cyan & teal ambient glow */}
-        <div className="absolute right-[5%] top-[10%] w-72 h-72 rounded-full bg-gradient-to-br from-[#9BE7FA]/30 to-[#C8EEF7]/20 blur-3xl pointer-events-none hidden md:block" />
-        <div className="absolute left-[3%] top-[30%] w-64 h-64 rounded-full bg-gradient-to-tr from-[#FFE485]/20 to-[#9BE7FA]/20 blur-3xl pointer-events-none hidden md:block" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col lg:flex-row gap-8 justify-between items-start mb-10">
-            <div className="max-w-3xl space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#C8EEF7]/60 border border-[#9BE7FA] rounded-xl text-xs font-bold tracking-wide text-[#0D7287] shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-                <Bus className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
-                <span>{isEn ? 'WEBSITE DESIGN GUIDELINES · ARENA MULTIMEDIA FORMAT' : 'QUY CHUẨN THIẾT KẾ WEBSITE & BÁO CÁO PHÂN TÍCH HỆ THỐNG THƯ VIỆN LƯU ĐỘNG'}</span>
-              </div>
-              
-              <h1 className="text-3xl sm:text-5xl font-black leading-tight tracking-tight text-slate-900 dark:text-white">
-                {isEn ? 'Library Bus System:' : 'Tủ Sách Lưu Động (Library Bus):'} <br />
-                <span className="text-[#0D7287] dark:text-[#9BE7FA]">
-                  {isEn ? 'Website Guidelines, UX Research & Production Telemetry' : 'Bộ Quy Chuẩn Thiết Kế Giao Diện, Nghiên Cứu UX & Hạ Tầng Kỹ Thuật'}
-                </span>
-              </h1>
-              
-              <p className="text-sm sm:text-base text-slate-700 leading-relaxed dark:text-slate-300">
-                {isEn 
-                  ? 'Complete 3-Chapter System Guidelines adapted from "Thiết kế chưa có tên.pdf" (Arena Multimedia). Featuring 01 Introduction and UX Research, 02 Logo and UI Components, and 03 Website Design with 8 key responsive screens, interactive architecture graph, and pessimistic locking (select_for_update) telemetry.'
-                  : 'Trình bày theo đúng cấu trúc chuẩn hóa 3 chương từ tài liệu hồ sơ thiết kế: Chương 01 Giới thiệu & Nghiên cứu UX; Chương 02 Hệ thống Logo & Thành phần giao diện UI Components; Chương 03 Thiết kế 8 màn hình Website kèm bộ trình diễn tương tác kiến trúc Django và cơ chế khóa bi quan tồn kho.'}
-              </p>
-
-              <div className="flex flex-wrap gap-2.5 pt-2">
-                <a
-                  href="#sec-screens"
-                  onClick={(e) => handleNavClick('sec-screens', e)}
-                  className="px-4 py-2 rounded-xl bg-[#0D7287] hover:bg-[#095869] text-white font-black text-xs sm:text-sm shadow-md transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <Eye className="w-4 h-4" />
-                  <span>{isEn ? 'View 8 UI Screens' : 'Xem 8 Màn Hình Giao Diện'}</span>
-                </a>
-                <a
-                  href="/library-bus/website.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 font-bold text-xs sm:text-sm shadow-xs transition-all flex items-center gap-2 dark:bg-slate-800 dark:text-white dark:border-slate-700"
-                >
-                  <Download className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-                  <span>{isEn ? 'Download Spec PDF (9.5 MB)' : 'Tải Hồ Sơ Thiết Kế (9.5 MB)'}</span>
-                </a>
-              </div>
+      <header className="py-14 border-b border-slate-200/80 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
+          <div className="max-w-4xl space-y-5">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="editorial-kicker">
+                {isEn ? 'SYSTEM GUIDELINES · ARENA MULTIMEDIA FORMAT' : 'QUY CHUẨN THIẾT KẾ & BÁO CÁO PHÂN TÍCH HỆ THỐNG'}
+              </span>
+              <span className="text-xs font-mono text-slate-400 dark:text-slate-500">• DJANGO & REDIS TELEMETRY</span>
             </div>
+            
+            <h1 className="editorial-section-title text-3xl sm:text-5xl font-black leading-tight tracking-tight text-slate-950 dark:text-white">
+              {isEn ? 'Library Bus System:' : 'Tủ Sách Lưu Động (Library Bus):'} <br />
+              <span className="text-[#0D7287] dark:text-[#9BE7FA]">
+                {isEn ? 'Website Guidelines, UX Research & Production Telemetry' : 'Bộ Quy Chuẩn Thiết Kế Giao Diện, Nghiên Cứu UX & Hạ Tầng Kỹ Thuật'}
+              </span>
+            </h1>
+            
+            <p className="editorial-lead text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl dark:text-slate-300">
+              {isEn 
+                ? 'Complete 3-Chapter System Guidelines adapted from "Thiết kế chưa có tên.pdf" (Arena Multimedia). Featuring 01 Introduction and UX Research, 02 Logo and UI Components, and 03 Website Design with 8 key responsive screens, interactive architecture graph, and pessimistic locking (select_for_update) telemetry.'
+                : 'Trình bày theo đúng cấu trúc chuẩn hóa 3 chương từ tài liệu hồ sơ thiết kế: Chương 01 Giới thiệu & Nghiên cứu UX; Chương 02 Hệ thống Logo & Thành phần giao diện UI Components; Chương 03 Thiết kế 8 màn hình Website kèm bộ trình diễn tương tác kiến trúc Django và cơ chế khóa bi quan tồn kho.'}
+            </p>
 
-            {/* Quick Architectural SLA Card */}
-            <div className="bg-white border-2 border-[#9BE7FA]/80 rounded-3xl p-6 shadow-md min-w-[290px] space-y-3 dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-xs text-slate-500 uppercase tracking-widest font-bold dark:text-slate-400">
-                {isEn ? 'SYSTEM SCALE & RELIABILITY' : 'QUY MÔ VẬN HÀNH & HIỆU NĂNG'}
-              </div>
-              <div className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">
-                50,000 <span className="text-lg font-bold text-[#0D7287] dark:text-[#9BE7FA]">{isEn ? 'Readers' : 'Độc giả'}</span>
-              </div>
-              <div className="space-y-2 text-xs border-t border-slate-100 pt-3 dark:border-slate-800 dark:text-slate-300">
-                <div className="flex justify-between items-center">
-                  <span>{isEn ? 'Concurrent Connections:' : 'Kết nối đồng thời (CCU):'}</span>
-                  <b className="font-mono text-[#0D7287] dark:text-[#9BE7FA]">500 CCU</b>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>{isEn ? 'Average Query Latency:' : 'Độ trễ truy vấn (Redis):'}</span>
-                  <b className="font-mono text-emerald-600 font-bold">28ms (-93.7%)</b>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>{isEn ? 'Race Condition Rate:' : 'Xung đột tồn kho mượn trả:'}</span>
-                  <b className="font-mono text-emerald-600 font-bold">0.0% (Locking)</b>
-                </div>
-              </div>
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <a
+                href="#sec-screens"
+                onClick={(e) => handleNavClick('sec-screens', e)}
+                className="btn-primary-gold flex items-center gap-2 cursor-pointer"
+              >
+                <Eye className="w-4 h-4" />
+                <span>{isEn ? 'View 8 UI Screens' : 'Xem 8 Màn Hình Giao Diện'}</span>
+              </a>
+              <a
+                href="/library-bus/website.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary-editorial flex items-center gap-2"
+              >
+                <Download className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                <span>{isEn ? 'Download Spec PDF (9.5 MB)' : 'Tải Hồ Sơ Thiết Kế (9.5 MB)'}</span>
+              </a>
             </div>
           </div>
 
-          {/* 4 Core KPIs Strip */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
-            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">{libraryBusKPIs.activeBusFleet}</div>
-              <div className="text-xs text-slate-500 mt-0.5 dark:text-slate-400">{isEn ? 'Fleet (48 GPS Stops)' : 'Đội xe (48 Trạm GPS)'}</div>
+          {/* 10% Bento Telemetry Matrix (Scale, CCU, Latency, Concurrency) */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+            <div className="card-minimal p-4 space-y-1">
+              <span className="editorial-kicker text-[10px] block">
+                {isEn ? 'ACTIVE FLEET' : 'ĐỘI XE LƯU ĐỘNG'}
+              </span>
+              <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">{libraryBusKPIs.activeBusFleet}</p>
+              <p className="text-[11px] text-slate-500">48 GPS Stops / Ha Noi</p>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-xl sm:text-2xl font-black text-[#0D7287] dark:text-[#9BE7FA]">{libraryBusKPIs.totalCatalogBooks}</div>
-              <div className="text-xs text-slate-500 mt-0.5 dark:text-slate-400">{isEn ? 'Physical Catalog Books' : 'Đầu sách giấy trên hệ thống'}</div>
+
+            <div className="card-minimal p-4 space-y-1">
+              <span className="editorial-kicker text-[10px] block">
+                {isEn ? 'CATALOG SCALE' : 'QUY MÔ ĐẦU SÁCH'}
+              </span>
+              <p className="font-mono text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">{libraryBusKPIs.totalCatalogBooks}</p>
+              <p className="text-[11px] text-slate-500">Physical Books Tracked</p>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">{libraryBusKPIs.totalCirculation}</div>
-              <div className="text-xs text-slate-500 mt-0.5 dark:text-slate-400">{isEn ? 'Circulation Operations' : 'Lượt mượn & trả thành công'}</div>
+
+            <div className="card-minimal p-4 space-y-1">
+              <span className="editorial-kicker text-[10px] block">
+                {isEn ? 'CONCURRENT READERS' : 'KẾT NỐI ĐỒNG THỜI'}
+              </span>
+              <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">500 CCU</p>
+              <p className="text-[11px] text-slate-500">50,000 Registered Readers</p>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-[#9BE7FA] shadow-xs dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400">&lt; 28ms</div>
-              <div className="text-xs text-slate-500 mt-0.5 dark:text-slate-400">{isEn ? 'O(1) Redis Query Time' : 'Độ trễ phản hồi O(1) Redis'}</div>
+
+            <div className="card-minimal p-4 space-y-1 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA]">
+              <span className="editorial-kicker text-[10px] block text-[#0D7287] dark:text-[#9BE7FA]">
+                {isEn ? 'REDIS LATENCY & LOCKING' : 'ĐỘ TRỄ TRUY VẤN'}
+              </span>
+              <p className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400">28ms (-93.7%)</p>
+              <p className="text-[11px] text-slate-500">0.0% Race Condition (Locking)</p>
             </div>
           </div>
         </div>

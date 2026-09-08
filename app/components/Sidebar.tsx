@@ -4,8 +4,8 @@ import React from 'react';
 import Image from 'next/image';
 import { 
   ChevronDown, ChevronRight, Github, Linkedin, Mail, 
-  Sun, Moon, Laptop, Globe, Search, Database,
-  Home, UserCheck, FileText, Briefcase, LayoutDashboard, Sparkles
+  Sun, Moon, Laptop, Globe, Search, Database, Terminal,
+  Home, UserCheck, FileText, Briefcase, LayoutDashboard
 } from 'lucide-react';
 import { ProjectData } from '../types';
 import { useLanguage } from '../context/LanguageContext';
@@ -43,22 +43,23 @@ export default function Sidebar({
 
   const navItems = [
     { id: 'home', label: t('nav_home', 'Trang Chủ'), icon: Home },
-    { id: 'about', label: t('nav_about', 'Giới Thiệu'), icon: UserCheck },
-    { id: 'cv', label: t('nav_cv', 'Học Vấn & Kinh Nghiệm'), icon: FileText },
     { id: 'projects', label: t('nav_projects', 'Dự Án'), icon: Briefcase, hasChildren: true },
-    { id: 'dashboard', label: t('nav_dashboard', 'Bảng Điều Khiển'), icon: LayoutDashboard, isHighlighted: true },
+    { id: 'lab', label: t('nav_lab', 'Interactive Lab'), icon: Terminal },
+    { id: 'dashboard', label: t('nav_dashboard', 'Bảng Điều Khiển'), icon: LayoutDashboard },
+    { id: 'cv', label: t('nav_cv', 'Học Vấn & Kinh Nghiệm'), icon: FileText },
+    { id: 'about', label: t('nav_about', 'Giới Thiệu'), icon: UserCheck },
   ];
 
   return (
     <aside 
       aria-label="Thanh điều hướng chính"
-      className="w-64 bg-[#C8EEF7] text-slate-900 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-[#9BE7FA] shadow-xs relative z-40 transition-colors duration-200 dark:bg-slate-950 dark:border-slate-800 dark:text-slate-200 font-sans"
+      className="w-64 bg-[#FAFDFE] text-slate-900 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-slate-200/80 shadow-2xs relative z-40 transition-colors duration-200 dark:bg-[#0B0F17] dark:border-slate-800 dark:text-slate-200 font-sans"
     >
       {/* Top Header: User Profile Card */}
-      <div className="p-4 border-b border-[#9BE7FA]/60 dark:border-slate-800/60">
-        <div className="flex items-center gap-3 p-2 bg-white/60 dark:bg-slate-900/70 rounded-2xl border border-white/80 dark:border-slate-800/80 shadow-xs">
+      <div className="p-4 border-b border-slate-200/80 dark:border-slate-800/80">
+        <div className="flex items-center gap-3 p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
           {safeAvatarUrl && safeAvatarUrl !== '#' ? (
-            <div className="w-10 h-10 rounded-xl overflow-hidden ring-2 ring-[#0D7287]/30 shrink-0 relative">
+            <div className="w-10 h-10 rounded-xl overflow-hidden ring-1 ring-slate-200 dark:ring-slate-700 shrink-0 relative">
               <Image 
                 src={safeAvatarUrl} 
                 alt={profile.name || 'Avatar'} 
@@ -69,7 +70,7 @@ export default function Sidebar({
               />
             </div>
           ) : (
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0D7287] to-[#9BE7FA] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-slate-900 text-white font-bold text-xs flex items-center justify-center shrink-0 dark:bg-slate-800">
               {profile.name ? profile.name.split(' ').map((n) => n[0]).join('').slice(0, 3).toUpperCase() : 'MVH'}
             </div>
           )}
@@ -77,7 +78,7 @@ export default function Sidebar({
             <h2 className="text-xs font-bold text-slate-900 dark:text-white truncate">
               {profile.name || 'Ma Văn Hùng'}
             </h2>
-            <p className="text-[10px] text-slate-600 dark:text-slate-400 font-semibold truncate flex items-center gap-1">
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
               {profile.title || 'Data Analyst'}
             </p>
@@ -89,13 +90,13 @@ export default function Sidebar({
           <button
             onClick={onOpenCommandPalette}
             aria-label="Mở bảng tìm kiếm và lệnh nhanh (Ctrl+K)"
-            className="w-full mt-3 flex items-center justify-between px-3.5 py-2 bg-white/70 hover:bg-white text-slate-700 hover:text-slate-950 border border-white/80 rounded-xl text-xs font-semibold transition-all cursor-pointer shadow-2xs dark:bg-slate-900/80 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white focus-visible:ring-2 focus-visible:ring-[#0D7287] dark:focus-visible:ring-[#9BE7FA]"
+            className="w-full mt-3 flex items-center justify-between px-3 py-2 bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-950 border border-slate-200/80 rounded-xl text-xs font-medium transition-all cursor-pointer dark:bg-slate-900/90 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
           >
             <div className="flex items-center gap-2">
-              <Search className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+              <Search className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
               <span>{language === 'en' ? 'Quick search...' : 'Tìm kiếm nhanh...'}</span>
             </div>
-            <kbd className="px-1.5 py-0.5 rounded-md bg-white/80 dark:bg-slate-800 font-mono text-[10px] text-slate-600 dark:text-slate-400 border border-[#9BE7FA]/50 dark:border-slate-700">
+            <kbd className="px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-800 font-mono text-[10px] text-slate-500 border border-slate-200 dark:border-slate-700">
               Ctrl K
             </kbd>
           </button>
@@ -103,9 +104,9 @@ export default function Sidebar({
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto overflow-x-visible">
+      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto overflow-x-visible">
         {navItems.map((item) => {
-          const isActive = activeTab === item.id || (item.id === 'home' && activeTab === 'home') || (item.id === 'projects' && activeTab === 'project-detail');
+          const isActive = activeTab === item.id || (item.id === 'projects' && activeTab === 'project-detail');
           const ItemIcon = item.icon;
 
           return (
@@ -127,28 +128,22 @@ export default function Sidebar({
                 aria-current={isActive ? 'page' : undefined}
                 className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 cursor-pointer text-left text-xs font-semibold group ${
                   isActive
-                    ? 'bg-[#9BE7FA] text-slate-950 font-black shadow-xs border-l-4 border-[#0D7287] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] dark:border-[#9BE7FA]'
-                    : 'text-slate-800 hover:text-slate-950 hover:bg-white/50 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-900/60'
+                    ? 'bg-slate-100 text-slate-950 font-bold border-l-3 border-[#0D7287] dark:bg-slate-900 dark:text-white dark:border-[#9BE7FA]'
+                    : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-900/50'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <ItemIcon className={`w-4 h-4 transition-transform group-hover:scale-110 ${isActive ? 'text-[#0D7287] dark:text-[#9BE7FA]' : 'text-slate-600 dark:text-slate-400'}`} />
+                  <ItemIcon className={`w-4 h-4 transition-transform group-hover:scale-105 ${isActive ? 'text-[#0D7287] dark:text-[#9BE7FA]' : 'text-slate-400 dark:text-slate-500'}`} />
                   <span>{item.label}</span>
                 </div>
                 {item.hasChildren && (
-                  isProjectsOpen ? <ChevronDown className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
-                )}
-                {item.isHighlighted && !isActive && (
-                  <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-[#FFD14C] text-slate-950 shadow-2xs border border-[#FFE485]">
-                    <Sparkles className="w-2.5 h-2.5" />
-                    BI
-                  </span>
+                  isProjectsOpen ? <ChevronDown className="w-3.5 h-3.5 text-slate-400" /> : <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
                 )}
               </button>
 
               {/* Sub-projects nested list */}
               {item.hasChildren && isProjectsOpen && (
-                <div className="flex flex-col gap-1 mt-1 pl-6 pr-1 animate-in slide-in-from-top-1 duration-150">
+                <div className="flex flex-col gap-0.5 mt-1 pl-6 pr-1 animate-in slide-in-from-top-1 duration-150">
                   {projects.map((proj) => {
                     const isSelected = activeTab === 'project-detail' && selectedProjectId === proj.id;
                     return (
@@ -156,14 +151,14 @@ export default function Sidebar({
                         type="button"
                         key={proj.id}
                         onClick={() => onProjectClick(proj.id)}
-                        className={`text-left text-[11px] py-1.5 px-2.5 font-semibold rounded-lg transition-all truncate cursor-pointer flex items-center gap-2 ${
+                        className={`text-left text-[11px] py-1.5 px-2.5 font-medium rounded-lg transition-all truncate cursor-pointer flex items-center gap-2 ${
                           isSelected
-                            ? 'bg-white text-slate-950 font-bold shadow-2xs border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700'
-                            : 'text-slate-700 hover:text-slate-950 hover:bg-white/50 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-900/40'
+                            ? 'bg-slate-100 text-slate-950 font-bold dark:bg-slate-900 dark:text-[#9BE7FA]'
+                            : 'text-slate-500 hover:text-slate-950 hover:bg-slate-50 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-900/40'
                         }`}
                         title={proj.title}
                       >
-                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isSelected ? 'bg-[#FFD14C] ring-2 ring-[#FFE485]' : 'bg-slate-400 dark:bg-slate-600'}`} />
+                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isSelected ? 'bg-[#FFD14C]' : 'bg-slate-300 dark:bg-slate-600'}`} />
                         <span className="truncate">{proj.title}</span>
                       </button>
                     );
@@ -176,22 +171,22 @@ export default function Sidebar({
       </nav>
 
       {/* Footer Controls & System Settings */}
-      <div className="p-3 border-t border-[#9BE7FA]/60 dark:border-slate-800/60 space-y-2.5 bg-white/40 dark:bg-slate-900/40">
+      <div className="p-3 border-t border-slate-200/80 dark:border-slate-800/80 space-y-2 bg-slate-50/40 dark:bg-slate-900/30">
         {/* Quick Admin CMS Trigger */}
         {onOpenAdmin && (
           <button
             type="button"
             onClick={onOpenAdmin}
             aria-label="Mở trang quản trị CMS"
-            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-white/70 hover:bg-white text-slate-800 hover:text-slate-950 border border-white/80 dark:bg-slate-900/80 dark:border-slate-800 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-white transition-all text-xs font-bold cursor-pointer shadow-2xs"
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-950 border border-slate-200/80 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-all text-xs font-semibold cursor-pointer shadow-2xs"
           >
             <div className="flex items-center gap-2">
-              <Database className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+              <Database className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
               <span>{language === 'en' ? 'Admin CMS' : 'Quản trị CMS'}</span>
             </div>
             <div className="flex items-center gap-1">
               <span className={`w-2 h-2 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-[#FFD14C]'}`} />
-              <span className="text-[10px] font-mono text-slate-600 dark:text-slate-400">
+              <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">
                 {dbStatus.connected ? 'MySQL' : 'Local'}
               </span>
             </div>
@@ -199,7 +194,7 @@ export default function Sidebar({
         )}
 
         {/* Theme & Language Controls Bar */}
-        <div className="flex items-center justify-between gap-1 p-1 bg-white/70 dark:bg-slate-900/80 rounded-xl border border-white/80 dark:border-slate-800">
+        <div className="flex items-center justify-between gap-1 p-1 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
           {/* Theme Selector (Light / Dark / System) */}
           <div className="flex items-center gap-0.5">
             <button
@@ -209,8 +204,8 @@ export default function Sidebar({
               title="Chế độ sáng"
               className={`p-1.5 rounded-lg transition-all cursor-pointer ${
                 theme === 'light' 
-                  ? 'bg-[#FFD14C] text-slate-950 shadow-2xs font-bold' 
-                  : 'text-slate-600 hover:text-slate-900 dark:text-slate-500 dark:hover:text-slate-300'
+                  ? 'bg-slate-100 text-slate-950 font-bold dark:bg-slate-800' 
+                  : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300'
               }`}
             >
               <Sun className="w-3.5 h-3.5" />
@@ -222,8 +217,8 @@ export default function Sidebar({
               title="Chế độ tối"
               className={`p-1.5 rounded-lg transition-all cursor-pointer ${
                 theme === 'dark' 
-                  ? 'bg-[#9BE7FA] text-slate-950 shadow-2xs font-bold' 
-                  : 'text-slate-600 hover:text-slate-900 dark:text-slate-500 dark:hover:text-slate-300'
+                  ? 'bg-slate-100 text-slate-950 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]' 
+                  : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300'
               }`}
             >
               <Moon className="w-3.5 h-3.5" />
@@ -235,15 +230,15 @@ export default function Sidebar({
               title="Chế độ hệ thống"
               className={`p-1.5 rounded-lg transition-all cursor-pointer ${
                 theme === 'system' 
-                  ? 'bg-slate-300/70 text-slate-950 dark:bg-slate-800 dark:text-slate-200 shadow-2xs' 
-                  : 'text-slate-600 hover:text-slate-900 dark:text-slate-500 dark:hover:text-slate-300'
+                  ? 'bg-slate-100 text-slate-950 dark:bg-slate-800 dark:text-slate-200' 
+                  : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300'
               }`}
             >
               <Laptop className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          <div className="h-4 w-px bg-[#9BE7FA]/60 dark:bg-slate-800" />
+          <div className="h-4 w-px bg-slate-200 dark:bg-slate-800" />
 
           {/* Language Switcher */}
           <button
@@ -251,9 +246,9 @@ export default function Sidebar({
             onClick={() => setLanguage(language === 'vi' ? 'en' : 'vi')}
             aria-label={`Đổi ngôn ngữ (Hiện tại: ${language === 'vi' ? 'Tiếng Việt' : 'English'})`}
             title={language === 'vi' ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
-            className="flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-bold text-slate-800 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white transition-all cursor-pointer hover:bg-white/60 dark:hover:bg-slate-800"
+            className="flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-bold text-slate-700 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white transition-all cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800"
           >
-            <Globe className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+            <Globe className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
             <span>{language.toUpperCase()}</span>
           </button>
         </div>

@@ -118,13 +118,16 @@ export default function ProjectDetailView({
       </header>
 
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto px-6 pt-12 pb-8 sm:pt-16 sm:pb-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-          <div className="flex-1">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-4 tracking-tight dark:text-white">
+      <section className="max-w-6xl mx-auto px-6 pt-12 pb-8 sm:pt-16 sm:pb-12 border-b border-slate-200/80 dark:border-slate-800">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6">
+          <div className="flex-1 space-y-3">
+            <span className="editorial-kicker">
+              {isEn ? 'CASE STUDY · TECHNICAL OVERVIEW' : 'CHI TIẾT DỰ ÁN · BÁO CÁO PHÂN TÍCH'}
+            </span>
+            <h1 className="editorial-section-title text-3xl sm:text-4xl md:text-5xl font-black text-slate-950 dark:text-white leading-[1.18]">
               {project.title}
             </h1>
-            <p className="text-lg text-slate-600 leading-relaxed max-w-3xl dark:text-slate-300">
+            <p className="editorial-lead text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-3xl">
               {project.desc}
             </p>
           </div>
@@ -135,10 +138,10 @@ export default function ProjectDetailView({
                 href={sanitizeUrl(project.demoUrl)} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-yellow hover:bg-[#FACC15] text-slate-900 rounded-2xl font-bold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
+                className="btn-primary-gold flex items-center gap-2"
               >
                 <ExternalLink className="w-4 h-4" />
-                Live Demo
+                <span>Live Demo</span>
               </a>
             )}
             {project.githubUrl && (
@@ -146,10 +149,10 @@ export default function ProjectDetailView({
                 href={sanitizeUrl(project.githubUrl)} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white hover:bg-slate-50 border border-brand-yellow/40 text-slate-700 rounded-2xl font-bold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200 dark:hover:bg-slate-800"
+                className="btn-secondary-editorial flex items-center gap-2"
               >
                 <Github className="w-4 h-4" />
-                Source Code
+                <span>Source Code</span>
               </a>
             )}
           </div>
@@ -157,12 +160,12 @@ export default function ProjectDetailView({
 
         {/* Tags */}
         {Array.isArray(project.tags) && project.tags.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-brand-yellow/30 dark:border-slate-800">
-            <Tag className="w-4 h-4 text-slate-400 mr-1" />
+          <div className="flex flex-wrap items-center gap-2 pt-2">
+            <Tag className="w-3.5 h-3.5 text-slate-400 mr-1" />
             {project.tags.map((tag) => (
               <span 
                 key={tag}
-                className="px-3 py-1 bg-[#FFF9E6] border border-brand-yellow/40 text-slate-800 rounded-xl text-xs font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-brand-blue-light"
+                className="px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-mono text-xs"
               >
                 #{tag}
               </span>
@@ -172,16 +175,16 @@ export default function ProjectDetailView({
       </section>
 
       {/* Main Content / Markdown Case Study */}
-      <main className="max-w-6xl mx-auto px-6 py-8">
+      <main className="max-w-6xl mx-auto px-6 py-12">
         {project.content ? (
-          <article className="prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-a:text-[#0D7287] prose-img:rounded-3xl prose-img:shadow-lg prose-pre:bg-[#FFE485] prose-pre:text-slate-950 prose-pre:border-2 prose-pre:border-[#FFD14C] prose-pre:font-mono prose-pre:font-semibold dark:prose-invert dark:prose-pre:bg-slate-900 dark:prose-pre:text-slate-200 dark:prose-pre:border-slate-800 dark:prose-a:text-[#FFD14C]">
+          <article className="prose prose-slate max-w-none prose-headings:font-heading prose-headings:font-bold prose-headings:text-slate-950 prose-a:text-[#0D7287] dark:prose-a:text-[#9BE7FA] prose-img:rounded-2xl prose-img:border prose-img:border-slate-200 dark:prose-img:border-slate-800 prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-pre:border prose-pre:border-slate-800 prose-pre:font-mono dark:prose-invert">
             <ReactMarkdown 
               remarkPlugins={[remarkGfm]}
               components={{
                 img: ({ src, alt }) => {
                   if (!src || typeof src !== 'string') return null;
                   return (
-                    <span className="block my-6 overflow-hidden rounded-3xl border border-slate-200 shadow-lg dark:border-slate-800">
+                    <span className="block my-6 overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                       <Image
                         src={src}
                         alt={alt || 'Project illustration'}
@@ -200,9 +203,9 @@ export default function ProjectDetailView({
             </ReactMarkdown>
           </article>
         ) : (
-          <div className="bg-[#FFF9E6] rounded-3xl p-8 sm:p-12 border border-brand-yellow/40 text-center space-y-4 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-            <FileText className="w-12 h-12 text-slate-400 mx-auto dark:text-slate-500" />
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white">
+          <div className="card-minimal p-8 sm:p-12 text-center space-y-4">
+            <FileText className="w-10 h-10 text-slate-400 mx-auto dark:text-slate-500" />
+            <h3 className="text-xl font-heading font-bold text-slate-900 dark:text-white">
               {isEn ? 'Detailed Case Study Documentation Coming Soon' : 'Nội dung chi tiết đang được cập nhật'}
             </h3>
             <p className="text-sm text-slate-600 max-w-md mx-auto dark:text-slate-400">
@@ -214,10 +217,10 @@ export default function ProjectDetailView({
         )}
       </main>
 
-      <footer className="bg-[#FFFDF5] border-t border-brand-yellow/30 text-slate-600 py-12 text-center text-sm dark:bg-slate-950 dark:text-slate-500 dark:border-transparent">
+      <footer className="border-t border-slate-200/80 dark:border-slate-800 text-slate-500 py-12 text-center text-xs">
         <div className="max-w-4xl mx-auto px-6">
-          <p className="mb-2">{isEn ? 'Personal Project · Data Analytics Case Study' : 'Dự án cá nhân · Phân tích dữ liệu'}</p>
-          <p>{isEn ? 'Data Analytics Portfolio' : 'Portfolio Data Analytics'}</p>
+          <p className="mb-1 font-medium">{isEn ? 'Personal Project · Data Analytics Case Study' : 'Dự án cá nhân · Phân tích dữ liệu'}</p>
+          <p className="font-mono text-[11px] text-slate-400">Ma Van Hung · Data Analyst Portfolio</p>
         </div>
       </footer>
     </div>

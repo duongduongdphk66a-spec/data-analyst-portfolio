@@ -2,15 +2,15 @@
 
 import React, { useState, useMemo } from 'react';
 import { 
-  BarChart3, TrendingUp, Download, 
-  AlertTriangle, Sparkles, Sliders, ShieldCheck, 
+  TrendingUp, Download, 
+  AlertTriangle, Sliders, ShieldCheck, 
   Terminal, Code2, Activity, 
   Check, X, Copy
 } from 'lucide-react';
 import { 
   ResponsiveContainer, ComposedChart, LineChart, Line, 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, 
-  AreaChart, Area, Legend, ReferenceLine, ReferenceArea
+  AreaChart, Area, Legend, ReferenceLine
 } from 'recharts';
 import { KAMI_MATH_STATS } from '../data/kamiElyMathStats';
 import { useLanguage } from '../context/LanguageContext';
@@ -73,30 +73,26 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
       {/* ==================================================================== */}
       {/* PHẦN 1: HERO SECTION & TỔNG QUAN DỰ ÁN (PROJECT OVERVIEW) */}
       {/* ==================================================================== */}
-      <section id="sec-hero" className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-900 via-slate-950 to-teal-950 p-8 text-white shadow-2xl sm:p-12">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(13,114,135,0.25),transparent_50%)]" />
-        
-        <div className="relative z-10 max-w-5xl space-y-6">
-          {/* Top category badge */}
+      <section id="sec-hero" className="py-12 border-b border-slate-200/80 dark:border-slate-800 space-y-8">
+        <div className="max-w-5xl space-y-6">
+          {/* Editorial Kicker */}
           <div className="flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-500/20 px-3.5 py-1 text-xs font-semibold tracking-wide text-teal-300 ring-1 ring-teal-400/40">
-              <Sparkles className="h-3.5 w-3.5" />
-              {isEn ? 'APPLIED DATA SCIENCE & PERFORMANCE ANALYTICS' : 'KHOA HỌC DỮ LIỆU & PHÂN TÍCH HIỆU SUẤT'}
+            <span className="editorial-kicker">
+              {isEn ? 'APPLIED DATA SCIENCE · PERFORMANCE ANALYTICS' : 'KHOA HỌC DỮ LIỆU · PHÂN TÍCH HIỆU SUẤT THỰC NGHIỆM'}
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/20 px-3.5 py-1 text-xs font-semibold tracking-wide text-amber-300 ring-1 ring-amber-400/40">
-              <Activity className="h-3.5 w-3.5" />
-              {isEn ? '180-DAY TIME-SERIES DECOMPOSITION' : 'PHÂN RÃ CHUỖI THỜI GIAN 180 NGÀY'}
+            <span className="text-xs font-mono text-slate-400 dark:text-slate-500">
+              • 180-DAY TIME-SERIES DECOMPOSITION
             </span>
           </div>
 
           {/* 1.1 Tiêu đề & Thông tin cốt lõi */}
-          <div className="space-y-3">
-            <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
+          <div className="space-y-4">
+            <h1 className="editorial-section-title text-3xl sm:text-4xl lg:text-5xl text-slate-950 dark:text-white leading-[1.18]">
               {isEn 
                 ? 'Omnichannel Resource Optimization & Time-Series Analytics: Kami Ely Case Study' 
                 : 'Tối ưu hóa Phân bổ Nguồn lực Đa kênh bằng Thống kê Suy diễn & Phân tích Chuỗi thời gian: Case Study Thương hiệu Kami Ely'}
             </h1>
-            <p className="text-base text-slate-300 sm:text-lg">
+            <p className="editorial-lead text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-4xl">
               {isEn
                 ? 'Empirical evaluation of the revenue efficiency gap between Livestream and Shoppable Video channels, combined with 180-day seasonal trend extraction to guide commercial resource reallocation.'
                 : 'Kiểm định thực nghiệm chênh lệch hiệu suất sinh lời giữa Livestream và Video mua sắm, kết hợp bóc tách tính chu kỳ mùa vụ 180 ngày nhằm tối ưu hóa chi phí vận hành và phân bổ nguồn lực.'}
@@ -104,7 +100,7 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
           </div>
 
           {/* Core Analytical Pillars Badges */}
-          <div className="flex flex-wrap gap-2 pt-2">
+          <div className="flex flex-wrap gap-2 pt-1">
             {[
               'Thống kê mô tả & Điểm dị biệt', 
               'So sánh hiệu suất 2 mẫu độc lập', 
@@ -113,71 +109,77 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
               'Phân rã chuỗi thời gian 180 ngày', 
               'Python (scipy.stats, statsmodels)'
             ].map((tech) => (
-              <span key={tech} className="rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-1 font-sans text-xs text-teal-300">
+              <span key={tech} className="rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 px-2.5 py-1 font-mono text-[11px] text-slate-600 dark:text-slate-400">
                 {tech}
               </span>
             ))}
           </div>
 
-          {/* 1.2 Executive Summary Metrics Cards */}
+          {/* 1.2 Executive Summary 10% Bento Telemetry Matrix */}
           <div className="grid grid-cols-1 gap-4 pt-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 shadow-lg">
-              <span className="text-xs font-medium uppercase tracking-wider text-slate-400">
+            <div className="card-minimal p-5 space-y-2">
+              <span className="editorial-kicker text-[11px] block">
                 {isEn ? 'Total Population Analyzed' : 'Quy Mô Quần Thể Phân Tích'}
               </span>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-bold text-white sm:text-3xl">238.4k</span>
-                <span className="text-xs text-slate-300">{isEn ? 'Orders' : 'Đơn hàng'}</span>
+              <div className="flex items-baseline gap-2">
+                <span className="font-mono text-3xl font-bold text-slate-950 dark:text-white">238.4k</span>
+                <span className="text-xs text-slate-500 font-medium">{isEn ? 'Orders' : 'Đơn hàng'}</span>
               </div>
-              <p className="mt-1 text-xs text-teal-400 font-medium">31,6 Tỷ VNĐ GMV Toàn Sàn</p>
-              <p className="mt-1 text-[11px] text-slate-400 leading-snug">
-                {isEn ? 'Accumulated since inception (Aug 18, 2022 · Photo 073329) • 180-day window: 85.5k units / 12.7B VND' : 'Tích lũy toàn thời gian từ 18/08/2022 (Ảnh 073329) • Chu kỳ bóc tách 180N: 85.5k đơn / 12,7 Tỷ đ'}
+              <p className="text-xs text-[#0D7287] dark:text-[#9BE7FA] font-bold">31,6 Tỷ VNĐ GMV Toàn Sàn</p>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">
+                {isEn ? 'Accumulated since inception (Aug 18, 2022) • 180-day window: 85.5k units / 12.7B VND' : 'Tích lũy toàn thời gian từ 18/08/2022 • Chu kỳ bóc tách 180N: 85.5k đơn / 12,7 Tỷ đ'}
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 shadow-lg">
-              <span className="text-xs font-medium uppercase tracking-wider text-slate-400">
+            <div className="card-minimal p-5 space-y-2">
+              <span className="editorial-kicker text-[11px] block">
                 {isEn ? 'Livestream Mean GPM (470 Sessions)' : 'GPM Live Trung Bình (470 Phiên)'}
               </span>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-bold text-amber-400 sm:text-3xl">30,2k</span>
-                <span className="text-xs text-slate-300">VNĐ / 1.000 Lượt xem</span>
+              <div className="flex items-baseline gap-2">
+                <span className="font-mono text-3xl font-bold text-slate-800 dark:text-slate-200">30,2k</span>
+                <span className="text-xs text-slate-500 font-medium">VNĐ / 1.000 Views</span>
               </div>
-              <p className="mt-1 text-xs text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 {isEn ? 'Revenue output per 1,000 live views' : 'Doanh thu thu về trên mỗi nghìn view Live'}
               </p>
+              <div className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                <div className="h-full bg-slate-400 rounded-full" style={{ width: '22%' }} />
+              </div>
             </div>
 
-            <div className="rounded-2xl border border-teal-800/70 bg-teal-950/40 p-5 shadow-lg">
-              <span className="text-xs font-medium uppercase tracking-wider text-teal-300">
+            <div className="card-minimal p-5 space-y-2 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA]">
+              <span className="editorial-kicker text-[11px] block text-[#0D7287] dark:text-[#9BE7FA]">
                 {isEn ? 'Shoppable Video GPM (551 Videos)' : 'GPM Video Mua Sắm (551 Videos)'}
               </span>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-bold text-emerald-400 sm:text-3xl">135,2k</span>
-                <span className="text-xs text-slate-300">VNĐ / 1.000 Lượt xem</span>
+              <div className="flex items-baseline gap-2">
+                <span className="font-mono text-3xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">135,2k</span>
+                <span className="text-xs text-slate-500 font-medium">VNĐ / 1.000 Views</span>
               </div>
-              <p className="mt-1 text-xs text-emerald-300 font-semibold">
+              <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold">
                 {isEn ? '4.48x higher than Livestream' : 'Gấp 4.48 lần kênh Livestream'}
               </p>
+              <div className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                <div className="h-full bg-[#0D7287] dark:bg-[#9BE7FA] rounded-full" style={{ width: '100%' }} />
+              </div>
             </div>
           </div>
 
           {/* Action Row: View Python Notebook & Jump links */}
-          <div className="flex flex-wrap items-center gap-4 pt-4">
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <button
               onClick={() => setIsNotebookModalOpen(true)}
-              className="inline-flex items-center gap-2 rounded-xl bg-teal-500 px-5 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-teal-500/25 transition-all hover:bg-teal-400 hover:shadow-teal-500/40"
+              className="btn-primary-gold flex items-center gap-2 cursor-pointer"
             >
               <Code2 className="h-4 w-4" />
-              {isEn ? 'View Python Notebook (scipy.stats & statsmodels)' : 'Xem Python Notebook (scipy.stats & statsmodels)'}
+              <span>{isEn ? 'View Python Notebook' : 'Xem Python Notebook (scipy.stats)'}</span>
             </button>
             <a
               href="/kami/kami_ely_applied_statistics.ipynb"
               download
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-3 text-sm font-semibold text-slate-200 transition-all hover:border-slate-600 hover:bg-slate-700"
+              className="btn-secondary-editorial flex items-center gap-2"
             >
-              <Download className="h-4 w-4 text-teal-400" />
-              {isEn ? 'Download .ipynb File' : 'Tải File .ipynb Chuẩn'}
+              <Download className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+              <span>{isEn ? 'Download .ipynb File' : 'Tải File .ipynb Chuẩn'}</span>
             </a>
           </div>
         </div>
@@ -186,16 +188,17 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
       {/* ==================================================================== */}
       {/* PHẦN 2: TIỀN XỬ LÝ DỮ LIỆU & THỐNG KÊ MÔ TẢ (EDA & DESCRIPTIVE STATS) */}
       {/* ==================================================================== */}
-      <section id="sec-eda" className="space-y-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-slate-900/90 sm:p-10">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-teal-600 dark:text-teal-400">
-            <BarChart3 className="h-4 w-4" />
-            {isEn ? 'PHASE 02: DATA PREPROCESSING & DESCRIPTIVE STATISTICS' : 'PHẦN 2: TIỀN XỬ LÝ DỮ LIỆU & THỐNG KÊ MÔ TẢ'}
+      <section id="sec-eda" className="space-y-8 py-14 border-b border-slate-200/80 dark:border-slate-800">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="editorial-kicker">
+              {isEn ? 'PHASE 02 · DATA PREPROCESSING & EDA' : 'PHẦN 2 · TIỀN XỬ LÝ DỮ LIỆU & THỐNG KÊ MÔ TẢ'}
+            </span>
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+          <h2 className="editorial-section-title text-2xl sm:text-3xl lg:text-4xl text-slate-950 dark:text-white">
             {isEn ? 'Outlier Detection & Skewed Distribution Analysis' : 'Nhận diện Điểm dị biệt & Phân tích Độ lệch Phân phối'}
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 sm:text-base">
+          <p className="editorial-lead text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-4xl">
             {isEn
               ? 'Raw e-commerce revenue exhibits severe right-skewness. We apply statistical outlier filtering to isolate extreme promotions and contrast Mean against Median to establish true baseline performance.'
               : 'Doanh thu thương mại điện tử thực tế có độ biến động rất mạnh và lệch phải. Ứng dụng phương pháp lọc độ lệch chuẩn để cô lập các phiên bán hàng bùng nổ cực đoan và so sánh Trung bình với Trung vị nhằm định vị chuẩn xác hiệu suất thông thường.'}
@@ -203,27 +206,25 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
         </div>
 
         {/* Analytical Insight Callout: Outlier Filtering */}
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-slate-800 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200">
-          <div className="flex items-center justify-between border-b border-slate-200 pb-3 text-xs font-bold uppercase tracking-wider text-teal-600 dark:border-slate-800 dark:text-teal-400">
+        <div className="border-l-4 border-[#0D7287] dark:border-[#9BE7FA] pl-5 py-2 space-y-2 text-slate-800 dark:text-slate-200">
+          <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA]">
             <span className="flex items-center gap-2">
               <ShieldCheck className="h-4 w-4" />
               {isEn ? 'Outlier Filtering Methodology' : 'Nguyên Lý Định Vị Điểm Dị Biệt (Outlier Detection)'}
             </span>
-            <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-bold text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">
+            <span className="font-mono text-[11px] text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-800">
               {isEn ? 'Filter: > 3 Standard Deviations' : 'Ngưỡng Lọc: > 3 Độ Lệch Chuẩn'}
             </span>
           </div>
-          <div className="my-3 space-y-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-            <p>
-              {isEn
-                ? 'To evaluate true everyday shop performance, revenue spikes that diverge more than 3 standard deviations from the population average are isolated. This prevents anomalous Mega Live campaigns from distorting long-term trend lines.'
-                : 'Để đánh giá đúng năng lực bán hàng nền tảng, các ngày có doanh số vượt quá 3 lần độ lệch chuẩn khỏi mức trung bình (như phiên Mega Live 16/06 đạt 315 Triệu VNĐ) được tách riêng, tránh làm lệch giá trị trung bình khi lập kế hoạch phân bổ nguồn lực.'}
-            </p>
-          </div>
+          <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+            {isEn
+              ? 'To evaluate true everyday shop performance, revenue spikes that diverge more than 3 standard deviations from the population average are isolated. This prevents anomalous Mega Live campaigns from distorting long-term trend lines.'
+              : 'Để đánh giá đúng năng lực bán hàng nền tảng, các ngày có doanh số vượt quá 3 lần độ lệch chuẩn khỏi mức trung bình (như phiên Mega Live 16/06 đạt 315 Triệu VNĐ) được tách riêng, tránh làm lệch giá trị trung bình khi lập kế hoạch phân bổ nguồn lực.'}
+          </p>
         </div>
 
         {/* Sub-section 2.1: Outlier Timeline Chart */}
-        <div id="chart-outliers" className="space-y-4 rounded-2xl border border-slate-100 bg-slate-50/50 p-5 dark:border-slate-800 dark:bg-slate-950/40">
+        <div id="chart-outliers" className="card-minimal p-6 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h3 className="font-bold text-slate-900 dark:text-white">
@@ -282,7 +283,7 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
         </div>
 
         {/* Sub-section 2.2: Distribution Analysis */}
-        <div id="chart-distribution" className="space-y-4 rounded-2xl border border-slate-100 bg-slate-50/50 p-5 dark:border-slate-800 dark:bg-slate-950/40">
+        <div id="chart-distribution" className="card-minimal p-6 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h3 className="font-bold text-slate-900 dark:text-white">
@@ -295,10 +296,10 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-800 dark:bg-slate-800 dark:text-slate-200">
+              <span className="font-mono text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                 Trung vị = 4,51M VNĐ
               </span>
-              <span className="rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-800 dark:bg-teal-900/60 dark:text-teal-200">
+              <span className="font-mono text-xs font-semibold px-2.5 py-1 rounded bg-teal-50 dark:bg-teal-950/60 text-[#0D7287] dark:text-[#9BE7FA] border border-teal-200 dark:border-teal-800">
                 Trung bình = 14,85M VNĐ
               </span>
             </div>
@@ -334,16 +335,17 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
       {/* ==================================================================== */}
       {/* PHẦN 3: SO SÁNH HIỆU SUẤT - NGHỊCH LÝ GPM */}
       {/* ==================================================================== */}
-      <section id="sec-hypothesis" className="space-y-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-slate-900/90 sm:p-10">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-teal-600 dark:text-teal-400">
-            <ShieldCheck className="h-4 w-4" />
-            {isEn ? 'PHASE 03: STATISTICAL EVALUATION - THE GPM GAP' : 'PHẦN 3: KIỂM ĐỊNH HIỆU SUẤT - NGHỊCH LÝ GPM'}
+      <section id="sec-hypothesis" className="space-y-8 py-14 border-b border-slate-200/80 dark:border-slate-800">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="editorial-kicker">
+              {isEn ? 'PHASE 03 · HYPOTHESIS & STATISTICAL SIGNIFICANCE' : 'PHẦN 3 · KIỂM ĐỊNH HIỆU SUẤT - NGHỊCH LÝ GPM'}
+            </span>
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+          <h2 className="editorial-section-title text-2xl sm:text-3xl lg:text-4xl text-slate-950 dark:text-white">
             {isEn ? 'Statistical Significance Testing: Video vs Livestream GPM' : 'So Sánh Hiệu Suất Sinh Lời: Nghịch lý GPM Video vs Livestream'}
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 sm:text-base">
+          <p className="editorial-lead text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-4xl">
             {isEn
               ? 'Rigorous statistical verification confirming whether Shoppable Video systematically outperforms Livestream in Gross Merchandise Value per 1,000 views, or if the observed 135.2k vs 30.2k gap is random noise.'
               : 'Đánh giá có cơ sở thực nghiệm khẳng định việc Short-video có doanh thu trên mỗi nghìn lượt xem (GPM) vượt trội hơn Livestream là sự thật mang tính quy luật vững chắc, loại bỏ hoàn toàn khả năng do biến động ngẫu nhiên.'}
@@ -352,24 +354,24 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
 
         {/* 3.1 Định vị Giả định & Kết luận thực nghiệm */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-950/60">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">{isEn ? 'Baseline Assumption' : 'Giả Định Ban Đầu'}</span>
-            <div className="mt-2 text-base font-bold text-slate-800 dark:text-slate-200">
+          <div className="card-minimal p-5 space-y-2">
+            <span className="editorial-kicker text-[11px] block">{isEn ? 'Baseline Assumption' : 'Giả Định Ban Đầu'}</span>
+            <div className="text-base font-bold text-slate-800 dark:text-slate-200">
               {isEn ? 'Channel Equivalence' : 'Hiệu Suất Tương Đương'}
             </div>
-            <p className="mt-2 text-xs text-slate-500">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               {isEn 
                 ? 'The observed GPM difference between Video and Livestream is assumed to be accidental variance.' 
                 : 'Chênh lệch doanh thu trên 1.000 lượt xem (GPM) giữa Video và Live chỉ là ngẫu nhiên nhất thời.'}
             </p>
           </div>
 
-          <div className="rounded-2xl border border-teal-200 bg-teal-50/60 p-5 dark:border-teal-900/50 dark:bg-teal-950/30">
-            <span className="text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400">{isEn ? 'Proven Finding' : 'Kết Luận Thực Nghiệm'}</span>
-            <div className="mt-2 text-base font-bold text-teal-700 dark:text-teal-300">
-              {isEn ? 'Systemic Video Superiority' : 'Video Vượt Trội Có Hệ Thống'}
+          <div className="card-minimal p-5 space-y-2 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA]">
+            <span className="editorial-kicker text-[11px] block text-[#0D7287] dark:text-[#9BE7FA]">{isEn ? 'Proven Finding' : 'Kết Luận Thực Nghiệm'}</span>
+            <div className="text-base font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+              {isEn ? 'Systemic Video Superiority (4.48x)' : 'Video Vượt Trội Có Hệ Thống (4.48x)'}
             </div>
-            <p className="mt-2 text-xs text-teal-800/80 dark:text-teal-300/80">
+            <p className="text-xs text-slate-600 dark:text-slate-300">
               {isEn 
                 ? 'Shoppable Video systematically generates higher GPM with over 99.9% statistical confidence.' 
                 : 'Video mua sắm tạo ra doanh thu trên 1.000 lượt xem cao gấp 4.48 lần Live với độ tin cậy trên 99.9%.'}
@@ -378,39 +380,39 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
         </div>
 
         {/* Statistical Test Summary Box */}
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-slate-800 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200">
-          <div className="flex items-center justify-between border-b border-slate-200 pb-3 text-xs font-bold uppercase tracking-wider text-teal-600 dark:border-slate-800 dark:text-teal-400">
+        <div className="card-minimal p-6 space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 text-xs font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA]">
             <span className="flex items-center gap-2">
               <ShieldCheck className="h-4 w-4" />
               {isEn ? 'Two-Sample Statistical Test Summary' : 'Tóm Tắt Kết Quả So Sánh Hai Nhóm Mẫu'}
             </span>
-            <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+            <span className="font-mono text-[11px] text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
               Độ tin cậy: &gt; 99.99%
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 pt-4 text-xs sm:grid-cols-4">
-            <div className="rounded-xl bg-white p-3.5 border border-slate-200 dark:border-slate-800 dark:bg-slate-900">
-              <span className="text-slate-500">Mẫu Video Mua Sắm:</span>
-              <p className="mt-1 text-base font-bold text-teal-600 dark:text-teal-300">551 Video</p>
+          <div className="grid grid-cols-2 gap-4 pt-1 text-xs sm:grid-cols-4">
+            <div className="space-y-1">
+              <span className="text-slate-500 font-medium">Mẫu Video Mua Sắm:</span>
+              <p className="font-mono text-base font-bold text-[#0D7287] dark:text-[#9BE7FA]">551 Video</p>
             </div>
-            <div className="rounded-xl bg-white p-3.5 border border-slate-200 dark:border-slate-800 dark:bg-slate-900">
-              <span className="text-slate-500">Mẫu Phiên Live:</span>
-              <p className="mt-1 text-base font-bold text-amber-500">470 Phiên Live</p>
+            <div className="space-y-1">
+              <span className="text-slate-500 font-medium">Mẫu Phiên Live:</span>
+              <p className="font-mono text-base font-bold text-amber-600 dark:text-amber-400">470 Phiên Live</p>
             </div>
-            <div className="rounded-xl bg-white p-3.5 border border-slate-200 dark:border-slate-800 dark:bg-slate-900">
-              <span className="text-slate-500">Xác Suất Ngẫu Nhiên:</span>
-              <p className="mt-1 text-base font-bold text-emerald-500">&lt; 0.01% (Cực thấp)</p>
+            <div className="space-y-1">
+              <span className="text-slate-500 font-medium">Xác Suất Ngẫu Nhiên:</span>
+              <p className="font-mono text-base font-bold text-emerald-600 dark:text-emerald-400">&lt; 0.01%</p>
             </div>
-            <div className="rounded-xl bg-white p-3.5 border border-slate-200 dark:border-slate-800 dark:bg-slate-900">
-              <span className="text-slate-500">Đánh Giá:</span>
-              <p className="mt-1 text-base font-bold text-emerald-600 dark:text-emerald-400">Tính Quy Luật Bền Vững</p>
+            <div className="space-y-1">
+              <span className="text-slate-500 font-medium">Đánh Giá:</span>
+              <p className="text-base font-bold text-slate-900 dark:text-white">Quy Luật Bền Vững</p>
             </div>
           </div>
         </div>
 
         {/* Visual GPM Comparison Cards */}
-        <div id="chart-gpm-ci" className="space-y-4 rounded-2xl border border-slate-100 bg-slate-50/50 p-5 dark:border-slate-800 dark:bg-slate-950/40">
+        <div id="chart-gpm-ci" className="card-minimal p-6 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h3 className="font-bold text-slate-900 dark:text-white">
@@ -422,10 +424,10 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
             </div>
             <button
               onClick={() => handleExport('chart-gpm-ci', 'GPM_Comparison_KamiEly')}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              className="btn-secondary-editorial py-1.5 px-3 text-xs flex items-center gap-1.5"
             >
               <Download className="h-3.5 w-3.5" />
-              {isEn ? 'Export PNG' : 'Xuất biểu đồ'}
+              <span>{isEn ? 'Export PNG' : 'Xuất biểu đồ'}</span>
             </button>
           </div>
 
@@ -462,7 +464,7 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
                   {isEn ? 'Shoppable Video Channel (551 Videos)' : 'Kênh Video Mua Sắm (551 video)'}
                 </span>
                 <span className="rounded bg-teal-500/20 px-2 py-0.5 text-xs font-bold text-teal-700 dark:text-teal-300">
-                  Trung Bình GPM: 135,2k
+                Trung Bình GPM: 135,2k
                 </span>
               </div>
               <div className="mt-4 space-y-2">
@@ -490,43 +492,44 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
       {/* ==================================================================== */}
       {/* PHẦN 4: PHÂN TÍCH TƯƠNG QUAN & GIỚI HẠN HIỆU SUẤT CỦA LIVESTREAM */}
       {/* ==================================================================== */}
-      <section id="sec-correlation" className="space-y-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-slate-900/90 sm:p-10">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-teal-600 dark:text-teal-400">
-            <TrendingUp className="h-4 w-4" />
-            {isEn ? 'PHASE 04: CORRELATION & DIMINISHING MARGINAL RETURNS' : 'PHẦN 4: PHÂN TÍCH TƯƠNG QUAN & QUY LUẬT NĂNG SUẤT CẬN BIÊN GIẢM DẦN'}
+      <section id="sec-correlation" className="space-y-8 py-14 border-b border-slate-200/80 dark:border-slate-800">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="editorial-kicker">
+              {isEn ? 'PHASE 04 · CORRELATION & MARGINAL RETURNS' : 'PHẦN 4 · TƯƠNG QUAN & NĂNG SUẤT CẬN BIÊN GIẢM DẦN'}
+            </span>
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+          <h2 className="editorial-section-title text-2xl sm:text-3xl lg:text-4xl text-slate-950 dark:text-white">
             {isEn ? 'Live Duration Limits: The Law of Diminishing Returns' : 'Giới Hạn Thời Lượng Live: Quy Luật Năng Suất Cận Biên Giảm Dần'}
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 sm:text-base">
+          <p className="editorial-lead text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-4xl">
             {isEn
               ? 'Empirical proof that "broadcasting more does not yield proportional revenue". The performance curve peaks at ~3.1 hours/day; past this threshold, additional broadcast hours produce negligible sales.'
               : 'Chứng minh luận điểm "Phát LIVE càng nhiều không đồng nghĩa với GMV càng cao". Đường cong hiệu suất đạt đỉnh tại mốc ~3.1 giờ/ngày; sau ngưỡng này, mỗi giờ live phát sóng thêm mang lại doanh số tăng thêm gần như bằng 0.'}
           </p>
         </div>
 
-        {/* Strategic Analytical Principle Card */}
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-slate-800 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200">
-          <div className="flex items-center justify-between border-b border-slate-200 pb-3 text-xs font-bold uppercase tracking-wider text-teal-600 dark:border-slate-800 dark:text-teal-400">
+        {/* Strategic Analytical Principle Callout */}
+        <div className="border-l-4 border-[#0D7287] dark:border-[#9BE7FA] pl-5 py-2 space-y-3 text-slate-800 dark:text-slate-200">
+          <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA]">
             <span className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
               {isEn ? 'Key Analytical Findings: Live Streaming Plateau' : 'Nhận Định Phân Tích: Giới Hạn Hiệu Suất Của Livestream'}
             </span>
-            <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-bold text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">
+            <span className="font-mono text-[11px] text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 px-2.5 py-0.5 rounded border border-amber-200 dark:border-amber-800">
               {isEn ? 'Optimal Duration: ~3.1 Hours/Day' : 'Thời Lượng Tối Ưu: ~3.1 Giờ/Ngày'}
             </span>
           </div>
 
-          <div className="my-4 grid grid-cols-1 gap-6 sm:grid-cols-2 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
-            <div className="space-y-1.5 rounded-xl bg-white p-4 border border-slate-200 dark:border-slate-800 dark:bg-slate-900">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+            <div className="card-minimal p-4 space-y-1">
               <span className="font-bold uppercase text-slate-800 dark:text-slate-200">1. Tác Động Tuyến Tính Hạn Chế</span>
               <p>
                 Mức độ tương quan giữa số phiên live và doanh thu hàng ngày chỉ ở mức vừa phải (~41%). Việc tăng ồ ạt số ca live không tạo ra mức tăng trưởng doanh thu tương xứng.
               </p>
             </div>
 
-            <div className="space-y-1.5 rounded-xl bg-white p-4 border border-slate-200 dark:border-slate-800 dark:bg-slate-900">
+            <div className="card-minimal p-4 space-y-1">
               <span className="font-bold uppercase text-slate-800 dark:text-slate-200">2. Quy Luật Năng Suất Giảm Dần</span>
               <p>
                 Doanh thu đạt hiệu suất tốt nhất trong khoảng 2.5 đến 3.5 giờ phát sóng. Kéo dài các phiên live qua 4-6 tiếng khiến doanh thu tăng thêm gần như bằng 0 trong khi chi phí vận hành tăng vọt.
@@ -536,7 +539,7 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
         </div>
 
         {/* Diminishing Returns Curve */}
-        <div id="chart-polynomial" className="space-y-4 rounded-2xl border border-slate-100 bg-slate-50/50 p-5 dark:border-slate-800 dark:bg-slate-950/40">
+        <div id="chart-polynomial" className="card-minimal p-6 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h3 className="font-bold text-slate-900 dark:text-white">
@@ -549,26 +552,26 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1 rounded-lg bg-slate-200 p-1 dark:bg-slate-800">
+              <div className="flex items-center gap-1 rounded-lg bg-slate-100 p-1 dark:bg-slate-800">
                 <button
                   onClick={() => setPolyView('fitted')}
-                  className={`rounded-md px-2.5 py-1 text-xs font-semibold transition ${polyView === 'fitted' ? 'bg-white shadow text-teal-700 dark:bg-slate-700 dark:text-teal-300' : 'text-slate-600 dark:text-slate-400'}`}
+                  className={`rounded-md px-2.5 py-1 text-xs font-semibold transition ${polyView === 'fitted' ? 'bg-white shadow text-[#0D7287] dark:bg-slate-700 dark:text-[#9BE7FA]' : 'text-slate-600 dark:text-slate-400'}`}
                 >
                   {isEn ? 'Total Session Revenue' : 'Tổng Doanh Thu Phiên'}
                 </button>
                 <button
                   onClick={() => setPolyView('marginal')}
-                  className={`rounded-md px-2.5 py-1 text-xs font-semibold transition ${polyView === 'marginal' ? 'bg-white shadow text-teal-700 dark:bg-slate-700 dark:text-teal-300' : 'text-slate-600 dark:text-slate-400'}`}
+                  className={`rounded-md px-2.5 py-1 text-xs font-semibold transition ${polyView === 'marginal' ? 'bg-white shadow text-[#0D7287] dark:bg-slate-700 dark:text-[#9BE7FA]' : 'text-slate-600 dark:text-slate-400'}`}
                 >
                   {isEn ? 'Marginal Revenue per Extra Hour' : 'Doanh Thu Cận Biên Thêm/Giờ'}
                 </button>
               </div>
               <button
                 onClick={() => handleExport('chart-polynomial', 'Diminishing_Returns_KamiEly')}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                className="btn-secondary-editorial py-1.5 px-3 text-xs flex items-center gap-1.5"
               >
                 <Download className="h-3.5 w-3.5" />
-                {isEn ? 'Export PNG' : 'Xuất biểu đồ'}
+                <span>{isEn ? 'Export PNG' : 'Xuất biểu đồ'}</span>
               </button>
             </div>
           </div>
@@ -577,28 +580,18 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={KAMI_MATH_STATS.correlation.fittedPolyCurve} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.2} />
-                <XAxis dataKey="hours" tick={{ fontSize: 11 }} unit="h" label={{ value: 'Thời lượng LIVE (Giờ)', position: 'insideBottomRight', offset: -5 }} />
+                <XAxis dataKey="durationHours" tick={{ fontSize: 11 }} unit="h" />
                 <YAxis tick={{ fontSize: 11 }} unit="M" />
-                <Tooltip 
-                  formatter={(val: any, name?: any) => [
-                    `${val} Triệu VNĐ`, 
-                    name === 'fittedGmv' ? 'Doanh thu trung bình ca' : 'Doanh thu tăng thêm trên mỗi giờ'
-                  ]}
-                  contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc', borderRadius: '12px' }}
-                />
-                <ReferenceArea x1={2.5} x2={3.5} fill="#10b981" fillOpacity={0.15} label="Vùng thời lượng tối ưu (2.5h - 3.5h)" />
-                <ReferenceLine x={3.1} stroke="#ef4444" strokeDasharray="3 3" label="Ngưỡng bão hòa: 3.1h" />
-                {polyView === 'fitted' ? (
-                  <Line type="monotone" dataKey="fittedGmv" stroke="#0D7287" strokeWidth={3} dot={{ r: 4, fill: '#0D7287' }} name="Doanh thu trung bình ca" />
-                ) : (
-                  <Line type="monotone" dataKey="marginalGmv" stroke="#ef4444" strokeWidth={3} dot={{ r: 4, fill: '#ef4444' }} name="Doanh thu tăng thêm trên mỗi giờ" />
-                )}
+                <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc', borderRadius: '12px' }} />
+                <Legend />
+                <ReferenceLine x={3.1} stroke="#ef4444" strokeDasharray="4 4" label={{ value: 'Đỉnh tối ưu: ~3.1h', position: 'top', fill: '#ef4444', fontSize: 11 }} />
+                <Line type="monotone" dataKey={polyView === 'fitted' ? 'fittedGmv' : 'marginalGmv'} stroke="#0D7287" strokeWidth={2.5} dot={false} name={polyView === 'fitted' ? 'Doanh thu ước lượng (M)' : 'Doanh thu tăng thêm/giờ (M)'} />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 rounded-xl bg-slate-900 p-4 text-xs text-slate-300">
-            <span className="text-amber-300 font-bold">Dẫn chứng Thực tế:</span>
+          <div className="flex flex-wrap items-center gap-3 rounded-xl bg-slate-100 dark:bg-slate-900 p-4 text-xs text-slate-700 dark:text-slate-300">
+            <span className="text-[#0D7287] dark:text-[#9BE7FA] font-bold">Dẫn chứng Thực tế:</span>
             <span>Ngày 09/04 shop đẩy mạnh lên tới 106 phiên LIVE toàn sàn nhưng GMV không tăng tỷ lệ thuận. Việc duy trì các ca LIVE kéo dài trên 4-6 tiếng chỉ làm tăng chi phí studio, mệt mỏi nhân sự mà không tạo thêm đơn hàng mới.</span>
           </div>
         </div>
@@ -607,16 +600,17 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
       {/* ==================================================================== */}
       {/* PHẦN 5: BÓC TÁCH XU HƯỚNG & TÍNH MÙA VỤ 180 NGÀY */}
       {/* ==================================================================== */}
-      <section id="sec-timeseries" className="space-y-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-slate-900/90 sm:p-10">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-teal-600 dark:text-teal-400">
-            <Activity className="h-4 w-4" />
-            {isEn ? 'PHASE 05: 180-DAY SEASONALITY & SIGNAL EXTRACTION' : 'PHẦN 5: BÓC TÁCH XU HƯỚNG & TÍNH MÙA VỤ 180 NGÀY'}
+      <section id="sec-timeseries" className="space-y-8 py-14 border-b border-slate-200/80 dark:border-slate-800">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="editorial-kicker">
+              {isEn ? 'PHASE 05 · 180-DAY TIME-SERIES DECOMPOSITION' : 'PHẦN 5 · BÓC TÁCH XU HƯỚNG & TÍNH MÙA VỤ 180 NGÀY'}
+            </span>
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+          <h2 className="editorial-section-title text-2xl sm:text-3xl lg:text-4xl text-slate-950 dark:text-white">
             {isEn ? '180-Day Seasonal Decomposition: Trend vs Cycle' : 'Bóc Tách Tín Hiệu Doanh Thu 180 Ngày: Hiệu Ứng Mùa Vụ Hè'}
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 sm:text-base">
+          <p className="editorial-lead text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-4xl">
             {isEn
               ? 'Decomposing 180 days of store sales into Trend, Seasonality, and Residual components. This demonstrates that the August-September decline was driven by seasonal post-summer vacation demand, not live team execution failure.'
               : 'Bóc tách dữ liệu 180 ngày thành Xu hướng dài hạn, Chu kỳ mùa vụ và Đợt sale đột biến. Kết quả chứng minh sự sụt giảm doanh số tháng 8-9 là hệ quả khách quan của chu kỳ mùa du lịch hè kết thúc, không hoàn toàn do lỗi đội ngũ vận hành Live.'}
@@ -624,35 +618,35 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
         </div>
 
         {/* Signal Breakdown Framework */}
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-slate-800 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200">
-          <div className="flex items-center justify-between border-b border-slate-200 pb-3 text-xs font-bold uppercase tracking-wider text-teal-600 dark:border-slate-800 dark:text-teal-400">
+        <div className="card-minimal p-6 space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 text-xs font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA]">
             <span className="flex items-center gap-2">
               <Activity className="h-4 w-4" />
               {isEn ? '180-Day Revenue Signal Breakdown' : 'Bóc Tách 3 Thành Phần Doanh Thu 180 Ngày'}
             </span>
-            <span className="rounded-full bg-teal-100 px-2.5 py-0.5 text-[10px] font-bold text-teal-800 dark:bg-teal-950 dark:text-teal-300">
+            <span className="font-mono text-[11px] text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/60 px-2.5 py-0.5 rounded border border-teal-200 dark:border-teal-800">
               Chu kỳ tuần hoàn 7 ngày
             </span>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 pt-4 text-xs sm:grid-cols-3">
-            <div className="rounded-xl bg-white p-4 border border-slate-200 dark:border-slate-800 dark:bg-slate-900">
-              <strong className="text-teal-600 dark:text-teal-300">1. Xu hướng Dài hạn (Trend):</strong>
-              <p className="mt-1.5 text-slate-500 dark:text-slate-400">Tăng trưởng mạnh mẽ từ tháng 4 đến tháng 6 (cao điểm sắm đồ bơi hè), thoái trào tự nhiên từ tháng 8 đến tháng 9 khi học sinh trở lại trường.</p>
+          <div className="grid grid-cols-1 gap-4 pt-1 text-xs sm:grid-cols-3">
+            <div className="space-y-1">
+              <strong className="text-[#0D7287] dark:text-[#9BE7FA]">1. Xu hướng Dài hạn (Trend):</strong>
+              <p className="text-slate-500 dark:text-slate-400">Tăng trưởng mạnh mẽ từ tháng 4 đến tháng 6 (cao điểm sắm đồ bơi hè), thoái trào tự nhiên từ tháng 8 đến tháng 9 khi học sinh trở lại trường.</p>
             </div>
-            <div className="rounded-xl bg-white p-4 border border-slate-200 dark:border-slate-800 dark:bg-slate-900">
+            <div className="space-y-1">
               <strong className="text-amber-600 dark:text-amber-400">2. Chu kỳ Tuần hoàn (Seasonality):</strong>
-              <p className="mt-1.5 text-slate-500 dark:text-slate-400">Tập trung doanh số cao vào thứ Năm đến thứ Bảy hàng tuần để kịp giao hàng phục vụ các chuyến du lịch cuối tuần.</p>
+              <p className="text-slate-500 dark:text-slate-400">Tập trung doanh số cao vào thứ Năm đến thứ Bảy hàng tuần để kịp giao hàng phục vụ các chuyến du lịch cuối tuần.</p>
             </div>
-            <div className="rounded-xl bg-white p-4 border border-slate-200 dark:border-slate-800 dark:bg-slate-900">
+            <div className="space-y-1">
               <strong className="text-emerald-600 dark:text-emerald-400">3. Xung lực Đột biến (Residual):</strong>
-              <p className="mt-1.5 text-slate-500 dark:text-slate-400">Các đợt bùng nổ đơn hàng phát sinh từ chiến dịch Mega Sale định kỳ của nền tảng TikTok Shop (6.6, 7.7).</p>
+              <p className="text-slate-500 dark:text-slate-400">Các đợt bùng nổ đơn hàng phát sinh từ chiến dịch Mega Sale định kỳ của nền tảng TikTok Shop (6.6, 7.7).</p>
             </div>
           </div>
         </div>
 
         {/* 4-Panel Synchronized Time-Series Chart */}
-        <div id="chart-decomp-4panel" className="space-y-6 rounded-2xl border border-slate-100 bg-slate-50/50 p-5 dark:border-slate-800 dark:bg-slate-950/40">
+        <div id="chart-decomp-4panel" className="card-minimal p-6 space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h3 className="font-bold text-slate-900 dark:text-white">
@@ -672,17 +666,17 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
                 <button
                   key={btn.id}
                   onClick={() => setTsPanelFocus(btn.id as any)}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${tsPanelFocus === btn.id ? 'bg-teal-600 text-white' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300'}`}
+                  className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${tsPanelFocus === btn.id ? 'bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 font-bold' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'}`}
                 >
                   {btn.label}
                 </button>
               ))}
               <button
                 onClick={() => handleExport('chart-decomp-4panel', 'TimeSeries_Breakdown_KamiEly')}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                className="btn-secondary-editorial py-1.5 px-3 text-xs flex items-center gap-1.5"
               >
                 <Download className="h-3.5 w-3.5" />
-                {isEn ? 'Export PNG' : 'Xuất'}
+                <span>{isEn ? 'Export PNG' : 'Xuất'}</span>
               </button>
             </div>
           </div>
@@ -691,7 +685,7 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
             {/* Panel 1: Original */}
             {(tsPanelFocus === 'all' || tsPanelFocus === 'trend') && (
               <div className="space-y-2">
-                <span className="text-xs font-bold text-teal-700 dark:text-teal-300">1. Doanh thu Thực tế & Đường Xu hướng Dài hạn</span>
+                <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">1. Doanh thu Thực tế & Đường Xu hướng Dài hạn</span>
                 <div className="h-44 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={KAMI_MATH_STATS.timeSeries.data} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
@@ -753,16 +747,17 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
       {/* ==================================================================== */}
       {/* PHẦN 6: CHIẾN LƯỢC TỐI ƯU HÓA PHÂN BỔ NGUỒN LỰC & DANH MỤC SKU */}
       {/* ==================================================================== */}
-      <section id="sec-optimization" className="space-y-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-slate-900/90 sm:p-10">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-teal-600 dark:text-teal-400">
-            <Sliders className="h-4 w-4" />
-            {isEn ? 'PHASE 06: RESOURCE ALLOCATION & SKU STRATEGY' : 'PHẦN 6: CHIẾN LƯỢC TỐI ƯU HÓA PHÂN BỔ NGUỒN LỰC & DANH MỤC SKU'}
+      <section id="sec-optimization" className="space-y-8 py-14 border-b border-slate-200/80 dark:border-slate-800">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="editorial-kicker">
+              {isEn ? 'PHASE 06 · RESOURCE ALLOCATION & SKU STRATEGY' : 'PHẦN 6 · TỐI ƯU NGUỒN LỰC & CHIẾN LƯỢC SKU'}
+            </span>
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+          <h2 className="editorial-section-title text-2xl sm:text-3xl lg:text-4xl text-slate-950 dark:text-white">
             {isEn ? 'Resource Reallocation & Top 5% Hero SKU Strategy' : 'Tối Ưu Phân Bổ Nguồn Lực & Chiến Lược Hero SKU Top 5%'}
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 sm:text-base">
+          <p className="editorial-lead text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-4xl">
             {isEn
               ? 'Turning analytical insights into high-impact executive actions: reducing live streaming hours past the plateau threshold to fund shoppable video expansion, and concentrating ad spend on Top 5% Hero SKUs.'
               : 'Chuyển hóa các phân tích thành quyết định kinh doanh cụ thể: cắt giảm 50% thời lượng Live vượt ngưỡng hiệu quả, tái phân bổ nguồn lực sang sản xuất video gắn giỏ hàng và dồn 80% ngân sách vào các Hero SKU bán chạy nhất.'}
