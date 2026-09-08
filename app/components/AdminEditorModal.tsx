@@ -68,17 +68,14 @@ function AdminEditorContent({ onClose }: { onClose: () => void }) {
 
   // Sync state if context updates externally
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setProfileForm(JSON.parse(JSON.stringify(profile)));
   }, [profile]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setProjectsForm(JSON.parse(JSON.stringify(projects)));
   }, [projects]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTextsForm(JSON.parse(JSON.stringify(customTexts)));
   }, [customTexts]);
 

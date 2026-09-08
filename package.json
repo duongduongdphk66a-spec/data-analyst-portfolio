@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "next lint",
     "test": "vitest run",
     "clean": "next clean"
   },
@@ -29,11 +29,13 @@
   "devDependencies": {
     "@tailwindcss/postcss": "4.1.11",
     "@tailwindcss/typography": "^0.5.19",
+    "@types/eslint": "^9.6.1",
     "@types/node": "^20",
     "@types/papaparse": "^5.5.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "9.39.1",
+    "cross-env": "^10.1.0",
+    "eslint": "^8.57.1",
     "eslint-config-next": "^15.4.9",
     "tailwindcss": "4.1.11",
     "typescript": "5.9.3",
