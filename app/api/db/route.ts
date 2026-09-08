@@ -9,14 +9,14 @@ export async function GET(req: NextRequest) {
     const connTest = await testDbConnection();
     const auth = verifyAdminRequest(req);
 
-    // Public health check: trả trạng thái kết nối cơ bản cho mọi visitor (không lộ stats)
+    // Public health check: trả trạng thái kết nối cơ bản cho visitor mà không làm lộ công nghệ backend (MySQL)
     if (!auth.authenticated) {
       return NextResponse.json({
         connected: connTest.connected,
         message: connTest.connected
-          ? 'Kết nối MySQL hoạt động bình thường.'
-          : connTest.message,
-        source: connTest.connected ? 'mysql' : 'local_fallback',
+          ? 'Dịch vụ dữ liệu hoạt động bình thường.'
+          : 'Dịch vụ đang hoạt động ở chế độ dữ liệu dự phòng.',
+        source: connTest.connected ? 'online' : 'static',
       });
     }
 

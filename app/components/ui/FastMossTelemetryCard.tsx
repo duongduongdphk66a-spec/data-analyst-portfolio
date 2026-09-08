@@ -29,7 +29,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
             <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider ${
               isShop 
                 ? 'bg-[#0D7287]/10 text-[#0D7287] border border-[#0D7287]/20 dark:bg-[#9BE7FA]/10 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30' 
-                : 'bg-amber-500/10 text-amber-700 border border-amber-500/20 dark:bg-amber-400/10 dark:text-amber-300 dark:border-amber-400/30'
+                : 'bg-[#FFE485]/30 text-[#B88B0D] border border-[#FFD14C]/40 dark:bg-[#FFD14C]/10 dark:text-[#FFE485] dark:border-[#FFD14C]/30'
             }`}>
               <ShieldCheck className="w-3 h-3" />
               {isShop ? (isEn ? 'SHOP TELEMETRY' : 'DỮ LIỆU SHOP') : (isEn ? 'CREATOR TELEMETRY' : 'DỮ LIỆU KOC')}
@@ -51,7 +51,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
           <div 
             className="absolute inset-0 opacity-20 pointer-events-none"
             style={{
-              backgroundImage: 'linear-gradient(to right, #38bdf8 1px, transparent 1px), linear-gradient(to bottom, #38bdf8 1px, transparent 1px)',
+              backgroundImage: 'linear-gradient(to right, #9BE7FA 1px, transparent 1px), linear-gradient(to bottom, #9BE7FA 1px, transparent 1px)',
               backgroundSize: '16px 16px'
             }}
           />
@@ -59,14 +59,14 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
           <div className="relative z-10 flex justify-between items-start">
             <div className="space-y-0.5">
               <span className="text-[9px] uppercase font-mono tracking-wider text-slate-400 flex items-center gap-1">
-                <Terminal className="w-2.5 h-2.5 text-[#38bdf8]" />
+                <Terminal className="w-2.5 h-2.5 text-[#9BE7FA]" />
                 FastMoss API v2.4
               </span>
               <div className="text-xs font-black text-white truncate max-w-[170px]">
                 {item.keyMetric || (isShop ? 'GMV & Order Stream' : 'Creator Performance')}
               </div>
             </div>
-            <span className="p-1 rounded-md bg-slate-800/80 text-[#38bdf8] group-hover:bg-[#0D7287] group-hover:text-white transition-colors">
+            <span className="p-1 rounded-md bg-slate-800/80 text-[#9BE7FA] group-hover:bg-[#0D7287] group-hover:text-white transition-colors">
               <Maximize2 className="w-3 h-3" />
             </span>
           </div>
@@ -76,8 +76,8 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
             <svg className="w-full h-full overflow-visible" viewBox="0 0 200 40" preserveAspectRatio="none">
               <defs>
                 <linearGradient id={`grad-${item.id}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#0284c7" stopOpacity="0.4" />
-                  <stop offset="100%" stopColor="#0284c7" stopOpacity="0.0" />
+                  <stop offset="0%" stopColor={isShop ? '#0D7287' : '#FFD14C'} stopOpacity="0.4" />
+                  <stop offset="100%" stopColor={isShop ? '#0D7287' : '#FFD14C'} stopOpacity="0.0" />
                 </linearGradient>
               </defs>
               <path
@@ -85,7 +85,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
                   ? "M 0 35 Q 30 25, 60 28 T 120 15 T 160 8 T 200 4" 
                   : "M 0 30 Q 40 32, 80 18 T 130 22 T 170 10 T 200 6"}
                 fill="none"
-                stroke={isShop ? '#38bdf8' : '#fbbf24'}
+                stroke={isShop ? '#9BE7FA' : '#FFD14C'}
                 strokeWidth="2"
               />
               <path
@@ -94,7 +94,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
                   : "M 0 30 Q 40 32, 80 18 T 130 22 T 170 10 T 200 6 L 200 40 L 0 40 Z"}
                 fill={`url(#grad-${item.id})`}
               />
-              <circle cx="200" cy={isShop ? "4" : "6"} r="3" fill={isShop ? '#38bdf8' : '#fbbf24'} />
+              <circle cx="200" cy={isShop ? "4" : "6"} r="3" fill={isShop ? '#9BE7FA' : '#FFD14C'} />
             </svg>
           </div>
 
@@ -198,7 +198,7 @@ export function FastMossTelemetryModal({
             </div>
             <div className="h-4 w-[1px] bg-slate-800 mx-1" />
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-cyan-400" />
+              <ShieldCheck className="w-4 h-4 text-[#9BE7FA]" />
               <span className="font-mono text-xs font-bold text-slate-200">
                 FastMoss Telemetry Node Inspector [{item.id}]
               </span>
@@ -211,7 +211,7 @@ export function FastMossTelemetryModal({
               <button
                 onClick={() => setActiveTab('visual')}
                 className={`px-3 py-1 rounded-lg font-medium transition-all ${
-                  activeTab === 'visual' ? 'bg-cyan-500 text-slate-950 font-bold shadow-xs' : 'text-slate-400 hover:text-white'
+                  activeTab === 'visual' ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs' : 'text-slate-400 hover:text-white'
                 }`}
               >
                 {isEn ? 'Visual Panel' : 'Giao diện Dữ liệu'}
@@ -219,7 +219,7 @@ export function FastMossTelemetryModal({
               <button
                 onClick={() => setActiveTab('json')}
                 className={`px-3 py-1 rounded-lg font-medium transition-all flex items-center gap-1 ${
-                  activeTab === 'json' ? 'bg-cyan-500 text-slate-950 font-bold shadow-xs' : 'text-slate-400 hover:text-white'
+                  activeTab === 'json' ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs' : 'text-slate-400 hover:text-white'
                 }`}
               >
                 <FileJson className="w-3 h-3" />
@@ -228,7 +228,7 @@ export function FastMossTelemetryModal({
               <button
                 onClick={() => setActiveTab('sql')}
                 className={`px-3 py-1 rounded-lg font-medium transition-all flex items-center gap-1 ${
-                  activeTab === 'sql' ? 'bg-cyan-500 text-slate-950 font-bold shadow-xs' : 'text-slate-400 hover:text-white'
+                  activeTab === 'sql' ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs' : 'text-slate-400 hover:text-white'
                 }`}
               >
                 <Database className="w-3 h-3" />
@@ -252,7 +252,7 @@ export function FastMossTelemetryModal({
               {/* Metric Hero Card */}
               <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-900 to-slate-950 border border-slate-700 space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="px-3 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono font-bold">
+                  <span className="px-3 py-1 rounded-lg bg-[#9BE7FA]/10 border border-[#9BE7FA]/30 text-[#9BE7FA] text-xs font-mono font-bold">
                     {item.group === 'shop' ? 'TIKTOK SHOP ENTERPRISE TELEMETRY' : 'TIKTOK CREATOR NETWORK TELEMETRY'}
                   </span>
                   <span className="text-xs font-mono text-slate-400">
@@ -270,16 +270,16 @@ export function FastMossTelemetryModal({
                 </div>
 
                 {item.keyMetric && (
-                  <div className="p-4 rounded-xl bg-cyan-950/40 border border-cyan-500/30 flex items-center justify-between">
+                  <div className="p-4 rounded-xl bg-cyan-950/40 border border-[#9BE7FA]/30 flex items-center justify-between">
                     <div>
-                      <span className="text-[11px] font-mono uppercase tracking-wider text-cyan-400">
+                      <span className="text-[11px] font-mono uppercase tracking-wider text-[#9BE7FA]">
                         {isEn ? 'Primary Verified Metric' : 'Chỉ số đo lường chính thức'}
                       </span>
                       <div className="text-xl font-mono font-black text-white mt-0.5">
                         {item.keyMetric}
                       </div>
                     </div>
-                    <span className="px-3 py-1.5 rounded-lg bg-cyan-500 text-slate-950 text-xs font-black flex items-center gap-1.5">
+                    <span className="px-3 py-1.5 rounded-lg bg-[#FFD14C] text-slate-950 text-xs font-black flex items-center gap-1.5">
                       <CheckCircle2 className="w-4 h-4" />
                       100% AUDITED
                     </span>
@@ -292,7 +292,7 @@ export function FastMossTelemetryModal({
                 <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700/80 space-y-1">
                   <span className="text-[10px] font-mono text-slate-400 uppercase">Engine Type</span>
                   <div className="text-sm font-bold text-white flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-emerald-400" />
+                    <Activity className="w-4 h-4 text-[#9BE7FA]" />
                     FastMoss Partner REST
                   </div>
                   <p className="text-[10px] text-slate-400">Real-time TikTok crawler engine</p>
@@ -300,8 +300,8 @@ export function FastMossTelemetryModal({
 
                 <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700/80 space-y-1">
                   <span className="text-[10px] font-mono text-slate-400 uppercase">Database Mapping</span>
-                  <div className="text-sm font-bold text-cyan-400 flex items-center gap-2">
-                    <Database className="w-4 h-4 text-cyan-400" />
+                  <div className="text-sm font-bold text-[#9BE7FA] flex items-center gap-2">
+                    <Database className="w-4 h-4 text-[#9BE7FA]" />
                     MySQL `pplo` Active
                   </div>
                   <p className="text-[10px] text-slate-400">Synced to 8 relational tables</p>
@@ -309,8 +309,8 @@ export function FastMossTelemetryModal({
 
                 <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700/80 space-y-1">
                   <span className="text-[10px] font-mono text-slate-400 uppercase">Security Integrity</span>
-                  <div className="text-sm font-bold text-amber-400 flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-amber-400" />
+                  <div className="text-sm font-bold text-[#FFD14C] flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4 text-[#FFD14C]" />
                     Hash Verified
                   </div>
                   <p className="text-[10px] text-slate-400">Tamper-proof financial snapshot</p>
@@ -320,12 +320,12 @@ export function FastMossTelemetryModal({
           )}
 
           {activeTab === 'json' && (
-            <div className="relative p-4 rounded-2xl bg-slate-950 border border-slate-800 font-mono text-xs text-emerald-400 overflow-x-auto">
+            <div className="relative p-4 rounded-2xl bg-slate-950 border border-slate-800 font-mono text-xs text-[#9BE7FA] overflow-x-auto">
               <button
                 onClick={() => handleCopy(JSON.stringify(mockPayload, null, 2))}
                 className="absolute top-4 right-4 p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors flex items-center gap-1.5 text-xs font-sans"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? <Check className="w-3.5 h-3.5 text-[#9BE7FA]" /> : <Copy className="w-3.5 h-3.5 text-[#9BE7FA]" />}
                 {copied ? (isEn ? 'Copied' : 'Đã sao chép') : (isEn ? 'Copy JSON' : 'Sao chép JSON')}
               </button>
               <pre>{JSON.stringify(mockPayload, null, 2)}</pre>
@@ -333,12 +333,12 @@ export function FastMossTelemetryModal({
           )}
 
           {activeTab === 'sql' && (
-            <div className="relative p-4 rounded-2xl bg-slate-950 border border-slate-800 font-mono text-xs text-cyan-300 overflow-x-auto">
+            <div className="relative p-4 rounded-2xl bg-slate-950 border border-slate-800 font-mono text-xs text-[#C8EEF7] overflow-x-auto">
               <button
                 onClick={() => handleCopy(sqlQuery)}
                 className="absolute top-4 right-4 p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors flex items-center gap-1.5 text-xs font-sans"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? <Check className="w-3.5 h-3.5 text-[#9BE7FA]" /> : <Copy className="w-3.5 h-3.5 text-[#9BE7FA]" />}
                 {copied ? (isEn ? 'Copied' : 'Đã sao chép') : (isEn ? 'Copy SQL' : 'Sao chép SQL')}
               </button>
               <pre>{sqlQuery}</pre>
@@ -363,7 +363,7 @@ export function FastMossTelemetryModal({
             {onNext && (
               <button
                 onClick={onNext}
-                className="px-3.5 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition-all cursor-pointer"
+                className="px-3.5 py-1.5 rounded-xl bg-[#0D7287] hover:bg-[#074553] text-white text-xs font-bold transition-all cursor-pointer"
               >
                 {isEn ? 'Next' : 'Kế tiếp'}
               </button>

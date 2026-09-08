@@ -14,8 +14,8 @@ interface CacheEntry<T> {
 
 const memoryCache = new Map<string, CacheEntry<unknown>>();
 
-// TTL in-memory ngắn để đảm bảo các worker PM2 khác nhau nhận diện thay đổi tức thời (tối đa 5s)
-const L1_MEMORY_TTL_MS = 5 * 1000;
+// TTL in-memory (30s) giúp giảm tải truy vấn MySQL khi có lượt truy cập cao
+const L1_MEMORY_TTL_MS = 30 * 1000;
 // TTL mặc định trên MySQL Shared Cache (60s)
 const DEFAULT_L2_TTL_MS = 60 * 1000;
 

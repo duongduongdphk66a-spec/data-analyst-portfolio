@@ -5,7 +5,7 @@ import {
   ArrowLeft, Download, ExternalLink, Radio, Link as LinkIcon, 
   Flame, ShoppingBag, Video, Award, TrendingUp, Clock,
   Bookmark, ShieldCheck, Sparkles, Store, UserCheck,
-  Image as ImageIcon, X, ZoomIn, Eye, CheckCircle2, ChevronRight,
+  Image as ImageIcon, X, Eye, CheckCircle2, ChevronRight,
   ChevronDown, Users, Lightbulb, ArrowRight
 } from 'lucide-react';
 import { 

@@ -537,7 +537,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 </div>
 
                 <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-                  <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-indigo-700 dark:text-indigo-400">
+                  <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-[#0D7287] dark:text-[#9BE7FA]">
                     <Camera className="w-4 h-4" />
                     <span>2.1.3 Hạ tầng đa ngôn ngữ, Wi-Fi & Cashless</span>
                   </h4>
@@ -547,7 +547,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 </div>
 
                 <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-                  <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-purple-700 dark:text-purple-400">
+                  <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-[#0D7287] dark:text-[#9BE7FA]">
                     <Users className="w-4 h-4" />
                     <span>2.1.4 Phát triển Du lịch MICE & Hội nghị Quốc tế</span>
                   </h4>
@@ -671,7 +671,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Tác động ngân sách Kyoto</span>
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">39 Tỷ ¥ Thuế</span>
-                  <span className="text-xs font-bold text-purple-600 dark:text-purple-400">12.8%</span>
+                  <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">12.8%</span>
                 </div>
                 <p className="text-xs text-slate-500 mt-1">Tạo 153.000 việc làm cho Kyoto</p>
               </div>
@@ -1239,7 +1239,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                         Làng cổ Shirakawa-go: Chế độ đặt chỗ trước 100% Lễ hội Ánh sáng Winter Light-up
                       </h4>
                     </div>
-                    <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-900 text-xs font-bold w-fit dark:bg-purple-950/60 dark:text-purple-300">
+                    <span className="px-3 py-1 rounded-full bg-[#C8EEF7]/40 text-[#0D7287] border border-[#9BE7FA] text-xs font-bold w-fit dark:bg-[#0D7287]/20 dark:text-[#9BE7FA] dark:border-[#0D7287]/40">
                       600 dân vs 1.8M khách
                     </span>
                   </div>
@@ -1273,12 +1273,12 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
                 <div className="space-y-6">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 dark:border-slate-800">
                     <div>
-                      <span className="text-xs font-extrabold text-purple-600 uppercase tracking-wider dark:text-purple-400">Case Study 05</span>
+                      <span className="text-xs font-extrabold text-[#0D7287] uppercase tracking-wider dark:text-[#9BE7FA]">Case Study 05</span>
                       <h4 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
                         Đền Itsukushima (Miyajima): Thuế vào đảo 100 Yên tái thiết di sản
                       </h4>
                     </div>
-                    <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-900 text-xs font-bold w-fit dark:bg-blue-950/60 dark:text-blue-300">
+                    <span className="px-3 py-1 rounded-full bg-[#C8EEF7]/40 text-[#0D7287] border border-[#9BE7FA] text-xs font-bold w-fit dark:bg-[#0D7287]/20 dark:text-[#9BE7FA]">
                       4.6M du khách (2019)
                     </span>
                   </div>
@@ -1335,7 +1335,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
             {/* 4 Key Policy Lessons */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
               <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#8CE0F4] text-slate-950 font-black text-sm mb-3">01</span>
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#9BE7FA] text-slate-950 font-black text-sm mb-3">01</span>
                 <h4 className="font-black text-slate-900 text-base mb-1 dark:text-white">Chuyển dịch sang bảo tồn động</h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
                   Từ bỏ tư duy bảo tồn khép kín trong bảo tàng sang mô hình kết hợp bảo tồn với phát huy giá trị di sản (tiêu biểu là đề án Japan Heritage), biến di sản thành tài sản phát triển kinh tế sinh lời cho xã hội.
@@ -1343,7 +1343,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
               </div>
 
               <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-200 text-amber-950 font-black text-sm mb-3">02</span>
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#FFD14C] text-slate-950 font-black text-sm mb-3">02</span>
                 <h4 className="font-black text-slate-900 text-base mb-1 dark:text-white">Ứng dụng công nghệ quản trị thông minh</h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
                   Sử dụng bản đồ trực tiếp camera AI mật độ (Kyoto Comfort Map), hệ thống đặt chỗ trước bắt buộc (Shirakawa-go) và công nghệ thực tế ảo VR (Núi Phú Sĩ) để chủ động điều tiết dòng du khách.
@@ -1351,7 +1351,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
               </div>
 
               <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-200 text-emerald-950 font-black text-sm mb-3">03</span>
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#C8EEF7] text-[#0D7287] font-black text-sm mb-3">03</span>
                 <h4 className="font-black text-slate-900 text-base mb-1 dark:text-white">Đa dạng hóa công cụ tài chính</h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
                   Linh hoạt áp dụng thuế du khách vào đảo (Miyajima), quỹ bảo tồn tự nguyện (Núi Phú Sĩ) và thuế lưu trú để tạo nguồn ngân sách bền vững tái đầu tư cho công tác trùng tu và dọn dẹp vệ sinh.
@@ -1359,7 +1359,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: { onBack?: 
               </div>
 
               <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-purple-200 text-purple-950 font-black text-sm mb-3">04</span>
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#FFE485] text-slate-950 font-black text-sm mb-3">04</span>
                 <h4 className="font-black text-slate-900 text-base mb-1 dark:text-white">Đặt cư dân bản địa làm trung tâm</h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
                   Không đánh đổi cuộc sống bình yên của người dân lấy tăng trưởng du lịch nóng. Khi có xung đột lợi ích, các chính quyền địa phương lập tức ban hành chế tài quản lý lưu trú và giải tỏa giao thông dân sinh.

@@ -1370,7 +1370,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: { onBack?: () 
           >
             <div className="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-800">
               <div className="space-y-0.5">
-                <span className="px-2.5 py-0.5 rounded-md bg-[#BD5705]/10 text-[#BD5705] font-mono text-[10px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-md bg-[#0D7287]/10 text-[#0D7287] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] font-mono text-[10px] font-bold">
                   {selectedGalleryItem.tag}
                 </span>
                 <h3 className="text-lg font-black text-slate-900 dark:text-white">

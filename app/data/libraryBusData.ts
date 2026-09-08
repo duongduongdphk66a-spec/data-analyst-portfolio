@@ -242,22 +242,22 @@ export const BRAND_IDENTITY_DATA = {
 };
 
 // ==========================================
-// Bảng màu Neo-Bakery 6-Tone nguyên bản từ C:\Users\ADMIN\Documents\prj\DESIGN.md
+// Bảng màu chuẩn hóa từ Bảng 4 màu chính thức (#9BE7FA, #C8EEF7, #FFE485, #FFD14C)
 export const NEO_BAKERY_TOKENS = {
-  molasses: '#4E0705',         // Deep mahogany ink / page ground dark
-  wellBrowned: '#812203',     // Roasted chestnut / hover accent
-  roast: '#BD5705',           // Caramel bronze / Primary CTA
-  toasty: '#ED9040',          // Amber glow / active border
-  greasey: '#FFC270',         // Warm honey butter / badge background
-  butter: '#FDE971',          // Soft pastry yellow / dark text highlight
-  bgPage: '#FFFDF9',          // Crisp ivory
-  bgPageAlt: '#FAF4EC',       // Warm rice paper
+  molasses: '#074553',         // Deep teal anchor / page ground dark (Darker shade of #9BE7FA)
+  wellBrowned: '#095869',     // Rich deep cyan hover
+  roast: '#0D7287',           // Deep cyan brand anchor / Primary CTA
+  toasty: '#9BE7FA',          // Sky blue vivid / active border
+  greasey: '#FFE485',         // Soft sunlight cream / badge background
+  butter: '#FFD14C',          // Honey gold CTA / highlight
+  bgPage: '#FAFDFE',          // Clean ice ground
+  bgPageAlt: '#F0F9FB',       // Soft sky surface
   bgSurface: '#FFFFFF',       // Elevated card surface
-  bgSurfaceRaised: '#FAF5EF', // Interactive surface
-  bgSurfaceSunken: '#F4ECE1', // Input recessed surface
-  darkPage: '#170706',        // Deep espresso ground
-  darkSurface: '#240C0B',     // Dark card surface
-  darkSurfaceRaised: '#331210',
+  bgSurfaceRaised: '#E8FAFE', // Interactive surface
+  bgSurfaceSunken: '#C8EEF7', // Input recessed surface
+  darkPage: '#0B171D',        // Deep night teal ground
+  darkSurface: '#0F262F',     // Dark card surface
+  darkSurfaceRaised: '#153A47',
 };
 
 // ==========================================
@@ -710,7 +710,7 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Quick News Carousel"
     ],
     "uiFeatures": [
-      "Bảng màu Mật mía - Bơ sữa (#0D7287, #BD5705)",
+      "Bảng màu nhận diện (#0D7287, #9BE7FA, #FFD14C)",
       "Font Lora Serif + Outfit Sans",
       "Thao tác 1 chạm trong tầm ngón tay",
       "Khớp kích thước 1-to-1 Wireframe"
@@ -1473,11 +1473,11 @@ export const realUIGallery = [
   {
     id: 'ui-design-all',
     titleVi: 'Toàn Bộ 20 Màn Hình Giao Diện Thật (UI Design)',
-    titleEn: 'Full 20-Screen Master Board (Neo-Bakery UI Design)',
-    descVi: 'Bảng thiết kế hoàn chỉnh 20 màn hình giao diện thực tế của hệ thống Tủ Sách Lưu Động áp dụng bảng màu Neo-Bakery 6-tone (#4E0705, #BD5705, #FFC270...).',
-    descEn: 'Master board containing all 20 production screens of Library Bus system styled with the 6-tone Neo-Bakery palette.',
+    titleEn: 'Full 20-Screen Master Board (UI Design)',
+    descVi: 'Bảng thiết kế hoàn chỉnh 20 màn hình giao diện thực tế của hệ thống Tủ Sách Lưu Động áp dụng bảng màu nhận diện chuẩn (#0D7287, #9BE7FA, #FFD14C, #C8EEF7).',
+    descEn: 'Master board containing all 20 production screens of Library Bus system styled with the official 4-color palette.',
     src: '/library-bus/library_bus_ui_design_all_screens.png',
-    tag: 'Neo-Bakery 6-Tone'
+    tag: 'Official 4-Tone UI'
   },
   {
     id: 'wireframe-all',

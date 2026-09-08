@@ -154,11 +154,28 @@ export async function initDatabase(force = false): Promise<{ success: boolean; m
         problem TEXT,
         method TEXT,
         insight TEXT,
+        content LONGTEXT,
+        metrics_json LONGTEXT,
+        tools_json LONGTEXT,
         sort_order INT DEFAULT 0,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY (id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
+
+    // Ensure columns exist if table was created in an older schema version
+    const projectCols = [
+      { name: 'content', type: 'LONGTEXT' },
+      { name: 'metrics_json', type: 'LONGTEXT' },
+      { name: 'tools_json', type: 'LONGTEXT' },
+    ];
+    for (const col of projectCols) {
+      try {
+        await p.query(`ALTER TABLE portfolio_projects ADD COLUMN ${col.name} ${col.type}`);
+      } catch {
+        // Column already exists
+      }
+    }
 
     // Seed Profile if empty
     const [profRows] = await p.query<RowDataPacket[]>('SELECT COUNT(*) as count FROM portfolio_profile WHERE id = 1');
@@ -218,8 +235,8 @@ export async function initDatabase(force = false): Promise<{ success: boolean; m
         const proj = DEFAULT_PROJECTS[i];
         await p.query(
           `INSERT INTO portfolio_projects 
-            (id, title, desc_text, tags_json, img, demo_url, github_url, embed_url, featured, problem, method, insight, sort_order)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (id, title, desc_text, tags_json, img, demo_url, github_url, embed_url, featured, problem, method, insight, content, metrics_json, tools_json, sort_order)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
            ON DUPLICATE KEY UPDATE
             title = VALUES(title),
             desc_text = VALUES(desc_text),
@@ -232,6 +249,9 @@ export async function initDatabase(force = false): Promise<{ success: boolean; m
             problem = VALUES(problem),
             method = VALUES(method),
             insight = VALUES(insight),
+            content = VALUES(content),
+            metrics_json = VALUES(metrics_json),
+            tools_json = VALUES(tools_json),
             sort_order = VALUES(sort_order)`,
           [
             proj.id,
@@ -246,6 +266,9 @@ export async function initDatabase(force = false): Promise<{ success: boolean; m
             proj.problem || '',
             proj.method || '',
             proj.insight || '',
+            proj.content || '',
+            JSON.stringify(proj.metrics || []),
+            JSON.stringify(proj.tools || []),
             i,
           ]
         );

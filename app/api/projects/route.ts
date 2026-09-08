@@ -136,8 +136,11 @@ export async function POST(req: NextRequest) {
       const cleanProblem = sanitizeTextInput(proj.problem, 10000);
       const cleanMethod = sanitizeTextInput(proj.method, 10000);
       const cleanInsight = sanitizeTextInput(proj.insight, 10000);
+      const cleanContent = proj.content ? sanitizeTextInput(proj.content, 50000) : '';
+      const cleanMetrics = proj.metrics ? JSON.stringify(proj.metrics) : null;
+      const cleanTools = proj.tools ? JSON.stringify(proj.tools) : null;
 
-      placeholders.push('(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+      placeholders.push('(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
       values.push(
         cleanId,
         cleanTitle,
@@ -151,6 +154,9 @@ export async function POST(req: NextRequest) {
         cleanProblem,
         cleanMethod,
         cleanInsight,
+        cleanContent,
+        cleanMetrics,
+        cleanTools,
         i,
       );
     }
@@ -158,7 +164,7 @@ export async function POST(req: NextRequest) {
     if (placeholders.length > 0) {
       const sql = `
         INSERT INTO portfolio_projects 
-          (id, title, desc_text, tags_json, img, demo_url, github_url, embed_url, featured, problem, method, insight, sort_order)
+          (id, title, desc_text, tags_json, img, demo_url, github_url, embed_url, featured, problem, method, insight, content, metrics_json, tools_json, sort_order)
         VALUES 
           ${placeholders.join(', ')}
         ON DUPLICATE KEY UPDATE
@@ -173,6 +179,9 @@ export async function POST(req: NextRequest) {
           problem = VALUES(problem),
           method = VALUES(method),
           insight = VALUES(insight),
+          content = VALUES(content),
+          metrics_json = VALUES(metrics_json),
+          tools_json = VALUES(tools_json),
           sort_order = VALUES(sort_order)
       `;
 
@@ -217,6 +226,24 @@ function mapRowsToProjects(rows: RowDataPacket[]): ProjectData[] {
       tags = defaultProj?.tags || [];
     }
 
+    let metrics = defaultProj?.metrics;
+    if (row.metrics_json) {
+      try {
+        metrics = typeof row.metrics_json === 'string' ? JSON.parse(row.metrics_json) : row.metrics_json;
+      } catch {
+        metrics = defaultProj?.metrics;
+      }
+    }
+
+    let tools = defaultProj?.tools;
+    if (row.tools_json) {
+      try {
+        tools = typeof row.tools_json === 'string' ? JSON.parse(row.tools_json) : row.tools_json;
+      } catch {
+        tools = defaultProj?.tools;
+      }
+    }
+
     return {
       id: row.id,
       title: row.title,
@@ -227,9 +254,9 @@ function mapRowsToProjects(rows: RowDataPacket[]): ProjectData[] {
       githubUrl: row.github_url || defaultProj?.githubUrl,
       embedUrl: row.embed_url || defaultProj?.embedUrl,
       featured: Boolean(row.featured),
-      content: defaultProj?.content,
-      metrics: defaultProj?.metrics,
-      tools: defaultProj?.tools,
+      content: row.content || defaultProj?.content,
+      metrics,
+      tools,
       problem: row.problem || defaultProj?.problem,
       method: row.method || defaultProj?.method,
       insight: row.insight || defaultProj?.insight,

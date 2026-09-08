@@ -53,6 +53,9 @@ CREATE TABLE IF NOT EXISTS `portfolio_projects` (
   `problem` TEXT,
   `method` TEXT,
   `insight` TEXT,
+  `content` LONGTEXT,
+  `metrics_json` LONGTEXT,
+  `tools_json` LONGTEXT,
   `sort_order` INT DEFAULT 0,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
