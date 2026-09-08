@@ -8,7 +8,7 @@ import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/a
 import { sanitizeTextInput, sanitizeUrl } from '@/app/lib/security';
 
 const CACHE_HEADERS = {
-  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+  'Cache-Control': 'private, no-store',
 };
 
 /**
@@ -62,7 +62,6 @@ export async function GET() {
       success: true,
       source: 'fallback',
       data: DEFAULT_PROJECTS,
-      error: message,
     }, { headers: CACHE_HEADERS });
   }
 }
@@ -82,6 +81,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
+    const isFullList = Array.isArray(body.projects) || Array.isArray(body);
     const projectsToSave: ProjectData[] = Array.isArray(body.projects)
       ? body.projects
       : Array.isArray(body)
@@ -162,30 +162,52 @@ export async function POST(req: NextRequest) {
     }
 
     if (placeholders.length > 0) {
-      const sql = `
-        INSERT INTO portfolio_projects 
-          (id, title, desc_text, tags_json, img, demo_url, github_url, embed_url, featured, problem, method, insight, content, metrics_json, tools_json, sort_order)
-        VALUES 
-          ${placeholders.join(', ')}
-        ON DUPLICATE KEY UPDATE
-          title = VALUES(title),
-          desc_text = VALUES(desc_text),
-          tags_json = VALUES(tags_json),
-          img = VALUES(img),
-          demo_url = VALUES(demo_url),
-          github_url = VALUES(github_url),
-          embed_url = VALUES(embed_url),
-          featured = VALUES(featured),
-          problem = VALUES(problem),
-          method = VALUES(method),
-          insight = VALUES(insight),
-          content = VALUES(content),
-          metrics_json = VALUES(metrics_json),
-          tools_json = VALUES(tools_json),
-          sort_order = VALUES(sort_order)
-      `;
-
-      await pool.query(sql, values);
+      if (isFullList) {
+        // Full list write runs inside a transaction: clear table, then atomically insert sanitized list
+        const conn = await pool.getConnection();
+        try {
+          await conn.beginTransaction();
+          await conn.query('DELETE FROM portfolio_projects');
+          const sql = `
+            INSERT INTO portfolio_projects 
+              (id, title, desc_text, tags_json, img, demo_url, github_url, embed_url, featured, problem, method, insight, content, metrics_json, tools_json, sort_order)
+            VALUES 
+              ${placeholders.join(', ')}
+          `;
+          await conn.query(sql, values);
+          await conn.commit();
+        } catch (txErr) {
+          await conn.rollback();
+          throw txErr;
+        } finally {
+          conn.release();
+        }
+      } else {
+        // Legacy single-project write retains upsert behavior
+        const sql = `
+          INSERT INTO portfolio_projects 
+            (id, title, desc_text, tags_json, img, demo_url, github_url, embed_url, featured, problem, method, insight, content, metrics_json, tools_json, sort_order)
+          VALUES 
+            ${placeholders.join(', ')}
+          ON DUPLICATE KEY UPDATE
+            title = VALUES(title),
+            desc_text = VALUES(desc_text),
+            tags_json = VALUES(tags_json),
+            img = VALUES(img),
+            demo_url = VALUES(demo_url),
+            github_url = VALUES(github_url),
+            embed_url = VALUES(embed_url),
+            featured = VALUES(featured),
+            problem = VALUES(problem),
+            method = VALUES(method),
+            insight = VALUES(insight),
+            content = VALUES(content),
+            metrics_json = VALUES(metrics_json),
+            tools_json = VALUES(tools_json),
+            sort_order = VALUES(sort_order)
+        `;
+        await pool.query(sql, values);
+      }
     }
 
     await invalidateApiCacheAsync('projects');
@@ -197,12 +219,11 @@ export async function POST(req: NextRequest) {
       data: projectsToSave,
     });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('[API /api/projects POST] Error:', error);
     return NextResponse.json(
       {
         success: false,
-        message: `Lỗi lưu dự án vào MySQL: ${message}`,
+        message: 'Lỗi lưu dự án vào cơ sở dữ liệu. Vui lòng thử lại sau.',
       },
       { status: 500 }
     );

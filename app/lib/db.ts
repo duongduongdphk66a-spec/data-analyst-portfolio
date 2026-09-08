@@ -618,20 +618,33 @@ export async function recordDbFailedLogin(
   if (!p) return null;
 
   const now = Date.now();
+  const conn = await p.getConnection();
   try {
-    const current = await getDbRateLimit(ip);
+    await conn.beginTransaction();
+
+    const [rows] = await conn.query<RowDataPacket[]>(
+      'SELECT failed_attempts, locked_until, last_attempt FROM portfolio_rate_limits WHERE ip = ? FOR UPDATE',
+      [ip]
+    );
+
     let failedAttempts = 1;
     let lockedUntil: number | null = null;
 
-    if (current && now - current.lastAttempt <= attemptWindowMs) {
-      failedAttempts = current.failedAttempts + 1;
+    if (rows && rows.length > 0) {
+      const current = rows[0];
+      const lastAttempt = Number(current.last_attempt) || 0;
+      const currentAttempts = Number(current.failed_attempts) || 0;
+
+      if (now - lastAttempt <= attemptWindowMs) {
+        failedAttempts = currentAttempts + 1;
+      }
     }
 
     if (failedAttempts >= maxAttempts) {
       lockedUntil = now + lockoutDurationMs;
     }
 
-    await p.query(
+    await conn.query(
       `INSERT INTO portfolio_rate_limits (ip, failed_attempts, locked_until, last_attempt)
        VALUES (?, ?, ?, ?)
        ON DUPLICATE KEY UPDATE
@@ -640,6 +653,8 @@ export async function recordDbFailedLogin(
          last_attempt = VALUES(last_attempt)`,
       [ip, failedAttempts, lockedUntil, now]
     );
+
+    await conn.commit();
 
     if (lockedUntil) {
       return {
@@ -653,8 +668,12 @@ export async function recordDbFailedLogin(
       isLocked: false,
       remainingAttempts: Math.max(0, maxAttempts - failedAttempts),
     };
-  } catch {
+  } catch (err) {
+    await conn.rollback();
+    console.error('[MySQL RateLimit] Transaction error:', err);
     return null;
+  } finally {
+    conn.release();
   }
 }
 

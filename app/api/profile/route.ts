@@ -8,7 +8,7 @@ import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/a
 import { sanitizeTextInput, sanitizeUrl } from '@/app/lib/security';
 
 const CACHE_HEADERS = {
-  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+  'Cache-Control': 'private, no-store',
 };
 
 export async function GET() {
@@ -84,7 +84,6 @@ export async function GET() {
       success: true,
       source: 'fallback',
       data: DEFAULT_PROFILE,
-      error: message,
     }, { headers: CACHE_HEADERS });
   }
 }
@@ -172,12 +171,11 @@ export async function POST(req: NextRequest) {
       data: profileData,
     });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('[API /api/profile POST] Error:', error);
     return NextResponse.json(
       {
         success: false,
-        message: `Lỗi lưu thông tin MySQL: ${message}`,
+        message: 'Lỗi lưu thông tin vào cơ sở dữ liệu. Vui lòng thử lại sau.',
       },
       { status: 500 }
     );

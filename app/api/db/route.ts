@@ -106,9 +106,11 @@ export async function GET(req: NextRequest) {
     });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Database check error';
+    console.error('[API /api/db GET] Error:', error);
+    const auth = verifyAdminRequest(req);
     return NextResponse.json({
       connected: false,
-      message,
+      message: auth.authenticated ? message : 'Dịch vụ đang hoạt động ở chế độ dữ liệu dự phòng.',
       source: 'error',
     });
   }
@@ -172,12 +174,11 @@ export async function POST(req: NextRequest) {
       details: initRes,
     });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('[API /api/db POST] Error:', error);
     return NextResponse.json(
       {
         success: false,
-        message: `Lỗi thao tác cơ sở dữ liệu: ${message}`,
+        message: 'Lỗi thao tác cơ sở dữ liệu. Vui lòng kiểm tra lại nhật ký máy chủ.',
       },
       { status: 500 }
     );

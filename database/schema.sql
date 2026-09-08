@@ -118,34 +118,36 @@ CREATE TABLE IF NOT EXISTS `tiktok_shop_weekly_trends` (
   `gmv_million_vnd` DECIMAL(10,2) NOT NULL,
   `live_count` INT NOT NULL DEFAULT 0,
   `video_count` INT NOT NULL DEFAULT 0,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `uk_week` (`week_index`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 8. Table: tiktok_shop_top_skus
 CREATE TABLE IF NOT EXISTS `tiktok_shop_top_skus` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `sku_code` VARCHAR(50) NOT NULL UNIQUE,
   `sku_rank` INT NOT NULL,
   `sku_name` VARCHAR(255) NOT NULL,
   `category` VARCHAR(100) DEFAULT '',
-  `units_sold` VARCHAR(50) DEFAULT '',
-  `gmv_vnd` VARCHAR(50) DEFAULT '',
-  `unit_price` VARCHAR(50) DEFAULT '',
-  `sales_share` VARCHAR(50) DEFAULT '',
-  `sales_share_percent` DECIMAL(5,2) DEFAULT 0.00,
-  `thumbnail_url` VARCHAR(1000) DEFAULT '',
+  `unit_price` INT NOT NULL DEFAULT 0,
+  `units_sold` INT NOT NULL DEFAULT 0,
+  `gmv_million_vnd` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `commission_rate` INT NOT NULL DEFAULT 0,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 9. Table: tiktok_shop_top_affiliates
 CREATE TABLE IF NOT EXISTS `tiktok_shop_top_affiliates` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `affiliate_code` VARCHAR(100) NOT NULL UNIQUE,
   `affiliate_rank` INT NOT NULL,
   `creator_name` VARCHAR(255) NOT NULL,
-  `avatar_url` VARCHAR(1000) DEFAULT '',
-  `followers` VARCHAR(50) DEFAULT '',
-  `gmv_vnd` VARCHAR(50) DEFAULT '',
-  `units_sold` VARCHAR(50) DEFAULT '',
-  `commission_rate` VARCHAR(50) DEFAULT '',
+  `category_type` VARCHAR(100) DEFAULT '',
+  `followers` INT NOT NULL DEFAULT 0,
+  `units_sold` INT NOT NULL DEFAULT 0,
+  `gmv_million_vnd` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `live_gpm` VARCHAR(100) DEFAULT '',
+  `video_gpm` VARCHAR(100) DEFAULT '',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -155,11 +157,12 @@ CREATE TABLE IF NOT EXISTS `tiktok_shop_livestreams` (
   `channel_type` ENUM('shop', 'creator') NOT NULL DEFAULT 'shop',
   `session_date` VARCHAR(50) NOT NULL,
   `title` VARCHAR(500) NOT NULL,
+  `creator` VARCHAR(100) DEFAULT '',
   `duration` VARCHAR(50) DEFAULT '',
-  `gmv_vnd` VARCHAR(50) DEFAULT '',
-  `units_sold` VARCHAR(50) DEFAULT '',
-  `views` VARCHAR(50) DEFAULT '',
-  `peak_viewers` VARCHAR(50) DEFAULT '',
+  `viewers` INT NOT NULL DEFAULT 0,
+  `units_sold` INT NOT NULL DEFAULT 0,
+  `gmv_million_vnd` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `extra_metric` VARCHAR(100) DEFAULT '',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -169,13 +172,12 @@ CREATE TABLE IF NOT EXISTS `tiktok_shop_videos` (
   `channel_type` ENUM('shop', 'creator') NOT NULL DEFAULT 'shop',
   `video_date` VARCHAR(50) NOT NULL,
   `title` VARCHAR(500) NOT NULL,
-  `gmv_vnd` VARCHAR(50) DEFAULT '',
-  `units_sold` VARCHAR(50) DEFAULT '',
+  `author` VARCHAR(100) DEFAULT '',
   `views` VARCHAR(50) DEFAULT '',
-  `author_name` VARCHAR(255) DEFAULT '',
   `likes` VARCHAR(50) DEFAULT '',
-  `comments` VARCHAR(50) DEFAULT '',
-  `shares` VARCHAR(50) DEFAULT '',
+  `units_sold` INT NOT NULL DEFAULT 0,
+  `gmv_million_vnd` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `interaction_rate` VARCHAR(50) DEFAULT '',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -183,13 +185,18 @@ CREATE TABLE IF NOT EXISTS `tiktok_shop_videos` (
 CREATE TABLE IF NOT EXISTS `tiktok_shop_data_scopes` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `scope_code` VARCHAR(50) NOT NULL UNIQUE,
+  `scope_type` VARCHAR(50) NOT NULL,
   `title_vi` VARCHAR(255) NOT NULL,
   `title_en` VARCHAR(255) NOT NULL,
-  `timeframe` VARCHAR(255) DEFAULT '',
-  `data_source` VARCHAR(255) DEFAULT '',
-  `row_count` VARCHAR(100) DEFAULT '',
-  `variables_tracked` TEXT,
-  `methodology` TEXT,
+  `timeframe_vi` VARCHAR(255) DEFAULT '',
+  `timeframe_en` VARCHAR(255) DEFAULT '',
+  `timeframe_badge` VARCHAR(100) DEFAULT '',
+  `period_vi` VARCHAR(255) DEFAULT '',
+  `period_en` VARCHAR(255) DEFAULT '',
+  `total_gmv` VARCHAR(100) DEFAULT '',
+  `total_units` VARCHAR(100) DEFAULT '',
+  `key_highlights_json` LONGTEXT,
+  `screenshot_ids_json` LONGTEXT,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -198,8 +205,17 @@ CREATE TABLE IF NOT EXISTS `tiktok_shop_collaborative_stores` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `store_rank` INT NOT NULL,
   `store_name` VARCHAR(255) NOT NULL,
-  `gmv_vnd` VARCHAR(50) DEFAULT '',
-  `units_sold` VARCHAR(50) DEFAULT '',
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  `category` VARCHAR(100) DEFAULT '',
+  `total_shop_units` VARCHAR(50) DEFAULT '',
+  `affiliated_products` INT DEFAULT 0,
+  `best_seller` VARCHAR(255) DEFAULT '',
+  `creator_units_sold` INT DEFAULT 0,
+  `creator_gmv_million_vnd` DECIMAL(10,2) DEFAULT 0,
+  `gmv_share` VARCHAR(50) DEFAULT '',
+  `live_sessions` INT DEFAULT 0,
+  `videos_count` INT DEFAULT 0,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `uk_store` (`store_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 

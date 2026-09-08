@@ -7,7 +7,7 @@ import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/a
 import { sanitizeTextInput } from '@/app/lib/security';
 
 const CACHE_HEADERS = {
-  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+  'Cache-Control': 'private, no-store',
 };
 
 export async function GET(req: NextRequest) {
@@ -92,7 +92,6 @@ export async function GET(req: NextRequest) {
       success: true,
       source: 'fallback',
       data: translations,
-      error: message,
     }, { headers: CACHE_HEADERS });
   }
 }
@@ -180,12 +179,11 @@ export async function POST(req: NextRequest) {
       message: `Đã lưu thành công ${updates.length} đoạn văn bản vào MySQL!`,
     });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('[API /api/texts POST] Error:', error);
     return NextResponse.json(
       {
         success: false,
-        message: `Lỗi lưu văn bản vào MySQL: ${message}`,
+        message: 'Lỗi lưu văn bản vào cơ sở dữ liệu. Vui lòng thử lại sau.',
       },
       { status: 500 }
     );

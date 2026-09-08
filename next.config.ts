@@ -33,10 +33,7 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   serverExternalPackages: ['mysql2'],
   async headers() {
-    const isDev = process.env.NODE_ENV === 'development';
-    const scriptSrc = isDev 
-      ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-      : "script-src 'self' 'unsafe-inline'";
+    const scriptSrc = "script-src 'self' 'unsafe-inline'";
 
     return [
       {

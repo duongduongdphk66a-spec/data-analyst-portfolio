@@ -97,4 +97,59 @@ describe('executeClientSql Engine', () => {
     expect(res.rows[2].name).toBe('Product A');
     expect(res.rows[2].price).toBe(100);
   });
+
+  it('should support aggregate-only queries without GROUP BY', () => {
+    const res = executeClientSql(
+      'SELECT COUNT(*) AS total_count, SUM(price) AS total_revenue, ROUND(AVG(price), 1) AS avg_price FROM products',
+      sampleData
+    );
+    expect(res.error).toBeUndefined();
+    expect(res.rowCount).toBe(1);
+    expect(res.rows[0].total_count).toBe(5);
+    expect(res.rows[0].total_revenue).toBe(580);
+    expect(res.rows[0].avg_price).toBe(116);
+  });
+
+  it('should handle NULL and empty values correctly in COUNT(col), AVG, MIN, MAX', () => {
+    const dataWithNulls = [
+      { id: 1, val: 10, bonus: null },
+      { id: 2, val: 20, bonus: 100 },
+      { id: 3, val: null, bonus: 200 },
+      { id: 4, val: 30, bonus: '' },
+    ];
+    const res = executeClientSql(
+      'SELECT COUNT(*) AS total_rows, COUNT(val) AS count_val, COUNT(bonus) AS count_bonus, AVG(val) AS avg_val, MIN(val) AS min_val, MAX(val) AS max_val FROM test',
+      dataWithNulls
+    );
+    expect(res.error).toBeUndefined();
+    expect(res.rowCount).toBe(1);
+    expect(res.rows[0].total_rows).toBe(4);
+    expect(res.rows[0].count_val).toBe(3); // 10, 20, 30
+    expect(res.rows[0].count_bonus).toBe(2); // 100, 200 (null and '' excluded)
+    expect(res.rows[0].avg_val).toBe(20); // (10+20+30)/3
+    expect(res.rows[0].min_val).toBe(10);
+    expect(res.rows[0].max_val).toBe(30);
+  });
+
+  it('should support LIMIT 0 returning empty rows array with preserved columns', () => {
+    const res = executeClientSql('SELECT name, price FROM products LIMIT 0', sampleData);
+    expect(res.error).toBeUndefined();
+    expect(res.rowCount).toBe(0);
+    expect(res.rows).toEqual([]);
+    expect(res.columns).toEqual(['name', 'price']);
+  });
+
+  it('should avoid key collisions in multi-column GROUP BY with delimiter characters', () => {
+    const collisionData = [
+      { a: 'x___y', b: 'z', val: 10 },
+      { a: 'x', b: 'y___z', val: 20 },
+    ];
+    const res = executeClientSql(
+      'SELECT a, b, SUM(val) AS total FROM t GROUP BY a, b',
+      collisionData
+    );
+    expect(res.error).toBeUndefined();
+    expect(res.rowCount).toBe(2);
+  });
 });
+

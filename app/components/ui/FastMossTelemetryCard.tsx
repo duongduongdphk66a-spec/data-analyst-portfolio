@@ -302,7 +302,7 @@ export function FastMossTelemetryModal({
                   <span className="text-[10px] font-mono text-slate-400 uppercase">Database Mapping</span>
                   <div className="text-sm font-bold text-[#9BE7FA] flex items-center gap-2">
                     <Database className="w-4 h-4 text-[#9BE7FA]" />
-                    MySQL `pplo` Active
+                    MySQL `portfolio_db` Active
                   </div>
                   <p className="text-[10px] text-slate-400">Synced to 8 relational tables</p>
                 </div>

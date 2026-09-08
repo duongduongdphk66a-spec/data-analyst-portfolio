@@ -19,10 +19,10 @@ async function main() {
     port: Number(process.env.MYSQL_PORT) || 3306,
     user: process.env.MYSQL_USER || 'root',
     password: process.env.MYSQL_PASSWORD || '',
-    database: process.env.MYSQL_DATABASE || 'pplo',
+    database: process.env.MYSQL_DATABASE || 'portfolio_db',
   });
 
-  console.log('[MySQL] Connected to database:', process.env.MYSQL_DATABASE || 'pplo');
+  console.log('[MySQL] Connected to database:', process.env.MYSQL_DATABASE || 'portfolio_db');
 
   // 1. CREATE TABLES
   console.log('[MySQL] Creating TikTok Shop tables if not exists...');

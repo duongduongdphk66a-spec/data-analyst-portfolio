@@ -242,7 +242,7 @@ export default function Portfolio() {
                 <button
                   onClick={() => {
                     setIsMobileMenuOpen(false);
-                    window.open('/website.pdf', '_blank');
+                    window.open('/library-bus/website.pdf', '_blank');
                   }}
                   className="btn-primary-gold w-full text-xs py-3 justify-center"
                 >
@@ -338,7 +338,7 @@ export default function Portfolio() {
                     </div>
                     <div className="flex flex-wrap items-center gap-3 shrink-0">
                       <button
-                        onClick={() => window.open('/website.pdf', '_blank')}
+                        onClick={() => window.open('/library-bus/website.pdf', '_blank')}
                         className="btn-primary-gold text-xs px-5 py-3"
                       >
                         <Download className="w-4 h-4" />

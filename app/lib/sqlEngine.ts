@@ -71,15 +71,16 @@ export function executeClientSql(
 
       currentRows.forEach((row) => {
         const keyObj: Record<string, any> = {};
-        const keyParts: string[] = [];
+        const keyParts: any[] = [];
 
         groupCols.forEach((col) => {
-          const val = row[col] ?? row[findCaseInsensitiveKey(row, col)] ?? 'Other';
+          const matchKey = findCaseInsensitiveKey(row, col);
+          const val = row[col] !== undefined ? row[col] : (row[matchKey] !== undefined ? row[matchKey] : null);
           keyObj[col] = val;
-          keyParts.push(String(val));
+          keyParts.push(val);
         });
 
-        const groupKey = keyParts.join('___');
+        const groupKey = JSON.stringify(keyParts);
         if (!groups.has(groupKey)) {
           groups.set(groupKey, { keyValues: keyObj, items: [] });
         }
@@ -112,11 +113,36 @@ export function executeClientSql(
         return rowResult;
       });
     } else {
-      // No GROUP BY: standard projection
-      if (selectFields === '*') {
+      // Check if query contains aggregate functions without GROUP BY (e.g. SELECT COUNT(*), AVG(price) FROM table)
+      const fieldTokens = splitSelectTokens(selectFields);
+      const hasAggregate = selectFields !== '*' && fieldTokens.some((token) => {
+        const { expr } = parseFieldAlias(token);
+        return isAggregateExpr(expr) || /^ROUND\((.*?)(?:,\s*(\d+))?\)$/i.test(expr);
+      });
+
+      if (hasAggregate) {
+        const rowResult: Record<string, any> = {};
+        fieldTokens.forEach((token) => {
+          const { expr, alias } = parseFieldAlias(token);
+          const roundMatch = expr.match(/^ROUND\((.*?)(?:,\s*(\d+))?\)$/i);
+
+          if (roundMatch) {
+            const innerExpr = roundMatch[1].trim();
+            const decimals = roundMatch[2] ? parseInt(roundMatch[2], 10) : 2;
+            const innerVal = computeAggregateOrValue(innerExpr, currentRows, {});
+            rowResult[alias] = typeof innerVal === 'number' ? Number(innerVal.toFixed(decimals)) : innerVal;
+          } else if (isAggregateExpr(expr)) {
+            const val = computeAggregateOrValue(expr, currentRows, {});
+            rowResult[alias] = typeof val === 'number' ? Math.round(val * 100) / 100 : val;
+          } else {
+            const cleanExpr = expr.replace(/[`"']/g, '');
+            rowResult[alias] = currentRows[0]?.[cleanExpr] ?? currentRows[0]?.[findCaseInsensitiveKey(currentRows[0] || {}, cleanExpr)] ?? '';
+          }
+        });
+        resultRows = [rowResult];
+      } else if (selectFields === '*') {
         resultRows = currentRows;
       } else {
-        const fieldTokens = splitSelectTokens(selectFields);
         resultRows = currentRows.map((row) => {
           const projected: Record<string, any> = {};
           fieldTokens.forEach((token) => {
@@ -168,16 +194,25 @@ export function executeClientSql(
       });
     }
 
-    // 4. Parse LIMIT
+    // 4. Parse LIMIT (including LIMIT 0)
     const limitMatch = cleanedQuery.match(/LIMIT\s+(\d+)/i);
     if (limitMatch) {
       const limitVal = parseInt(limitMatch[1], 10);
-      if (!isNaN(limitVal) && limitVal > 0) {
+      if (!isNaN(limitVal) && limitVal >= 0) {
         resultRows = resultRows.slice(0, limitVal);
       }
     }
 
-    const columns = resultRows.length > 0 ? Object.keys(resultRows[0]) : [];
+    const fieldTokens = selectFields !== '*' ? splitSelectTokens(selectFields) : [];
+    let columns: string[] = [];
+    if (resultRows.length > 0) {
+      columns = Object.keys(resultRows[0]);
+    } else if (fieldTokens.length > 0) {
+      columns = fieldTokens.map((t) => parseFieldAlias(t).alias);
+    } else if (currentRows.length > 0) {
+      columns = Object.keys(currentRows[0]);
+    }
+
     const executionTimeMs = Math.round(performance.now() - startTime);
 
     return {
@@ -244,25 +279,43 @@ function computeAggregateOrValue(
   const maxMatch = expr.match(/^MAX\((.*?)\)$/i);
   const minMatch = expr.match(/^MIN\((.*?)\)$/i);
 
+  const getValidNumbers = (col: string): number[] => {
+    return items
+      .map((item) => item[col] ?? item[findCaseInsensitiveKey(item, col)])
+      .filter((val) => val !== null && val !== undefined && val !== '' && !isNaN(Number(val)))
+      .map((val) => Number(val));
+  };
+
   if (sumMatch) {
     const col = sumMatch[1].trim().replace(/[`"']/g, '');
-    return items.reduce((acc, item) => acc + (Number(item[col] ?? item[findCaseInsensitiveKey(item, col)] ?? 0) || 0), 0);
+    const nums = getValidNumbers(col);
+    return nums.reduce((acc, val) => acc + val, 0);
   }
   if (avgMatch) {
     const col = avgMatch[1].trim().replace(/[`"']/g, '');
-    const sum = items.reduce((acc, item) => acc + (Number(item[col] ?? item[findCaseInsensitiveKey(item, col)] ?? 0) || 0), 0);
-    return items.length ? sum / items.length : 0;
+    const nums = getValidNumbers(col);
+    return nums.length ? nums.reduce((acc, val) => acc + val, 0) / nums.length : 0;
   }
   if (countMatch) {
-    return items.length;
+    const col = countMatch[1].trim().replace(/[`"']/g, '');
+    if (col === '*' || col === '1') {
+      return items.length;
+    }
+    // Count non-null, non-undefined, non-empty values
+    return items.filter((item) => {
+      const val = item[col] ?? item[findCaseInsensitiveKey(item, col)];
+      return val !== null && val !== undefined && val !== '';
+    }).length;
   }
   if (maxMatch) {
     const col = maxMatch[1].trim().replace(/[`"']/g, '');
-    return Math.max(...items.map((item) => Number(item[col] ?? item[findCaseInsensitiveKey(item, col)] ?? 0)));
+    const nums = getValidNumbers(col);
+    return nums.length > 0 ? Math.max(...nums) : 0;
   }
   if (minMatch) {
     const col = minMatch[1].trim().replace(/[`"']/g, '');
-    return Math.min(...items.map((item) => Number(item[col] ?? item[findCaseInsensitiveKey(item, col)] ?? 0)));
+    const nums = getValidNumbers(col);
+    return nums.length > 0 ? Math.min(...nums) : 0;
   }
 
   const clean = expr.replace(/[`"']/g, '');

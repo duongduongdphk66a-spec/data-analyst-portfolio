@@ -1,15 +1,32 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { DEFAULT_PROJECTS } from '../../defaultData';
 import ProjectDetailView from '../../components/ProjectDetailView';
-import KamiElyProject from '../../components/KamiElyProject';
-import HeritageJapanProject from '../../components/HeritageJapanProject';
-import LibraryBusProject from '../../components/LibraryBusProject';
 import { usePortfolioData } from '../../context/PortfolioDataContext';
 import { ProjectData } from '../../types';
 
-const CASE_STUDY_COMPONENTS: Record<string, React.ComponentType<{ isEmbedded?: boolean; onBack?: () => void }>> = {
+const CaseStudyLoadingFallback = () => (
+  <div className="min-h-screen flex items-center justify-center bg-[#FAFDFE] dark:bg-[#0B0F17]">
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-8 h-8 border-3 border-[#0D7287] border-t-transparent rounded-full animate-spin dark:border-[#9BE7FA]" />
+      <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">Đang tải Case Study...</span>
+    </div>
+  </div>
+);
+
+const KamiElyProject = dynamic(() => import('../../components/KamiElyProject'), {
+  loading: CaseStudyLoadingFallback,
+});
+const HeritageJapanProject = dynamic(() => import('../../components/HeritageJapanProject'), {
+  loading: CaseStudyLoadingFallback,
+});
+const LibraryBusProject = dynamic(() => import('../../components/LibraryBusProject'), {
+  loading: CaseStudyLoadingFallback,
+});
+
+const CASE_STUDY_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'proj-kami-ely': KamiElyProject,
   'proj-heritage-japan': HeritageJapanProject,
   'proj-library-bus': LibraryBusProject,
