@@ -1,11 +1,10 @@
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
+import React, { useState } from 'react';
 import { 
-  ChevronDown, ChevronRight, Github, Linkedin, Mail, 
-  Sun, Moon, Search, Download, Terminal,
-  Home, UserCheck, FileText, Briefcase
+  ChevronDown, ChevronRight, Github, Linkedin, 
+  Sun, Moon, Download,
+  UserCheck, FileText, Briefcase
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -16,13 +15,14 @@ import { usePortfolioData } from '../context/PortfolioDataContext';
 export default function Sidebar() {
   const { language, setLanguage } = useLanguage();
   const { resolvedTheme, toggleTheme } = useTheme();
-  const { profile } = usePortfolioData();
+  const { profile, projects } = usePortfolioData();
   const pathname = usePathname();
+  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
 
   const navItems = [
-    { id: '/projects', label: language === 'en' ? 'Work' : 'Dự Án' },
-    { id: '/experience', label: language === 'en' ? 'Experience' : 'Kinh Nghiệm' },
-    { id: '/about', label: language === 'en' ? 'About' : 'Giới Thiệu' },
+    { id: '/projects', label: language === 'en' ? 'Work' : 'Dự Án', icon: Briefcase, hasChildren: true },
+    { id: '/experience', label: language === 'en' ? 'Experience' : 'Kinh Nghiệm', icon: FileText, hasChildren: false },
+    { id: '/about', label: language === 'en' ? 'About' : 'Giới Thiệu', icon: UserCheck, hasChildren: false },
   ];
 
   return (
@@ -113,7 +113,7 @@ export default function Sidebar() {
         {/* Direct Action: Download CV */}
         <div className="px-2 pt-6">
           <a
-            href="/library-bus/website.pdf"
+            href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white transition-colors"

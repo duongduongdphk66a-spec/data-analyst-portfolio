@@ -134,7 +134,7 @@ export const DEFAULT_PROJECTS: ProjectData[] = [
     desc: 'Thiết kế kiến trúc cơ sở dữ liệu quan hệ và luồng xử lý bất đồng bộ cho hệ thống thư viện lưu động đa điểm, phục vụ 50,000 người dùng với độ trễ thấp.',
     tags: ['Database Architecture', 'MySQL', 'Redis', 'Celery', 'Django'],
     img: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&auto=format&fit=crop&q=80',
-    demoUrl: '/library-bus/website.pdf',
+    demoUrl: '/library-bus/website.html',
     featured: true,
     content: libraryBusMarkdownContent,
     problem: 'Hệ thống thư viện di động phân tán gặp vấn đề về dữ liệu tồn kho không đồng bộ, xung đột giao dịch khi nhiều người cùng đặt một đầu sách tại các điểm dừng xe.',

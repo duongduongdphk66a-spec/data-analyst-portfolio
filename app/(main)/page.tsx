@@ -93,7 +93,7 @@ export default function HomePage() {
           </div>
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <button
-              onClick={() => window.open('/library-bus/website.pdf', '_blank')}
+              onClick={() => window.open('/Ma_Van_Hung_CV_Data_Analyst_2026.pdf', '_blank')}
               className="btn-primary-gold text-xs px-5 py-3"
             >
               <Download className="w-4 h-4" />

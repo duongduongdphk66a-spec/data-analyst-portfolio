@@ -255,5 +255,5 @@ Dự án được trích xuất và tích hợp trực tiếp từ mã nguồn t
 - **Phòng Chống Race Condition Bằng Pessimistic Locking**: Sử dụng \`select_for_update()\` trong transaction nguyên tử (\`transaction.atomic()\`) tại \`TransactionService.create_borrow()\`, triệt tiêu 100% rủi ro mượn trùng sách khi có nhiều độc giả cùng tranh chấp 1 đầu sách tại trạm xe buýt.
 - **Tối Ưu Hiệu Năng O(1)**: Bộ nhớ đệm Redis lưu trữ danh mục sách phổ biến, tự động giải phóng cache theo phiên bản, hạ độ trễ phản hồi trung bình xuống **28ms** dưới tải 500 CCU.
 - **Hệ Thống Tác Vụ Ngầm (Celery Beat)**: Tự động chạy 6 tác vụ nền định kỳ: nhắc nợ sách tự động, dọn dẹp hàng đợi đặt trước, tổng hợp thống kê ngày và nén ảnh bìa sách.
-- **Báo Cáo & Tài Liệu Trực Quan**: Đi kèm sơ đồ kiến trúc tương tác D3.js (\`architecture-graph.html\`), bảng điều khiển radar radar đồng tâm (\`understand_dashboard.html\`), bài thuyết trình 30 slide (\`presentation.html\`) và tài liệu đặc tả kỹ thuật chi tiết (\`website.pdf\`).
+- **Báo Cáo & Tài Liệu Trực Quan**: Đi kèm sơ đồ kiến trúc tương tác D3.js (\`architecture-graph.html\`), bảng điều khiển radar radar đồng tâm (\`understand_dashboard.html\`), bài thuyết trình 30 slide (\`presentation.html\`) và tài liệu đặc tả kỹ thuật tương tác (\`website.html\`).
 `;

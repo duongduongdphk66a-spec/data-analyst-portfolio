@@ -142,7 +142,7 @@ export default function MainLayoutClient({ children }: { children: React.ReactNo
               })}
               <div className="pt-4 mt-4 border-t border-slate-200/80 dark:border-slate-800">
                 <a
-                  href="/library-bus/website.pdf"
+                  href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
                   target="_blank"
                   className="btn-primary-gold w-full text-xs py-3 justify-center flex items-center gap-2"
                 >

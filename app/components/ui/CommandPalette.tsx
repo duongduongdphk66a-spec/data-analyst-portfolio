@@ -140,7 +140,7 @@ export default function CommandPalette({
         title: isEn ? 'Download CV (PDF)' : 'Tải Hồ Sơ Năng Lực (CV PDF)',
         subtitle: isEn ? 'Download complete curriculum vitae' : 'Mở và tải tệp CV đầy đủ',
         icon: Download,
-        action: () => { window.open('/library-bus/website.pdf', '_blank'); onClose(); },
+        action: () => { window.open('/Ma_Van_Hung_CV_Data_Analyst_2026.pdf', '_blank'); onClose(); },
       },
     ];
 

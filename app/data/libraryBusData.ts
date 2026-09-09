@@ -1557,11 +1557,11 @@ export const interactiveShowcases = [
   },
   {
     id: 'website-pdf',
-    titleVi: 'Hồ Sơ Đặc Tả & Thiết Kế Gốc (website.pdf)',
-    titleEn: 'Original Specification & Design Document (website.pdf)',
-    descVi: 'Tài liệu thiết kế chi tiết 9.5 MB tổng hợp đầy đủ wireframes, sitemap, luồng người dùng và phân tích dữ liệu.',
-    descEn: 'Complete 9.5 MB system specification document with wireframes, sitemaps, user flows, and metrics.',
-    url: '/library-bus/website.pdf',
-    badge: 'PDF 9.5 MB'
+    titleVi: 'Hồ Sơ Đặc Tả & Thiết Kế Gốc (website.html)',
+    titleEn: 'Original Specification & Design Document (website.html)',
+    descVi: 'Tài liệu thiết kế chi tiết 20 màn hình tổng hợp đầy đủ wireframes, sitemap, luồng người dùng và phân tích dữ liệu tương tác HTML.',
+    descEn: 'Complete 20-screen system specification interactive HTML document with wireframes, sitemaps, user flows, and metrics.',
+    url: '/library-bus/website.html',
+    badge: 'Interactive HTML'
   }
 ];

@@ -2,8 +2,6 @@
  * Chart Export Utility
  * Trích xuất các thẻ đồ thị (Recharts SVG/HTML container) ra tệp ảnh PNG chất lượng cao (Scale 2x retina).
  */
-import html2canvas from 'html2canvas';
-
 export async function exportChartAsPng(elementId: string, fileName = 'data-chart.png'): Promise<boolean> {
   if (typeof window === 'undefined') return false;
 
@@ -14,6 +12,7 @@ export async function exportChartAsPng(elementId: string, fileName = 'data-chart
   }
 
   try {
+    const html2canvas = (await import('html2canvas')).default;
     const isDark = document.documentElement.classList.contains('dark');
     const canvas = await html2canvas(element, {
       scale: 2, // High resolution (Retina quality)

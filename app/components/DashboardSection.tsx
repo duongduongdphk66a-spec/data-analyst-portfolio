@@ -9,7 +9,6 @@ import {
   DollarSign, Users, Activity, TrendingUp, BarChart3, 
   Download, Upload, Search, RefreshCw, Sparkles, Filter, Database
 } from 'lucide-react';
-import Papa from 'papaparse';
 import { DashboardData, KpiItem, ChartConfig } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
@@ -110,7 +109,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
   };
 
   // Upload custom CSV to preview on table
-  const handleCsvUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCsvUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -121,20 +120,25 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
       return;
     }
 
-    Papa.parse(file, {
-      header: true,
-      dynamicTyping: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        if (results.data && results.data.length > 0) {
-          setCustomTableData((results.data as Record<string, unknown>[]).map((item, i) => ({ id: `row-${i}`, ...item })));
-          showToast(isEn ? `Loaded ${file.name} (${results.data.length} rows)` : `Đã nạp tệp ${file.name} (${results.data.length} dòng)`, 'success');
+    try {
+      const Papa = (await import('papaparse')).default;
+      Papa.parse(file, {
+        header: true,
+        dynamicTyping: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          if (results.data && results.data.length > 0) {
+            setCustomTableData((results.data as Record<string, unknown>[]).map((item, i) => ({ id: `row-${i}`, ...item })));
+            showToast(isEn ? `Loaded ${file.name} (${results.data.length} rows)` : `Đã nạp tệp ${file.name} (${results.data.length} dòng)`, 'success');
+          }
+        },
+        error: (err) => {
+          showToast(isEn ? 'Error reading CSV: ' + err.message : 'Lỗi đọc file CSV: ' + err.message, 'error');
         }
-      },
-      error: (err) => {
-        showToast(isEn ? 'Error reading CSV: ' + err.message : 'Lỗi đọc file CSV: ' + err.message, 'error');
-      }
-    });
+      });
+    } catch (err: any) {
+      showToast(isEn ? 'Failed to load CSV parser' : 'Không thể tải bộ đọc CSV', 'error');
+    }
   };
 
   // Reset custom CSV preview
@@ -171,18 +175,23 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
   };
 
   // Export Table Data to CSV
-  const exportTableCSV = () => {
+  const exportTableCSV = async () => {
     if (activeTable.length === 0) return;
-    const csv = Papa.unparse(activeTable);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'analytics_data.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    showToast(isEn ? 'CSV data exported!' : 'Đã xuất tệp CSV!', 'success');
+    try {
+      const Papa = (await import('papaparse')).default;
+      const csv = Papa.unparse(activeTable);
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'analytics_data.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast(isEn ? 'CSV data exported!' : 'Đã xuất tệp CSV!', 'success');
+    } catch {
+      showToast(isEn ? 'Failed to export CSV' : 'Lỗi xuất tệp CSV', 'error');
+    }
   };
 
   const chartGridColor = isDark ? '#334155' : '#e2e8f0';

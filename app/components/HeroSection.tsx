@@ -79,7 +79,7 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject }:
 
   const handleDownloadCV = () => {
     trackVisitorAction('Hero CTA: Tải CV', 'CV Download', 'download');
-    window.open('/library-bus/website.pdf', '_blank');
+    window.open('/Ma_Van_Hung_CV_Data_Analyst_2026.pdf', '_blank');
   };
 
   const handleViewCaseStudy = () => {

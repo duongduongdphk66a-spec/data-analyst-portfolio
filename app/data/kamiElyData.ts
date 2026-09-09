@@ -5,6 +5,8 @@
 
 export const PALETTE = ['#0D7287', '#FFD14C', '#9BE7FA', '#FFE485', '#C8EEF7', '#E5B830'];
 
+export { KAMI_MATH_STATS } from './kamiElyMathStats';
+
 // ============================================================================
 // PART 1: SHOP DATA (KAMI ELY OFFICIAL STORE)
 // ============================================================================

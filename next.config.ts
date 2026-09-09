@@ -32,6 +32,9 @@ const nextConfig: NextConfig = {
   },
   devIndicators: false,
   serverExternalPackages: ['mysql2'],
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'recharts'],
+  },
   async headers() {
     return [
       {

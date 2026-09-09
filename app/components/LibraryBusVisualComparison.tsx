@@ -539,13 +539,14 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
 
         <div className="flex items-center gap-2">
           <a
-            href={deviceMode === 'desktop' ? '/library-bus/website.pdf' : '/library-bus/website-mobile.pdf'}
-            download={deviceMode === 'desktop' ? 'Library_Bus_Website_Design.pdf' : 'tulsach-uxui-mobile-adjusted.pdf'}
-            className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300"
-            title={deviceMode === 'desktop' ? 'Tải PDF thiết kế Desktop' : 'Tải PDF thiết kế Mobile đã khớp 1-to-1'}
+            href={deviceMode === 'desktop' ? '/library-bus/website.html' : '/library-bus/website-mobile.html'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300 cursor-pointer"
+            title={deviceMode === 'desktop' ? 'Mở tài liệu thiết kế Desktop HTML' : 'Mở tài liệu thiết kế Mobile HTML'}
           >
-            <Download className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
-            <span>{deviceMode === 'desktop' ? (isEn ? 'Desktop PDF' : 'Tải PDF Desktop') : (isEn ? 'Mobile PDF (Matched)' : 'Tải PDF Mobile (Đã khớp 1-to-1)')}</span>
+            <FileCode2 className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+            <span>{deviceMode === 'desktop' ? (isEn ? 'Desktop Spec (HTML)' : 'Tài liệu Desktop (HTML)') : (isEn ? 'Mobile Spec (HTML)' : 'Tài liệu Mobile (HTML)')}</span>
           </a>
         </div>
       </div>
