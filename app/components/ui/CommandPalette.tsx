@@ -84,7 +84,7 @@ export default function CommandPalette({
         title: isEn ? 'Education & Experience' : 'Học Vấn & Kinh Nghiệm',
         subtitle: isEn ? 'Career timeline and research' : 'Lộ trình sự nghiệp và nghiên cứu khoa học',
         icon: FileText,
-        action: () => { onSelectTab('cv'); onClose(); },
+        action: () => { onSelectTab('experience'); onClose(); },
       },
       {
         id: 'nav-projects',
@@ -97,11 +97,11 @@ export default function CommandPalette({
       {
         id: 'nav-dashboard',
         category: 'Navigation',
-        title: isEn ? 'Executive Dashboard' : 'Bảng Điều Khiển KPI & CSV',
-        subtitle: isEn ? 'Live metrics and CSV visualizer' : 'Chỉ số thời gian thực và trực quan hóa CSV',
+        title: isEn ? 'Interactive Lab' : 'Thực Hành Lab',
+        subtitle: isEn ? 'Live metrics and SQL visualizer' : 'Chỉ số thời gian thực và SQL/CSV',
         icon: LayoutDashboard,
-        action: () => { onSelectTab('dashboard'); onClose(); },
-        badge: 'Real-time',
+        action: () => { onSelectTab('lab'); onClose(); },
+        badge: 'Interactive',
       },
 
       // Project Case Studies

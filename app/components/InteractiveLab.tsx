@@ -6,6 +6,7 @@ import {
   Sparkles, Database, FileSpreadsheet, Terminal
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { trackVisitorAction } from '../lib/visitorTracking';
@@ -31,6 +32,7 @@ interface InteractiveLabProps {
 }
 
 export default function InteractiveLab({ onSelectProject }: InteractiveLabProps) {
+  const router = useRouter();
   const { language } = useLanguage();
   const { resolvedTheme } = useTheme();
   const { showToast } = useToast();
@@ -291,9 +293,9 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
                       <span>PNG</span>
                     </button>
                   )}
-                  {showResult && onSelectProject && (
+                  {showResult && (
                     <button
-                      onClick={() => onSelectProject(scenario.projectId)}
+                      onClick={() => onSelectProject ? onSelectProject(scenario.projectId) : router.push(`/projects/${scenario.projectId}`)}
                       className="flex items-center gap-1 text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA] hover:underline transition-colors cursor-pointer"
                     >
                       <span>{isEn ? 'Case Study' : 'Xem Đầy Đủ'}</span>

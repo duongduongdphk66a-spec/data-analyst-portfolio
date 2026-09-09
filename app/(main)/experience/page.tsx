@@ -1,17 +1,17 @@
-'use client';
-
-import React, { useEffect } from 'react';
-import { useLanguage } from '../../context/LanguageContext';
-import { usePortfolioData } from '../../context/PortfolioDataContext';
+import React from 'react';
 import CVSection from '../../components/CVSection';
+import { getServerLanguage, getServerPortfolioData } from '../../lib/serverData';
 
-export default function ExperiencePage() {
-  const { language } = useLanguage();
-  const { profile } = usePortfolioData();
+export async function generateMetadata() {
+  const { language } = await getServerLanguage();
+  const { profile } = await getServerPortfolioData();
+  return {
+    title: `${profile.name || 'Ma Văn Hùng'} | ${language === 'en' ? 'Experience' : 'Kinh Nghiệm'}`,
+  };
+}
 
-  useEffect(() => {
-    document.title = `${profile.name || 'Ma Văn Hùng'} | ${language === 'en' ? 'Experience' : 'Kinh Nghiệm'}`;
-  }, [language, profile.name]);
+export default async function ExperiencePage() {
+  const { profile } = await getServerPortfolioData();
 
   return (
     <div className="py-12">

@@ -1099,7 +1099,7 @@ export default function PresentationDemo() {
             <div className="cover-hero-box">
               <div className="hero-tag">PROJECT SEMESTER II</div>
               <div className="hero-cover-img-wrap">
-                <img src="static_presentation/hero_bus.jpg" alt="Library Bus" className="hero-cover-photo" />
+                <img src="static_presentation/hero_bus.webp" alt="Library Bus" className="hero-cover-photo" />
               </div>
               <div className="hero-title">LIBRARY BUS PROJECT</div>
               <div className="hero-sub">/Dự án Tủ Sách Lưu Động/</div>

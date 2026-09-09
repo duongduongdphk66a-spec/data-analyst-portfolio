@@ -12,7 +12,7 @@ import AnimatedCounter from './ui/AnimatedCounter';
 
 const HeroAreaChart = dynamic(() => import('./charts/HeroAreaChart'), {
   ssr: false,
-  loading: () => <div className="h-44 sm:h-52 w-full bg-surface/20 rounded-xl animate-pulse" />,
+  loading: () => <div className="h-full w-full bg-surface/20 rounded-xl animate-pulse" />,
 });
 
 interface HeroSectionProps {
@@ -35,18 +35,20 @@ const heroChartData = [
 ];
 
 const STATS_VI = [
-  { value: '3+', label: 'Dự án phân tích chuyên sâu' },
-  { value: '8.5 Tỷ', label: 'VNĐ quy mô xử lý' },
-  { value: '450ms → 28ms', label: 'Tối ưu độ trễ truy vấn' },
+  { value: '3', label: 'Case Studies' },
+  { value: '93.7%', label: 'latency ↓' },
+  { value: '8.5B', label: 'VND' },
+  { value: '5,700+', label: 'creators' },
 ];
 
 const STATS_EN = [
-  { value: '3+', label: 'In-depth case studies' },
-  { value: '8.5B', label: 'VND volume processed' },
-  { value: '450ms → 28ms', label: 'Query latency reduction' },
+  { value: '3', label: 'Case Studies' },
+  { value: '93.7%', label: 'latency ↓' },
+  { value: '8.5B', label: 'VND' },
+  { value: '5,700+', label: 'creators' },
 ];
 
-export default function HeroSection({ profile, onNavigateTab, onSelectProject }: HeroSectionProps) {
+export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps) {
   const { language, t } = useLanguage();
   const { resolvedTheme } = useTheme();
   const isEn = language === 'en';
@@ -58,11 +60,11 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject }:
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
-    // Strict motion: Hero entrance opacity + 12px y
     gsap.from('.hero-content-reveal', {
       autoAlpha: 0,
       y: 12,
       duration: 0.5,
+      stagger: 0.1,
       ease: 'power2.out',
     });
   }, { scope: containerRef });
@@ -82,139 +84,80 @@ export default function HeroSection({ profile, onNavigateTab, onSelectProject }:
     window.open('/Ma_Van_Hung_CV_Data_Analyst_2026.pdf', '_blank');
   };
 
-  const handleViewCaseStudy = () => {
-    if (onSelectProject) {
-      onSelectProject('proj-heritage-japan');
-    } else if (onNavigateTab) {
-      onNavigateTab('projects');
-    }
-  };
-
   return (
     <section ref={containerRef} className="relative min-h-[85vh] flex items-center bg-[#FAFDFE] dark:bg-[#0B0F17] overflow-hidden transition-colors duration-200">
-      <div className="relative max-w-6xl mx-auto px-5 sm:px-8 w-full py-12 md:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 items-center">
+      {/* Background visual graph (Subtle) */}
+      <div className="absolute inset-0 opacity-10 dark:opacity-[0.03] pointer-events-none overflow-hidden">
+        <div className="absolute -bottom-32 -right-32 w-full h-full max-w-4xl scale-125 origin-bottom-right">
+           <HeroAreaChart data={heroChartData} isDark={isDark} isEn={isEn} />
+        </div>
+      </div>
 
-          {/* Left column: Editorial Content (7 cols) */}
-          <div className="lg:col-span-7 space-y-8 hero-content-reveal">
+      <div className="relative max-w-4xl mx-auto px-5 sm:px-8 w-full py-16 md:py-24 text-center sm:text-left z-10">
+        <div className="space-y-10">
 
-            {/* Kicker (Identity) & Availability */}
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="font-heading font-black text-slate-950 dark:text-white tracking-wide text-sm sm:text-base">
-                {profile.name || 'MA VĂN HÙNG'}
-              </span>
-              <span className="h-3 w-px bg-slate-300 dark:bg-slate-700" />
-              <span className="editorial-kicker text-xs">
-                {profile.title ? profile.title.toUpperCase() : 'DATA ANALYST'}
-              </span>
-              <span className="h-3 w-px hidden sm:block bg-slate-300 dark:bg-slate-700" />
-              <div className="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span>{isEn ? 'AVAILABLE' : 'SẴN SÀNG'}</span>
-              </div>
-            </div>
-
-            {/* Value Proposition Headline */}
-            <div className="space-y-4">
-              <h1 className="editorial-hero-title text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5rem] leading-[1.05] tracking-tight">
-                {isEn 
-                  ? 'I turn messy data into clear business decisions.' 
-                  : 'Biến dữ liệu phức tạp thành quyết định kinh doanh rõ ràng.'}
-              </h1>
-              <p className="text-lg sm:text-xl font-heading text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
-                {profile.subtitle || t('hero_subtitle', isEn
-                  ? 'Specializing in analytics engineering, quantitative research, and interactive data visualization.'
-                  : 'Chuyên sâu về phân tích dữ liệu, nghiên cứu định lượng và trực quan hóa dữ liệu tương tác.')}
-              </p>
-            </div>
-
-            {/* Unboxed Bio Lead */}
-            <p className="editorial-lead max-w-xl">
-              {profile.bio || t('about_default_bio', isEn
-                ? 'SQL, Python, Power BI specialist. I extract, clean, model, and visualize data to help leadership teams make evidence-based decisions.'
-                : 'Chuyên sâu SQL, Python, Power BI. Khai thác, chuẩn hóa và trực quan hóa dữ liệu đa nguồn, giúp ban quản trị ra quyết định dựa trên bằng chứng.')}
-            </p>
-
-            {/* 3 Unboxed KPIs: Typographic Data Strip */}
-            <div className="pt-2 border-t border-slate-200/80 dark:border-slate-800/80">
-              <div className="grid grid-cols-3 gap-4 sm:gap-8 pt-4">
-                {stats.map((stat) => (
-                  <div key={stat.label} className="space-y-1">
-                    <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-mono text-slate-950 dark:text-white tabular-nums tracking-tight">
-                      <AnimatedCounter value={stat.value} duration={1.2} triggerOnScroll={false} />
-                    </div>
-                    <p className="text-xs font-heading font-medium text-slate-500 dark:text-slate-400 leading-tight">
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Editorial CTAs */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <button
-                onClick={handleGoToProjects}
-                className="btn-primary-gold text-sm group"
-              >
-                <span>{t('cta_view_projects', 'Khám Phá Dự Án')}</span>
-                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-              </button>
-              <button
-                onClick={handleDownloadCV}
-                className="btn-secondary-editorial text-sm"
-              >
-                <Download className="w-4 h-4 text-slate-500 dark:text-slate-400" />
-                <span>{t('cta_view_cv', 'Tải CV PDF')}</span>
-              </button>
-            </div>
+          {/* 1. Identity */}
+          <div className="hero-content-reveal space-y-2">
+            <h2 className="text-xl sm:text-2xl font-heading font-black tracking-widest text-slate-400 dark:text-slate-500 uppercase">
+              {profile.name || 'MA VĂN HÙNG'}
+            </h2>
+            <h3 className="text-base sm:text-lg font-mono tracking-[0.2em] text-[#0D7287] dark:text-[#9BE7FA]">
+              {profile.title || 'DATA ANALYST'}
+            </h3>
           </div>
 
-          {/* Right column: 30% Card Minimal Micro-Visualization (5 cols) */}
-          <div className="lg:col-span-5">
-            <div className="card-minimal p-6 space-y-4">
-              {/* Header */}
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="editorial-kicker text-[11px] block">
-                    {isEn ? 'FEATURED TELEMETRY' : 'DỮ LIỆU ĐIỂN HÌNH'}
-                  </span>
-                  <p className="text-sm font-heading font-bold text-slate-900 dark:text-white mt-0.5">
-                    {isEn ? 'Japan Inbound Tourism Growth' : 'Khách quốc tế đến Nhật Bản'}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
-                    +513%
-                  </span>
-                </div>
-              </div>
+          {/* 2. Value Proposition Headline */}
+          <div className="hero-content-reveal">
+            <h1 className="editorial-hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight">
+              {isEn 
+                ? 'Turning messy data into clear business decisions.' 
+                : 'Biến dữ liệu phức tạp thành quyết định kinh doanh rõ ràng.'}
+            </h1>
+          </div>
 
-              {/* Data number */}
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-mono font-bold text-slate-950 dark:text-white tabular-nums">
-                  <AnimatedCounter value="31.9" duration={1.6} triggerOnScroll={false} />
-                </span>
-                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                  {isEn ? 'Million visitors (Peak 2019)' : 'Triệu lượt khách (Đỉnh 2019)'}
-                </span>
-              </div>
+          {/* 3. Skills */}
+          <div className="hero-content-reveal flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 text-sm sm:text-base font-mono font-semibold text-slate-500 dark:text-slate-400">
+            <span>SQL</span>
+            <span className="text-slate-300 dark:text-slate-700">•</span>
+            <span>Python</span>
+            <span className="text-slate-300 dark:text-slate-700">•</span>
+            <span>Power BI</span>
+            <span className="text-slate-300 dark:text-slate-700">•</span>
+            <span>Statistics</span>
+          </div>
 
-              {/* Area Chart */}
-              <div className="pt-2">
-                <HeroAreaChart data={heroChartData} isDark={isDark} isEn={isEn} />
-              </div>
+          {/* 4. CTAs */}
+          <div className="hero-content-reveal flex flex-wrap items-center justify-center sm:justify-start gap-4 pt-4">
+            <button
+              onClick={handleGoToProjects}
+              className="btn-primary-gold text-base group px-8 py-4"
+            >
+              <span>{t('cta_view_projects', 'Xem Case Studies')}</span>
+              <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
+            </button>
+            <button
+              onClick={handleDownloadCV}
+              className="btn-secondary-editorial text-base px-8 py-4"
+            >
+              <Download className="w-5 h-5 text-slate-500 dark:text-slate-400" />
+              <span>{t('cta_view_cv', 'Download CV')}</span>
+            </button>
+          </div>
 
-              {/* Footer */}
-              <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
-                <span className="font-mono text-[11px]">Source: JNTO 2003-2019</span>
-                <button
-                  onClick={handleViewCaseStudy}
-                  className="font-heading font-semibold text-[#0D7287] dark:text-[#9BE7FA] hover:underline flex items-center gap-1 cursor-pointer group"
-                >
-                  <span>{isEn ? 'Case Study' : 'Xem Phân Tích'}</span>
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                </button>
+          {/* 5. Metrics Box */}
+          <div className="hero-content-reveal pt-8">
+            <div className="inline-block p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm shadow-sm w-full sm:w-auto">
+              <div className="grid grid-cols-2 gap-x-12 sm:gap-x-24 gap-y-8">
+                {stats.map((stat, i) => (
+                  <div key={i} className="flex flex-col text-left">
+                    <span className="text-2xl sm:text-3xl font-mono font-extrabold text-slate-950 dark:text-white tabular-nums">
+                      {stat.value}
+                    </span>
+                    <span className="text-sm font-heading font-medium text-slate-500 dark:text-slate-400 mt-1">
+                      {stat.label}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

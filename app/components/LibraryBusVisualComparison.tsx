@@ -1547,7 +1547,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                   </div>
                   <button
                     onClick={() => handleOpenLightbox(
-                      '/library-bus/library_bus_wireframe_all_screens.png',
+                      '/library-bus/library_bus_wireframe_all_screens.webp',
                       'Wireframe: Library Bus (toàn bộ 20 trang)',
                       'Bảng quy chuẩn khung xương 20 màn hình'
                     )}
@@ -1561,13 +1561,13 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                 <div 
                   className="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 relative group cursor-zoom-in dark:bg-slate-950 dark:border-slate-800"
                   onClick={() => handleOpenLightbox(
-                    '/library-bus/library_bus_wireframe_all_screens.png',
+                    '/library-bus/library_bus_wireframe_all_screens.webp',
                     'Wireframe: Library Bus (toàn bộ 20 trang)',
                     'Bảng quy chuẩn khung xương 20 màn hình'
                   )}
                 >
                   <Image 
-                    src="/library-bus/library_bus_wireframe_all_screens.png" 
+                    src="/library-bus/library_bus_wireframe_all_screens.webp" 
                     alt="Wireframe Library Bus All 20 Screens" 
                     width={1400}
                     height={1833}
@@ -1584,8 +1584,8 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                 <div className="pt-2 flex justify-between items-center text-[11px] text-slate-500 font-mono">
                   <span>Kích thước: 1400 × 1833 px</span>
                   <a 
-                    href="/library-bus/library_bus_wireframe_all_screens.png" 
-                    download="library_bus_wireframe_all_screens.png"
+                    href="/library-bus/library_bus_wireframe_all_screens.webp" 
+                    download="library_bus_wireframe_all_screens.webp"
                     className="flex items-center gap-1 text-[#0D7287] hover:underline font-bold dark:text-[#9BE7FA]"
                   >
                     <Download className="w-3.5 h-3.5" /> Tải ảnh gốc
@@ -1605,7 +1605,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                   </div>
                   <button
                     onClick={() => handleOpenLightbox(
-                      '/library-bus/library_bus_ui_design_all_screens.png',
+                      '/library-bus/library_bus_ui_design_all_screens.webp',
                       'UI Design: Library Bus (toàn bộ 20 trang)',
                       'Bảng thiết kế hoàn chỉnh hệ thống 20 màn hình'
                     )}
@@ -1619,13 +1619,13 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                 <div 
                   className="rounded-2xl overflow-hidden border border-slate-200 bg-[#F0F9FB] relative group cursor-zoom-in dark:bg-slate-950 dark:border-slate-800"
                   onClick={() => handleOpenLightbox(
-                    '/library-bus/library_bus_ui_design_all_screens.png',
+                    '/library-bus/library_bus_ui_design_all_screens.webp',
                     'UI Design: Library Bus (toàn bộ 20 trang)',
                     'Bảng thiết kế hoàn chỉnh hệ thống 20 màn hình'
                   )}
                 >
                   <Image 
-                    src="/library-bus/library_bus_ui_design_all_screens.png" 
+                    src="/library-bus/library_bus_ui_design_all_screens.webp" 
                     alt="UI Design Library Bus All 20 Screens" 
                     width={1290}
                     height={3388}
@@ -1642,8 +1642,8 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                 <div className="pt-2 flex justify-between items-center text-[11px] text-slate-500 font-mono">
                   <span>Kích thước: 1290 × 3388 px</span>
                   <a 
-                    href="/library-bus/library_bus_ui_design_all_screens.png" 
-                    download="library_bus_ui_design_all_screens.png"
+                    href="/library-bus/library_bus_ui_design_all_screens.webp" 
+                    download="library_bus_ui_design_all_screens.webp"
                     className="flex items-center gap-1 text-[#0D7287] hover:underline font-bold dark:text-[#9BE7FA]"
                   >
                     <Download className="w-3.5 h-3.5" /> Tải ảnh gốc
@@ -1666,7 +1666,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                 </div>
                 <button
                   onClick={() => handleOpenLightbox(
-                    '/library-bus/library_bus_ui_design_all_screens.png',
+                    '/library-bus/library_bus_ui_design_all_screens.webp',
                     'UI Design: Library Bus (toàn bộ 20 trang)',
                     'Ảnh chụp giao diện thật 20 màn hình'
                   )}
@@ -1679,13 +1679,13 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
               <div 
                 className="rounded-2xl overflow-hidden border border-slate-200 bg-[#F0F9FB] flex justify-center p-2 cursor-zoom-in dark:bg-slate-950 dark:border-slate-800"
                 onClick={() => handleOpenLightbox(
-                  '/library-bus/library_bus_ui_design_all_screens.png',
+                  '/library-bus/library_bus_ui_design_all_screens.webp',
                   'UI Design: Library Bus (toàn bộ 20 trang)',
                   'Ảnh chụp giao diện thật 20 màn hình'
                 )}
               >
                 <Image 
-                  src="/library-bus/library_bus_ui_design_all_screens.png" 
+                  src="/library-bus/library_bus_ui_design_all_screens.webp" 
                   alt="UI Design Library Bus Full" 
                   width={1290}
                   height={3388}
@@ -1709,7 +1709,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                 </div>
                 <button
                   onClick={() => handleOpenLightbox(
-                    '/library-bus/library_bus_wireframe_all_screens.png',
+                    '/library-bus/library_bus_wireframe_all_screens.webp',
                     'Wireframe: Library Bus (toàn bộ 20 trang)',
                     'Khung xương cấu trúc 20 màn hình'
                   )}
@@ -1722,13 +1722,13 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
               <div 
                 className="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 flex justify-center p-2 cursor-zoom-in dark:bg-slate-950 dark:border-slate-800"
                 onClick={() => handleOpenLightbox(
-                  '/library-bus/library_bus_wireframe_all_screens.png',
+                  '/library-bus/library_bus_wireframe_all_screens.webp',
                   'Wireframe: Library Bus (toàn bộ 20 trang)',
                   'Khung xương cấu trúc 20 màn hình'
                 )}
               >
                 <Image 
-                  src="/library-bus/library_bus_wireframe_all_screens.png" 
+                  src="/library-bus/library_bus_wireframe_all_screens.webp" 
                   alt="Wireframe Library Bus Full" 
                   width={1400}
                   height={1833}
@@ -1752,7 +1752,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                 </div>
                 <button
                   onClick={() => handleOpenLightbox(
-                    '/library-bus/reference_wireframe_vs_ui.png',
+                    '/library-bus/reference_wireframe_vs_ui.webp',
                     'Mẫu Tham Khảo (Wireframe vs UI design)',
                     'Chuẩn mực trình bày hồ sơ thiết kế giao diện người dùng'
                   )}
@@ -1765,13 +1765,13 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
               <div 
                 className="rounded-2xl overflow-hidden border border-slate-200 bg-white flex justify-center p-2 cursor-zoom-in dark:bg-slate-950 dark:border-slate-800"
                 onClick={() => handleOpenLightbox(
-                  '/library-bus/reference_wireframe_vs_ui.png',
+                  '/library-bus/reference_wireframe_vs_ui.webp',
                   'Mẫu Tham Khảo (Wireframe vs UI design)',
                   'Chuẩn mực trình bày hồ sơ thiết kế giao diện người dùng'
                 )}
               >
                 <Image 
-                  src="/library-bus/reference_wireframe_vs_ui.png" 
+                  src="/library-bus/reference_wireframe_vs_ui.webp" 
                   alt="Reference Template Wireframe vs UI" 
                   width={1600}
                   height={900}

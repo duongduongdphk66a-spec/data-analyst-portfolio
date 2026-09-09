@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { 
   ChevronDown, ChevronRight, Github, Linkedin, 
   Sun, Moon, Download,
-  UserCheck, FileText, Briefcase
+  UserCheck, FileText, Briefcase, Home, FlaskConical
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -20,9 +20,11 @@ export default function Sidebar() {
   const [isProjectsOpen, setIsProjectsOpen] = useState(false);
 
   const navItems = [
+    { id: '/', label: language === 'en' ? 'Home' : 'Trang Chủ', icon: Home, hasChildren: false },
     { id: '/projects', label: language === 'en' ? 'Work' : 'Dự Án', icon: Briefcase, hasChildren: true },
     { id: '/experience', label: language === 'en' ? 'Experience' : 'Kinh Nghiệm', icon: FileText, hasChildren: false },
     { id: '/about', label: language === 'en' ? 'About' : 'Giới Thiệu', icon: UserCheck, hasChildren: false },
+    { id: '/lab', label: language === 'en' ? 'Interactive Lab' : 'Thực Hành Lab', icon: FlaskConical, hasChildren: false },
   ];
 
   return (

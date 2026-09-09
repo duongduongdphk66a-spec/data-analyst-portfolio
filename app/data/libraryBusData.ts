@@ -300,10 +300,10 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     descVi: 'Khung Hero chào đón với hình ảnh xe thư viện thực địa, thanh tìm kiếm thông minh O(1), 4 chỉ số KPI vận hành, kệ sách tuyển chọn và tin tức cộng đồng.',
     descEn: 'Hero welcome banner featuring real-life library bus, instant O(1) search, 4 operational KPI metrics, featured book shelf, and community news.',
     wireframeElements: ['Navbar & Brand logo', 'Hero Banner image box', 'O(1) Search bar input', '4-Column Book Cards Grid', '3-News Cards Grid'],
-    uiFeatures: ['Ảnh xe thực địa hero_bus.jpg', 'Nút CTA Giữ chỗ vàng mật ong', 'Huy hiệu xe buýt nổi bật', 'Hoạt cảnh GSAP mượt mà'],
+    uiFeatures: ['Ảnh xe thực địa hero_bus.webp', 'Nút CTA Giữ chỗ vàng mật ong', 'Huy hiệu xe buýt nổi bật', 'Hoạt cảnh GSAP mượt mà'],
     badge: 'Core Page',
-    wireframeSrc: '/library-bus/screens/wf_01_trang_chu.png',
-    uiSrc: '/library-bus/screens/ui_01_trang_chu.png',
+    wireframeSrc: '/library-bus/screens/wf_01_trang_chu.webp',
+    uiSrc: '/library-bus/screens/ui_01_trang_chu.webp',
     uiFullSrc: '/library-bus/full_screens/full_01_trang_chu.png'
   },
   {
@@ -322,9 +322,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Mission statement header', 'History timeline', 'Bus fleet structure grid', 'Volunteer callout banner'],
     uiFeatures: ['Thẻ sứ mệnh viền hổ phách', 'Chân dung đội ngũ thủ thư', 'Thông số xã hội 50.000+ độc giả'],
     badge: 'Brand',
-    wireframeSrc: '/library-bus/screens/wf_02_gioi_thieu.png',
-    uiSrc: '/library-bus/screens/ui_02_gioi_thieu.png',
-    uiFullSrc: '/library-bus/full_screens/full_02_gioi_thieu.png'
+    wireframeSrc: '/library-bus/screens/wf_02_gioi_thieu.webp',
+    uiSrc: '/library-bus/screens/ui_02_gioi_thieu.webp',
+    uiFullSrc: '/library-bus/full_screens/full_02_gioi_thieu.webp'
   },
   {
     id: 'screen-03',
@@ -342,9 +342,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Category Sidebar filter', 'Instant Search Input', 'Sort Dropdown', 'Book Cards Grid with badges', 'Pagination bar (1 2 3 ... 24)'],
     uiFeatures: ['Thẻ sách tông màu bơ mật ong', 'Tag tình trạng tồn kho thời gian thực', 'Phân loại DDC chuẩn thư viện quốc gia'],
     badge: 'Inventory',
-    wireframeSrc: '/library-bus/screens/wf_03_danh_sach_sach.png',
-    uiSrc: '/library-bus/screens/ui_03_danh_sach_sach.png',
-    uiFullSrc: '/library-bus/full_screens/full_03_danh_sach_sach.png'
+    wireframeSrc: '/library-bus/screens/wf_03_danh_sach_sach.webp',
+    uiSrc: '/library-bus/screens/ui_03_danh_sach_sach.webp',
+    uiFullSrc: '/library-bus/full_screens/full_03_danh_sach_sach.webp'
   },
   {
     id: 'screen-04',
@@ -362,9 +362,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Gallery with 1 large + 3 thumbs', 'Specs & Amenities row', 'Bus Fleet Selector table', '9.7 Score Circle & Progress bars', '4 Similar Books grid'],
     uiFeatures: ['Bảng chọn xe bus tồn kho sống', 'Nút Giữ chỗ khóa bi quan 48h', 'Đánh giá độc giả thực tế 9.7/10', 'Bìa sách phân giải cao'],
     badge: 'Signature UI',
-    wireframeSrc: '/library-bus/screens/wf_04_chi_tiet_sach.png',
-    uiSrc: '/library-bus/screens/ui_04_chi_tiet_sach.png',
-    uiFullSrc: '/library-bus/full_screens/full_04_chi_tiet_sach.png'
+    wireframeSrc: '/library-bus/screens/wf_04_chi_tiet_sach.webp',
+    uiSrc: '/library-bus/screens/ui_04_chi_tiet_sach.webp',
+    uiFullSrc: '/library-bus/full_screens/full_04_chi_tiet_sach.webp'
   },
   {
     id: 'screen-05',
@@ -382,9 +382,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Full-width Interactive Map canvas', 'Bus route filter drawer', 'Bus stop pin markers', 'Realtime Telemetry card popup'],
     uiFeatures: ['Bản đồ định vị GPS sub-second', 'Trạng thái hoạt động / bảo dưỡng', 'Bộ đếm số độc giả đang có mặt tại xe'],
     badge: 'IoT Fleet',
-    wireframeSrc: '/library-bus/screens/wf_05_danh_sach_xe_ban_do.png',
-    uiSrc: '/library-bus/screens/ui_05_danh_sach_xe_ban_do.png',
-    uiFullSrc: '/library-bus/full_screens/full_05_danh_sach_xe_ban_do.png'
+    wireframeSrc: '/library-bus/screens/wf_05_danh_sach_xe_ban_do.webp',
+    uiSrc: '/library-bus/screens/ui_05_danh_sach_xe_ban_do.webp',
+    uiFullSrc: '/library-bus/full_screens/full_05_danh_sach_xe_ban_do.webp'
   },
   {
     id: 'screen-06',
@@ -402,9 +402,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Bus Profile Header', 'Weekly Schedule Timeline', 'On-board Books list', 'Librarian Contact card'],
     uiFeatures: ['Lịch đón xe chi tiết theo thứ', 'Danh mục sách đang có mặt trên xe', 'Đánh giá tiện nghi xe buýt'],
     badge: 'Fleet Ops',
-    wireframeSrc: '/library-bus/screens/wf_06_chi_tiet_xe_buyt.png',
-    uiSrc: '/library-bus/screens/ui_06_chi_tiet_xe_buyt.png',
-    uiFullSrc: '/library-bus/full_screens/full_06_chi_tiet_xe_buyt.png'
+    wireframeSrc: '/library-bus/screens/wf_06_chi_tiet_xe_buyt.webp',
+    uiSrc: '/library-bus/screens/ui_06_chi_tiet_xe_buyt.webp',
+    uiFullSrc: '/library-bus/full_screens/full_06_chi_tiet_xe_buyt.webp'
   },
   {
     id: 'screen-07',
@@ -422,9 +422,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Inventory KPI metric cards', 'Alerts & Overdue Table', 'Cross-bus Transfer queue', 'Bulk Action toolbar'],
     uiFeatures: ['Bộ chỉ số vận hành tức thì', 'Cảnh báo tự động qua Celery Beat', 'Lọc nhanh sách cần bổ sung bản in'],
     badge: 'Librarian',
-    wireframeSrc: '/library-bus/screens/wf_07_dashboard_quan_ly_thu_vien.png',
-    uiSrc: '/library-bus/screens/ui_07_dashboard_quan_ly_thu_vien.png',
-    uiFullSrc: '/library-bus/full_screens/full_07_dashboard_quan_ly_thu_vien.png'
+    wireframeSrc: '/library-bus/screens/wf_07_dashboard_quan_ly_thu_vien.webp',
+    uiSrc: '/library-bus/screens/ui_07_dashboard_quan_ly_thu_vien.webp',
+    uiFullSrc: '/library-bus/full_screens/full_07_dashboard_quan_ly_thu_vien.webp'
   },
   {
     id: 'screen-08',
@@ -442,9 +442,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Donation Submission form', 'Donation Pipeline Kanban', 'Contributor Hall of Fame', 'Book Condition status pills'],
     uiFeatures: ['Bảng vinh danh nhà hảo tâm', 'Quy trình kiểm duyệt sách 4 bước', 'Đếm tổng số sách đã tiếp nhận'],
     badge: 'Community',
-    wireframeSrc: '/library-bus/screens/wf_08_danh_sach_quyen_gop_sach.png',
-    uiSrc: '/library-bus/screens/ui_08_danh_sach_quyen_gop_sach.png',
-    uiFullSrc: '/library-bus/full_screens/full_08_danh_sach_quyen_gop_sach.png'
+    wireframeSrc: '/library-bus/screens/wf_08_danh_sach_quyen_gop_sach.webp',
+    uiSrc: '/library-bus/screens/ui_08_danh_sach_quyen_gop_sach.webp',
+    uiFullSrc: '/library-bus/full_screens/full_08_danh_sach_quyen_gop_sach.webp'
   },
   {
     id: 'screen-09',
@@ -462,9 +462,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Barcode input scanner', 'Reader Membership lookup', 'Borrowing Policy summary', 'Confirm & Print Receipt button'],
     uiFeatures: ['Xác thực thẻ độc giả tức thời', 'Tính toán ngày hẹn trả tự động', 'Chống mượn vượt hạn mức (Max 5 cuốn)'],
     badge: 'Transaction',
-    wireframeSrc: '/library-bus/screens/wf_09_tao_phieu_muon_sach.png',
-    uiSrc: '/library-bus/screens/ui_09_tao_phieu_muon_sach.png',
-    uiFullSrc: '/library-bus/full_screens/full_09_tao_phieu_muon_sach.png'
+    wireframeSrc: '/library-bus/screens/wf_09_tao_phieu_muon_sach.webp',
+    uiSrc: '/library-bus/screens/ui_09_tao_phieu_muon_sach.webp',
+    uiFullSrc: '/library-bus/full_screens/full_09_tao_phieu_muon_sach.webp'
   },
   {
     id: 'screen-10',
@@ -482,9 +482,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Book Summary Card', 'Bus Selection Radio List', 'Pickup Time Slot dropdown', '48h Hold Terms checkbox', 'Submit Hold CTA'],
     uiFeatures: ['Khóa bi quan ngăn xung đột mượn', 'Đếm ngược 48h bảo vệ chỗ', 'Gửi email xác nhận kèm mã QR'],
     badge: 'ACID Lock',
-    wireframeSrc: '/library-bus/screens/wf_10_tao_dat_truoc_sach.png',
-    uiSrc: '/library-bus/screens/ui_10_tao_dat_truoc_sach.png',
-    uiFullSrc: '/library-bus/full_screens/full_10_tao_dat_truoc_sach.png'
+    wireframeSrc: '/library-bus/screens/wf_10_tao_dat_truoc_sach.webp',
+    uiSrc: '/library-bus/screens/ui_10_tao_dat_truoc_sach.webp',
+    uiFullSrc: '/library-bus/full_screens/full_10_tao_dat_truoc_sach.webp'
   },
   {
     id: 'screen-11',
@@ -502,9 +502,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Circulation KPI Cards', 'Transaction Filter tabs (Active/Due/Overdue)', 'Circulation Log table', 'Quick Actions modal'],
     uiFeatures: ['Lọc nhanh phiếu mượn theo trạng thái', 'Gia hạn sách 1-click O(1)', 'Biểu đồ phân bổ mượn theo ngày'],
     badge: 'Circulation',
-    wireframeSrc: '/library-bus/screens/wf_11_dashboard_giao_dich.png',
-    uiSrc: '/library-bus/screens/ui_11_dashboard_giao_dich.png',
-    uiFullSrc: '/library-bus/full_screens/full_11_dashboard_giao_dich.png'
+    wireframeSrc: '/library-bus/screens/wf_11_dashboard_giao_dich.webp',
+    uiSrc: '/library-bus/screens/ui_11_dashboard_giao_dich.webp',
+    uiFullSrc: '/library-bus/full_screens/full_11_dashboard_giao_dich.webp'
   },
   {
     id: 'screen-12',
@@ -522,9 +522,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Digital Library Pass card', 'Active Borrows table', 'Reading History timeline', 'Gamification Streak & Badge widget'],
     uiFeatures: ['Thẻ QR số quét trực tiếp tại xe', 'Hệ thống 5 cấp độ thành viên', 'Đề xuất sách thông minh theo sở thích'],
     badge: 'Gamification',
-    wireframeSrc: '/library-bus/screens/wf_12_dashboard_nguoi_dung.png',
-    uiSrc: '/library-bus/screens/ui_12_dashboard_nguoi_dung.png',
-    uiFullSrc: '/library-bus/full_screens/full_12_dashboard_nguoi_dung.png'
+    wireframeSrc: '/library-bus/screens/wf_12_dashboard_nguoi_dung.webp',
+    uiSrc: '/library-bus/screens/ui_12_dashboard_nguoi_dung.webp',
+    uiFullSrc: '/library-bus/full_screens/full_12_dashboard_nguoi_dung.webp'
   },
   {
     id: 'screen-13',
@@ -542,9 +542,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Brand Logo header', 'Identifier Input (Email/Phone)', 'Password Input with show/hide', 'Remember Me checkbox', 'Login CTA button'],
     uiFeatures: ['Màu nền gụ ấm áp Neo-Bakery', 'Bảo mật mật khẩu Argon2', 'Chuyển hướng thông minh sau đăng nhập'],
     badge: 'Security',
-    wireframeSrc: '/library-bus/screens/wf_13_dang_nhap.png',
-    uiSrc: '/library-bus/screens/ui_13_dang_nhap.png',
-    uiFullSrc: '/library-bus/full_screens/full_13_dang_nhap.png'
+    wireframeSrc: '/library-bus/screens/wf_13_dang_nhap.webp',
+    uiSrc: '/library-bus/screens/ui_13_dang_nhap.webp',
+    uiFullSrc: '/library-bus/full_screens/full_13_dang_nhap.webp'
   },
   {
     id: 'screen-14',
@@ -562,9 +562,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Registration Form fields', 'Preferred Stops multi-select', 'Terms of Service checkbox', 'Submit & Verify button'],
     uiFeatures: ['Khảo sát sở thích đọc cá nhân hóa', 'Kích hoạt thẻ tức thì 0đ phí mở thẻ', 'Tạo tài khoản tự động trong MySQL'],
     badge: 'Onboarding',
-    wireframeSrc: '/library-bus/screens/wf_14_dang_ky.png',
-    uiSrc: '/library-bus/screens/ui_14_dang_ky.png',
-    uiFullSrc: '/library-bus/full_screens/full_14_dang_ky.png'
+    wireframeSrc: '/library-bus/screens/wf_14_dang_ky.webp',
+    uiSrc: '/library-bus/screens/ui_14_dang_ky.webp',
+    uiFullSrc: '/library-bus/full_screens/full_14_dang_ky.webp'
   },
   {
     id: 'screen-15',
@@ -582,9 +582,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Featured Article Hero banner', 'Category Tags pill row', 'Article Cards Grid with author avatars', 'Newsletter signup box'],
     uiFeatures: ['Thiết kế tạp chí văn học thanh lịch', 'Lọc bài viết theo chủ đề', 'Bộ sưu tập ảnh giao lưu thực địa'],
     badge: 'Editorial',
-    wireframeSrc: '/library-bus/screens/wf_15_blog_trang_chu.png',
-    uiSrc: '/library-bus/screens/ui_15_blog_trang_chu.png',
-    uiFullSrc: '/library-bus/full_screens/full_15_blog_trang_chu.png'
+    wireframeSrc: '/library-bus/screens/wf_15_blog_trang_chu.webp',
+    uiSrc: '/library-bus/screens/ui_15_blog_trang_chu.webp',
+    uiFullSrc: '/library-bus/full_screens/full_15_blog_trang_chu.webp'
   },
   {
     id: 'screen-16',
@@ -602,9 +602,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Article Header with metadata', 'Rich text Content body', 'Related Book callout box', 'Discussion Comment thread'],
     uiFeatures: ['Typography Lora đậm chất hoài niệm', 'Bình luận thời gian thực', 'Liên kết mượn trực tiếp tác phẩm trong bài'],
     badge: 'Longform',
-    wireframeSrc: '/library-bus/screens/wf_16_blog_chi_tiet_bai_viet.png',
-    uiSrc: '/library-bus/screens/ui_16_blog_chi_tiet_bai_viet.png',
-    uiFullSrc: '/library-bus/full_screens/full_16_blog_chi_tiet_bai_viet.png'
+    wireframeSrc: '/library-bus/screens/wf_16_blog_chi_tiet_bai_viet.webp',
+    uiSrc: '/library-bus/screens/ui_16_blog_chi_tiet_bai_viet.webp',
+    uiFullSrc: '/library-bus/full_screens/full_16_blog_chi_tiet_bai_viet.webp'
   },
   {
     id: 'screen-17',
@@ -622,9 +622,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Notification Filter pills', 'Notification List items with icons', 'Mark all as read button', 'Notification Settings link'],
     uiFeatures: ['Cập nhật badge thông báo tự động', 'Phân loại thông báo hệ thống vs giao dịch', 'Gửi email song song qua Celery'],
     badge: 'Telemetry',
-    wireframeSrc: '/library-bus/screens/wf_17_thong_bao.png',
-    uiSrc: '/library-bus/screens/ui_17_thong_bao.png',
-    uiFullSrc: '/library-bus/full_screens/full_17_thong_bao.png'
+    wireframeSrc: '/library-bus/screens/wf_17_thong_bao.webp',
+    uiSrc: '/library-bus/screens/ui_17_thong_bao.webp',
+    uiFullSrc: '/library-bus/full_screens/full_17_thong_bao.webp'
   },
   {
     id: 'screen-18',
@@ -642,9 +642,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Executive KPI Cards', 'Time-series Borrow/Return Chart', 'Bus Efficiency comparative bar chart', 'Top Books table'],
     uiFeatures: ['Biểu đồ Area Chart mượn trả tuần hoàn', 'Phân tích hiệu suất từng tuyến xe bus', 'Xuất báo cáo Excel / PDF tức thời'],
     badge: 'Data Analytics',
-    wireframeSrc: '/library-bus/screens/wf_18_analytics_dashboard.png',
-    uiSrc: '/library-bus/screens/ui_18_analytics_dashboard.png',
-    uiFullSrc: '/library-bus/full_screens/full_18_analytics_dashboard.png'
+    wireframeSrc: '/library-bus/screens/wf_18_analytics_dashboard.webp',
+    uiSrc: '/library-bus/screens/ui_18_analytics_dashboard.webp',
+    uiFullSrc: '/library-bus/full_screens/full_18_analytics_dashboard.webp'
   },
   {
     id: 'screen-19',
@@ -662,9 +662,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Category Filter Tabs', 'Accordion Question/Answer list', 'Still Have Questions callout box', 'Contact Support CTA'],
     uiFeatures: ['Accordion đóng mở mượt mà', 'Tìm kiếm từ khóa câu hỏi tức thì', 'Liên kết trực tiếp đến biểu mẫu liên hệ'],
     badge: 'Support',
-    wireframeSrc: '/library-bus/screens/wf_19_faq.png',
-    uiSrc: '/library-bus/screens/ui_19_faq.png',
-    uiFullSrc: '/library-bus/full_screens/full_19_faq.png'
+    wireframeSrc: '/library-bus/screens/wf_19_faq.webp',
+    uiSrc: '/library-bus/screens/ui_19_faq.webp',
+    uiFullSrc: '/library-bus/full_screens/full_19_faq.webp'
   },
   {
     id: 'screen-20',
@@ -682,9 +682,9 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     wireframeElements: ['Contact Details card', 'Feedback Input form', 'Operating Hours box', 'Volunteer Registration banner'],
     uiFeatures: ['Xử lý form liên hệ tự động', 'Tổng đài hỗ trợ độc giả 1900', 'Bản đồ trụ sở điều hành xe buýt'],
     badge: 'Community',
-    wireframeSrc: '/library-bus/screens/wf_20_lien_he.png',
-    uiSrc: '/library-bus/screens/ui_20_lien_he.png',
-    uiFullSrc: '/library-bus/full_screens/full_20_lien_he.png'
+    wireframeSrc: '/library-bus/screens/wf_20_lien_he.webp',
+    uiSrc: '/library-bus/screens/ui_20_lien_he.webp',
+    uiFullSrc: '/library-bus/full_screens/full_20_lien_he.webp'
   }
 ];
 
@@ -716,9 +716,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Core Page",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_01.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_01.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_01.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_01.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_01.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_01.webp"
   },
   {
     "id": "mob_02",
@@ -747,9 +747,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Public",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_02.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_02.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_02.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_02.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_02.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_02.webp"
   },
   {
     "id": "mob_03",
@@ -778,9 +778,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Inventory",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_06.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_06.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_06.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_06.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_06.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_06.webp"
   },
   {
     "id": "mob_04",
@@ -809,9 +809,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Inventory",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_07.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_07.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_07.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_07.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_07.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_07.webp"
   },
   {
     "id": "mob_05",
@@ -840,9 +840,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Fleet",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_10.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_10.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_10.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_10.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_10.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_10.webp"
   },
   {
     "id": "mob_06",
@@ -871,9 +871,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Fleet",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_11.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_11.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_11.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_11.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_11.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_11.webp"
   },
   {
     "id": "mob_07",
@@ -902,9 +902,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Inventory",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_05.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_05.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_05.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_05.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_05.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_05.webp"
   },
   {
     "id": "mob_08",
@@ -934,9 +934,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Inventory",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_08.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_08.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_08.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_08.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_08.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_08.webp"
   },
   {
     "id": "mob_09",
@@ -965,9 +965,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Circulation",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_16.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_16.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_16.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_16.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_16.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_16.webp"
   },
   {
     "id": "mob_10",
@@ -996,9 +996,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Circulation",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_18.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_18.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_18.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_18.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_18.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_18.webp"
   },
   {
     "id": "mob_11",
@@ -1027,9 +1027,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Circulation",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_15.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_15.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_15.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_15.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_15.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_15.webp"
   },
   {
     "id": "mob_12",
@@ -1058,9 +1058,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Account",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_24.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_24.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_24.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_24.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_24.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_24.webp"
   },
   {
     "id": "mob_13",
@@ -1090,9 +1090,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Account",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_21.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_21.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_21.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_21.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_21.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_21.webp"
   },
   {
     "id": "mob_14",
@@ -1121,9 +1121,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Account",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_22.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_22.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_22.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_22.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_22.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_22.webp"
   },
   {
     "id": "mob_15",
@@ -1152,9 +1152,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Community",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_27.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_27.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_27.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_27.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_27.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_27.webp"
   },
   {
     "id": "mob_16",
@@ -1183,9 +1183,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Community",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_28.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_28.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_28.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_28.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_28.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_28.webp"
   },
   {
     "id": "mob_17",
@@ -1214,9 +1214,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "System",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_14.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_14.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_14.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_14.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_14.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_14.webp"
   },
   {
     "id": "mob_18",
@@ -1245,9 +1245,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Telemetry",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_20.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_20.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_20.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_20.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_20.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_20.webp"
   },
   {
     "id": "mob_19",
@@ -1276,9 +1276,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Public",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_04.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_04.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_04.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_04.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_04.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_04.webp"
   },
   {
     "id": "mob_20",
@@ -1307,9 +1307,9 @@ export const LIBRARY_BUS_MOBILE_SCREENS: LibraryBusScreenItem[] = [
       "Khớp kích thước 1-to-1 Wireframe"
     ],
     "badge": "Public",
-    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_03.png",
-    "uiSrc": "/library-bus/mobile_screens/ui_mob_03.png",
-    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_03.png"
+    "wireframeSrc": "/library-bus/mobile_screens/wf_mob_03.webp",
+    "uiSrc": "/library-bus/mobile_screens/ui_mob_03.webp",
+    "uiFullSrc": "/library-bus/mobile_screens/ui_mob_03.webp"
   }
 ];
 
@@ -1403,9 +1403,9 @@ export const WEBSITE_DESIGN_DATA = {
     gutter: '24px'
   },
   masterBoards: {
-    wireframeAllSrc: '/library-bus/library_bus_wireframe_all_screens.png',
-    uiDesignAllSrc: '/library-bus/library_bus_ui_design_all_screens.png',
-    referenceTemplateSrc: '/library-bus/reference_wireframe_vs_ui.png',
+    wireframeAllSrc: '/library-bus/library_bus_wireframe_all_screens.webp',
+    uiDesignAllSrc: '/library-bus/library_bus_ui_design_all_screens.webp',
+    referenceTemplateSrc: '/library-bus/reference_wireframe_vs_ui.webp',
     screenCount: 20,
     totalTemplates: '70+ Django HTML Templates'
   },
@@ -1476,7 +1476,7 @@ export const realUIGallery = [
     titleEn: 'Full 20-Screen Master Board (UI Design)',
     descVi: 'Bảng thiết kế hoàn chỉnh 20 màn hình giao diện thực tế của hệ thống Tủ Sách Lưu Động áp dụng bảng màu nhận diện chuẩn (#0D7287, #9BE7FA, #FFD14C, #C8EEF7).',
     descEn: 'Master board containing all 20 production screens of Library Bus system styled with the official 4-color palette.',
-    src: '/library-bus/library_bus_ui_design_all_screens.png',
+    src: '/library-bus/library_bus_ui_design_all_screens.webp',
     tag: 'Official 4-Tone UI'
   },
   {
@@ -1485,7 +1485,7 @@ export const realUIGallery = [
     titleEn: 'Full 20-Screen Master Wireframe Architecture',
     descVi: 'Bảng khung xương quy chuẩn 20 màn hình: Phân bổ lưới 12 cột, phân tầng thông tin, vị trí các nút tương tác và thành phần dữ liệu.',
     descEn: 'Comprehensive 20-screen wireframe board: 12-column grid system, visual hierarchy, interactive controls, and structural cards.',
-    src: '/library-bus/library_bus_wireframe_all_screens.png',
+    src: '/library-bus/library_bus_wireframe_all_screens.webp',
     tag: 'Wireframe Architecture'
   },
   {
@@ -1494,7 +1494,7 @@ export const realUIGallery = [
     titleEn: 'Reference Template: Wireframe vs UI Design Comparison',
     descVi: 'Bố cục chuẩn mẫu tài liệu thiết kế: Nửa trái là Wireframe khung xám, nửa phải là UI Design hoàn chỉnh với hệ màu thương hiệu.',
     descEn: 'Design guidelines standard benchmark: Left half features wireframe skeletons, right half showcases final branded UI.',
-    src: '/library-bus/reference_wireframe_vs_ui.png',
+    src: '/library-bus/reference_wireframe_vs_ui.webp',
     tag: 'Benchmark Standard'
   },
   {
@@ -1503,7 +1503,7 @@ export const realUIGallery = [
     titleEn: 'Mobile Library Bus in Field Operations',
     descVi: 'Mô hình xe buýt chở tri thức với hơn 1.200 đầu sách giấy, trạm sạc điện thoại và khu vực đọc sách mở tại các điểm dừng.',
     descEn: 'Mobile bus carrying over 1,200 physical books, device charging ports, and open pop-up reading zones at scheduled stops.',
-    src: '/library-bus/hero_bus.jpg',
+    src: '/library-bus/hero_bus.webp',
     tag: 'Hardware & Fleet'
   },
   {

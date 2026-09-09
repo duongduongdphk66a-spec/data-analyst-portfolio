@@ -36,7 +36,10 @@ function subscribeLanguage(callback: () => void) {
   };
 }
 
+import { useRouter } from 'next/navigation';
+
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
   const language: Language = useSyncExternalStore(subscribeLanguage, getSavedLanguage, () => 'vi' as Language);
   const { customTexts, refreshData } = usePortfolioData();
 
@@ -46,7 +49,9 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
   const setLanguage = (newLang: Language) => {
     localStorage.setItem('portfolio_lang', newLang);
+    document.cookie = `portfolio_lang=${newLang}; path=/; max-age=31536000`;
     window.dispatchEvent(new Event('languagechange'));
+    router.refresh();
   };
 
   const toggleLanguage = () => {

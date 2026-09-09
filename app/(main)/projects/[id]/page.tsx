@@ -123,5 +123,37 @@ export default async function ProjectDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  return <ProjectDetailClient id={id} />;
+
+  let project: ProjectData | undefined;
+  try {
+    const pool = getDbPool();
+    if (pool) {
+      const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_projects WHERE id = ? LIMIT 1', [id]);
+      if (Array.isArray(rows) && rows.length > 0) {
+        const r = rows[0];
+        project = {
+          id: r.id,
+          title: r.title,
+          desc: r.desc_text || '',
+          tags: typeof r.tags_json === 'string' ? JSON.parse(r.tags_json) : r.tags || [],
+          demoUrl: r.demo_url,
+          githubUrl: r.github_url,
+          embedUrl: r.embed_url,
+          img: r.img,
+          problem: r.problem,
+          method: r.method,
+          insight: r.insight,
+          content: r.content, // Fetch content as well
+        };
+      }
+    }
+  } catch {
+    // Database query fallback
+  }
+
+  if (!project) {
+    project = DEFAULT_PROJECTS.find((p) => p.id === id);
+  }
+
+  return <ProjectDetailClient id={id} project={project} />;
 }

@@ -1,34 +1,22 @@
-'use client';
-
-import React, { useEffect } from 'react';
-import { useLanguage } from '../../context/LanguageContext';
-import { usePortfolioData } from '../../context/PortfolioDataContext';
+import React from 'react';
 import AboutSection from '../../components/AboutSection';
-import { useRouter } from 'next/navigation';
+import { getServerLanguage, getServerPortfolioData } from '../../lib/serverData';
 
-export default function AboutPage() {
-  const { language } = useLanguage();
-  const { profile } = usePortfolioData();
-  const router = useRouter();
-
-  useEffect(() => {
-    document.title = `${profile.name || 'Ma Văn Hùng'} | ${language === 'en' ? 'About' : 'Giới Thiệu'}`;
-  }, [language, profile.name]);
-
-  const handleSelectProject = (projId: string) => {
-    router.push(`/projects/${projId}`);
+export async function generateMetadata() {
+  const { language } = await getServerLanguage();
+  const { profile } = await getServerPortfolioData();
+  return {
+    title: `${profile.name || 'Ma Văn Hùng'} | ${language === 'en' ? 'About' : 'Giới Thiệu'}`,
   };
+}
 
-  const handleNavigateTab = (tabId: string) => {
-    router.push(tabId === 'home' ? '/' : `/${tabId}`);
-  };
+export default async function AboutPage() {
+  const { profile } = await getServerPortfolioData();
 
   return (
     <div className="py-8">
       <AboutSection 
         profile={profile} 
-        onSelectProject={handleSelectProject} 
-        onNavigateTab={handleNavigateTab}
       />
     </div>
   );

@@ -1,39 +1,28 @@
-'use client';
-
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Download, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { useLanguage } from '../context/LanguageContext';
-import { usePortfolioData } from '../context/PortfolioDataContext';
 import HeroSection from '../components/HeroSection';
 import CVSection from '../components/CVSection';
 import ProjectsSection from '../components/ProjectsSection';
-import { useRouter } from 'next/navigation';
+import { getServerLanguage, getServerPortfolioData } from '../lib/serverData';
 
-export default function HomePage() {
-  const { language } = useLanguage();
-  const { profile, projects } = usePortfolioData();
-  const router = useRouter();
-
-  useEffect(() => {
-    document.title = `${profile.name || 'Ma Văn Hùng'} | ${language === 'en' ? 'Home' : 'Trang Chủ'}`;
-  }, [language, profile.name]);
-
-  const handleNavigateTab = (tabId: string) => {
-    router.push(tabId === 'home' ? '/' : `/${tabId}`);
+export async function generateMetadata() {
+  const { language } = await getServerLanguage();
+  const { profile } = await getServerPortfolioData();
+  return {
+    title: `${profile.name || 'Ma Văn Hùng'} | ${language === 'en' ? 'Home' : 'Trang Chủ'}`,
   };
+}
 
-  const handleSelectProject = (projId: string) => {
-    router.push(`/projects/${projId}`);
-  };
+export default async function HomePage() {
+  const { language, t } = await getServerLanguage();
+  const { profile, projects } = await getServerPortfolioData();
 
   return (
     <div className="space-y-16 pb-24">
       {/* 1. Hero Section */}
       <HeroSection 
         profile={profile} 
-        onNavigateTab={handleNavigateTab}
-        onSelectProject={handleSelectProject}
       />
 
       {/* 2. Featured Projects (Selected Work Stream) */}
@@ -55,7 +44,6 @@ export default function HomePage() {
         </div>
         <ProjectsSection 
           projects={projects.slice(0, 3)} 
-          onSelectProject={handleSelectProject} 
           isFeaturedView={true}
         />
       </section>
@@ -92,13 +80,14 @@ export default function HomePage() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 shrink-0">
-            <button
-              onClick={() => window.open('/Ma_Van_Hung_CV_Data_Analyst_2026.pdf', '_blank')}
+            <a
+              href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
+              target="_blank"
               className="btn-primary-gold text-xs px-5 py-3"
             >
               <Download className="w-4 h-4" />
               <span>{language === 'en' ? 'Download CV PDF' : 'Tải CV PDF'}</span>
-            </button>
+            </a>
             <a
               href="mailto:mavanhung.da@gmail.com"
               className="btn-secondary-editorial text-xs py-3 px-5 border-slate-700 text-white hover:bg-slate-800"

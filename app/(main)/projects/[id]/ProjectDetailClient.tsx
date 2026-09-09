@@ -32,55 +32,26 @@ const CASE_STUDY_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'proj-library-bus': LibraryBusProject,
 };
 
-export default function ProjectDetailClient({ id }: { id: string }) {
+export default function ProjectDetailClient({ id, project }: { id: string; project?: ProjectData }) {
   const { projects: contextProjects, isLoading } = usePortfolioData();
-  const [apiProject, setApiProject] = useState<ProjectData | null>(null);
-  const [fetchFinished, setFetchFinished] = useState(false);
 
   const SpecialComponent = CASE_STUDY_COMPONENTS[id];
 
-  // 1. Lookup in Context Projects (including MySQL DB / CMS dynamic projects)
+  // 1. Prioritize prop from server, then context, then default
   const allProjects = contextProjects && contextProjects.length > 0 ? contextProjects : DEFAULT_PROJECTS;
-  const project = allProjects.find((p) => p.id === id) || apiProject;
+  const activeProject = project || allProjects.find((p) => p.id === id);
 
-  // 2. Fallback direct API fetch if not present in memory context yet
-  useEffect(() => {
-    let active = true;
-
-    if (!SpecialComponent && !project && !isLoading && !fetchFinished) {
-      fetch('/api/projects')
-        .then((res) => res.json())
-        .then((data) => {
-          if (!active) return;
-          if (data.success && Array.isArray(data.data)) {
-            const match = data.data.find((p: ProjectData) => p.id === id);
-            if (match) {
-              setApiProject(match);
-            }
-          }
-        })
-        .catch((err) => {
-          console.warn('[ProjectDetailClient] Failed to fetch project from API:', err);
-        })
-        .finally(() => {
-          if (active) setFetchFinished(true);
-        });
-    }
-
-    return () => {
-      active = false;
-    };
-  }, [id, project, isLoading, fetchFinished, SpecialComponent]);
-
-  if (SpecialComponent) {
+  // 2. If it's a special component and the project DOES NOT have explicit markdown content, render the special hardcoded component.
+  // This allows overriding hardcoded components with CMS markdown if the user adds 'content'.
+  if (SpecialComponent && (!activeProject || !activeProject.content)) {
     return <SpecialComponent isEmbedded={false} />;
   }
 
-  const isStillLoading = !project && (isLoading || !fetchFinished);
+  const isStillLoading = !activeProject && isLoading;
 
   return (
     <ProjectDetailView 
-      project={project || null} 
+      project={activeProject || null} 
       isLoading={isStillLoading}
       isEmbedded={false} 
     />
