@@ -13,12 +13,12 @@ const FALLBACK_RANDOM_SECRET = crypto.randomBytes(32).toString('hex');
 
 function getAdminPassword(): string {
   const envPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET;
-  if (envPassword && envPassword.trim().length >= 8) {
+  if (envPassword && envPassword.trim().length >= 16) {
     return envPassword.trim();
   }
   if (process.env.NODE_ENV === 'production') {
     throw new Error(
-      '[CRITICAL SECURITY ERROR] ADMIN_PASSWORD/ADMIN_SECRET must be configured in environment with at least 8 characters in production mode.'
+      '[CRITICAL SECURITY ERROR] ADMIN_PASSWORD/ADMIN_SECRET must be configured in environment with at least 16 characters in production mode.'
     );
   }
   return envPassword?.trim() || FALLBACK_RANDOM_SECRET;
@@ -35,8 +35,8 @@ interface RateLimitEntry {
   lastAttempt: number;
 }
 
-const MAX_FAILED_ATTEMPTS = 5;
-const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 phút
+const MAX_FAILED_ATTEMPTS = 10;
+const LOCKOUT_DURATION_MS = 5 * 60 * 1000; // 5 phút
 const ATTEMPT_WINDOW_MS = 15 * 60 * 1000;   // 15 phút
 
 const loginAttempts = new Map<string, RateLimitEntry>();

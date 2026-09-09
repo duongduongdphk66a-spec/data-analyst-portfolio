@@ -109,24 +109,8 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Fetch initial data on mount: delegates to refreshData to avoid code duplication
-  useEffect(() => {
-    let ignore = false;
-
-    const initData = async () => {
-      await refreshData();
-      // refreshData already sets isLoading = false internally
-    };
-
-    if (!ignore) {
-      initData();
-    }
-
-    return () => {
-      ignore = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // Fetch initial data on mount is removed since Server Components handle hydration.
+  // The Admin panel or specific interactive components can call refreshData manually if needed.
 
   // Update Profile
   const updateProfile = async (updated: Partial<ProfileData>): Promise<{ success: boolean; message: string }> => {

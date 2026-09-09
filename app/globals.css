@@ -8,62 +8,34 @@
 }
 
 @theme {
-  /* Official Brand Palette (From User Specification) */
-  --color-brand-blue-vivid: #9BE7FA;      /* Sky Blue Vivid */
-  --color-brand-blue-light: #C8EEF7;      /* Soft Sky Blue Surface */
-  --color-brand-yellow-light: #FFE485;    /* Pastel Gold / Soft Accent */
-  --color-brand-yellow: #FFD14C;          /* Vibrant Yellow / Gold CTA */
-  --color-brand-blue: #0D7287;            /* Deep Teal Anchor for Contrast */
-  --color-brand-blue-hover: #095869;
-
-  /* Theme Tokens mapped to the 4 Brand Colors (Editorial Palette) */
-  --color-accent: #FFD14C;          /* Yellow: CTA / important KPI */
-  --color-accent-soft: #FFE485;
-  --color-accent-deep: #E6B830;
-  --color-surface: #FAFDFE;         /* Calmer, cleaner surface */
-  --color-surface-tint: #F1F5F9;
-  --color-surface-vivid: #9BE7FA;   /* Cyan: Data / Active Link */
-  --color-ink: #0F172A;             /* High contrast text */
-  --color-ink-secondary: #475569;
-  --color-ink-muted: #64748B;
-  --color-ground: #FAFDFE;          /* Clean airy background */
-  --color-ground-alt: #F8FAFC;
-  --color-border-subtle: #E2E8F0;
-  --color-border-strong: #CBD5E1;
+  /* Official Brand Palette */
+  --color-brand-primary: #0D7287;
+  --color-brand-primary-hover: #095869;
+  --color-accent: #FFD14C;
+  --color-surface: #FAFDFE;
+  --color-surface-raised: #FFFFFF;
+  --color-text: #0F172A;
+  --color-text-muted: #64748B;
+  --color-border: #E2E8F0;
 
   /* Typography */
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-sans-ui: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: "Lora", Georgia, serif;
-  --font-heading: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  /* Easing & Motion (Minimalist & Emil Kowalski Standards) */
+  /* Easing */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-out-smooth: cubic-bezier(0.25, 0.1, 0.25, 1.0);
 }
 
 .dark {
   color-scheme: dark;
-  --color-brand-blue-light: #1E293B;
-  --color-brand-blue-vivid: #9BE7FA;
+  --color-brand-primary: #9BE7FA;
+  --color-brand-primary-hover: #C8EEF7;
   --color-accent: #FFD14C;
-  --color-accent-soft: #FFE485;
-  --color-accent-deep: #FFCF75;
   --color-surface: #0F172A;
-  --color-surface-tint: #1E293B;
-  --color-surface-vivid: #9BE7FA;
-  --color-ink: #F8FAFC;
-  --color-ink-secondary: #CBD5E1;
-  --color-ink-muted: #94A3B8;
-  --color-ground: #0B0F17;
-  --color-ground-alt: #101726;
-  --color-border-subtle: #1E293B;
-  --color-border-strong: #334155;
+  --color-surface-raised: #1E293B;
+  --color-text: #F8FAFC;
+  --color-text-muted: #94A3B8;
+  --color-border: #334155;
 }
 
 html {
@@ -80,8 +52,8 @@ section[id], header[id], div[id] {
 }
 
 html, body {
-  background-color: var(--color-ground);
-  color: var(--color-ink);
+  background-color: var(--color-surface);
+  color: var(--color-text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -93,9 +65,9 @@ button, a, [role="button"] {
 }
 
 :where(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
   font-weight: 700;
-  color: var(--color-ink);
+  color: var(--color-text);
   letter-spacing: -0.02em;
 }
 
@@ -138,11 +110,11 @@ kbd {
 
 /* Section rhythm: alternating backgrounds */
 .section-ground {
-  background-color: var(--color-ground);
+  background-color: var(--color-surface);
 }
 
 .section-alt {
-  background-color: var(--color-ground-alt);
+  background-color: var(--color-surface);
 }
 
 /* Subtle Technical Grid Background */
@@ -233,8 +205,8 @@ kbd {
 
 /* Selection color */
 ::selection {
-  background-color: var(--color-accent-soft);
-  color: var(--color-ink);
+  background-color: var(--color-accent);
+  color: var(--color-text);
 }
 
 .dark ::selection {
@@ -251,11 +223,11 @@ kbd {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-subtle);
+  background: var(--color-border);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-ink-muted);
+  background: var(--color-text-muted);
 }
 
 /* Link base reset */
@@ -273,26 +245,26 @@ a {
 
 /* UI/UX Pro Max Component Utilities (60% Editorial / 30% Cards / 10% Bento) */
 .editorial-hero-title {
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 0.96;
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 .editorial-section-title {
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 .editorial-lead {
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
   font-size: 1.0625rem;
   line-height: 1.7;
-  color: var(--color-ink-secondary);
+  color: var(--color-text);
 }
 
 .editorial-kicker {
@@ -301,10 +273,10 @@ a {
   text-transform: uppercase;
   letter-spacing: 0.18em;
   font-weight: 600;
-  color: var(--color-brand-blue);
+  color: var(--color-brand-primary);
 }
 .dark .editorial-kicker {
-  color: var(--color-brand-blue-vivid);
+  color: var(--color-brand-primary);
 }
 
 /* Button System: Single primary gold CTA + crisp secondary editorial */
@@ -312,7 +284,7 @@ a {
   background-color: #FFD14C;
   color: #0F172A;
   font-weight: 700;
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
   border-radius: 0.75rem;
   padding: 0.75rem 1.5rem;
   box-shadow: 0 2px 6px rgba(255, 209, 76, 0.2);
@@ -336,10 +308,10 @@ a {
 
 .btn-secondary-editorial {
   background-color: transparent;
-  color: var(--color-ink);
+  color: var(--color-text);
   font-weight: 600;
-  font-family: var(--font-heading);
-  border: 1px solid var(--color-border-subtle);
+  font-family: var(--font-sans);
+  border: 1px solid var(--color-border);
   border-radius: 0.75rem;
   padding: 0.75rem 1.5rem;
   transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), color 160ms var(--ease-out);
@@ -351,11 +323,11 @@ a {
 }
 @media (hover: hover) and (pointer: fine) {
   .btn-secondary-editorial:hover {
-    background-color: var(--color-surface-tint);
-    border-color: var(--color-brand-blue);
+    background-color: var(--color-surface-raised);
+    border-color: var(--color-brand-primary);
   }
   .dark .btn-secondary-editorial:hover {
-    border-color: var(--color-brand-blue-vivid);
+    border-color: var(--color-brand-primary);
   }
 }
 .btn-secondary-editorial:active {
@@ -460,7 +432,7 @@ a {
   right: -16px;
   width: 16px;
   height: 2px;
-  background: var(--color-border-subtle);
+  background: var(--color-border);
 }
 .pipeline-connector:last-child::after {
   display: none;

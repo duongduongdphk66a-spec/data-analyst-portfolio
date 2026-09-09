@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
-import { ToastProvider } from './components/ui/Toast';
+import { ToastProvider } from '@/components/ui/Toast';
 import { PortfolioDataProvider } from './context/PortfolioDataContext';
 import { headers } from 'next/headers';
 

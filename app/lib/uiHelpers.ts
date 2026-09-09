@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useToast } from '../components/ui/Toast';
+import { useToast } from '@/components/ui/Toast';
 import { exportChartWithToast } from './chartExport';
 
 /**

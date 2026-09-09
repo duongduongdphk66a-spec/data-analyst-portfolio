@@ -7,108 +7,57 @@ import { invalidateApiCacheAsync } from '@/app/lib/cache';
 export async function GET(req: NextRequest) {
   try {
     const auth = verifyAdminRequest(req);
-
-    // Public health check: trả trạng thái kết nối cơ bản cho visitor mà không làm lộ công nghệ backend (MySQL)
-    if (!auth.authenticated) {
-      return NextResponse.json({
-        connected: true,
-        message: 'Dịch vụ dữ liệu hoạt động bình thường.',
-        source: 'static',
-      });
-    }
-
     const connTest = await testDbConnection();
 
+    const responsePayload: any = {
+      appHealthy: true,
+      database: connTest.connected,
+      message: connTest.connected 
+        ? 'Dịch vụ dữ liệu hoạt động bình thường.' 
+        : (auth.authenticated ? connTest.message : 'Kết nối cơ sở dữ liệu bị gián đoạn.'),
+    };
+
     // Admin authenticated: trả full stats
-    if (!connTest.connected) {
-      return NextResponse.json({
-        connected: false,
-        message: connTest.message,
-        source: 'local_fallback',
-        tables: [],
-        stats: {
-          profileRows: 0,
-          textRows: 0,
-          projectRows: 0,
-        },
-      });
-    }
-
-    const pool = getDbPool();
-    if (!pool) {
-      return NextResponse.json({
-        connected: false,
-        message: 'Pool is null',
-        source: 'local_fallback',
-      });
-    }
-
-    // Check table row counts (admin only)
-    let profileRows = 0;
-    let textRows = 0;
-    let projectRows = 0;
-
-    try {
-      const [pRows] = await pool.query<RowDataPacket[]>('SELECT COUNT(*) as cnt FROM portfolio_profile');
-      profileRows = pRows[0]?.cnt || 0;
-    } catch {
-      // Table may not exist yet
-    }
-
-    try {
-      const [tRows] = await pool.query<RowDataPacket[]>('SELECT COUNT(*) as cnt FROM portfolio_texts');
-      textRows = tRows[0]?.cnt || 0;
-    } catch {
-      // Table may not exist yet
-    }
-
-    try {
-      const [projRows] = await pool.query<RowDataPacket[]>('SELECT COUNT(*) as cnt FROM portfolio_projects');
-      projectRows = projRows[0]?.cnt || 0;
-    } catch {
-      // Table may not exist yet
-    }
-
-    let tiktokRows = 0;
-    try {
-      const tiktokTables = [
-        'tiktok_shop_overview',
-        'tiktok_shop_weekly_trends',
-        'tiktok_shop_top_skus',
-        'tiktok_shop_top_affiliates',
-        'tiktok_shop_livestreams',
-        'tiktok_shop_videos',
-        'tiktok_shop_data_scopes',
-        'tiktok_shop_collaborative_stores',
-      ];
-      for (const t of tiktokTables) {
+    if (auth.authenticated && connTest.connected) {
+      const pool = getDbPool();
+      if (pool) {
+        let profileRows = 0, textRows = 0, projectRows = 0, tiktokRows = 0;
+        
         try {
-          const [res] = await pool.query<RowDataPacket[]>(`SELECT COUNT(*) as cnt FROM ${t}`);
-          tiktokRows += Number(res[0]?.cnt || 0);
-        } catch {
-          // table might not exist yet
-        }
+          const [pRows] = await pool.query<RowDataPacket[]>('SELECT COUNT(*) as cnt FROM portfolio_profile');
+          profileRows = pRows[0]?.cnt || 0;
+          const [tRows] = await pool.query<RowDataPacket[]>('SELECT COUNT(*) as cnt FROM portfolio_texts');
+          textRows = tRows[0]?.cnt || 0;
+          const [projRows] = await pool.query<RowDataPacket[]>('SELECT COUNT(*) as cnt FROM portfolio_projects');
+          projectRows = projRows[0]?.cnt || 0;
+        } catch {}
+
+        try {
+          const tiktokTables = [
+            'tiktok_shop_overview', 'tiktok_shop_weekly_trends', 'tiktok_shop_top_skus',
+            'tiktok_shop_top_affiliates', 'tiktok_shop_livestreams', 'tiktok_shop_videos',
+            'tiktok_shop_data_scopes', 'tiktok_shop_collaborative_stores',
+          ];
+          for (const t of tiktokTables) {
+            try {
+              const [res] = await pool.query<RowDataPacket[]>(`SELECT COUNT(*) as cnt FROM ${t}`);
+              tiktokRows += Number(res[0]?.cnt || 0);
+            } catch {}
+          }
+        } catch {}
+
+        responsePayload.stats = { profileRows, textRows, projectRows, tiktokRows };
       }
-    } catch {
-      // Non-critical
     }
 
-    return NextResponse.json({
-      connected: true,
-      message: 'Kết nối MySQL hoạt động bình thường.',
-      stats: {
-        profileRows,
-        textRows,
-        projectRows,
-        tiktokRows,
-      },
-    });
+    return NextResponse.json(responsePayload);
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Database check error';
     console.error('[API /api/db GET] Error:', error);
     const auth = verifyAdminRequest(req);
     return NextResponse.json({
-      connected: false,
+      appHealthy: true,
+      database: false,
       message: auth.authenticated ? message : 'Dịch vụ đang hoạt động ở chế độ dữ liệu dự phòng.',
       source: 'error',
     });
