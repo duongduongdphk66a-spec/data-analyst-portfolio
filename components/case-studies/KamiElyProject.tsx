@@ -1,182 +1,315 @@
 'use client';
 
-import React, { useEffect, useMemo } from 'react';
-import { trackVisitorAction } from '@/app/lib/visitorTracking';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { Sparkles, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
+import { trackVisitorAction } from '@/app/lib/visitorTracking';
+import { scrollToSection, centerTabInContainer, useCaseStudyActions } from '@/app/lib/uiHelpers';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
-import { scrollToSection } from '@/app/lib/uiHelpers';
-import SectionHeader from '@/components/ui/SectionHeader';
-import ReadingRailLayout from '@/components/ui/ReadingRailLayout';
-import { Activity, Database, TrendingUp, Users } from 'lucide-react';
+import {
+  fastmossScreenshotsManifest,
+  FastMossScreenshotItem,
+  getShopChannelData,
+  getShopContentData,
+  getShopCategoryData
+} from '@/app/data/kamiElyData';
+
+import KamiElyTabsNav, { NavItemDef } from './kami-ely/KamiElyTabsNav';
+import KamiElyHero from './kami-ely/KamiElyHero';
+import KamiElyProofModal from './kami-ely/KamiElyProofModal';
+import KamiElyDataScopeMatrix from './kami-ely/KamiElyDataScopeMatrix';
+import KamiElyScienceCaseStudy from './kami-ely/science/KamiElyScienceCaseStudy';
+import KamiElyShopTab from './kami-ely/shop/KamiElyShopTab';
+import KamiElyCreatorTab from './kami-ely/creator/KamiElyCreatorTab';
 
 interface KamiElyProjectProps {
   onBack?: () => void;
   isEmbedded?: boolean;
 }
 
-export default function KamiElyProject({ onBack, isEmbedded }: KamiElyProjectProps = {}) {
+export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyProjectProps) {
   const { language } = useLanguage();
   const isEn = language === 'en';
+  const router = useRouter();
 
-  const navItems = useMemo(() => [
-    { id: 'sec-problem', label: isEn ? '01 The Problem' : '01 Vấn Đề' },
-    { id: 'sec-architecture', label: isEn ? '02 Analytics Method' : '02 Phương Pháp Phân Tích' },
-    { id: 'sec-impact', label: isEn ? '03 Impact & Conclusion' : '03 Kết Quả & Kết Luận' },
-    { id: 'sec-appendix', label: isEn ? '04 Tech Appendix' : '04 Phụ Lục Kỹ Thuật' },
+  // Active Major Tab state: 'science' (data science) vs 'shop' (store) vs 'creator' (seller)
+  const [activeTab, setActiveTab] = useState<'science' | 'shop' | 'creator'>('science');
+
+  // FastMoss Proof screenshots modal & inspector lightbox
+  const [isProofModalOpen, setIsProofModalOpen] = useState(false);
+  const [selectedProofGroup, setSelectedProofGroup] = useState<'all' | 'shop' | 'creator'>('all');
+  const [activeScreenshot, setActiveScreenshot] = useState<FastMossScreenshotItem | null>(null);
+
+  // Dynamic filter toggles for Shop tab
+  const [channelMetric, setChannelMetric] = useState<'units' | 'gmv'>('units');
+  const [contentMetric, setContentMetric] = useState<'units' | 'gmv'>('units');
+  const [categoryMetric, setCategoryMetric] = useState<'units' | 'gmv' | 'byCount'>('units');
+  const [priceMetric, setPriceMetric] = useState<'units' | 'gmv' | 'byCount'>('units');
+  const [affMetric, setAffMetric] = useState<'units' | 'gmv' | 'count'>('units');
+  const [affCatMetric, setAffCatMetric] = useState<'units' | 'gmv' | 'count'>('units');
+
+  const subnavContainerRef = useRef<HTMLDivElement>(null);
+
+  const openProofScreenshot = (id: string) => {
+    const sc = fastmossScreenshotsManifest.find((s) => s.id === id);
+    if (sc) {
+      setActiveScreenshot(sc);
+      setIsProofModalOpen(true);
+    }
+  };
+
+  const openProofModalWithGroup = (group: 'shop' | 'creator') => {
+    setActiveScreenshot(null);
+    setSelectedProofGroup(group);
+    setIsProofModalOpen(true);
+  };
+
+  const { copyDeepLink, handleExportChart } = useCaseStudyActions(isEn);
+  const handleCopyDeepLink = (id: string, title = '') => copyDeepLink(id, title);
+
+  // Keyboard navigation for modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (activeScreenshot) {
+          setActiveScreenshot(null);
+        } else if (isProofModalOpen) {
+          setIsProofModalOpen(false);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isProofModalOpen, activeScreenshot]);
+
+  const channelData = getShopChannelData(isEn);
+  const contentData = getShopContentData(isEn);
+  const shopCategoryData = getShopCategoryData(isEn);
+
+  const scienceNavItems: NavItemDef[] = useMemo(() => [
+    { id: 'sec-hero', label: isEn ? '1. Executive Overview' : '1. Tổng quan phân tích', badge: '1' },
+    { id: 'sec-eda', label: isEn ? '2. Outlier Detection' : '2. Lọc điểm dị biệt', badge: '2' },
+    { id: 'sec-hypothesis', label: isEn ? '3. Video vs Live GPM' : '3. Hiệu suất Video vs Live', badge: '3' },
+    { id: 'sec-correlation', label: isEn ? '4. Live Duration Limit' : '4. Giới hạn giờ Live', badge: '4' },
+    { id: 'sec-timeseries', label: isEn ? '5. Seasonality Analysis' : '5. Chu kỳ mùa vụ 180N', badge: '5' },
+    { id: 'sec-optimization', label: isEn ? '6. Resource Optimization' : '6. Chiến lược tối ưu', badge: '6' },
   ], [isEn]);
 
-  const sectionIds = useMemo(() => navItems.map(item => item.id), [navItems]);
-  const { activeSection, setActiveSection } = useScrollSpy(sectionIds, 130);
+  const shopNavItems: NavItemDef[] = useMemo(() => [
+    { id: 'shop-overview', label: isEn ? '1.1 Overview' : '1.1 Tổng quan', badge: '1.1' },
+    { id: 'shop-sales', label: isEn ? '1.2 Sales' : '1.2 Bán hàng', badge: '1.2', dividerBefore: true },
+    { id: 'shop-products', label: isEn ? '1.3 Products' : '1.3 Sản phẩm', badge: '1.3' },
+    { id: 'shop-affiliates', label: isEn ? '1.4 Affiliates' : '1.4 Affiliates', badge: '1.4', dividerBefore: true },
+    { id: 'shop-live', label: isEn ? '1.5 Livestream' : '1.5 Livestream', badge: '1.5' },
+    { id: 'shop-video', label: isEn ? '1.6 Video' : '1.6 Video', badge: '1.6' },
+    { id: 'shop-self-operated', label: isEn ? '1.7 Self-Operated' : '1.7 Tự vận hành', badge: '1.7', dividerBefore: true },
+  ], [isEn]);
+
+  const creatorNavItems: NavItemDef[] = useMemo(() => [
+    { id: 'creator-overview', label: isEn ? '2.1 Overview' : '2.1 Tổng quan', badge: '2.1' },
+    { id: 'creator-activity', label: isEn ? '2.2 Activity' : '2.2 Hoạt động', badge: '2.2' },
+    { id: 'creator-followers', label: isEn ? '2.3 Followers' : '2.3 Người theo dõi', badge: '2.3' },
+    { id: 'creator-video', label: isEn ? '2.4 Video' : '2.4 Video', badge: '2.4', dividerBefore: true },
+    { id: 'creator-live', label: isEn ? '2.5 Livestream' : '2.5 Livestream', badge: '2.5' },
+    { id: 'creator-sales', label: isEn ? '2.6 Sales & 180d' : '2.6 Bán hàng & 180N', badge: '2.6', dividerBefore: true },
+    { id: 'creator-collaborative', label: isEn ? '2.7 Top Stores' : '2.7 Cửa hàng hợp tác', badge: '2.7' },
+  ], [isEn]);
+
+  const currentNavItems = useMemo(() => {
+    if (activeTab === 'science') return scienceNavItems;
+    if (activeTab === 'shop') return shopNavItems;
+    return creatorNavItems;
+  }, [activeTab, scienceNavItems, shopNavItems, creatorNavItems]);
+
+  const currentSectionIds = useMemo(() => currentNavItems.map(item => item.id), [currentNavItems]);
+  const { activeSection, scrollProgress, setActiveSection } = useScrollSpy(currentSectionIds, 130);
+
+  const handleTabChange = (tab: 'science' | 'shop' | 'creator') => {
+    setActiveTab(tab);
+    if (tab === 'science') {
+      setActiveSection('sec-hero');
+    } else if (tab === 'shop') {
+      setActiveSection('shop-overview');
+    } else {
+      setActiveSection('creator-overview');
+    }
+  };
+
+  // Auto-scroll horizontal taskbar to keep active tab centered
+  useEffect(() => {
+    if (activeSection) {
+      centerTabInContainer(subnavContainerRef.current, `nav-tab-${activeSection}`);
+    }
+  }, [activeSection]);
 
   const handleNavClick = (id: string, e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setActiveSection(id);
     scrollToSection(id, 16);
   };
 
   useEffect(() => {
-    trackVisitorAction('Xem case study: Kami Ely', 'proj-kami-ely', 'project');
+    trackVisitorAction('Xem chi tiết dự án: Kami Ely TikTok Shop & Creator Analytics', 'proj-kami-ely', 'project');
   }, []);
 
-  const executiveSummary = (
-    <div className="space-y-6">
-      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-        <h4 className="text-sm font-heading font-bold text-slate-900 dark:text-white mb-3">Executive Summary</h4>
-        <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
-          {isEn
-            ? "Developed an end-to-end e-commerce telemetry and creator performance matrix to optimize commercial synergy between brand LIVE streams and a network of 5,700 affiliates on TikTok Shop."
-            : "Phát triển hệ thống phân tích hiệu suất bán hàng thương mại điện tử từ đầu đến cuối và ma trận hiệu suất của nhà sáng tạo nội dung nhằm tối ưu hóa sự phối hợp thương mại giữa các luồng LIVE của thương hiệu và mạng lưới 5.700 affiliates trên TikTok Shop."}
-        </p>
-        <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-300 font-medium">
-          <li className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-            <span>Tracked and optimized 31.6B VND in total GMV over 180 days.</span>
-          </li>
-          <li className="flex items-center gap-2">
-            <Users className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-            <span>Identified that 52.7% of affiliate GMV was driven by nano-creators.</span>
-          </li>
-          <li className="flex items-center gap-2">
-            <Activity className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-            <span>Established baseline metrics for LIVE vs Video content ROI.</span>
-          </li>
-        </ul>
-      </div>
-    </div>
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    } else {
+      router.push('/');
+    }
+  };
+
+  const renderDataScopeMatrix = (scopeType: 'shop' | 'creator') => (
+    <KamiElyDataScopeMatrix
+      scopeType={scopeType}
+      isEn={isEn}
+      openProofScreenshot={openProofScreenshot}
+      openProofModalWithGroup={openProofModalWithGroup}
+    />
   );
 
   return (
-    <ReadingRailLayout
-      title={isEn ? 'Kami Ely: TikTok Shop Analytics' : 'Kami Ely: Phân Tích TikTok Shop'}
-      kicker={isEn ? 'CREATOR & AFFILIATE ANALYTICS' : 'PHÂN TÍCH CREATOR & AFFILIATE'}
-      desc={isEn 
-        ? 'E-commerce telemetry & creator performance matrix across 338 products and 5,700 affiliates.'
-        : 'Hệ thống phân tích hiệu suất bán hàng TikTok Shop và ma trận chuyển đổi 5.700 nhà sáng tạo nội dung.'}
-      sections={navItems}
-      activeSection={activeSection}
-      onNavClick={handleNavClick}
-      onBack={onBack}
-      isEmbedded={isEmbedded}
-      projectId="proj-kami-ely"
-      executiveSummary={executiveSummary}
-    >
-      {/* 01: The Problem */}
-      <section id="sec-problem" className="space-y-6 scroll-mt-36 mb-16">
-        <SectionHeader
-          variant="chapter"
-          id="sec-problem"
-          chapter="01"
-          subtitle={isEn ? 'The Challenge' : 'Thách thức'}
-          badge="01"
-          title={isEn ? 'The Problem' : 'Vấn Đề Đặt Ra'}
-          onCopy={() => {}}
-        />
-        <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-[#FFE485]/60 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
+      {/* Top Navbar + Subnav */}
+      <KamiElyTabsNav
+        activeTab={activeTab}
+        handleTabChange={handleTabChange}
+        handleBack={handleBack}
+        isEmbedded={isEmbedded}
+        isEn={isEn}
+        onOpenProofModal={() => {
+          setActiveScreenshot(null);
+          setSelectedProofGroup(activeTab === 'shop' ? 'shop' : 'creator');
+          setIsProofModalOpen(true);
+        }}
+        currentNavItems={currentNavItems}
+        activeSection={activeSection}
+        scrollProgress={scrollProgress}
+        subnavContainerRef={subnavContainerRef}
+        handleNavClick={handleNavClick}
+      />
+
+      {/* Main Hero Header */}
+      <KamiElyHero isEn={isEn} activeTab={activeTab} />
+
+      {/* BODY CONTENT AREA */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        {/* TAB 1: KHOA HỌC DỮ LIỆU */}
+        {activeTab === 'science' && (
+          <div className="space-y-12">
+            <KamiElyScienceCaseStudy onBack={onBack} isEmbedded={isEmbedded} />
+
+            {/* Cross-Tab Navigation CTA: Science -> Shop & Creator */}
+            <div className="pt-6 border-t border-slate-200 dark:border-slate-800">
+              <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-[#F0FBFE] to-[#C8EEF7]/40 border-2 border-[#0D7287] shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 dark:bg-slate-900 dark:border-slate-700">
+                <div className="space-y-2 max-w-2xl">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C8EEF7] text-[#0D7287] text-xs font-black uppercase tracking-wider dark:bg-slate-800 dark:text-[#9BE7FA]">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>{isEn ? 'BUSINESS INTELLIGENCE DASHBOARDS' : 'DASHBOARD DỮ LIỆU THƯƠNG MẠI THỰC TẾ'}</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
+                    {isEn 
+                      ? 'Explore Full FastMoss Telemetry Dashboards' 
+                      : 'Khám Phá Dữ Liệu Thực Tế FastMoss Của Toàn Shop & Creator'}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {isEn
+                      ? 'View detailed breakdowns of 338 SKUs, 5.7k affiliate creators, 7,000 live streams, and independent audit screenshot proofs.'
+                      : 'Trực quan hóa chi tiết 338 mã sản phẩm, mạng lưới 5.700 KOC affiliate, 7.000 phiên livestream cùng kho bằng chứng viễn trắc 36 ảnh gốc FastMoss.'}
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
+                  <button
+                    onClick={() => {
+                      handleTabChange('shop');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="px-6 py-3.5 rounded-2xl bg-[#0D7287] hover:bg-[#095262] text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <span>{isEn ? 'View Shop Analysis (Part 1)' : 'Xem Phân Tích Shop (Phần 1)'}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleTabChange('creator');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="px-5 py-3.5 rounded-2xl bg-[#FFD14C] hover:bg-[#f5c332] text-slate-950 font-black text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <span>{isEn ? 'View Creator (Part 2)' : 'Xem Creator (Phần 2)'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 2: SHOP (KAMI ELY OFFICIAL STORE) */}
+        {activeTab === 'shop' && (
+          <KamiElyShopTab
+            isEn={isEn}
+            copyDeepLink={handleCopyDeepLink}
+            handleExportChart={handleExportChart}
+            openProofScreenshot={openProofScreenshot}
+            renderDataScopeMatrix={renderDataScopeMatrix}
+            handleTabChange={handleTabChange}
+            channelData={channelData}
+            contentData={contentData}
+            shopCategoryData={shopCategoryData}
+            channelMetric={channelMetric}
+            setChannelMetric={setChannelMetric}
+            contentMetric={contentMetric}
+            setContentMetric={setContentMetric}
+            categoryMetric={categoryMetric}
+            setCategoryMetric={setCategoryMetric}
+            priceMetric={priceMetric}
+            setPriceMetric={setPriceMetric}
+            affMetric={affMetric}
+            setAffMetric={setAffMetric}
+            affCatMetric={affCatMetric}
+            setAffCatMetric={setAffCatMetric}
+          />
+        )}
+
+        {/* TAB 3: CREATOR (KAMIELYN - @kamielyhn) */}
+        {activeTab === 'creator' && (
+          <KamiElyCreatorTab
+            isEn={isEn}
+            copyDeepLink={handleCopyDeepLink}
+            openProofScreenshot={openProofScreenshot}
+            handleExportChart={handleExportChart}
+            handleTabChange={handleTabChange}
+            renderDataScopeMatrix={renderDataScopeMatrix}
+          />
+        )}
+      </main>
+
+      {/* Footer */}
+      <footer className="py-10 bg-white border-t border-[#9BE7FA]/40 text-center text-xs text-slate-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400">
+        <div className="max-w-7xl mx-auto px-4 space-y-1.5">
+          <p className="font-bold text-slate-800 dark:text-slate-200 text-sm">
+            Dự Án Phân Tích Hiệu Suất TikTok Shop & Người Bán Kamielyn
+          </p>
           <p>
-            {isEn
-              ? "Kami Ely operates in a highly competitive Sports & Outdoor segment on TikTok Shop. They possessed vast amounts of transaction and affiliate data but lacked actionable insights. The primary challenge was determining the actual ROI of different content formats (LIVE vs Short Video) and identifying the most cost-effective tier of affiliates to partner with."
-              : "Kami Ely hoạt động trong phân khúc Thể thao & Ngoài trời đầy cạnh tranh trên TikTok Shop. Họ sở hữu lượng lớn dữ liệu giao dịch và affiliate nhưng thiếu thông tin chi tiết có thể hành động. Thách thức chính là xác định ROI thực tế của các định dạng nội dung khác nhau (LIVE vs Video ngắn) và xác định phân khúc affiliate tiết kiệm chi phí nhất để hợp tác."}
+            Dữ liệu tổng hợp từ FastMoss · Portfolio Data Analyst · Ma Văn Hùng
           </p>
         </div>
-      </section>
+      </footer>
 
-      {/* 02: Analytics Method */}
-      <section id="sec-architecture" className="space-y-6 scroll-mt-36 mb-16">
-        <SectionHeader
-          variant="chapter"
-          id="sec-architecture"
-          chapter="02"
-          subtitle={isEn ? 'Methodology' : 'Phương pháp'}
-          badge="02"
-          title={isEn ? 'Analytics Method' : 'Phương Pháp Phân Tích'}
-          onCopy={() => {}}
-        />
-        <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
-          <p>
-            {isEn
-              ? "I constructed an automated analytics pipeline to extract, transform, and visualize TikTok Shop data:"
-              : "Tôi đã xây dựng một luồng phân tích tự động để trích xuất, chuyển đổi và trực quan hóa dữ liệu TikTok Shop:"}
-          </p>
-          <ul>
-            <li><strong>Data Aggregation:</strong> {isEn ? 'Consolidated transaction logs, creator performance metrics, and product catalog data (338 products) using Python.' : 'Tổng hợp nhật ký giao dịch, chỉ số hiệu suất của creator và dữ liệu danh mục sản phẩm (338 sản phẩm) bằng Python.'}</li>
-            <li><strong>Outlier Detection:</strong> {isEn ? 'Applied statistical models to clean the dataset, removing mega-influencer anomalies that skewed the average conversion rates.' : 'Áp dụng các mô hình thống kê để làm sạch tập dữ liệu, loại bỏ các điểm dị biệt từ mega-influencer làm sai lệch tỷ lệ chuyển đổi trung bình.'}</li>
-            <li><strong>Affiliate Tiering:</strong> {isEn ? 'Categorized 5,700 creators into Nano, Micro, and Macro tiers to evaluate commission efficiency.' : 'Phân loại 5.700 creators thành các cấp độ Nano, Micro và Macro để đánh giá hiệu quả hoa hồng.'}</li>
-          </ul>
-        </div>
-      </section>
-
-      {/* 03: Impact & Conclusion */}
-      <section id="sec-impact" className="space-y-6 scroll-mt-36 mb-16">
-        <SectionHeader
-          variant="chapter"
-          id="sec-impact"
-          chapter="03"
-          subtitle={isEn ? 'Results' : 'Kết quả'}
-          badge="03"
-          title={isEn ? 'Impact & Conclusion' : 'Kết Quả & Kết Luận'}
-          onCopy={() => {}}
-        />
-        <div className="grid grid-cols-2 gap-4 my-6">
-          <div className="p-6 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 text-center">
-            <p className="text-3xl font-mono font-black text-slate-900 dark:text-white mb-2">52.7%</p>
-            <p className="text-sm font-medium text-slate-500">GMV from Nano-Creators</p>
-          </div>
-          <div className="p-6 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 text-center">
-            <p className="text-3xl font-mono font-black text-slate-900 dark:text-white mb-2">31.6B</p>
-            <p className="text-sm font-medium text-slate-500">VND Analyzed (180D)</p>
-          </div>
-        </div>
-        <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
-          <p>
-            {isEn
-              ? "The analysis revealed a counter-intuitive insight: Nano-creators (those with fewer followers) collectively drove 52.7% of the total affiliate GMV at a significantly lower customer acquisition cost compared to Macro-influencers. The brand shifted its strategy to scale its nano-affiliate network, optimizing the commission budget."
-              : "Phân tích đã tiết lộ một thông tin chi tiết đáng ngạc nhiên: Nano-creators (những người có ít người theo dõi hơn) đã thúc đẩy tập thể 52.7% tổng GMV affiliate với chi phí thu hút khách hàng thấp hơn đáng kể so với Macro-influencers. Thương hiệu đã chuyển đổi chiến lược để mở rộng mạng lưới nano-affiliate, tối ưu hóa ngân sách hoa hồng."}
-          </p>
-        </div>
-      </section>
-
-      {/* 04: Tech Appendix */}
-      <section id="sec-appendix" className="space-y-6 scroll-mt-36 mb-16">
-        <SectionHeader
-          variant="chapter"
-          id="sec-appendix"
-          chapter="04"
-          subtitle={isEn ? 'Stack' : 'Công nghệ'}
-          badge="04"
-          title={isEn ? 'Tech Appendix' : 'Phụ Lục Kỹ Thuật'}
-          onCopy={() => {}}
-        />
-        <div className="p-6 bg-slate-950 rounded-2xl border border-slate-800">
-          <h4 className="text-sm font-mono text-slate-400 mb-4">Core Technologies</h4>
-          <div className="flex flex-wrap gap-2">
-            {['Python', 'Pandas', 'SQL', 'Power BI', 'TikTok Shop API'].map(tech => (
-              <span key={tech} className="px-3 py-1 rounded bg-slate-800 text-slate-200 text-xs font-mono font-semibold">
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-    </ReadingRailLayout>
+      {/* FastMoss Proof Gallery Modal */}
+      <KamiElyProofModal
+        isEn={isEn}
+        isOpen={isProofModalOpen}
+        onClose={() => setIsProofModalOpen(false)}
+        selectedProofGroup={selectedProofGroup}
+        setSelectedProofGroup={setSelectedProofGroup}
+        activeScreenshot={activeScreenshot}
+        setActiveScreenshot={setActiveScreenshot}
+      />
+    </div>
   );
 }

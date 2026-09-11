@@ -1,14 +1,35 @@
 'use client';
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 import { trackVisitorAction } from '@/app/lib/visitorTracking';
 import { useLanguage } from '@/app/context/LanguageContext';
+import { scrollToSection, centerTabInContainer, useCaseStudyActions } from '@/app/lib/uiHelpers';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
-import { scrollToSection } from '@/app/lib/uiHelpers';
 import SectionHeader from '@/components/ui/SectionHeader';
-import ReadingRailLayout from '@/components/ui/ReadingRailLayout';
-import { libraryBusKPIs } from '@/app/data/libraryBusData';
-import { ArrowRight, Database, Server, Zap } from 'lucide-react';
+
+// Subcomponents
+import { LibraryBusNav } from './library-bus/LibraryBusNav';
+import { LibraryBusHero } from './library-bus/LibraryBusHero';
+import { Chapter1UxResearch } from './library-bus/Chapter1UxResearch';
+import { Chapter2BrandIdentity } from './library-bus/Chapter2BrandIdentity';
+import { Chapter3GridAndWireframe } from './library-bus/Chapter3GridAndWireframe';
+import { Chapter3InteractiveShowcase } from './library-bus/Chapter3InteractiveShowcase';
+import { Chapter3TechnicalArchitecture } from './library-bus/Chapter3TechnicalArchitecture';
+
+// Dynamic import for the 20-Screen Master Visual Comparison (1.9k lines)
+const LibraryBusVisualComparison = dynamic(
+  () => import('./LibraryBusVisualComparison'),
+  {
+    loading: () => (
+      <div className="p-12 text-center text-slate-400 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
+        <div className="animate-spin w-8 h-8 border-3 border-[#0D7287] border-t-transparent rounded-full mx-auto mb-3" />
+        <p className="text-xs font-bold font-mono">Đang tải bảng đối chuẩn 20 màn hình (Wireframe vs UI)...</p>
+      </div>
+    ),
+  }
+);
 
 interface LibraryBusProjectProps {
   onBack?: () => void;
@@ -16,168 +37,127 @@ interface LibraryBusProjectProps {
 }
 
 export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProjectProps = {}) {
-  const { language } = useLanguage();
+  const router = useRouter();
+  const { language, setLanguage } = useLanguage();
   const isEn = language === 'en';
+  const { showToast, copyDeepLink, handleExportChart } = useCaseStudyActions(isEn);
 
+  const handleCopyDeepLink = (id: string, title = '') => {
+    copyDeepLink(id, title);
+  };
+
+  // Navigation Items matching the 3 Chapters
   const navItems = useMemo(() => [
-    { id: 'sec-problem', label: isEn ? '01 The Problem' : '01 Vấn Đề' },
-    { id: 'sec-architecture', label: isEn ? '02 Architecture' : '02 Kiến Trúc Dữ Liệu' },
-    { id: 'sec-impact', label: isEn ? '03 Impact & Conclusion' : '03 Kết Quả & Kết Luận' },
-    { id: 'sec-appendix', label: isEn ? '04 Tech Appendix' : '04 Phụ Lục Kỹ Thuật' },
+    { id: 'sec-about', label: isEn ? '1.1 About Us' : '1.1 Về chúng tôi', chapter: '01' },
+    { id: 'sec-research', label: isEn ? '1.2 UX Research' : '1.2 Nghiên cứu UX', chapter: '01' },
+    { id: 'sec-logo', label: isEn ? '2.1 Logo System' : '2.1 Hệ thống Logo', chapter: '02' },
+    { id: 'sec-components', label: isEn ? '2.2 UI Components' : '2.2 UI Components', chapter: '02' },
+    { id: 'sec-grid-wireframe', label: isEn ? '3.1 Grid & Wireframe' : '3.1 Lưới & Wireframe', chapter: '03' },
+    { id: 'sec-screens', label: isEn ? '3.2 20 UI Screens & Boards' : '3.2 20 Màn hình & Bảng Wireframe/UI', chapter: '03' },
+    { id: 'sec-interactive', label: isEn ? '3.3 Live Demos' : '3.3 Trình diễn tương tác', chapter: '03' },
+    { id: 'sec-tech', label: isEn ? '3.4 Tech & Telemetry' : '3.4 Kỹ thuật & Telemetry', chapter: '03' },
   ], [isEn]);
 
+  // Unified ScrollSpy
   const sectionIds = useMemo(() => navItems.map(item => item.id), [navItems]);
-  const { activeSection, setActiveSection } = useScrollSpy(sectionIds, 130);
+  const { activeSection, scrollProgress, setActiveSection } = useScrollSpy(sectionIds, 130);
+  const subnavContainerRef = useRef<HTMLDivElement>(null);
+
+  // Center active tab on taskbar horizontally only
+  useEffect(() => {
+    if (activeSection) {
+      centerTabInContainer(subnavContainerRef.current, `nav-tab-${activeSection}`);
+    }
+  }, [activeSection]);
 
   const handleNavClick = (id: string, e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setActiveSection(id);
     scrollToSection(id, 16);
   };
 
   useEffect(() => {
-    trackVisitorAction('Xem case study: Tủ Sách Lưu Động', 'proj-library-bus', 'project');
+    trackVisitorAction('Xem hồ sơ thiết kế & phân tích: Tủ Sách Lưu Động (Library Bus)', 'proj-library-bus', 'project');
   }, []);
 
-  const executiveSummary = (
-    <div className="space-y-6">
-      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-        <h4 className="text-sm font-heading font-bold text-slate-900 dark:text-white mb-3">Executive Summary</h4>
-        <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
-          {isEn
-            ? "Designed and implemented a high-concurrency relational data architecture and asynchronous pipeline to solve real-time inventory synchronization and reservation race conditions across 48 roving bus stops."
-            : "Thiết kế kiến trúc cơ sở dữ liệu quan hệ đồng thời cao và luồng xử lý bất đồng bộ để giải quyết vấn đề đồng bộ tồn kho thời gian thực và xung đột đặt sách tại 48 trạm xe lưu động."}
-        </p>
-        <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-300 font-medium">
-          <li className="flex items-center gap-2">
-            <Zap className="w-4 h-4 text-emerald-500" />
-            <span>93.7% latency reduction (450ms → 28ms) via Redis caching.</span>
-          </li>
-          <li className="flex items-center gap-2">
-            <Server className="w-4 h-4 text-emerald-500" />
-            <span>Successfully scaled to handle 500 concurrent connections.</span>
-          </li>
-          <li className="flex items-center gap-2">
-            <Database className="w-4 h-4 text-emerald-500" />
-            <span>Zero data contention (0.0% race conditions) achieved.</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    } else {
+      router.push('/');
+    }
+  };
 
   return (
-    <ReadingRailLayout
-      title={isEn ? 'Library Bus System' : 'Tủ Sách Lưu Động'}
-      kicker={isEn ? 'DATABASE ARCHITECTURE & OPTIMIZATION' : 'KIẾN TRÚC DATABASE & TỐI ƯU HÓA'}
-      desc={isEn 
-        ? 'High-concurrency relational data architecture and asynchronous pipeline serving 50,000 active readers.'
-        : 'Kiến trúc cơ sở dữ liệu quan hệ và luồng xử lý bất đồng bộ phục vụ 50,000 độc giả với độ trễ thấp.'}
-      sections={navItems}
-      activeSection={activeSection}
-      onNavClick={handleNavClick}
-      onBack={onBack}
-      isEmbedded={isEmbedded}
-      projectId="proj-library-bus"
-      executiveSummary={executiveSummary}
-    >
-      {/* 01: The Problem */}
-      <section id="sec-problem" className="space-y-6 scroll-mt-36 mb-16">
-        <SectionHeader
-          variant="chapter"
-          id="sec-problem"
-          chapter="01"
-          subtitle={isEn ? 'The Challenge' : 'Thách thức'}
-          badge="01"
-          title={isEn ? 'The Problem' : 'Vấn Đề Đặt Ra'}
-          onCopy={() => {}}
-        />
-        <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
-          <p>
-            {isEn
-              ? "The Mobile Library project operates a fleet of library buses traveling across multiple city districts. The core issue was real-time inventory synchronization. When 500 readers attempt to reserve books simultaneously as the bus schedule is announced, the legacy database suffered from severe race conditions, resulting in over-booking and a 450ms query latency."
-              : "Dự án Tủ sách lưu động vận hành đội xe buýt thư viện di chuyển qua nhiều quận trong thành phố. Vấn đề cốt lõi là đồng bộ tồn kho thời gian thực. Khi 500 độc giả cố gắng đặt sách cùng lúc khi lịch trình xe buýt được công bố, cơ sở dữ liệu cũ gặp phải tình trạng xung đột dữ liệu nghiêm trọng, dẫn đến việc đặt vượt mức và độ trễ truy vấn lên tới 450ms."}
-          </p>
-        </div>
-      </section>
+    <div className="min-h-screen bg-[#FAFDFE] font-sans text-[#1A2332] selection:bg-[#9BE7FA]/60 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
+      {/* Top Navbar & Sub-navigation bar */}
+      <LibraryBusNav
+        onBack={handleBack}
+        isEmbedded={isEmbedded}
+        isEn={isEn}
+        setLanguage={setLanguage}
+        navItems={navItems}
+        activeSection={activeSection}
+        scrollProgress={scrollProgress}
+        onNavClick={handleNavClick}
+        subnavContainerRef={subnavContainerRef}
+      />
 
-      {/* 02: Architecture */}
-      <section id="sec-architecture" className="space-y-6 scroll-mt-36 mb-16">
-        <SectionHeader
-          variant="chapter"
-          id="sec-architecture"
-          chapter="02"
-          subtitle={isEn ? 'Data Pipeline' : 'Luồng dữ liệu'}
-          badge="02"
-          title={isEn ? 'Data & Architecture' : 'Kiến trúc Dữ Liệu'}
-          onCopy={() => {}}
-        />
-        <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
-          <p>
-            {isEn
-              ? "To resolve these bottlenecks, I redesigned the data pipeline from the ground up, moving away from monolithic synchronous writes."
-              : "Để giải quyết những nút thắt này, tôi đã thiết kế lại luồng dữ liệu từ đầu, từ bỏ các thao tác ghi đồng bộ nguyên khối."}
-          </p>
-          <ul>
-            <li><strong>Relational Normalization:</strong> {isEn ? 'Structured the database into 3NF to eliminate anomalies in inventory tracking.' : 'Cấu trúc lại cơ sở dữ liệu về chuẩn 3NF để loại bỏ các bất thường trong theo dõi tồn kho.'}</li>
-            <li><strong>Redis Caching Layer:</strong> {isEn ? 'Implemented an in-memory cache to serve heavy read queries (e.g., book availability) instantly, offloading the primary SQL database.' : 'Triển khai lớp cache bộ nhớ để phục vụ các truy vấn đọc nặng (như tính khả dụng của sách) ngay lập tức, giảm tải cho cơ sở dữ liệu SQL chính.'}</li>
-            <li><strong>Asynchronous Task Queue:</strong> {isEn ? 'Integrated Celery workers to handle write-heavy operations like reservation requests asynchronously, ensuring smooth UX.' : 'Tích hợp Celery workers để xử lý các thao tác ghi nặng như yêu cầu đặt sách một cách bất đồng bộ, đảm bảo trải nghiệm người dùng mượt mà.'}</li>
-          </ul>
-        </div>
-      </section>
+      {/* Main Hero Header & Bento Telemetry */}
+      <LibraryBusHero
+        isEn={isEn}
+        onNavClick={handleNavClick}
+      />
 
-      {/* 03: Impact & Conclusion */}
-      <section id="sec-impact" className="space-y-6 scroll-mt-36 mb-16">
-        <SectionHeader
-          variant="chapter"
-          id="sec-impact"
-          chapter="03"
-          subtitle={isEn ? 'Results' : 'Kết quả'}
-          badge="03"
-          title={isEn ? 'Impact & Conclusion' : 'Kết Quả & Kết Luận'}
-          onCopy={() => {}}
+      {/* Body Content Area */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-20">
+        {/* Chapter 01: About Us & UX Research */}
+        <Chapter1UxResearch
+          isEn={isEn}
+          onCopyDeepLink={handleCopyDeepLink}
         />
-        <div className="grid grid-cols-2 gap-4 my-6">
-          <div className="p-6 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 text-center">
-            <p className="text-3xl font-mono font-black text-slate-900 dark:text-white mb-2">93.7%</p>
-            <p className="text-sm font-medium text-slate-500">Latency Reduction</p>
-          </div>
-          <div className="p-6 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 text-center">
-            <p className="text-3xl font-mono font-black text-slate-900 dark:text-white mb-2">0.0%</p>
-            <p className="text-sm font-medium text-slate-500">Race Conditions</p>
-          </div>
-        </div>
-        <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
-          <p>
-            {isEn
-              ? "The new architecture successfully handled the 500 concurrent connections peak without a single inventory mismatch. The query latency dropped from an average of 450ms down to 28ms, fundamentally transforming the user experience."
-              : "Kiến trúc mới đã xử lý thành công đỉnh tải 500 kết nối đồng thời mà không có bất kỳ sai lệch tồn kho nào. Độ trễ truy vấn giảm từ trung bình 450ms xuống còn 28ms, thay đổi hoàn toàn trải nghiệm người dùng."}
-          </p>
-        </div>
-      </section>
 
-      {/* 04: Tech Appendix */}
-      <section id="sec-appendix" className="space-y-6 scroll-mt-36 mb-16">
-        <SectionHeader
-          variant="chapter"
-          id="sec-appendix"
-          chapter="04"
-          subtitle={isEn ? 'Stack' : 'Công nghệ'}
-          badge="04"
-          title={isEn ? 'Tech Appendix' : 'Phụ Lục Kỹ Thuật'}
-          onCopy={() => {}}
+        {/* Chapter 02: Logo & UI Components */}
+        <Chapter2BrandIdentity
+          isEn={isEn}
+          onCopyDeepLink={handleCopyDeepLink}
         />
-        <div className="p-6 bg-slate-950 rounded-2xl border border-slate-800">
-          <h4 className="text-sm font-mono text-slate-400 mb-4">Core Technologies</h4>
-          <div className="flex flex-wrap gap-2">
-            {['PostgreSQL', 'Redis', 'Python', 'Celery', 'Next.js'].map(tech => (
-              <span key={tech} className="px-3 py-1 rounded bg-slate-800 text-slate-200 text-xs font-mono font-semibold">
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-    </ReadingRailLayout>
+
+        {/* Chapter 03: Grid & Wireframe */}
+        <Chapter3GridAndWireframe
+          isEn={isEn}
+          onCopyDeepLink={handleCopyDeepLink}
+        />
+
+        {/* Chapter 03: 20 UI Screens & Master Boards (Lazy Loaded) */}
+        <section id="sec-screens" className="space-y-6 scroll-mt-36">
+          <SectionHeader
+            variant="chapter"
+            id="sec-screens"
+            chapter="CHAPTER 03"
+            subtitle={isEn ? '3.2 Master 20-Screen System (Wireframe & UI Design)' : '3.2 Hệ thống 20 màn hình Wireframe & Giao diện UI hoàn chỉnh'}
+            badge="3.2"
+            title={isEn ? '20-Screen Master Boards & Side-by-Side Visual Comparison' : 'Bảng Tổng Hợp 20 Màn Hình Wireframe vs Giao Diện Thật (Chuẩn Mẫu Hồ Sơ Thiết Kế)'}
+            onCopy={handleCopyDeepLink}
+          />
+          <LibraryBusVisualComparison isEn={isEn} />
+        </section>
+
+        {/* Chapter 03: Interactive Showcase & Live Demos */}
+        <Chapter3InteractiveShowcase
+          isEn={isEn}
+          onCopyDeepLink={handleCopyDeepLink}
+        />
+
+        {/* Chapter 03: Technical Architecture & Telemetry */}
+        <Chapter3TechnicalArchitecture
+          isEn={isEn}
+          onCopyDeepLink={handleCopyDeepLink}
+          onExportChart={handleExportChart}
+          showToast={showToast}
+        />
+      </main>
+    </div>
   );
 }
