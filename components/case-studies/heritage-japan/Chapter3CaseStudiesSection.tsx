@@ -32,7 +32,7 @@ export function Chapter3CaseStudiesSection() {
             onClick={() => setActiveCaseStudy(tab.id as any)}
             className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all text-left whitespace-nowrap cursor-pointer ${
               activeCaseStudy === tab.id
-                ? 'bg-[#8CE0F4] text-slate-950 shadow-xs font-black dark:bg-slate-800 dark:text-[#9BE7FA]'
+                ? 'bg-[#9BE7FA] text-slate-950 shadow-xs font-black dark:bg-[#9BE7FA] dark:text-slate-950'
                 : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:bg-slate-800/60'
             }`}
           >

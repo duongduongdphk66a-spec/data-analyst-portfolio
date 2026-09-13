@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
@@ -17,9 +17,9 @@ export function HeritageJapanHero({ isEn, onNavClick }: HeritageJapanHeroProps) 
           
           <div className="flex flex-wrap items-center gap-3">
             <span className="editorial-kicker">
-              {isEn ? 'LINE 03 ┬╖ HERITAGE TOURISM & QUANTITATIVE RESEARCH' : 'LINE 03 ┬╖ PH├éN T├ìCH ─Éß╗èNH L╞»ß╗óNG & DU Lß╗èCH DI Sß║óN NHß║¼T Bß║óN'}
+              {isEn ? 'LINE 03 · HERITAGE TOURISM & QUANTITATIVE RESEARCH' : 'LINE 03 · PHÂN TÍCH ĐỊNH LƯỢNG & DU LỊCH DI SẢN NHẬT BẢN'}
             </span>
-            <span className="text-xs font-mono text-slate-400 dark:text-slate-500">ΓÇó JNTO & UNESCO TELEMETRY</span>
+            <span className="text-xs font-mono text-slate-400 dark:text-slate-500">• JNTO & UNESCO TELEMETRY</span>
           </div>
           
           <h1 className="editorial-section-title text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.16] tracking-tight text-slate-950 dark:text-white">
@@ -32,34 +32,34 @@ export function HeritageJapanHero({ isEn, onNavClick }: HeritageJapanHeroProps) 
 
           <p className="editorial-lead text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl dark:text-slate-300">
             {isEn
-              ? 'A comprehensive quantitative research & case study on JapanΓÇÖs heritage tourism trajectory (2013ΓÇô2023): examining inbound growth catalysts, the overtourism crisis across UNESCO cultural hotspots, and actionable governance models for sustainable preservation.'
-              : 'Khß║úo s├ít thß╗▒c tiß╗àn to├án diß╗çn vß╗ü lß╗Ö tr├¼nh ph├ít triß╗ân du lß╗ïch di sß║ún tß║íi Nhß║¡t Bß║ún giai ─æoß║ín 2013ΓÇô2023: ph├ón t├¡ch ─æß╗Öng lß╗▒c b├╣ng nß╗ò du kh├ích quß╗æc tß║┐, khß╗ºng hoß║úng qu├í tß║úi du lß╗ïch (Overtourism) tß║íi c├íc di sß║ún UNESCO v├á c├íc m├┤ h├¼nh quß║ún trß╗ï di sß║ún bß╗ün vß╗»ng.'}
+              ? 'A comprehensive quantitative research & case study on Japan’s heritage tourism trajectory (2013–2023): examining inbound growth catalysts, the overtourism crisis across UNESCO cultural hotspots, and actionable governance models for sustainable preservation.'
+              : 'Khảo sát thực tiễn toàn diện về lộ trình phát triển du lịch di sản tại Nhật Bản giai đoạn 2013–2023: phân tích động lực bùng nổ du khách quốc tế, khủng hoảng quá tải du lịch (Overtourism) tại các di sản UNESCO và các mô hình quản trị di sản bền vững.'}
           </p>
           
           {/* 10% Bento Telemetry Matrix */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
             <div className="card-minimal p-4 space-y-1">
               <span className="editorial-kicker text-[10px] block">
-                {isEn ? 'RESEARCH SCOPE' : 'PHß║áM VI NGHI├èN Cß╗¿U'}
+                {isEn ? 'RESEARCH SCOPE' : 'PHẠM VI NGHIÊN CỨU'}
               </span>
-              <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">2013 ΓÇô 2023</p>
+              <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">2013 – 2023</p>
               <p className="text-[11px] text-slate-500">10-Year Inbound Growth & Crisis</p>
             </div>
 
             <div className="card-minimal p-4 space-y-1">
               <span className="editorial-kicker text-[10px] block">
-                {isEn ? 'WORLD HERITAGE SITES' : 'DI Sß║óN THß║╛ GIß╗ÜI'}
+                {isEn ? 'WORLD HERITAGE SITES' : 'DI SẢN THẾ GIỚI'}
               </span>
-              <p className="font-mono text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">25 ─Éiß╗âm ─Éß║┐n</p>
-              <p className="text-[11px] text-slate-500">20 V─ân h├│a ┬╖ 5 Thi├¬n nhi├¬n</p>
+              <p className="font-mono text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">25 Điểm Đến</p>
+              <p className="text-[11px] text-slate-500">20 Văn hóa · 5 Thiên nhiên</p>
             </div>
 
             <div className="card-minimal p-4 space-y-1 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA]">
               <span className="editorial-kicker text-[10px] block text-[#0D7287] dark:text-[#9BE7FA]">
-                {isEn ? 'PEAK INBOUND VOLUME' : '─Éß╗êNH DU KH├üCH (2019)'}
+                {isEn ? 'PEAK INBOUND VOLUME' : 'ĐỈNH DU KHÁCH (2019)'}
               </span>
-              <p className="font-mono text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">31.9 Triß╗çu</p>
-              <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold">+513% T─âng tr╞░ß╗ƒng tß╗½ 2003</p>
+              <p className="font-mono text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">31.9 Triệu</p>
+              <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold">+513% Tăng trưởng từ 2003</p>
             </div>
           </div>
 
@@ -68,9 +68,9 @@ export function HeritageJapanHero({ isEn, onNavClick }: HeritageJapanHeroProps) 
             <a
               href="#mo-dau"
               onClick={(e) => onNavClick('mo-dau', e)}
-              className="btn-primary-gold flex items-center gap-2 cursor-pointer"
+              className="btn-primary flex items-center gap-2 cursor-pointer font-bold"
             >
-              <span>Bß║»t ─æß║ºu ─æß╗ìc ─æß╗ü t├ái</span>
+              <span>{isEn ? 'Start Reading Thesis' : 'Bắt đầu đọc đề tài'}</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </a>
             <a
@@ -78,14 +78,14 @@ export function HeritageJapanHero({ isEn, onNavClick }: HeritageJapanHeroProps) 
               onClick={(e) => onNavClick('chuong-1', e)}
               className="btn-secondary-editorial cursor-pointer"
             >
-              Kh├ím ph├í 25 Di sß║ún UNESCO
+              {isEn ? 'Explore 25 UNESCO Sites' : 'Khám phá 25 Di sản UNESCO'}
             </a>
             <a
               href="#chuong-3"
               onClick={(e) => onNavClick('chuong-3', e)}
               className="btn-secondary-editorial cursor-pointer"
             >
-              Xem Dß╗» liß╗çu & Biß╗âu ─æß╗ô 3.1 - 3.6
+              {isEn ? 'View Data & Charts 3.1 - 3.6' : 'Xem Dữ liệu & Biểu đồ 3.1 - 3.6'}
             </a>
           </div>
 

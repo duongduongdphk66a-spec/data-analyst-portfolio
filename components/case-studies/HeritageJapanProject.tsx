@@ -6,6 +6,7 @@ import { trackVisitorAction } from '@/app/lib/visitorTracking';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { scrollToSection, useCaseStudyActions } from '@/app/lib/uiHelpers';
+import ExecutiveSummary from './ExecutiveSummary';
 
 // Subcomponents
 import { HeritageJapanNav } from './heritage-japan/HeritageJapanNav';
@@ -69,7 +70,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-lora text-slate-900 selection:bg-[#FFE485]/40 dark:bg-slate-950 dark:text-slate-100">
+    <div className="min-h-screen bg-[#FAFDFE] font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       {/* Top Navbar */}
       <HeritageJapanNav
         onBack={handleBack}
@@ -86,6 +87,30 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
         isEn={isEn}
         onNavClick={handleNavClick}
       />
+
+      {/* Executive Summary — 60-second overview */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12">
+        <ExecutiveSummary
+          isEn={isEn}
+          readingTime={isEn ? '~3 min deep dive' : '~3 phút đọc chi tiết'}
+          problem={isEn
+            ? 'Quantifying the economic impact of national heritage tourism promotion strategies and measuring the recovery speed of traditional cultural destinations (Kyoto, Nara) after disruptions.'
+            : 'Cần đánh giá định lượng tác động của chiến lược mở cửa du lịch di sản quốc gia và đo lường tốc độ phục hồi của các điểm đến văn hóa truyền thống (Kyoto, Nara) sau biến động.'}
+          method={isEn
+            ? 'Collect and normalize 20-year time-series data from JNTO, MLIT, Kyoto & Nara tourism bureaus. Apply time-series decomposition and multi-dimensional visual comparison models.'
+            : 'Thu thập và chuẩn hóa 6 bộ dữ liệu chuỗi thời gian 20 năm từ MLIT, JNTO, Sở Du lịch Kyoto và Nara. Áp dụng mô hình chuỗi thời gian và trực quan hóa so sánh đa chiều.'}
+          insight={isEn
+            ? 'Tourism spending peaked at ¥4.81 trillion with +318% growth. Cultural experience travelers spend 3.2x more than regular tourists. Post-pandemic recovery forecast reaches 88.4%.'
+            : 'Chi tiêu du lịch đạt đỉnh 4.81 nghìn tỷ Yên với tốc độ tăng trưởng 318%. Nhóm khách trải nghiệm văn hóa chi tiêu gấp 3.2 lần. Tỷ lệ phục hồi hậu đại dịch dự báo đạt 88.4%.'}
+          metrics={[
+            { label: isEn ? 'Time-Series Data Span' : 'Dữ Liệu Chuỗi Thời Gian', value: isEn ? '20 Years' : '20 Năm', change: '2003 - 2022', isPositive: true },
+            { label: isEn ? 'Peak Tourist Arrivals' : 'Lượng Khách Đạt Đỉnh', value: isEn ? '31.9 Million' : '31.9 Triệu', change: isEn ? 'Year 2019' : 'Năm 2019', isPositive: true },
+            { label: isEn ? 'Peak Total Spending' : 'Tổng Chi Tiêu Đỉnh Điểm', value: isEn ? '¥4.81T' : '4.81T Yên', change: '+318% vs 2010', isPositive: true },
+            { label: isEn ? 'Recovery Rate Forecast' : 'Tỷ Lệ Phục Hồi Dự Báo', value: '88.4%', change: isEn ? 'Post-pandemic' : 'Hậu đại dịch', isPositive: true },
+          ]}
+          tools={['Python', 'Time-Series Modeling', 'Recharts', 'SQL', 'Data Storytelling']}
+        />
+      </div>
 
       {/* 1. Phần Mở Đầu (#mo-dau) */}
       <IntroductionSection
@@ -106,7 +131,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
       />
 
       {/* 4. Chương 3: Sự phát triển của Du lịch Di sản (#chuong-3) */}
-      <section id="chuong-3" className="py-16 bg-slate-50 border-b border-slate-200 dark:bg-slate-950 dark:border-slate-800">
+      <section id="chuong-3" className="py-16 bg-[#FAFDFE] border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeader
             variant="stacked"

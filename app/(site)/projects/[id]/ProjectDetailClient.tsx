@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
 import { DEFAULT_PROJECTS } from '../../../defaultData';
 import ProjectDetailView from '@/components/site/ProjectDetailView';

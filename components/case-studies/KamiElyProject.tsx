@@ -7,6 +7,7 @@ import { useLanguage } from '@/app/context/LanguageContext';
 import { trackVisitorAction } from '@/app/lib/visitorTracking';
 import { scrollToSection, centerTabInContainer, useCaseStudyActions } from '@/app/lib/uiHelpers';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
+import ExecutiveSummary from './ExecutiveSummary';
 import {
   fastmossScreenshotsManifest,
   FastMossScreenshotItem,
@@ -173,7 +174,7 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-[#FFE485]/60 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
+    <div className="min-h-screen bg-[#FAFDFE] font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       {/* Top Navbar + Subnav */}
       <KamiElyTabsNav
         activeTab={activeTab}
@@ -198,6 +199,27 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
 
       {/* BODY CONTENT AREA */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        {/* Executive Summary — 60-second overview */}
+        <ExecutiveSummary
+          isEn={isEn}
+          readingTime={isEn ? '~3 min deep dive' : '~3 phút đọc chi tiết'}
+          problem={isEn
+            ? 'Resource allocation paradox: Live channel consumes most broadcast hours but yields only 30.2k VND GPM, while Short-video achieves 135.2k VND. Need to isolate whether the Aug-Sep revenue dip is seasonal or operational.'
+            : 'Nghịch lý phân bổ tài nguyên: Kênh Live chiếm đa số thời lượng nhưng chỉ đạt GPM 30,2k VNĐ, trong khi Short-video đạt 135,2k VNĐ. Cần bóc tách sụt giảm doanh số tháng 8-9 do mùa vụ hay lỗi vận hành.'}
+          method={isEn
+            ? 'Compare 551 video vs 470 live sessions (independent samples), model saturation curves to find optimal live duration (~3.1h/day), and decompose 180-day time series into Trend + Seasonality + Residual components.'
+            : 'So sánh 2 nhóm mẫu độc lập (551 video và 470 phiên live), mô hình hóa đường cong hiệu suất xác định điểm bão hòa ~3.1h/ngày, và phân rã 3 thành phần chuỗi thời gian 180 ngày.'}
+          insight={isEn
+            ? 'Video outperforms Live by 4.48x GPM with high statistical significance (p<0.0001). Summer travel seasonality explains 85% of the post-July drop. Cutting 50% excess live hours and adding shopping carts to 100% of videos optimizes cash flow.'
+            : 'Video sinh lời vượt trội 4.48 lần có ý nghĩa thống kê cao (p<0.0001). Chu kỳ mùa vụ du lịch hè lý giải 85% mức sụt giảm. Cắt giảm 50% giờ live dư thừa và phủ 100% giỏ hàng video tối ưu dòng tiền.'}
+          metrics={[
+            { label: isEn ? 'Total Population Size' : 'Quy Mô Quần Thể Toàn Thời Gian', value: '238.4k', change: isEn ? '31.6B VND (Since 2022)' : '31.6 Tỷ VNĐ (Từ 2022)', isPositive: true },
+            { label: isEn ? 'Video vs Live GPM Gap' : 'Chênh Lệch GPM Video vs Live', value: '4.48x', change: isEn ? 'Sustained advantage' : 'Ưu thế bền vững', isPositive: true },
+            { label: isEn ? 'Optimal Live Hours' : 'Ngưỡng Giờ Live Hiệu Quả', value: '3.1h', change: isEn ? 'Revenue saturation point' : 'Điểm bão hòa doanh số', isPositive: true },
+            { label: isEn ? 'Decomposition Cycle' : 'Chu Kỳ Phân Rã Dữ Liệu', value: isEn ? '180 Days' : '180 Ngày', change: isEn ? 'Trend & summer seasonality' : 'Xu hướng & Mùa vụ hè', isPositive: true },
+          ]}
+          tools={['Python (scipy.stats & statsmodels)', 'Statistical Analysis', 'Time-Series Modeling', 'Recharts']}
+        />
         {/* TAB 1: KHOA HỌC DỮ LIỆU */}
         {activeTab === 'science' && (
           <div className="space-y-12">

@@ -28,7 +28,7 @@ export function SectionHeader({
   title,
   id,
   onCopy,
-  badgeBg = 'bg-[#0D7287]',
+  badgeBg = 'bg-[#9BE7FA]',
   extraAction,
   variant = 'pill',
   chapter,
@@ -39,7 +39,7 @@ export function SectionHeader({
     return (
       <div className={`flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800 ${className}`}>
         <div>
-          <span className="text-xs font-extrabold tracking-widest text-[#0D7287] uppercase dark:text-[#9BE7FA]">
+          <span className="text-xs font-extrabold tracking-widest text-[#074553] uppercase dark:text-[#9BE7FA]">
             {badge}
           </span>
           <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
@@ -67,7 +67,7 @@ export function SectionHeader({
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             {chapter && (
-              <span className="px-2.5 py-0.5 bg-[#0D7287] text-white rounded-md text-[11px] font-mono font-black shrink-0">
+              <span className="px-2.5 py-0.5 bg-[#9BE7FA] text-slate-950 rounded-md text-[11px] font-mono font-black shrink-0">
                 {chapter}
               </span>
             )}
@@ -78,7 +78,7 @@ export function SectionHeader({
             )}
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white flex items-center gap-2">
-            {badge && <span className="text-[#0D7287] dark:text-[#9BE7FA]">{badge}</span>}
+            {badge && <span className="text-[#074553] dark:text-[#9BE7FA]">{badge}</span>}
             <span>{title}</span>
           </h2>
         </div>
@@ -86,7 +86,7 @@ export function SectionHeader({
           {extraAction}
           <button
             onClick={() => onCopy(id, `${badge} ${title}`)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-[#0D7287] dark:hover:text-[#9BE7FA] transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-[#074553] dark:hover:text-[#9BE7FA] transition-colors cursor-pointer"
             title="Sao chép liên kết"
             aria-label={`Sao chép liên kết ${title}`}
           >
@@ -97,10 +97,12 @@ export function SectionHeader({
     );
   }
 
+  const isLightBadge = badgeBg.includes('9BE7FA') || badgeBg.includes('C8EEF7') || badgeBg.includes('FFD14C') || badgeBg.includes('FFE485');
+
   return (
     <div className={`flex items-center justify-between border-b border-slate-200 pb-3 dark:border-slate-800 ${className}`}>
       <div className="flex items-center gap-2">
-        <span className={`px-3 py-1 ${badgeBg} text-white rounded-lg text-xs font-black uppercase shrink-0`}>
+        <span className={`px-3 py-1 ${badgeBg} ${isLightBadge ? 'text-slate-950 font-bold' : 'text-white font-bold'} rounded-lg text-xs font-black uppercase shrink-0`}>
           {badge}
         </span>
         <h2 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">

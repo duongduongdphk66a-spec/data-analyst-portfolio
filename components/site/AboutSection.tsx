@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { ArrowRight, Terminal, CheckCircle2 } from 'lucide-react';
 import { ProfileData } from '@/app/types';
 import { useLanguage } from '@/app/context/LanguageContext';
-import { gsap, useGSAP } from '@/app/lib/gsap';
 import { sanitizeUrl } from '@/app/lib/security';
 
 interface AboutSectionProps {
@@ -20,16 +19,7 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
   const safeAvatarUrl = profile.avatarUrl ? sanitizeUrl(profile.avatarUrl) : '';
   const sectionRef = useRef<HTMLElement>(null);
 
-  useGSAP(() => {
-    gsap.from('.about-content-reveal', {
-      autoAlpha: 0,
-      y: 12,
-      stagger: 0.08,
-      duration: 0.45,
-      ease: 'power2.out',
-    });
-  }, { scope: sectionRef });
-
+  // Animations are now handled via Tailwind CSS classes
   const defaultGoalsEn = [
     { title: 'Optimize Data Pipelines', desc: 'Design clean ETL/ELT workflows, master relational databases, and standardize multi-source data for automated analysis.' },
     { title: 'Build Advanced Dashboards', desc: 'Develop real-time BI dashboards on Power BI/Tableau, apply segmentation models and time-series forecasting.' },
@@ -72,7 +62,7 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
       <div className="max-w-6xl mx-auto px-5 sm:px-8 space-y-16">
         
         {/* Editorial Section Header */}
-        <div className="space-y-3 pb-8 border-b border-slate-200/80 dark:border-slate-800 about-content-reveal">
+        <div className="space-y-3 pb-8 border-b border-slate-200/80 dark:border-slate-800 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: '0ms' }}>
           <span className="editorial-kicker">
             {isEn ? 'ANALYTICAL PHILOSOPHY & PROFILE' : 'TRIẾT LÝ PHÂN TÍCH & NĂNG LỰC'}
           </span>
@@ -87,7 +77,7 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Left Column: Profile Card + Narrative (7 cols) */}
-          <div className="lg:col-span-7 space-y-8 about-content-reveal">
+          <div className="lg:col-span-7 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: '100ms' }}>
             
             {/* Identity line without heavy card box */}
             <div className="flex items-center gap-4 pb-6 border-b border-slate-200/60 dark:border-slate-800">
@@ -140,7 +130,7 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
               {onNavigateTab && (
                 <button
                   onClick={() => onNavigateTab('lab')}
-                  className="btn-primary-gold text-xs"
+                  className="btn-primary text-xs"
                 >
                   <Terminal className="w-3.5 h-3.5" />
                   <span>{isEn ? 'Open Interactive SQL Lab' : 'Mở Phòng Thí Nghiệm SQL'}</span>
@@ -159,7 +149,7 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
           </div>
 
           {/* Right Column: 3 Pillars & Career Goals (5 cols) */}
-          <div className="lg:col-span-5 space-y-10 about-content-reveal">
+          <div className="lg:col-span-5 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: '200ms' }}>
             
             {/* Core Pillars */}
             <div className="space-y-4">
@@ -168,9 +158,9 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
               </span>
               <div className="space-y-4">
                 {pillars.map((p, idx) => (
-                  <div key={idx} className="space-y-1 border-l-2 border-slate-200 dark:border-slate-800 pl-4 py-0.5">
+                  <div key={idx} className="space-y-1 border-l-2 border-[#9BE7FA]/40 dark:border-slate-800 pl-4 py-0.5">
                     <h4 className="text-sm font-heading font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#074553] dark:text-[#9BE7FA]" />
                       <span>{p.title}</span>
                     </h4>
                     <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -189,7 +179,7 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
               <div className="space-y-4">
                 {goals.map((g, idx) => (
                   <div key={idx} className="flex items-start gap-3">
-                    <span className="font-mono text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA] mt-0.5 shrink-0">
+                    <span className="font-mono text-xs font-bold text-[#074553] dark:text-[#9BE7FA] mt-0.5 shrink-0">
                       0{idx + 1}.
                     </span>
                     <div>

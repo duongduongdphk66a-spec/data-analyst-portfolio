@@ -7,22 +7,22 @@
 
 ## 1. Brand Identity & Color System (60-30-10 Rule)
 
-The design system is grounded in the curated 4-color palette provided for this portfolio, supplemented with rigorous accessibility contrast anchors (WCAG 2.2 AA compliant).
+The design system is grounded in the curated 4-color palette provided for this portfolio, with **`#9BE7FA` as the Dominant Primary Color**, supplemented with rigorous accessibility contrast anchors (WCAG 2.2 AA compliant).
 
 ### Official 4-Color Palette
 
 | Role | Color Name | Hex Code | Purpose & Semantic Application |
 |---|---|---|---|
-| **Primary Accent** | **Sky Blue Vivid** | `#9BE7FA` | Primary brand accent, Bento card active borders, progress indicators, Recharts Series 1, tag pills, active tab border, focus rings (`:focus-visible`). |
-| **Surface Wash** | **Soft Ice Blue** | `#C8EEF7` | Card surface tint, sidebar header background, subtle borders, table alternating rows, modal backdrop tints. |
-| **Secondary Accent** | **Pastel Sunlight** | `#FFE485` | Warm gold balance, badges (In-Progress / Featured), string syntax in SQL runner, secondary chart series, tooltip highlights. |
-| **High-Impact CTA** | **Honey Gold CTA** | `#FFD14C` | Primary interactive buttons ("Explore Case Studies", "Run SQL"), metric stars, active indicator pulse, key conversion actions. |
+| **Dominant Primary** | **Sky Blue Vivid** | `#9BE7FA` | Primary brand identity, Primary CTA buttons (`.btn-primary`), Bento card active borders, progress indicators, Recharts Series 1, tag pills, active tab border, focus rings (`:focus-visible`). |
+| **Surface Wash & Secondary** | **Soft Ice Blue** | `#C8EEF7` | Card surface tint, KPI proof box background, subtle borders, hover highlights, table alternating rows, modal backdrop tints. |
+| **Accent 1 (Pastel)** | **Pastel Sunlight** | `#FFE485` | Warm gold balance, string syntax in SQL runner, secondary chart series, tooltip highlights, subtle progress tags. |
+| **Accent 2 (Vibrant Amber)** | **Honey Gold Accent** | `#FFD14C` | Secondary accent buttons (`.btn-primary-gold`), metric stars, active indicator pulse, key conversion actions. |
 
 ### Supporting Contrast & Base Colors (WCAG 2.2 AA Anchors)
 
 | Role | Hex Code | Light Mode Usage | Dark Mode Usage |
 |---|---|---|---|
-| **Deep Contrast Anchor** | `#0D7287` | Interactive text links, icon emphasis, high-contrast borders | Mapped to `#9BE7FA` for dark mode visibility |
+| **Deep Contrast Anchor** | `#074553` / `#0D7287` | Interactive text links, icon emphasis, high-contrast borders | Mapped to `#9BE7FA` for dark mode visibility |
 | **Canvas / Ground** | `#FAFDFE` / `#0B0F17` | Clean ice-white backdrop | Deep obsidian night backdrop |
 | **Surface / Card** | `#FFFFFF` / `#131E2E` | Pure crisp card backdrop | Deep slate-navy surface |
 | **Ink / Primary Text** | `#0F172A` / `#F8FAFC` | High-contrast dark slate body (14:1) | Crisp silver white (15:1) |
@@ -31,7 +31,7 @@ The design system is grounded in the curated 4-color palette provided for this p
 
 ### Strict Contrast Rules (No White Text on Pastels)
 - **CRITICAL**: Never place white text on `#9BE7FA`, `#C8EEF7`, `#FFE485`, or `#FFD14C`.
-- Always use dark slate ink (`#0F172A` / `text-slate-950`) on buttons and badges styled with `#FFD14C`, `#FFE485`, or `#9BE7FA`.
+- Always use dark slate ink (`#0F172A` / `text-slate-950`) on buttons and badges styled with `#9BE7FA`, `#FFD14C`, or `#FFE485`.
 
 ---
 
@@ -54,10 +54,11 @@ The design system is grounded in the curated 4-color palette provided for this p
 
 ## 4. Component Design Specifications
 
-### Primary CTA Button (`.btn-primary-gold`)
+### Dominant Primary CTA Button (`.btn-primary`)
 ```css
-background-color: #FFD14C;
-color: #020617; /* Slate 950 for 12:1 contrast */
+background-color: #9BE7FA;
+color: #0F172A; /* Slate 950 for 12:1 contrast */
+```
 font-weight: 700;
 border-radius: 0.75rem; /* 12px */
 padding: 0.75rem 1.5rem;

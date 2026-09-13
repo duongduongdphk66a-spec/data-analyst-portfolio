@@ -38,9 +38,9 @@ export default function ProjectDetailView({
   // 1. Loading State
   if (isLoading) {
     return (
-      <div className="min-h-[80vh] bg-white flex flex-col items-center justify-center p-6 dark:bg-slate-950">
+      <div className="min-h-[80vh] bg-[#FAFDFE] flex flex-col items-center justify-center p-6 dark:bg-[#0B0F17]">
         <div className="animate-pulse flex flex-col items-center">
-          <div className="w-12 h-12 rounded-full border-4 border-brand-yellow border-t-transparent animate-spin mb-4" />
+          <div className="w-12 h-12 rounded-full border-4 border-[#FFD14C] border-t-transparent animate-spin mb-4" />
           <p className="text-slate-600 font-medium text-sm dark:text-slate-300">
             {isEn ? 'Loading project details...' : 'Đang tải thông tin dự án...'}
           </p>
@@ -52,11 +52,11 @@ export default function ProjectDetailView({
   // 2. Project Not Found State
   if (!project) {
     return (
-      <div className="min-h-[80vh] bg-white flex flex-col items-center justify-center p-6 text-center dark:bg-slate-950">
+      <div className="min-h-[80vh] bg-[#FAFDFE] flex flex-col items-center justify-center p-6 text-center dark:bg-[#0B0F17]">
         <div className="w-16 h-16 rounded-full bg-amber-50 dark:bg-amber-950/40 flex items-center justify-center mb-4">
           <AlertCircle className="w-8 h-8 text-amber-500" />
         </div>
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 font-heading">
           {isEn ? 'Project Not Found' : 'Không Tìm Thấy Dự Án'}
         </h2>
         <p className="text-slate-600 dark:text-slate-400 max-w-md text-sm mb-6">
@@ -66,9 +66,9 @@ export default function ProjectDetailView({
         </p>
         <button
           onClick={handleBack}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue hover:bg-cyan-700 text-white rounded-xl font-bold text-sm transition-all shadow-sm cursor-pointer"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#9BE7FA] hover:bg-[#C8EEF7] text-slate-950 rounded-xl font-bold text-sm transition-all shadow-xs cursor-pointer border border-[#9BE7FA]/60 dark:bg-[#9BE7FA] dark:text-slate-950"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4 text-[#074553]" />
           <span>{t('nav_back_to_portfolio', 'Quay lại Portfolio')}</span>
         </button>
       </div>
@@ -76,16 +76,16 @@ export default function ProjectDetailView({
   }
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-lora selection:bg-brand-yellow/30 dark:bg-slate-950 dark:text-slate-100">
+    <div className="min-h-screen bg-[#FAFDFE] font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-brand-blue-light/50 transition-all dark:bg-slate-900/80 dark:border-slate-800">
+      <header className="sticky top-0 z-50 bg-[#FAFDFE]/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs transition-all dark:bg-[#0B0F17]/95 dark:border-slate-800">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <button 
             onClick={handleBack}
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors font-semibold cursor-pointer group dark:text-slate-300 dark:hover:text-white"
+            className="flex items-center gap-2 text-slate-700 hover:text-slate-950 transition-colors font-semibold cursor-pointer group dark:text-slate-300 dark:hover:text-white"
             aria-label="Quay lại Portfolio"
           >
-            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+            <ArrowLeft className="w-5 h-5 text-[#074553] dark:text-[#9BE7FA] group-hover:-translate-x-1 transition-transform" />
             <span>{t('nav_back_to_portfolio', 'Quay lại Portfolio')}</span>
           </button>
 
@@ -138,7 +138,7 @@ export default function ProjectDetailView({
                 href={sanitizeUrl(project.demoUrl)} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="btn-primary-gold flex items-center gap-2"
+                className="btn-primary flex items-center gap-2"
               >
                 <ExternalLink className="w-4 h-4" />
                 <span>Live Demo</span>
@@ -165,7 +165,7 @@ export default function ProjectDetailView({
             {project.tags.map((tag) => (
               <span 
                 key={tag}
-                className="px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-mono text-xs"
+                className="px-2.5 py-0.5 rounded-md bg-[#C8EEF7]/30 dark:bg-slate-900 border border-[#9BE7FA]/40 dark:border-slate-800 text-slate-800 dark:text-slate-300 font-mono text-xs"
               >
                 #{tag}
               </span>
@@ -177,7 +177,7 @@ export default function ProjectDetailView({
       {/* Main Content / Markdown Case Study */}
       <main className="max-w-6xl mx-auto px-6 py-12">
         {project.content ? (
-          <article className="prose prose-slate max-w-none prose-headings:font-heading prose-headings:font-bold prose-headings:text-slate-950 prose-a:text-[#0D7287] dark:prose-a:text-[#9BE7FA] prose-img:rounded-2xl prose-img:border prose-img:border-slate-200 dark:prose-img:border-slate-800 prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-pre:border prose-pre:border-slate-800 prose-pre:font-mono dark:prose-invert">
+          <article className="prose prose-slate max-w-none prose-headings:font-heading prose-headings:font-bold prose-headings:text-slate-950 prose-a:text-[#074553] dark:prose-a:text-[#9BE7FA] prose-img:rounded-2xl prose-img:border prose-img:border-slate-200 dark:prose-img:border-slate-800 prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-pre:border prose-pre:border-slate-800 prose-pre:font-mono dark:prose-invert">
             <ReactMarkdown 
               remarkPlugins={[remarkGfm]}
               components={{

@@ -8,15 +8,33 @@
 }
 
 @theme {
-  /* Official Brand Palette */
-  --color-brand-primary: #0D7287;
-  --color-brand-primary-hover: #095869;
+  /* Official 4-Color Brand Palette - #9BE7FA Primary */
+  --color-brand-primary: #9BE7FA;           /* Sky Blue Vivid (Dominant Primary) */
+  --color-brand-primary-hover: #82e2f8;
+  --color-brand-blue-vivid: #9BE7FA;       /* Color 1: Primary Brand Accent */
+  --color-brand-blue-light: #C8EEF7;       /* Color 2: Secondary / Surface Wash */
+  --color-brand-yellow-light: #FFE485;     /* Color 3: Pastel Sunlight Yellow */
+  --color-brand-yellow: #FFD14C;           /* Color 4: Honey Amber Gold */
+  --color-brand-deep: #074553;             /* High contrast anchor on light backgrounds */
+  --color-brand-deep-hover: #05333d;
+
+  /* Semantic Theme Tokens */
   --color-accent: #FFD14C;
+  --color-accent-soft: #FFE485;
   --color-surface: #FAFDFE;
+  --color-surface-tint: #F0F9FC;
+  --color-surface-vivid: #9BE7FA;
   --color-surface-raised: #FFFFFF;
+  --color-ground: #FAFDFE;
+  --color-ground-alt: #F4FAFC;
   --color-text: #0F172A;
   --color-text-muted: #64748B;
+  --color-ink: #0F172A;
+  --color-ink-secondary: #475569;
+  --color-ink-muted: #64748B;
   --color-border: #E2E8F0;
+  --color-border-subtle: #E2F1F8;
+  --color-border-primary: rgba(155, 231, 250, 0.7);
 
   /* Typography */
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -30,12 +48,26 @@
   color-scheme: dark;
   --color-brand-primary: #9BE7FA;
   --color-brand-primary-hover: #C8EEF7;
+  --color-brand-blue-vivid: #9BE7FA;
+  --color-brand-blue-light: #1E293B;
+  --color-brand-yellow-light: #FFE485;
+  --color-brand-yellow: #FFD14C;
+  --color-brand-deep: #9BE7FA;
+  --color-brand-deep-hover: #C8EEF7;
   --color-accent: #FFD14C;
-  --color-surface: #0F172A;
-  --color-surface-raised: #1E293B;
+  --color-accent-soft: #FFE485;
+  --color-surface: #0B0F17;
+  --color-surface-tint: #131E2E;
+  --color-surface-raised: #131E2E;
+  --color-ground: #070B12;
+  --color-ground-alt: #0B0F17;
   --color-text: #F8FAFC;
   --color-text-muted: #94A3B8;
-  --color-border: #334155;
+  --color-ink: #F8FAFC;
+  --color-ink-secondary: #CBD5E1;
+  --color-ink-muted: #94A3B8;
+  --color-border: #1E2B3E;
+  --color-border-subtle: #1E2B3E;
 }
 
 html {
@@ -279,7 +311,33 @@ a {
   color: var(--color-brand-primary);
 }
 
-/* Button System: Single primary gold CTA + crisp secondary editorial */
+/* Button System: #9BE7FA Dominant Primary CTA + Honey Gold Accent + Crisp Secondary */
+.btn-primary {
+  background-color: #9BE7FA;
+  color: #0F172A;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(155, 231, 250, 0.4);
+  transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    background-color: #82e2f8;
+    box-shadow: 0 4px 16px rgba(155, 231, 250, 0.65);
+    transform: translateY(-1px);
+  }
+}
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
 .btn-primary-gold {
   background-color: #FFD14C;
   color: #0F172A;
@@ -323,24 +381,25 @@ a {
 }
 @media (hover: hover) and (pointer: fine) {
   .btn-secondary-editorial:hover {
-    background-color: var(--color-surface-raised);
-    border-color: var(--color-brand-primary);
+    background-color: rgba(200, 238, 247, 0.2);
+    border-color: #9BE7FA;
   }
   .dark .btn-secondary-editorial:hover {
-    border-color: var(--color-brand-primary);
+    background-color: rgba(155, 231, 250, 0.08);
+    border-color: #9BE7FA;
   }
 }
 .btn-secondary-editorial:active {
   transform: scale(0.97);
 }
 
-/* 30% Cards: Minimal, calm, restrained elevation */
+/* 30% Cards: Minimal, calm, restrained elevation with #9BE7FA interactive hover */
 .card-minimal {
   background-color: #FFFFFF;
   border: 1px solid #E2E8F0;
   border-radius: 1rem;
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
-  transition: border-color 200ms ease, box-shadow 200ms ease;
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
 }
 .dark .card-minimal {
   background-color: #0F172A;
@@ -349,12 +408,12 @@ a {
 }
 @media (hover: hover) and (pointer: fine) {
   .card-minimal:hover {
-    border-color: #CBD5E1;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    border-color: #9BE7FA;
+    box-shadow: 0 6px 20px -2px rgba(155, 231, 250, 0.25);
   }
   .dark .card-minimal:hover {
-    border-color: #334155;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: #9BE7FA;
+    box-shadow: 0 6px 20px -2px rgba(155, 231, 250, 0.15);
   }
 }
 
@@ -364,12 +423,12 @@ a {
   border: 1px solid #E2E8F0;
   border-radius: 1rem;
   box-shadow: 0 1px 4px rgba(15, 23, 42, 0.03);
-  transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+  transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out), transform 200ms var(--ease-out);
 }
 @media (hover: hover) and (pointer: fine) {
   .card-bento:hover {
-    border-color: #CBD5E1;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+    border-color: #9BE7FA;
+    box-shadow: 0 6px 20px -2px rgba(155, 231, 250, 0.25);
   }
 }
 .dark .card-bento {
@@ -379,8 +438,8 @@ a {
 }
 @media (hover: hover) and (pointer: fine) {
   .dark .card-bento:hover {
-    border-color: #334155;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    border-color: #9BE7FA;
+    box-shadow: 0 6px 20px -2px rgba(155, 231, 250, 0.15);
   }
 }
 
@@ -396,18 +455,20 @@ a {
   border-color: #1E293B;
 }
 
-.badge-cyan {
-  background-color: rgba(155, 231, 250, 0.25);
-  border: 1px solid rgba(155, 231, 250, 0.6);
-  color: #0D7287;
-  font-weight: 600;
+.badge-cyan,
+.badge-primary {
+  background-color: rgba(155, 231, 250, 0.3);
+  border: 1px solid #9BE7FA;
+  color: #074553;
+  font-weight: 700;
   border-radius: 9999px;
   padding: 0.2rem 0.65rem;
   font-size: 0.75rem;
 }
-.dark .badge-cyan {
-  background-color: rgba(155, 231, 250, 0.12);
-  border-color: rgba(155, 231, 250, 0.3);
+.dark .badge-cyan,
+.dark .badge-primary {
+  background-color: rgba(155, 231, 250, 0.15);
+  border-color: rgba(155, 231, 250, 0.4);
   color: #9BE7FA;
 }
 
@@ -419,6 +480,13 @@ a {
   border-radius: 9999px;
   padding: 0.2rem 0.65rem;
   font-size: 0.75rem;
+}
+
+.hero-glow {
+  background: radial-gradient(circle at 50% -20%, rgba(155, 231, 250, 0.25) 0%, rgba(200, 238, 247, 0.1) 45%, transparent 70%);
+}
+.dark .hero-glow {
+  background: radial-gradient(circle at 50% -20%, rgba(155, 231, 250, 0.12) 0%, rgba(200, 238, 247, 0.04) 50%, transparent 70%);
 }
 
 /* Pipeline connector line */

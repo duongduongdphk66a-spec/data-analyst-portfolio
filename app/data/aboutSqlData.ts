@@ -84,4 +84,4 @@ GROUP BY operation_type;`,
   },
 ];
 
-export const CHART_COLORS = ['#FFD14C', '#9BE7FA', '#FFE485'];
+export const CHART_COLORS = ['#9BE7FA', '#FFD14C', '#FFE485', '#C8EEF7'];

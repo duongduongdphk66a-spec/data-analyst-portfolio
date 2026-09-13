@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
-import { gsap } from '@/app/lib/gsap';
+import React, { useRef, useEffect, useState } from 'react';
 
 interface AnimatedCounterProps {
   value: string | number;
@@ -19,6 +18,7 @@ export default function AnimatedCounter({
   triggerOnScroll = true,
 }: AnimatedCounterProps) {
   const spanRef = useRef<HTMLSpanElement>(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
 
   // Parse string value into prefix, numeric target, suffix, and decimal precision
   const { prefix, numericVal, suffix, decimals } = React.useMemo(() => {
@@ -67,35 +67,48 @@ export default function AnimatedCounter({
       return;
     }
 
-    let tween: gsap.core.Tween | null = null;
+    let startTime: number | null = null;
+    let animationFrameId: number;
+    let timeoutId: NodeJS.Timeout;
 
     const startAnimation = () => {
-      const counterObj = { val: 0 };
+      if (hasAnimated) return;
+      
+      const easeOutExpo = (t: number): number => {
+        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+      };
 
-      const updateText = () => {
+      const animate = (timestamp: number) => {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+        
+        const currentVal = numericVal * easeOutExpo(progress);
+        
         if (el) {
-          const formattedNum = counterObj.val.toLocaleString('vi-VN', {
+          const formattedNum = currentVal.toLocaleString('vi-VN', {
             minimumFractionDigits: decimals,
             maximumFractionDigits: decimals,
           });
           el.innerText = `${prefix}${formattedNum}${suffix}`;
         }
+
+        if (progress < 1) {
+          animationFrameId = requestAnimationFrame(animate);
+        } else {
+          setHasAnimated(true);
+        }
       };
 
-      if (tween) tween.kill();
-      tween = gsap.to(counterObj, {
-        val: numericVal,
-        duration,
-        delay,
-        ease: 'power2.out',
-        onUpdate: updateText,
-      });
+      timeoutId = setTimeout(() => {
+        animationFrameId = requestAnimationFrame(animate);
+      }, delay * 1000);
     };
 
     if (!triggerOnScroll) {
       startAnimation();
       return () => {
-        if (tween) tween.kill();
+        clearTimeout(timeoutId);
+        cancelAnimationFrame(animationFrameId);
       };
     }
 
@@ -115,9 +128,10 @@ export default function AnimatedCounter({
 
     return () => {
       observer.disconnect();
-      if (tween) tween.kill();
+      clearTimeout(timeoutId);
+      cancelAnimationFrame(animationFrameId);
     };
-  }, [numericVal, prefix, suffix, decimals, duration, delay, triggerOnScroll]);
+  }, [numericVal, prefix, suffix, decimals, duration, delay, triggerOnScroll, hasAnimated]);
 
   return (
     <span ref={spanRef} className={className}>

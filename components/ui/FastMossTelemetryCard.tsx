@@ -20,7 +20,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
   return (
     <div
       onClick={() => onOpenInspect(item)}
-      className="group relative flex flex-col justify-between p-4 rounded-2xl bg-white border border-slate-200 hover:border-[#0D7287] shadow-xs hover:shadow-lg transition-all duration-300 cursor-pointer dark:bg-slate-950 dark:border-slate-800 dark:hover:border-[#9BE7FA]"
+      className="group relative flex flex-col justify-between p-4 rounded-2xl bg-white border border-slate-200 hover:border-[#9BE7FA] shadow-xs hover:shadow-lg transition-all duration-300 cursor-pointer dark:bg-slate-950 dark:border-slate-800 dark:hover:border-[#9BE7FA]"
     >
       <div className="space-y-3">
         {/* Top Header */}
@@ -28,7 +28,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
           <div className="flex items-center gap-1.5">
             <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider ${
               isShop 
-                ? 'bg-[#0D7287]/10 text-[#0D7287] border border-[#0D7287]/20 dark:bg-[#9BE7FA]/10 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30' 
+                ? 'bg-[#9BE7FA]/25 text-[#074553] border border-[#9BE7FA]/70 dark:bg-[#9BE7FA]/10 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30' 
                 : 'bg-[#FFE485]/30 text-[#B88B0D] border border-[#FFD14C]/40 dark:bg-[#FFD14C]/10 dark:text-[#FFE485] dark:border-[#FFD14C]/30'
             }`}>
               <ShieldCheck className="w-3 h-3" />
@@ -46,7 +46,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
         </div>
 
         {/* High-Tech Vector Data Simulation Canvas */}
-        <div className="relative h-28 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 p-2.5 flex flex-col justify-between group-hover:border-[#0D7287]/60 transition-colors">
+        <div className="relative h-28 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 p-2.5 flex flex-col justify-between group-hover:border-[#9BE7FA]/60 transition-colors">
           {/* Subtle Grid Background */}
           <div 
             className="absolute inset-0 opacity-20 pointer-events-none"

@@ -27,7 +27,7 @@ export function Chapter1HeritageSection({ isEn, onCopyDeepLink }: Chapter1Herita
   }, [unescoFilter, unescoSearch]);
 
   return (
-    <section id="chuong-1" className="py-16 bg-slate-50 border-b border-slate-200 dark:bg-slate-950 dark:border-slate-800">
+    <section id="chuong-1" className="py-16 bg-[#FAFDFE] border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionHeader
           variant="stacked"
@@ -94,7 +94,7 @@ export function Chapter1HeritageSection({ isEn, onCopyDeepLink }: Chapter1Herita
                   value={unescoSearch}
                   onChange={(e) => setUnescoSearch(e.target.value)}
                   placeholder="Tìm theo tên di sản, tỉnh (Kyoto, Nara, Hiroshima, Tokyo...)..."
-                  className="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#8CE0F4] transition-all dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+                  className="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#9BE7FA] transition-all dark:bg-slate-800 dark:border-slate-700 dark:text-white"
                 />
               </div>
 
@@ -103,7 +103,7 @@ export function Chapter1HeritageSection({ isEn, onCopyDeepLink }: Chapter1Herita
                 {filteredUnescoSites.map((site) => (
                   <div 
                     key={site.id}
-                    className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-[#8CE0F4] transition-all text-xs dark:bg-slate-800/70 dark:border-slate-700/80"
+                    className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-[#9BE7FA] transition-all text-xs dark:bg-slate-800/70 dark:border-slate-700/80"
                   >
                     <div className="flex items-center justify-between gap-1 mb-1">
                       <span className={`px-2 py-0.5 rounded text-[10px] font-extrabold ${

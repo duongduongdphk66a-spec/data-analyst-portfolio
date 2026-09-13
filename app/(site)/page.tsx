@@ -15,7 +15,7 @@ export async function generateMetadata() {
 }
 
 export default async function HomePage() {
-  const { language, t } = await getServerLanguage();
+  const { language } = await getServerLanguage();
   const { profile, projects } = await getServerPortfolioData();
 
   return (
@@ -36,7 +36,7 @@ export default async function HomePage() {
           </div>
           <Link
             href="/projects"
-            className="text-xs font-heading font-bold text-[#0D7287] dark:text-[#9BE7FA] hover:underline flex items-center gap-1 cursor-pointer"
+            className="text-xs font-heading font-bold text-[#074553] dark:text-[#9BE7FA] hover:underline flex items-center gap-1 cursor-pointer"
           >
             <span>{language === 'en' ? 'View all projects' : 'Xem toàn bộ dự án'}</span>
             <ChevronRight className="w-4 h-4" />
@@ -83,7 +83,7 @@ export default async function HomePage() {
             <a
               href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
               target="_blank"
-              className="btn-primary-gold text-xs px-5 py-3"
+              className="btn-primary text-xs px-5 py-3"
             >
               <Download className="w-4 h-4" />
               <span>{language === 'en' ? 'Download CV PDF' : 'Tải CV PDF'}</span>

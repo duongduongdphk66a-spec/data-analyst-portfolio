@@ -7,7 +7,6 @@ import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import Sidebar from '@/components/site/Sidebar';
 import CommandPalette from '@/components/ui/CommandPalette';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { ProjectData } from '../types';
 
@@ -43,7 +42,6 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
     { id: '/projects', label: language === 'en' ? 'Work' : 'Dự Án', icon: Briefcase, hasChildren: true },
     { id: '/experience', label: language === 'en' ? 'Experience' : 'Kinh Nghiệm', icon: FileText },
     { id: '/about', label: language === 'en' ? 'About' : 'Giới Thiệu', icon: UserCheck },
-    { id: '/lab', label: language === 'en' ? 'Lab' : 'Interactive Lab', icon: Terminal },
   ];
 
   return (

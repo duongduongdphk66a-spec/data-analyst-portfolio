@@ -193,7 +193,7 @@ export default function CommandPalette({
       >
         {/* Search Header */}
         <div className="flex items-center gap-3 px-4 py-3.5 border-b border-border-subtle dark:border-slate-800 bg-surface/20 dark:bg-slate-900">
-          <Search className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA] shrink-0" />
+          <Search className="w-5 h-5 text-[#074553] dark:text-[#9BE7FA] shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -242,7 +242,7 @@ export default function CommandPalette({
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className={`p-2 rounded-lg ${isSelected ? 'bg-accent text-slate-950 dark:bg-amber-400' : 'bg-surface/40 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA]'}`}>
+                    <div className={`p-2 rounded-lg ${isSelected ? 'bg-[#9BE7FA] text-slate-950 dark:bg-[#9BE7FA]' : 'bg-surface/40 dark:bg-slate-800 text-[#074553] dark:text-[#9BE7FA]'}`}>
                       <Icon className="w-4 h-4 shrink-0" />
                     </div>
                     <div className="min-w-0">
@@ -259,7 +259,7 @@ export default function CommandPalette({
 
                   <div className="flex items-center gap-2 shrink-0">
                     {cmd.badge && (
-                      <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-surface/50 border border-border-subtle dark:bg-slate-800 dark:border-slate-700 text-[#0D7287] dark:text-[#9BE7FA]">
+                      <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-surface/50 border border-border-subtle dark:bg-slate-800 dark:border-slate-700 text-[#074553] dark:text-[#9BE7FA]">
                         {cmd.badge}
                       </span>
                     )}

@@ -95,7 +95,7 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="px-2.5 py-0.5 rounded text-xs font-black bg-[#8CE0F4] text-slate-950 dark:bg-slate-800 dark:text-[#9BE7FA]">
+              <span className="px-2.5 py-0.5 rounded text-xs font-black bg-[#9BE7FA] text-slate-950 dark:bg-[#9BE7FA] dark:text-slate-950">
                 Nhóm 1 • Số lượng khách
               </span>
               <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
@@ -191,7 +191,7 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
                     <XAxis dataKey="year" tick={{ fontSize: 12 }} />
                     <YAxis tick={{ fontSize: 12 }} unit="k" />
                     <Tooltip formatter={(value: any) => [`${value} Nghìn khách`, 'Khách quốc tế đến Kyoto']} />
-                    <Bar dataKey="value" fill="#8CE0F4" stroke="#0D7287" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến TP Kyoto (nghìn người)" />
+                    <Bar dataKey="value" fill="#9BE7FA" stroke="#0D7287" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến TP Kyoto (nghìn người)" />
                   </BarChart>
                 </ResponsiveContainer>
               )}

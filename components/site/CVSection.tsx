@@ -4,7 +4,6 @@ import React, { useRef } from 'react';
 import { GraduationCap, Briefcase, MapPin, Calendar } from 'lucide-react';
 import { ExperienceItem } from '@/app/types';
 import { useLanguage } from '@/app/context/LanguageContext';
-import { gsap, useGSAP } from '@/app/lib/gsap';
 
 interface CVSectionProps {
   experiences: ExperienceItem[];
@@ -77,26 +76,18 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
   const displayEducation = isEn ? (education.length > 0 ? education : defaultEducationEn) : education;
   const displayWork = isEn ? (work.length > 0 ? work : defaultWorkEn) : work;
 
-  useGSAP(() => {
-    gsap.from('.timeline-item', {
-      autoAlpha: 0,
-      x: -10,
-      stagger: 0.05,
-      duration: 0.28,
-      ease: 'power2.out',
-    });
-  }, { scope: sectionRef });
+  // Animations are now handled via Tailwind CSS classes
 
   const renderItem = (item: ExperienceItem) => (
-    <div key={item.id} className="timeline-item relative pl-8 pb-10 last:pb-0 group">
+    <div key={item.id} className="timeline-item animate-in fade-in slide-in-from-left-4 duration-500 fill-mode-both relative pl-8 pb-10 last:pb-0 group">
       {/* Timeline line */}
       <div className="absolute left-[11px] top-2 bottom-0 w-px bg-border-subtle dark:bg-slate-800 group-last:hidden" />
 
       {/* Timeline dot */}
-      <div className="absolute left-0 top-1.5 w-[23px] h-[23px] rounded-full border-2 border-border-subtle dark:border-slate-700 bg-ground dark:bg-slate-900 flex items-center justify-center group-hover:border-accent dark:group-hover:border-amber-400 transition-all duration-200">
+      <div className="absolute left-0 top-1.5 w-[23px] h-[23px] rounded-full border-2 border-border-subtle dark:border-slate-700 bg-ground dark:bg-slate-900 flex items-center justify-center group-hover:border-[#9BE7FA] dark:group-hover:border-[#9BE7FA] transition-all duration-200">
         {item.type === 'education'
-          ? <GraduationCap className="w-3 h-3 text-ink-muted dark:text-slate-400 group-hover:text-accent-deep dark:group-hover:text-amber-400 transition-colors" />
-          : <Briefcase className="w-3 h-3 text-ink-muted dark:text-slate-400 group-hover:text-accent-deep dark:group-hover:text-amber-400 transition-colors" />
+          ? <GraduationCap className="w-3 h-3 text-ink-muted dark:text-slate-400 group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition-colors" />
+          : <Briefcase className="w-3 h-3 text-ink-muted dark:text-slate-400 group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition-colors" />
         }
       </div>
 
@@ -140,7 +131,7 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
           {/* Education section */}
           <div>
             <div className="flex items-center gap-2.5 mb-8 pb-3 border-b border-border-subtle dark:border-slate-800">
-              <div className="w-8 h-8 rounded-lg bg-surface/50 border border-surface-vivid/40 dark:bg-slate-800 dark:border-slate-700 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-surface/50 border border-[#9BE7FA]/40 dark:bg-slate-800 dark:border-slate-700 flex items-center justify-center">
                 <GraduationCap className="w-4 h-4 text-ink dark:text-[#9BE7FA]" />
               </div>
               <h3 className="text-sm font-heading font-bold uppercase tracking-[0.15em] text-ink dark:text-white">
@@ -155,7 +146,7 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
           {/* Work column */}
           <div>
             <div className="flex items-center gap-2.5 mb-8 pb-3 border-b border-border-subtle dark:border-slate-800">
-              <div className="w-8 h-8 rounded-lg bg-surface/50 border border-surface-vivid/40 dark:bg-slate-800 dark:border-slate-700 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-surface/50 border border-[#9BE7FA]/40 dark:bg-slate-800 dark:border-slate-700 flex items-center justify-center">
                 <Briefcase className="w-4 h-4 text-ink dark:text-[#9BE7FA]" />
               </div>
               <h3 className="text-sm font-heading font-bold uppercase tracking-[0.15em] text-ink dark:text-white">

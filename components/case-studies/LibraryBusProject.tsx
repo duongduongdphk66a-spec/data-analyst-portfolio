@@ -7,6 +7,7 @@ import { trackVisitorAction } from '@/app/lib/visitorTracking';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { scrollToSection, centerTabInContainer, useCaseStudyActions } from '@/app/lib/uiHelpers';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
+import ExecutiveSummary from './ExecutiveSummary';
 import SectionHeader from '@/components/ui/SectionHeader';
 
 // Subcomponents
@@ -90,7 +91,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProj
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFDFE] font-sans text-[#1A2332] selection:bg-[#9BE7FA]/60 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
+    <div className="min-h-screen bg-[#FAFDFE] font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       {/* Top Navbar & Sub-navigation bar */}
       <LibraryBusNav
         onBack={handleBack}
@@ -109,6 +110,30 @@ export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProj
         isEn={isEn}
         onNavClick={handleNavClick}
       />
+
+      {/* Executive Summary — 60-second overview */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12">
+        <ExecutiveSummary
+          isEn={isEn}
+          readingTime={isEn ? '~3 min deep dive' : '~3 phút đọc chi tiết'}
+          problem={isEn
+            ? 'Distributed mobile library system faces inventory desynchronization, transaction conflicts when multiple users reserve the same book at different bus stops, and high query latency under concurrent load.'
+            : 'Hệ thống thư viện di động phân tán gặp vấn đề dữ liệu tồn kho không đồng bộ, xung đột giao dịch khi nhiều người cùng đặt một đầu sách tại các điểm dừng xe, và độ trễ truy vấn cao khi tải đồng thời.'}
+          method={isEn
+            ? 'Design 3NF ERD with strict ACID transaction constraints, implement Redis distributed cache for hot data, and deploy Celery background workers to offload CPU-intensive operations.'
+            : 'Thiết kế ERD chuẩn hóa 3NF với ràng buộc Transaction ACID nghiêm ngặt, áp dụng Redis Cache phân tán và Celery Background Worker giải phóng tải CPU máy chủ.'}
+          insight={isEn
+            ? 'Reduced query response latency by 93.7% (450ms→28ms), sustained 500 concurrent connections with zero downtime, and completely eliminated 100% reservation data conflicts.'
+            : 'Giảm 93.7% độ trễ phản hồi (từ 450ms xuống 28ms), chịu tải ổn định 500 kết nối đồng thời và triệt tiêu hoàn toàn 100% lỗi xung đột mượn trùng sách.'}
+          metrics={[
+            { label: isEn ? 'Users Served' : 'Quy Mô Người Dùng Phục Vụ', value: '50,000+', change: 'Active Accounts', isPositive: true },
+            { label: isEn ? 'Query Response Latency' : 'Độ Trễ Phản Hồi Truy Vấn', value: '28ms', change: '-93.7% Latency', isPositive: true },
+            { label: isEn ? 'Concurrent Connections' : 'Kết Nối Đồng Thời', value: '500 RPS', change: 'Zero Downtime', isPositive: true },
+            { label: isEn ? 'Data Conflict Rate' : 'Tỷ Lệ Xung Đột Dữ Liệu', value: '0.0%', change: 'ACID Enforced', isPositive: true },
+          ]}
+          tools={['MySQL', 'Django ORM', 'Redis', 'Celery', 'Docker Architecture']}
+        />
+      </div>
 
       {/* Body Content Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-20">

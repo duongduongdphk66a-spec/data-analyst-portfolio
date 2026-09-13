@@ -166,7 +166,7 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
       {/* Editorial Header */}
       <div className="space-y-3 pb-6 border-b border-slate-200/80 dark:border-slate-800">
         <div className="flex items-center gap-2">
-          <Terminal className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+          <Terminal className="w-4 h-4 text-[#074553] dark:text-[#9BE7FA]" />
           <span className="editorial-kicker">
             {isEn ? 'IN-BROWSER SQL STUDIO' : 'PHÒNG THÍ NGHIỆM DỮ LIỆU SQL TRỰC TIẾP'}
           </span>
@@ -188,7 +188,7 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
             onClick={() => setSandboxMode('presets')}
             className={`px-4 py-2 text-xs font-heading font-semibold rounded-lg transition-all cursor-pointer ${
               sandboxMode === 'presets'
-                ? 'bg-white text-slate-950 dark:bg-slate-800 dark:text-white shadow-xs font-bold'
+                ? 'bg-[#9BE7FA] text-slate-950 shadow-xs font-bold'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
             }`}
           >
@@ -198,11 +198,11 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
             onClick={() => setSandboxMode('custom')}
             className={`px-4 py-2 text-xs font-heading font-semibold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
               sandboxMode === 'custom'
-                ? 'bg-white text-slate-950 dark:bg-slate-800 dark:text-white shadow-xs font-bold'
+                ? 'bg-[#9BE7FA] text-slate-950 shadow-xs font-bold'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
             {isEn ? 'Custom SQL & CSV Upload' : 'Tự Do Viết SQL & Tải CSV'}
           </button>
         </div>
@@ -222,8 +222,8 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
                 onClick={() => handleSelectScenario(i)}
                 className={`px-4 py-2 text-xs font-heading font-semibold rounded-xl transition-colors duration-150 cursor-pointer ${
                   activeScenario === i
-                    ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-950 shadow-xs'
-                    : 'bg-white text-slate-600 hover:text-slate-950 border border-slate-200/80 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'
+                    ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs'
+                    : 'bg-white text-slate-600 hover:text-slate-950 border border-slate-200/80 hover:border-[#9BE7FA]/50 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'
                 }`}
               >
                 <span className="font-mono text-[11px] opacity-70 mr-1.5">{s.tag}</span>
@@ -254,7 +254,7 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
                   <button
                     onClick={handleRunPreset}
                     disabled={isRunning}
-                    className="btn-primary-gold text-xs px-3 py-1.5"
+                    className="btn-primary text-xs px-3.5 py-1.5"
                   >
                     <Play className="w-3 h-3 fill-current text-slate-950" />
                     <span>{isRunning ? (isEn ? 'Running...' : 'Đang chạy...') : 'Run'}</span>
@@ -296,7 +296,7 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
                   {showResult && (
                     <button
                       onClick={() => onSelectProject ? onSelectProject(scenario.projectId) : router.push(`/projects/${scenario.projectId}`)}
-                      className="flex items-center gap-1 text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA] hover:underline transition-colors cursor-pointer"
+                      className="flex items-center gap-1 text-xs font-semibold text-[#074553] dark:text-[#9BE7FA] hover:underline transition-colors cursor-pointer"
                     >
                       <span>{isEn ? 'Case Study' : 'Xem Đầy Đủ'}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -317,7 +317,7 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
                 <div className="p-12 text-center text-sm text-slate-400 font-heading flex-1 flex items-center justify-center">
                   {isRunning ? (
                     <span className="inline-flex items-center gap-2">
-                      <span className="w-4 h-4 border-2 border-[#FFD14C] border-t-transparent rounded-full animate-spin" />
+                      <span className="w-4 h-4 border-2 border-[#9BE7FA] border-t-transparent rounded-full animate-spin" />
                       {isEn ? 'Executing SQL...' : 'Đang xử lý truy vấn...'}
                     </span>
                   ) : (
@@ -365,7 +365,7 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
                 <button
                   onClick={handleRunCustomSql}
                   disabled={isRunning}
-                  className="btn-primary-gold text-xs px-3 py-1.5"
+                  className="btn-primary text-xs px-3.5 py-1.5"
                 >
                   <Play className="w-3 h-3 fill-current text-slate-950" />
                   <span>{isRunning ? '...' : 'Run SQL'}</span>

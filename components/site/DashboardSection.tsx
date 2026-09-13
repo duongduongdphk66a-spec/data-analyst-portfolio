@@ -12,7 +12,6 @@ import {
 import { DashboardData, KpiItem, ChartConfig } from '@/app/types';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useTheme } from '@/app/context/ThemeContext';
-import { gsap, useGSAP } from '@/app/lib/gsap';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { exportChartAsPng } from '@/app/lib/chartExport';
 import { useToast } from '@/components/ui/Toast';
@@ -39,27 +38,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
   const [timeFilter, setTimeFilter] = useState<'all' | 'q1_q2' | 'q3_q4'>('all');
   const [channelFilter, setChannelFilter] = useState<'all' | 'live' | 'affiliate'>('all');
 
-  useGSAP(() => {
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return;
-    }
-    gsap.from('.dash-kpi-card', {
-      autoAlpha: 0,
-      y: 20,
-      stagger: 0.08,
-      duration: 0.5,
-      ease: 'power2.out',
-    });
-
-    gsap.from('.dash-chart-card', {
-      autoAlpha: 0,
-      y: 25,
-      stagger: 0.1,
-      duration: 0.6,
-      ease: 'power3.out',
-    });
-  }, { scope: dashboardRef, dependencies: [dashboard.kpis?.length, dashboard.charts?.length] });
-
+  // Animations are now handled via Tailwind CSS classes
   // Active table data
   const activeTable = useMemo(() => {
     return customTableData || dashboard.tableData || [];
@@ -348,7 +327,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
         {/* Time Horizon Filter */}
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 mr-1">
-            <Filter className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+            <Filter className="w-3.5 h-3.5 text-[#074553] dark:text-[#9BE7FA]" />
             <span>{isEn ? 'Time Horizon:' : 'Chu kỳ:'}</span>
           </div>
           {[
@@ -362,7 +341,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 timeFilter === f.id
                   ? 'bg-[#FFD14C] text-slate-950 font-bold shadow-xs border border-[#FFE485]'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-[#9BE7FA]/50'
               }`}
             >
               {f.label}
@@ -385,8 +364,8 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
               onClick={() => setChannelFilter(c.id as any)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 channelFilter === c.id
-                  ? 'bg-[#0D7287] text-white font-bold shadow-xs'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
+                  ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs border border-[#9BE7FA]'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-[#9BE7FA]/50'
               }`}
             >
               {c.label}
@@ -401,7 +380,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
           {dashboard.kpis.map((kpi) => (
             <div
               key={kpi.id}
-              className="dash-kpi-card card-bento p-6 hover:border-[#9BE7FA] transition-all"
+              className="dash-kpi-card animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both card-bento p-6 hover:border-[#9BE7FA] transition-all"
             >
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">
@@ -434,7 +413,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
             <div
               key={chart.id}
               id={`chart-box-${chart.id}`}
-              className="dash-chart-card card-bento p-6 sm:p-7 flex flex-col hover:border-[#9BE7FA] transition-all"
+              className="dash-chart-card animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both card-bento p-6 sm:p-7 flex flex-col hover:border-[#9BE7FA] transition-all"
             >
               <div className="flex items-start justify-between gap-4 mb-6">
                 <div>

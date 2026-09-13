@@ -11,7 +11,7 @@ interface Chapter2PolicySectionProps {
 
 export function Chapter2PolicySection({ isEn, onCopyDeepLink }: Chapter2PolicySectionProps) {
   return (
-    <section id="chuong-2" className="py-16 bg-white border-b border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+    <section id="chuong-2" className="py-16 bg-[#FAFDFE] border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionHeader
           variant="stacked"
@@ -23,7 +23,7 @@ export function Chapter2PolicySection({ isEn, onCopyDeepLink }: Chapter2PolicySe
 
         <div className="space-y-8 text-base sm:text-lg leading-relaxed text-slate-800 dark:text-slate-200">
           {/* 2.1 Chính sách trong Chương trình hành động 2013 */}
-          <div className="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs dark:bg-slate-950 dark:border-slate-800">
+          <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
             <h3 className="text-xl sm:text-2xl font-black text-slate-950 mb-3 flex items-center gap-2 dark:text-white">
               <Compass className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
               <span>2.1. &quot;Chương trình hành động hướng tới quốc gia du lịch&quot; (2013)</span>
@@ -33,7 +33,7 @@ export function Chapter2PolicySection({ isEn, onCopyDeepLink }: Chapter2PolicySe
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
-              <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+              <div className="p-4 rounded-xl bg-[#FAFDFE] border border-slate-200/80 shadow-xs dark:bg-slate-800/70 dark:border-slate-700/80">
                 <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-[#0D7287] dark:text-[#9BE7FA]">
                   <Sparkles className="w-4 h-4" />
                   <span>2.1.1 Quảng bá &quot;Thương hiệu Nhật Bản&quot; (日本ブランド)</span>
@@ -43,7 +43,7 @@ export function Chapter2PolicySection({ isEn, onCopyDeepLink }: Chapter2PolicySe
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+              <div className="p-4 rounded-xl bg-[#FAFDFE] border border-slate-200/80 shadow-xs dark:bg-slate-800/70 dark:border-slate-700/80">
                 <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
                   <TrendingUp className="w-4 h-4" />
                   <span>2.1.2 Nới lỏng Visa, Hàng không LCC & Miễn thuế</span>
@@ -53,7 +53,7 @@ export function Chapter2PolicySection({ isEn, onCopyDeepLink }: Chapter2PolicySe
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+              <div className="p-4 rounded-xl bg-[#FAFDFE] border border-slate-200/80 shadow-xs dark:bg-slate-800/70 dark:border-slate-700/80">
                 <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-[#0D7287] dark:text-[#9BE7FA]">
                   <Camera className="w-4 h-4" />
                   <span>2.1.3 Hạ tầng đa ngôn ngữ, Wi-Fi & Cashless</span>
@@ -63,7 +63,7 @@ export function Chapter2PolicySection({ isEn, onCopyDeepLink }: Chapter2PolicySe
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+              <div className="p-4 rounded-xl bg-[#FAFDFE] border border-slate-200/80 shadow-xs dark:bg-slate-800/70 dark:border-slate-700/80">
                 <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-[#0D7287] dark:text-[#9BE7FA]">
                   <Users className="w-4 h-4" />
                   <span>2.1.4 Phát triển Du lịch MICE & Hội nghị Quốc tế</span>
@@ -76,7 +76,7 @@ export function Chapter2PolicySection({ isEn, onCopyDeepLink }: Chapter2PolicySe
           </div>
 
           {/* 2.2 Chính sách bảo tồn di sản & Luật 1950/2004 */}
-          <div className="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs dark:bg-slate-950 dark:border-slate-800">
+          <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
             <h3 className="text-xl sm:text-2xl font-black text-slate-950 mb-3 flex items-center gap-2 dark:text-white">
               <ShieldCheck className="w-5 h-5 text-amber-600 dark:text-amber-400" />
               <span>2.2. Khung pháp lý: Luật Bảo vệ Di sản Văn hóa (1950 & Sửa đổi 2004)</span>
@@ -92,19 +92,19 @@ export function Chapter2PolicySection({ isEn, onCopyDeepLink }: Chapter2PolicySe
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-                <div className="p-3.5 rounded-lg bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+                <div className="p-3.5 rounded-lg bg-[#FAFDFE] border border-slate-200/80 dark:bg-slate-850 dark:border-slate-700/80">
                   <strong className="text-slate-900 block font-bold mb-1 dark:text-white">1. Di sản văn hóa vật thể:</strong>
                   Quy định phân hạng nghiêm ngặt thành <em>&quot;Tài sản văn hóa quan trọng&quot;</em> và <em>&quot;Bảo vật quốc gia&quot;</em> (Kokuho). Mọi hoạt động can thiệp trùng tu phải được Cục Văn hóa phê duyệt.
                 </div>
-                <div className="p-3.5 rounded-lg bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+                <div className="p-3.5 rounded-lg bg-[#FAFDFE] border border-slate-200/80 dark:bg-slate-850 dark:border-slate-700/80">
                   <strong className="text-slate-900 block font-bold mb-1 dark:text-white">2. Di tích, Danh thắng & Đài kỷ niệm thiên nhiên:</strong>
                   Bảo vệ các địa điểm khảo cổ, hoa viên cổ và hệ sinh vật đặc hữu theo ranh giới vùng đệm bảo tồn.
                 </div>
-                <div className="p-3.5 rounded-lg bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+                <div className="p-3.5 rounded-lg bg-[#FAFDFE] border border-slate-200/80 dark:bg-slate-850 dark:border-slate-700/80">
                   <strong className="text-[#0D7287] block font-bold mb-1 dark:text-[#9BE7FA]">3. Cảnh quan văn hóa (文化的景観):</strong>
                   <em>(Điểm bổ sung đột phá năm 2004)</em>. Lần đầu tiên công nhận giá trị của cảnh quan được hình thành từ mối tương tác hài hòa giữa con người và tự nhiên (như ruộng bậc thang, làng chài, rừng bách).
                 </div>
-                <div className="p-3.5 rounded-lg bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+                <div className="p-3.5 rounded-lg bg-[#FAFDFE] border border-slate-200/80 dark:bg-slate-850 dark:border-slate-700/80">
                   <strong className="text-slate-900 block font-bold mb-1 dark:text-white">4. Quần thể công trình kiến trúc truyền thống:</strong>
                   Bảo tồn toàn bộ diện mạo đô thị cổ (như làng Gassho-zukuri Shirakawa-go, phố cổ Gion Kyoto, phố Samurai Kakunodate).
                 </div>

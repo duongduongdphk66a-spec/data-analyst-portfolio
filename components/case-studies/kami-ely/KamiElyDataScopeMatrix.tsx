@@ -24,8 +24,16 @@ export default function KamiElyDataScopeMatrix({
   return (
     <div className="rounded-3xl bg-gradient-to-br from-white via-[#F0FBFE]/50 to-white border-2 border-[#9BE7FA]/80 shadow-md dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-950 dark:border-slate-800 overflow-hidden">
       {/* Collapsible Header */}
-      <button
+      <div
+        role="button"
+        tabIndex={0}
         onClick={() => setIsDataScopeExpanded(!isDataScopeExpanded)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setIsDataScopeExpanded(!isDataScopeExpanded);
+          }
+        }}
         className="w-full p-4 sm:p-5 flex items-center justify-between gap-3 hover:bg-[#F0FBFE]/60 dark:hover:bg-slate-800/40 transition-colors cursor-pointer text-left"
       >
         <div className="flex items-center gap-3 min-w-0">
@@ -56,7 +64,7 @@ export default function KamiElyDataScopeMatrix({
           </button>
           <ChevronDown className={`w-5 h-5 text-slate-500 dark:text-slate-400 transition-transform duration-300 ${isDataScopeExpanded ? 'rotate-180' : ''}`} />
         </div>
-      </button>
+      </div>
 
       {/* Collapsible Content */}
       <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isDataScopeExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>

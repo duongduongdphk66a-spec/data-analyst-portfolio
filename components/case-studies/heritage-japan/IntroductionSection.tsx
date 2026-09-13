@@ -11,7 +11,7 @@ interface IntroductionSectionProps {
 
 export function IntroductionSection({ isEn, onCopyDeepLink }: IntroductionSectionProps) {
   return (
-    <section id="mo-dau" className="py-16 bg-white border-b border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+    <section id="mo-dau" className="py-16 bg-[#FAFDFE] border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <SectionHeader
           variant="stacked"
@@ -25,7 +25,7 @@ export function IntroductionSection({ isEn, onCopyDeepLink }: IntroductionSectio
           {/* 1. Lý do nghiên cứu */}
           <div className="space-y-3">
             <h3 className="text-xl font-black text-slate-950 flex items-center gap-2 dark:text-white">
-              <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#8CE0F4]/40 text-[#0D7287] font-black text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">1</span>
+              <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#9BE7FA]/60 text-[#074553] font-black text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">1</span>
               <span>{isEn ? '1. Research Rationale' : '1. Lý do nghiên cứu'}</span>
             </h3>
             <p>
@@ -39,7 +39,7 @@ export function IntroductionSection({ isEn, onCopyDeepLink }: IntroductionSectio
           {/* 2. Mục đích và câu hỏi nghiên cứu */}
           <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
             <h3 className="text-xl font-black text-slate-950 flex items-center gap-2 dark:text-white">
-              <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#8CE0F4]/40 text-[#0D7287] font-black text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">2</span>
+              <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#9BE7FA]/60 text-[#074553] font-black text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">2</span>
               <span>{isEn ? '2. Objectives & Research Questions' : '2. Mục đích và câu hỏi nghiên cứu'}</span>
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">

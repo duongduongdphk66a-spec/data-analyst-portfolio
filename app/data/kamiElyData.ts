@@ -3,7 +3,7 @@
  * Extracted and normalized from FastMoss platform exports in /public/kami.
  */
 
-export const PALETTE = ['#0D7287', '#FFD14C', '#9BE7FA', '#FFE485', '#C8EEF7', '#E5B830'];
+export const PALETTE = ['#9BE7FA', '#FFD14C', '#C8EEF7', '#FFE485', '#074553', '#E5B830'];
 
 export { KAMI_MATH_STATS } from './kamiElyMathStats';
 
