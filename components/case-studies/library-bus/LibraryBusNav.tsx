@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ArrowLeft, Bus, ExternalLink, Code, FileText } from 'lucide-react';
+import { ArrowLeft, Bus, ExternalLink, Code } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 export interface LibraryBusNavItem {
@@ -55,18 +55,6 @@ export function LibraryBusNav({
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Download/View HTML Spec */}
-          <a
-            href="/library-bus/website.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-1.5 sm:px-3 sm:py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 transition-colors flex items-center gap-1.5 text-xs font-bold dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200"
-            title={isEn ? 'View Interactive 20-Screen Spec (HTML)' : 'Xem tài liệu đặc tả 20 màn hình (HTML)'}
-          >
-            <FileText className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-            <span className="hidden sm:inline">HTML Spec (20 Screens)</span>
-          </a>
-
           {/* GitHub Repo */}
           <a
             href="https://github.com/duongduongdphk66a-spec/prj"
