@@ -6,16 +6,16 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from 'recharts';
 import { 
-  DollarSign, Users, Activity, TrendingUp, BarChart3, 
-  Download, Upload, Search, RefreshCw, Sparkles, Filter, Database
+  Download, Upload, Search, RefreshCw, Sparkles, Database
 } from 'lucide-react';
-import { DashboardData, KpiItem, ChartConfig } from '@/app/types';
+import { DashboardData, ChartConfig } from '@/app/types';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useTheme } from '@/app/context/ThemeContext';
-import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { exportChartAsPng } from '@/app/lib/chartExport';
 import { useToast } from '@/components/ui/Toast';
 import { validateUploadedFile } from '@/app/lib/security';
+import { DashboardMetricCards } from './dashboard/DashboardMetricCards';
+import { DashboardFilterBar } from './dashboard/DashboardFilterBar';
 
 interface DashboardSectionProps {
   dashboard: DashboardData;
@@ -75,17 +75,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
     return Object.keys(activeTable[0]).filter(k => k !== 'id');
   }, [activeTable]);
 
-  // KPI icon resolver
-  const renderKpiIcon = (iconType: KpiItem['icon']) => {
-    const iconClass = "w-5 h-5 text-slate-900 dark:text-[#9BE7FA]";
-    switch (iconType) {
-      case 'dollar': return <DollarSign className={iconClass} />;
-      case 'users': return <Users className={iconClass} />;
-      case 'activity': return <Activity className={iconClass} />;
-      case 'trending': return <TrendingUp className="w-5 h-5 text-[#FFD14C]" />;
-      default: return <BarChart3 className={iconClass} />;
-    }
-  };
+
 
   // Upload custom CSV to preview on table
   const handleCsvUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -323,87 +313,17 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
 
 
       {/* Multi-Dimension Interactive Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-[#C8EEF7]/30 dark:bg-slate-900/90 rounded-2xl border border-[#9BE7FA]/50 dark:border-slate-800 no-print">
-        {/* Time Horizon Filter */}
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 mr-1">
-            <Filter className="w-3.5 h-3.5 text-[#074553] dark:text-[#9BE7FA]" />
-            <span>{isEn ? 'Time Horizon:' : 'Chu kỳ:'}</span>
-          </div>
-          {[
-            { id: 'all', label: isEn ? 'All Horizons' : 'Tất cả chu kỳ' },
-            { id: 'q1_q2', label: isEn ? 'H1 (Q1 - Q2)' : 'Nửa đầu năm (H1)' },
-            { id: 'q3_q4', label: isEn ? 'H2 (Q3 - Q4)' : 'Nửa cuối năm (H2)' },
-          ].map((f) => (
-            <button
-              key={f.id}
-              onClick={() => setTimeFilter(f.id as any)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                timeFilter === f.id
-                  ? 'bg-[#FFD14C] text-slate-950 font-bold shadow-xs border border-[#FFE485]'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-[#9BE7FA]/50'
-              }`}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Channel Filter */}
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 mr-1">
-            {isEn ? 'Channel:' : 'Kênh:'}
-          </span>
-          {[
-            { id: 'all', label: isEn ? 'All Channels' : 'Tất cả kênh' },
-            { id: 'live', label: isEn ? 'Live Shopping' : 'Live Shopping' },
-            { id: 'affiliate', label: isEn ? 'Affiliate Network' : 'Affiliate' },
-          ].map((c) => (
-            <button
-              key={c.id}
-              onClick={() => setChannelFilter(c.id as any)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                channelFilter === c.id
-                  ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs border border-[#9BE7FA]'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-[#9BE7FA]/50'
-              }`}
-            >
-              {c.label}
-            </button>
-          ))}
-        </div>
-      </div>
+      <DashboardFilterBar
+        timeFilter={timeFilter}
+        setTimeFilter={setTimeFilter}
+        channelFilter={channelFilter}
+        setChannelFilter={setChannelFilter}
+        isEn={isEn}
+      />
 
       {/* KPI Cards Grid */}
       {dashboard.kpis && dashboard.kpis.length > 0 && (
-        <div className="dash-kpi-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {dashboard.kpis.map((kpi) => (
-            <div
-              key={kpi.id}
-              className="dash-kpi-card animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both card-bento p-6 hover:border-[#9BE7FA] transition-all"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">
-                  {kpi.title}
-                </span>
-                <div className="p-2.5 bg-[#C8EEF7]/50 rounded-2xl dark:bg-slate-800">
-                  {renderKpiIcon(kpi.icon)}
-                </div>
-              </div>
-
-              <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight dark:text-white tabular-data">
-                <AnimatedCounter value={kpi.value} duration={1.4} />
-              </div>
-
-              {kpi.change && (
-                <div className="text-xs font-bold mt-2 flex items-center gap-1 text-[#0D7287] dark:text-[#9BE7FA]">
-                  <TrendingUp className="w-3.5 h-3.5" />
-                  {kpi.change}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+        <DashboardMetricCards kpis={dashboard.kpis} />
       )}
 
       {/* Dynamic Charts Grid */}

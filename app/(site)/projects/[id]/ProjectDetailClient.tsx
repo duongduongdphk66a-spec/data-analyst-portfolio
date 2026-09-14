@@ -41,9 +41,8 @@ export default function ProjectDetailClient({ id, project }: { id: string; proje
   const allProjects = contextProjects && contextProjects.length > 0 ? contextProjects : DEFAULT_PROJECTS;
   const activeProject = project || allProjects.find((p) => p.id === id);
 
-  // 2. If it's a special component and the project DOES NOT have explicit markdown content, render the special hardcoded component.
-  // This allows overriding hardcoded components with CMS markdown if the user adds 'content'.
-  if (SpecialComponent && (!activeProject || !activeProject.content)) {
+  // 2. Render rich interactive case study if registered for this project ID
+  if (SpecialComponent) {
     return <SpecialComponent isEmbedded={false} />;
   }
 

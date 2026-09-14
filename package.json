@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "clean": "next clean"
+    "clean": "node -e \"fs.rmSync('.next', { recursive: true, force: true })\""
   },
   "dependencies": {
     "autoprefixer": "^10.4.21",

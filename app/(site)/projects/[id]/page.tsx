@@ -4,6 +4,7 @@ import { RowDataPacket } from 'mysql2';
 import { DEFAULT_PROJECTS } from '../../../defaultData';
 import ProjectDetailClient from './ProjectDetailClient';
 import { getDbPool } from '@/app/lib/db';
+import { getProjectByIdWithFallback } from '@/app/lib/serverData';
 import { ProjectData } from '@/app/types';
 
 export const dynamicParams = true;
@@ -52,34 +53,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
 
-  // 1. Prioritize querying MySQL database for latest real-time CMS edits
-  let project: ProjectData | undefined;
-  try {
-    const pool = getDbPool();
-    if (pool) {
-      const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_projects WHERE id = ? LIMIT 1', [id]);
-      if (Array.isArray(rows) && rows.length > 0) {
-        const r = rows[0];
-        project = {
-          id: r.id,
-          title: r.title,
-          desc: r.desc_text || '',
-          tags: typeof r.tags_json === 'string' ? JSON.parse(r.tags_json) : r.tags || [],
-          demoUrl: r.demo_url,
-          githubUrl: r.github_url,
-          embedUrl: r.embed_url,
-          img: r.img,
-          problem: r.problem,
-          method: r.method,
-          insight: r.insight,
-        };
-      }
-    }
-  } catch {
-    // Database query fallback
-  }
+  let project = await getProjectByIdWithFallback(id);
 
-  // 2. If not found in DB or DB not connected, check custom metadata then static defaults
   if (!project) {
     const customMeta = PROJECT_METADATA[id];
     if (customMeta) {
@@ -94,7 +69,6 @@ export async function generateMetadata({
         keywords: customMeta.keywords,
       };
     }
-    project = DEFAULT_PROJECTS.find((p) => p.id === id);
   }
 
   if (!project) {
@@ -123,37 +97,7 @@ export default async function ProjectDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-
-  let project: ProjectData | undefined;
-  try {
-    const pool = getDbPool();
-    if (pool) {
-      const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_projects WHERE id = ? LIMIT 1', [id]);
-      if (Array.isArray(rows) && rows.length > 0) {
-        const r = rows[0];
-        project = {
-          id: r.id,
-          title: r.title,
-          desc: r.desc_text || '',
-          tags: typeof r.tags_json === 'string' ? JSON.parse(r.tags_json) : r.tags || [],
-          demoUrl: r.demo_url,
-          githubUrl: r.github_url,
-          embedUrl: r.embed_url,
-          img: r.img,
-          problem: r.problem,
-          method: r.method,
-          insight: r.insight,
-          content: r.content, // Fetch content as well
-        };
-      }
-    }
-  } catch {
-    // Database query fallback
-  }
-
-  if (!project) {
-    project = DEFAULT_PROJECTS.find((p) => p.id === id);
-  }
+  const project = await getProjectByIdWithFallback(id);
 
   return <ProjectDetailClient id={id} project={project} />;
 }

@@ -8,7 +8,7 @@ import {
   shopWeeklyTrendData,
   shopTopSKUs,
   topAffiliatesList,
-} from '../data/kamiElyData';
+} from './seedKamiData';
 
 let pool: Pool | null = null;
 let _isInitialized = false;

@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { RowDataPacket } from 'mysql2';
 import { getDbPool, initDatabase, resolveSection } from '@/app/lib/db';
 import { translations } from '@/app/data/translations';
 import { verifyAdminRequest } from '@/app/lib/auth';
 import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/app/lib/cache';
 import { sanitizeTextInput } from '@/app/lib/security';
+import { getTextsWithFallback } from '@/app/lib/serverData';
 
 const CACHE_HEADERS = {
   'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
@@ -13,7 +13,7 @@ const CACHE_HEADERS = {
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const langParam = searchParams.get('lang'); // 'vi' | 'en' | null
+    const langParam = searchParams.get('lang') as 'vi' | 'en' | null;
     const cacheKey = `texts:${langParam || 'all'}`;
 
     const cached = await getApiCacheAsync<Record<string, unknown>>(cacheKey);
@@ -21,70 +21,9 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ success: true, source: 'cache', data: cached }, { headers: CACHE_HEADERS });
     }
 
-    const pool = getDbPool();
-    if (!pool) {
-      const data = langParam ? (translations as Record<string, Record<string, string>>)[langParam] || translations.vi : translations;
-      return NextResponse.json({
-        success: true,
-        source: 'default',
-        data,
-      }, { headers: CACHE_HEADERS });
-    }
-
-    // Query all texts from database
-    let query = 'SELECT text_key, lang, value_text, section FROM portfolio_texts';
-    const params: string[] = [];
-    if (langParam) {
-      query += ' WHERE lang = ?';
-      params.push(langParam);
-    }
-
-    const [rows] = await pool.query<RowDataPacket[]>(query, params);
-
-    if (!rows || rows.length === 0) {
-      // Auto initialize texts if empty
-      await initDatabase();
-      const [newRows] = await pool.query<RowDataPacket[]>(query, params);
-      if (newRows && newRows.length > 0) {
-        const result: Record<string, Record<string, string>> = { vi: {}, en: {} };
-        for (const row of newRows) {
-          if (!result[row.lang]) result[row.lang] = {};
-          result[row.lang][row.text_key] = row.value_text;
-        }
-        const finalData = langParam ? result[langParam] : result;
-        await setApiCacheAsync(cacheKey, finalData);
-        return NextResponse.json({
-          success: true,
-          source: 'mysql',
-          data: finalData,
-        }, { headers: CACHE_HEADERS });
-      }
-
-      const defaultData = langParam ? (translations as Record<string, Record<string, string>>)[langParam] || translations.vi : translations;
-      return NextResponse.json({
-        success: true,
-        source: 'default',
-        data: defaultData,
-      }, { headers: CACHE_HEADERS });
-    }
-
-    const result: Record<string, Record<string, string>> = {
-      vi: { ...translations.vi },
-      en: { ...translations.en },
-    };
-
-    for (const row of rows) {
-      if (!result[row.lang]) result[row.lang] = {};
-      result[row.lang][row.text_key] = row.value_text;
-    }
-
-    const finalData = langParam ? result[langParam] : result;
-    await setApiCacheAsync(cacheKey, finalData);
-    return NextResponse.json({
-      success: true,
-      source: 'mysql',
-      data: finalData,
-    }, { headers: CACHE_HEADERS });
+    const data = await getTextsWithFallback(langParam || undefined);
+    await setApiCacheAsync(cacheKey, data);
+    return NextResponse.json({ success: true, source: 'mysql', data }, { headers: CACHE_HEADERS });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     console.warn('[API /api/texts GET] Fallback to static translations:', message);

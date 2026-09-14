@@ -6,6 +6,7 @@ import CreatorActivitySection from './CreatorActivitySection';
 import CreatorAudienceSection from './CreatorAudienceSection';
 import CreatorContentSection from './CreatorContentSection';
 import CreatorSalesSection from './CreatorSalesSection';
+import CreatorAnalysisNarrative from './CreatorAnalysisNarrative';
 
 interface KamiElyCreatorTabProps {
   isEn: boolean;
@@ -59,6 +60,9 @@ export default function KamiElyCreatorTab({
         openProofScreenshot={openProofScreenshot}
         handleTabChange={handleTabChange}
       />
+
+      {/* STRATEGIC NARRATIVE & RECOMMENDATIONS */}
+      <CreatorAnalysisNarrative isEn={isEn} />
     </div>
   );
 }

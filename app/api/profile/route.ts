@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { RowDataPacket } from 'mysql2';
 import { getDbPool, initDatabase } from '@/app/lib/db';
 import { DEFAULT_PROFILE } from '@/app/defaultData';
 import { ProfileData } from '@/app/types';
 import { verifyAdminRequest } from '@/app/lib/auth';
 import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/app/lib/cache';
 import { sanitizeTextInput, sanitizeUrl } from '@/app/lib/security';
+
+import { getProfileWithFallback } from '@/app/lib/serverData';
 
 const CACHE_HEADERS = {
   'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
@@ -18,63 +19,7 @@ export async function GET() {
       return NextResponse.json({ success: true, source: 'cache', data: cached }, { headers: CACHE_HEADERS });
     }
 
-    const pool = getDbPool();
-    if (!pool) {
-      return NextResponse.json(
-        {
-          success: true,
-          source: 'default',
-          data: DEFAULT_PROFILE,
-          message: 'MySQL pool not configured, returning default static profile.',
-        },
-        { headers: CACHE_HEADERS }
-      );
-    }
-
-    // Try querying profile
-    const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_profile WHERE id = 1 LIMIT 1');
-    if (!rows || rows.length === 0) {
-      // Auto initialize if empty
-      await initDatabase();
-      const [newRows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_profile WHERE id = 1 LIMIT 1');
-      if (newRows && newRows.length > 0) {
-        const row = newRows[0];
-        const profile: ProfileData = {
-          name: row.name,
-          subtitle: row.subtitle,
-          title: row.title,
-          bio: row.bio,
-          careerGoal: row.career_goal,
-          avatarUrl: row.avatar_url,
-          email: row.email,
-          github: row.github,
-          linkedin: row.linkedin,
-          skills: row.skills_json ? JSON.parse(row.skills_json) : DEFAULT_PROFILE.skills,
-          experiences: row.experiences_json ? JSON.parse(row.experiences_json) : DEFAULT_PROFILE.experiences,
-          careerGoalsList: row.career_goals_json ? JSON.parse(row.career_goals_json) : DEFAULT_PROFILE.careerGoalsList,
-        };
-        await setApiCacheAsync('profile', profile);
-        return NextResponse.json({ success: true, source: 'mysql', data: profile }, { headers: CACHE_HEADERS });
-      }
-      return NextResponse.json({ success: true, source: 'default', data: DEFAULT_PROFILE }, { headers: CACHE_HEADERS });
-    }
-
-    const row = rows[0];
-    const profile: ProfileData = {
-      name: row.name,
-      subtitle: row.subtitle,
-      title: row.title,
-      bio: row.bio,
-      careerGoal: row.career_goal,
-      avatarUrl: row.avatar_url,
-      email: row.email,
-      github: row.github,
-      linkedin: row.linkedin,
-      skills: row.skills_json ? (typeof row.skills_json === 'string' ? JSON.parse(row.skills_json) : row.skills_json) : DEFAULT_PROFILE.skills,
-      experiences: row.experiences_json ? (typeof row.experiences_json === 'string' ? JSON.parse(row.experiences_json) : row.experiences_json) : DEFAULT_PROFILE.experiences,
-      careerGoalsList: row.career_goals_json ? (typeof row.career_goals_json === 'string' ? JSON.parse(row.career_goals_json) : row.career_goals_json) : DEFAULT_PROFILE.careerGoalsList,
-    };
-
+    const profile = await getProfileWithFallback();
     await setApiCacheAsync('profile', profile);
     return NextResponse.json({ success: true, source: 'mysql', data: profile }, { headers: CACHE_HEADERS });
   } catch (error: unknown) {

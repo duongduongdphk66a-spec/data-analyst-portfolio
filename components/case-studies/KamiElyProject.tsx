@@ -213,10 +213,10 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
             ? 'Video outperforms Live by 4.48x GPM with high statistical significance (p<0.0001). Summer travel seasonality explains 85% of the post-July drop. Cutting 50% excess live hours and adding shopping carts to 100% of videos optimizes cash flow.'
             : 'Video sinh lời vượt trội 4.48 lần có ý nghĩa thống kê cao (p<0.0001). Chu kỳ mùa vụ du lịch hè lý giải 85% mức sụt giảm. Cắt giảm 50% giờ live dư thừa và phủ 100% giỏ hàng video tối ưu dòng tiền.'}
           metrics={[
-            { label: isEn ? 'Total Population Size' : 'Quy Mô Quần Thể Toàn Thời Gian', value: '238.4k', change: isEn ? '31.6B VND (Since 2022)' : '31.6 Tỷ VNĐ (Từ 2022)', isPositive: true },
-            { label: isEn ? 'Video vs Live GPM Gap' : 'Chênh Lệch GPM Video vs Live', value: '4.48x', change: isEn ? 'Sustained advantage' : 'Ưu thế bền vững', isPositive: true },
-            { label: isEn ? 'Optimal Live Hours' : 'Ngưỡng Giờ Live Hiệu Quả', value: '3.1h', change: isEn ? 'Revenue saturation point' : 'Điểm bão hòa doanh số', isPositive: true },
-            { label: isEn ? 'Decomposition Cycle' : 'Chu Kỳ Phân Rã Dữ Liệu', value: isEn ? '180 Days' : '180 Ngày', change: isEn ? 'Trend & summer seasonality' : 'Xu hướng & Mùa vụ hè', isPositive: true },
+            { label: isEn ? 'Total Ecosystem GMV' : 'Tổng GMV Hệ Sinh Thái', value: isEn ? '31.6B' : '31.6 Tỷ', change: isEn ? '238.4k items' : '238.4k sản phẩm', isPositive: true },
+            { label: isEn ? 'Self-Operated GMV' : 'Kênh Tự Vận Hành', value: isEn ? '9.2B' : '9.2 Tỷ', change: isEn ? '49.3% Shop GMV' : '49.3% GMV shop', isPositive: true },
+            { label: isEn ? 'Video vs Live GPM' : 'Chênh Lệch GPM', value: '4.5x', change: isEn ? '135k vs 30k VND' : '135k vs 30k VNĐ', isPositive: true },
+            { label: isEn ? 'Affiliate Leverage' : 'Mạng Lưới Affiliate', value: '5.7k', change: isEn ? '>95% Nano/Micro KOC' : '>95% DS từ Nano/Micro', isPositive: true },
           ]}
           tools={['Python (scipy.stats & statsmodels)', 'Statistical Analysis', 'Time-Series Modeling', 'Recharts']}
         />

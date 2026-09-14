@@ -157,20 +157,20 @@ describe('Admin Authentication & Rate Limiting Module', () => {
     it('should allow initial attempts', () => {
       const check = checkLoginRateLimit(testIp);
       expect(check.allowed).toBe(true);
-      expect(check.remainingAttempts).toBe(5);
+      expect(check.remainingAttempts).toBe(10);
     });
 
     it('should decrement remaining attempts on failed login', () => {
       const rec1 = recordFailedLogin(testIp);
       expect(rec1.isLocked).toBe(false);
-      expect(rec1.remainingAttempts).toBe(4);
+      expect(rec1.remainingAttempts).toBe(9);
 
       const rec2 = recordFailedLogin(testIp);
-      expect(rec2.remainingAttempts).toBe(3);
+      expect(rec2.remainingAttempts).toBe(8);
     });
 
-    it('should lockout IP after 5 consecutive failures', () => {
-      for (let i = 0; i < 4; i++) {
+    it('should lockout IP after 10 consecutive failures', () => {
+      for (let i = 0; i < 9; i++) {
         recordFailedLogin(testIp);
       }
       const finalAttempt = recordFailedLogin(testIp);
@@ -191,7 +191,7 @@ describe('Admin Authentication & Rate Limiting Module', () => {
 
       const check = checkLoginRateLimit(testIp);
       expect(check.allowed).toBe(true);
-      expect(check.remainingAttempts).toBe(5);
+      expect(check.remainingAttempts).toBe(10);
     });
 
     it('should work with async rate limiter methods', async () => {
@@ -199,12 +199,12 @@ describe('Admin Authentication & Rate Limiting Module', () => {
       expect(asyncCheck1.allowed).toBe(true);
 
       const rec = await recordFailedLoginAsync(testIp);
-      expect(rec.remainingAttempts).toBe(4);
+      expect(rec.remainingAttempts).toBe(9);
 
       await resetLoginAttemptsAsync(testIp);
       const asyncCheck2 = await checkLoginRateLimitAsync(testIp);
       expect(asyncCheck2.allowed).toBe(true);
-      expect(asyncCheck2.remainingAttempts).toBe(5);
+      expect(asyncCheck2.remainingAttempts).toBe(10);
     });
   });
 });

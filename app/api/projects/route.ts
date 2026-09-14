@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { RowDataPacket } from 'mysql2';
 import { getDbPool, initDatabase } from '@/app/lib/db';
 import { DEFAULT_PROJECTS } from '@/app/defaultData';
 import { ProjectData } from '@/app/types';
 import { verifyAdminRequest } from '@/app/lib/auth';
 import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/app/lib/cache';
 import { sanitizeTextInput, sanitizeUrl } from '@/app/lib/security';
+
+import { getProjectsWithFallback } from '@/app/lib/serverData';
 
 const CACHE_HEADERS = {
   'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
@@ -22,37 +23,7 @@ export async function GET() {
       return NextResponse.json({ success: true, source: 'cache', data: cached }, { headers: CACHE_HEADERS });
     }
 
-    const pool = getDbPool();
-    if (!pool) {
-      return NextResponse.json(
-        {
-          success: true,
-          source: 'default',
-          data: DEFAULT_PROJECTS,
-          message: 'MySQL pool not configured, returning static default projects.',
-        },
-        { headers: CACHE_HEADERS }
-      );
-    }
-
-    const [rows] = await pool.query<RowDataPacket[]>(
-      'SELECT * FROM portfolio_projects ORDER BY sort_order ASC, updated_at DESC'
-    );
-
-    if (!rows || rows.length === 0) {
-      await initDatabase();
-      const [newRows] = await pool.query<RowDataPacket[]>(
-        'SELECT * FROM portfolio_projects ORDER BY sort_order ASC, updated_at DESC'
-      );
-      if (newRows && newRows.length > 0) {
-        const projects = mapRowsToProjects(newRows);
-        await setApiCacheAsync('projects', projects);
-        return NextResponse.json({ success: true, source: 'mysql', data: projects }, { headers: CACHE_HEADERS });
-      }
-      return NextResponse.json({ success: true, source: 'default', data: DEFAULT_PROJECTS }, { headers: CACHE_HEADERS });
-    }
-
-    const projects = mapRowsToProjects(rows);
+    const projects = await getProjectsWithFallback();
     await setApiCacheAsync('projects', projects);
     return NextResponse.json({ success: true, source: 'mysql', data: projects }, { headers: CACHE_HEADERS });
   } catch (error: unknown) {
@@ -228,59 +199,4 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-function mapRowsToProjects(rows: RowDataPacket[]): ProjectData[] {
-  // Tìm default project mapping để giữ content/metrics nếu chưa có trong DB
-  const defaultMap = new Map(DEFAULT_PROJECTS.map((p) => [p.id, p]));
-
-  return rows.map((row) => {
-    const defaultProj = defaultMap.get(row.id);
-    let tags: string[] = [];
-    try {
-      tags = row.tags_json
-        ? typeof row.tags_json === 'string'
-          ? JSON.parse(row.tags_json)
-          : row.tags_json
-        : defaultProj?.tags || [];
-    } catch {
-      tags = defaultProj?.tags || [];
-    }
-
-    let metrics = defaultProj?.metrics;
-    if (row.metrics_json) {
-      try {
-        metrics = typeof row.metrics_json === 'string' ? JSON.parse(row.metrics_json) : row.metrics_json;
-      } catch {
-        metrics = defaultProj?.metrics;
-      }
-    }
-
-    let tools = defaultProj?.tools;
-    if (row.tools_json) {
-      try {
-        tools = typeof row.tools_json === 'string' ? JSON.parse(row.tools_json) : row.tools_json;
-      } catch {
-        tools = defaultProj?.tools;
-      }
-    }
-
-    return {
-      id: row.id,
-      title: row.title,
-      desc: row.desc_text,
-      tags,
-      img: row.img || defaultProj?.img || '',
-      demoUrl: row.demo_url || defaultProj?.demoUrl,
-      githubUrl: row.github_url || defaultProj?.githubUrl,
-      embedUrl: row.embed_url || defaultProj?.embedUrl,
-      featured: Boolean(row.featured),
-      content: row.content || defaultProj?.content,
-      metrics,
-      tools,
-      problem: row.problem || defaultProj?.problem,
-      method: row.method || defaultProj?.method,
-      insight: row.insight || defaultProj?.insight,
-    };
-  });
 }

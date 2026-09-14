@@ -97,16 +97,6 @@ export default function KamiElyTabsNav({
         </div>
         
         <div className="flex items-center gap-2">
-          {/* Open FastMoss Proof Screenshots Modal */}
-          <button
-            onClick={onOpenProofModal}
-            className="px-3 py-1.5 rounded-xl bg-white border border-[#9BE7FA] hover:border-[#074553] text-slate-800 text-xs font-black transition-all shadow-xs flex items-center gap-1.5 cursor-pointer dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:border-[#9BE7FA]"
-            title={isEn ? 'Inspect 36 authentic FastMoss source screenshots' : 'Xem 36 ảnh chụp màn hình gốc FastMoss'}
-          >
-            <ImageIcon className="w-3.5 h-3.5 text-[#074553] dark:text-[#9BE7FA]" />
-            <span className="hidden sm:inline">{isEn ? 'FastMoss Proof' : 'Minh Chứng FastMoss'}</span>
-            <span className="px-1.5 py-0.5 rounded-full bg-[#FFE485] text-slate-950 text-[10px] font-black">36</span>
-          </button>
 
           {/* Open Standalone Page if Embedded */}
           {isEmbedded && (

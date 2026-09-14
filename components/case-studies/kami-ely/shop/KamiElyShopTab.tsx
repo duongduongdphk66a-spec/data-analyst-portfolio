@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ShopOverviewSection from './ShopOverviewSection';
 import ShopSalesSection from './ShopSalesSection';
 import ShopCatalogPricingSection from './ShopCatalogPricingSection';
 import ShopAffiliateSection from './ShopAffiliateSection';
 import ShopLiveVideoSection from './ShopLiveVideoSection';
+import ShopAnalysisNarrative from './ShopAnalysisNarrative';
 
 interface KamiElyShopTabProps {
   isEn: boolean;
@@ -54,6 +55,23 @@ export default function KamiElyShopTab({
   affCatMetric,
   setAffCatMetric
 }: KamiElyShopTabProps) {
+  const [dynamicData, setDynamicData] = useState<{ weeklyTrends?: any[]; topSkus?: any[]; topAffiliates?: any[] } | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    fetch('/api/case-studies/kami-ely')
+      .then((r) => r.json())
+      .then((res) => {
+        if (active && res.success && res.data) {
+          setDynamicData(res.data);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <div className="space-y-16">
       <ShopOverviewSection
@@ -81,6 +99,7 @@ export default function KamiElyShopTab({
         setChannelMetric={setChannelMetric}
         contentMetric={contentMetric}
         setContentMetric={setContentMetric}
+        weeklyTrendData={dynamicData?.weeklyTrends}
       />
 
       <ShopCatalogPricingSection
@@ -119,6 +138,9 @@ export default function KamiElyShopTab({
         openProofScreenshot={openProofScreenshot}
         handleTabChange={handleTabChange}
       />
+
+      {/* STRATEGIC NARRATIVE & RECOMMENDATIONS */}
+      <ShopAnalysisNarrative isEn={isEn} />
     </div>
   );
 }

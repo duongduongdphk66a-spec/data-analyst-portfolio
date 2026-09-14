@@ -104,14 +104,18 @@ export default function CreatorAudienceSection({
               <BarChart data={creatorDemographics.locations} layout="vertical" margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#E2E8F0" />
                 <XAxis type="number" stroke="#64748B" fontSize={11} tickLine={false} />
-                <YAxis dataKey="city" type="category" stroke="#64748B" fontSize={11} tickLine={false} width={100} />
-                <Tooltip formatter={(v) => [`${v}%`, 'Tỷ trọng']} />
-                <Bar dataKey="value" fill="#FFD14C" radius={[0, 6, 6, 0]} barSize={20} />
+                <YAxis dataKey={isEn ? "cityEn" : "city"} type="category" stroke="#64748B" fontSize={11} tickLine={false} width={100} />
+                <Tooltip formatter={(v) => [`${v}%`, isEn ? 'Share' : 'Tỷ trọng']} />
+                <Bar dataKey="value" fill="#FFD14C" radius={[0, 6, 6, 0]} barSize={16} />
               </BarChart>
             </ResponsiveContainer>
           </div>
           <div className="text-center text-xs text-slate-600 dark:text-slate-400 font-bold">
-            <b>TP. Hồ Chí Minh</b> dẫn đầu tuyệt đối với <b>41%</b> người theo dõi
+            {isEn ? (
+              <><b>TP. Hồ Chí Minh & Hanoi</b> co-lead with <b>41%</b> each (82% total followers)</>
+            ) : (
+              <><b>TP. Hồ Chí Minh & Hà Nội</b> đồng dẫn đầu với <b>41%</b> mỗi nơi (chiếm 82% người theo dõi)</>
+            )}
           </div>
         </div>
       </div>

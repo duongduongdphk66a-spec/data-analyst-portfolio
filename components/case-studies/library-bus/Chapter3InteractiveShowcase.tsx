@@ -94,7 +94,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
                 <span>Interactive Architecture Graph (7 Apps, Models & Foreign Keys)</span>
               </div>
               <a
-                href="/projects/library-bus/architecture"
+                href="/library-bus/architecture-graph.html"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs dark:bg-slate-700 dark:text-white dark:border-slate-600"
@@ -105,7 +105,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
             </div>
             <div className="w-full h-[650px] bg-slate-50 dark:bg-slate-950">
               <iframe
-                src="/projects/library-bus/architecture"
+                src="/library-bus/architecture-graph.html"
                 title="Library Bus Architecture Graph"
                 className="w-full h-full border-0"
               />
@@ -122,7 +122,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
                 <span>Concentric Architecture Radar: Bản đồ Vòng Tròn Đồng Tâm</span>
               </div>
               <a
-                href="/projects/library-bus/dashboard"
+                href="/library-bus/understand_dashboard.html"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs dark:bg-slate-700 dark:text-white dark:border-slate-600"
@@ -133,7 +133,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
             </div>
             <div className="w-full h-[650px] bg-slate-50 dark:bg-slate-950">
               <iframe
-                src="/projects/library-bus/dashboard"
+                src="/library-bus/understand_dashboard.html"
                 title="Library Bus Concentric Radar"
                 className="w-full h-full border-0"
               />
@@ -150,7 +150,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
                 <span>30-Slide Project Presentation Deck (Research, Architecture & Data Spec)</span>
               </div>
               <a
-                href="/projects/library-bus/presentation"
+                href="/library-bus/presentation.html"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs dark:bg-slate-700 dark:text-white dark:border-slate-600"
@@ -161,7 +161,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
             </div>
             <div className="w-full h-[650px] bg-slate-50 dark:bg-slate-950">
               <iframe
-                src="/projects/library-bus/presentation"
+                src="/library-bus/presentation.html"
                 title="Library Bus 30-Slide Presentation"
                 className="w-full h-full border-0"
               />
