@@ -7,7 +7,7 @@ import { useLanguage } from '@/app/context/LanguageContext';
 import { trackVisitorAction } from '@/app/lib/visitorTracking';
 import { scrollToSection, centerTabInContainer, useCaseStudyActions } from '@/app/lib/uiHelpers';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
-import ExecutiveSummary from './ExecutiveSummary';
+
 import {
   fastmossScreenshotsManifest,
   FastMossScreenshotItem,
@@ -199,27 +199,6 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
 
       {/* BODY CONTENT AREA */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        {/* Executive Summary — 60-second overview */}
-        <ExecutiveSummary
-          isEn={isEn}
-          readingTime={isEn ? '~3 min deep dive' : '~3 phút đọc chi tiết'}
-          problem={isEn
-            ? 'Resource allocation paradox: Live channel consumes most broadcast hours but yields only 30.2k VND GPM, while Short-video achieves 135.2k VND. Need to isolate whether the Aug-Sep revenue dip is seasonal or operational.'
-            : 'Nghịch lý phân bổ tài nguyên: Kênh Live chiếm đa số thời lượng nhưng chỉ đạt GPM 30,2k VNĐ, trong khi Short-video đạt 135,2k VNĐ. Cần bóc tách sụt giảm doanh số tháng 8-9 do mùa vụ hay lỗi vận hành.'}
-          method={isEn
-            ? 'Compare 551 video vs 470 live sessions (independent samples), model saturation curves to find optimal live duration (~3.1h/day), and decompose 180-day time series into Trend + Seasonality + Residual components.'
-            : 'So sánh 2 nhóm mẫu độc lập (551 video và 470 phiên live), mô hình hóa đường cong hiệu suất xác định điểm bão hòa ~3.1h/ngày, và phân rã 3 thành phần chuỗi thời gian 180 ngày.'}
-          insight={isEn
-            ? 'Video outperforms Live by 4.48x GPM with high statistical significance (p<0.0001). Summer travel seasonality explains 85% of the post-July drop. Cutting 50% excess live hours and adding shopping carts to 100% of videos optimizes cash flow.'
-            : 'Video sinh lời vượt trội 4.48 lần có ý nghĩa thống kê cao (p<0.0001). Chu kỳ mùa vụ du lịch hè lý giải 85% mức sụt giảm. Cắt giảm 50% giờ live dư thừa và phủ 100% giỏ hàng video tối ưu dòng tiền.'}
-          metrics={[
-            { label: isEn ? 'Total Ecosystem GMV' : 'Tổng GMV Hệ Sinh Thái', value: isEn ? '31.6B' : '31.6 Tỷ', change: isEn ? '238.4k items' : '238.4k sản phẩm', isPositive: true },
-            { label: isEn ? 'Self-Operated GMV' : 'Kênh Tự Vận Hành', value: isEn ? '9.2B' : '9.2 Tỷ', change: isEn ? '49.3% Shop GMV' : '49.3% GMV shop', isPositive: true },
-            { label: isEn ? 'Video vs Live GPM' : 'Chênh Lệch GPM', value: '4.5x', change: isEn ? '135k vs 30k VND' : '135k vs 30k VNĐ', isPositive: true },
-            { label: isEn ? 'Affiliate Leverage' : 'Mạng Lưới Affiliate', value: '5.7k', change: isEn ? '>95% Nano/Micro KOC' : '>95% DS từ Nano/Micro', isPositive: true },
-          ]}
-          tools={['Python (scipy.stats & statsmodels)', 'Statistical Analysis', 'Time-Series Modeling', 'Recharts']}
-        />
         {/* TAB 1: KHOA HỌC DỮ LIỆU */}
         {activeTab === 'science' && (
           <div className="space-y-12">

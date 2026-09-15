@@ -27,8 +27,8 @@ export default function ScienceEdaSection({ isEn, handleExport }: ScienceEdaSect
         </h2>
         <p className="editorial-lead text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-4xl">
           {isEn
-            ? 'Raw e-commerce revenue exhibits severe right-skewness. We apply statistical outlier filtering to isolate extreme promotions and contrast Mean against Median to establish true baseline performance.'
-            : 'Doanh thu thương mại điện tử thực tế có độ biến động rất mạnh và lệch phải. Ứng dụng phương pháp lọc độ lệch chuẩn để cô lập các phiên bán hàng bùng nổ cực đoan và so sánh Trung bình với Trung vị nhằm định vị chuẩn xác hiệu suất thông thường.'}
+            ? 'Revenue data is highly right-skewed. We filter outliers to separate extreme promotions and use the Median to find everyday performance.'
+            : 'Doanh thu thực tế thường lệch phải. Chúng tôi lọc độ lệch chuẩn để tách các phiên đột biến và dùng Trung vị để đo lường hiệu suất hàng ngày.'}
         </p>
       </div>
 
@@ -45,8 +45,8 @@ export default function ScienceEdaSection({ isEn, handleExport }: ScienceEdaSect
         </div>
         <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
           {isEn
-            ? 'To evaluate true everyday shop performance, revenue spikes that diverge more than 3 standard deviations from the population average are isolated. This prevents anomalous Mega Live campaigns from distorting long-term trend lines.'
-            : 'Để đánh giá đúng năng lực bán hàng nền tảng, các ngày có doanh số vượt quá 3 lần độ lệch chuẩn khỏi mức trung bình (như phiên Mega Live 16/06 đạt 315 Triệu VNĐ) được tách riêng, tránh làm lệch giá trị trung bình khi lập kế hoạch phân bổ nguồn lực.'}
+            ? 'We isolate revenue spikes greater than 3 standard deviations. This stops rare Mega Live campaigns from distorting the everyday performance average.'
+            : 'Chúng tôi tách các ngày có doanh số vượt 3 độ lệch chuẩn (như phiên 16/06 đạt 315 Triệu). Điều này giúp Mega Live không làm sai lệch mức trung bình.'}
         </p>
       </div>
 
@@ -104,7 +104,7 @@ export default function ScienceEdaSection({ isEn, handleExport }: ScienceEdaSect
         <div className="flex flex-wrap items-center gap-3 rounded-xl bg-amber-500/10 p-3 text-xs text-amber-800 dark:text-amber-300">
           <AlertTriangle className="h-4 w-4 shrink-0 text-amber-500" />
           <span>
-            <strong>Insight Phân Tích:</strong> Phiên Mega Live 16/06 tạo doanh thu 315 Triệu VNĐ đã kéo giá trị trung bình cả tuần lên cao bất thường. Để đánh giá đúng năng lực nền tảng, việc đánh giá vận hành cần bóc tách các điểm dị biệt này hoặc sử dụng Trung vị.
+            <strong>Insight Phân Tích:</strong> Phiên Mega Live 16/06 (315 Triệu) đã làm tăng vọt mức trung bình tuần. Cần tách các điểm dị biệt này hoặc dùng Trung vị để đánh giá đúng năng lực bán hàng.
           </span>
         </div>
       </div>
@@ -153,8 +153,8 @@ export default function ScienceEdaSection({ isEn, handleExport }: ScienceEdaSect
 
         <p className="text-xs text-slate-500 dark:text-slate-400">
           {isEn
-            ? 'Over 72.4% of live sessions generate under 5 Million VND. The median (4.51M) represents the true baseline output of a normal live stream, while the mean is inflated more than 3.3x by rare mega sales.'
-            : 'Hơn 72.4% số phiên live chỉ đạt doanh thu dưới 5 Triệu VNĐ. Giá trị Trung vị (4,51 Triệu VNĐ) phản ánh chính xác hiệu suất thực tế của một ca live bình thường, trong khi giá trị Trung bình (14,85 Triệu VNĐ) bị phóng đại gấp hơn 3.3 lần do một số ít phiên bùng nổ.'}
+            ? 'Over 72.4% of live sessions make under 5M VND. The median (4.51M) shows normal performance, while rare mega sales inflate the mean by 3.3x.'
+            : 'Hơn 72.4% phiên live đạt dưới 5 Triệu. Trung vị (4,51 Triệu) phản ánh đúng một phiên bình thường, trong khi các phiên bùng nổ làm mức Trung bình tăng gấp 3.3 lần.'}
         </p>
       </div>
     </section>

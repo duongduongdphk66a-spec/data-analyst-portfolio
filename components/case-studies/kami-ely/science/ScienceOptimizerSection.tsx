@@ -39,8 +39,8 @@ export default function ScienceOptimizerSection({
         </h2>
         <p className="editorial-lead text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-4xl">
           {isEn
-            ? 'Turning analytical insights into high-impact executive actions: reducing live streaming hours past the plateau threshold to fund shoppable video expansion, and concentrating ad spend on Top 5% Hero SKUs.'
-            : 'Chuyển hóa các phân tích thành quyết định kinh doanh cụ thể: cắt giảm 50% thời lượng Live vượt ngưỡng hiệu quả, tái phân bổ nguồn lực sang sản xuất video gắn giỏ hàng và dồn 80% ngân sách vào các Hero SKU bán chạy nhất.'}
+            ? 'Action plan: reduce ineffective Live hours, shift resources to shoppable videos, and concentrate 80% ad spend on Hero SKUs.'
+            : 'Hành động: giảm thời lượng Live kém hiệu quả, tập trung nguồn lực vào video và dồn 80% ngân sách quảng cáo cho Hero SKU.'}
         </p>
       </div>
 
@@ -153,7 +153,7 @@ export default function ScienceOptimizerSection({
             <p className="text-xs text-slate-500">
               {isEn
                 ? 'Focusing ad spend and creator seeding on Top 5% Hero SKUs, while eliminating zero-order Dead Stock.'
-                : 'Dồn 80% ngân sách quảng cáo và gửi mẫu creator vào các Hero SKU dẫn đầu sản lượng; giải phóng hàng tồn không phát sinh đơn.'}
+                : 'Tập trung 80% ngân sách cho nhóm Hero SKU dẫn đầu; giải phóng ngay hàng tồn kho không sinh đơn.'}
             </p>
           </div>
           <div className="flex items-center gap-3">

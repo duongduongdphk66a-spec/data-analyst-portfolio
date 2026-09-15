@@ -317,8 +317,8 @@ export default function ShopLiveVideoSection({
               </div>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
                 {isEn 
-                  ? '3.0B VND GMV generated in-house eliminates typical 15-20% third-party creator commissions, preserving cash flow for R&D and flash sales.' 
-                  : '3,0 Tỷ đ doanh số đến từ kênh tự vận hành giúp shop tiết kiệm 15-20% phí hoa hồng so với KOC ngoài, bảo toàn dòng tiền để tái đầu tư vào mẫu mã và flash sale.'}
+                  ? '3.0B VND GMV generated in-house saves 15-20% in creator commissions, preserving cash flow for R&D and flash sales.' 
+                  : 'Doanh số 3 tỷ từ kênh nhà giúp tiết kiệm 15-20% hoa hồng KOC, giữ lại dòng tiền cho mẫu mới và flash sale.'}
               </p>
             </div>
             <div className="p-5 rounded-2xl bg-white border border-slate-200 border-l-4 border-l-[#FFD14C] shadow-xs space-y-2 dark:bg-slate-950 dark:border-slate-800 dark:border-l-[#FFD14C]">
@@ -328,8 +328,8 @@ export default function ShopLiveVideoSection({
               </div>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
                 {isEn 
-                  ? '147 videos and 208 lives continuously funnel 34.3M creator views straight into shop product carts without paid customer acquisition costs.' 
-                  : '147 video và 208 phiên live điều hướng liên tục 34.3M lượt xem của kênh vào giỏ hàng shop với chi phí CAC gần như bằng 0 cho tệp organic.'}
+                  ? '147 videos and 208 live sessions funnel 34.3M organic views directly into sales without paid ads.' 
+                  : '147 video và 208 phiên live đã chuyển 34.3M lượt xem trực tiếp thành đơn hàng mà không tốn chi phí quảng cáo.'}
               </p>
             </div>
             <div className="p-5 rounded-2xl bg-white border border-slate-200 border-l-4 border-l-[#0D7287] shadow-xs space-y-2 dark:bg-slate-950 dark:border-slate-800 dark:border-l-[#9BE7FA]">
@@ -339,8 +339,8 @@ export default function ShopLiveVideoSection({
               </div>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
                 {isEn 
-                  ? 'Direct host ownership guarantees accurate product sizing, fabric consultation, and rapid feedback loops between buyers and warehouse.' 
-                  : 'Chủ kênh trực tiếp live giúp tư vấn đúng size số, chất liệu bikini/đồ bơi, hạn chế tối đa tỷ lệ hoàn hàng và tạo phản hồi tức thì về xưởng.'}
+                  ? 'Direct host ownership ensures accurate sizing and fabric advice, reducing returns and enabling fast feedback to the warehouse.' 
+                  : 'Việc tự live giúp shop tư vấn chuẩn size và chất liệu, giảm tỷ lệ hoàn hàng và dễ phản hồi với xưởng.'}
               </p>
             </div>
           </div>
@@ -362,8 +362,8 @@ export default function ShopLiveVideoSection({
             </h3>
             <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
               {isEn
-                ? 'Analyze creator audience demographics, video conversion rates, 208 live sessions, and 9.2B VND career commercial capacity.'
-                : 'Xem chân dung nhân khẩu học khán giả, tỷ lệ tương tác đỉnh 0.74%, dữ liệu 208 phiên live và năng lực thương mại 9,2 Tỷ đ của founder & anchor host.'}
+                ? 'Analyze audience demographics, video conversion rates, 208 live sessions, and the 9.2B VND commercial capacity of the host.'
+                : 'Khám phá nhân khẩu học khán giả, tỷ lệ chuyển đổi video, 208 phiên live và năng lực bán hàng 9,2 tỷ của host.'}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">

@@ -47,7 +47,7 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
           <span>3.1. Sự phát triển nhìn từ tiêu chí Hiệu quả du lịch (Quantitative Analytics)</span>
         </h3>
         <p className="text-sm sm:text-base text-slate-700 mt-2 leading-relaxed dark:text-slate-300">
-          Sau khi Chương trình hành động 2013 được triển khai, các chỉ số hiệu quả du lịch tại Nhật Bản và hai trung tâm di sản hàng đầu là <strong>Thành phố Kyoto</strong> và <strong>Cố đô Nara</strong> đã có bước tăng trưởng nhảy vọt cả về quy mô lượng khách lẫn tổng mức chi tiêu.
+          Chương trình 2013 giúp du lịch Nhật Bản, <strong>Kyoto</strong> và <strong>Nara</strong> tăng trưởng nhảy vọt lượng khách và chi tiêu.
         </p>
       </div>
 
@@ -234,17 +234,17 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
           </div>
           {volumeChartId === '3.1' && (
             <p>
-              Lượng khách quốc tế đến Nhật Bản trước năm 2013 dao động ổn định trong khoảng 6 đến 8 triệu. Nhờ Chương trình hành động quốc gia 2013, con số này tăng phi mã, chạm 19.7 triệu (2015) và đạt đỉnh 31.9 triệu (2019). Sau giai đoạn gián đoạn 2020–2021, du lịch Nhật phục hồi thần tốc: năm 2023 đạt 25.1 triệu lượt và năm 2024 chính thức thiết lập <strong>kỷ lục lịch sử mới với 36.9 triệu lượt khách</strong> (tăng +47.1% so với 2023 và vượt đỉnh năm 2019 tới 5 triệu lượt theo JNTO).
+              Lượng khách tăng vọt sau 2013, lập <strong>kỷ lục 36.9 triệu lượt vào 2024</strong>, phục hồi sau đại dịch.
             </p>
           )}
           {volumeChartId === '3.2' && (
             <p>
-              Tại Thành phố Kyoto, lượng khách nước ngoài lưu trú trước 2013 dưới 1 triệu người. Giai đoạn 2013–2019 bùng nổ lên 4.5 triệu lượt. Sau đại dịch, lượng khách hồi phục ngoạn mục: năm 2023 đạt 5.36 triệu lượt và năm 2024 bứt phá lên mức kỷ lục <strong>8.21 triệu lượt khách quốc tế</strong>, lần đầu tiên vượt qua lượng khách nội địa (8.09 triệu) và chiếm 50.4% tổng lượng khách lưu trú tại cố đô (theo DMO KYOTO).
+              Năm 2024 lập kỷ lục <strong>8.21 triệu khách quốc tế</strong>, lần đầu vượt khách nội địa (theo DMO KYOTO).
             </p>
           )}
           {volumeChartId === '3.3' && (
             <p>
-              Cố đô Nara ghi nhận tốc độ tăng trưởng hàng năm phi thường từ 174 nghìn lượt (2011) lên 3.3 triệu lượt (2019). Hậu đại dịch, lượng khách quốc tế phục hồi mạnh mẽ: năm 2023 đón 2.58 triệu lượt và năm 2024 đạt <strong>3.14 triệu lượt khách</strong> (xếp thứ 7 trong 47 tỉnh thành Nhật Bản theo Cục Du lịch Tỉnh Nara).
+              Khách đến Nara tăng mạnh. Năm 2024 đạt <strong>3.14 triệu lượt khách</strong>, phục hồi mạnh mẽ sau đại dịch.
             </p>
           )}
 
@@ -427,17 +427,17 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
           </div>
           {revenueChartId === '3.4' && (
             <p>
-              Tổng chi tiêu du lịch của khách quốc tế tại Nhật Bản tăng từ 1.41 nghìn tỷ Yên (2013) lên 4.81 nghìn tỷ Yên (2019). Giai đoạn hậu đại dịch bùng nổ mạnh mẽ nhờ tỷ giá đồng Yên thuận lợi và sự phục hồi toàn diện: năm 2023 đạt 5.31 nghìn tỷ Yên và năm 2024 chính thức xác lập <strong>kỷ lục lịch sử mọi thời đại 8.14 nghìn tỷ Yên</strong> (tăng gấp 5.8 lần so với 2013 và tăng +69.2% so với đỉnh 2019 theo Tổng cục Du lịch Nhật Bản 観光庁).
+              Chi tiêu du lịch bùng nổ. Năm 2024 đạt <strong>kỷ lục 8.14 nghìn tỷ Yên</strong>, gấp 5.8 lần năm 2013.
             </p>
           )}
           {revenueChartId === '3.5' && (
             <p>
-              Doanh thu du lịch tại Kyoto tăng trưởng bền bỉ từ 601 tỷ Yên (2008) lên 1.308 tỷ Yên (2019). Sau đại dịch, chi tiêu tại cố đô hồi phục ngoạn mục lên 1.537 tỷ Yên (2023) và lập đỉnh lịch sử <strong>1.908 tỷ Yên</strong> vào năm 2024, tạo hiệu quả kinh tế lan tỏa lên tới 2.989 tỷ Yên cho toàn thành phố.
+              Doanh thu du lịch Kyoto hồi phục ngoạn mục, đạt <strong>kỷ lục 1.908 tỷ Yên</strong> vào 2024.
             </p>
           )}
           {revenueChartId === '3.6' && (
             <p>
-              Tại Cố đô Nara, tổng chi tiêu du lịch tăng từ 872 tỷ Yên (2013) lên 1.208 tỷ Yên (2018). Hậu đại dịch, chi tiêu tại Nara bứt phá đạt 1.807 tỷ Yên (2023) và lập kỷ lục lịch sử mới <strong>2.060 tỷ Yên</strong> vào năm 2024 (tăng +14.0% so với mức đỉnh 2019 theo Cục Du lịch Tỉnh Nara).
+              Chi tiêu tại Nara bứt phá sau đại dịch, đạt <strong>kỷ lục 2.060 tỷ Yên</strong> năm 2024.
             </p>
           )}
 

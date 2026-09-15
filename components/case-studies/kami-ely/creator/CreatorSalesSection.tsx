@@ -159,7 +159,7 @@ export default function CreatorSalesSection({
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pt-1 border-t border-slate-100 dark:border-slate-800">
               {isEn 
                 ? 'The core revenue engine. Live sessions achieve highest conversion by letting viewers see bikini fitting on-screen with real-time size recommendations.' 
-                : 'Cỗ máy chốt đơn chủ lực. Livestream đạt tỷ lệ chuyển đổi vượt trội nhờ người xem được nhìn trực tiếp form dáng bikini trên mẫu thật và tư vấn size trực tiếp.'}
+                : 'Kênh chốt đơn chủ lực. Livestream tỷ lệ chuyển đổi cao do người xem nhìn trực tiếp form dáng trên mẫu thật và được tư vấn size.'}
             </p>
           </div>
 
@@ -181,7 +181,7 @@ export default function CreatorSalesSection({
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pt-1 border-t border-slate-100 dark:border-slate-800">
               {isEn 
                 ? 'Top-of-funnel brand amplifier. 6.6M views generate continuous organic discovery and long-tail purchases even when creator is offline.' 
-                : 'Phễu lan tỏa thương hiệu đỉnh cao. 6.6M lượt xem tạo dòng khám phá tự nhiên liên tục và kích thích mua sắm đuôi dài (long-tail) ngay cả khi không live.'}
+                : 'Phễu lan tỏa thương hiệu. 6.6M lượt xem tạo dòng traffic tự nhiên và đem lại doanh số ổn định ngay cả khi không live.'}
             </p>
           </div>
 
@@ -203,7 +203,7 @@ export default function CreatorSalesSection({
             <p className="text-xs text-slate-500 leading-relaxed pt-1 border-t border-slate-100 dark:border-slate-800">
               {isEn 
                 ? 'Showcase tab is entirely unmonetized. Creator focuses 100% of commercial attention on dynamic interactive channels (Live & Shoppable Video).' 
-                : 'Kênh tủ trưng bày không phát sinh doanh thu. Toàn bộ năng lực thương mại tập trung 100% vào kênh tương tác động (Livestream và Shoppable Video).'}
+                : 'Tủ trưng bày không phát sinh doanh thu. 100% tài nguyên tập trung vào các kênh tương tác (Livestream và Video).'}
             </p>
           </div>
         </div>
@@ -307,7 +307,7 @@ export default function CreatorSalesSection({
                 Ngành <strong>Thể thao & Hoạt động ngoài trời (Sports & Outdoor)</strong> chiếm áp đảo tuyệt đối với <strong>98.92% GMV (5,7 Tỷ đ)</strong> và <strong>99.07% sản lượng (39.0k SP)</strong>.
               </p>
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                Creator tập trung 100% chuyên sâu vào trang phục bơi lội, bikini và phụ kiện biển thay vì phân tán đa ngành, biến kênh thành điểm đến số 1 cho người tiêu dùng tìm kiếm đồ bơi chất lượng cao.
+                Creator chỉ tập trung vào đồ bơi và phụ kiện biển, đưa kênh thành lựa chọn số 1 cho người mua tìm kiếm đồ bơi chất lượng.
               </p>
             </div>
           </div>
@@ -428,8 +428,8 @@ export default function CreatorSalesSection({
               </div>
               <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 max-w-2xl leading-relaxed font-medium">
                 {isEn 
-                  ? 'Out of 9.2B VND total career commercial GMV, 9.1B VND is exclusively concentrated in Kami Ely. This indisputably proves that @kamielyhn is NOT a general affiliate reseller, but the dedicated brand owner & anchor creator driving the entire Kami Ely e-commerce ecosystem.' 
-                  : 'Trong tổng số 9,2 Tỷ đ GMV thương mại toàn thời gian, có tới 9,1 Tỷ đ tập trung trọn vẹn cho Kami Ely. Dữ liệu này chứng minh một cách không thể bàn cãi rằng @kamielyhn KHÔNG PHẢI là một affiliate bán rong đa nhãn hàng, mà chính là linh hồn và chủ nhân thương hiệu của toàn bộ hệ sinh thái Kami Ely.'}
+                  ? 'Out of 9.2B VND total GMV, 9.1B is exclusively generated for Kami Ely. This proves @kamielyhn is the core brand owner, not just a general affiliate reseller.' 
+                  : 'Trong 9,2 Tỷ GMV, có tới 9,1 Tỷ đến từ Kami Ely. Điều này khẳng định @kamielyhn là chủ thương hiệu đích thực, không phải một KOC làm affiliate thông thường.'}
               </p>
             </div>
             <div className="p-4 rounded-2xl bg-white border border-[#FFD14C] text-center shrink-0 w-full md:w-48 shadow-xs dark:bg-slate-950">
@@ -456,7 +456,7 @@ export default function CreatorSalesSection({
             <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
               {isEn
                 ? 'Mathematical validation, Tukey IQR outlier detection, Welch t-test on GPM, Polynomial regression on LIVE fatigue, STL seasonality, and linear programming.'
-                : 'Kiểm định toán học, lọc dị biệt Tukey IQR, kiểm định giả thuyết Welch t-test về GPM Video vs LIVE, hồi quy đa thức bậc 2 điểm bão hòa LIVE và tối ưu hóa phân bổ dòng tiền.'}
+                : 'Kiểm định toán học, lọc dị biệt Tukey IQR, Welch t-test, hồi quy đa thức đo điểm bão hòa LIVE và bài toán tối ưu phân bổ dòng tiền.'}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">

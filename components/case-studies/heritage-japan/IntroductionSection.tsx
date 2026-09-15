@@ -29,10 +29,10 @@ export function IntroductionSection({ isEn, onCopyDeepLink }: IntroductionSectio
               <span>{isEn ? '1. Research Rationale' : '1. Lý do nghiên cứu'}</span>
             </h3>
             <p>
-              Bước vào thế kỷ 21, du lịch di sản (Heritage Tourism) đã vươn lên thành một trong những phân khúc phát triển bùng nổ nhất của ngành du lịch toàn cầu, chiếm hơn 40% lượng du khách quốc tế theo số liệu của Tổ chức Du lịch Thế giới. Đối với Nhật Bản, sau giai đoạn trì trệ kinh tế kéo dài cùng biến cố động đất sóng thần năm 2011, chính phủ đã xác định du lịch là trụ cột kinh tế chiến lược nhằm hồi sinh các vùng địa phương và nâng cao vị thế quốc gia.
+              Du lịch di sản đang bùng nổ, chiếm hơn 40% khách quốc tế. Tại Nhật Bản, du lịch trở thành trụ cột kinh tế chiến lược giúp phục hồi sau thảm họa 2011 và vực dậy các địa phương.
             </p>
             <p>
-              Mốc năm <strong>2013</strong> mang tính bước ngoặt lịch sử: Chính phủ Nhật Bản ban hành <em>"Chương trình hành động hướng tới quốc gia du lịch"</em> (観光立国実現に向けたアクション・プログラム), đồng thời Tokyo giành quyền đăng cai Thế vận hội Olympic 2020 và Núi Phú Sĩ chính thức được UNESCO công nhận là Di sản Thế giới. Sự kết hợp giữa chính sách mở cửa visa, mở rộng đường bay và chiến lược quảng bá thương hiệu quốc gia đã tạo ra làn sóng tăng trưởng chưa từng có. Nghiên cứu kinh nghiệm quản trị, cân bằng giữa phát triển du lịch di sản với bảo tồn nguyên vẹn các giá trị văn hóa của Nhật Bản đem lại những hàm ý và bài học quý giá cho các quốc gia đang phát triển như Việt Nam.
+              Năm <strong>2013</strong> là bước ngoặt khi Nhật Bản ban hành <em>'Chương trình hành động hướng tới quốc gia du lịch'</em>. Việc mở cửa visa, mở đường bay và quảng bá thương hiệu tạo ra sự tăng trưởng chưa từng có, mang lại bài học quý giá cho Việt Nam về cân bằng giữa bảo tồn và phát triển.
             </p>
           </div>
 
@@ -49,7 +49,7 @@ export function IntroductionSection({ isEn, onCopyDeepLink }: IntroductionSectio
                   <span>2.1 Mục đích nghiên cứu</span>
                 </h4>
                 <p className="text-sm leading-relaxed">
-                  Khảo sát, phân tích toàn diện quá trình phát triển của du lịch di sản tại Nhật Bản giai đoạn 2013 đến nay dưới hai tiêu chí then chốt: <strong>Hiệu quả du lịch</strong> (lượng khách, chi tiêu, GDP, việc làm) và <strong>Công tác bảo tồn - quản lý di sản</strong> (quá tải du lịch, thương mại hóa, bảo vệ môi trường).
+                  Phân tích quá trình phát triển du lịch di sản Nhật Bản từ 2013 dựa trên hai tiêu chí: <strong>Hiệu quả du lịch</strong> (lượng khách, chi tiêu) và <strong>Bảo tồn di sản</strong> (quản lý quá tải, môi trường).
                 </p>
               </div>
 
@@ -75,7 +75,7 @@ export function IntroductionSection({ isEn, onCopyDeepLink }: IntroductionSectio
                 <span>3. Nhiệm vụ nghiên cứu & 4. Phạm vi</span>
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
-                Hệ thống hóa cơ sở lý luận về du lịch di sản; thu thập và phân tích chuỗi dữ liệu thống kê khách du lịch, doanh thu tại Nhật Bản và các di sản trọng điểm (Kyoto, Nara, Shirakawa-go, Núi Phú Sĩ, Đền Itsukushima) trong phạm vi thời gian từ năm <strong>2013 đến 2023</strong>.
+                Hệ thống hóa lý luận, thu thập và phân tích dữ liệu lượng khách, doanh thu tại các di sản trọng điểm Nhật Bản giai đoạn <strong>2013-2023</strong>.
               </p>
             </div>
 
@@ -85,7 +85,7 @@ export function IntroductionSection({ isEn, onCopyDeepLink }: IntroductionSectio
                 <span>5. Phương pháp & 6. Bố cục đề tài</span>
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
-                Kết hợp phân tích thống kê định lượng (thống kê JNTO, MLIT, Cục Văn hóa), phân tích chính sách và nghiên cứu trường hợp (Case study). Đề tài gồm 3 chương chính: <strong>Chương 1</strong> (Cơ sở lý luận & 25 di sản), <strong>Chương 2</strong> (Hệ thống chính sách), <strong>Chương 3</strong> (Thực chứng dữ liệu & bảo tồn).
+                Dùng phương pháp thống kê định lượng, phân tích chính sách và Case study. Đề tài gồm 3 chương: <strong>Chương 1</strong> (Cơ sở lý luận), <strong>Chương 2</strong> (Chính sách), <strong>Chương 3</strong> (Thực chứng & bảo tồn).
               </p>
             </div>
           </div>

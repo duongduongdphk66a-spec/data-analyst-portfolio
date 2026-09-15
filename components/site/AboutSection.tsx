@@ -21,15 +21,15 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
 
   // Animations are now handled via Tailwind CSS classes
   const defaultGoalsEn = [
-    { title: 'Optimize Data Pipelines', desc: 'Design clean ETL/ELT workflows, master relational databases, and standardize multi-source data for automated analysis.' },
-    { title: 'Build Advanced Dashboards', desc: 'Develop real-time BI dashboards on Power BI/Tableau, apply segmentation models and time-series forecasting.' },
-    { title: 'Data Storytelling & Strategy', desc: 'Translate complex technical insights into clear data narratives that help leadership make growth decisions.' },
+    { title: 'Optimize Data Pipelines', desc: 'Design ETL/ELT workflows, manage relational databases, and standardize data from multiple sources for analysis.' },
+    { title: 'Build Advanced Dashboards', desc: 'Build BI dashboards on Power BI and Tableau, using segmentation and time-series forecasting.' },
+    { title: 'Data Storytelling & Strategy', desc: 'Turn technical findings into clear reports that support business decisions.' },
   ];
 
   const defaultGoalsVi = [
-    { title: 'Tối ưu hóa Data Pipeline', desc: 'Thiết kế quy trình ETL/ELT sạch, làm chủ CSDL quan hệ và chuẩn hóa dữ liệu đa nguồn phục vụ phân tích tự động.' },
-    { title: 'Xây dựng Dashboard nâng cao', desc: 'Phát triển báo cáo trực quan hóa thời gian thực trên Power BI/Tableau, áp dụng phân khúc và dự báo chuỗi thời gian.' },
-    { title: 'Data Storytelling & Chiến lược', desc: 'Truyền tải insight kỹ thuật phức tạp thành câu chuyện dữ liệu rõ ràng, hỗ trợ quản trị ra quyết định tăng trưởng.' },
+    { title: 'Tối ưu hóa Data Pipeline', desc: 'Thiết kế quy trình ETL/ELT, quản lý CSDL quan hệ và chuẩn hóa dữ liệu từ nhiều nguồn để phân tích.' },
+    { title: 'Xây dựng Dashboard nâng cao', desc: 'Xây dựng dashboard trên Power BI/Tableau, áp dụng phân khúc khách hàng và dự báo chuỗi thời gian.' },
+    { title: 'Data Storytelling & Chiến lược', desc: 'Chuyển đổi kết quả phân tích kỹ thuật thành báo cáo dễ hiểu, giúp ban lãnh đạo ra quyết định.' },
   ];
 
   const goals = (profile.careerGoalsList && profile.careerGoalsList.length > 0)
@@ -40,20 +40,20 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
     {
       title: isEn ? 'Empirical Rigor' : 'Nghiêm Ngặt Về Bằng Chứng',
       desc: isEn 
-        ? 'Rooted in quantitative research methodology from Japanese Studies at VNU Hanoi. Every insight is backed by verified time-series data and cross-checked telemetry.'
-        : 'Xuất phát từ phương pháp nghiên cứu định lượng tại ĐHQG Hà Nội. Mọi kết luận đều được kiểm chứng từ chuỗi dữ liệu thực tế và đối soát đa nguồn.',
+        ? 'Trained in quantitative research at VNU Hanoi. I back every claim with verified data and cross-checked numbers.'
+        : 'Được đào tạo về nghiên cứu định lượng tại ĐHQG Hà Nội. Tôi kiểm chứng mọi kết luận bằng dữ liệu thực tế và đối soát từ nhiều nguồn.',
     },
     {
       title: isEn ? 'Business Translation' : 'Cầu Nối Dữ Liệu & Kinh Doanh',
       desc: isEn
-        ? 'Bridging the gap between raw data warehouses and commercial leadership. Translating SQL queries and statistical correlations into actionable P&L impact.'
-        : 'Kết nối trực tiếp giữa kho dữ liệu kỹ thuật và ban điều hành. Chuyển hóa các câu lệnh SQL và tương quan thống kê thành tác động doanh thu cụ thể.',
+        ? 'Connecting the data warehouse to the executive team. I translate SQL queries and statistics into P&L impact.'
+        : 'Làm cầu nối giữa bộ phận kỹ thuật và ban điều hành. Tôi chuyển đổi các truy vấn SQL và kết quả thống kê thành những con số tác động trực tiếp đến doanh thu.',
     },
     {
       title: isEn ? 'Production Data Architecture' : 'Kiến Trúc Dữ Liệu Thực Chiến',
       desc: isEn
-        ? 'Hands-on experience architecting 3NF normalized schemas, optimizing distributed cache layers, and handling asynchronous batch workloads with sub-30ms latency.'
-        : 'Thực chiến thiết kế CSDL chuẩn hóa 3NF, tối ưu bộ đệm phân tán và xử lý pipeline bất đồng bộ đạt tốc độ phản hồi sub-30ms.',
+        ? 'Experienced in designing 3NF schemas, optimizing caches, and handling batch workloads with sub-30ms latency.'
+        : 'Có kinh nghiệm thiết kế CSDL chuẩn 3NF, tối ưu cache và xử lý dữ liệu bất đồng bộ với độ trễ dưới 30ms.',
     }
   ];
 
@@ -68,8 +68,8 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
           </span>
           <h2 className="editorial-section-title text-3xl sm:text-4xl lg:text-5xl max-w-3xl">
             {isEn
-              ? 'Evidence-driven analyst focused on measurable commercial impact.'
-              : 'Phân tích dựa trên bằng chứng, tập trung vào tác động đo lường được.'}
+              ? 'I analyze data to find the measurable impact on the business.'
+              : 'Tôi phân tích dữ liệu để tìm ra các tác động cụ thể đến doanh nghiệp.'}
           </h2>
         </div>
 
@@ -111,17 +111,16 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
               </div>
             </div>
 
-            {/* Editorial Paragraphs */}
             <div className="space-y-5 text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
               <p>
                 {profile.bio || (isEn
-                  ? 'Ma Van Hung is a Data Analyst with a solid foundation in SQL, Python, Power BI, and advanced Excel. Focused on extracting insights from fragmented data, designing visual analytics models, and transforming raw numbers into strategic insights that optimize business decision-making.'
-                  : 'Ma Văn Hùng là Data Analyst với tư duy logic và kỹ năng thực chiến vững vàng trên các công cụ SQL, Python, Power BI và Excel nâng cao. Luôn tập trung vào việc chuyển hóa các luồng dữ liệu thô phức tạp thành biểu đồ trực quan, tối ưu hóa chi phí vận hành và cung cấp insight hỗ trợ ban lãnh đạo ra quyết định chính xác.')}
+                  ? 'I am a Data Analyst working with SQL, Python, Power BI, and Excel. I clean fragmented data, build visual models, and turn raw numbers into insights that support business decisions.'
+                  : 'Tôi là một Data Analyst làm việc chủ yếu với SQL, Python, Power BI và Excel. Công việc hàng ngày của tôi là xử lý các nguồn dữ liệu thô, xây dựng biểu đồ trực quan và tìm ra các điểm dữ liệu giúp ban lãnh đạo ra quyết định.')}
               </p>
               <p>
                 {isEn
-                  ? 'With a background in Japanese Studies and quantitative research at VNU Hanoi, I bring a unique cross-disciplinary perspective to data analysis, combining rigorous academic methodology with cultural insight and practical business acumen.'
-                  : 'Với nền tảng Nhật Bản học và nghiên cứu định lượng tại Đại học Quốc gia Hà Nội, tôi mang đến góc nhìn liên ngành độc đáo cho phân tích dữ liệu, kết hợp phương pháp nghiên cứu nghiêm ngặt với hiểu biết văn hóa và nhạy bén kinh doanh.'}
+                  ? 'My background is in Japanese Studies and quantitative research at VNU Hanoi. This training taught me to combine strict academic methods with practical business needs.'
+                  : 'Xuất thân từ ngành Nhật Bản học và nghiên cứu định lượng tại ĐHQG Hà Nội, tôi được rèn luyện cách kết hợp phương pháp nghiên cứu học thuật với bài toán kinh doanh thực tế.'}
               </p>
             </div>
 

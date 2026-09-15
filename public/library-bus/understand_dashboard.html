@@ -1167,7 +1167,7 @@
             x: x,
             y: y,
             fixed: true, // Lock strictly to concentric circle!
-            label: (showAllLabels || isSignificant) ? node.name : '',
+            label: (showAllLabels || isSignificant) ? (node.name.length > 15 ? node.name.substring(0, 15) + '...' : node.name) : '',
             title: `<strong>${node.name}</strong><br>${node.filePath}<br><em>${node.summary || ''}</em>`,
             shape: 'dot',
             size: isSignificant ? 13 : 8,

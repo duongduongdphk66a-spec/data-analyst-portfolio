@@ -46,13 +46,13 @@ export function Chapter1HeritageSection({ isEn, onCopyDeepLink }: Chapter1Herita
             
             <div className="space-y-4 text-sm sm:text-base">
               <p>
-                <strong>Khái niệm di sản:</strong> Di sản bao gồm các tài sản văn hóa, lịch sử và thiên nhiên được các thế hệ trước để lại, có giá trị khoa học, thẩm mỹ và tinh thần to lớn. Theo Công ước Bảo vệ Di sản Văn hóa và Thiên nhiên Thế giới năm 1972 của UNESCO, Di sản Thế giới là những di sản đáp ứng các tiêu chí khắt khe về &quot;Giá trị nổi bật toàn cầu&quot; (Outstanding Universal Value - OUV).
+                <strong>Khái niệm di sản:</strong> Tài sản giá trị do thế hệ trước để lại. Di sản Thế giới phải đạt 'Giá trị nổi bật'.
               </p>
               <p>
-                <strong>Vai trò trong du lịch:</strong> Di sản là thỏi nam châm thu hút du khách, mang lại sức cạnh tranh khác biệt cho điểm đến. Khách du lịch di sản thường có thời gian lưu trú dài hơn và mức chi tiêu cao hơn đáng kể so với khách du lịch đại trà.
+                <strong>Vai trò du lịch:</strong> Thu hút du khách mạnh mẽ. Khách du lịch di sản thường lưu trú lâu và chi tiêu nhiều hơn.
               </p>
               <p>
-                <strong>Nhật Bản:</strong> Tính đến năm 2023, Nhật Bản sở hữu <strong>25 Di sản Thế giới</strong> được UNESCO công nhận, bao gồm <strong>20 Di sản Văn hóa</strong> và <strong>5 Di sản Thiên nhiên</strong>. Hệ thống di sản phong phú trải dài từ kiến trúc gỗ cổ nhất thế giới (Chùa Horyuji), các cố đô ngàn năm (Kyoto, Nara) đến những kiệt tác thiên nhiên biệt lập (Yakushima, Shiretoko, Ogasawara).
+                <strong>Nhật Bản:</strong> Sở hữu <strong>25 Di sản Thế giới</strong> (20 Văn hóa, 5 Thiên nhiên), từ kiến trúc cổ đến cảnh quan tự nhiên.
               </p>
             </div>
 
@@ -132,7 +132,7 @@ export function Chapter1HeritageSection({ isEn, onCopyDeepLink }: Chapter1Herita
 
             <div className="space-y-4 text-sm sm:text-base">
               <p>
-                Theo ICOMOS (Hội đồng Quốc tế về Di tích và Di chỉ) và UNWTO, <strong>Du lịch di sản</strong> là hoạt động di chuyển của các cá nhân nhằm trải nghiệm, khám phá và tìm hiểu về các di tích lịch sử, khảo cổ, kiến trúc, cảnh quan và lối sống truyền thống. Các hoạt động cốt lõi bao gồm: chiêm bái tâm linh, hành hương, tham gia lễ hội dân gian (Matsuri), thưởng thức ẩm thực di sản và học nghề thủ công truyền thống.
+                Theo ICOMOS và UNWTO, <strong>Du lịch di sản</strong> là hành trình khám phá di tích và văn hóa, bao gồm: chiêm bái, lễ hội, ẩm thực.
               </p>
 
               {/* 2-column impact matrix */}
@@ -143,10 +143,10 @@ export function Chapter1HeritageSection({ isEn, onCopyDeepLink }: Chapter1Herita
                     <span>Tác động tích cực (Positive Impacts)</span>
                   </div>
                   <ul className="text-xs sm:text-sm space-y-2 text-slate-700 list-disc list-inside dark:text-slate-300">
-                    <li><strong>Kinh tế:</strong> Tạo nguồn thu ngân sách trực tiếp thông qua vé tham quan, dịch vụ lưu trú và chi tiêu mua sắm hàng thủ công.</li>
-                    <li><strong>Tái đầu tư:</strong> Cung cấp tài chính dồi dào cho các dự án trùng tu, bảo dưỡng định kỳ các công trình cổ bằng gỗ quý giá.</li>
-                    <li><strong>Việc làm:</strong> Giải quyết công ăn việc làm cho cư dân bản địa, khuyến khích giới trẻ ở lại quê hương giữ nghề truyền thống.</li>
-                    <li><strong>Tự hào văn hóa:</strong> Khơi dậy ý thức cộng đồng, bảo vệ các nghi lễ và văn hóa dân gian đứng trước nguy cơ mai một.</li>
+                    <li><strong>Kinh tế:</strong> Tăng ngân sách trực tiếp qua vé, lưu trú và mua sắm.</li>
+                    <li><strong>Tái đầu tư:</strong> Cấp vốn để trùng tu và bảo dưỡng các công trình cổ.</li>
+                    <li><strong>Việc làm:</strong> Tạo việc làm tại chỗ, khuyến khích giới trẻ giữ nghề truyền thống.</li>
+                    <li><strong>Tự hào văn hóa:</strong> Gắn kết cộng đồng, bảo vệ các nghi lễ và văn hóa dân gian.</li>
                   </ul>
                 </div>
 
@@ -156,17 +156,17 @@ export function Chapter1HeritageSection({ isEn, onCopyDeepLink }: Chapter1Herita
                     <span>Tác động tiêu cực (Negative Impacts)</span>
                   </div>
                   <ul className="text-xs sm:text-sm space-y-2 text-slate-700 list-disc list-inside dark:text-slate-300">
-                    <li><strong>Hao mòn vật chất:</strong> Áp lực bước chân hàng triệu du khách gây mòn nền gỗ, bậc đá và rung chấn kết cấu công trình cổ.</li>
-                    <li><strong>Quá tải du lịch (Overtourism):</strong> Nghẽn đường, ách tắc phương tiện công cộng, tiếng ồn xáo trộn nếp sống cư dân bản địa.</li>
-                    <li><strong>Thương mại hóa thái quá:</strong> Hàng hóa lưu niệm sản xuất hàng loạt từ nước ngoài lấn át sản phẩm thủ công tinh xảo nguyên bản.</li>
-                    <li><strong>Ô nhiễm môi trường:</strong> Lượng rác thải khổng lồ, đặc biệt là bao bì nhựa và hộp đựng thức ăn du khách vứt bừa bãi.</li>
+                    <li><strong>Hao mòn:</strong> Lượng lớn du khách làm mòn nền gỗ, bậc đá và ảnh hưởng kết cấu cổ.</li>
+                    <li><strong>Quá tải du lịch:</strong> Kẹt xe, ùn tắc phương tiện, tiếng ồn làm xáo trộn đời sống cư dân.</li>
+                    <li><strong>Thương mại hóa:</strong> Đồ lưu niệm sản xuất hàng loạt lấn át sản phẩm thủ công nguyên bản.</li>
+                    <li><strong>Ô nhiễm môi trường:</strong> Rác thải nhựa và hộp thức ăn vứt bừa bãi gây ô nhiễm nghiêm trọng.</li>
                   </ul>
                 </div>
               </div>
 
               <div className="p-4 rounded-xl bg-[#F3FCFE] border border-[#9BE7FA] mt-4 text-xs sm:text-sm text-slate-800 dark:bg-slate-800/60 dark:border-slate-700 dark:text-slate-200">
                 <strong className="text-[#0D7287] dark:text-[#9BE7FA]">Nguyên tắc phát triển bền vững:</strong> 
-                {" "}Phát triển du lịch di sản bền vững đòi hỏi phải duy trì cân bằng động giữa 3 trụ cột: <em>Hiệu quả kinh tế lâu dài</em>, <em>Bảo tồn nguyên vẹn tính chân xác của di sản</em> và <em>Đảm bảo chất lượng cuộc sống bình yên cho cộng đồng địa phương</em>.
+                {" "}Cân bằng 3 trụ cột: <em>Kinh tế lâu dài</em>, <em>Bảo tồn di sản</em> và <em>Đời sống bình yên</em>.
               </div>
             </div>
           </div>

@@ -34,8 +34,8 @@ export default function ScienceTimeSeriesSection({
         </h2>
         <p className="editorial-lead text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-4xl">
           {isEn
-            ? 'Decomposing 180 days of store sales into Trend, Seasonality, and Residual components. This demonstrates that the August-September decline was driven by seasonal post-summer vacation demand, not live team execution failure.'
-            : 'Bóc tách dữ liệu 180 ngày thành Xu hướng dài hạn, Chu kỳ mùa vụ và Đợt sale đột biến. Kết quả chứng minh sự sụt giảm doanh số tháng 8-9 là hệ quả khách quan của chu kỳ mùa du lịch hè kết thúc, không hoàn toàn do lỗi đội ngũ vận hành Live.'}
+            ? 'Decomposing 180-day sales into Trend, Seasonality, and Residuals proves the August-September decline was due to post-summer seasonality, not the live team\'s execution.'
+            : 'Bóc tách dữ liệu 180 ngày cho thấy doanh số tháng 8-9 giảm là do hết mùa du lịch hè, không phải do lỗi vận hành Live.'}
         </p>
       </div>
 
@@ -54,11 +54,11 @@ export default function ScienceTimeSeriesSection({
         <div className="grid grid-cols-1 gap-4 pt-1 text-xs sm:grid-cols-3">
           <div className="space-y-1">
             <strong className="text-[#0D7287] dark:text-[#9BE7FA]">1. Xu hướng Dài hạn (Trend):</strong>
-            <p className="text-slate-500 dark:text-slate-400">Tăng trưởng mạnh mẽ từ tháng 4 đến tháng 6 (cao điểm sắm đồ bơi hè), thoái trào tự nhiên từ tháng 8 đến tháng 9 khi học sinh trở lại trường.</p>
+            <p className="text-slate-500 dark:text-slate-400">Tăng trưởng mạnh lúc cao điểm sắm đồ bơi hè (tháng 4-6), giảm tự nhiên khi vào năm học mới (tháng 8-9).</p>
           </div>
           <div className="space-y-1">
             <strong className="text-amber-600 dark:text-amber-400">2. Chu kỳ Tuần hoàn (Seasonality):</strong>
-            <p className="text-slate-500 dark:text-slate-400">Tập trung doanh số cao vào thứ Năm đến thứ Bảy hàng tuần để kịp giao hàng phục vụ các chuyến du lịch cuối tuần.</p>
+            <p className="text-slate-500 dark:text-slate-400">Doanh số tập trung cao từ thứ Năm đến thứ Bảy để kịp giao hàng cho các chuyến du lịch cuối tuần.</p>
           </div>
           <div className="space-y-1">
             <strong className="text-emerald-600 dark:text-emerald-400">3. Xung lực Đột biến (Residual):</strong>
@@ -161,7 +161,7 @@ export default function ScienceTimeSeriesSection({
         </div>
 
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-xs text-amber-900 dark:text-amber-200">
-          <strong>Bài học Quản trị Vận hành:</strong> Kết quả bóc tách chuỗi thời gian cho thấy rõ doanh thu tháng 8-9 sụt giảm đồng thuận với sự hạ nhiệt của mùa du lịch hè. Việc ban quản lý cố gắng ép đội ngũ tăng lên tới 27 phiên LIVE/ngày vào tháng 9 là một quyết định đi ngược lại chu kỳ tự nhiên của thị trường, gây lãng phí chi phí vận hành.
+          <strong>Bài học Quản trị Vận hành:</strong> Doanh thu tháng 8-9 giảm theo tính mùa vụ (hết hè). Việc ép đội ngũ tăng 27 phiên LIVE/ngày vào tháng 9 là đi ngược thị trường và gây lãng phí chi phí.
         </div>
       </div>
     </section>

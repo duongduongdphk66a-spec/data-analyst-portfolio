@@ -30,8 +30,8 @@ export function LibraryBusHero({ isEn, onNavClick }: LibraryBusHeroProps) {
           
           <p className="editorial-lead text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl dark:text-slate-300">
             {isEn 
-              ? 'Complete 3-Chapter System Guidelines adapted from "Thiết kế chưa có tên.pdf" (Arena Multimedia). Featuring 01 Introduction and UX Research, 02 Logo and UI Components, and 03 Website Design with 8 key responsive screens, interactive architecture graph, and pessimistic locking (select_for_update) telemetry.'
-              : 'Trình bày theo đúng cấu trúc chuẩn hóa 3 chương từ tài liệu hồ sơ thiết kế: Chương 01 Giới thiệu & Nghiên cứu UX; Chương 02 Hệ thống Logo & Thành phần giao diện UI Components; Chương 03 Thiết kế 8 màn hình Website kèm bộ trình diễn tương tác kiến trúc Django và cơ chế khóa bi quan tồn kho.'}
+              ? 'Complete 3-Chapter System Guidelines adapted from Arena Multimedia. Features UX Research, UI Components, Website Design, interactive architecture graph and pessimistic locking telemetry.'
+              : 'Trình bày theo 3 chương: Chương 01 Nghiên cứu UX; Chương 02 UI Components; Chương 03 Thiết kế 8 màn hình Website, trình diễn kiến trúc Django và cơ chế khóa bi quan.'}
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">

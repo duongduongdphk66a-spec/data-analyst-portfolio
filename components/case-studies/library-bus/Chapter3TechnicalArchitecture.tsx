@@ -287,7 +287,7 @@ export function Chapter3TechnicalArchitecture({
           <p className="text-xs text-slate-600 dark:text-slate-400">
             {isEn 
               ? 'Full source code available on GitHub. Complete system architecture and wireframes documented in interactive website.html.'
-              : 'Mã nguồn đầy đủ đã được công khai trên GitHub. Toàn bộ kiến trúc và thiết kế giao diện được trình bày tương tác trong tập tin website.html.'}
+              : 'Mã nguồn đầy đủ trên GitHub. Toàn bộ kiến trúc và giao diện nằm trong tập tin website.html.'}
           </p>
         </div>
         <div className="flex items-center gap-3 shrink-0">

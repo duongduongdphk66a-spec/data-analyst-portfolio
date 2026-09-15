@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useToast } from '@/components/ui/Toast';
 import { exportChartWithToast } from '@/app/lib/chartExport';
+import ExecutiveSummary from '../../ExecutiveSummary';
 
 import ScienceHeroSection from './ScienceHeroSection';
 import ScienceEdaSection from './ScienceEdaSection';
@@ -66,6 +67,30 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
         isEn={isEn} 
         onOpenNotebook={() => setIsNotebookModalOpen(true)} 
       />
+
+      {/* Executive Summary — 60-second overview */}
+      <div className="max-w-5xl">
+        <ExecutiveSummary
+          isEn={isEn}
+          readingTime={isEn ? '~3 min deep dive' : '~3 phút đọc chi tiết'}
+          problem={isEn
+            ? 'Live channel consumes most hours but yields low GPM compared to Short-video. Need to analyze Aug-Sep revenue dip.'
+            : 'Kênh Live chiếm nhiều thời lượng nhưng GPM thấp hơn Short-video. Cần phân tích sụt giảm doanh số tháng 8-9.'}
+          method={isEn
+            ? 'Compare video vs live sessions, model saturation curves, and decompose 180-day time series into Trend, Seasonality, and Residual components.'
+            : 'So sánh mẫu video và live, mô hình hóa điểm bão hòa và phân rã chuỗi thời gian 180 ngày.'}
+          insight={isEn
+            ? 'Video GPM outperforms Live by 4.48x. Seasonality explains 85% of the drop. Cutting excess live hours optimizes cash flow.'
+            : 'Video sinh lời vượt trội 4.48 lần. Mùa vụ lý giải 85% sụt giảm. Cắt giảm giờ live tối ưu dòng tiền.'}
+          metrics={[
+            { label: isEn ? 'Total Ecosystem GMV' : 'Tổng GMV Hệ Sinh Thái', value: isEn ? '31.6B' : '31.6 Tỷ', change: isEn ? '238.4k items' : '238.4k sản phẩm', isPositive: true },
+            { label: isEn ? 'Self-Operated GMV' : 'Kênh Tự Vận Hành', value: isEn ? '9.2B' : '9.2 Tỷ', change: isEn ? '49.3% Shop GMV' : '49.3% GMV shop', isPositive: true },
+            { label: isEn ? 'Video vs Live GPM' : 'Chênh Lệch GPM', value: '4.5x', change: isEn ? '135k vs 30k VND' : '135k vs 30k VNĐ', isPositive: true },
+            { label: isEn ? 'Affiliate Leverage' : 'Mạng Lưới Affiliate', value: '5.7k', change: isEn ? '>95% Nano/Micro KOC' : '>95% DS từ Nano/Micro', isPositive: true },
+          ]}
+          tools={['Python (scipy.stats & statsmodels)', 'Statistical Analysis', 'Time-Series Modeling', 'Recharts']}
+        />
+      </div>
 
       <ScienceEdaSection 
         isEn={isEn} 

@@ -14,7 +14,7 @@ export function Chapter3CaseStudiesSection() {
           <span>3.2. Sự phát triển nhìn từ tiêu chí bảo tồn và quản lý di sản (Case Studies)</span>
         </h3>
         <p className="text-sm sm:text-base text-slate-700 mt-2 leading-relaxed dark:text-slate-300">
-          Song hành cùng tăng trưởng kinh tế là những hệ lụy tiêu cực sâu sắc: tình trạng <strong>quá tải du lịch (Overtourism / 観光公害 - Kanko Kogai)</strong>, mâu thuẫn dân cư bản địa, thương mại hóa làm xói mòn tính nguyên bản và ô nhiễm môi trường. Dưới đây là khảo sát thực tiễn 5 trường hợp điển hình cùng các giải pháp quản trị sáng tạo của Nhật Bản.
+          Tăng trưởng nóng gây quá tải du lịch, mâu thuẫn, ô nhiễm. Dưới đây là 5 điển hình và giải pháp.
         </p>
       </div>
 
@@ -66,10 +66,10 @@ export function Chapter3CaseStudiesSection() {
                   <span>Thực trạng khủng hoảng (Overtourism)</span>
                 </h5>
                 <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                  Lượng khách bùng nổ quanh các địa điểm Gion và Kinkakuji khiến mạng lưới xe buýt công cộng bị tê liệt. Người dân bản địa thường xuyên không thể lên xe để đi làm hoặc đi khám bệnh do xe buýt luôn chật kín du khách với hành lý cồng kềnh.
+                  Khách đông làm tê liệt xe buýt. Người dân khó đi lại do xe chật cứng khách và hành lý.
                 </p>
                 <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                  <strong>&quot;Trò chơi mèo vờn chuột&quot; với rác thải:</strong> Tại các con phố cổ Arashiyama và Higashiyama, vỏ lon và hộp nhựa chất đống tràn ngập các thùng rác công cộng, phát sinh chi phí dọn dẹp khổng lồ cho thành phố. Khách sạn tăng từ 30.000 lên 53.000 phòng vẫn thiếu, dẫn đến làn sóng minpaku tự phát trong khu chung cư gây xung đột nếp sống.
+                  Rác thải tràn ngập phố cổ gây tốn kém. Khách sạn thiếu hụt dẫn đến bùng nổ minpaku tự phát.
                 </p>
               </div>
 
@@ -80,13 +80,13 @@ export function Chapter3CaseStudiesSection() {
                 </h5>
                 <ul className="space-y-2 text-slate-700 list-disc list-inside dark:text-slate-300">
                   <li>
-                    <strong>Kyoto Comfort Map (京都観光快適度マップ):</strong> Lắp đặt camera AI tại các điểm nóng để phát trực tiếp mức độ đông đúc theo thời gian thực, khuyến khích du khách chủ động né giờ cao điểm.
+                    <strong>Kyoto Comfort Map:</strong> Dùng camera AI báo mức độ đông đúc để khách né giờ cao điểm.
                   </li>
                   <li>
-                    <strong>Phân tán không gian & thời gian:</strong> Quảng bá 6 khu vực di sản ngoại ô ít người biết; kết hợp với tập đoàn JR Tokai triển khai các tour tham quan sáng sớm (Morning Tours) và ngắm cảnh đêm (Night Tours).
+                    <strong>Phân tán thời gian & không gian:</strong> Quảng bá ngoại ô, tổ chức tour sáng sớm và ngắm cảnh đêm.
                   </li>
                   <li>
-                    <strong>Chất lượng hơn số lượng:</strong> Thu hút các chuỗi nghỉ dưỡng siêu sang (Park Hyatt Kyoto, Aman Kyoto) để gia tăng nguồn thu từ đối tượng có mức chi tiêu cao mà không làm gia tăng quá mức áp lực dân số vãng lai.
+                    <strong>Tập trung chất lượng:</strong> Hướng tới khách chi tiêu cao qua khu nghỉ dưỡng sang, giảm áp lực số lượng.
                   </li>
                 </ul>
               </div>
@@ -116,7 +116,7 @@ export function Chapter3CaseStudiesSection() {
                   <span>Mối lo ngại sinh thái đàn hươu công viên Nara</span>
                 </h5>
                 <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                  Hơn 1.200 chú hươu tại Công viên Nara và Đền Kasuga Taisha là biểu tượng văn hóa thiêng liêng. Tuy nhiên, du khách đông đúc thường cho hươu ăn thức ăn không phù hợp, vứt túi nilon khiến nhiều chú hươu nuốt phải và tử vong. Ngoài ra, việc bảo tồn nghiêm ngặt khiến đàn hươu gia tăng số lượng, tràn ra ngoài phá hoại cây trồng nông nghiệp của người dân.
+                  Hươu Nara gặp nguy hiểm do ăn túi nilon. Đàn hươu tăng nhanh, tràn ra phá hoại mùa màng.
                 </p>
               </div>
 
@@ -126,7 +126,7 @@ export function Chapter3CaseStudiesSection() {
                   <span>Pháp lệnh lưu trú & Tái thiết di sản</span>
                 </h5>
                 <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                  Tỉnh Nara ban hành <em>&quot;Pháp lệnh đảm bảo quản lý hợp lý doanh nghiệp lưu trú&quot;</em> (奈良県住宅宿泊事業の適正な運営の確保に関する条例). Cung cấp trợ cấp đặc biệt để thu hút các khách sạn đẳng cấp quốc tế (Fufu Nara, JW Marriott Hotel Nara, Fairfield by Marriott Tenri), đồng thời cho phép cải tạo các công trình cổ có giá trị văn hóa thành cơ sở lưu trú cao cấp giữ chân du khách qua đêm thay vì chỉ đi về trong ngày từ Osaka/Kyoto.
+                  Ban hành pháp lệnh thu hút khách sạn. Cải tạo công trình cổ thành nơi lưu trú để giữ khách.
                 </p>
               </div>
             </div>
@@ -155,7 +155,7 @@ export function Chapter3CaseStudiesSection() {
                   <span>Áp lực quá tải sườn núi & Khí thải xe cá nhân</span>
                 </h5>
                 <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                  Năm 2019, 5.06 triệu người đến thăm núi Phú Sĩ (gấp 2.2 lần so với năm 2012 trước khi được công nhận di sản). Hàng vạn người leo núi cùng lúc gây tắc nghẽn nguy hiểm trên các cung đường dốc, tắc nghẽn nhà vệ sinh và lượng khí thải khổng lồ từ xe buýt, ô tô cá nhân đổ dồn lên trạm số 5 Subaru Line.
+                  Lượng khách tăng 2.2 lần năm 2019 gây tắc nghẽn, quá tải vệ sinh và ô nhiễm khí thải.
                 </p>
               </div>
 
@@ -166,13 +166,13 @@ export function Chapter3CaseStudiesSection() {
                 </h5>
                 <ul className="space-y-2 text-slate-700 list-disc list-inside dark:text-slate-300">
                   <li>
-                    <strong>Quỹ hợp tác bảo tồn Núi Phú Sĩ (2014):</strong> Vận động phí đóng góp tự nguyện 1.000 Yên/người leo núi, tạo nguồn tài chính bảo trì nhà vệ sinh sinh thái, xử lý rác và cứu hộ y tế.
+                    <strong>Quỹ bảo tồn (2014):</strong> Vận động đóng 1.000 Yên/người để bảo trì vệ sinh, xử lý rác, y tế.
                   </li>
                   <li>
-                    <strong>Đề án Đường sắt leo núi Fuji (Fuji Mountain Railway):</strong> Đề xuất cấm hoàn toàn xe ô tô cá nhân, chỉ cho phép đi tàu điện leo núi có kiểm soát số lượng theo giờ.
+                    <strong>Đường sắt leo núi Fuji:</strong> Đề xuất cấm xe cá nhân, chỉ dùng tàu điện kiểm soát theo giờ.
                   </li>
                   <li>
-                    <strong>Trung tâm Di sản Thế giới Núi Phú Sĩ (2017):</strong> Xây dựng bảo tàng rộng 6.100 m² tại Shizuoka với công nghệ leo núi thực tế ảo VR, giúp du khách trải nghiệm đỉnh Phú Sĩ từ xa mà không cần leo núi thực.
+                    <strong>Trung tâm Di sản (2017):</strong> Xây bảo tàng VR giúp trải nghiệm leo núi Phú Sĩ từ xa.
                   </li>
                 </ul>
               </div>
@@ -202,7 +202,7 @@ export function Chapter3CaseStudiesSection() {
                   <span>Tỷ lệ nghịch ngạc nhiên: Du khách gấp 3.000 lần dân số</span>
                 </h5>
                 <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                  Ngôi làng cổ kính nép mình giữa thung lũng tuyết chỉ có vỏn vẹn khoảng 600 cư dân sinh sống nhưng đón tới <strong>1.8 triệu lượt du khách mỗi năm</strong> (gấp 3.000 lần dân số). Trong các đêm Lễ hội Ánh sáng Mùa đông (Shirakawago Winter Light-up), hàng nghìn du khách chen lấn trên đài quan sát hẹp và đường làng, gây nguy cơ giẫm đạp và làm đảo lộn hoàn toàn sự yên bình của làng quê.
+                  Đón 1.8 triệu khách. Lễ hội Ánh sáng thu hút đông người chen lấn, gây nguy hiểm, mất yên bình.
                 </p>
               </div>
 
@@ -212,7 +212,7 @@ export function Chapter3CaseStudiesSection() {
                   <span>Hệ thống đặt chỗ nghiêm ngặt (Advance Reservation)</span>
                 </h5>
                 <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                  Chính quyền làng quyết định chuyển đổi Lễ hội Ánh sáng sang hình thức <strong>đặt chỗ trước 100% (Complete Reservation System)</strong>. Chỉ những khách đặt trước qua đêm tại làng hoặc mua vé xe buýt có số ghế kèm vé lên đài quan sát mới được phép vào làng sau 17h. Xe ô tô cá nhân không có giấy phép đăng ký đỗ xe trước bị cấm vào làng tuyệt đối. Giải pháp này đã xóa bỏ hoàn toàn cảnh hỗn loạn, đảm bảo an toàn tuyệt đối và nâng tầm trải nghiệm của du khách.
+                  Áp dụng <strong>đặt chỗ trước 100%</strong>. Khách lưu trú hoặc có vé xe mới được vào. Cấm xe cá nhân.
                 </p>
               </div>
             </div>
@@ -241,7 +241,7 @@ export function Chapter3CaseStudiesSection() {
                   <span>Chi phí duy tu đền nổi & Quá tải hòn đảo</span>
                 </h5>
                 <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                  Đền Thần đạo Itsukushima với cổng Torii màu đỏ son khổng lồ cắm thẳng xuống biển thủy triều đón tới <strong>4.6 triệu du khách</strong> năm 2019. Việc các công trình bằng gỗ liên tục tiếp xúc với nước biển mặn khiến chi phí bảo dưỡng, trùng tu và thu dọn vệ sinh trên đảo là gánh nặng tài chính khổng lồ đối với ngân sách thị trấn Hatsukaichi.
+                  Đón <strong>4.6 triệu khách</strong> (2019). Gỗ ngâm nước biển khiến chi phí bảo dưỡng trở thành gánh nặng tài chính.
                 </p>
               </div>
 
@@ -251,7 +251,7 @@ export function Chapter3CaseStudiesSection() {
                   <span>Chính sách thuế vào đảo (Miyajima Visitor Tax)</span>
                 </h5>
                 <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-                  Thành phố Hatsukaichi chính thức áp dụng <strong>Thuế vào đảo Miyajima (入島税)</strong> với mức 100 Yên/người thu trực tiếp qua giá vé phà. Nguồn thu thuế chuyên dụng này được chuyển thẳng vào quỹ bảo tồn cảnh quan và trùng tu đền thờ, vừa san sẻ chi phí với du khách một cách công bằng, vừa điều tiết mật độ khách lên đảo bền vững qua nhiều thế hệ.
+                  Thu thuế vào đảo 100 Yên/người. Nguồn thu dùng bảo tồn, chia sẻ chi phí và điều tiết lượng khách.
                 </p>
               </div>
             </div>

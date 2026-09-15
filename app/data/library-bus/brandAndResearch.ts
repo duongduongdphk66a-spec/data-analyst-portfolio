@@ -39,20 +39,20 @@ export const ABOUT_US_DATA = {
   reason: {
     titleVi: 'Lý do phát triển',
     titleEn: 'Reason for Development',
-    descVi: 'Tại nhiều khu đô thị mới, khu dân cư ngoại thành và trường học công lập, khoảng cách địa lý đến các thư viện trung tâm còn xa, nguồn sách mới cập nhật chưa đồng đều. Dự án Xe Thư Viện Lưu Động (Library Bus) ra đời nhằm xóa bỏ rào cản tiếp cận tri thức, đưa những cuốn sách hay đến tận cửa nhà và sân trường của độc giả.',
-    descEn: 'In many suburban zones, schools, and developing residential clusters, physical distance to central libraries remains a barrier. The Mobile Library Bus project bridges this gap by bringing quality literature directly to local neighborhoods and school gates.'
+    descVi: 'Library Bus xóa bỏ rào cản địa lý, đưa sách hay đến tận khu dân cư và trường học.',
+    descEn: 'Library Bus bridges the gap by bringing quality books directly to suburban neighborhoods and school gates.'
   },
   mission: {
     titleVi: 'Sứ mệnh',
     titleEn: 'Mission',
-    descVi: 'Bình đẳng hóa cơ hội tiếp cận tri thức chất lượng cao; kết hợp công nghệ định vị GPS, đặt mượn trực tuyến O(1) và không gian sinh hoạt văn hóa lưu động để nuôi dưỡng tình yêu đọc sách lâu dài cho mọi lứa tuổi trong cộng đồng.',
-    descEn: 'Democratize access to premier reading materials; blend real-time GPS tracking, O(1) online book reservations, and welcoming pop-up reading spaces to foster sustainable reading habits across all generations.'
+    descVi: 'Bình đẳng hóa tri thức qua công nghệ GPS và mượn trực tuyến, nuôi dưỡng tình yêu đọc sách.',
+    descEn: 'Democratize reading through GPS tracking and online reservations, fostering sustainable habits across all generations.'
   },
   brandMeaning: {
     titleVi: 'Ý nghĩa tên thương hiệu',
     titleEn: 'Brand Name Meaning',
-    descVi: '"Library Bus" – Sự giao thoa giữa không gian tĩnh của tri thức (Library) và chuyển động không ngừng của bánh xe cộng đồng (Bus). Tên gọi khẳng định tinh thần: Thư viện không còn thụ động chờ người đọc tìm đến, mà chủ động lăn bánh phục vụ người dân.',
-    descEn: '"Library Bus" embodies the harmony between static wisdom (Library) and dynamic community movement (Bus). It proclaims a paradigm shift: wisdom no longer waits in silence, it travels to meet the people.'
+    descVi: '"Library Bus" kết hợp tri thức (Library) và sự chuyển động (Bus), mang thư viện đến mọi người.',
+    descEn: '"Library Bus" blends static wisdom with dynamic movement. Knowledge no longer waits; it travels to the people.'
   }
 };
 
@@ -67,14 +67,14 @@ export const UX_RESEARCH_DATA = {
     marketId: {
       titleVi: 'Xác định thị trường',
       titleEn: 'Market Identification',
-      descVi: 'Thị trường văn hóa đọc đang chuyển dịch mạnh mẽ theo xu hướng O2O (Online-to-Offline). Độc giả hiện đại mong muốn tra cứu thông tin sách nhanh chóng qua smartphone nhưng vẫn khao khát được cầm trên tay những cuốn sách giấy và sinh hoạt trong không gian cộng đồng ấm áp.',
-      descEn: 'The reading ecosystem is shifting rapidly towards O2O (Online-to-Offline). Readers want instantaneous digital discovery coupled with the tactile satisfaction of physical books in friendly communal settings.'
+      descVi: 'Xu hướng O2O tăng cao. Độc giả thích tra cứu online nhưng vẫn chuộng sách giấy và giao lưu cộng đồng.',
+      descEn: 'O2O ecosystem is growing. Readers want quick digital discovery combined with physical books in communal settings.'
     },
     currentTrends: {
       titleVi: 'Xu hướng hiện tại',
       titleEn: 'Current Trends',
-      descVi: 'Số hóa quản trị kho theo thời gian thực (Real-time IoT & GPS), mô hình trạm đón thông minh (Smart Bus Stops), trải nghiệm đặt trước không chạm và ứng dụng cơ chế Gamification (chuỗi đọc, bảng vinh danh độc giả) nhằm gia tăng gắn kết.',
-      descEn: 'Real-time inventory telemetry via IoT & GPS, smart pick-up stops, contactless reservation queues, and gamified reading streaks to dramatically heighten user engagement.'
+      descVi: 'Số hóa kho trực tuyến, đặt sách không chạm và Gamification (chuỗi đọc) để tăng tương tác.',
+      descEn: 'Real-time IoT inventory, contactless reservations, and gamified reading streaks dramatically heighten user engagement.'
     }
   },
   customerTarget: {
@@ -90,9 +90,9 @@ export const UX_RESEARCH_DATA = {
         roleVi: 'Học sinh THPT (16 tuổi)',
         roleEn: 'High School Student (16 y/o)',
         avatar: '🎓',
-        needsVi: 'Cần sách ôn luyện khoa học, văn học và tiểu thuyết trẻ. Thường tan trường vào cuối chiều, không kịp tới thư viện thành phố.',
-        needsEn: 'Needs exam preps, science books and young adult novels. Finishes school late and cannot travel to central city libraries.',
-        painPointVi: 'Sợ đến xe thì sách đã bị mượn hết; muốn biết chính xác xe dừng ở cổng trường vào thứ mấy.',
+        needsVi: 'Cần sách ôn luyện và tiểu thuyết. Tan trường muộn nên không kịp tới thư viện thành phố.',
+        needsEn: 'Needs exam prep and novels. Finishes school late and cannot travel to central libraries.',
+        painPointVi: 'Sợ sách bị mượn hết trước khi đến; cần biết chính xác lịch xe dừng ở cổng trường.',
         painPointEn: 'Worries the desired book is already borrowed; wants exact stop timings at the school gate.'
       },
       {
@@ -100,9 +100,9 @@ export const UX_RESEARCH_DATA = {
         roleVi: 'Phụ huynh bận rộn (34 tuổi)',
         roleEn: 'Working Mother (34 y/o)',
         avatar: '👩‍💼',
-        needsVi: 'Muốn rèn thói quen đọc sách cho con gái 8 tuổi thay vì xem thiết bị điện tử. Thích không gian đọc ngoài trời cuối tuần.',
+        needsVi: 'Muốn rèn thói quen đọc sách cho con thay vì dùng đồ điện tử. Thích không gian ngoài trời.',
         needsEn: 'Wants to instill reading habits in her 8 y/o child instead of screens. Loves outdoor weekend reading events.',
-        painPointVi: 'Thời gian rảnh eo hẹp; cần ứng dụng đặt trước sách nhanh chóng để đón con tan học là lấy sách luôn.',
+        painPointVi: 'Thời gian eo hẹp; cần ứng dụng đặt sách nhanh để lấy ngay khi đón con tan học.',
         painPointEn: 'Extremely limited free time; needs quick mobile reservation to pick up books right when picking up kids.'
       },
       {
@@ -110,9 +110,9 @@ export const UX_RESEARCH_DATA = {
         roleVi: 'Cán bộ hưu trí (68 tuổi)',
         roleEn: 'Retired Teacher (68 y/o)',
         avatar: '👴',
-        needsVi: 'Yêu thích đọc báo buổi sáng, sách lịch sử, hồi ký. Coi điểm dừng thư viện là nơi gặp gỡ giao lưu tuổi già.',
+        needsVi: 'Thích đọc báo, sách lịch sử. Coi trạm dừng thư viện là nơi giao lưu kết bạn tuổi già.',
         needsEn: 'Enjoys morning news, history books and memoirs. Considers the mobile bus stop a heartwarming social hub.',
-        painPointVi: 'Gặp khó khăn với các giao diện ứng dụng phức tạp; cần sự trợ giúp thân thiện trực tiếp từ thủ thư.',
+        painPointVi: 'Gặp khó khăn với giao diện phức tạp; cần sự trợ giúp trực tiếp từ thủ thư.',
         painPointEn: 'Struggles with complex app navigations; values warm, direct face-to-face assistance from librarians.'
       }
     ]
@@ -194,9 +194,9 @@ export const BRAND_IDENTITY_DATA = {
   subtitleVi: '/Nhận diện thương hiệu & Thư viện thành phần/',
   subtitleEn: '/Brand Guidelines & Component Library/',
   logo: {
-    ideaVi: 'Logo của Library Bus được kết hợp từ biểu tượng chiếc xe buýt chuyển động và những trang sách đang mở, tượng trưng cho cánh chim tri thức vươn cao trên cung đường số.',
-    ideaEn: 'The Library Bus logo fuses the silhouette of a moving transit vehicle with open book pages, symbolizing wings of knowledge soaring across digital routes.',
-    meaningVi: 'Sự giao hòa giữa màu Xanh Teal uy tín và Xanh Sky năng động tạo nên vẻ đẹp hiện đại, đáng tin cậy và tràn đầy nhiệt huyết phụng sự cộng đồng.',
+    ideaVi: 'Logo kết hợp xe buýt và trang sách, tượng trưng cho tri thức trên cung đường số.',
+    ideaEn: 'The logo fuses a transit vehicle with open pages, symbolizing knowledge soaring across digital routes.',
+    meaningVi: 'Xanh Teal uy tín và Xanh Sky năng động tạo nên vẻ đẹp hiện đại, đáng tin cậy.',
     meaningEn: 'The harmonious union of Deep Teal integrity and Sky Blue vitality embodies modern reliability and passionate civic commitment.',
     structureRatio: '6.6X × 4X (Chiều dài 6.6X và Chiều cao 4X, với X là đơn vị cơ sở chuẩn hóa)',
     safeDistance: '1.5X khi đứng độc lập và 2X khi đứng cạnh logo đối tác trường học / nhà tài trợ',

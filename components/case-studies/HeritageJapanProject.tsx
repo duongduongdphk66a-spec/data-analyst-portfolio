@@ -94,14 +94,14 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
           isEn={isEn}
           readingTime={isEn ? '~3 min deep dive' : '~3 phút đọc chi tiết'}
           problem={isEn
-            ? 'Quantifying the economic impact of national heritage tourism promotion strategies and measuring the recovery speed of traditional cultural destinations (Kyoto, Nara) after disruptions.'
-            : 'Cần đánh giá định lượng tác động của chiến lược mở cửa du lịch di sản quốc gia và đo lường tốc độ phục hồi của các điểm đến văn hóa truyền thống (Kyoto, Nara) sau biến động.'}
+            ? 'Quantifying the economic impact of heritage tourism strategies and measuring the recovery speed of cultural destinations (Kyoto, Nara).'
+            : 'Đánh giá tác động của chiến lược du lịch di sản và đo lường tốc độ phục hồi của các điểm đến văn hóa truyền thống (Kyoto, Nara).'}
           method={isEn
-            ? 'Collect and normalize 20-year time-series data from JNTO, MLIT, Kyoto & Nara tourism bureaus. Apply time-series decomposition and multi-dimensional visual comparison models.'
-            : 'Thu thập và chuẩn hóa 6 bộ dữ liệu chuỗi thời gian 20 năm từ MLIT, JNTO, Sở Du lịch Kyoto và Nara. Áp dụng mô hình chuỗi thời gian và trực quan hóa so sánh đa chiều.'}
+            ? 'Collect and normalize 20-year time-series data from JNTO, MLIT. Apply time-series decomposition and multi-dimensional visual comparison models.'
+            : 'Thu thập dữ liệu chuỗi thời gian 20 năm từ MLIT, JNTO. Áp dụng mô hình chuỗi thời gian và trực quan hóa so sánh đa chiều.'}
           insight={isEn
-            ? 'Tourism spending peaked at ¥4.81 trillion with +318% growth. Cultural experience travelers spend 3.2x more than regular tourists. Post-pandemic recovery forecast reaches 88.4%.'
-            : 'Chi tiêu du lịch đạt đỉnh 4.81 nghìn tỷ Yên với tốc độ tăng trưởng 318%. Nhóm khách trải nghiệm văn hóa chi tiêu gấp 3.2 lần. Tỷ lệ phục hồi hậu đại dịch dự báo đạt 88.4%.'}
+            ? 'Tourism spending peaked at ¥4.81 trillion (+318%). Cultural travelers spend 3.2x more. Post-pandemic recovery forecast reaches 88.4%.'
+            : 'Chi tiêu du lịch đạt 4.81 nghìn tỷ Yên (+318%). Nhóm khách văn hóa chi tiêu gấp 3.2 lần. Phục hồi dự báo đạt 88.4%.'}
           metrics={[
             { label: isEn ? 'Time-Series Data Span' : 'Dữ Liệu Chuỗi Thời Gian', value: isEn ? '20 Years' : '20 Năm', change: '2003 - 2022', isPositive: true },
             { label: isEn ? 'Peak Tourist Arrivals' : 'Lượng Khách Đạt Đỉnh', value: isEn ? '31.9 Million' : '31.9 Triệu', change: isEn ? 'Year 2019' : 'Năm 2019', isPositive: true },

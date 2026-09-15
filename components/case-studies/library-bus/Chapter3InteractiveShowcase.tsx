@@ -39,7 +39,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
               <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                 {isEn 
                   ? 'Switch between relational entity topology (D3 Graph) and concentric abstraction layers (Clean Radar).'
-                  : 'Chuyển đổi linh hoạt giữa góc nhìn quan hệ thực thể (Đồ thị mạng lưới D3) và phân tầng trừu tượng (Bản đồ Radar Clean Architecture).'}
+                  : 'Chuyển đổi giữa góc nhìn quan hệ thực thể (D3 Graph) và phân tầng trừu tượng (Clean Radar).'}
               </p>
             </div>
           </div>
@@ -142,7 +142,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
                       <strong>{isEn ? 'Bidirectional Dependency Inspector:' : 'Bảng phân tích ảnh hưởng 2 chiều:'}</strong>{' '}
                       {isEn 
                         ? 'Click any node to see who references it (Incoming) and what it connects to (Outgoing), with 1-click zoom.'
-                        : 'Nhấp vào node bất kỳ để tra cứu bảng phụ thuộc (Được tham chiếu bởi) và bảng liên đới (Trực thuộc), nhấp để zoom ngay.'}
+                        : 'Nhấp vào node để xem bảng phụ thuộc (Incoming) và liên đới (Outgoing), hỗ trợ zoom nhanh 1 chạm.'}
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
@@ -151,7 +151,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
                       <strong>{isEn ? 'Pinning & Link Adjustment:' : 'Khóa vị trí & Điều chỉnh lực liên kết:'}</strong>{' '}
                       {isEn 
                         ? 'Pin key nodes in place to build custom topology layouts or adjust graph repulsion.'
-                        : 'Ghim cố định các node trung tâm để định hình sơ đồ tĩnh hoặc tinh chỉnh độ dài lò xo liên kết.'}
+                        : 'Ghim cố định node để tạo sơ đồ tùy chỉnh hoặc tinh chỉnh lực đẩy liên kết của đồ thị.'}
                     </span>
                   </li>
                 </ul>
@@ -197,7 +197,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
                       <strong>{isEn ? 'Transactional Flow Direction:' : 'Định hướng luồng giao dịch:'}</strong>{' '}
                       {isEn 
                         ? 'Edges indicate strict relational dependency direction from consumers to root domain entities.'
-                        : 'Các cạnh đồ thị thể hiện chính xác chiều phụ thuộc từ thực thể nghiệp vụ tiêu thụ về thực thể gốc.'}
+                        : 'Đồ thị thể hiện chính xác chiều phụ thuộc từ thực thể tiêu thụ về thực thể gốc.'}
                     </span>
                   </li>
                 </ul>
@@ -268,8 +268,8 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
                     <span>
                       <strong>{isEn ? '6-Layer Interactive Highlighting:' : 'Lọc & Highlight 6 Tầng Kiến Trúc:'}</strong>{' '}
                       {isEn 
-                        ? 'Click any ring card on the sidebar to highlight all its nodes on the radar canvas and open the Inspector panel.'
-                        : 'Nhấp chọn bất kỳ thẻ tầng nào ở thanh bên trái để tự động làm sáng toàn bộ node của tầng đó trên radar và mở thẻ giải thích.'}
+                        ? 'Click any sidebar card to highlight its nodes on the radar and open the Inspector panel.'
+                        : 'Chọn thẻ bên trái để làm sáng node tương ứng trên radar và mở bảng giải thích.'}
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
@@ -278,7 +278,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
                       <strong>{isEn ? '7-Step Architectural Guided Tour:' : 'Chuyến tham quan có hướng dẫn 7 bước:'}</strong>{' '}
                       {isEn 
                         ? 'Follow the 7-step tour from system init (settings.py), ORM models, locking engine, Celery workers to UI templates.'
-                        : 'Theo dõi lộ trình 7 bước tuần tự từ khởi tạo (settings.py), models, khóa bi quan, Celery worker đến kiểm thử và giao diện.'}
+                        : 'Theo dõi 7 bước tuần tự từ settings.py, models, Celery worker đến giao diện người dùng.'}
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
@@ -287,7 +287,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
                       <strong>{isEn ? 'Inspect 702 Code Nodes:' : 'Khám phá chi tiết 702 tệp mã nguồn:'}</strong>{' '}
                       {isEn 
                         ? 'Click any dot on the radar to inspect exact file paths, class/function names, and functional responsibilities.'
-                        : 'Nhấp vào bất kỳ điểm nào trên bản đồ để tra cứu đường dẫn tệp thực tế, tên lớp/hàm và vai trò nghiệp vụ.'}
+                        : 'Nhấp vào một điểm trên bản đồ để xem chi tiết đường dẫn, tên hàm và vai trò nghiệp vụ.'}
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
@@ -296,7 +296,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
                       <strong>{isEn ? 'Auto-adapting Inspector & Quick Focus:' : 'Bảng Inspector tự co giãn & Phóng to 1 chạm:'}</strong>{' '}
                       {isEn 
                         ? 'Cards adapt cleanly to text length without scrollbars; click key source files to pan and zoom directly.'
-                        : 'Nội dung giải thích tự co giãn vừa vặn độ dài văn bản không tràn lề; nhấp vào từng tệp tiêu biểu để camera zoom thẳng đến node.'}
+                        : 'Thẻ giải thích tự động co giãn; nhấp vào tệp mã nguồn để camera zoom thẳng đến node tương ứng.'}
                     </span>
                   </li>
                 </ul>
@@ -329,7 +329,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
                       <strong>{isEn ? 'Strict Polar Coordinates (r, θ):' : 'Tọa độ cực Polar Projection (r, θ):'}</strong>{' '}
                       {isEn 
                         ? 'Nodes are mathematically locked onto designated concentric orbits, eliminating clutter and preserving architectural tiers.'
-                        : 'Mỗi node được khóa cố định theo góc và bán kính hình học, loại bỏ hoàn toàn sự lộn xộn và giữ đúng trật tự phân tầng.'}
+                        : 'Các node được khóa cố định theo hình học, loại bỏ sự lộn xộn và giữ đúng trật tự tầng.'}
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
@@ -338,7 +338,7 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
                       <strong>{isEn ? 'Dependency Rule Enforcement:' : 'Nguyên tắc bất biến phụ thuộc:'}</strong>{' '}
                       {isEn 
                         ? 'Inner layers contain pure business rules and domain models, completely decoupled from outer UI templates.'
-                        : 'Các tầng bên trong chứa luật nghiệp vụ và thực thể thuần túy, hoàn toàn độc lập với các tầng giao diện ngoài cùng.'}
+                        : 'Tầng bên trong chứa luật nghiệp vụ thuần túy, hoàn toàn độc lập với giao diện bên ngoài.'}
                     </span>
                   </li>
                 </ul>

@@ -124,14 +124,14 @@ export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProj
           isEn={isEn}
           readingTime={isEn ? '~3 min deep dive' : '~3 phút đọc chi tiết'}
           problem={isEn
-            ? 'Distributed mobile library system faces inventory desynchronization, transaction conflicts when multiple users reserve the same book at different bus stops, and high query latency under concurrent load.'
-            : 'Hệ thống thư viện di động phân tán gặp vấn đề dữ liệu tồn kho không đồng bộ, xung đột giao dịch khi nhiều người cùng đặt một đầu sách tại các điểm dừng xe, và độ trễ truy vấn cao khi tải đồng thời.'}
+            ? 'Distributed library system faces inventory desynchronization, transaction conflicts during concurrent reservations, and high query latency.'
+            : 'Hệ thống phân tán gặp lỗi không đồng bộ tồn kho, xung đột giao dịch khi đặt sách và độ trễ truy vấn cao.'}
           method={isEn
-            ? 'Design 3NF ERD with strict ACID transaction constraints, implement Redis distributed cache for hot data, and deploy Celery background workers to offload CPU-intensive operations.'
-            : 'Thiết kế ERD chuẩn hóa 3NF với ràng buộc Transaction ACID nghiêm ngặt, áp dụng Redis Cache phân tán và Celery Background Worker giải phóng tải CPU máy chủ.'}
+            ? 'Design 3NF ERD with ACID constraints, implement Redis distributed cache, and deploy Celery workers for CPU-intensive operations.'
+            : 'Thiết kế ERD 3NF chuẩn ACID, áp dụng Redis Cache và Celery Background Worker giảm tải CPU.'}
           insight={isEn
-            ? 'Reduced query response latency by 93.7% (450ms→28ms), sustained 500 concurrent connections with zero downtime, and completely eliminated 100% reservation data conflicts.'
-            : 'Giảm 93.7% độ trễ phản hồi (từ 450ms xuống 28ms), chịu tải ổn định 500 kết nối đồng thời và triệt tiêu hoàn toàn 100% lỗi xung đột mượn trùng sách.'}
+            ? 'Reduced query latency by 93.7%, sustained 500 concurrent connections, and eliminated 100% of reservation conflicts.'
+            : 'Giảm 93.7% độ trễ, chịu tải ổn định 500 kết nối và loại bỏ hoàn toàn xung đột dữ liệu.'}
           metrics={[
             { label: isEn ? 'Users Served' : 'Quy Mô Người Dùng Phục Vụ', value: '50,000+', change: 'Active Accounts', isPositive: true },
             { label: isEn ? 'Query Response Latency' : 'Độ Trễ Phản Hồi Truy Vấn', value: '28ms', change: '-93.7% Latency', isPositive: true },

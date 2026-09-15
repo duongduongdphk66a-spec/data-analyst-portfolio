@@ -81,7 +81,7 @@ export function Chapter3GridAndWireframe({ isEn, onCopyDeepLink }: Chapter3GridA
           </div>
 
           <p className="text-[11px] text-slate-500 dark:text-slate-400">
-            3.2 Wireframe tập trung cấu trúc phân tầng thông tin, đảm bảo hành trình tra cứu và đặt mượn sách không bị xao nhãng bởi yếu tố trang trí.
+            3.2 Wireframe tập trung phân tầng thông tin, giúp hành trình tra cứu và mượn sách không bị xao nhãng.
           </p>
         </div>
       </div>
