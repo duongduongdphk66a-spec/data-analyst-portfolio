@@ -1,13 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ArrowLeft,
   Sparkles,
   Store,
   UserCheck,
-  ImageIcon,
-  ExternalLink
+  ExternalLink,
+  List,
+  ChevronDown
 } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
@@ -46,6 +47,9 @@ export default function KamiElyTabsNav({
   handleNavClick
 }: KamiElyTabsNavProps) {
   const { setLanguage, t } = useLanguage();
+  const [isTocOpen, setIsTocOpen] = useState(false);
+
+  const activeItem = currentNavItems.find((item) => item.id === activeSection) || currentNavItems[0];
 
   return (
     <nav className="sticky top-0 z-50 bg-[#FAFDFE]/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs transition-all dark:bg-[#0B0F17]/95 dark:border-slate-800">
@@ -97,7 +101,6 @@ export default function KamiElyTabsNav({
         </div>
         
         <div className="flex items-center gap-2">
-
           {/* Open Standalone Page if Embedded */}
           {isEmbedded && (
             <a
@@ -122,56 +125,77 @@ export default function KamiElyTabsNav({
         </div>
       </div>
 
-      {/* Sub-Navigation Bar with Dynamic ScrollSpy Active Effect */}
+      {/* Sub-Navigation Bar: Compact Table of Contents Dropdown */}
       <div 
         ref={subnavContainerRef}
-        className="bg-[#C8EEF7]/25 backdrop-blur-md border-t border-[#9BE7FA]/40 py-2 px-4 overflow-x-auto dark:bg-[#0B0F17]/90 dark:border-slate-800/80"
+        className="bg-slate-50/90 backdrop-blur-md border-t border-slate-200/80 py-1.5 px-4 dark:bg-[#0B0F17]/90 dark:border-slate-800/80"
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-          <div className="flex items-center gap-1.5 sm:gap-2 text-xs font-bold text-slate-600 dark:text-slate-400 whitespace-nowrap">
-            <span className="text-[11px] font-black uppercase text-[#0D7287] dark:text-[#9BE7FA] mr-1 shrink-0 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA] animate-ping" />
-              {activeTab === 'science' 
-                ? (isEn ? 'Data Science Sections:' : 'Mục Khoa Học Dữ Liệu:') 
-                : activeTab === 'shop' 
-                  ? (isEn ? 'Shop Sections:' : 'Mục Shop:') 
-                  : (isEn ? 'Creator Sections:' : 'Mục Creator:')
-              }
-            </span>
-            {currentNavItems.map((item) => {
-              const isActive = activeSection === item.id;
-              return (
-                <React.Fragment key={item.id}>
-                  {item.dividerBefore && (
-                    <div className="h-4 w-px bg-slate-300 dark:bg-slate-700 shrink-0 mx-1 self-center" />
-                  )}
-                  <button
-                    id={`nav-tab-${item.id}`}
-                    type="button"
-                    onClick={(e) => handleNavClick(item.id, e)}
-                    className={`group relative px-3.5 py-1.5 rounded-xl transition-all duration-200 ease-out cursor-pointer flex items-center gap-1.5 shrink-0 select-none ${
-                      isActive
-                        ? 'bg-[#9BE7FA] text-slate-950 font-black shadow-xs dark:bg-[#9BE7FA] dark:text-slate-950'
-                        : 'hover:bg-white/80 hover:text-slate-950 text-slate-600 font-semibold dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/80'
-                    }`}
-                  >
-                    {isActive && (
-                      <span className="relative flex h-2 w-2 shrink-0">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#074553] opacity-75 dark:bg-[#0B0F17]" />
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#074553] dark:bg-[#0B0F17]" />
-                      </span>
-                    )}
+          {/* Table of Contents Dropdown */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setIsTocOpen(!isTocOpen)}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 shadow-2xs hover:border-[#9BE7FA] transition-all cursor-pointer"
+              aria-expanded={isTocOpen}
+            >
+              <List className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+              <span className="font-extrabold">{isEn ? 'TOC:' : 'Mục lục:'}</span>
+              <span className="max-w-[160px] sm:max-w-[240px] truncate text-[#0D7287] dark:text-[#9BE7FA] font-black">
+                {activeItem?.label || (isEn ? 'Select chapter' : 'Chọn mục')}
+              </span>
+              <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${isTocOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* Dropdown Menu */}
+            {isTocOpen && (
+              <>
+                <div 
+                  className="fixed inset-0 z-40" 
+                  onClick={() => setIsTocOpen(false)} 
+                />
+                <div className="absolute top-full left-0 mt-1.5 w-72 sm:w-80 max-h-96 overflow-y-auto rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl z-50 p-1.5 space-y-1 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="px-3 py-1.5 text-[10px] font-mono font-bold uppercase text-slate-400 dark:text-slate-500 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                     <span>
-                      {item.label}
+                      {activeTab === 'science' 
+                        ? (isEn ? 'Data Science Chapters' : 'Các Mục Khoa Học Dữ Liệu') 
+                        : activeTab === 'shop' 
+                          ? (isEn ? 'Shop Chapters' : 'Các Mục Toàn Shop') 
+                          : (isEn ? 'Creator Chapters' : 'Các Mục Creator')}
                     </span>
-                  </button>
-                </React.Fragment>
-              );
-            })}
+                    <span className="font-mono text-[9px]">{currentNavItems.length} {isEn ? 'sections' : 'mục'}</span>
+                  </div>
+                  {currentNavItems.map((item) => {
+                    const isActive = activeSection === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        id={`nav-tab-${item.id}`}
+                        type="button"
+                        onClick={(e) => {
+                          handleNavClick(item.id, e);
+                          setIsTocOpen(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-colors cursor-pointer ${
+                          isActive
+                            ? 'bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/15 text-[#074553] dark:text-[#9BE7FA] font-black'
+                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium'
+                        }`}
+                      >
+                        <span className="truncate">{item.label}</span>
+                        {isActive && (
+                          <span className="w-2 h-2 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA] shrink-0" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
           </div>
 
-          {/* Reading progress metric on wide screen */}
-          <div className="hidden lg:flex items-center gap-2 text-[11px] font-bold text-slate-500 dark:text-slate-400 shrink-0">
+          {/* Reading progress metric */}
+          <div className="flex items-center gap-2 text-[11px] font-bold text-slate-500 dark:text-slate-400 shrink-0">
             <span>{Math.round(scrollProgress)}%</span>
             <div className="w-16 h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
               <div 

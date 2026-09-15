@@ -2,7 +2,7 @@ import { getDbCache, setDbCache, invalidateDbCache } from './db';
 
 /**
  * Server-Side Two-Tier API Cache Utility (PM2 Cluster Compatible)
- * Tầng 1: In-Memory cục bộ (TTL ngắn 5s) giảm tải truy vấn MySQL cho từng tiến trình.
+ * Tầng 1: In-Memory cục bộ (TTL ngắn 30s) giảm tải truy vấn MySQL cho từng tiến trình.
  * Tầng 2: MySQL Shared Cache (`portfolio_cache` TTL 60s) đồng bộ trạng thái giữa tất cả các worker PM2.
  * Khi Admin lưu dữ liệu, `invalidateApiCacheAsync()` sẽ xoá ngay trong MySQL và bộ nhớ.
  */

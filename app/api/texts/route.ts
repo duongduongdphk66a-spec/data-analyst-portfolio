@@ -22,8 +22,9 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await getTextsWithFallback(langParam || undefined);
+    const source = (data === translations || data === translations.vi || data === translations.en) ? 'fallback' : 'mysql';
     await setApiCacheAsync(cacheKey, data);
-    return NextResponse.json({ success: true, source: 'mysql', data }, { headers: CACHE_HEADERS });
+    return NextResponse.json({ success: true, source, data }, { headers: CACHE_HEADERS });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     console.warn('[API /api/texts GET] Fallback to static translations:', message);

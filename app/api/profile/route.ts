@@ -20,8 +20,9 @@ export async function GET() {
     }
 
     const profile = await getProfileWithFallback();
+    const source = profile === DEFAULT_PROFILE ? 'fallback' : 'mysql';
     await setApiCacheAsync('profile', profile);
-    return NextResponse.json({ success: true, source: 'mysql', data: profile }, { headers: CACHE_HEADERS });
+    return NextResponse.json({ success: true, source, data: profile }, { headers: CACHE_HEADERS });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     console.warn('[API /api/profile GET] Falling back to default profile:', message);

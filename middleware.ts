@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com;
     img-src 'self' data: blob: https://images.unsplash.com https://*.githubusercontent.com https://avatars.githubusercontent.com;
     font-src 'self' data: https://fonts.gstatic.com;
-    connect-src 'self' ws: wss:;
+    connect-src 'self' ${isDev ? 'ws: wss:' : ''};
     frame-src 'self' https://*.google.com https://lookerstudio.google.com https://public.tableau.com https://*.powerbi.com https://*.youtube.com https://*.loom.com;
     object-src 'none';
     base-uri 'self';

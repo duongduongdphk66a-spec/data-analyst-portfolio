@@ -24,8 +24,9 @@ export async function GET() {
     }
 
     const projects = await getProjectsWithFallback();
+    const source = projects === DEFAULT_PROJECTS ? 'fallback' : 'mysql';
     await setApiCacheAsync('projects', projects);
-    return NextResponse.json({ success: true, source: 'mysql', data: projects }, { headers: CACHE_HEADERS });
+    return NextResponse.json({ success: true, source, data: projects }, { headers: CACHE_HEADERS });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     console.warn('[API /api/projects GET] Fallback to default:', message);

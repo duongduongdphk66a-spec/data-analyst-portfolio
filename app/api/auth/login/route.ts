@@ -5,7 +5,9 @@ import {
   getClientIp, 
   checkLoginRateLimitAsync, 
   recordFailedLoginAsync, 
-  resetLoginAttemptsAsync 
+  resetLoginAttemptsAsync,
+  MAX_FAILED_ATTEMPTS,
+  LOCKOUT_DURATION_MS
 } from '@/app/lib/auth';
 
 /**
@@ -54,7 +56,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             success: false,
-            message: `Mật khẩu không chính xác. Bạn đã nhập sai 5 lần, tài khoản bị khoá tạm thời trong 15 phút.`,
+            message: `Mật khẩu không chính xác. Bạn đã nhập sai ${MAX_FAILED_ATTEMPTS} lần, tài khoản bị khoá tạm thời trong ${Math.round(LOCKOUT_DURATION_MS / 60000)} phút.`,
             retryAfter: record.retryAfterSeconds,
           },
           { 

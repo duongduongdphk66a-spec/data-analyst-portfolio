@@ -35,9 +35,9 @@ interface RateLimitEntry {
   lastAttempt: number;
 }
 
-const MAX_FAILED_ATTEMPTS = 10;
-const LOCKOUT_DURATION_MS = 5 * 60 * 1000; // 5 phút
-const ATTEMPT_WINDOW_MS = 15 * 60 * 1000;   // 15 phút
+export const MAX_FAILED_ATTEMPTS = 10;
+export const LOCKOUT_DURATION_MS = 5 * 60 * 1000; // 5 phút
+export const ATTEMPT_WINDOW_MS = 15 * 60 * 1000;   // 15 phút
 
 const loginAttempts = new Map<string, RateLimitEntry>();
 
