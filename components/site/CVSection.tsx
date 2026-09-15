@@ -121,9 +121,9 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
   );
 
   return (
-    <section id="experience" ref={sectionRef} className="section-ground py-20 md:py-28 transition-colors duration-200">
+    <section id="experience" ref={sectionRef} className="section-ground py-14 sm:py-20 md:py-28 transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
-        <h2 className="text-3xl sm:text-4xl font-heading font-bold text-ink dark:text-white mb-14 max-w-2xl leading-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-ink dark:text-white mb-10 sm:mb-14 max-w-2xl leading-tight">
           {isEn ? 'Education & professional timeline.' : 'Học vấn và lộ trình nghề nghiệp.'}
         </h2>
 

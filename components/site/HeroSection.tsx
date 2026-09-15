@@ -72,7 +72,7 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
   };
 
   return (
-    <section ref={containerRef} className="relative min-h-[85vh] flex items-center bg-[#FAFDFE] dark:bg-[#0B0F17] hero-glow overflow-hidden transition-colors duration-200">
+    <section ref={containerRef} className="relative min-h-0 sm:min-h-[85vh] flex items-center bg-[#FAFDFE] dark:bg-[#0B0F17] hero-glow overflow-hidden transition-colors duration-200">
       {/* Background visual graph (Subtle) */}
       <div className="absolute inset-0 opacity-10 dark:opacity-[0.04] pointer-events-none overflow-hidden">
         <div className="absolute -bottom-32 -right-32 w-full h-full max-w-4xl scale-125 origin-bottom-right">
@@ -80,7 +80,7 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
         </div>
       </div>
 
-      <div className="relative max-w-4xl mx-auto px-5 sm:px-8 w-full py-16 md:py-24 text-center sm:text-left z-10">
+      <div className="relative max-w-4xl mx-auto px-5 sm:px-8 w-full py-12 sm:py-16 md:py-24 text-center sm:text-left z-10">
         <div className="space-y-10">
 
           {/* 1. Identity & Kicker Badge */}
@@ -136,14 +136,14 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
 
           {/* 5. Metrics Box */}
           <div className="pt-8 animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both" style={{ animationDelay: '400ms' }}>
-            <div className="inline-block p-6 sm:p-8 rounded-2xl border border-slate-200/80 hover:border-[#9BE7FA]/60 dark:border-slate-800 dark:hover:border-[#9BE7FA]/40 bg-white/70 dark:bg-slate-900/60 backdrop-blur-sm shadow-sm hover:shadow-md transition-all w-full sm:w-auto">
-              <div className="grid grid-cols-2 gap-x-12 sm:gap-x-24 gap-y-8">
+            <div className="inline-block p-5 sm:p-6 lg:p-8 rounded-2xl border border-slate-200/80 hover:border-[#9BE7FA]/60 dark:border-slate-800 dark:hover:border-[#9BE7FA]/40 bg-white/70 dark:bg-slate-900/60 backdrop-blur-sm shadow-sm hover:shadow-md transition-all w-full sm:w-auto">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 sm:gap-x-8 lg:gap-x-12 gap-y-6 sm:gap-y-0">
                 {stats.map((stat, i) => (
                   <div key={i} className="flex flex-col text-left">
-                    <span className="text-2xl sm:text-3xl font-mono font-extrabold text-slate-950 dark:text-white tabular-nums">
+                    <span className="text-xl sm:text-2xl lg:text-3xl font-mono font-extrabold text-slate-950 dark:text-white tabular-nums">
                       {stat.value}
                     </span>
-                    <span className="text-sm font-heading font-medium text-slate-500 dark:text-slate-400 mt-1">
+                    <span className="text-xs sm:text-sm font-heading font-medium text-slate-500 dark:text-slate-400 mt-1">
                       {stat.label}
                     </span>
                   </div>

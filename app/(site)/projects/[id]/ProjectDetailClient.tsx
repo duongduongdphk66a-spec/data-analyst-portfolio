@@ -35,6 +35,16 @@ const CASE_STUDY_COMPONENTS: Record<string, React.ComponentType<any>> = {
 export default function ProjectDetailClient({ id, project }: { id: string; project?: ProjectData }) {
   const { projects: contextProjects, isLoading } = usePortfolioData();
 
+  React.useEffect(() => {
+    if (typeof window !== 'undefined' && !window.location.hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      const mainContainer = document.querySelector('main.overflow-y-auto') || document.querySelector('main');
+      if (mainContainer) {
+        mainContainer.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      }
+    }
+  }, [id]);
+
   const SpecialComponent = CASE_STUDY_COMPONENTS[id];
 
   // 1. Prioritize prop from server, then context, then default

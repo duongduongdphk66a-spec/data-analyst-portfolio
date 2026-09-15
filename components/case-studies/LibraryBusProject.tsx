@@ -80,6 +80,13 @@ export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProj
 
   useEffect(() => {
     trackVisitorAction('Xem hồ sơ thiết kế & phân tích: Tủ Sách Lưu Động (Library Bus)', 'proj-library-bus', 'project');
+    if (typeof window !== 'undefined' && !window.location.hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      const mainContainer = document.querySelector('main.overflow-y-auto') || document.querySelector('main');
+      if (mainContainer) {
+        mainContainer.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      }
+    }
   }, []);
 
   const handleBack = () => {

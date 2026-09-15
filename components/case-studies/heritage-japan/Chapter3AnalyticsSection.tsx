@@ -56,37 +56,37 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
         <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
           <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Khách quốc tế toàn quốc</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">31.9 Triệu</span>
-            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">+207%</span>
+            <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">36.9 Triệu</span>
+            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">+255%</span>
           </div>
-          <p className="text-xs text-slate-500 mt-1">Đỉnh 2019 (từ 10.4 triệu năm 2013)</p>
+          <p className="text-xs text-slate-500 mt-1">Kỷ lục 2024 (JNTO, vượt đỉnh 31.9M năm 2019)</p>
         </div>
 
         <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
           <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Chi tiêu du khách quốc tế</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">4.81 Nghìn tỷ ¥</span>
-            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">x3.4 lần</span>
+            <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">8.14 Nghìn tỷ ¥</span>
+            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">x5.8 lần</span>
           </div>
-          <p className="text-xs text-slate-500 mt-1">Gấp 3.4 lần so với 1.41T¥ (2013)</p>
+          <p className="text-xs text-slate-500 mt-1">Kỷ lục 2024 (観光庁, tăng +69% vs 2019)</p>
         </div>
 
         <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
           <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Đóng góp vào GDP Nhật</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">7.5% GDP</span>
-            <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">41.9T ¥</span>
+            <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">8.4% GDP</span>
+            <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">68.2T ¥</span>
           </div>
-          <p className="text-xs text-slate-500 mt-1">Nền kinh tế du lịch Top 3 thế giới</p>
+          <p className="text-xs text-slate-500 mt-1">Quy mô doanh thu du lịch 2024 (METI/WTTC)</p>
         </div>
 
         <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Tác động ngân sách Kyoto</span>
+          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Chi tiêu du lịch Kyoto</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">39 Tỷ ¥ Thuế</span>
-            <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">12.8%</span>
+            <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">1.91 Nghìn tỷ ¥</span>
+            <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">8.21M khách</span>
           </div>
-          <p className="text-xs text-slate-500 mt-1">Tạo 153.000 việc làm cho Kyoto</p>
+          <p className="text-xs text-slate-500 mt-1">Kỷ lục 2024 (Khách quốc tế chiếm 50.4% lưu trú)</p>
         </div>
       </div>
 
@@ -224,30 +224,35 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
 
         {/* Volume Commentary & Comparison Table */}
         <div className="mt-6 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-700 dark:bg-slate-800/70 dark:border-slate-700 dark:text-slate-300">
-          <strong className="text-slate-900 block font-bold mb-1 dark:text-white">
-            Phân tích học thuật về Lượng du khách (Niên luận):
-          </strong>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+            <strong className="text-slate-900 font-bold dark:text-white">
+              Phân tích học thuật & Cập nhật Dữ liệu Mới nhất (JNTO / DMO KYOTO / Nara):
+            </strong>
+            <span className="text-[10px] font-mono text-[#0D7287] dark:text-[#9BE7FA]">
+              Niên luận (2003–2022) + Cập nhật chính thức (2023–2024)
+            </span>
+          </div>
           {volumeChartId === '3.1' && (
             <p>
-              Lượng khách quốc tế đến Nhật Bản trước năm 2013 dao động ổn định trong khoảng 6 đến 8 triệu. Kể từ năm 2013, nhờ Chương trình hành động quốc gia, con số này tăng phi mã, chạm ngưỡng 19.7 triệu (2015) và đạt đỉnh lịch sử <strong>31.9 triệu lượt</strong> vào năm 2019. Năm 2020–2021 suy giảm mạnh do đại dịch COVID-19 và đã phục hồi ngoạn mục từ năm 2022–2023 đạt hơn 25 triệu lượt.
+              Lượng khách quốc tế đến Nhật Bản trước năm 2013 dao động ổn định trong khoảng 6 đến 8 triệu. Nhờ Chương trình hành động quốc gia 2013, con số này tăng phi mã, chạm 19.7 triệu (2015) và đạt đỉnh 31.9 triệu (2019). Sau giai đoạn gián đoạn 2020–2021, du lịch Nhật phục hồi thần tốc: năm 2023 đạt 25.1 triệu lượt và năm 2024 chính thức thiết lập <strong>kỷ lục lịch sử mới với 36.9 triệu lượt khách</strong> (tăng +47.1% so với 2023 và vượt đỉnh năm 2019 tới 5 triệu lượt theo JNTO).
             </p>
           )}
           {volumeChartId === '3.2' && (
             <p>
-              Tại Thành phố Kyoto, trước năm 2013 lượng khách nước ngoài chưa bao giờ vượt quá 1 triệu người. Từ 2013, số lượng tăng vọt lên 1.8 triệu (2015), 3.1 triệu (2016) và lập kỷ lục <strong>4.5 triệu lượt</strong> năm 2019, đóng góp tới 12% tổng sản phẩm GRDP của cố đô.
+              Tại Thành phố Kyoto, lượng khách nước ngoài lưu trú trước 2013 dưới 1 triệu người. Giai đoạn 2013–2019 bùng nổ lên 4.5 triệu lượt. Sau đại dịch, lượng khách hồi phục ngoạn mục: năm 2023 đạt 5.36 triệu lượt và năm 2024 bứt phá lên mức kỷ lục <strong>8.21 triệu lượt khách quốc tế</strong>, lần đầu tiên vượt qua lượng khách nội địa (8.09 triệu) và chiếm 50.4% tổng lượng khách lưu trú tại cố đô (theo DMO KYOTO).
             </p>
           )}
           {volumeChartId === '3.3' && (
             <p>
-              Cố đô Nara ghi nhận tốc độ tăng trưởng hàng năm ấn tượng 40%–60%, từ 174 nghìn lượt khách quốc tế (2011) lên tới <strong>3.3 triệu lượt</strong> vào năm 2019. Lượng khách tăng nhanh gấp gần 20 lần trong vòng chưa đầy một thập kỷ.
+              Cố đô Nara ghi nhận tốc độ tăng trưởng hàng năm phi thường từ 174 nghìn lượt (2011) lên 3.3 triệu lượt (2019). Hậu đại dịch, lượng khách quốc tế phục hồi mạnh mẽ: năm 2023 đón 2.58 triệu lượt và năm 2024 đạt <strong>3.14 triệu lượt khách</strong> (xếp thứ 7 trong 47 tỉnh thành Nhật Bản theo Cục Du lịch Tỉnh Nara).
             </p>
           )}
 
           {/* Kyoto vs Nara Table */}
           <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
             <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white text-xs">
-              <span>Đối sánh Lượng khách du lịch: Kyoto vs Nara (2013 - 2019)</span>
-              <span className="text-[10px] font-mono text-slate-400">Đơn vị: Nghìn người</span>
+              <span>Đối sánh Lượng khách du lịch: Kyoto vs Nara (2013 - 2024)</span>
+              <span className="text-[10px] font-mono text-slate-400">Đơn vị: Nghìn người (k)</span>
             </h5>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
@@ -256,16 +261,21 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
                     <th className="py-1.5 px-2">Năm khảo sát</th>
                     <th className="py-1.5 px-2 text-[#0D7287] dark:text-[#9BE7FA]">Cố đô Kyoto (Khách quốc tế)</th>
                     <th className="py-1.5 px-2 text-amber-600 dark:text-amber-400">Cố đô Nara (Khách quốc tế)</th>
+                    <th className="py-1.5 px-2 text-slate-500">Tỷ lệ Nara / Kyoto</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {kyotoNaraVisitorsData.filter(d => ['2013', '2015', '2017', '2019'].includes(d.year)).map(d => (
-                    <tr key={d.year}>
-                      <td className="py-1.5 px-2 font-mono font-bold text-slate-600 dark:text-slate-400">{d.year}</td>
-                      <td className="py-1.5 px-2 font-bold text-slate-900 dark:text-white">{d.kyoto.toLocaleString()}k khách</td>
-                      <td className="py-1.5 px-2 font-bold text-slate-900 dark:text-white">{d.nara?.toLocaleString()}k khách</td>
-                    </tr>
-                  ))}
+                  {kyotoNaraVisitorsData.filter(d => ['2013', '2015', '2017', '2019', '2021', '2022', '2023', '2024'].includes(d.year)).map(d => {
+                    const ratio = d.nara && d.kyoto ? ((d.nara / d.kyoto) * 100).toFixed(1) : '-';
+                    return (
+                      <tr key={d.year}>
+                        <td className="py-1.5 px-2 font-mono font-bold text-slate-600 dark:text-slate-400">{d.year}</td>
+                        <td className="py-1.5 px-2 font-bold text-slate-900 dark:text-white">{d.kyoto.toLocaleString()}k khách</td>
+                        <td className="py-1.5 px-2 font-bold text-slate-900 dark:text-white">{d.nara?.toLocaleString()}k khách</td>
+                        <td className="py-1.5 px-2 font-mono text-slate-500 dark:text-slate-400">{ratio}%</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -407,30 +417,35 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
 
         {/* Revenue Commentary & GDP Contribution Table */}
         <div className="mt-6 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-700 dark:bg-slate-800/70 dark:border-slate-700 dark:text-slate-300">
-          <strong className="text-slate-900 block font-bold mb-1 dark:text-white">
-            Phân tích học thuật về Doanh thu & Đóng góp Kinh tế:
-          </strong>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+            <strong className="text-slate-900 font-bold dark:text-white">
+              Phân tích học thuật & Cập nhật Doanh thu Mới nhất (観光庁 / DMO KYOTO / Nara):
+            </strong>
+            <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400">
+              Niên luận (2010–2021) + Cập nhật chính thức (2022–2024)
+            </span>
+          </div>
           {revenueChartId === '3.4' && (
             <p>
-              Tổng chi tiêu du lịch của khách quốc tế tại Nhật Bản tăng từ 1.41 nghìn tỷ Yên (2013) lên đỉnh điểm <strong>4.81 nghìn tỷ Yên</strong> (2019), tăng gấp 3.4 lần trong 7 năm, đưa ngành du lịch trở thành động lực xuất khẩu dịch vụ hàng đầu đất nước.
+              Tổng chi tiêu du lịch của khách quốc tế tại Nhật Bản tăng từ 1.41 nghìn tỷ Yên (2013) lên 4.81 nghìn tỷ Yên (2019). Giai đoạn hậu đại dịch bùng nổ mạnh mẽ nhờ tỷ giá đồng Yên thuận lợi và sự phục hồi toàn diện: năm 2023 đạt 5.31 nghìn tỷ Yên và năm 2024 chính thức xác lập <strong>kỷ lục lịch sử mọi thời đại 8.14 nghìn tỷ Yên</strong> (tăng gấp 5.8 lần so với 2013 và tăng +69.2% so với đỉnh 2019 theo Tổng cục Du lịch Nhật Bản 観光庁).
             </p>
           )}
           {revenueChartId === '3.5' && (
             <p>
-              Doanh thu du lịch tại Kyoto tăng trưởng bền bỉ từ 601 tỷ Yên (2008) lên <strong>1.308 tỷ Yên</strong> (2019), tạo nguồn thu thuế trực tiếp 39 tỷ Yên, tương đương 12.8% tổng thu ngân sách thành phố.
+              Doanh thu du lịch tại Kyoto tăng trưởng bền bỉ từ 601 tỷ Yên (2008) lên 1.308 tỷ Yên (2019). Sau đại dịch, chi tiêu tại cố đô hồi phục ngoạn mục lên 1.537 tỷ Yên (2023) và lập đỉnh lịch sử <strong>1.908 tỷ Yên</strong> vào năm 2024, tạo hiệu quả kinh tế lan tỏa lên tới 2.989 tỷ Yên cho toàn thành phố.
             </p>
           )}
           {revenueChartId === '3.6' && (
             <p>
-              Tại Cố đô Nara, tổng chi tiêu du lịch tăng từ 872 tỷ Yên (2013) lên đỉnh <strong>1.208 tỷ Yên</strong> (2018). Mức chi tiêu duy trì ổn định và nhanh chóng hồi phục đạt 598 tỷ Yên vào năm 2022 sau cú sốc đại dịch.
+              Tại Cố đô Nara, tổng chi tiêu du lịch tăng từ 872 tỷ Yên (2013) lên 1.208 tỷ Yên (2018). Hậu đại dịch, chi tiêu tại Nara bứt phá đạt 1.807 tỷ Yên (2023) và lập kỷ lục lịch sử mới <strong>2.060 tỷ Yên</strong> vào năm 2024 (tăng +14.0% so với mức đỉnh 2019 theo Cục Du lịch Tỉnh Nara).
             </p>
           )}
 
           {/* GDP Contribution Table */}
           <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
             <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white text-xs">
-              <span>Tăng trưởng Đóng góp GDP Quốc gia của Ngành Du lịch (2000 - 2019)</span>
-              <span className="text-[10px] font-mono text-slate-400">Nguồn: METI & WTTC</span>
+              <span>Tăng trưởng Đóng góp GDP Quốc gia của Ngành Du lịch (2000 - 2024)</span>
+              <span className="text-[10px] font-mono text-slate-400">Nguồn: METI, WTTC & Cập nhật JTA/JNTO</span>
             </h5>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">

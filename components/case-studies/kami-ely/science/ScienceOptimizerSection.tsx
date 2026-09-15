@@ -45,16 +45,16 @@ export default function ScienceOptimizerSection({
       </div>
 
       {/* Interactive Optimization Simulator */}
-      <div className="rounded-2xl border border-teal-500/30 bg-gradient-to-br from-teal-950/20 via-slate-950 to-slate-900 p-6 text-white shadow-xl">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+      <div className="rounded-2xl border-2 border-[#FFD14C] bg-gradient-to-br from-[#FFFDF5] via-[#FFF9E6] to-[#FFE485]/40 p-6 text-slate-900 shadow-lg dark:border-teal-500/30 dark:bg-gradient-to-br dark:from-teal-950/20 dark:via-slate-950 dark:to-slate-900 dark:text-white dark:shadow-xl transition-colors">
+        <div className="flex items-center justify-between border-b border-[#FFE485]/80 pb-4 dark:border-slate-800">
           <div className="flex items-center gap-2">
-            <Sliders className="h-5 w-5 text-teal-400" />
-            <h3 className="font-bold text-base sm:text-lg">
+            <Sliders className="h-5 w-5 text-[#0D7287] dark:text-teal-400" />
+            <h3 className="font-bold text-base sm:text-lg text-slate-950 dark:text-white">
               {isEn ? 'Interactive Resource Reallocation Simulator' : 'Trình Giả Lập Tối Ưu Hóa Phân Bổ Nguồn Lực'}
             </h3>
           </div>
-          <span className="rounded-full bg-teal-500/20 px-3 py-1 text-xs text-teal-300 font-semibold">
-            Mô hình Dự báo Lợi ích Kinh doanh
+          <span className="rounded-full bg-[#FFE485] px-3 py-1 text-xs font-bold text-slate-900 border border-[#FFD14C] dark:border-transparent dark:bg-teal-500/20 dark:text-teal-300">
+            {isEn ? 'Business Impact Forecast Model' : 'Mô hình Dự báo Lợi ích Kinh doanh'}
           </span>
         </div>
 
@@ -63,8 +63,8 @@ export default function ScienceOptimizerSection({
           <div className="space-y-6">
             <div className="space-y-2">
               <div className="flex justify-between text-xs font-semibold">
-                <span className="text-slate-300">{isEn ? 'Reduce Low-GPM Live Hours:' : 'Cắt giảm giờ Live vượt ngưỡng hiệu quả:'}</span>
-                <span className="font-bold text-amber-400">-{liveHoursReduction}%</span>
+                <span className="text-slate-700 dark:text-slate-300">{isEn ? 'Reduce Low-GPM Live Hours:' : 'Cắt giảm giờ Live vượt ngưỡng hiệu quả:'}</span>
+                <span className="font-bold text-amber-700 dark:text-amber-400">-{liveHoursReduction}%</span>
               </div>
               <input 
                 type="range" 
@@ -73,9 +73,9 @@ export default function ScienceOptimizerSection({
                 step="5" 
                 value={liveHoursReduction} 
                 onChange={(e) => setLiveHoursReduction(Number(e.target.value))}
-                className="w-full accent-teal-400 cursor-pointer"
+                className="w-full accent-[#0D7287] dark:accent-teal-400 cursor-pointer"
               />
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-slate-600 dark:text-slate-400">
                 {isEn 
                   ? 'Eliminates studio runtime past the 3-hour diminishing returns limit.' 
                   : 'Cắt giảm các ca live kéo dài sau mốc 3 giờ (nơi doanh thu phát sinh thêm gần như bằng 0).'}
@@ -84,8 +84,8 @@ export default function ScienceOptimizerSection({
 
             <div className="space-y-2">
               <div className="flex justify-between text-xs font-semibold">
-                <span className="text-slate-300">{isEn ? 'Shoppable Video Coverage:' : 'Số lượng video có gắn link giỏ hàng:'}</span>
-                <span className="font-bold text-teal-300">{videoCoverage} / 859 Video</span>
+                <span className="text-slate-700 dark:text-slate-300">{isEn ? 'Shoppable Video Coverage:' : 'Số lượng video có gắn link giỏ hàng:'}</span>
+                <span className="font-bold text-[#0D7287] dark:text-teal-300">{videoCoverage} / 859 Video</span>
               </div>
               <input 
                 type="range" 
@@ -94,9 +94,9 @@ export default function ScienceOptimizerSection({
                 step="20" 
                 value={videoCoverage} 
                 onChange={(e) => setVideoCoverage(Number(e.target.value))}
-                className="w-full accent-teal-400 cursor-pointer"
+                className="w-full accent-[#0D7287] dark:accent-teal-400 cursor-pointer"
               />
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-slate-600 dark:text-slate-400">
                 {isEn 
                   ? 'Increases high-GPM shoppable videos from 551 to full catalog coverage (859 videos).' 
                   : 'Gia tăng số lượng video có giỏ hàng (tận dụng GPM 135.2k VNĐ vượt trội của kênh video).'}
@@ -105,24 +105,38 @@ export default function ScienceOptimizerSection({
           </div>
 
           {/* Simulated Financial Outcomes */}
-          <div className="grid grid-cols-2 gap-4 rounded-xl border border-slate-800 bg-slate-950/80 p-5">
+          <div className="grid grid-cols-2 gap-4 rounded-xl border border-[#FFE485] bg-white/90 p-5 shadow-xs dark:border-slate-800 dark:bg-slate-950/80">
             <div className="space-y-1">
-              <span className="text-[11px] uppercase tracking-wider text-slate-400">Tiết kiệm Chi phí Vận hành</span>
-              <p className="text-2xl font-bold text-amber-400">+{simulatorMetrics.operationalCostSavedMillion}M</p>
-              <span className="text-[10px] text-slate-500">Giảm nhân sự & khấu hao phòng live</span>
+              <span className="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                {isEn ? 'Operational Cost Saved' : 'Tiết kiệm Chi phí Vận hành'}
+              </span>
+              <p className="text-2xl font-bold text-amber-700 dark:text-amber-400">+{simulatorMetrics.operationalCostSavedMillion}M</p>
+              <span className="text-[10px] text-slate-500">
+                {isEn ? 'Reduced headcount & live studio depreciation' : 'Giảm nhân sự & khấu hao phòng live'}
+              </span>
             </div>
 
             <div className="space-y-1">
-              <span className="text-[11px] uppercase tracking-wider text-slate-400">GMV Video Bổ Sung</span>
-              <p className="text-2xl font-bold text-teal-300">+{simulatorMetrics.additionalVideoGmvMillion}M</p>
-              <span className="text-[10px] text-slate-500">Từ {simulatorMetrics.incrementalVideos} video gắn giỏ hàng mới</span>
+              <span className="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                {isEn ? 'Additional Video GMV' : 'GMV Video Bổ Sung'}
+              </span>
+              <p className="text-2xl font-bold text-[#0D7287] dark:text-teal-300">+{simulatorMetrics.additionalVideoGmvMillion}M</p>
+              <span className="text-[10px] text-slate-500">
+                {isEn ? `From ${simulatorMetrics.incrementalVideos} new shoppable videos` : `Từ ${simulatorMetrics.incrementalVideos} video gắn giỏ hàng mới`}
+              </span>
             </div>
 
-            <div className="col-span-2 border-t border-slate-800 pt-3">
-              <span className="text-xs uppercase tracking-wider text-teal-400 font-semibold">Lợi ích Tài chính Ròng Kỳ Vọng:</span>
-              <div className="mt-1 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-emerald-400">+{simulatorMetrics.netBenefitMillion} Triệu VNĐ</span>
-                <span className="text-xs text-slate-300">Doanh thu và tiết kiệm dự kiến</span>
+            <div className="col-span-2 border-t border-[#FFE485]/80 pt-3 dark:border-slate-800">
+              <span className="text-xs uppercase tracking-wider text-[#0D7287] dark:text-teal-400 font-bold">
+                {isEn ? 'Expected Net Financial Impact:' : 'Lợi ích Tài chính Ròng Kỳ Vọng:'}
+              </span>
+              <div className="mt-1 flex flex-wrap items-baseline gap-2">
+                <span className="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">
+                  +{simulatorMetrics.netBenefitMillion} {isEn ? 'Million VND' : 'Triệu VNĐ'}
+                </span>
+                <span className="text-xs text-slate-600 dark:text-slate-300">
+                  {isEn ? 'Estimated revenue & savings' : 'Doanh thu và tiết kiệm dự kiến'}
+                </span>
               </div>
             </div>
           </div>

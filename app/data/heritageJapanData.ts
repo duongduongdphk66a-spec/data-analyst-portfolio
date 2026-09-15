@@ -46,8 +46,8 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
   {
     stt: 1,
     chartId: '3.1',
-    nameVi: 'Số lượng khách du lịch nước ngoài đến Nhật Bản (2003 – 2022)',
-    nameEn: 'International Visitors to Japan (2003 – 2022)',
+    nameVi: 'Số lượng khách du lịch nước ngoài đến Nhật Bản (2003 – 2024)',
+    nameEn: 'International Visitors to Japan (2003 – 2024)',
     unitVi: 'Triệu người',
     unitEn: 'Million visitors',
     pageInDoc: 30,
@@ -55,8 +55,8 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
   {
     stt: 2,
     chartId: '3.2',
-    nameVi: 'Số lượng khách du lịch nước ngoài đến Thành phố Kyoto (2008 – 2023)',
-    nameEn: 'International Inbound Visitors to Kyoto City (2008 – 2023)',
+    nameVi: 'Số lượng khách du lịch nước ngoài đến Thành phố Kyoto (2008 – 2024)',
+    nameEn: 'International Inbound Visitors to Kyoto City (2008 – 2024)',
     unitVi: 'Nghìn người',
     unitEn: 'Thousand visitors',
     pageInDoc: 31,
@@ -64,8 +64,8 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
   {
     stt: 3,
     chartId: '3.3',
-    nameVi: 'Số lượng khách du lịch nước ngoài đến Cố đô Nara (2011 – 2020)',
-    nameEn: 'International Inbound Visitors to Nara Prefecture (2011 – 2020)',
+    nameVi: 'Số lượng khách du lịch nước ngoài đến Cố đô Nara (2011 – 2024)',
+    nameEn: 'International Inbound Visitors to Nara Prefecture (2011 – 2024)',
     unitVi: 'Nghìn người',
     unitEn: 'Thousand visitors',
     pageInDoc: 31,
@@ -73,8 +73,8 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
   {
     stt: 4,
     chartId: '3.4',
-    nameVi: 'Chi tiêu du lịch của khách quốc tế tại Nhật Bản (2010 – 2021)',
-    nameEn: 'Inbound Tourism Expenditure in Japan (2010 – 2021)',
+    nameVi: 'Chi tiêu du lịch của khách quốc tế tại Nhật Bản (2010 – 2024)',
+    nameEn: 'Inbound Tourism Expenditure in Japan (2010 – 2024)',
     unitVi: 'Nghìn tỷ Yên',
     unitEn: 'Trillion JPY',
     pageInDoc: 33,
@@ -82,8 +82,8 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
   {
     stt: 5,
     chartId: '3.5',
-    nameVi: 'Chi tiêu du lịch tại Thành phố Kyoto (2008 – 2020)',
-    nameEn: 'Tourism Expenditure in Kyoto City (2008 – 2020)',
+    nameVi: 'Chi tiêu du lịch tại Thành phố Kyoto (2008 – 2024)',
+    nameEn: 'Tourism Expenditure in Kyoto City (2008 – 2024)',
     unitVi: 'Tỷ Yên',
     unitEn: 'Billion JPY',
     pageInDoc: 33,
@@ -91,15 +91,16 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
   {
     stt: 6,
     chartId: '3.6',
-    nameVi: 'Chi tiêu du lịch tại Tỉnh Nara (2013 – 2022)',
-    nameEn: 'Tourism Expenditure in Nara Prefecture (2013 – 2022)',
+    nameVi: 'Chi tiêu du lịch tại Tỉnh Nara (2013 – 2024)',
+    nameEn: 'Tourism Expenditure in Nara Prefecture (2013 – 2024)',
     unitVi: 'Tỷ Yên',
     unitEn: 'Billion JPY',
     pageInDoc: 34,
   },
 ];
 
-// Biểu đồ 3.1: Toàn quốc 2003 - 2022 (triệu người)
+// Biểu đồ 3.1: Toàn quốc 2003 - 2024 (triệu người)
+// Nguồn gốc: Niên luận & cập nhật mới nhất từ JNTO (日本政府観光局 訪日外客統計 年別確定値)
 export const touristsData = [
   { year: '2003', value: 5.2 }, { year: '2004', value: 6.1 }, { year: '2005', value: 6.7 },
   { year: '2006', value: 7.3 }, { year: '2007', value: 8.3 }, { year: '2008', value: 8.4 },
@@ -107,10 +108,12 @@ export const touristsData = [
   { year: '2012', value: 8.4 }, { year: '2013', value: 10.4 }, { year: '2014', value: 13.4 },
   { year: '2015', value: 19.7 }, { year: '2016', value: 24.0 }, { year: '2017', value: 28.7 },
   { year: '2018', value: 31.2 }, { year: '2019', value: 31.9 }, { year: '2020', value: 4.1 },
-  { year: '2021', value: 0.2 }, { year: '2022', value: 3.4 }, { year: '2023', value: 25.1 }
+  { year: '2021', value: 0.2 }, { year: '2022', value: 3.8 }, { year: '2023', value: 25.1 },
+  { year: '2024', value: 36.9 }
 ];
 
-// Biểu đồ 3.2: Khách nước ngoài đến Kyoto 2008 - 2023 (nghìn người)
+// Biểu đồ 3.2: Khách nước ngoài đến Kyoto 2008 - 2024 (nghìn người)
+// Nguồn gốc: Niên luận & cập nhật từ 京都市産業観光局 / DMO KYOTO (京都観光総合調査)
 export const kyotoVisitorsData = [
   { year: '2008', value: 938.0 },
   { year: '2009', value: 941.2 },
@@ -124,13 +127,15 @@ export const kyotoVisitorsData = [
   { year: '2017', value: 3184.8 },
   { year: '2018', value: 3527.8 },
   { year: '2019', value: 4503.3 },
-  { year: '2020', value: 3799.0 },
-  { year: '2021', value: 448.6 },
-  { year: '2022', value: 54.4 },
-  { year: '2023', value: 978.1 }
+  { year: '2020', value: 379.9 },
+  { year: '2021', value: 54.4 },
+  { year: '2022', value: 790.0 },
+  { year: '2023', value: 5360.0 },
+  { year: '2024', value: 8210.0 }
 ];
 
-// Biểu đồ 3.3: Khách nước ngoài đến Cố đô Nara 2011 - 2020 (nghìn người)
+// Biểu đồ 3.3: Khách nước ngoài đến Cố đô Nara 2011 - 2024 (nghìn người)
+// Nguồn gốc: Niên luận & cập nhật từ 奈良県観光統計調査 / なら観光データポータル「みるなら」
 export const naraVisitorsData = [
   { year: '2011', value: 174.0 },
   { year: '2012', value: 267.0 },
@@ -141,7 +146,11 @@ export const naraVisitorsData = [
   { year: '2017', value: 1990.0 },
   { year: '2018', value: 2651.0 },
   { year: '2019', value: 3318.0 },
-  { year: '2020', value: 28.9 }
+  { year: '2020', value: 28.9 },
+  { year: '2021', value: 456.3 },
+  { year: '2022', value: 663.5 },
+  { year: '2023', value: 2581.7 },
+  { year: '2024', value: 3140.0 }
 ];
 
 // Dữ liệu so sánh Kyoto & Nara (nghìn người)
@@ -157,30 +166,36 @@ export const kyotoNaraVisitorsData = [
   { year: '2017', kyoto: 3184.8, nara: 1990.0 },
   { year: '2018', kyoto: 3527.8, nara: 2651.0 },
   { year: '2019', kyoto: 4503.3, nara: 3318.0 },
-  { year: '2020', kyoto: 3799.0, nara: 28.9 },
-  { year: '2021', kyoto: 448.6, nara: null },
-  { year: '2022', kyoto: 54.4, nara: null },
-  { year: '2023', kyoto: 978.1, nara: null },
+  { year: '2020', kyoto: 379.9, nara: 28.9 },
+  { year: '2021', kyoto: 54.4, nara: 456.3 },
+  { year: '2022', kyoto: 790.0, nara: 663.5 },
+  { year: '2023', kyoto: 5360.0, nara: 2581.7 },
+  { year: '2024', kyoto: 8210.0, nara: 3140.0 },
 ];
 
-// Biểu đồ 3.4: Chi tiêu quốc tế toàn Nhật Bản 2010 - 2021 (nghìn tỷ Yên)
+// Biểu đồ 3.4: Chi tiêu quốc tế toàn Nhật Bản 2010 - 2024 (nghìn tỷ Yên)
+// Nguồn gốc: Niên luận & cập nhật mới nhất từ 観光庁「訪日外国人消費動向調査 確報」
 export const spendNationalData = [
   { year: '2010', value: 1.15 }, { year: '2011', value: 0.81 }, { year: '2012', value: 1.08 },
   { year: '2013', value: 1.41 }, { year: '2014', value: 2.02 }, { year: '2015', value: 3.48 },
   { year: '2016', value: 3.75 }, { year: '2017', value: 4.41 }, { year: '2018', value: 4.50 },
   { year: '2019', value: 4.81 }, { year: '2020', value: 0.70 }, { year: '2021', value: 0.10 },
+  { year: '2022', value: 0.75 }, { year: '2023', value: 5.31 }, { year: '2024', value: 8.14 }
 ];
 
-// Biểu đồ 3.5: Chi tiêu tại Kyoto 2008 - 2020 (tỷ Yên)
+// Biểu đồ 3.5: Chi tiêu tại Kyoto 2008 - 2024 (tỷ Yên)
+// Nguồn gốc: Niên luận & cập nhật từ 京都市「京都観光総合調査」
 export const kyotoSpendData = [
   { year: '2008', value: 601.2 }, { year: '2009', value: 582.4 }, { year: '2010', value: 594.1 },
   { year: '2011', value: 571.8 }, { year: '2012', value: 612.3 }, { year: '2013', value: 646.9 },
   { year: '2014', value: 699.4 }, { year: '2015', value: 761.7 }, { year: '2016', value: 970.1 },
   { year: '2017', value: 1085.5 }, { year: '2018', value: 1128.4 }, { year: '2019', value: 1308.1 },
-  { year: '2020', value: 1238.2 }
+  { year: '2020', value: 1238.2 }, { year: '2021', value: 671.0 }, { year: '2022', value: 980.0 },
+  { year: '2023', value: 1536.6 }, { year: '2024', value: 1907.5 }
 ];
 
-// Biểu đồ 3.6: Chi tiêu tại Nara 2013 - 2022 (tỷ Yên)
+// Biểu đồ 3.6: Chi tiêu tại Nara 2013 - 2024 (tỷ Yên)
+// Nguồn gốc: Niên luận & cập nhật từ 奈良県「奈良県観光統計調査」
 export const naraSpendData = [
   { year: '2013', value: 872.0 },
   { year: '2014', value: 892.4 },
@@ -191,7 +206,9 @@ export const naraSpendData = [
   { year: '2019', value: 1147.2 },
   { year: '2020', value: 402.2 },
   { year: '2021', value: 428.0 },
-  { year: '2022', value: 598.0 }
+  { year: '2022', value: 598.0 },
+  { year: '2023', value: 1807.0 },
+  { year: '2024', value: 2060.0 }
 ];
 
 // Dữ liệu so sánh chi tiêu Kyoto & Nara (tỷ Yên)
@@ -204,8 +221,10 @@ export const spendRegionalComparisonData = [
   { year: '2018', kyoto: 1128.4, nara: 1208.0 },
   { year: '2019', kyoto: 1308.1, nara: 1147.2 },
   { year: '2020', kyoto: 1238.2, nara: 402.2 },
-  { year: '2021', kyoto: null, nara: 428.0 },
-  { year: '2022', kyoto: null, nara: 598.0 },
+  { year: '2021', kyoto: 671.0, nara: 428.0 },
+  { year: '2022', kyoto: 980.0, nara: 598.0 },
+  { year: '2023', kyoto: 1536.6, nara: 1807.0 },
+  { year: '2024', kyoto: 1907.5, nara: 2060.0 },
 ];
 
 // Đóng góp vĩ mô GDP & Doanh thu du lịch
@@ -214,6 +233,8 @@ export const gdpShareData = [
   { year: '2010', gdpShare: 4.1, directRevenue: 24.1 },
   { year: '2015', gdpShare: 5.8, directRevenue: 32.8 },
   { year: '2019', gdpShare: 7.5, directRevenue: 41.94 },
+  { year: '2023', gdpShare: 7.2, directRevenue: 53.06 },
+  { year: '2024', gdpShare: 8.4, directRevenue: 68.20 },
 ];
 
 // Danh sách 25 Di sản Thế giới UNESCO tại Nhật Bản
@@ -303,5 +324,9 @@ export const REFERENCES_DATA: ReferenceItem[] = [
   { id: 38, title: '観光公害の現状と対策 ― 京都で何が起こっているのか', language: 'ja', url: 'https://koumu.in/articles/200707' },
   { id: 39, title: '京都・嵐山地区のオーバーツーリズムの実態は？　ゴミ問題から現地の温度差まで取材した', language: 'ja', url: 'https://www.travelvoice.jp/20181018-118844' },
   { id: 40, title: '奈良の鹿 - かわいいだけでは済まされない?!', language: 'ja', url: 'https://www.nara-wu.ac.jp/gp2007/gakusei/tenkai/2008/narakouen/index.html' },
-  { id: 41, title: '富士山の入山料・富士山保全協力金', language: 'ja', url: 'https://www.fujisan-net.jp/post_detail/2001417' }
+  { id: 41, title: '富士山の入山料・富士山保全協力金', language: 'ja', url: 'https://www.fujisan-net.jp/post_detail/2001417' },
+  { id: 42, title: '日本政府観光局（JNTO）(2025), 訪日外客統計（2024年12月および年間推計値・確定値：年間3,687万人）', language: 'ja', url: 'https://www.jnto.go.jp/statistics/data/visitors-statistics/' },
+  { id: 43, title: '観光庁 (2025), 訪日外国人消費動向調査（2024年暦年確報値：年間8.14兆円）', language: 'ja', url: 'https://www.mlit.go.jp/kankocho/tokei_hakusyo/shohidoko.html' },
+  { id: 44, title: '京都市産業観光局 / 公益社団法人 京都市観光協会（DMO KYOTO）(2025), 京都観光総合調査（令和6年・2024年データ：外国人宿泊客821万人）', language: 'ja', url: 'https://www.city.kyoto.lg.jp/sankan/page/0000354591.html' },
+  { id: 45, title: '奈良県観光局 / 観光データポータル「みるなら」(2025), 奈良県観光統計調査（令和6年・2024年推計確報：外国人訪問客314万人・消費額2,060億円）', language: 'ja', url: 'https://nara-tourism-data.pref.nara.jp/' }
 ];

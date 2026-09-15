@@ -442,18 +442,18 @@ export default function CreatorSalesSection({
 
       {/* CROSS-TAB NAVIGATION CTA */}
       <div className="pt-8 border-t border-[#FFE485]/60 dark:border-slate-800">
-        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#041E24] via-slate-900 to-[#0D7287]/40 border-2 border-[#9BE7FA] text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#FFFDF5] via-[#FFF9E6] to-[#FFE485]/40 border-2 border-[#FFD14C] shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-6 dark:bg-gradient-to-br dark:from-[#041E24] dark:via-slate-900 dark:to-[#0D7287]/40 dark:border-[#9BE7FA] dark:shadow-xl transition-colors">
           <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9BE7FA] text-slate-950 text-xs font-black uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD14C] text-slate-950 text-xs font-black uppercase tracking-wider dark:bg-[#9BE7FA] dark:text-slate-950">
               <Sparkles className="w-3.5 h-3.5" />
               <span>{isEn ? 'STATISTICAL RIGOR & OPTIMIZATION' : 'CHUYÊN SÂU TOÁN THỐNG KÊ & TỐI ƯU'}</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-black text-white">
+            <h3 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
               {isEn 
                 ? 'Read the 6-Part Applied Data Science Case Study' 
                 : 'Đọc Nghiên Cứu Khoa Học Dữ Liệu & Thống Kê Suy Diễn (6 Phần)'}
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
               {isEn
                 ? 'Mathematical validation, Tukey IQR outlier detection, Welch t-test on GPM, Polynomial regression on LIVE fatigue, STL seasonality, and linear programming.'
                 : 'Kiểm định toán học, lọc dị biệt Tukey IQR, kiểm định giả thuyết Welch t-test về GPM Video vs LIVE, hồi quy đa thức bậc 2 điểm bão hòa LIVE và tối ưu hóa phân bổ dòng tiền.'}
@@ -465,7 +465,7 @@ export default function CreatorSalesSection({
                 handleTabChange('science');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="px-6 py-3.5 rounded-2xl bg-[#9BE7FA] hover:bg-[#72dbf3] text-slate-950 font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="px-6 py-3.5 rounded-2xl bg-[#0D7287] hover:bg-[#095262] text-white dark:bg-[#9BE7FA] dark:hover:bg-[#72dbf3] dark:text-slate-950 font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>{isEn ? 'Explore Data Science Case Study' : 'Khám Phá Nghiên Cứu Data Science'}</span>
               <ArrowRight className="w-4 h-4" />
@@ -475,7 +475,7 @@ export default function CreatorSalesSection({
                 handleTabChange('shop');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-300 hover:border-[#0D7287] text-slate-800 dark:bg-white/10 dark:hover:bg-white/20 dark:border-white/20 dark:text-white font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>{isEn ? 'Return to Shop Analysis (Part 1)' : 'Quay Lại Phân Tích Shop (Phần 1)'}</span>
             </button>

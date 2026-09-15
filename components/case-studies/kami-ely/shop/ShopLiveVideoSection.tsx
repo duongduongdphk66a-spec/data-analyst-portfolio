@@ -349,9 +349,9 @@ export default function ShopLiveVideoSection({
 
       {/* CROSS-TAB NAVIGATION CTA */}
       <div className="pt-8 border-t border-[#9BE7FA]/60 dark:border-slate-800">
-        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#FFFDF5] via-[#C8EEF7]/30 to-[#FFE485]/40 border-2 border-[#FFD14C] shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-6 dark:bg-slate-900 dark:border-slate-800">
+        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#FFFDF5] via-[#FFF9E6] to-[#FFE485]/40 border-2 border-[#FFD14C] shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-6 dark:bg-gradient-to-br dark:from-[#041E24] dark:via-slate-900 dark:to-[#0D7287]/40 dark:border-[#9BE7FA] dark:shadow-xl transition-colors">
           <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD14C] text-slate-950 text-xs font-black uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD14C] text-slate-950 text-xs font-black uppercase tracking-wider dark:bg-[#9BE7FA] dark:text-slate-950">
               <Sparkles className="w-3.5 h-3.5" />
               <span>{isEn ? 'DEEP-DIVE INTO THE ANCHOR CREATOR' : 'TIẾP TỤC KHÁM PHÁ: KÊNH CHÍNH CHỦ'}</span>
             </div>
@@ -360,7 +360,7 @@ export default function ShopLiveVideoSection({
                 ? 'Discover How @kamielyhn Generates 50% of Shop GMV' 
                 : 'Tìm Hiểu Cách Kênh @kamielyhn Tạo Ra 50% Doanh Số Của Toàn Shop'}
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
               {isEn
                 ? 'Analyze creator audience demographics, video conversion rates, 208 live sessions, and 9.2B VND career commercial capacity.'
                 : 'Xem chân dung nhân khẩu học khán giả, tỷ lệ tương tác đỉnh 0.74%, dữ liệu 208 phiên live và năng lực thương mại 9,2 Tỷ đ của founder & anchor host.'}
@@ -372,7 +372,7 @@ export default function ShopLiveVideoSection({
                 handleTabChange('creator');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="px-6 py-3.5 rounded-2xl bg-[#0D7287] hover:bg-[#095262] text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="px-6 py-3.5 rounded-2xl bg-[#0D7287] hover:bg-[#095262] text-white dark:bg-[#9BE7FA] dark:hover:bg-[#72dbf3] dark:text-slate-950 font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>{isEn ? 'View Creator Analysis (Part 2)' : 'Xem Phân Tích Creator (Phần 2)'}</span>
               <ArrowRight className="w-4 h-4" />
@@ -382,7 +382,7 @@ export default function ShopLiveVideoSection({
                 handleTabChange('science');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="px-5 py-3.5 rounded-2xl bg-white border border-slate-300 hover:border-[#0D7287] text-slate-800 font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-2 dark:bg-slate-800 dark:text-white dark:border-slate-700 cursor-pointer"
+              className="px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-300 hover:border-[#0D7287] text-slate-800 dark:bg-white/10 dark:hover:bg-white/20 dark:border-white/20 dark:text-white font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>{isEn ? 'Data Science Case Study' : 'Nghiên Cứu Khoa Học Dữ Liệu'}</span>
             </button>

@@ -227,9 +227,9 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
 
             {/* Cross-Tab Navigation CTA: Science -> Shop & Creator */}
             <div className="pt-6 border-t border-slate-200 dark:border-slate-800">
-              <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-[#F0FBFE] to-[#C8EEF7]/40 border-2 border-[#0D7287] shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 dark:bg-slate-900 dark:border-slate-700">
+              <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#FFFDF5] via-[#FFF9E6] to-[#FFE485]/40 border-2 border-[#FFD14C] shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-6 dark:bg-gradient-to-br dark:from-[#041E24] dark:via-slate-900 dark:to-[#0D7287]/40 dark:border-[#9BE7FA] dark:shadow-xl transition-colors">
                 <div className="space-y-2 max-w-2xl">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C8EEF7] text-[#0D7287] text-xs font-black uppercase tracking-wider dark:bg-slate-800 dark:text-[#9BE7FA]">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD14C] text-slate-950 text-xs font-black uppercase tracking-wider dark:bg-[#9BE7FA] dark:text-slate-950">
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>{isEn ? 'BUSINESS INTELLIGENCE DASHBOARDS' : 'DASHBOARD DỮ LIỆU THƯƠNG MẠI THỰC TẾ'}</span>
                   </div>
@@ -238,7 +238,7 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
                       ? 'Explore Full FastMoss Telemetry Dashboards' 
                       : 'Khám Phá Dữ Liệu Thực Tế FastMoss Của Toàn Shop & Creator'}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
                     {isEn
                       ? 'View detailed breakdowns of 338 SKUs, 5.7k affiliate creators, 7,000 live streams, and independent audit screenshot proofs.'
                       : 'Trực quan hóa chi tiết 338 mã sản phẩm, mạng lưới 5.700 KOC affiliate, 7.000 phiên livestream cùng kho bằng chứng viễn trắc 36 ảnh gốc FastMoss.'}
@@ -250,7 +250,7 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
                       handleTabChange('shop');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="px-6 py-3.5 rounded-2xl bg-[#0D7287] hover:bg-[#095262] text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="px-6 py-3.5 rounded-2xl bg-[#0D7287] hover:bg-[#095262] text-white dark:bg-[#9BE7FA] dark:hover:bg-[#72dbf3] dark:text-slate-950 font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span>{isEn ? 'View Shop Analysis (Part 1)' : 'Xem Phân Tích Shop (Phần 1)'}</span>
                     <ArrowRight className="w-4 h-4" />
@@ -260,7 +260,7 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
                       handleTabChange('creator');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="px-5 py-3.5 rounded-2xl bg-[#FFD14C] hover:bg-[#f5c332] text-slate-950 font-black text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-300 hover:border-[#0D7287] text-slate-800 dark:bg-white/10 dark:hover:bg-white/20 dark:border-white/20 dark:text-white font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span>{isEn ? 'View Creator (Part 2)' : 'Xem Creator (Phần 2)'}</span>
                   </button>

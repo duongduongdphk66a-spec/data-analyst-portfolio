@@ -356,7 +356,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                 </button>
               </div>
 
-              <div className="h-72 w-full flex-1">
+              <div className="h-60 sm:h-72 lg:h-80 w-full flex-1">
                 {renderChartComponent(chart)}
               </div>
             </div>
@@ -421,7 +421,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
               <thead className="sticky top-0 bg-slate-50 dark:bg-slate-900 z-10 border-b border-brand-blue-light dark:border-slate-800">
                 <tr>
                   {columns.map(col => (
-                    <th key={col} className="px-6 py-3.5 font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider text-[11px]">
+                    <th key={col} className="px-3 sm:px-6 py-2.5 sm:py-3.5 font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider text-[11px]">
                       {col}
                     </th>
                   ))}
@@ -431,7 +431,7 @@ export default function DashboardSection({ dashboard }: DashboardSectionProps) {
                 {filteredRows.slice(0, 50).map((row, idx) => (
                   <tr key={row.id || idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                     {columns.map(col => (
-                      <td key={col} className="px-6 py-3 text-slate-700 dark:text-slate-300 font-medium whitespace-nowrap tabular-data">
+                      <td key={col} className="px-3 sm:px-6 py-2 sm:py-3 text-slate-700 dark:text-slate-300 font-medium whitespace-nowrap tabular-data">
                         {typeof row[col] === 'number' ? row[col].toLocaleString() : String(row[col] ?? '-')}
                       </td>
                     ))}

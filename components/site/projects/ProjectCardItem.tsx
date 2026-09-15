@@ -97,7 +97,7 @@ export const ProjectCardItem = React.memo(function ProjectCardItem({
       {/* Bottom Section: 4 KPIs + Tools + CTA */}
       <div className="p-6 sm:p-8 pt-5 sm:pt-5 space-y-4">
         {presentation.metrics.length > 0 && (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {presentation.metrics.slice(0, 4).map((metric, mIdx) => (
               <div
                 key={mIdx}

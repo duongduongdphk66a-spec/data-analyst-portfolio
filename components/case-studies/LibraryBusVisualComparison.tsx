@@ -112,34 +112,24 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
   const selectedScreen = currentScreens.find(s => s.id === activeScreenId) || currentScreens[0];
   const selectedIndex = currentScreens.findIndex(s => s.id === activeScreenId);
 
-  const scrollToTop = () => {
-    if (comparisonTopRef.current) {
-      comparisonTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   const handleDeviceModeChange = (mode: 'desktop' | 'mobile') => {
     setDeviceMode(mode);
     setModuleFilter('all');
     setActiveScreenId(mode === 'desktop' ? 'screen-01' : 'mob_01');
-    scrollToTop();
   };
 
   const handleSelectScreen = (id: string) => {
     setActiveScreenId(id);
-    scrollToTop();
   };
 
   const handlePrevScreen = () => {
     const prevIdx = selectedIndex > 0 ? selectedIndex - 1 : currentScreens.length - 1;
     setActiveScreenId(currentScreens[prevIdx].id);
-    scrollToTop();
   };
 
   const handleNextScreen = () => {
     const nextIdx = selectedIndex < currentScreens.length - 1 ? selectedIndex + 1 : 0;
     setActiveScreenId(currentScreens[nextIdx].id);
-    scrollToTop();
   };
 
   // Keyboard navigation: ArrowLeft / ArrowRight to switch screens quickly
@@ -152,12 +142,10 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
         e.preventDefault();
         const prevIdx = selectedIndex > 0 ? selectedIndex - 1 : currentScreens.length - 1;
         setActiveScreenId(currentScreens[prevIdx].id);
-        scrollToTop();
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
         const nextIdx = selectedIndex < currentScreens.length - 1 ? selectedIndex + 1 : 0;
         setActiveScreenId(currentScreens[nextIdx].id);
-        scrollToTop();
       }
     };
 
@@ -165,12 +153,17 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedIndex, currentScreens]);
 
-  // Center active screen button in the horizontal carousel
+  // Center active screen button in the horizontal carousel without scrolling the page
   useEffect(() => {
     if (carouselRef.current) {
-      const activeBtn = carouselRef.current.querySelector(`[data-screen-id="${activeScreenId}"]`) as HTMLElement;
+      const container = carouselRef.current;
+      const activeBtn = container.querySelector(`[data-screen-id="${activeScreenId}"]`) as HTMLElement;
       if (activeBtn) {
-        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        const targetScrollLeft = activeBtn.offsetLeft - (container.clientWidth / 2) + (activeBtn.offsetWidth / 2);
+        container.scrollTo({
+          left: Math.max(0, targetScrollLeft),
+          behavior: 'smooth',
+        });
       }
     }
   }, [activeScreenId]);

@@ -36,7 +36,7 @@ export default function Sidebar() {
   return (
     <aside 
       aria-label="Thanh điều hướng chính"
-      className="w-64 bg-[#9BE7FA] text-slate-900 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-[#7adcf5] shadow-xl relative z-40 font-sans overflow-hidden transition-all duration-300"
+      className="w-20 lg:w-64 bg-[#9BE7FA] text-slate-900 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-[#7adcf5] shadow-xl relative z-40 font-sans overflow-hidden transition-[width] duration-300"
     >
       {/* Ambient Soft Light Glow Orbs */}
       <div className="absolute -top-16 -left-16 w-48 h-48 bg-white/40 rounded-full blur-2xl pointer-events-none animate-pulse" />
@@ -44,14 +44,14 @@ export default function Sidebar() {
       <div className="absolute -bottom-16 -left-12 w-44 h-44 bg-[#C8EEF7]/50 rounded-full blur-2xl pointer-events-none" />
 
       {/* Top Header: Brand Identity (MVH) */}
-      <div className="p-5 pb-3 relative z-10">
-        <Link href="/" className="flex items-center gap-3 group">
+      <div className="p-3 lg:p-5 pb-3 relative z-10">
+        <Link href="/" className="flex items-center justify-center lg:justify-start gap-3 group" title={profile.name || 'Ma Văn Hùng'}>
           <div className="w-10 h-10 rounded-xl bg-white text-[#074553] shadow-[0_2px_10px_rgba(7,69,83,0.12)] border border-white/80 group-hover:scale-105 group-hover:bg-white/95 transition-all duration-300 shrink-0 flex items-center justify-center">
             <span className="font-heading font-black text-sm text-[#074553] tracking-wider">
               {profile.name ? profile.name.split(' ').map((n: string) => n[0]).join('') : 'MVH'}
             </span>
           </div>
-          <div className="flex flex-col min-w-0">
+          <div className="hidden lg:flex flex-col min-w-0">
             <h2 className="text-base font-heading font-black text-slate-950 tracking-tight group-hover:text-[#074553] transition-colors truncate">
               {profile.name || 'Ma Văn Hùng'}
             </h2>
@@ -61,8 +61,8 @@ export default function Sidebar() {
           </div>
         </Link>
 
-        {/* Live Status Badge */}
-        <div className="mt-3">
+        {/* Live Status Badge (full label at lg, compact dot on tablet rail) */}
+        <div className="hidden lg:block mt-3">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/80 border border-white text-[10px] font-bold text-[#074553] shadow-2xs backdrop-blur-xs">
             <span className="relative flex h-1.5 w-1.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#074553] opacity-75"></span>
@@ -71,9 +71,15 @@ export default function Sidebar() {
             <span>{language === 'en' ? 'Open for Analytics' : 'Sẵn sàng nhận dự án DA'}</span>
           </div>
         </div>
+        <div className="lg:hidden flex justify-center mt-3" title={language === 'en' ? 'Open for Analytics' : 'Sẵn sàng nhận dự án DA'}>
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#074553] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#074553]"></span>
+          </span>
+        </div>
 
-        {/* Quick Search trigger (Command Palette) */}
-        <div className="mt-3">
+        {/* Quick Search trigger (Command Palette): full bar at lg, icon-only at tablet rail */}
+        <div className="hidden lg:block mt-3">
           <button
             type="button"
             onClick={openCommandPalette}
@@ -90,10 +96,21 @@ export default function Sidebar() {
             </kbd>
           </button>
         </div>
+        <div className="lg:hidden flex justify-center mt-3">
+          <button
+            type="button"
+            onClick={openCommandPalette}
+            aria-label={language === 'en' ? 'Quick search' : 'Tìm kiếm nhanh'}
+            title={language === 'en' ? 'Quick search (Ctrl K)' : 'Tìm kiếm nhanh (Ctrl K)'}
+            className="p-2 rounded-xl bg-white/80 hover:bg-white text-[#074553] border border-white hover:border-[#074553]/25 transition-all duration-200 cursor-pointer shadow-2xs"
+          >
+            <Search className="w-4 h-4" />
+          </button>
+        </div>
       </div>
 
       {/* Main Editorial Navigation */}
-      <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto overflow-x-visible relative z-10 scrollbar-thin scrollbar-thumb-white/20">
+      <nav className="flex-1 px-2 lg:px-3 py-2 space-y-1 overflow-y-auto overflow-x-visible relative z-10 scrollbar-thin scrollbar-thumb-white/20">
         {navItems.map((item) => {
           const isActive = pathname === item.id || (item.id === '/projects' && pathname.startsWith('/projects'));
           const ItemIcon = item.icon;
@@ -102,8 +119,13 @@ export default function Sidebar() {
             <div key={item.id} className="flex flex-col">
               <Link
                 href={item.id}
+                title={item.label}
                 onClick={(e) => {
                   if (item.hasChildren) {
+                    // The nested project list only renders from the `lg` breakpoint up
+                    // (tablet rail has no room for it) — let the tablet tap navigate normally.
+                    const isDesktopRail = typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches;
+                    if (!isDesktopRail) return;
                     if (pathname.startsWith('/projects')) {
                       e.preventDefault();
                       setIsProjectsOpen(!isProjectsOpen);
@@ -113,10 +135,10 @@ export default function Sidebar() {
                   }
                 }}
                 aria-current={isActive ? 'page' : undefined}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-200 cursor-pointer text-left text-xs group ${
+                className={`w-full flex items-center justify-center lg:justify-between px-2.5 lg:px-3.5 py-2.5 rounded-xl transition-all duration-200 cursor-pointer text-left text-xs group ${
                   isActive
-                    ? 'bg-white text-[#074553] font-black shadow-[0_4px_14px_rgba(7,69,83,0.12)] border-l-4 border-[#074553] translate-x-1'
-                    : 'text-slate-900 font-bold hover:text-[#074553] hover:bg-white/60 hover:translate-x-1 hover:shadow-2xs'
+                    ? 'bg-white text-[#074553] font-black shadow-[0_4px_14px_rgba(7,69,83,0.12)] lg:border-l-4 border-[#074553] lg:translate-x-1'
+                    : 'text-slate-900 font-bold hover:text-[#074553] hover:bg-white/60 lg:hover:translate-x-1 hover:shadow-2xs'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -127,20 +149,20 @@ export default function Sidebar() {
                         : 'text-[#074553]/80 group-hover:text-[#074553]'
                     }`} 
                   />
-                  <span>{item.label}</span>
+                  <span className="hidden lg:inline">{item.label}</span>
                 </div>
                 {item.hasChildren && (
                   isProjectsOpen ? (
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isActive ? 'text-[#074553]' : 'text-[#074553]/70'}`} />
+                    <ChevronDown className={`hidden lg:block w-3.5 h-3.5 transition-transform ${isActive ? 'text-[#074553]' : 'text-[#074553]/70'}`} />
                   ) : (
-                    <ChevronRight className={`w-3.5 h-3.5 transition-transform ${isActive ? 'text-[#074553]' : 'text-slate-600 group-hover:text-[#074553]'}`} />
+                    <ChevronRight className={`hidden lg:block w-3.5 h-3.5 transition-transform ${isActive ? 'text-[#074553]' : 'text-slate-600 group-hover:text-[#074553]'}`} />
                   )
                 )}
               </Link>
 
-              {/* Sub-projects nested list */}
+              {/* Sub-projects nested list: desktop only, tablet rail has no room for readable titles */}
               {item.hasChildren && isProjectsOpen && (
-                <div className="flex flex-col gap-1 mt-1 pl-4 ml-3 border-l-2 border-[#074553]/25 animate-in slide-in-from-top-1 duration-200">
+                <div className="hidden lg:flex flex-col gap-1 mt-1 pl-4 ml-3 border-l-2 border-[#074553]/25 animate-in slide-in-from-top-1 duration-200">
                   {projects.map((proj) => {
                     const isSelected = pathname === `/projects/${proj.id}`;
                     return (
@@ -177,8 +199,8 @@ export default function Sidebar() {
           <div className="border-t border-[#074553]/15" />
         </div>
 
-        {/* Direct Action: Download CV with Shimmer Effect */}
-        <div className="px-1 pt-1">
+        {/* Direct Action: Download CV — full card at lg, compact icon at tablet rail */}
+        <div className="hidden lg:block px-1 pt-1">
           <a
             href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
             target="_blank"
@@ -202,12 +224,23 @@ export default function Sidebar() {
             </span>
           </a>
         </div>
+        <div className="lg:hidden flex justify-center px-1 pt-1">
+          <a
+            href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            title={language === 'en' ? 'Download CV' : 'Tải CV Chi Tiết'}
+            className="p-2.5 rounded-xl bg-white hover:bg-white/95 border border-white hover:border-[#074553]/25 shadow-[0_3px_12px_rgba(7,69,83,0.08)] transition-all duration-300 text-[#074553] cursor-pointer"
+          >
+            <Download className="w-4 h-4" />
+          </a>
+        </div>
       </nav>
 
       {/* Footer Controls */}
-      <div className="p-4 pt-3 space-y-3 relative z-10 border-t border-[#074553]/15 bg-white/20 backdrop-blur-xs">
-        {/* Social Links & Controls Row */}
-        <div className="flex items-center justify-between">
+      <div className="p-2.5 lg:p-4 pt-3 space-y-3 relative z-10 border-t border-[#074553]/15 bg-white/20 backdrop-blur-xs">
+        {/* Social Links & Controls Row: stacked/centered on tablet rail, single row from lg */}
+        <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-2 lg:gap-0">
           {/* Social Links */}
           <div className="flex items-center gap-2 text-slate-900">
             {profile.linkedin && profile.linkedin !== '#' && (
