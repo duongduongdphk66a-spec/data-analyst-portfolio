@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-import { THESIS_METADATA } from '@/app/data/heritageJapanData';
 import SectionHeader from '@/components/ui/SectionHeader';
 
 interface ConclusionSectionProps {

@@ -5,16 +5,21 @@
 
 set -e
 
-echo "🚀 [1/4] Kéo mã nguồn mới nhất từ GitHub..."
+echo "🚀 [1/5] Kéo mã nguồn mới nhất từ GitHub..."
 git pull origin main
 
-echo "📦 [2/4] Cài đặt dependencies..."
+echo "📦 [2/5] Cài đặt dependencies..."
 npm ci --legacy-peer-deps || npm install
 
-echo "🔨 [3/4] Build ứng dụng Next.js..."
+echo "🔨 [3/5] Build ứng dụng Next.js..."
 npm run build
 
-echo "🔄 [4/4] Khởi động lại ứng dụng với PM2..."
+echo "📋 [4/5] Sao chép static assets vào .next/standalone..."
+mkdir -p .next/standalone/.next
+cp -r public .next/standalone/
+cp -r .next/static .next/standalone/.next/
+
+echo "🔄 [5/5] Khởi động lại ứng dụng với PM2..."
 if pm2 describe data-analyst-portfolio > /dev/null 2>&1; then
     pm2 reload ecosystem.config.js --env production
 else

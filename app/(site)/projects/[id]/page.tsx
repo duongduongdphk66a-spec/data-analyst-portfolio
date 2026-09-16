@@ -5,7 +5,6 @@ import { DEFAULT_PROJECTS } from '../../../defaultData';
 import ProjectDetailClient from './ProjectDetailClient';
 import { getDbPool } from '@/app/lib/db';
 import { getProjectByIdWithFallback } from '@/app/lib/serverData';
-import { ProjectData } from '@/app/types';
 
 export const dynamicParams = true;
 export const revalidate = 60;

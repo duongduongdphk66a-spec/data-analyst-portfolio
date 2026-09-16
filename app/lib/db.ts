@@ -31,9 +31,14 @@ export function getDbPool(): Pool | null {
     10
   );
 
+  const connectTimeout = parseInt(
+    process.env.MYSQL_CONNECT_TIMEOUT || process.env.DB_CONNECT_TIMEOUT || '5000',
+    10
+  );
+
   try {
     const config: PoolOptions = databaseUrl
-      ? { uri: databaseUrl, waitForConnections: true, connectionLimit, queueLimit: 0 }
+      ? { uri: databaseUrl, waitForConnections: true, connectionLimit, queueLimit: 0, connectTimeout }
       : {
           host: dbHost,
           port: dbPort,
@@ -43,6 +48,7 @@ export function getDbPool(): Pool | null {
           waitForConnections: true,
           connectionLimit,
           queueLimit: 0,
+          connectTimeout,
           enableKeepAlive: true,
           keepAliveInitialDelay: 0,
         };
@@ -50,7 +56,7 @@ export function getDbPool(): Pool | null {
     pool = mysql.createPool(config);
     return pool;
   } catch (err) {
-    console.warn('[MySQL] Could not initialize connection pool:', err);
+    console.warn('[MySQL] Could not initialize connection pool:', err instanceof Error ? err.message : String(err));
     return null;
   }
 }

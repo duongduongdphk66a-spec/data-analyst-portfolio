@@ -191,7 +191,7 @@ export async function POST(req: NextRequest) {
       data: projectsToSave,
     });
   } catch (error: unknown) {
-    console.error('[API /api/projects POST] Error:', error);
+    console.error('[API /api/projects POST] Error:', error instanceof Error ? error.message : String(error));
     return NextResponse.json(
       {
         success: false,

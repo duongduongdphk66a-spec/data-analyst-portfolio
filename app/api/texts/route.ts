@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
       message: `Đã lưu thành công ${updates.length} đoạn văn bản vào MySQL!`,
     });
   } catch (error: unknown) {
-    console.error('[API /api/texts POST] Error:', error);
+    console.error('[API /api/texts POST] Error:', error instanceof Error ? error.message : String(error));
     return NextResponse.json(
       {
         success: false,

@@ -62,7 +62,7 @@ export default function AdminPage() {
       checkDbHealth();
       refreshData(); // Fetch latest data for admin
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, checkDbHealth, refreshData]);
 
   useEffect(() => {
     setProfileForm(JSON.parse(JSON.stringify(profile)));

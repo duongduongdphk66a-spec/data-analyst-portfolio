@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
       data: profileData,
     });
   } catch (error: unknown) {
-    console.error('[API /api/profile POST] Error:', error);
+    console.error('[API /api/profile POST] Error:', error instanceof Error ? error.message : String(error));
     return NextResponse.json(
       {
         success: false,

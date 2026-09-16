@@ -126,6 +126,15 @@ export default function CommandPalette({
         badge: isDark ? 'Light' : 'Dark',
       },
       {
+        id: 'action-lang',
+        category: 'Quick Actions',
+        title: isEn ? 'Chuyển sang Tiếng Việt' : 'Switch to English',
+        subtitle: isEn ? 'Đổi ngôn ngữ hiển thị sang tiếng Việt' : 'Change display language to English',
+        icon: Globe,
+        action: () => { setLanguage(isEn ? 'vi' : 'en'); onClose(); },
+        badge: isEn ? 'VI' : 'EN',
+      },
+      {
         id: 'action-cv',
         category: 'Quick Actions',
         title: isEn ? 'Download CV (PDF)' : 'Tải Hồ Sơ Năng Lực (CV PDF)',

@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
-import { translations, TranslationKey } from '../data/translations';
-import { getDbPool, initDatabase } from './db';
+import { translations } from '../data/translations';
+import { getDbPool } from './db';
+import { getApiCacheAsync, setApiCacheAsync } from './cache';
 import { DEFAULT_PROFILE, DEFAULT_PROJECTS } from '../defaultData';
 import { ProfileData, ProjectData } from '../types';
 import { RowDataPacket } from 'mysql2';
@@ -85,36 +86,60 @@ export function mapRowToProfile(row: RowDataPacket): ProfileData {
 
 /**
  * Fetch profile from MySQL with fallback to DEFAULT_PROFILE.
+ * Backed by two-tier cache (L1 Memory + L2 MySQL Shared).
  */
 export async function getProfileWithFallback(): Promise<ProfileData> {
+  try {
+    const cached = await getApiCacheAsync<ProfileData>('profile');
+    if (cached) return cached;
+  } catch {
+    // Non-critical cache check error
+  }
+
   try {
     const pool = getDbPool();
     if (!pool) return DEFAULT_PROFILE;
 
     const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_profile WHERE id = 1 LIMIT 1');
     if (rows && rows.length > 0) {
-      return mapRowToProfile(rows[0]);
+      const profile = mapRowToProfile(rows[0]);
+      setApiCacheAsync('profile', profile).catch(() => {});
+      return profile;
     }
   } catch (err) {
-    console.warn('[getProfileWithFallback] Fallback to DEFAULT_PROFILE:', err);
+    const msg = err instanceof Error ? err.message : String(err);
+    console.warn(`[ServerData] MySQL unavailable, fallback to default profile (${msg})`);
+    setApiCacheAsync('profile', DEFAULT_PROFILE, 15000).catch(() => {});
   }
   return DEFAULT_PROFILE;
 }
 
 /**
  * Fetch all projects from MySQL with fallback to DEFAULT_PROJECTS.
+ * Backed by two-tier cache (L1 Memory + L2 MySQL Shared).
  */
 export async function getProjectsWithFallback(): Promise<ProjectData[]> {
+  try {
+    const cached = await getApiCacheAsync<ProjectData[]>('projects');
+    if (cached) return cached;
+  } catch {
+    // Non-critical cache check error
+  }
+
   try {
     const pool = getDbPool();
     if (!pool) return DEFAULT_PROJECTS;
 
     const [projRows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_projects ORDER BY sort_order ASC');
     if (projRows && projRows.length > 0) {
-      return projRows.map(mapRowToProject);
+      const projects = projRows.map(mapRowToProject);
+      setApiCacheAsync('projects', projects).catch(() => {});
+      return projects;
     }
   } catch (err) {
-    console.warn('[getProjectsWithFallback] Fallback to DEFAULT_PROJECTS:', err);
+    const msg = err instanceof Error ? err.message : String(err);
+    console.warn(`[ServerData] MySQL unavailable, fallback to default projects (${msg})`);
+    setApiCacheAsync('projects', DEFAULT_PROJECTS, 15000).catch(() => {});
   }
   return DEFAULT_PROJECTS;
 }
@@ -123,18 +148,33 @@ export async function getProjectsWithFallback(): Promise<ProjectData[]> {
  * Fetch single project by ID from MySQL with fallback to DEFAULT_PROJECTS.
  */
 export async function getProjectByIdWithFallback(id: string): Promise<ProjectData | undefined> {
+  const cacheKey = `project:${id}`;
+  try {
+    const cached = await getApiCacheAsync<ProjectData>(cacheKey);
+    if (cached) return cached;
+  } catch {
+    // Non-critical cache check error
+  }
+
   try {
     const pool = getDbPool();
     if (pool) {
       const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_projects WHERE id = ? LIMIT 1', [id]);
       if (rows && rows.length > 0) {
-        return mapRowToProject(rows[0]);
+        const project = mapRowToProject(rows[0]);
+        setApiCacheAsync(cacheKey, project).catch(() => {});
+        return project;
       }
     }
   } catch (err) {
-    console.warn(`[getProjectByIdWithFallback] Fallback for project ${id}:`, err);
+    const msg = err instanceof Error ? err.message : String(err);
+    console.warn(`[ServerData] MySQL unavailable, fallback for project ${id} (${msg})`);
   }
-  return DEFAULT_PROJECTS.find((p) => p.id === id);
+  const fallback = DEFAULT_PROJECTS.find((p) => p.id === id);
+  if (fallback) {
+    setApiCacheAsync(cacheKey, fallback, 15000).catch(() => {});
+  }
+  return fallback;
 }
 
 /**
@@ -143,11 +183,19 @@ export async function getProjectByIdWithFallback(id: string): Promise<ProjectDat
 export async function getTextsWithFallback(
   lang?: 'vi' | 'en'
 ): Promise<Record<string, string> | { vi: Record<string, string>; en: Record<string, string> }> {
+  const cacheKey = `texts:${lang || 'all'}`;
+  try {
+    const cached = await getApiCacheAsync<Record<string, string> | { vi: Record<string, string>; en: Record<string, string> }>(cacheKey);
+    if (cached) return cached;
+  } catch {
+    // Non-critical cache check error
+  }
+
+  const defaultFallback = lang ? (translations as Record<string, Record<string, string>>)[lang] || translations.vi : translations;
+
   try {
     const pool = getDbPool();
-    if (!pool) {
-      return lang ? (translations as Record<string, Record<string, string>>)[lang] || translations.vi : translations;
-    }
+    if (!pool) return defaultFallback;
 
     let query = 'SELECT text_key, lang, value_text FROM portfolio_texts';
     const params: string[] = [];
@@ -163,6 +211,7 @@ export async function getTextsWithFallback(
         for (const r of rows) {
           result[r.text_key] = r.value_text;
         }
+        setApiCacheAsync(cacheKey, result).catch(() => {});
         return result;
       }
 
@@ -176,13 +225,16 @@ export async function getTextsWithFallback(
           result[l][r.text_key] = r.value_text;
         }
       }
+      setApiCacheAsync(cacheKey, result).catch(() => {});
       return result;
     }
   } catch (err) {
-    console.warn('[getTextsWithFallback] Fallback to static translations:', err);
+    const msg = err instanceof Error ? err.message : String(err);
+    console.warn(`[ServerData] MySQL unavailable, fallback to static translations (${msg})`);
+    setApiCacheAsync(cacheKey, defaultFallback, 15000).catch(() => {});
   }
 
-  return lang ? (translations as Record<string, Record<string, string>>)[lang] || translations.vi : translations;
+  return defaultFallback;
 }
 
 /**

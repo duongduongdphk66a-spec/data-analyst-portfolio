@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(responsePayload);
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Database check error';
-    console.error('[API /api/db GET] Error:', error);
+    console.error('[API /api/db GET] Error:', message);
     const auth = verifyAdminRequest(req);
     return NextResponse.json({
       appHealthy: true,
@@ -122,7 +122,7 @@ export async function POST(req: NextRequest) {
       details: initRes,
     });
   } catch (error: unknown) {
-    console.error('[API /api/db POST] Error:', error);
+    console.error('[API /api/db POST] Error:', error instanceof Error ? error.message : String(error));
     return NextResponse.json(
       {
         success: false,

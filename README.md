@@ -74,16 +74,61 @@ To access the CMS Admin Panel, press `Ctrl + E` or click **"Chỉnh Sửa CMS"**
 
 ---
 
-## 📋 Production Deployment Checklist
+## 🚢 Hướng Dẫn Triển Khai (Deployment Guide)
 
-Khi deploy lên môi trường Production (Vercel, VPS, PM2 Cluster, Docker):
+Dự án hỗ trợ 3 phương án triển khai tùy theo nhu cầu vận hành:
 
-1. **`NEXT_PUBLIC_SITE_URL`**: Cấu hình domain thực tế của bạn (ví dụ: `https://yourdomain.com`) để đảm bảo sitemap.xml, robots.txt và metadata SEO / OpenGraph trỏ chính xác.
-2. **`ADMIN_PASSWORD`**: Thiết lập mật khẩu quản trị mạnh (tối thiểu 16 ký tự ngẫu nhiên). Trong môi trường production, ứng dụng sẽ báo lỗi khi truy cập chức năng quản trị nếu thiếu mật khẩu an toàn.
-3. **`TRUST_PROXY`**: Mặc định là `false`. Chỉ đặt `TRUST_PROXY=true` khi ứng dụng đứng sau Reverse Proxy uy tín (Cloudflare, Nginx, ALB) và cổng ứng dụng đã được firewall bảo vệ tránh truy cập trực tiếp.
-4. **`MYSQL_HOST` / `DATABASE_URL`**: Kết nối tới cơ sở dữ liệu MySQL đã cấp quyền. Hệ thống sẽ tự động khởi tạo bảng (`portfolio_profile`, `portfolio_texts`, `portfolio_projects`, `portfolio_rate_limits`, `portfolio_cache`) và đồng bộ cache tức thời giữa tất cả các tiến trình PM2 worker.
+### Phương án 1: Vercel + Cloud MySQL (Khuyên dùng — Khởi chạy nhanh nhất)
+Phương án tối ưu nhất cho portfolio cá nhân: zero-config, tự động CI/CD từ GitHub và tích hợp CDN toàn cầu.
+1. Tạo database MySQL miễn phí trên [Aiven](https://aiven.io), [PlanetScale](https://planetscale.com), hoặc [Railway](https://railway.app).
+2. Import repository vào tài khoản [Vercel](https://vercel.com).
+3. Cấu hình các biến môi trường trong Vercel Project Settings:
+   - `DATABASE_URL`: URI kết nối MySQL từ nhà cung cấp cloud (ví dụ: `mysql://user:pass@host:port/db?ssl-mode=REQUIRED`)
+   - `ADMIN_PASSWORD`: Mật khẩu quản trị an toàn (≥ 16 ký tự)
+   - `NEXT_PUBLIC_SITE_URL`: Domain thực tế (ví dụ: `https://mavanhung.dev`)
+4. Bấm **Deploy**. Sau khi deploy xong, truy cập `/api/db` hoặc đăng nhập Admin (`Ctrl + E`) một lần để hệ thống tự động khởi tạo bảng và seed dữ liệu.
 
 ---
+
+### Phương án 2: VPS Ubuntu + PM2 Cluster + Nginx (Tự lưu trữ / DevOps)
+Phương án cho người muốn làm chủ hoàn toàn hạ tầng, chạy đa tiến trình Next.js Standalone tối ưu RAM:
+1. SSH vào server VPS, clone repository và chuẩn bị file `.env`:
+   ```bash
+   git clone https://github.com/duongduongdphk66a-spec/data-analyst-portfolio.git
+   cd data-analyst-portfolio
+   cp .env.example .env
+   nano .env # Điền ADMIN_PASSWORD, MYSQL_*, NEXT_PUBLIC_SITE_URL
+   ```
+2. Phân quyền và chạy script triển khai tự động `deploy.sh`:
+   ```bash
+   chmod +x deploy.sh
+   ./deploy.sh
+   ```
+   > **Lưu ý kỹ thuật**: `deploy.sh` đã được cấu hình tự động sao chép `public/` và `.next/static/` vào `.next/standalone/`, giải quyết triệt để lỗi 404 static assets của chế độ Next.js standalone.
+3. Cấu hình Nginx reverse proxy trỏ về `http://127.0.0.1:3000` kèm SSL Certbot.
+
+---
+
+### Phương án 3: Docker & Docker Compose (Container hóa)
+Triển khai cô lập kèm container MySQL 8.0:
+```bash
+# Khởi chạy cả Web App và MySQL database
+docker compose up -d --build
+
+# Xem nhật ký hoạt động
+docker compose logs -f web
+```
+
+---
+
+## 📋 Checklist Trước Khi Go-Live
+
+Trước khi công bố portfolio ra môi trường production:
+- [x] **Static Assets**: Đã cấu hình bước copy assets vào `.next/standalone` trong `deploy.sh` (nếu dùng VPS/PM2).
+- [ ] **Bảo mật**: Đặt `ADMIN_PASSWORD` an toàn (≥ 16 ký tự ngẫu nhiên).
+- [ ] **Tên miền**: Đặt `NEXT_PUBLIC_SITE_URL` trùng khớp domain chính thức để đảm bảo OpenGraph và sitemap chính xác.
+- [ ] **Proxy**: Chỉ bật `TRUST_PROXY=true` khi app đứng sau Reverse Proxy tin cậy (Cloudflare, Nginx) để rate limiting nhận diện đúng IP client.
+- [ ] **Khởi tạo CSDL**: Sau khi deploy, truy cập `/api/db` hoặc nhấn `Ctrl + E` đăng nhập Admin một lần để hệ thống tự tạo bảng và seed dữ liệu.
 
 ## 📜 License
 MIT License © 2026 Ma Văn Hùng.

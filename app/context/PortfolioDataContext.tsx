@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { ProfileData, ProjectData } from '../types';
 import { DEFAULT_PROFILE, DEFAULT_PROJECTS } from '../defaultData';
 import { translations } from '../data/translations';
@@ -285,14 +285,14 @@ export function PortfolioDataProvider({ children }: { children: ReactNode }) {
     return fallback || key;
   };
 
-  const checkDbHealth = async () => {
+  const checkDbHealth = useCallback(async () => {
     try {
       const dbRes = await fetch('/api/db').then((r) => r.json());
       if (dbRes) setDbStatus(dbRes);
     } catch {
       setDbStatus({ connected: false, message: 'Lỗi kiểm tra CSDL' });
     }
-  };
+  }, []);
 
   return (
     <PortfolioDataContext.Provider

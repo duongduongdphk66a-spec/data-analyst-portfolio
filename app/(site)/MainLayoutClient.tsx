@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sun, Moon, Home, Briefcase, FileText, UserCheck, Terminal } from 'lucide-react';
+import { Sun, Moon, Home, Briefcase, FileText, UserCheck } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
