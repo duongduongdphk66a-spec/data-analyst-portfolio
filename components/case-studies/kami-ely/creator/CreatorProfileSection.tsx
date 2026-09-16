@@ -10,8 +10,8 @@ import {
 
 interface CreatorProfileSectionProps {
   isEn: boolean;
-  copyDeepLink: (id: string) => void;
-  renderDataScopeMatrix: (scope: 'shop' | 'creator') => React.ReactNode;
+  copyDeepLink: (_id: string) => void;
+  renderDataScopeMatrix: (_scope: 'shop' | 'creator') => React.ReactNode;
 }
 
 export default function CreatorProfileSection({

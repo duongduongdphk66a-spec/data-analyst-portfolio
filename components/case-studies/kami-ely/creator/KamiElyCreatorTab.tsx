@@ -10,11 +10,11 @@ import CreatorAnalysisNarrative from './CreatorAnalysisNarrative';
 
 interface KamiElyCreatorTabProps {
   isEn: boolean;
-  copyDeepLink: (id: string, name?: string) => void;
-  openProofScreenshot: (id: string) => void;
-  handleExportChart: (chartId: string, fileName: string) => void;
-  handleTabChange: (tab: 'science' | 'shop' | 'creator') => void;
-  renderDataScopeMatrix: (scope: 'shop' | 'creator') => React.ReactNode;
+  copyDeepLink: (_id: string, _name?: string) => void;
+  openProofScreenshot: (_id: string) => void;
+  handleExportChart: (_chartId: string, _fileName: string) => void;
+  handleTabChange: (_tab: 'science' | 'shop' | 'creator') => void;
+  renderDataScopeMatrix: (_scope: 'shop' | 'creator') => React.ReactNode;
 }
 
 export default function KamiElyCreatorTab({

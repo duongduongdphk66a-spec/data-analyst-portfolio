@@ -13,8 +13,8 @@ import {
 
 interface CreatorActivitySectionProps {
   isEn: boolean;
-  copyDeepLink: (id: string) => void;
-  handleExportChart: (id: string, name: string) => void;
+  copyDeepLink: (_id: string) => void;
+  handleExportChart: (_id: string, _name: string) => void;
 }
 
 export default function CreatorActivitySection({

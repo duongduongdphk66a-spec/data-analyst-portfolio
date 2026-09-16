@@ -34,9 +34,9 @@ import {
 
 interface CreatorSalesSectionProps {
   isEn: boolean;
-  copyDeepLink: (id: string, name?: string) => void;
-  openProofScreenshot: (id: string) => void;
-  handleTabChange: (tab: 'science' | 'shop' | 'creator') => void;
+  copyDeepLink: (_id: string, _name?: string) => void;
+  openProofScreenshot: (_id: string) => void;
+  handleTabChange: (_tab: 'science' | 'shop' | 'creator') => void;
 }
 
 export default function CreatorSalesSection({

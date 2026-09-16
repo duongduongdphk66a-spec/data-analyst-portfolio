@@ -14,12 +14,12 @@ import {
 
 interface ShopAffiliateSectionProps {
   isEn: boolean;
-  copyDeepLink: (id: string) => void;
-  openProofScreenshot: (id: string) => void;
+  copyDeepLink: (_id: string) => void;
+  openProofScreenshot: (_id: string) => void;
   affMetric: 'units' | 'gmv' | 'count';
-  setAffMetric: (m: 'units' | 'gmv' | 'count') => void;
+  setAffMetric: (_m: 'units' | 'gmv' | 'count') => void;
   affCatMetric: 'units' | 'gmv' | 'count';
-  setAffCatMetric: (m: 'units' | 'gmv' | 'count') => void;
+  setAffCatMetric: (_m: 'units' | 'gmv' | 'count') => void;
 }
 
 export default function ShopAffiliateSection({

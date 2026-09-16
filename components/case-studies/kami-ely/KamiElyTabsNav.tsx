@@ -21,7 +21,7 @@ export interface NavItemDef {
 
 interface KamiElyTabsNavProps {
   activeTab: 'science' | 'shop' | 'creator';
-  handleTabChange: (tab: 'science' | 'shop' | 'creator') => void;
+  handleTabChange: (_tab: 'science' | 'shop' | 'creator') => void;
   handleBack: () => void;
   isEmbedded?: boolean;
   isEn: boolean;
@@ -30,7 +30,7 @@ interface KamiElyTabsNavProps {
   activeSection: string;
   scrollProgress: number;
   subnavContainerRef: React.RefObject<HTMLDivElement | null>;
-  handleNavClick: (id: string, e: React.MouseEvent) => void;
+  handleNavClick: (_id: string, _e: React.MouseEvent) => void;
 }
 
 export default function KamiElyTabsNav({
@@ -39,7 +39,7 @@ export default function KamiElyTabsNav({
   handleBack,
   isEmbedded,
   isEn,
-  onOpenProofModal,
+  _onOpenProofModal,
   currentNavItems,
   activeSection,
   scrollProgress,

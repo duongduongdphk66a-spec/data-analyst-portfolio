@@ -7,8 +7,8 @@ import { KAMI_DATA_SCOPES, fastmossScreenshotsManifest } from '@/app/data/kamiEl
 interface KamiElyDataScopeMatrixProps {
   scopeType: 'shop' | 'creator';
   isEn: boolean;
-  openProofScreenshot: (id: string) => void;
-  openProofModalWithGroup: (group: 'shop' | 'creator') => void;
+  openProofScreenshot: (_id: string) => void;
+  openProofModalWithGroup: (_group: 'shop' | 'creator') => void;
 }
 
 export default function KamiElyDataScopeMatrix({

@@ -7,9 +7,9 @@ import { KAMI_MATH_STATS } from '@/app/data/kamiElyData';
 interface ScienceOptimizerSectionProps {
   isEn: boolean;
   liveHoursReduction: number;
-  setLiveHoursReduction: (v: number) => void;
+  setLiveHoursReduction: (_v: number) => void;
   videoCoverage: number;
-  setVideoCoverage: (v: number) => void;
+  setVideoCoverage: (_v: number) => void;
   simulatorMetrics: {
     operationalCostSavedMillion: string;
     additionalVideoGmvMillion: string;

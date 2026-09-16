@@ -11,14 +11,14 @@ import { shopWeeklyTrendData, PALETTE } from '@/app/data/kamiElyData';
 
 interface ShopSalesSectionProps {
   isEn: boolean;
-  copyDeepLink: (id: string) => void;
-  handleExportChart: (id: string, name: string) => void;
+  copyDeepLink: (_id: string) => void;
+  handleExportChart: (_id: string, _name: string) => void;
   channelData: Record<string, any[]>;
   contentData: Record<string, any[]>;
   channelMetric: 'units' | 'gmv';
-  setChannelMetric: (m: 'units' | 'gmv') => void;
+  setChannelMetric: (_m: 'units' | 'gmv') => void;
   contentMetric: 'units' | 'gmv';
-  setContentMetric: (m: 'units' | 'gmv') => void;
+  setContentMetric: (_m: 'units' | 'gmv') => void;
   weeklyTrendData?: any[];
 }
 

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   Search, Briefcase, FileText, User, LayoutDashboard, Database, 
-  Sun, Moon, Globe, Download, CornerDownLeft, X
+  Sun, Moon, _Globe, Download, CornerDownLeft, X
 } from 'lucide-react';
 import { ProjectData } from '@/app/types';
 import { useLanguage } from '@/app/context/LanguageContext';

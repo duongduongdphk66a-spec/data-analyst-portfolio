@@ -13,9 +13,9 @@ import {
 
 interface ShopLiveVideoSectionProps {
   isEn: boolean;
-  copyDeepLink: (id: string) => void;
-  openProofScreenshot: (id: string) => void;
-  handleTabChange: (tab: 'science' | 'shop' | 'creator') => void;
+  copyDeepLink: (_id: string) => void;
+  openProofScreenshot: (_id: string) => void;
+  handleTabChange: (_tab: 'science' | 'shop' | 'creator') => void;
 }
 
 export default function ShopLiveVideoSection({

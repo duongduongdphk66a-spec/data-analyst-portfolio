@@ -10,7 +10,7 @@ import { KAMI_MATH_STATS } from '@/app/data/kamiElyData';
 
 interface ScienceEdaSectionProps {
   isEn: boolean;
-  handleExport: (id: string, name: string) => void;
+  handleExport: (_id: string, _name: string) => void;
 }
 
 export default function ScienceEdaSection({ isEn, handleExport }: ScienceEdaSectionProps) {

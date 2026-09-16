@@ -11,8 +11,8 @@ import { KAMI_MATH_STATS } from '@/app/data/kamiElyData';
 interface ScienceTimeSeriesSectionProps {
   isEn: boolean;
   tsPanelFocus: 'all' | 'trend' | 'seasonal' | 'residual';
-  setTsPanelFocus: (v: 'all' | 'trend' | 'seasonal' | 'residual') => void;
-  handleExport: (id: string, name: string) => void;
+  setTsPanelFocus: (_v: 'all' | 'trend' | 'seasonal' | 'residual') => void;
+  handleExport: (_id: string, _name: string) => void;
 }
 
 export default function ScienceTimeSeriesSection({

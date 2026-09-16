@@ -5,7 +5,7 @@ import { ShieldCheck, Download } from 'lucide-react';
 
 interface ScienceHypothesisSectionProps {
   isEn: boolean;
-  handleExport: (id: string, name: string) => void;
+  handleExport: (_id: string, _name: string) => void;
 }
 
 export default function ScienceHypothesisSection({ isEn, handleExport }: ScienceHypothesisSectionProps) {

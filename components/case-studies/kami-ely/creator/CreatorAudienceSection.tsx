@@ -19,7 +19,7 @@ import { creatorDemographics } from '@/app/data/kamiElyData';
 
 interface CreatorAudienceSectionProps {
   isEn: boolean;
-  copyDeepLink: (id: string, name?: string) => void;
+  copyDeepLink: (_id: string, _name?: string) => void;
 }
 
 export default function CreatorAudienceSection({

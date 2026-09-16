@@ -10,13 +10,13 @@ import { shopPriceTierData, shopTopSKUs } from '@/app/data/kamiElyData';
 
 interface ShopCatalogPricingSectionProps {
   isEn: boolean;
-  copyDeepLink: (id: string) => void;
-  openProofScreenshot: (id: string) => void;
+  copyDeepLink: (_id: string) => void;
+  openProofScreenshot: (_id: string) => void;
   shopCategoryData: Record<string, any[]>;
   categoryMetric: 'units' | 'gmv' | 'byCount';
-  setCategoryMetric: (m: 'units' | 'gmv' | 'byCount') => void;
+  setCategoryMetric: (_m: 'units' | 'gmv' | 'byCount') => void;
   priceMetric: 'units' | 'gmv' | 'byCount';
-  setPriceMetric: (m: 'units' | 'gmv' | 'byCount') => void;
+  setPriceMetric: (_m: 'units' | 'gmv' | 'byCount') => void;
 }
 
 export default function ShopCatalogPricingSection({

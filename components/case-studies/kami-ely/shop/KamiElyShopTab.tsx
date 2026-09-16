@@ -10,26 +10,26 @@ import ShopAnalysisNarrative from './ShopAnalysisNarrative';
 
 interface KamiElyShopTabProps {
   isEn: boolean;
-  copyDeepLink: (id: string) => void;
-  handleExportChart: (id: string, name: string) => void;
-  openProofScreenshot: (id: string) => void;
-  renderDataScopeMatrix: (scope: 'shop' | 'creator') => React.ReactNode;
-  handleTabChange: (tab: 'science' | 'shop' | 'creator') => void;
+  copyDeepLink: (_id: string) => void;
+  handleExportChart: (_id: string, _name: string) => void;
+  openProofScreenshot: (_id: string) => void;
+  renderDataScopeMatrix: (_scope: 'shop' | 'creator') => React.ReactNode;
+  handleTabChange: (_tab: 'science' | 'shop' | 'creator') => void;
   channelData: Record<string, any[]>;
   contentData: Record<string, any[]>;
   shopCategoryData: Record<string, any[]>;
   channelMetric: 'units' | 'gmv';
-  setChannelMetric: (m: 'units' | 'gmv') => void;
+  setChannelMetric: (_m: 'units' | 'gmv') => void;
   contentMetric: 'units' | 'gmv';
-  setContentMetric: (m: 'units' | 'gmv') => void;
+  setContentMetric: (_m: 'units' | 'gmv') => void;
   categoryMetric: 'units' | 'gmv' | 'byCount';
-  setCategoryMetric: (m: 'units' | 'gmv' | 'byCount') => void;
+  setCategoryMetric: (_m: 'units' | 'gmv' | 'byCount') => void;
   priceMetric: 'units' | 'gmv' | 'byCount';
-  setPriceMetric: (m: 'units' | 'gmv' | 'byCount') => void;
+  setPriceMetric: (_m: 'units' | 'gmv' | 'byCount') => void;
   affMetric: 'units' | 'gmv' | 'count';
-  setAffMetric: (m: 'units' | 'gmv' | 'count') => void;
+  setAffMetric: (_m: 'units' | 'gmv' | 'count') => void;
   affCatMetric: 'units' | 'gmv' | 'count';
-  setAffCatMetric: (m: 'units' | 'gmv' | 'count') => void;
+  setAffCatMetric: (_m: 'units' | 'gmv' | 'count') => void;
 }
 
 export default function KamiElyShopTab({

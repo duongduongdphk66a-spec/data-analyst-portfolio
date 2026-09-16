@@ -10,9 +10,9 @@ interface KamiElyProofModalProps {
   isOpen: boolean;
   onClose: () => void;
   selectedProofGroup: 'all' | 'shop' | 'creator';
-  setSelectedProofGroup: (group: 'all' | 'shop' | 'creator') => void;
+  setSelectedProofGroup: (_group: 'all' | 'shop' | 'creator') => void;
   activeScreenshot: FastMossScreenshotItem | null;
-  setActiveScreenshot: (item: FastMossScreenshotItem | null) => void;
+  setActiveScreenshot: (_item: FastMossScreenshotItem | null) => void;
 }
 
 export default function KamiElyProofModal({

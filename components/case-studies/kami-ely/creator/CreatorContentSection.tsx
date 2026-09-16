@@ -26,7 +26,7 @@ import {
 
 interface CreatorContentSectionProps {
   isEn: boolean;
-  copyDeepLink: (id: string, name?: string) => void;
+  copyDeepLink: (_id: string, _name?: string) => void;
 }
 
 export default function CreatorContentSection({

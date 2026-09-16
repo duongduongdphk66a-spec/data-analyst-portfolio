@@ -195,8 +195,8 @@ export async function getServerPortfolioData(): Promise<{ profile: ProfileData; 
       getProjectsWithFallback(),
     ]);
     return { profile, projects };
-  } catch (err) {
-    console.error('[ServerData] Fallback to default data:', err);
+  } catch (err: unknown) {
+    console.warn(`[ServerData] Fallback to default data due to MySQL connection error: ${err instanceof Error ? err.message : String(err)}`);
     return { profile: DEFAULT_PROFILE, projects: DEFAULT_PROJECTS };
   }
 }

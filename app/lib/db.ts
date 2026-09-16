@@ -568,7 +568,7 @@ export async function initDatabase(force = false): Promise<{ success: boolean; m
     };
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Database initialization failed.';
-    console.error('[MySQL] Database init failed:', error);
+    console.warn(`[MySQL] Database init failed: ${message}`);
     return {
       success: false,
       message,

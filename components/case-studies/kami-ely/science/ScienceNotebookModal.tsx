@@ -9,9 +9,9 @@ interface ScienceNotebookModalProps {
   onClose: () => void;
   isEn: boolean;
   selectedSnippetIdx: number;
-  setSelectedSnippetIdx: (i: number) => void;
+  setSelectedSnippetIdx: (_i: number) => void;
   copiedCode: boolean;
-  handleCopyCode: (code: string) => void;
+  handleCopyCode: (_code: string) => void;
 }
 
 export default function ScienceNotebookModal({

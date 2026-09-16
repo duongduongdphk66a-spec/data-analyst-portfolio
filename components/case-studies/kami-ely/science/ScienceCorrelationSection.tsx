@@ -11,8 +11,8 @@ import { KAMI_MATH_STATS } from '@/app/data/kamiElyData';
 interface ScienceCorrelationSectionProps {
   isEn: boolean;
   polyView: 'fitted' | 'marginal';
-  setPolyView: (v: 'fitted' | 'marginal') => void;
-  handleExport: (id: string, name: string) => void;
+  setPolyView: (_v: 'fitted' | 'marginal') => void;
+  handleExport: (_id: string, _name: string) => void;
 }
 
 export default function ScienceCorrelationSection({
