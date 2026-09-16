@@ -64,7 +64,7 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
         {/* Editorial Section Header */}
         <div className="space-y-3 pb-8 border-b border-slate-200/80 dark:border-slate-800 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: '0ms' }}>
           <span className="editorial-kicker">
-            {isEn ? 'ANALYTICAL PHILOSOPHY & PROFILE' : 'TRIẾT LÝ PHÂN TÍCH & NĂNG LỰC'}
+            {isEn ? 'Analytical Philosophy & Profile' : 'Triết lý phân tích & năng lực'}
           </span>
           <h2 className="editorial-section-title text-3xl sm:text-4xl lg:text-5xl max-w-3xl">
             {isEn
@@ -148,12 +148,12 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
           </div>
 
           {/* Right Column: 3 Pillars & Career Goals (5 cols) */}
-          <div className="lg:col-span-5 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: '200ms' }}>
+          <div className="lg:col-span-5 bento-telemetry space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: '200ms' }}>
             
             {/* Core Pillars */}
             <div className="space-y-4">
               <span className="editorial-kicker">
-                {isEn ? 'CORE WORKING PILLARS' : '3 NGUYÊN TẮC CỐT LÕI'}
+                {isEn ? 'Core Working Pillars' : '3 Nguyên tắc cốt lõi'}
               </span>
               <div className="space-y-4">
                 {pillars.map((p, idx) => (
@@ -173,7 +173,7 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
             {/* Career Direction */}
             <div className="space-y-4 pt-4 border-t border-slate-200/80 dark:border-slate-800">
               <span className="editorial-kicker">
-                {isEn ? 'CAREER TRAJECTORY' : 'ĐỊNH HƯỚNG PHÁT TRIỂN'}
+                {isEn ? 'Career Trajectory' : 'Định hướng phát triển'}
               </span>
               <div className="space-y-4">
                 {goals.map((g, idx) => (

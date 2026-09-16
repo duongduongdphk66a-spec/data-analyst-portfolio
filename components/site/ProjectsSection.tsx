@@ -133,7 +133,7 @@ export default React.memo(function ProjectsSection({
         </div>
       )}
 
-      {/* Featured Editorial Full-Width Cards (30-Second Scan) — Homepage Only */}
+      {/* Featured Editorial Full-Width Cards (30-Second Scan) - Homepage Only */}
       {isFeaturedView ? (
         <div className="space-y-8">
           {filteredProjects.map((proj, idx) => (
@@ -147,7 +147,7 @@ export default React.memo(function ProjectsSection({
           ))}
         </div>
       ) : (
-        /* Standard 3-Column Grid — Projects Page */
+        /* Standard 3-Column Grid - Projects Page */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {filteredProjects.map((proj, idx) => {
             const presentation = getProjectPresentation(proj, isEn);
@@ -164,8 +164,7 @@ export default React.memo(function ProjectsSection({
                 {/* Structured Card Content */}
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
-                    {/* Category Kicker */}
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA] block">
+                    <span className="text-xs font-mono font-bold text-[#074553] dark:text-[#9BE7FA] block">
                       {presentation.kicker}
                     </span>
 

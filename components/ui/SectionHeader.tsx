@@ -39,7 +39,7 @@ export function SectionHeader({
     return (
       <div className={`flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800 ${className}`}>
         <div>
-          <span className="text-xs font-extrabold tracking-widest text-[#074553] uppercase dark:text-[#9BE7FA]">
+          <span className="text-xs font-extrabold text-[#074553] dark:text-[#9BE7FA]">
             {badge}
           </span>
           <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
@@ -72,7 +72,7 @@ export function SectionHeader({
               </span>
             )}
             {subtitle && (
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider dark:text-slate-400">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
                 {subtitle}
               </span>
             )}
@@ -102,7 +102,7 @@ export function SectionHeader({
   return (
     <div className={`flex items-center justify-between border-b border-slate-200 pb-3 dark:border-slate-800 ${className}`}>
       <div className="flex items-center gap-2">
-        <span className={`px-3 py-1 ${badgeBg} ${isLightBadge ? 'text-slate-950 font-bold' : 'text-white font-bold'} rounded-lg text-xs font-black uppercase shrink-0`}>
+        <span className={`px-3 py-1 ${badgeBg} ${isLightBadge ? 'text-slate-950 font-bold' : 'text-white font-bold'} rounded-lg text-xs font-black shrink-0`}>
           {badge}
         </span>
         <h2 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">

@@ -301,11 +301,9 @@ a {
 
 .editorial-kicker {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-weight: 600;
-  color: var(--color-brand-primary);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-brand-deep);
 }
 .dark .editorial-kicker {
   color: var(--color-brand-primary);

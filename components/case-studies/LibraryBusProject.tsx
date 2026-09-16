@@ -118,7 +118,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProj
         onNavClick={handleNavClick}
       />
 
-      {/* Executive Summary — 60-second overview */}
+      {/* Executive Summary - 60-second overview */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12">
         <ExecutiveSummary
           isEn={isEn}

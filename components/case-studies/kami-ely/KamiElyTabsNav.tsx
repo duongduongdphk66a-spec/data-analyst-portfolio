@@ -39,7 +39,7 @@ export default function KamiElyTabsNav({
   handleBack,
   isEmbedded,
   isEn,
-  _onOpenProofModal,
+  onOpenProofModal: _onOpenProofModal,
   currentNavItems,
   activeSection,
   scrollProgress,

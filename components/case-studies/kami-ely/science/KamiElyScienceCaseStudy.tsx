@@ -68,7 +68,7 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
         onOpenNotebook={() => setIsNotebookModalOpen(true)} 
       />
 
-      {/* Executive Summary — 60-second overview */}
+      {/* Executive Summary - 60-second overview */}
       <div className="max-w-5xl">
         <ExecutiveSummary
           isEn={isEn}

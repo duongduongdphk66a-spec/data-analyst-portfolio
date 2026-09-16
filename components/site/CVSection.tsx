@@ -92,25 +92,25 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
       </div>
 
       {/* Content */}
-      <div>
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1.5">
-          <h4 className="text-sm font-heading font-bold text-ink dark:text-white">{item.role}</h4>
-        </div>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-3">
-          <span className="text-sm font-heading font-medium text-ink-secondary dark:text-slate-300">{item.company}</span>
-          <span className="flex items-center gap-1 text-xs text-ink-muted dark:text-slate-400 font-heading">
+      <div className="card-minimal p-5 sm:p-6 ml-3 w-full">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-x-3 gap-y-2 mb-2">
+          <h4 className="text-base sm:text-lg font-heading font-bold text-ink dark:text-white leading-snug">{item.role}</h4>
+          <span className="badge-cyan flex items-center gap-1 w-fit shrink-0">
             <Calendar className="w-3 h-3" />
             {item.period}
           </span>
+        </div>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4">
+          <span className="badge-gold font-heading">{item.company}</span>
           {item.location && (
-            <span className="flex items-center gap-1 text-xs text-ink-muted dark:text-slate-400 font-heading">
+            <span className="flex items-center gap-1 text-xs sm:text-sm text-ink-muted dark:text-slate-400 font-heading">
               <MapPin className="w-3 h-3" />
               {item.location}
             </span>
           )}
         </div>
-        <ul className="space-y-2">
-          {item.description.map((desc, i) => (
+        <ul className="space-y-2 mt-2">
+          {item.description?.map((desc, i) => (
             <li key={`${item.id}-desc-${i}`} className="text-sm text-ink-secondary dark:text-slate-300 leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
               {desc}
             </li>
@@ -121,9 +121,9 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
   );
 
   return (
-    <section id="experience" ref={sectionRef} className="section-ground py-14 sm:py-20 md:py-28 transition-colors duration-200">
+    <section id="experience" ref={sectionRef} className="section-ground py-14 sm:py-20 md:py-28 transition-colors duration-200 bg-data-dots">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-ink dark:text-white mb-10 sm:mb-14 max-w-2xl leading-tight">
+        <h2 className="editorial-section-title text-3xl sm:text-4xl md:text-5xl mb-12 sm:mb-16 max-w-2xl">
           {isEn ? 'Education & professional timeline.' : 'Học vấn và lộ trình nghề nghiệp.'}
         </h2>
 
@@ -131,10 +131,10 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
           {/* Education section */}
           <div>
             <div className="flex items-center gap-2.5 mb-8 pb-3 border-b border-border-subtle dark:border-slate-800">
-              <div className="w-8 h-8 rounded-lg bg-surface/50 border border-[#9BE7FA]/40 dark:bg-slate-800 dark:border-slate-700 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-surface/50 border border-[#9BE7FA]/40 dark:bg-slate-800 dark:border-[#9BE7FA]/40 flex items-center justify-center">
                 <GraduationCap className="w-4 h-4 text-ink dark:text-[#9BE7FA]" />
               </div>
-              <h3 className="text-sm font-heading font-bold uppercase tracking-[0.15em] text-ink dark:text-white">
+              <h3 className="editorial-kicker text-ink dark:text-[#9BE7FA]">
                 {isEn ? 'Education' : 'Học vấn'}
               </h3>
             </div>
@@ -146,10 +146,10 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
           {/* Work column */}
           <div>
             <div className="flex items-center gap-2.5 mb-8 pb-3 border-b border-border-subtle dark:border-slate-800">
-              <div className="w-8 h-8 rounded-lg bg-surface/50 border border-[#9BE7FA]/40 dark:bg-slate-800 dark:border-slate-700 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-surface/50 border border-[#9BE7FA]/40 dark:bg-slate-800 dark:border-[#9BE7FA]/40 flex items-center justify-center">
                 <Briefcase className="w-4 h-4 text-ink dark:text-[#9BE7FA]" />
               </div>
-              <h3 className="text-sm font-heading font-bold uppercase tracking-[0.15em] text-ink dark:text-white">
+              <h3 className="editorial-kicker text-ink dark:text-[#9BE7FA]">
                 {isEn ? 'Work Experience' : 'Kinh nghiệm thực tế'}
               </h3>
             </div>

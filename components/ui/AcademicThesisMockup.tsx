@@ -39,8 +39,8 @@ export function AcademicThesisMockup({
             </div>
             <div className="text-xs font-sans text-stone-500 dark:text-stone-400 mt-0.5">
               {isEn 
-                ? 'Faculty of Tourism Studies — Master of Science Thesis / Monograph' 
-                : 'Khoa Du lịch học — Văn bản trích lục Niên luận & Luận văn Thạc sĩ'}
+                ? 'Faculty of Tourism Studies - Master of Science Thesis / Monograph' 
+                : 'Khoa Du lịch học - Văn bản trích lục Niên luận & Luận văn Thạc sĩ'}
             </div>
           </div>
 

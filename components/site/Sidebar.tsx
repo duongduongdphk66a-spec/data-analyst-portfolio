@@ -192,7 +192,7 @@ export default function Sidebar() {
           <div className="border-t border-slate-200/80 dark:border-slate-800" />
         </div>
 
-        {/* Direct Action: Download CV — refined neutral card with cyan accent */}
+        {/* Direct Action: Download CV - refined neutral card with cyan accent */}
         <div className="hidden lg:block px-1 pt-1">
           <a
             href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { 
-  Maximize2, Minimize2, ArrowRight, _BookOpen,
+  Maximize2, Minimize2, ArrowRight, BookOpen,
   CheckCircle2, Sparkles, FileCode2,
   ChevronLeft, ChevronRight, Columns2, ArrowLeftRight,
   Smartphone, Monitor, SplitSquareVertical, Layers, Grid, Download, ZoomIn, ZoomOut, X

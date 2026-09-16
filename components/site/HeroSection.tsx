@@ -72,7 +72,7 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
   };
 
   return (
-    <section ref={containerRef} className="relative min-h-0 sm:min-h-[85vh] flex items-center bg-[#FAFDFE] dark:bg-[#0B0F17] hero-glow overflow-hidden transition-colors duration-200">
+    <section ref={containerRef} className="relative min-h-0 sm:min-h-[85vh] flex flex-col justify-center bg-[#FAFDFE] dark:bg-[#0B0F17] hero-glow bg-data-dots overflow-hidden transition-colors duration-200">
       {/* Background visual graph (Subtle) */}
       <div className="absolute inset-0 opacity-10 dark:opacity-[0.04] pointer-events-none overflow-hidden">
         <div className="absolute -bottom-32 -right-32 w-full h-full max-w-4xl scale-125 origin-bottom-right">
@@ -80,18 +80,15 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
         </div>
       </div>
 
-      <div className="relative max-w-4xl mx-auto px-5 sm:px-8 w-full py-12 sm:py-16 md:py-24 text-center sm:text-left z-10">
-        <div className="space-y-10">
+      <div className="relative max-w-5xl mx-auto px-5 sm:px-8 w-full pt-16 sm:pt-24 pb-16 text-center sm:text-left z-10 flex-1 flex flex-col justify-center">
+        <div className="space-y-8 sm:space-y-10">
 
           {/* 1. Identity & Kicker Badge */}
-          <div className="space-y-3 animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both" style={{ animationDelay: '0ms' }}>
-            <h2 className="text-xl sm:text-2xl font-heading font-black tracking-widest text-slate-400 dark:text-slate-500 uppercase">
-              {profile.name || 'MA VĂN HÙNG'}
-            </h2>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C8EEF7]/40 border border-[#9BE7FA] dark:bg-[#9BE7FA]/10 dark:border-[#9BE7FA]/30">
+          <div className="animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both" style={{ animationDelay: '0ms' }}>
+            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-[#C8EEF7]/40 border border-[#9BE7FA] dark:bg-[#9BE7FA]/10 dark:border-[#9BE7FA]/30">
               <span className="w-2 h-2 rounded-full bg-[#9BE7FA] animate-pulse" />
-              <span className="text-xs sm:text-sm font-mono font-bold tracking-[0.2em] text-[#074553] dark:text-[#9BE7FA] uppercase">
-                {profile.title || 'DATA ANALYST'}
+              <span className="text-xs sm:text-sm font-mono font-bold text-slate-900 dark:text-[#9BE7FA]">
+                {profile.name || 'Ma Văn Hùng'} <span className="text-slate-400 mx-1">•</span> {profile.title || 'Data Analyst'}
               </span>
             </div>
           </div>
@@ -105,19 +102,10 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
             </h1>
           </div>
 
-          {/* 3. Skills */}
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 text-sm sm:text-base font-mono font-semibold text-slate-500 dark:text-slate-400 animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both" style={{ animationDelay: '200ms' }}>
-            <span>SQL</span>
-            <span className="text-slate-300 dark:text-slate-700">•</span>
-            <span>Python</span>
-            <span className="text-slate-300 dark:text-slate-700">•</span>
-            <span>Power BI</span>
-            <span className="text-slate-300 dark:text-slate-700">•</span>
-            <span>Statistics</span>
-          </div>
+
 
           {/* 4. CTAs - Dominant #9BE7FA Primary Button */}
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 pt-4 animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both" style={{ animationDelay: '300ms' }}>
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 pt-2 animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both" style={{ animationDelay: '200ms' }}>
             <button
               onClick={handleGoToProjects}
               className="btn-primary text-base group px-8 py-4"
@@ -134,24 +122,24 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
             </button>
           </div>
 
-          {/* 5. Metrics Box */}
-          <div className="pt-8 animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both" style={{ animationDelay: '400ms' }}>
-            <div className="inline-block p-5 sm:p-6 lg:p-8 rounded-2xl border border-slate-200/80 hover:border-[#9BE7FA]/60 dark:border-slate-800 dark:hover:border-[#9BE7FA]/40 bg-white/70 dark:bg-slate-900/60 backdrop-blur-sm shadow-sm hover:shadow-md transition-all w-full sm:w-auto">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 sm:gap-x-8 lg:gap-x-12 gap-y-6 sm:gap-y-0">
-                {stats.map((stat, i) => (
-                  <div key={i} className="flex flex-col text-left">
-                    <span className="text-xl sm:text-2xl lg:text-3xl font-mono font-extrabold text-slate-950 dark:text-white tabular-nums">
-                      {stat.value}
-                    </span>
-                    <span className="text-xs sm:text-sm font-heading font-medium text-slate-500 dark:text-slate-400 mt-1">
-                      {stat.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        </div>
+      </div>
 
+      {/* 5. Metrics Box (Moved out of hero stack) */}
+      <div className="w-full border-t border-slate-200/60 dark:border-slate-800 bg-white/30 dark:bg-slate-900/30 backdrop-blur-sm relative z-10 animate-in fade-in duration-700 delay-300">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8 py-6 sm:py-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 lg:gap-x-12 gap-y-6 sm:gap-y-0">
+            {stats.map((stat, i) => (
+              <div key={i} className="flex flex-col text-center sm:text-left">
+                <span className="text-xl sm:text-2xl lg:text-3xl font-mono font-extrabold text-slate-950 dark:text-white tabular-nums">
+                  {stat.value}
+                </span>
+                <span className="text-xs sm:text-sm font-heading font-medium text-slate-500 dark:text-slate-400 mt-1">
+                  {stat.label}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
