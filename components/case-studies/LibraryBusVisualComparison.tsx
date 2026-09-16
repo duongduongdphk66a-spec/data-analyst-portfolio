@@ -6,7 +6,7 @@ import {
   Maximize2, Minimize2, ArrowRight, BookOpen,
   CheckCircle2, Sparkles, FileCode2,
   ChevronLeft, ChevronRight, Columns2, ArrowLeftRight,
-  Smartphone, Monitor
+  Smartphone, Monitor, SplitSquareVertical, Layers, Grid, Download, ZoomIn, ZoomOut, X
 } from 'lucide-react';
 import { LIBRARY_BUS_20_SCREENS, LIBRARY_BUS_MOBILE_SCREENS, LIBRARY_BUS_SYSTEM_PARADIGMS } from '@/app/data/libraryBusData';
 
