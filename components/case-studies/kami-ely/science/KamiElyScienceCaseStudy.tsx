@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useToast } from '@/components/ui/Toast';
-import { exportChartWithToast } from '@/app/lib/chartExport';
+import { exportChartWithToast } from '@/app/lib/uiHelpers';
 import ExecutiveSummary from '../../ExecutiveSummary';
 
 import ScienceHeroSection from './ScienceHeroSection';

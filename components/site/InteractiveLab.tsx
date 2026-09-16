@@ -12,7 +12,7 @@ import { useTheme } from '@/app/context/ThemeContext';
 import { trackVisitorAction } from '@/app/lib/visitorTracking';
 import { SQL_SCENARIOS } from '@/app/data/aboutSqlData';
 import { executeClientSql, SqlQueryResult } from '@/app/lib/sqlEngine';
-import { exportChartAsPng } from '@/app/lib/chartExport';
+import { exportChartAsPng } from '@/app/lib/uiHelpers';
 import { useToast } from '@/components/ui/Toast';
 import { validateUploadedFile } from '@/app/lib/security';
 

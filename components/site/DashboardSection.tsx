@@ -11,7 +11,7 @@ import {
 import { DashboardData, ChartConfig } from '@/app/types';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useTheme } from '@/app/context/ThemeContext';
-import { exportChartAsPng } from '@/app/lib/chartExport';
+import { exportChartAsPng } from '@/app/lib/uiHelpers';
 import { useToast } from '@/components/ui/Toast';
 import { validateUploadedFile } from '@/app/lib/security';
 import { DashboardMetricCards } from './dashboard/DashboardMetricCards';
