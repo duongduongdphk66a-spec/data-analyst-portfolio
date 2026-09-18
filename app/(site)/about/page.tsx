@@ -7,6 +7,9 @@ export async function generateMetadata() {
   const { profile } = await getServerPortfolioData();
   return {
     title: `${profile.name || 'Ma Văn Hùng'} | ${language === 'en' ? 'About' : 'Giới Thiệu'}`,
+    description: language === 'en'
+      ? 'About Ma Văn Hùng — Data Analyst specializing in SQL, Python, Power BI. Background in quantitative research at VNU Hanoi.'
+      : 'Giới thiệu Ma Văn Hùng — Data Analyst chuyên SQL, Python, Power BI. Nền tảng nghiên cứu định lượng tại ĐHQG Hà Nội.',
   };
 }
 

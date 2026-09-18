@@ -74,7 +74,7 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
         </div>
 
         {/* 60% Editorial Layout: Two-Column Narrative */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           
           {/* Left Column: Profile Card + Narrative (7 cols) */}
           <div className="lg:col-span-7 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: '100ms' }}>
@@ -125,7 +125,7 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
             </div>
 
             {/* Action buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-4">
+            <div className="flex flex-wrap items-center gap-4 pt-2">
               {onNavigateTab && (
                 <button
                   onClick={() => onNavigateTab('lab')}
@@ -144,6 +144,62 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
                   <span>{isEn ? 'View Detailed Experience' : 'Xem Kinh Nghiệm Chi Tiết'}</span>
                 </button>
               )}
+            </div>
+
+            {/* Analytical Strengths & Tooling Grid - Balances layout with right column */}
+            <div className="pt-6 border-t border-slate-200/80 dark:border-slate-800 space-y-4">
+              <span className="editorial-kicker">
+                {isEn ? 'Core Analytical Competencies' : 'Năng lực phân tích & bộ công cụ'}
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="card-minimal p-3.5 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
+                    <span className="font-heading font-bold text-xs text-slate-950 dark:text-white">
+                      {isEn ? 'SQL & Data Architecture' : 'SQL & Kiến Trúc Dữ Liệu'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {isEn ? 'PostgreSQL, MySQL, Window Functions, 3NF schema, sub-30ms Redis cache.' : 'PostgreSQL, MySQL, Window Functions, chuẩn 3NF, tối ưu cache Redis <30ms.'}
+                  </p>
+                </div>
+
+                <div className="card-minimal p-3.5 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#FFD14C]" />
+                    <span className="font-heading font-bold text-xs text-slate-950 dark:text-white">
+                      {isEn ? 'Python & Inferential Stats' : 'Python & Thống Kê Suy Diễn'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {isEn ? 'Pandas, SciPy, Statsmodels, hypothesis testing, 180d time-series decomposition.' : 'Pandas, SciPy, Statsmodels, kiểm định giả thuyết, phân rã chuỗi thời gian 180N.'}
+                  </p>
+                </div>
+
+                <div className="card-minimal p-3.5 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
+                    <span className="font-heading font-bold text-xs text-slate-950 dark:text-white">
+                      {isEn ? 'BI & Data Storytelling' : 'Power BI & Trực Quan Hóa'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {isEn ? 'Interactive dashboards, DAX modeling, cohort metrics, Recharts visual analytics.' : 'Báo cáo BI đa chiều, mô hình DAX, phân tích Cohort, trực quan hóa Recharts.'}
+                  </p>
+                </div>
+
+                <div className="card-minimal p-3.5 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#FFD14C]" />
+                    <span className="font-heading font-bold text-xs text-slate-950 dark:text-white">
+                      {isEn ? 'Pipeline Operations' : 'Vận Hành & Data Pipeline'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {isEn ? 'Celery async task queues, 50k+ active users, pessimistic concurrency control.' : 'Hàng đợi tác vụ Celery, phục vụ 50k+ độc giả, kiểm soát xung đột dữ liệu.'}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 

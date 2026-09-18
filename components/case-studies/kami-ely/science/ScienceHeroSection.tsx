@@ -54,49 +54,61 @@ export default function ScienceHeroSection({ isEn, onOpenNotebook }: ScienceHero
 
         {/* 1.2 Executive Summary 10% Bento Telemetry Matrix */}
         <div className="grid grid-cols-1 gap-4 pt-4 sm:grid-cols-3">
-          <div className="card-minimal p-5 space-y-2">
-            <span className="editorial-kicker text-[11px] block">
-              {isEn ? 'Total Population Analyzed' : 'Quy Mô Quần Thể Phân Tích'}
-            </span>
-            <div className="flex items-baseline gap-2">
-              <span className="font-mono text-3xl font-bold text-slate-950 dark:text-white">238.4k</span>
-              <span className="text-xs text-slate-500 font-medium">{isEn ? 'Orders' : 'Đơn hàng'}</span>
+          <div className="card-minimal p-5 flex flex-col justify-between h-full space-y-2">
+            <div>
+              <span className="editorial-kicker text-[11px] min-h-[2.25rem] flex items-center">
+                {isEn ? 'Total Population Analyzed' : 'Quy Mô Quần Thể Phân Tích'}
+              </span>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="font-mono text-3xl font-bold text-slate-950 dark:text-white">238.4k</span>
+                <span className="text-xs text-slate-500 font-medium">{isEn ? 'Orders' : 'Đơn hàng'}</span>
+              </div>
             </div>
-            <p className="text-xs text-[#0D7287] dark:text-[#9BE7FA] font-bold">31,6 Tỷ VNĐ GMV Toàn Sàn</p>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">
-              {isEn ? 'Accumulated since inception (Aug 18, 2022) • 180-day window: 85.5k units / 12.7B VND' : 'Tích lũy toàn thời gian từ 18/08/2022 • Chu kỳ bóc tách 180N: 85.5k đơn / 12,7 Tỷ đ'}
-            </p>
-          </div>
-
-          <div className="card-minimal p-5 space-y-2">
-            <span className="editorial-kicker text-[11px] block">
-              {isEn ? 'Livestream Mean GPM (470 Sessions)' : 'GPM Live Trung Bình (470 Phiên)'}
-            </span>
-            <div className="flex items-baseline gap-2">
-              <span className="font-mono text-3xl font-bold text-slate-800 dark:text-slate-200">30,2k</span>
-              <span className="text-xs text-slate-500 font-medium">VNĐ / 1.000 Views</span>
-            </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              {isEn ? 'Revenue output per 1,000 live views' : 'Doanh thu thu về trên mỗi nghìn view Live'}
-            </p>
-            <div className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-              <div className="h-full bg-slate-400 rounded-full" style={{ width: '22%' }} />
+            <div className="space-y-1 pt-1">
+              <p className="text-xs text-[#0D7287] dark:text-[#9BE7FA] font-bold">31,6 Tỷ VNĐ GMV Toàn Sàn</p>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">
+                {isEn ? 'Accumulated since inception (Aug 18, 2022) • 180-day window: 85.5k units / 12.7B VND' : 'Tích lũy toàn thời gian từ 18/08/2022 • Chu kỳ bóc tách 180N: 85.5k đơn / 12,7 Tỷ đ'}
+              </p>
             </div>
           </div>
 
-          <div className="card-minimal p-5 space-y-2 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA]">
-            <span className="editorial-kicker text-[11px] block text-[#0D7287] dark:text-[#9BE7FA]">
-              {isEn ? 'Shoppable Video GPM (551 Videos)' : 'GPM Video Mua Sắm (551 Videos)'}
-            </span>
-            <div className="flex items-baseline gap-2">
-              <span className="font-mono text-3xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">135,2k</span>
-              <span className="text-xs text-slate-500 font-medium">VNĐ / 1.000 Views</span>
+          <div className="card-minimal p-5 flex flex-col justify-between h-full space-y-2">
+            <div>
+              <span className="editorial-kicker text-[11px] min-h-[2.25rem] flex items-center">
+                {isEn ? 'Livestream Mean GPM (470 Sessions)' : 'GPM Live Trung Bình (470 Phiên)'}
+              </span>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="font-mono text-3xl font-bold text-slate-800 dark:text-slate-200">30,2k</span>
+                <span className="text-xs text-slate-500 font-medium">VNĐ / 1.000 Views</span>
+              </div>
             </div>
-            <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold">
-              {isEn ? '4.48x higher than Livestream' : 'Gấp 4.48 lần kênh Livestream'}
-            </p>
-            <div className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-              <div className="h-full bg-[#0D7287] dark:bg-[#9BE7FA] rounded-full" style={{ width: '100%' }} />
+            <div className="space-y-2 pt-1">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                {isEn ? 'Revenue output per 1,000 live views' : 'Doanh thu thu về trên mỗi nghìn view Live'}
+              </p>
+              <div className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                <div className="h-full bg-slate-400 rounded-full" style={{ width: '22%' }} />
+              </div>
+            </div>
+          </div>
+
+          <div className="card-minimal p-5 flex flex-col justify-between h-full space-y-2 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA]">
+            <div>
+              <span className="editorial-kicker text-[11px] min-h-[2.25rem] flex items-center text-[#0D7287] dark:text-[#9BE7FA]">
+                {isEn ? 'Shoppable Video GPM (551 Videos)' : 'GPM Video Mua Sắm (551 Videos)'}
+              </span>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="font-mono text-3xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">135,2k</span>
+                <span className="text-xs text-slate-500 font-medium">VNĐ / 1.000 Views</span>
+              </div>
+            </div>
+            <div className="space-y-2 pt-1">
+              <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold">
+                {isEn ? '4.48x higher than Livestream' : 'Gấp 4.48 lần kênh Livestream'}
+              </p>
+              <div className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                <div className="h-full bg-[#0D7287] dark:bg-[#9BE7FA] rounded-full" style={{ width: '100%' }} />
+              </div>
             </div>
           </div>
         </div>

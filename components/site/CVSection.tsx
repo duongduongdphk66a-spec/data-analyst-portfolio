@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { GraduationCap, Briefcase, MapPin, Calendar } from 'lucide-react';
+import Link from 'next/link';
+import { GraduationCap, Briefcase, MapPin, Calendar, ArrowRight } from 'lucide-react';
 import { ExperienceItem } from '@/app/types';
 import { useLanguage } from '@/app/context/LanguageContext';
 
@@ -9,9 +10,10 @@ interface CVSectionProps {
   experiences: ExperienceItem[];
   name?: string;
   title?: string;
+  isSummary?: boolean;
 }
 
-export default React.memo(function CVSection({ experiences, name: _name, title: _title }: CVSectionProps) {
+export default React.memo(function CVSection({ experiences, name: _name, title: _title, isSummary = false }: CVSectionProps) {
   const { language } = useLanguage();
   const isEn = language === 'en';
   const sectionRef = useRef<HTMLElement>(null);
@@ -76,10 +78,11 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
   const displayEducation = isEn ? (education.length > 0 ? education : defaultEducationEn) : education;
   const displayWork = isEn ? (work.length > 0 ? work : defaultWorkEn) : work;
 
-  // Animations are now handled via Tailwind CSS classes
+  const finalEducation = isSummary ? displayEducation.slice(0, 1) : displayEducation;
+  const finalWork = isSummary ? displayWork.slice(0, 2) : displayWork;
 
-  const renderItem = (item: ExperienceItem) => (
-    <div key={item.id} className="timeline-item animate-in fade-in slide-in-from-left-4 duration-500 fill-mode-both relative pl-8 pb-10 last:pb-0 group">
+  const renderItem = (item: ExperienceItem, summaryMode: boolean) => (
+    <div key={item.id} className={`timeline-item animate-in fade-in slide-in-from-left-4 duration-500 fill-mode-both relative pl-8 ${summaryMode ? 'pb-6' : 'pb-10'} last:pb-0 group`}>
       {/* Timeline line */}
       <div className="absolute left-[11px] top-2 bottom-0 w-px bg-border-subtle dark:bg-slate-800 group-last:hidden" />
 
@@ -109,9 +112,9 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
             </span>
           )}
         </div>
-        <ul className="space-y-2 mt-2">
+        <ul className="space-y-2 mt-2 list-disc list-inside marker:text-[#9BE7FA] dark:marker:text-[#9BE7FA]/70">
           {item.description?.map((desc, i) => (
-            <li key={`${item.id}-desc-${i}`} className="text-sm text-ink-secondary dark:text-slate-300 leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+            <li key={`${item.id}-desc-${i}`} className="text-sm text-ink-secondary dark:text-slate-300 leading-relaxed font-sans">
               {desc}
             </li>
           ))}
@@ -121,13 +124,19 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
   );
 
   return (
-    <section id="experience" ref={sectionRef} className="section-ground py-14 sm:py-20 md:py-28 transition-colors duration-200 bg-data-dots">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8">
-        <h2 className="editorial-section-title text-3xl sm:text-4xl md:text-5xl mb-12 sm:mb-16 max-w-2xl">
-          {isEn ? 'Education & professional timeline.' : 'Học vấn và lộ trình nghề nghiệp.'}
-        </h2>
+    <section 
+      id={isSummary ? undefined : "experience"} 
+      ref={sectionRef} 
+      className={`transition-colors duration-200 ${isSummary ? 'pt-2 pb-0' : 'section-ground py-14 sm:py-20 md:py-28 bg-data-dots'}`}
+    >
+      <div className={isSummary ? 'w-full' : 'max-w-6xl mx-auto px-5 sm:px-8'}>
+        {!isSummary && (
+          <h2 className="editorial-section-title text-3xl sm:text-4xl md:text-5xl mb-12 sm:mb-16 max-w-2xl">
+            {isEn ? 'Education & professional timeline.' : 'Học vấn và lộ trình nghề nghiệp.'}
+          </h2>
+        )}
 
-        <div className="max-w-3xl space-y-16">
+        <div className={`max-w-3xl ${isSummary ? 'space-y-10' : 'space-y-16'}`}>
           {/* Education section */}
           <div>
             <div className="flex items-center gap-2.5 mb-8 pb-3 border-b border-border-subtle dark:border-slate-800">
@@ -135,11 +144,11 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
                 <GraduationCap className="w-4 h-4 text-ink dark:text-[#9BE7FA]" />
               </div>
               <h3 className="editorial-kicker text-ink dark:text-[#9BE7FA]">
-                {isEn ? 'Education' : 'Học vấn'}
+                {isEn ? 'Education & Academic Rigor' : 'Học vấn & Nghiên cứu'}
               </h3>
             </div>
             <div>
-              {displayEducation.map(renderItem)}
+              {finalEducation.map(item => renderItem(item, isSummary))}
             </div>
           </div>
 
@@ -150,13 +159,26 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
                 <Briefcase className="w-4 h-4 text-ink dark:text-[#9BE7FA]" />
               </div>
               <h3 className="editorial-kicker text-ink dark:text-[#9BE7FA]">
-                {isEn ? 'Work Experience' : 'Kinh nghiệm thực tế'}
+                {isEn ? (isSummary ? 'Key Analytical Experience' : 'Work Experience') : (isSummary ? 'Kinh nghiệm phân tích tiêu biểu' : 'Kinh nghiệm thực tế')}
               </h3>
             </div>
             <div>
-              {displayWork.map(renderItem)}
+              {finalWork.map(item => renderItem(item, isSummary))}
             </div>
           </div>
+
+          {/* Summary Call to Action */}
+          {isSummary && (
+            <div className="pt-2">
+              <Link
+                href="/experience"
+                className="btn-secondary-editorial text-xs font-bold gap-2 group w-full sm:w-auto justify-center"
+              >
+                <span>{isEn ? 'View Complete Career & Education Timeline' : 'Xem toàn bộ kinh nghiệm & quá trình học vấn'}</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-[#074553] dark:text-[#9BE7FA]" />
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -7,6 +7,9 @@ export async function generateMetadata() {
   const { profile } = await getServerPortfolioData();
   return {
     title: `${profile.name || 'Ma Văn Hùng'} | ${language === 'en' ? 'Work' : 'Dự Án'}`,
+    description: language === 'en'
+      ? 'Data analysis case studies by Ma Văn Hùng — TikTok Shop analytics, Japan heritage tourism time-series, and library database architecture.'
+      : 'Các dự án phân tích dữ liệu của Ma Văn Hùng — TikTok Shop analytics, time-series du lịch di sản Nhật Bản, kiến trúc CSDL thư viện lưu động.',
   };
 }
 

@@ -74,7 +74,7 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
         </main>
 
         {/* Mobile Bottom Navigation */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#FAFDFE] dark:bg-[#0B0F17] border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-around z-50 px-2 pb-safe-bottom">
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#FAFDFE]/90 dark:bg-[#0B0F17]/90 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-around z-50 px-2 pb-safe-bottom">
           {navItems.map((item) => {
             const isActive = pathname === item.id || (item.id === '/projects' && pathname.startsWith('/projects'));
             return (

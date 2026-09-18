@@ -1,10 +1,32 @@
 import type { Metadata } from 'next';
+import { Be_Vietnam_Pro, JetBrains_Mono, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from '@/components/ui/Toast';
 import { PortfolioDataProvider } from './context/PortfolioDataContext';
 import { headers } from 'next/headers';
+
+const beVietnamPro = Be_Vietnam_Pro({
+  subsets: ['vietnamese', 'latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  display: 'swap',
+  variable: '--font-be-vietnam-pro',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['vietnamese', 'latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono',
+});
+
+const robotoMono = Roboto_Mono({
+  subsets: ['vietnamese', 'latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-roboto-mono',
+});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mavanhung-portfolio.vercel.app';
 
@@ -75,16 +97,10 @@ export default async function RootLayout({
   return (
     <html
       lang="vi"
-      className="scroll-smooth"
+      className={`scroll-smooth ${beVietnamPro.variable} ${jetbrainsMono.variable} ${robotoMono.variable}`}
       suppressHydrationWarning
     >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Lora:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
         <script nonce={nonce} suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script nonce={nonce} suppressHydrationWarning dangerouslySetInnerHTML={{ __html: langInitScript }} />
         <script

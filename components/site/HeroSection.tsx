@@ -95,11 +95,16 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
 
           {/* 2. Value Proposition Headline */}
           <div className="animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both" style={{ animationDelay: '100ms' }}>
-            <h1 className="editorial-hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight">
+            <h1 className="editorial-hero-title text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight">
               {isEn 
                 ? 'Turning messy data into clear business decisions.' 
                 : 'Biến dữ liệu phức tạp thành quyết định kinh doanh rõ ràng.'}
             </h1>
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mt-4">
+              {isEn
+                ? 'Data Analyst specializing in SQL, Python, and Power BI. 3 interactive case studies with measurable business impact.'
+                : 'Data Analyst chuyên SQL, Python, Power BI. 3 case studies tương tác với kết quả đo lường cụ thể trên dữ liệu thực.'}
+            </p>
           </div>
 
 

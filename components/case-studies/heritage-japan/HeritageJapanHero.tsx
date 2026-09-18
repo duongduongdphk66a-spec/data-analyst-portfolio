@@ -22,7 +22,7 @@ export function HeritageJapanHero({ isEn, onNavClick }: HeritageJapanHeroProps) 
             <span className="text-xs font-mono text-slate-400 dark:text-slate-500">• JNTO & UNESCO TELEMETRY</span>
           </div>
           
-          <h1 className="editorial-section-title text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.16] tracking-tight text-slate-950 dark:text-white">
+          <h1 className="editorial-section-title text-3xl sm:text-5xl lg:text-6xl font-extrabold sm:font-black leading-[1.18] tracking-normal text-slate-950 dark:text-white">
             {isEn ? THESIS_METADATA.titleEn : THESIS_METADATA.titleVi}
           </h1>
           

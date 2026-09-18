@@ -13,15 +13,28 @@ const FALLBACK_RANDOM_SECRET = crypto.randomBytes(32).toString('hex');
 
 function getAdminPassword(): string {
   const envPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET;
-  if (envPassword && envPassword.trim().length >= 16) {
+  if (envPassword && envPassword.trim().length >= 6) {
     return envPassword.trim();
   }
   if (process.env.NODE_ENV === 'production') {
     throw new Error(
-      '[CRITICAL SECURITY ERROR] ADMIN_PASSWORD/ADMIN_SECRET must be configured in environment with at least 16 characters in production mode.'
+      '[CRITICAL SECURITY ERROR] ADMIN_PASSWORD must be configured in environment in production mode.'
     );
   }
   return envPassword?.trim() || FALLBACK_RANDOM_SECRET;
+}
+
+function getAdminVerifyCode(): string {
+  const envCode = process.env.ADMIN_VERIFY_CODE;
+  if (envCode && envCode.trim().length >= 6) {
+    return envCode.trim();
+  }
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(
+      '[CRITICAL SECURITY ERROR] ADMIN_VERIFY_CODE must be configured in environment in production mode.'
+    );
+  }
+  return envCode?.trim() || FALLBACK_RANDOM_SECRET;
 }
 
 const TOKEN_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 giờ
@@ -258,23 +271,35 @@ export function generateAdminToken(): string {
 }
 
 /**
- * Kiểm tra mật khẩu Admin khi đăng nhập (Constant-time SHA-256 comparison)
+ * Kiểm tra thông tin xác thực Admin khi đăng nhập (Constant-time SHA-256 comparison)
  */
-export function validateAdminPassword(password: string): boolean {
+export function validateAdminPassword(password: string, verifyCode?: string): boolean {
   if (!password || typeof password !== 'string') return false;
+  
   let adminPassword = '';
+  let adminVerifyCode = '';
   try {
     adminPassword = getAdminPassword();
+    adminVerifyCode = getAdminVerifyCode();
   } catch {
     return false;
   }
-  if (!adminPassword) return false;
+  if (!adminPassword || !adminVerifyCode) return false;
 
   // SHA-256 hash chuyển đổi cả 2 chuỗi về buffer cố định 32-byte
   // Loại trừ hoàn toàn side-channel rò rỉ độ dài mật khẩu
   const passHash = crypto.createHash('sha256').update(password).digest();
   const adminHash = crypto.createHash('sha256').update(adminPassword).digest();
-  return crypto.timingSafeEqual(passHash, adminHash);
+  const passwordMatch = crypto.timingSafeEqual(passHash, adminHash);
+
+  // Xác thực mã xác nhận bảo mật (constant-time)
+  const codeInput = verifyCode || '';
+  const codeHash = crypto.createHash('sha256').update(codeInput).digest();
+  const adminCodeHash = crypto.createHash('sha256').update(adminVerifyCode).digest();
+  const codeMatch = crypto.timingSafeEqual(codeHash, adminCodeHash);
+
+  // Cả hai phải đúng (luôn chạy cả 2 phép so sánh để tránh timing leak)
+  return passwordMatch && codeMatch;
 }
 
 /**

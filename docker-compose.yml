@@ -1,33 +1,39 @@
-version: '3.8'
-
 services:
   db:
     image: mysql:8.0
     container_name: portfolio-mysql
     restart: always
+    env_file: .env
     environment:
-      MYSQL_ROOT_PASSWORD: root_password_here
-      MYSQL_DATABASE: portfolio_db
-      MYSQL_USER: portfolio_user
-      MYSQL_PASSWORD: user_password_here
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-changeme_root_password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-portfolio_db}
+      MYSQL_USER: ${MYSQL_USER:-portfolio_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-changeme_user_password}
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   app:
     build: .
     container_name: portfolio-app
     restart: always
+    env_file: .env
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=mysql://portfolio_user:user_password_here@db:3306/portfolio_db
-      - NEXT_PUBLIC_SITE_URL=http://localhost:3000
-      - ADMIN_PASSWORD=change_this_to_a_long_secure_password_16_chars_min
+      - DATABASE_URL=mysql://${MYSQL_USER:-portfolio_user}:${MYSQL_PASSWORD:-changeme_user_password}@db:3306/${MYSQL_DATABASE:-portfolio_db}
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
 volumes:
   mysql_data:

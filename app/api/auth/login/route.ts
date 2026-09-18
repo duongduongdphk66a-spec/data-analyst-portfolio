@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json().catch(() => ({}));
-    const { password } = body;
+    const { password, verifyCode } = body;
 
     if (!password || typeof password !== 'string') {
       return NextResponse.json(
@@ -46,7 +46,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const isValid = validateAdminPassword(password);
+    if (!verifyCode || typeof verifyCode !== 'string') {
+      return NextResponse.json(
+        { success: false, message: 'Vui lòng nhập mã xác nhận bảo mật.' },
+        { status: 400 }
+      );
+    }
+
+    const isValid = validateAdminPassword(password, verifyCode);
     if (!isValid) {
       const record = await recordFailedLoginAsync(ip);
       // Giả lập delay chống timing attack
@@ -56,7 +63,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             success: false,
-            message: `Mật khẩu không chính xác. Bạn đã nhập sai ${MAX_FAILED_ATTEMPTS} lần, tài khoản bị khoá tạm thời trong ${Math.round(LOCKOUT_DURATION_MS / 60000)} phút.`,
+            message: `Thông tin xác thực không chính xác. Bạn đã nhập sai ${MAX_FAILED_ATTEMPTS} lần, tài khoản bị khoá tạm thời trong ${Math.round(LOCKOUT_DURATION_MS / 60000)} phút.`,
             retryAfter: record.retryAfterSeconds,
           },
           { 
@@ -71,7 +78,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: `Mật khẩu quản trị không chính xác. Còn lại ${record.remainingAttempts} lần thử.`,
+          message: `Thông tin xác thực không chính xác. Còn lại ${record.remainingAttempts} lần thử.`,
           remainingAttempts: record.remainingAttempts,
         },
         { status: 401 }
