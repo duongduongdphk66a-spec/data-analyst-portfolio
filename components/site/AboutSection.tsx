@@ -58,14 +58,12 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
   ];
 
   return (
-    <section id="about" ref={sectionRef} className="py-16 md:py-24 bg-[#FAFDFE] dark:bg-[#0B0F17] transition-colors duration-200">
+    <section id="about" ref={sectionRef} className="section-cinematic bg-[#FAFDFE] dark:bg-[#0B0F17] transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 space-y-16">
         
         {/* Editorial Section Header */}
+        {/* taste-skill §4.7 Eyebrow Restraint: No eyebrow — headline alone is enough */}
         <div className="space-y-3 pb-8 border-b border-slate-200/80 dark:border-slate-800 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: '0ms' }}>
-          <span className="editorial-kicker">
-            {isEn ? 'Analytical Philosophy & Profile' : 'Triết lý phân tích & năng lực'}
-          </span>
           <h2 className="editorial-section-title text-3xl sm:text-4xl lg:text-5xl max-w-3xl">
             {isEn
               ? 'I analyze data to find the measurable impact on the business.'
@@ -206,14 +204,27 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
           {/* Right Column: 3 Pillars & Career Goals (5 cols) */}
           <div className="lg:col-span-5 bento-telemetry space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: '200ms' }}>
             
-            {/* Core Pillars */}
+            {/* Core Pillars — taste-skill §4.7: varied layout (featured first + compact rest) */}
             <div className="space-y-4">
-              <span className="editorial-kicker">
+              <h3 className="text-sm font-heading font-bold text-slate-900 dark:text-white">
                 {isEn ? 'Core Working Pillars' : '3 Nguyên tắc cốt lõi'}
-              </span>
-              <div className="space-y-4">
-                {pillars.map((p, idx) => (
-                  <div key={idx} className="space-y-1 border-l-2 border-[#9BE7FA]/40 dark:border-slate-800 pl-4 py-0.5">
+              </h3>
+              <div className="space-y-3">
+                {/* First pillar: featured emphasis with tinted background */}
+                {pillars.length > 0 && (
+                  <div className="space-y-1.5 border-l-[3px] border-[#9BE7FA] dark:border-[#9BE7FA]/70 pl-4 py-3 bg-[#C8EEF7]/20 dark:bg-[#9BE7FA]/5 rounded-r-lg">
+                    <h4 className="text-sm font-heading font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4 text-[#074553] dark:text-[#9BE7FA]" />
+                      <span>{pillars[0].title}</span>
+                    </h4>
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                      {pillars[0].desc}
+                    </p>
+                  </div>
+                )}
+                {/* Remaining pillars: compact */}
+                {pillars.slice(1).map((p, idx) => (
+                  <div key={idx} className="space-y-1 border-l-2 border-slate-200 dark:border-slate-800 pl-4 py-0.5">
                     <h4 className="text-sm font-heading font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-[#074553] dark:text-[#9BE7FA]" />
                       <span>{p.title}</span>

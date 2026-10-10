@@ -17,7 +17,7 @@ export default async function ExperiencePage() {
   const { profile } = await getServerPortfolioData();
 
   return (
-    <div className="py-12">
+    <div className="py-12 md:py-20">
       <CVSection 
         experiences={profile.experiences || []} 
         name={profile.name} 

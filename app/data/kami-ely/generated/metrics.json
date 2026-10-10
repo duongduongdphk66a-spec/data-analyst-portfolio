@@ -1,0 +1,3235 @@
+{
+  "generatedAt": "2026-10-10T21:21:53",
+  "generator": "scripts/kami/build_metrics.py",
+  "dataScope": [
+    {
+      "key": "store",
+      "file": "Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+      "rows": 180,
+      "columns": 6
+    },
+    {
+      "key": "goods",
+      "file": "[Kami Ely]-Creator's Goods for Sale List (90 ngày).xlsx",
+      "rows": 394,
+      "columns": 10
+    },
+    {
+      "key": "ch_live",
+      "file": "[Kami Ely]-Creator's Live Streaming for Goods Promotion List (180 ngày).xlsx",
+      "rows": 475,
+      "columns": 10
+    },
+    {
+      "key": "ch_video",
+      "file": "[Kami Ely]-Creator's Video List (180 ngày) .xlsx",
+      "rows": 222,
+      "columns": 9
+    },
+    {
+      "key": "shop_video",
+      "file": "[Kami Ely]_Shoppable_Videos (180 ngày) .xlsx",
+      "rows": 4417,
+      "columns": 14
+    },
+    {
+      "key": "product",
+      "file": "_ product data (90 ngày).xlsx",
+      "rows": 331,
+      "columns": 8
+    },
+    {
+      "key": "creators",
+      "file": "_Creators_merged (90 ngày) .xlsx",
+      "rows": 5713,
+      "columns": 10
+    },
+    {
+      "key": "shop_live",
+      "file": "_shop LIVE (180 ngày) 1.xlsx",
+      "rows": 7046,
+      "columns": 14
+    }
+  ],
+  "store": {
+    "window": "180N (09/03–04/09/2026)",
+    "source": "Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+    "totals": {
+      "gmv": {
+        "value": 12735128067.0,
+        "window": "180N (09/03–04/09/2026)",
+        "scope": "Toàn shop",
+        "source": "Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+        "unit": "VND"
+      },
+      "units": {
+        "value": 85500,
+        "window": "180N (09/03–04/09/2026)",
+        "scope": "Toàn shop",
+        "source": "Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+        "unit": "sản phẩm"
+      },
+      "avgGmvPerDay": {
+        "value": 70750711.0,
+        "window": "180N (09/03–04/09/2026)",
+        "scope": "Toàn shop",
+        "source": "Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+        "unit": "VND"
+      },
+      "medianGmvPerDay": {
+        "value": 66789310.0,
+        "window": "180N (09/03–04/09/2026)",
+        "scope": "Toàn shop",
+        "source": "Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+        "unit": "VND"
+      },
+      "stdGmvPerDay": {
+        "value": 43879130.0,
+        "window": "180N (09/03–04/09/2026)",
+        "scope": "Toàn shop",
+        "source": "Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+        "unit": "VND"
+      },
+      "avgUnitsPerDay": {
+        "value": 475.0,
+        "window": "180N (09/03–04/09/2026)",
+        "scope": "Toàn shop",
+        "source": "Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+        "unit": "sản phẩm"
+      },
+      "avgKocPerDay": {
+        "value": 33.9,
+        "window": "180N (09/03–04/09/2026)",
+        "scope": "Toàn shop",
+        "source": "Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+        "unit": ""
+      },
+      "avgLivesPerDay": {
+        "value": 39.0,
+        "window": "180N (09/03–04/09/2026)",
+        "scope": "Toàn shop",
+        "source": "Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+        "unit": ""
+      },
+      "avgVideosPerDay": {
+        "value": 13.6,
+        "window": "180N (09/03–04/09/2026)",
+        "scope": "Toàn shop",
+        "source": "Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+        "unit": ""
+      }
+    },
+    "peakDay": {
+      "date": "2026-06-16",
+      "gmv": 315047108,
+      "units": 1936
+    },
+    "lowDay": {
+      "date": "2026-09-04",
+      "gmv": 5443055,
+      "units": 49
+    },
+    "peakMonth": {
+      "month": "2026-06",
+      "gmv": 3772428748.0,
+      "gmvPerDay": 125747625.0
+    },
+    "declineFromPeak": {
+      "toMonth": "2026-08",
+      "gmvDropPct": 82.89,
+      "gmvPerDayDropPct": 83.44,
+      "note": "So sánh giữa 2 tháng đủ ngày."
+    },
+    "monthly": [
+      {
+        "month": "2026-03",
+        "days": 23,
+        "isPartial": true,
+        "gmv": 949812912.0,
+        "units": 8039,
+        "gmvPerDay": 41296214.0,
+        "shareOfTotalPct": 7.46,
+        "momRawPct": null,
+        "momPerDayPct": null,
+        "avgKocPerDay": 24.7,
+        "avgLivesPerDay": 24.2,
+        "avgVideosPerDay": 12.7
+      },
+      {
+        "month": "2026-04",
+        "days": 30,
+        "isPartial": false,
+        "gmv": 2459105727.0,
+        "units": 17358,
+        "gmvPerDay": 81970191.0,
+        "shareOfTotalPct": 19.31,
+        "momRawPct": 158.9,
+        "momPerDayPct": 98.49,
+        "avgKocPerDay": 66.2,
+        "avgLivesPerDay": 65.2,
+        "avgVideosPerDay": 34.0
+      },
+      {
+        "month": "2026-05",
+        "days": 31,
+        "isPartial": false,
+        "gmv": 2747315221.0,
+        "units": 17267,
+        "gmvPerDay": 88623072.0,
+        "shareOfTotalPct": 21.57,
+        "momRawPct": 11.72,
+        "momPerDayPct": 8.12,
+        "avgKocPerDay": 37.4,
+        "avgLivesPerDay": 44.7,
+        "avgVideosPerDay": 13.9
+      },
+      {
+        "month": "2026-06",
+        "days": 30,
+        "isPartial": false,
+        "gmv": 3772428748.0,
+        "units": 22096,
+        "gmvPerDay": 125747625.0,
+        "shareOfTotalPct": 29.62,
+        "momRawPct": 37.31,
+        "momPerDayPct": 41.89,
+        "avgKocPerDay": 36.1,
+        "avgLivesPerDay": 52.0,
+        "avgVideosPerDay": 9.0
+      },
+      {
+        "month": "2026-07",
+        "days": 31,
+        "isPartial": false,
+        "gmv": 2125850482.0,
+        "units": 13358,
+        "gmvPerDay": 68575822.0,
+        "shareOfTotalPct": 16.69,
+        "momRawPct": -43.65,
+        "momPerDayPct": -45.47,
+        "avgKocPerDay": 21.9,
+        "avgLivesPerDay": 27.0,
+        "avgVideosPerDay": 6.1
+      },
+      {
+        "month": "2026-08",
+        "days": 31,
+        "isPartial": false,
+        "gmv": 645534049.0,
+        "units": 7014,
+        "gmvPerDay": 20823679.0,
+        "shareOfTotalPct": 5.07,
+        "momRawPct": -69.63,
+        "momPerDayPct": -69.63,
+        "avgKocPerDay": 16.9,
+        "avgLivesPerDay": 20.6,
+        "avgVideosPerDay": 6.2
+      },
+      {
+        "month": "2026-09",
+        "days": 4,
+        "isPartial": true,
+        "gmv": 35080928.0,
+        "units": 368,
+        "gmvPerDay": 8770232.0,
+        "shareOfTotalPct": 0.28,
+        "momRawPct": -94.57,
+        "momPerDayPct": -57.88,
+        "avgKocPerDay": 23.2,
+        "avgLivesPerDay": 19.8,
+        "avgVideosPerDay": 12.8
+      }
+    ],
+    "outliers": [
+      {
+        "date": "2026-06-16",
+        "gmv": 315047108,
+        "z": 5.57,
+        "robustZ": 5.61
+      }
+    ],
+    "outlierMethod": "|z| > 3 hoặc robust z (median/MAD) > 3.5",
+    "marketingCorrelation": {
+      "koc": {
+        "label": "KOC gắn sản phẩm/ngày",
+        "spearmanRho": 0.488,
+        "spearmanP": 3.7e-12,
+        "pearsonR": 0.326,
+        "pearsonP": 7.8e-06,
+        "withinMonthSpearmanRho": 0.048,
+        "withinMonthSpearmanP": 0.52
+      },
+      "lives": {
+        "label": "Phiên LIVE gắn sản phẩm/ngày",
+        "spearmanRho": 0.473,
+        "spearmanP": 2.13e-11,
+        "pearsonR": 0.412,
+        "pearsonP": 9.34e-09,
+        "withinMonthSpearmanRho": -0.04,
+        "withinMonthSpearmanP": 0.594
+      },
+      "videos": {
+        "label": "Video gắn sản phẩm/ngày",
+        "spearmanRho": 0.079,
+        "spearmanP": 0.289,
+        "pearsonR": 0.112,
+        "pearsonP": 0.136,
+        "withinMonthSpearmanRho": 0.072,
+        "withinMonthSpearmanP": 0.336
+      }
+    },
+    "dayOfWeekMedianGmv": [
+      {
+        "day": "T2",
+        "medianGmv": 62751182.0
+      },
+      {
+        "day": "T3",
+        "medianGmv": 60052591.0
+      },
+      {
+        "day": "T4",
+        "medianGmv": 65163290.0
+      },
+      {
+        "day": "T5",
+        "medianGmv": 76258216.0
+      },
+      {
+        "day": "T6",
+        "medianGmv": 68809493.0
+      },
+      {
+        "day": "T7",
+        "medianGmv": 68727178.0
+      },
+      {
+        "day": "CN",
+        "medianGmv": 66922845.0
+      }
+    ],
+    "daily": [
+      {
+        "date": "2026-03-09",
+        "gmv": 38219615,
+        "units": 310,
+        "koc": 14,
+        "lives": 19,
+        "videos": 0
+      },
+      {
+        "date": "2026-03-10",
+        "gmv": 35806622,
+        "units": 294,
+        "koc": 6,
+        "lives": 5,
+        "videos": 4
+      },
+      {
+        "date": "2026-03-11",
+        "gmv": 21754843,
+        "units": 180,
+        "koc": 3,
+        "lives": 1,
+        "videos": 2
+      },
+      {
+        "date": "2026-03-12",
+        "gmv": 49193018,
+        "units": 422,
+        "koc": 4,
+        "lives": 4,
+        "videos": 1
+      },
+      {
+        "date": "2026-03-13",
+        "gmv": 41743588,
+        "units": 350,
+        "koc": 11,
+        "lives": 8,
+        "videos": 4
+      },
+      {
+        "date": "2026-03-14",
+        "gmv": 47098174,
+        "units": 413,
+        "koc": 17,
+        "lives": 15,
+        "videos": 11
+      },
+      {
+        "date": "2026-03-15",
+        "gmv": 31522838,
+        "units": 262,
+        "koc": 16,
+        "lives": 26,
+        "videos": 3
+      },
+      {
+        "date": "2026-03-16",
+        "gmv": 36494918,
+        "units": 287,
+        "koc": 15,
+        "lives": 26,
+        "videos": 1
+      },
+      {
+        "date": "2026-03-17",
+        "gmv": 36672297,
+        "units": 307,
+        "koc": 17,
+        "lives": 22,
+        "videos": 5
+      },
+      {
+        "date": "2026-03-18",
+        "gmv": 39058676,
+        "units": 331,
+        "koc": 20,
+        "lives": 34,
+        "videos": 3
+      },
+      {
+        "date": "2026-03-19",
+        "gmv": 45236928,
+        "units": 382,
+        "koc": 28,
+        "lives": 42,
+        "videos": 8
+      },
+      {
+        "date": "2026-03-20",
+        "gmv": 41793537,
+        "units": 344,
+        "koc": 25,
+        "lives": 36,
+        "videos": 4
+      },
+      {
+        "date": "2026-03-21",
+        "gmv": 33885411,
+        "units": 287,
+        "koc": 23,
+        "lives": 44,
+        "videos": 1
+      },
+      {
+        "date": "2026-03-22",
+        "gmv": 24526692,
+        "units": 215,
+        "koc": 22,
+        "lives": 32,
+        "videos": 6
+      },
+      {
+        "date": "2026-03-23",
+        "gmv": 42309013,
+        "units": 344,
+        "koc": 28,
+        "lives": 48,
+        "videos": 2
+      },
+      {
+        "date": "2026-03-24",
+        "gmv": 29222312,
+        "units": 251,
+        "koc": 28,
+        "lives": 39,
+        "videos": 1
+      },
+      {
+        "date": "2026-03-25",
+        "gmv": 58765342,
+        "units": 425,
+        "koc": 37,
+        "lives": 28,
+        "videos": 20
+      },
+      {
+        "date": "2026-03-26",
+        "gmv": 73061194,
+        "units": 670,
+        "koc": 46,
+        "lives": 28,
+        "videos": 32
+      },
+      {
+        "date": "2026-03-27",
+        "gmv": 36338838,
+        "units": 327,
+        "koc": 32,
+        "lives": 13,
+        "videos": 34
+      },
+      {
+        "date": "2026-03-28",
+        "gmv": 81721056,
+        "units": 734,
+        "koc": 32,
+        "lives": 9,
+        "videos": 35
+      },
+      {
+        "date": "2026-03-29",
+        "gmv": 45392801,
+        "units": 416,
+        "koc": 28,
+        "lives": 11,
+        "videos": 24
+      },
+      {
+        "date": "2026-03-30",
+        "gmv": 35119143,
+        "units": 292,
+        "koc": 43,
+        "lives": 22,
+        "videos": 34
+      },
+      {
+        "date": "2026-03-31",
+        "gmv": 24876056,
+        "units": 196,
+        "koc": 74,
+        "lives": 45,
+        "videos": 56
+      },
+      {
+        "date": "2026-04-01",
+        "gmv": 111915974,
+        "units": 644,
+        "koc": 76,
+        "lives": 62,
+        "videos": 42
+      },
+      {
+        "date": "2026-04-02",
+        "gmv": 135584584,
+        "units": 919,
+        "koc": 68,
+        "lives": 71,
+        "videos": 38
+      },
+      {
+        "date": "2026-04-03",
+        "gmv": 55013612,
+        "units": 445,
+        "koc": 85,
+        "lives": 81,
+        "videos": 60
+      },
+      {
+        "date": "2026-04-04",
+        "gmv": 59960284,
+        "units": 486,
+        "koc": 81,
+        "lives": 77,
+        "videos": 51
+      },
+      {
+        "date": "2026-04-05",
+        "gmv": 64312889,
+        "units": 518,
+        "koc": 73,
+        "lives": 69,
+        "videos": 41
+      },
+      {
+        "date": "2026-04-06",
+        "gmv": 57094280,
+        "units": 477,
+        "koc": 90,
+        "lives": 95,
+        "videos": 44
+      },
+      {
+        "date": "2026-04-07",
+        "gmv": 67139585,
+        "units": 513,
+        "koc": 90,
+        "lives": 92,
+        "videos": 39
+      },
+      {
+        "date": "2026-04-08",
+        "gmv": 74288998,
+        "units": 508,
+        "koc": 95,
+        "lives": 100,
+        "videos": 50
+      },
+      {
+        "date": "2026-04-09",
+        "gmv": 79455237,
+        "units": 559,
+        "koc": 101,
+        "lives": 106,
+        "videos": 53
+      },
+      {
+        "date": "2026-04-10",
+        "gmv": 72244942,
+        "units": 428,
+        "koc": 86,
+        "lives": 98,
+        "videos": 46
+      },
+      {
+        "date": "2026-04-11",
+        "gmv": 47273949,
+        "units": 335,
+        "koc": 80,
+        "lives": 82,
+        "videos": 39
+      },
+      {
+        "date": "2026-04-12",
+        "gmv": 103434867,
+        "units": 697,
+        "koc": 78,
+        "lives": 78,
+        "videos": 46
+      },
+      {
+        "date": "2026-04-13",
+        "gmv": 68535814,
+        "units": 507,
+        "koc": 77,
+        "lives": 67,
+        "videos": 43
+      },
+      {
+        "date": "2026-04-14",
+        "gmv": 89247007,
+        "units": 644,
+        "koc": 75,
+        "lives": 94,
+        "videos": 27
+      },
+      {
+        "date": "2026-04-15",
+        "gmv": 102770581,
+        "units": 723,
+        "koc": 88,
+        "lives": 88,
+        "videos": 43
+      },
+      {
+        "date": "2026-04-16",
+        "gmv": 104584558,
+        "units": 742,
+        "koc": 79,
+        "lives": 86,
+        "videos": 40
+      },
+      {
+        "date": "2026-04-17",
+        "gmv": 98157818,
+        "units": 671,
+        "koc": 57,
+        "lives": 58,
+        "videos": 24
+      },
+      {
+        "date": "2026-04-18",
+        "gmv": 109804956,
+        "units": 742,
+        "koc": 44,
+        "lives": 19,
+        "videos": 33
+      },
+      {
+        "date": "2026-04-19",
+        "gmv": 76911333,
+        "units": 493,
+        "koc": 30,
+        "lives": 15,
+        "videos": 20
+      },
+      {
+        "date": "2026-04-20",
+        "gmv": 72673833,
+        "units": 536,
+        "koc": 56,
+        "lives": 45,
+        "videos": 30
+      },
+      {
+        "date": "2026-04-21",
+        "gmv": 72641685,
+        "units": 485,
+        "koc": 70,
+        "lives": 67,
+        "videos": 38
+      },
+      {
+        "date": "2026-04-22",
+        "gmv": 142079948,
+        "units": 1000,
+        "koc": 68,
+        "lives": 40,
+        "videos": 47
+      },
+      {
+        "date": "2026-04-23",
+        "gmv": 67453415,
+        "units": 458,
+        "koc": 43,
+        "lives": 19,
+        "videos": 31
+      },
+      {
+        "date": "2026-04-24",
+        "gmv": 128231797,
+        "units": 1011,
+        "koc": 45,
+        "lives": 34,
+        "videos": 34
+      },
+      {
+        "date": "2026-04-25",
+        "gmv": 81373237,
+        "units": 605,
+        "koc": 62,
+        "lives": 62,
+        "videos": 20
+      },
+      {
+        "date": "2026-04-26",
+        "gmv": 90768437,
+        "units": 666,
+        "koc": 52,
+        "lives": 67,
+        "videos": 14
+      },
+      {
+        "date": "2026-04-27",
+        "gmv": 44659771,
+        "units": 314,
+        "koc": 42,
+        "lives": 60,
+        "videos": 8
+      },
+      {
+        "date": "2026-04-28",
+        "gmv": 45651700,
+        "units": 327,
+        "koc": 41,
+        "lives": 43,
+        "videos": 14
+      },
+      {
+        "date": "2026-04-29",
+        "gmv": 48634476,
+        "units": 328,
+        "koc": 28,
+        "lives": 39,
+        "videos": 4
+      },
+      {
+        "date": "2026-04-30",
+        "gmv": 87206160,
+        "units": 577,
+        "koc": 27,
+        "lives": 43,
+        "videos": 0
+      },
+      {
+        "date": "2026-05-01",
+        "gmv": 59864066,
+        "units": 397,
+        "koc": 26,
+        "lives": 40,
+        "videos": 1
+      },
+      {
+        "date": "2026-05-02",
+        "gmv": 58560871,
+        "units": 388,
+        "koc": 34,
+        "lives": 47,
+        "videos": 3
+      },
+      {
+        "date": "2026-05-03",
+        "gmv": 55412569,
+        "units": 372,
+        "koc": 30,
+        "lives": 61,
+        "videos": 2
+      },
+      {
+        "date": "2026-05-04",
+        "gmv": 65534735,
+        "units": 470,
+        "koc": 39,
+        "lives": 61,
+        "videos": 1
+      },
+      {
+        "date": "2026-05-05",
+        "gmv": 53907805,
+        "units": 395,
+        "koc": 28,
+        "lives": 47,
+        "videos": 0
+      },
+      {
+        "date": "2026-05-06",
+        "gmv": 67679230,
+        "units": 458,
+        "koc": 33,
+        "lives": 58,
+        "videos": 0
+      },
+      {
+        "date": "2026-05-07",
+        "gmv": 62888869,
+        "units": 442,
+        "koc": 23,
+        "lives": 26,
+        "videos": 0
+      },
+      {
+        "date": "2026-05-08",
+        "gmv": 90359471,
+        "units": 679,
+        "koc": 29,
+        "lives": 41,
+        "videos": 1
+      },
+      {
+        "date": "2026-05-09",
+        "gmv": 97727987,
+        "units": 634,
+        "koc": 38,
+        "lives": 60,
+        "videos": 1
+      },
+      {
+        "date": "2026-05-10",
+        "gmv": 116559664,
+        "units": 720,
+        "koc": 40,
+        "lives": 60,
+        "videos": 2
+      },
+      {
+        "date": "2026-05-11",
+        "gmv": 68506164,
+        "units": 517,
+        "koc": 38,
+        "lives": 70,
+        "videos": 0
+      },
+      {
+        "date": "2026-05-12",
+        "gmv": 66197377,
+        "units": 415,
+        "koc": 37,
+        "lives": 56,
+        "videos": 1
+      },
+      {
+        "date": "2026-05-13",
+        "gmv": 70242591,
+        "units": 465,
+        "koc": 42,
+        "lives": 70,
+        "videos": 0
+      },
+      {
+        "date": "2026-05-14",
+        "gmv": 106339152,
+        "units": 645,
+        "koc": 37,
+        "lives": 58,
+        "videos": 1
+      },
+      {
+        "date": "2026-05-15",
+        "gmv": 96996093,
+        "units": 652,
+        "koc": 28,
+        "lives": 45,
+        "videos": 1
+      },
+      {
+        "date": "2026-05-16",
+        "gmv": 121979861,
+        "units": 686,
+        "koc": 20,
+        "lives": 22,
+        "videos": 2
+      },
+      {
+        "date": "2026-05-17",
+        "gmv": 100185996,
+        "units": 604,
+        "koc": 6,
+        "lives": 11,
+        "videos": 0
+      },
+      {
+        "date": "2026-05-18",
+        "gmv": 159598136,
+        "units": 895,
+        "koc": 27,
+        "lives": 42,
+        "videos": 1
+      },
+      {
+        "date": "2026-05-19",
+        "gmv": 82927104,
+        "units": 531,
+        "koc": 27,
+        "lives": 14,
+        "videos": 25
+      },
+      {
+        "date": "2026-05-20",
+        "gmv": 62232830,
+        "units": 403,
+        "koc": 48,
+        "lives": 21,
+        "videos": 46
+      },
+      {
+        "date": "2026-05-21",
+        "gmv": 89577611,
+        "units": 585,
+        "koc": 45,
+        "lives": 31,
+        "videos": 31
+      },
+      {
+        "date": "2026-05-22",
+        "gmv": 99737416,
+        "units": 631,
+        "koc": 48,
+        "lives": 37,
+        "videos": 42
+      },
+      {
+        "date": "2026-05-23",
+        "gmv": 68727178,
+        "units": 409,
+        "koc": 29,
+        "lives": 10,
+        "videos": 36
+      },
+      {
+        "date": "2026-05-24",
+        "gmv": 80966425,
+        "units": 494,
+        "koc": 27,
+        "lives": 5,
+        "videos": 29
+      },
+      {
+        "date": "2026-05-25",
+        "gmv": 159558159,
+        "units": 1016,
+        "koc": 44,
+        "lives": 26,
+        "videos": 29
+      },
+      {
+        "date": "2026-05-26",
+        "gmv": 83628458,
+        "units": 538,
+        "koc": 53,
+        "lives": 58,
+        "videos": 37
+      },
+      {
+        "date": "2026-05-27",
+        "gmv": 114314109,
+        "units": 673,
+        "koc": 53,
+        "lives": 51,
+        "videos": 27
+      },
+      {
+        "date": "2026-05-28",
+        "gmv": 109477599,
+        "units": 645,
+        "koc": 59,
+        "lives": 62,
+        "videos": 42
+      },
+      {
+        "date": "2026-05-29",
+        "gmv": 95028126,
+        "units": 492,
+        "koc": 60,
+        "lives": 65,
+        "videos": 23
+      },
+      {
+        "date": "2026-05-30",
+        "gmv": 86988852,
+        "units": 474,
+        "koc": 54,
+        "lives": 64,
+        "videos": 26
+      },
+      {
+        "date": "2026-05-31",
+        "gmv": 95610717,
+        "units": 542,
+        "koc": 57,
+        "lives": 66,
+        "videos": 22
+      },
+      {
+        "date": "2026-06-01",
+        "gmv": 85397081,
+        "units": 511,
+        "koc": 61,
+        "lives": 78,
+        "videos": 38
+      },
+      {
+        "date": "2026-06-02",
+        "gmv": 122634088,
+        "units": 708,
+        "koc": 66,
+        "lives": 81,
+        "videos": 37
+      },
+      {
+        "date": "2026-06-03",
+        "gmv": 84479350,
+        "units": 534,
+        "koc": 51,
+        "lives": 71,
+        "videos": 17
+      },
+      {
+        "date": "2026-06-04",
+        "gmv": 41295074,
+        "units": 272,
+        "koc": 51,
+        "lives": 59,
+        "videos": 22
+      },
+      {
+        "date": "2026-06-05",
+        "gmv": 113947589,
+        "units": 660,
+        "koc": 45,
+        "lives": 64,
+        "videos": 17
+      },
+      {
+        "date": "2026-06-06",
+        "gmv": 141195045,
+        "units": 794,
+        "koc": 51,
+        "lives": 61,
+        "videos": 21
+      },
+      {
+        "date": "2026-06-07",
+        "gmv": 120918668,
+        "units": 699,
+        "koc": 43,
+        "lives": 33,
+        "videos": 23
+      },
+      {
+        "date": "2026-06-08",
+        "gmv": 176309755,
+        "units": 956,
+        "koc": 44,
+        "lives": 58,
+        "videos": 17
+      },
+      {
+        "date": "2026-06-09",
+        "gmv": 129122407,
+        "units": 735,
+        "koc": 38,
+        "lives": 57,
+        "videos": 8
+      },
+      {
+        "date": "2026-06-10",
+        "gmv": 121491979,
+        "units": 692,
+        "koc": 37,
+        "lives": 55,
+        "videos": 5
+      },
+      {
+        "date": "2026-06-11",
+        "gmv": 148661588,
+        "units": 807,
+        "koc": 35,
+        "lives": 61,
+        "videos": 1
+      },
+      {
+        "date": "2026-06-12",
+        "gmv": 122728904,
+        "units": 693,
+        "koc": 37,
+        "lives": 70,
+        "videos": 1
+      },
+      {
+        "date": "2026-06-13",
+        "gmv": 115931407,
+        "units": 678,
+        "koc": 41,
+        "lives": 69,
+        "videos": 3
+      },
+      {
+        "date": "2026-06-14",
+        "gmv": 138103471,
+        "units": 776,
+        "koc": 35,
+        "lives": 68,
+        "videos": 1
+      },
+      {
+        "date": "2026-06-15",
+        "gmv": 77701331,
+        "units": 500,
+        "koc": 49,
+        "lives": 61,
+        "videos": 17
+      },
+      {
+        "date": "2026-06-16",
+        "gmv": 315047108,
+        "units": 1936,
+        "koc": 51,
+        "lives": 91,
+        "videos": 3
+      },
+      {
+        "date": "2026-06-17",
+        "gmv": 96213091,
+        "units": 624,
+        "koc": 49,
+        "lives": 87,
+        "videos": 2
+      },
+      {
+        "date": "2026-06-18",
+        "gmv": 176666121,
+        "units": 957,
+        "koc": 22,
+        "lives": 31,
+        "videos": 0
+      },
+      {
+        "date": "2026-06-19",
+        "gmv": 170533578,
+        "units": 1032,
+        "koc": 4,
+        "lives": 6,
+        "videos": 0
+      },
+      {
+        "date": "2026-06-20",
+        "gmv": 120130969,
+        "units": 702,
+        "koc": 2,
+        "lives": 4,
+        "videos": 0
+      },
+      {
+        "date": "2026-06-21",
+        "gmv": 101896082,
+        "units": 612,
+        "koc": 2,
+        "lives": 3,
+        "videos": 0
+      },
+      {
+        "date": "2026-06-22",
+        "gmv": 69168557,
+        "units": 439,
+        "koc": 13,
+        "lives": 12,
+        "videos": 3
+      },
+      {
+        "date": "2026-06-23",
+        "gmv": 121036005,
+        "units": 678,
+        "koc": 39,
+        "lives": 46,
+        "videos": 11
+      },
+      {
+        "date": "2026-06-24",
+        "gmv": 107437002,
+        "units": 634,
+        "koc": 36,
+        "lives": 51,
+        "videos": 2
+      },
+      {
+        "date": "2026-06-25",
+        "gmv": 196094529,
+        "units": 1172,
+        "koc": 34,
+        "lives": 45,
+        "videos": 5
+      },
+      {
+        "date": "2026-06-26",
+        "gmv": 128995587,
+        "units": 762,
+        "koc": 28,
+        "lives": 44,
+        "videos": 4
+      },
+      {
+        "date": "2026-06-27",
+        "gmv": 109489770,
+        "units": 664,
+        "koc": 32,
+        "lives": 50,
+        "videos": 3
+      },
+      {
+        "date": "2026-06-28",
+        "gmv": 117945579,
+        "units": 701,
+        "koc": 29,
+        "lives": 53,
+        "videos": 3
+      },
+      {
+        "date": "2026-06-29",
+        "gmv": 95728247,
+        "units": 553,
+        "koc": 26,
+        "lives": 43,
+        "videos": 1
+      },
+      {
+        "date": "2026-06-30",
+        "gmv": 106128786,
+        "units": 615,
+        "koc": 31,
+        "lives": 48,
+        "videos": 4
+      },
+      {
+        "date": "2026-07-01",
+        "gmv": 89509867,
+        "units": 533,
+        "koc": 24,
+        "lives": 35,
+        "videos": 4
+      },
+      {
+        "date": "2026-07-02",
+        "gmv": 116901003,
+        "units": 698,
+        "koc": 26,
+        "lives": 39,
+        "videos": 2
+      },
+      {
+        "date": "2026-07-03",
+        "gmv": 90520285,
+        "units": 525,
+        "koc": 12,
+        "lives": 12,
+        "videos": 4
+      },
+      {
+        "date": "2026-07-04",
+        "gmv": 74634995,
+        "units": 432,
+        "koc": 4,
+        "lives": 0,
+        "videos": 4
+      },
+      {
+        "date": "2026-07-05",
+        "gmv": 66655776,
+        "units": 406,
+        "koc": 9,
+        "lives": 0,
+        "videos": 12
+      },
+      {
+        "date": "2026-07-06",
+        "gmv": 104136297,
+        "units": 620,
+        "koc": 21,
+        "lives": 15,
+        "videos": 7
+      },
+      {
+        "date": "2026-07-07",
+        "gmv": 72301020,
+        "units": 418,
+        "koc": 31,
+        "lives": 40,
+        "videos": 4
+      },
+      {
+        "date": "2026-07-08",
+        "gmv": 78187789,
+        "units": 477,
+        "koc": 25,
+        "lives": 31,
+        "videos": 6
+      },
+      {
+        "date": "2026-07-09",
+        "gmv": 96404139,
+        "units": 590,
+        "koc": 22,
+        "lives": 33,
+        "videos": 4
+      },
+      {
+        "date": "2026-07-10",
+        "gmv": 86481107,
+        "units": 551,
+        "koc": 24,
+        "lives": 34,
+        "videos": 7
+      },
+      {
+        "date": "2026-07-11",
+        "gmv": 79397344,
+        "units": 520,
+        "koc": 15,
+        "lives": 26,
+        "videos": 4
+      },
+      {
+        "date": "2026-07-12",
+        "gmv": 77270124,
+        "units": 497,
+        "koc": 16,
+        "lives": 24,
+        "videos": 0
+      },
+      {
+        "date": "2026-07-13",
+        "gmv": 61708982,
+        "units": 371,
+        "koc": 16,
+        "lives": 30,
+        "videos": 1
+      },
+      {
+        "date": "2026-07-14",
+        "gmv": 67113023,
+        "units": 410,
+        "koc": 24,
+        "lives": 34,
+        "videos": 1
+      },
+      {
+        "date": "2026-07-15",
+        "gmv": 62647349,
+        "units": 391,
+        "koc": 33,
+        "lives": 42,
+        "videos": 15
+      },
+      {
+        "date": "2026-07-16",
+        "gmv": 83190559,
+        "units": 563,
+        "koc": 42,
+        "lives": 31,
+        "videos": 26
+      },
+      {
+        "date": "2026-07-17",
+        "gmv": 65374044,
+        "units": 426,
+        "koc": 33,
+        "lives": 37,
+        "videos": 15
+      },
+      {
+        "date": "2026-07-18",
+        "gmv": 62163466,
+        "units": 389,
+        "koc": 33,
+        "lives": 37,
+        "videos": 14
+      },
+      {
+        "date": "2026-07-19",
+        "gmv": 66922845,
+        "units": 430,
+        "koc": 23,
+        "lives": 26,
+        "videos": 6
+      },
+      {
+        "date": "2026-07-20",
+        "gmv": 63793381,
+        "units": 396,
+        "koc": 36,
+        "lives": 28,
+        "videos": 20
+      },
+      {
+        "date": "2026-07-21",
+        "gmv": 53804706,
+        "units": 344,
+        "koc": 19,
+        "lives": 24,
+        "videos": 7
+      },
+      {
+        "date": "2026-07-22",
+        "gmv": 62583244,
+        "units": 387,
+        "koc": 18,
+        "lives": 28,
+        "videos": 1
+      },
+      {
+        "date": "2026-07-23",
+        "gmv": 56060589,
+        "units": 372,
+        "koc": 21,
+        "lives": 32,
+        "videos": 3
+      },
+      {
+        "date": "2026-07-24",
+        "gmv": 49825918,
+        "units": 309,
+        "koc": 23,
+        "lives": 25,
+        "videos": 4
+      },
+      {
+        "date": "2026-07-25",
+        "gmv": 51748050,
+        "units": 327,
+        "koc": 17,
+        "lives": 24,
+        "videos": 2
+      },
+      {
+        "date": "2026-07-26",
+        "gmv": 62735508,
+        "units": 455,
+        "koc": 16,
+        "lives": 17,
+        "videos": 2
+      },
+      {
+        "date": "2026-07-27",
+        "gmv": 42260346,
+        "units": 259,
+        "koc": 16,
+        "lives": 19,
+        "videos": 2
+      },
+      {
+        "date": "2026-07-28",
+        "gmv": 39409546,
+        "units": 244,
+        "koc": 18,
+        "lives": 23,
+        "videos": 4
+      },
+      {
+        "date": "2026-07-29",
+        "gmv": 52897172,
+        "units": 338,
+        "koc": 21,
+        "lives": 28,
+        "videos": 3
+      },
+      {
+        "date": "2026-07-30",
+        "gmv": 44557112,
+        "units": 337,
+        "koc": 20,
+        "lives": 30,
+        "videos": 3
+      },
+      {
+        "date": "2026-07-31",
+        "gmv": 44654896,
+        "units": 343,
+        "koc": 22,
+        "lives": 32,
+        "videos": 3
+      },
+      {
+        "date": "2026-08-01",
+        "gmv": 32500640,
+        "units": 283,
+        "koc": 18,
+        "lives": 26,
+        "videos": 3
+      },
+      {
+        "date": "2026-08-02",
+        "gmv": 32757750,
+        "units": 296,
+        "koc": 13,
+        "lives": 21,
+        "videos": 1
+      },
+      {
+        "date": "2026-08-03",
+        "gmv": 25070601,
+        "units": 243,
+        "koc": 17,
+        "lives": 22,
+        "videos": 3
+      },
+      {
+        "date": "2026-08-04",
+        "gmv": 30784005,
+        "units": 277,
+        "koc": 21,
+        "lives": 36,
+        "videos": 4
+      },
+      {
+        "date": "2026-08-05",
+        "gmv": 28930758,
+        "units": 276,
+        "koc": 17,
+        "lives": 25,
+        "videos": 4
+      },
+      {
+        "date": "2026-08-06",
+        "gmv": 30909520,
+        "units": 299,
+        "koc": 17,
+        "lives": 22,
+        "videos": 4
+      },
+      {
+        "date": "2026-08-07",
+        "gmv": 27324965,
+        "units": 275,
+        "koc": 18,
+        "lives": 22,
+        "videos": 4
+      },
+      {
+        "date": "2026-08-08",
+        "gmv": 39093786,
+        "units": 410,
+        "koc": 14,
+        "lives": 26,
+        "videos": 1
+      },
+      {
+        "date": "2026-08-09",
+        "gmv": 22131649,
+        "units": 216,
+        "koc": 6,
+        "lives": 9,
+        "videos": 1
+      },
+      {
+        "date": "2026-08-10",
+        "gmv": 23042603,
+        "units": 266,
+        "koc": 14,
+        "lives": 19,
+        "videos": 2
+      },
+      {
+        "date": "2026-08-11",
+        "gmv": 20939208,
+        "units": 253,
+        "koc": 17,
+        "lives": 24,
+        "videos": 2
+      },
+      {
+        "date": "2026-08-12",
+        "gmv": 22783838,
+        "units": 253,
+        "koc": 13,
+        "lives": 20,
+        "videos": 2
+      },
+      {
+        "date": "2026-08-13",
+        "gmv": 20080564,
+        "units": 230,
+        "koc": 16,
+        "lives": 17,
+        "videos": 8
+      },
+      {
+        "date": "2026-08-14",
+        "gmv": 24631864,
+        "units": 285,
+        "koc": 14,
+        "lives": 17,
+        "videos": 7
+      },
+      {
+        "date": "2026-08-15",
+        "gmv": 20254411,
+        "units": 228,
+        "koc": 10,
+        "lives": 14,
+        "videos": 3
+      },
+      {
+        "date": "2026-08-16",
+        "gmv": 12174142,
+        "units": 131,
+        "koc": 3,
+        "lives": 1,
+        "videos": 3
+      },
+      {
+        "date": "2026-08-17",
+        "gmv": 17745833,
+        "units": 219,
+        "koc": 10,
+        "lives": 12,
+        "videos": 1
+      },
+      {
+        "date": "2026-08-18",
+        "gmv": 22003704,
+        "units": 216,
+        "koc": 20,
+        "lives": 22,
+        "videos": 8
+      },
+      {
+        "date": "2026-08-19",
+        "gmv": 12921206,
+        "units": 137,
+        "koc": 14,
+        "lives": 21,
+        "videos": 2
+      },
+      {
+        "date": "2026-08-20",
+        "gmv": 13685528,
+        "units": 171,
+        "koc": 15,
+        "lives": 22,
+        "videos": 6
+      },
+      {
+        "date": "2026-08-21",
+        "gmv": 19918625,
+        "units": 233,
+        "koc": 18,
+        "lives": 28,
+        "videos": 4
+      },
+      {
+        "date": "2026-08-22",
+        "gmv": 12119644,
+        "units": 164,
+        "koc": 17,
+        "lives": 20,
+        "videos": 9
+      },
+      {
+        "date": "2026-08-23",
+        "gmv": 15906173,
+        "units": 193,
+        "koc": 19,
+        "lives": 21,
+        "videos": 9
+      },
+      {
+        "date": "2026-08-24",
+        "gmv": 15402086,
+        "units": 192,
+        "koc": 15,
+        "lives": 20,
+        "videos": 2
+      },
+      {
+        "date": "2026-08-25",
+        "gmv": 13881638,
+        "units": 168,
+        "koc": 18,
+        "lives": 25,
+        "videos": 8
+      },
+      {
+        "date": "2026-08-26",
+        "gmv": 15813680,
+        "units": 165,
+        "koc": 22,
+        "lives": 23,
+        "videos": 9
+      },
+      {
+        "date": "2026-08-27",
+        "gmv": 18541090,
+        "units": 220,
+        "koc": 23,
+        "lives": 20,
+        "videos": 11
+      },
+      {
+        "date": "2026-08-28",
+        "gmv": 15113546,
+        "units": 186,
+        "koc": 25,
+        "lives": 28,
+        "videos": 11
+      },
+      {
+        "date": "2026-08-29",
+        "gmv": 22041863,
+        "units": 243,
+        "koc": 24,
+        "lives": 20,
+        "videos": 12
+      },
+      {
+        "date": "2026-08-30",
+        "gmv": 10445910,
+        "units": 161,
+        "koc": 32,
+        "lives": 17,
+        "videos": 31
+      },
+      {
+        "date": "2026-08-31",
+        "gmv": 6583219,
+        "units": 125,
+        "koc": 24,
+        "lives": 20,
+        "videos": 16
+      },
+      {
+        "date": "2026-09-01",
+        "gmv": 6426708,
+        "units": 87,
+        "koc": 21,
+        "lives": 15,
+        "videos": 11
+      },
+      {
+        "date": "2026-09-02",
+        "gmv": 5516814,
+        "units": 87,
+        "koc": 15,
+        "lives": 15,
+        "videos": 5
+      },
+      {
+        "date": "2026-09-03",
+        "gmv": 17694351,
+        "units": 145,
+        "koc": 25,
+        "lives": 22,
+        "videos": 14
+      },
+      {
+        "date": "2026-09-04",
+        "gmv": 5443055,
+        "units": 49,
+        "koc": 32,
+        "lives": 27,
+        "videos": 21
+      }
+    ]
+  },
+  "channel": {
+    "live": {
+      "window": "180N (07/03–04/09/2026)",
+      "source": "[Kami Ely]-Creator's Live Streaming for Goods Promotion List (180 ngày).xlsx",
+      "sessions": {
+        "value": 475,
+        "window": "180N (07/03–04/09/2026)",
+        "scope": "Kênh chính chủ",
+        "source": "[Kami Ely]-Creator's Live Streaming for Goods Promotion List (180 ngày).xlsx",
+        "unit": "phiên"
+      },
+      "sessionsWithOrders": {
+        "value": 454,
+        "window": "180N (07/03–04/09/2026)",
+        "scope": "Kênh chính chủ",
+        "source": "[Kami Ely]-Creator's Live Streaming for Goods Promotion List (180 ngày).xlsx",
+        "unit": "phiên"
+      },
+      "conversionPct": {
+        "value": 95.58,
+        "window": "180N (07/03–04/09/2026)",
+        "scope": "Kênh chính chủ",
+        "source": "[Kami Ely]-Creator's Live Streaming for Goods Promotion List (180 ngày).xlsx",
+        "unit": "%"
+      },
+      "gmv": {
+        "value": 7023530158.0,
+        "window": "180N (07/03–04/09/2026)",
+        "scope": "Kênh chính chủ",
+        "source": "[Kami Ely]-Creator's Live Streaming for Goods Promotion List (180 ngày).xlsx",
+        "unit": "VND"
+      },
+      "units": {
+        "value": 49817,
+        "window": "180N (07/03–04/09/2026)",
+        "scope": "Kênh chính chủ",
+        "source": "[Kami Ely]-Creator's Live Streaming for Goods Promotion List (180 ngày).xlsx",
+        "unit": "sản phẩm"
+      },
+      "gmvPerSession": {
+        "mean": 14786379.0,
+        "median": 4511949.0
+      },
+      "hours": {
+        "mean": 5.06,
+        "median": 3.34,
+        "total": 2402.4
+      },
+      "durationBuckets": [
+        {
+          "bucket": "<1h",
+          "sessions": 9,
+          "medianGmv": 0.0,
+          "gmvPerHour": 155633.0,
+          "conversionPct": 22.2
+        },
+        {
+          "bucket": "1–2h",
+          "sessions": 77,
+          "medianGmv": 850423.0,
+          "gmvPerHour": 1062735.0,
+          "conversionPct": 94.8
+        },
+        {
+          "bucket": "2–3h",
+          "sessions": 113,
+          "medianGmv": 1572554.0,
+          "gmvPerHour": 1378079.0,
+          "conversionPct": 95.6
+        },
+        {
+          "bucket": "3–4h",
+          "sessions": 65,
+          "medianGmv": 4296984.0,
+          "gmvPerHour": 1512587.0,
+          "conversionPct": 98.5
+        },
+        {
+          "bucket": "4–6h",
+          "sessions": 87,
+          "medianGmv": 8318997.0,
+          "gmvPerHour": 2337727.0,
+          "conversionPct": 98.9
+        },
+        {
+          "bucket": "≥6h",
+          "sessions": 124,
+          "medianGmv": 17524670.0,
+          "gmvPerHour": 3827275.0,
+          "conversionPct": 97.6
+        }
+      ],
+      "durationVsGmvSpearman": {
+        "rho": 0.764,
+        "p": 3.83e-92
+      },
+      "durationVsGmvPerHourSpearman": {
+        "rho": 0.468,
+        "p": 4.04e-27
+      },
+      "byStartHour": [
+        {
+          "hour": 0,
+          "sessions": 8,
+          "medianGmv": 1705649.0,
+          "gmv": 24796372.0
+        },
+        {
+          "hour": 1,
+          "sessions": 18,
+          "medianGmv": 10441302.0,
+          "gmv": 328663734.0
+        },
+        {
+          "hour": 2,
+          "sessions": 23,
+          "medianGmv": 3900993.0,
+          "gmv": 719007218.0
+        },
+        {
+          "hour": 3,
+          "sessions": 6,
+          "medianGmv": 9726616.0,
+          "gmv": 70039456.0
+        },
+        {
+          "hour": 4,
+          "sessions": 47,
+          "medianGmv": 5363000.0,
+          "gmv": 528157781.0
+        },
+        {
+          "hour": 5,
+          "sessions": 18,
+          "medianGmv": 3435764.0,
+          "gmv": 99688449.0
+        },
+        {
+          "hour": 6,
+          "sessions": 5,
+          "medianGmv": 3804402.0,
+          "gmv": 28740106.0
+        },
+        {
+          "hour": 7,
+          "sessions": 35,
+          "medianGmv": 4691587.0,
+          "gmv": 340715415.0
+        },
+        {
+          "hour": 8,
+          "sessions": 44,
+          "medianGmv": 3967244.0,
+          "gmv": 216372054.0
+        },
+        {
+          "hour": 9,
+          "sessions": 11,
+          "medianGmv": 3394990.0,
+          "gmv": 52464027.0
+        },
+        {
+          "hour": 10,
+          "sessions": 19,
+          "medianGmv": 2696000.0,
+          "gmv": 87952561.0
+        },
+        {
+          "hour": 11,
+          "sessions": 7,
+          "medianGmv": 1392625.0,
+          "gmv": 19715527.0
+        },
+        {
+          "hour": 19,
+          "sessions": 2,
+          "medianGmv": 9656450.0,
+          "gmv": 19312900.0
+        },
+        {
+          "hour": 20,
+          "sessions": 117,
+          "medianGmv": 2945031.0,
+          "gmv": 2493392962.0
+        },
+        {
+          "hour": 21,
+          "sessions": 7,
+          "medianGmv": 15424690.0,
+          "gmv": 287993845.0
+        },
+        {
+          "hour": 22,
+          "sessions": 85,
+          "medianGmv": 6251875.0,
+          "gmv": 1379361661.0
+        },
+        {
+          "hour": 23,
+          "sessions": 23,
+          "medianGmv": 3169836.0,
+          "gmv": 327156090.0
+        }
+      ]
+    },
+    "video": {
+      "window": "180N (11/03–31/08/2026)",
+      "source": "[Kami Ely]-Creator's Video List (180 ngày) .xlsx",
+      "videos": {
+        "value": 222,
+        "window": "180N (11/03–31/08/2026)",
+        "scope": "Kênh chính chủ",
+        "source": "[Kami Ely]-Creator's Video List (180 ngày) .xlsx",
+        "unit": "video"
+      },
+      "shoppable": {
+        "value": 139,
+        "window": "180N (11/03–31/08/2026)",
+        "scope": "Kênh chính chủ",
+        "source": "[Kami Ely]-Creator's Video List (180 ngày) .xlsx",
+        "unit": "video"
+      },
+      "withOrders": {
+        "value": 101,
+        "window": "180N (11/03–31/08/2026)",
+        "scope": "Kênh chính chủ",
+        "source": "[Kami Ely]-Creator's Video List (180 ngày) .xlsx",
+        "unit": "video"
+      },
+      "conversionPct": {
+        "value": 45.5,
+        "window": "180N (11/03–31/08/2026)",
+        "scope": "Kênh chính chủ",
+        "source": "[Kami Ely]-Creator's Video List (180 ngày) .xlsx",
+        "unit": "%",
+        "note": "Tỷ lệ trên toàn bộ video trong danh sách."
+      },
+      "shoppableConversionPct": {
+        "value": 68.35,
+        "window": "180N (11/03–31/08/2026)",
+        "scope": "Kênh chính chủ",
+        "source": "[Kami Ely]-Creator's Video List (180 ngày) .xlsx",
+        "unit": "%"
+      },
+      "gmv": {
+        "value": 870200806.0,
+        "window": "180N (11/03–31/08/2026)",
+        "scope": "Kênh chính chủ",
+        "source": "[Kami Ely]-Creator's Video List (180 ngày) .xlsx",
+        "unit": "VND"
+      },
+      "views": {
+        "total": 7971037,
+        "mean": 35906.0,
+        "median": 11582.0
+      },
+      "top10GmvSharePct": 54.08,
+      "engagementByHour": [
+        {
+          "hour": 0,
+          "videos": 1,
+          "medianEr": 0.22,
+          "medianViews": 7628.0
+        },
+        {
+          "hour": 9,
+          "videos": 27,
+          "medianEr": 0.39,
+          "medianViews": 3673.0
+        },
+        {
+          "hour": 10,
+          "videos": 11,
+          "medianEr": 0.29,
+          "medianViews": 50700.0
+        },
+        {
+          "hour": 11,
+          "videos": 44,
+          "medianEr": 0.31,
+          "medianViews": 11582.0
+        },
+        {
+          "hour": 12,
+          "videos": 38,
+          "medianEr": 0.295,
+          "medianViews": 23550.0
+        },
+        {
+          "hour": 13,
+          "videos": 18,
+          "medianEr": 0.415,
+          "medianViews": 16900.0
+        },
+        {
+          "hour": 14,
+          "videos": 16,
+          "medianEr": 0.315,
+          "medianViews": 23500.0
+        },
+        {
+          "hour": 15,
+          "videos": 20,
+          "medianEr": 0.345,
+          "medianViews": 8739.0
+        },
+        {
+          "hour": 16,
+          "videos": 9,
+          "medianEr": 0.69,
+          "medianViews": 3174.0
+        },
+        {
+          "hour": 17,
+          "videos": 12,
+          "medianEr": 0.33,
+          "medianViews": 12550.0
+        },
+        {
+          "hour": 18,
+          "videos": 13,
+          "medianEr": 0.32,
+          "medianViews": 6812.0
+        },
+        {
+          "hour": 19,
+          "videos": 5,
+          "medianEr": 0.22,
+          "medianViews": 20800.0
+        },
+        {
+          "hour": 21,
+          "videos": 4,
+          "medianEr": 0.39,
+          "medianViews": 18830.0
+        },
+        {
+          "hour": 22,
+          "videos": 3,
+          "medianEr": 0.33,
+          "medianViews": 8460.0
+        },
+        {
+          "hour": 23,
+          "videos": 1,
+          "medianEr": 0.3,
+          "medianViews": 10200.0
+        }
+      ]
+    },
+    "hypothesis": {
+      "test": "Mann-Whitney U (một phía) + Welch t-test trên log(1+GPM)",
+      "h0": "Phân phối GPM của Video không cao hơn LIVE",
+      "h1": "GPM của Video cao hơn LIVE (một phía)",
+      "alpha": 0.05,
+      "video": {
+        "n": 139,
+        "mean": 87980.42,
+        "median": 45980.93,
+        "std": 119415.48,
+        "p25": 0.0,
+        "p75": 105144.07,
+        "skew": 1.84,
+        "medianCI95": [
+          22727.27,
+          65627.83
+        ],
+        "aggregateGpm": 121397.0,
+        "zeroGmvSharePct": 31.65
+      },
+      "live": {
+        "n": 475,
+        "mean": 1549449.51,
+        "median": 995908.13,
+        "std": 2010603.5,
+        "p25": 513695.09,
+        "p75": 1700702.35,
+        "skew": 2.96,
+        "medianCI95": [
+          889449.94,
+          1078479.64
+        ],
+        "aggregateGpm": 2133062.0,
+        "zeroGmvSharePct": 4.42
+      },
+      "mannWhitneyU": 3986.0,
+      "mannWhitneyP": 1.0,
+      "rankBiserial": -0.879,
+      "welchLogT": -11.63,
+      "welchLogP": 1.0,
+      "aggregateRatio": 0.06,
+      "isSignificant": false,
+      "window": "180N",
+      "scope": "Kênh chính chủ @kamielyhn",
+      "source": "[Kami Ely]-Creator's Video List (180 ngày) .xlsx + [Kami Ely]-Creator's Live Streaming for Goods Promotion List (180 ngày).xlsx",
+      "limitations": [
+        "Mẫu số khác nhau: Video dùng lượt xem, LIVE dùng tổng người xem phiên.",
+        "Video là tài sản dài hạn (doanh thu tích lũy); LIVE là sự kiện một lần.",
+        "Dữ liệu quan sát, không phải thí nghiệm ngẫu nhiên: chỉ kết luận được 'khác biệt', không kết luận nhân quả."
+      ],
+      "platformReported28d": {
+        "videoGpm": "134,8k–135,2k ₫",
+        "liveGpm": "29,2k–30,2k ₫",
+        "source": "_Creators_merged (90 ngày) .xlsx",
+        "note": "Số FastMoss báo, khung 28 ngày."
+      }
+    }
+  },
+  "shopLive": {
+    "window": "180N (09/03–04/09/2026)",
+    "source": "_shop LIVE (180 ngày) 1.xlsx",
+    "sessions": {
+      "value": 7046,
+      "window": "180N (09/03–04/09/2026)",
+      "scope": "Toàn shop (chính chủ + affiliate)",
+      "source": "_shop LIVE (180 ngày) 1.xlsx",
+      "unit": "phiên"
+    },
+    "gmv": {
+      "value": 9262277940.0,
+      "window": "180N (09/03–04/09/2026)",
+      "scope": "Toàn shop (chính chủ + affiliate)",
+      "source": "_shop LIVE (180 ngày) 1.xlsx",
+      "unit": "VND"
+    },
+    "units": {
+      "value": 67254,
+      "window": "180N (09/03–04/09/2026)",
+      "scope": "Toàn shop (chính chủ + affiliate)",
+      "source": "_shop LIVE (180 ngày) 1.xlsx",
+      "unit": "sản phẩm"
+    },
+    "byType": [
+      {
+        "type": "Affiliate LIVE",
+        "sessions": 6576,
+        "sessionSharePct": 93.33,
+        "units": 17437,
+        "unitsSharePct": 25.93,
+        "gmv": 2238656782.0,
+        "gmvSharePct": 24.17,
+        "gmvPerSession": 340428.0,
+        "conversionPct": 26.09
+      },
+      {
+        "type": "Shop LIVE",
+        "sessions": 470,
+        "sessionSharePct": 6.67,
+        "units": 49817,
+        "unitsSharePct": 74.07,
+        "gmv": 7023621158.0,
+        "gmvSharePct": 75.83,
+        "gmvPerSession": 14943875.0,
+        "conversionPct": 96.38
+      }
+    ],
+    "inhouseDualChannel": {
+      "channelNames": [
+        "Kami Ely (@kamielyhn)",
+        "Girl Style (@girlstyle.vn)"
+      ],
+      "nature": "Đội ngũ in-house vận hành song song 2 kênh (Kênh chính + Kênh vệ tinh)",
+      "sessions": 725,
+      "sessionSharePct": 10.29,
+      "units": 59853,
+      "unitsSharePct": 89.0,
+      "gmv": 8279858009.0,
+      "gmvSharePct": 89.39,
+      "gmvPerSession": 11420494.0,
+      "trueExternalAffiliate": {
+        "sessions": 6321,
+        "sessionSharePct": 89.71,
+        "units": 7401,
+        "unitsSharePct": 11.0,
+        "gmv": 982419931.0,
+        "gmvSharePct": 10.61,
+        "gmvPerSession": 155422.0
+      },
+      "inhouseOverExternalMultiple": 73.5
+    },
+    "affiliate": {
+      "uniqueCreators": 250,
+      "creatorsWithOrders": 110,
+      "gmv": 2238656782.0,
+      "hhi": 3253.0,
+      "hhiNote": "HHI > 2500 = tập trung cao (thang 0–10.000).",
+      "top1SharePct": 56.12,
+      "top5SharePct": 72.4,
+      "top10SharePct": 81.54,
+      "top10": [
+        {
+          "id": "girlstyle.vn",
+          "name": "Girl Style",
+          "sessions": 255,
+          "gmv": 1256236851.0,
+          "sharePct": 56.12,
+          "followers": 3167
+        },
+        {
+          "id": "gonpinkk",
+          "name": "Gon Pink",
+          "sessions": 4,
+          "gmv": 145534291.0,
+          "sharePct": 6.5,
+          "followers": 3398655
+        },
+        {
+          "id": "ciin",
+          "name": "CiiN",
+          "sessions": 1,
+          "gmv": 85962000.0,
+          "sharePct": 3.84,
+          "followers": 16039128
+        },
+        {
+          "id": "hiennguyen666666",
+          "name": "Hiền Nguyễn 666666",
+          "sessions": 288,
+          "gmv": 81028479.0,
+          "sharePct": 3.62,
+          "followers": 80927
+        },
+        {
+          "id": "bunnyinhouse.com",
+          "name": "Bunny Trong Nhà 🐰",
+          "sessions": 172,
+          "gmv": 51973498.0,
+          "sharePct": 2.32,
+          "followers": 32253
+        },
+        {
+          "id": "lanhchanh.closet",
+          "name": "Lanh Chanh 🍋",
+          "sessions": 289,
+          "gmv": 44773668.0,
+          "sharePct": 2.0,
+          "followers": 11464
+        },
+        {
+          "id": "lolystudio.official",
+          "name": "Loly Studio",
+          "sessions": 58,
+          "gmv": 44071901.0,
+          "sharePct": 1.97,
+          "followers": 58269
+        },
+        {
+          "id": "phuonganhshoplive_",
+          "name": "EyE Style",
+          "sessions": 294,
+          "gmv": 40335553.0,
+          "sharePct": 1.8,
+          "followers": 8083
+        },
+        {
+          "id": "huynhphuongquynh__",
+          "name": "Huỳnh Phương Quỳnh",
+          "sessions": 71,
+          "gmv": 39033346.0,
+          "sharePct": 1.74,
+          "followers": 17958
+        },
+        {
+          "id": "beduyenshop",
+          "name": "bé Duyên",
+          "sessions": 114,
+          "gmv": 36444878.0,
+          "sharePct": 1.63,
+          "followers": 30829
+        }
+      ]
+    },
+    "girlStyle": {
+      "sessions": 255,
+      "units": 10036,
+      "gmv": 1256236851.0,
+      "gmvPerSession": 4926419.0,
+      "unitsPerSession": 39.4,
+      "shareOfAffiliateLiveGmvPct": 56.12,
+      "shareOfAffiliateLiveSessionsPct": 3.88,
+      "shareOfAllLiveGmvPct": 13.56,
+      "otherAffiliatesGmvPerSession": 155422.0,
+      "allAffiliatesGmvPerSession": 340428.0,
+      "multipleVsOtherAffiliates": 31.7,
+      "multipleVsAllAffiliatesAvg": 14.5,
+      "monthly": [
+        {
+          "month": "2026-05",
+          "sessions": 37,
+          "gmv": 207102805.0
+        },
+        {
+          "month": "2026-06",
+          "sessions": 79,
+          "gmv": 785207263.0
+        },
+        {
+          "month": "2026-07",
+          "sessions": 91,
+          "gmv": 214178808.0
+        },
+        {
+          "month": "2026-08",
+          "sessions": 48,
+          "gmv": 49747975.0
+        }
+      ]
+    },
+    "secondAffiliate": {
+      "id": "gonpinkk",
+      "name": "Gon Pink",
+      "gmv": 145534291.0
+    }
+  },
+  "creators": {
+    "window": "90N",
+    "source": "_Creators_merged (90 ngày) .xlsx",
+    "registered": {
+      "value": 5712,
+      "window": "90N",
+      "scope": "Mạng lưới affiliate",
+      "source": "_Creators_merged (90 ngày) .xlsx",
+      "unit": "creator",
+      "note": "Không tính tài khoản chính chủ."
+    },
+    "sellers": {
+      "value": 291,
+      "window": "90N",
+      "scope": "Mạng lưới affiliate",
+      "source": "_Creators_merged (90 ngày) .xlsx",
+      "unit": "creator"
+    },
+    "activationRatePct": {
+      "value": 5.09,
+      "window": "90N",
+      "scope": "Mạng lưới affiliate",
+      "source": "_Creators_merged (90 ngày) .xlsx",
+      "unit": "%"
+    },
+    "dormantPct": {
+      "value": 94.91,
+      "window": "90N",
+      "scope": "Mạng lưới affiliate",
+      "source": "_Creators_merged (90 ngày) .xlsx",
+      "unit": "%"
+    },
+    "gmv": {
+      "value": 1708159874.0,
+      "window": "90N",
+      "scope": "Mạng lưới affiliate",
+      "source": "_Creators_merged (90 ngày) .xlsx",
+      "unit": "VND"
+    },
+    "units": {
+      "value": 11572,
+      "window": "90N",
+      "scope": "Mạng lưới affiliate",
+      "source": "_Creators_merged (90 ngày) .xlsx",
+      "unit": "sản phẩm"
+    },
+    "selfChannel": {
+      "gmv": 3026026869.0,
+      "units": 20027,
+      "followers": 49103
+    },
+    "inhouseDualChannel90d": {
+      "channelNames": [
+        "Kami Ely (@kamielyhn)",
+        "Girl Style (@girlstyle.vn)"
+      ],
+      "nature": "Hai kênh trực thuộc cùng đội ngũ in-house vận hành",
+      "gmv": 3758798588.0,
+      "units": 25036,
+      "shareOfTotalCreatorGmvPct": 79.4,
+      "trueExternalAffiliateGmv": 975388155.0,
+      "trueExternalAffiliateUnits": 6563,
+      "trueExternalAffiliateSharePct": 20.6
+    },
+    "followerTiers": [
+      {
+        "tier": "≤1k",
+        "creators": 1126,
+        "creatorsSharePct": 19.71,
+        "sellers": 18,
+        "sellersSharePct": 6.19,
+        "activationRatePct": 1.6,
+        "units": 369,
+        "unitsSharePct": 3.19,
+        "gmv": 49193238.0,
+        "gmvSharePct": 2.88,
+        "gmvPerSeller": 2732958.0
+      },
+      {
+        "tier": "1k–5k",
+        "creators": 2822,
+        "creatorsSharePct": 49.4,
+        "sellers": 120,
+        "sellersSharePct": 41.24,
+        "activationRatePct": 4.25,
+        "units": 6196,
+        "unitsSharePct": 53.54,
+        "gmv": 925158641.0,
+        "gmvSharePct": 54.16,
+        "gmvPerSeller": 7709655.0
+      },
+      {
+        "tier": "5k–10k",
+        "creators": 562,
+        "creatorsSharePct": 9.84,
+        "sellers": 42,
+        "sellersSharePct": 14.43,
+        "activationRatePct": 7.47,
+        "units": 645,
+        "unitsSharePct": 5.57,
+        "gmv": 94147874.0,
+        "gmvSharePct": 5.51,
+        "gmvPerSeller": 2241616.0
+      },
+      {
+        "tier": "10k–50k",
+        "creators": 819,
+        "creatorsSharePct": 14.34,
+        "sellers": 64,
+        "sellersSharePct": 21.99,
+        "activationRatePct": 7.81,
+        "units": 2636,
+        "unitsSharePct": 22.78,
+        "gmv": 365732701.0,
+        "gmvSharePct": 21.41,
+        "gmvPerSeller": 5714573.0
+      },
+      {
+        "tier": "50k–100k",
+        "creators": 173,
+        "creatorsSharePct": 3.03,
+        "sellers": 20,
+        "sellersSharePct": 6.87,
+        "activationRatePct": 11.56,
+        "units": 1088,
+        "unitsSharePct": 9.4,
+        "gmv": 188609426.0,
+        "gmvSharePct": 11.04,
+        "gmvPerSeller": 9430471.0
+      },
+      {
+        "tier": ">100k",
+        "creators": 210,
+        "creatorsSharePct": 3.68,
+        "sellers": 27,
+        "sellersSharePct": 9.28,
+        "activationRatePct": 12.86,
+        "units": 638,
+        "unitsSharePct": 5.51,
+        "gmv": 85317994.0,
+        "gmvSharePct": 4.99,
+        "gmvPerSeller": 3159926.0
+      }
+    ],
+    "followerTiersExGirlStyle": [
+      {
+        "tier": "≤1k",
+        "gmvSharePct": 5.04
+      },
+      {
+        "tier": "1k–5k",
+        "gmvSharePct": 19.72
+      },
+      {
+        "tier": "5k–10k",
+        "gmvSharePct": 9.65
+      },
+      {
+        "tier": "10k–50k",
+        "gmvSharePct": 37.5
+      },
+      {
+        "tier": "50k–100k",
+        "gmvSharePct": 19.34
+      },
+      {
+        "tier": ">100k",
+        "gmvSharePct": 8.75
+      }
+    ],
+    "categories": [
+      {
+        "category": "Clothing & Accessories",
+        "sellers": 84,
+        "sellersSharePct": 28.87,
+        "gmvSharePct": 66.08
+      },
+      {
+        "category": "Other",
+        "sellers": 168,
+        "sellersSharePct": 57.73,
+        "gmvSharePct": 27.63
+      },
+      {
+        "category": "Baby",
+        "sellers": 2,
+        "sellersSharePct": 0.69,
+        "gmvSharePct": 1.86
+      },
+      {
+        "category": "Personal Blog",
+        "sellers": 7,
+        "sellersSharePct": 2.41,
+        "gmvSharePct": 1.61
+      },
+      {
+        "category": "Beauty",
+        "sellers": 11,
+        "sellersSharePct": 3.78,
+        "gmvSharePct": 1.26
+      },
+      {
+        "category": "Health & Wellness",
+        "sellers": 1,
+        "sellersSharePct": 0.34,
+        "gmvSharePct": 0.36
+      },
+      {
+        "category": "Media & Entertainment",
+        "sellers": 2,
+        "sellersSharePct": 0.69,
+        "gmvSharePct": 0.31
+      },
+      {
+        "category": "Shopping & Retail",
+        "sellers": 5,
+        "sellersSharePct": 1.72,
+        "gmvSharePct": 0.27
+      },
+      {
+        "category": "Food & Cooking",
+        "sellers": 1,
+        "sellersSharePct": 0.34,
+        "gmvSharePct": 0.19
+      },
+      {
+        "category": "IT & High-Tech",
+        "sellers": 1,
+        "sellersSharePct": 0.34,
+        "gmvSharePct": 0.18
+      },
+      {
+        "category": "Home, Furniture & Appliances",
+        "sellers": 4,
+        "sellersSharePct": 1.37,
+        "gmvSharePct": 0.14
+      },
+      {
+        "category": "Education & Training",
+        "sellers": 1,
+        "sellersSharePct": 0.34,
+        "gmvSharePct": 0.05
+      },
+      {
+        "category": "Travel & Tourism",
+        "sellers": 1,
+        "sellersSharePct": 0.34,
+        "gmvSharePct": 0.02
+      },
+      {
+        "category": "Art & Crafts",
+        "sellers": 1,
+        "sellersSharePct": 0.34,
+        "gmvSharePct": 0.02
+      },
+      {
+        "category": "Food & Beverage",
+        "sellers": 1,
+        "sellersSharePct": 0.34,
+        "gmvSharePct": 0.01
+      },
+      {
+        "category": "Sports, Fitness & Outdoors",
+        "sellers": 1,
+        "sellersSharePct": 0.34,
+        "gmvSharePct": 0.0
+      }
+    ],
+    "girlStyle": {
+      "gmv": 732771719.0,
+      "units": 5009,
+      "followers": 3215,
+      "shareOfAffiliateGmvPct": 42.9
+    },
+    "second": {
+      "id": "dayboisinhtonbmt",
+      "name": "🏊sinh tồn 🏊thực chiến",
+      "gmv": 73046416.0
+    },
+    "top1Over2nd": 10.0,
+    "creatorsFor80PctGmv": 26,
+    "top10SharePct": 64.61
+  },
+  "products": {
+    "window": "90N",
+    "source": "_ product data (90 ngày).xlsx",
+    "skus": {
+      "value": 331,
+      "window": "90N",
+      "scope": "Toàn shop",
+      "source": "_ product data (90 ngày).xlsx",
+      "unit": "SKU"
+    },
+    "gmv": {
+      "value": 6136205973.0,
+      "window": "90N",
+      "scope": "Toàn shop",
+      "source": "_ product data (90 ngày).xlsx",
+      "unit": "VND"
+    },
+    "units": {
+      "value": 40229,
+      "window": "90N",
+      "scope": "Toàn shop",
+      "source": "_ product data (90 ngày).xlsx",
+      "unit": "sản phẩm"
+    },
+    "skusWithSales": {
+      "value": 134,
+      "window": "90N",
+      "scope": "Toàn shop",
+      "source": "_ product data (90 ngày).xlsx",
+      "unit": "SKU"
+    },
+    "deadSkus": {
+      "value": 197,
+      "window": "90N",
+      "scope": "Toàn shop",
+      "source": "_ product data (90 ngày).xlsx",
+      "unit": "SKU",
+      "note": "0 sản phẩm bán ra trong 90 ngày."
+    },
+    "deadSkuPct": {
+      "value": 59.52,
+      "window": "90N",
+      "scope": "Toàn shop",
+      "source": "_ product data (90 ngày).xlsx",
+      "unit": "%"
+    },
+    "skusFor80PctGmv": 21,
+    "skusFor80PctGmvPct": 6.34,
+    "giniGmv": 0.919,
+    "p95Units": 479.5,
+    "heroSkus": 17,
+    "heroGmvSharePct": 75.94,
+    "swimwearGmvSharePct": 58.73,
+    "top10": [
+      {
+        "name": "Set Bikini 2 Mảnh Kẻ Sọc - Đồ Bơi Nữ Áo Yếm + Quần Short Kín Đáo- Dễ T",
+        "category": "Tankinis",
+        "price": 194019.0,
+        "units": 4360,
+        "gmv": 824024829.0,
+        "sharePct": 13.43
+      },
+      {
+        "name": "Chân Váy Ngắn Form Chữ A Dáng Ôm, Basic Dễ Mix Đồ - Chất Liệu Nỉ 2 Da ",
+        "category": "Skirts",
+        "price": 125000.0,
+        "units": 6375,
+        "gmv": 735067229.0,
+        "sharePct": 11.98
+      },
+      {
+        "name": "Bikini 1 Mảnh Bodysuit Đen & Xanh Viền Trắng Sexy – Có Đệm Mút, Co Giã",
+        "category": "Sports Dresses",
+        "price": 99000.0,
+        "units": 2307,
+        "gmv": 463963132.0,
+        "sharePct": 7.56
+      },
+      {
+        "name": "Set Bikini 2 Mảnh Xanh Rêu Free Size - Áo Cúp Ngực, Quần Mảnh Buộc Dây",
+        "category": "Bikinis",
+        "price": 162682.0,
+        "units": 2681,
+        "gmv": 390995921.0,
+        "sharePct": 6.37
+      },
+      {
+        "name": "Đồ bơi 1 mảnh liền thân, Bikini tay dài và cộc khóa kéo form short kín",
+        "category": "Tracksuits",
+        "price": 0.0,
+        "units": 1445,
+        "gmv": 341855923.0,
+        "sharePct": 5.57
+      },
+      {
+        "name": "Set Bikini 2 Mảnh Kẻ Caro - Đồ Bơi Nữ Dạng Áo Tankini Kèm Quần Short -",
+        "category": "Bikinis",
+        "price": 79000.0,
+        "units": 1379,
+        "gmv": 274777374.0,
+        "sharePct": 4.48
+      },
+      {
+        "name": "[KAMI ELY] Set Đồ Bơi 2 Mảnh Kẻ Caro - Đồ Bơi Nữ Dạng Áo Tankini Kèm Q",
+        "category": "Sports Outerwear & Hoodies",
+        "price": 177818.0,
+        "units": 1222,
+        "gmv": 236661930.0,
+        "sharePct": 3.86
+      },
+      {
+        "name": "Chân váy dài phối viền ren ba tầng lệch tà cách điệu cho nữ - CV02 Wom",
+        "category": "Skirts",
+        "price": 160000.0,
+        "units": 1070,
+        "gmv": 189251178.0,
+        "sharePct": 3.08
+      },
+      {
+        "name": "Set Bikini 2 Mảnh Nâu Chấm Bi Viền Xanh Freesize - Set Bikini 2 Chi Ti",
+        "category": "Bikinis",
+        "price": 162682.0,
+        "units": 1148,
+        "gmv": 181792663.0,
+        "sharePct": 2.96
+      },
+      {
+        "name": "Set Bikini 2 Mảnh Viền Trắng Freesize - Set Bikini 2 Chi Tiết Sẵn Đệm ",
+        "category": "Bikinis",
+        "price": 115714.0,
+        "units": 1750,
+        "gmv": 179671029.0,
+        "sharePct": 2.93
+      }
+    ],
+    "categories": [
+      {
+        "category": "Sports & Outdoor",
+        "skus": 136,
+        "skuSharePct": 41.09,
+        "unitsSharePct": 67.64,
+        "gmvSharePct": 76.35,
+        "deadSkus": 48
+      },
+      {
+        "category": "Womenswear & Underwear",
+        "skus": 171,
+        "skuSharePct": 51.66,
+        "unitsSharePct": 26.76,
+        "gmvSharePct": 21.64,
+        "deadSkus": 133
+      },
+      {
+        "category": "Fashion Accessories",
+        "skus": 10,
+        "skuSharePct": 3.02,
+        "unitsSharePct": 5.21,
+        "gmvSharePct": 1.93,
+        "deadSkus": 4
+      },
+      {
+        "category": "Computers & Office Equipment",
+        "skus": 2,
+        "skuSharePct": 0.6,
+        "unitsSharePct": 0.4,
+        "gmvSharePct": 0.08,
+        "deadSkus": 0
+      },
+      {
+        "category": "Other",
+        "skus": 3,
+        "skuSharePct": 0.91,
+        "unitsSharePct": 0.0,
+        "gmvSharePct": 0.0,
+        "deadSkus": 3
+      },
+      {
+        "category": "Menswear & Underwear",
+        "skus": 9,
+        "skuSharePct": 2.72,
+        "unitsSharePct": 0.0,
+        "gmvSharePct": 0.0,
+        "deadSkus": 9
+      }
+    ],
+    "priceBands": [
+      {
+        "band": "<75k",
+        "skus": 42,
+        "skuSharePct": 12.69,
+        "unitsSharePct": 16.04,
+        "gmvSharePct": 11.54
+      },
+      {
+        "band": "75k–150k",
+        "skus": 116,
+        "skuSharePct": 35.05,
+        "unitsSharePct": 45.19,
+        "gmvSharePct": 41.9
+      },
+      {
+        "band": "150k–250k",
+        "skus": 125,
+        "skuSharePct": 37.76,
+        "unitsSharePct": 37.48,
+        "gmvSharePct": 44.51
+      },
+      {
+        "band": ">250k",
+        "skus": 48,
+        "skuSharePct": 14.5,
+        "unitsSharePct": 1.29,
+        "gmvSharePct": 2.05
+      }
+    ],
+    "paretoCurve": [
+      {
+        "skuPct": 0.3,
+        "gmvPct": 13.4
+      },
+      {
+        "skuPct": 1.8,
+        "gmvPct": 49.4
+      },
+      {
+        "skuPct": 3.3,
+        "gmvPct": 65.0
+      },
+      {
+        "skuPct": 4.8,
+        "gmvPct": 74.9
+      },
+      {
+        "skuPct": 6.3,
+        "gmvPct": 81.0
+      },
+      {
+        "skuPct": 7.9,
+        "gmvPct": 85.0
+      },
+      {
+        "skuPct": 9.4,
+        "gmvPct": 87.6
+      },
+      {
+        "skuPct": 10.9,
+        "gmvPct": 89.7
+      },
+      {
+        "skuPct": 12.4,
+        "gmvPct": 91.3
+      },
+      {
+        "skuPct": 13.9,
+        "gmvPct": 92.8
+      },
+      {
+        "skuPct": 15.4,
+        "gmvPct": 94.1
+      },
+      {
+        "skuPct": 16.9,
+        "gmvPct": 95.2
+      },
+      {
+        "skuPct": 18.4,
+        "gmvPct": 96.2
+      },
+      {
+        "skuPct": 19.9,
+        "gmvPct": 96.9
+      },
+      {
+        "skuPct": 21.5,
+        "gmvPct": 97.6
+      },
+      {
+        "skuPct": 23.0,
+        "gmvPct": 98.2
+      },
+      {
+        "skuPct": 24.5,
+        "gmvPct": 98.6
+      },
+      {
+        "skuPct": 26.0,
+        "gmvPct": 99.0
+      },
+      {
+        "skuPct": 27.5,
+        "gmvPct": 99.3
+      },
+      {
+        "skuPct": 29.0,
+        "gmvPct": 99.5
+      },
+      {
+        "skuPct": 30.5,
+        "gmvPct": 99.6
+      },
+      {
+        "skuPct": 32.0,
+        "gmvPct": 99.8
+      },
+      {
+        "skuPct": 33.5,
+        "gmvPct": 99.9
+      },
+      {
+        "skuPct": 35.0,
+        "gmvPct": 99.9
+      },
+      {
+        "skuPct": 36.6,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 38.1,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 39.6,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 41.1,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 42.6,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 44.1,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 45.6,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 47.1,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 48.6,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 50.2,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 51.7,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 53.2,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 54.7,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 56.2,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 57.7,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 59.2,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 60.7,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 62.2,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 63.7,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 65.3,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 66.8,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 68.3,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 69.8,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 71.3,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 72.8,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 74.3,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 75.8,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 77.3,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 78.9,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 80.4,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 81.9,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 83.4,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 84.9,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 86.4,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 87.9,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 89.4,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 90.9,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 92.4,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 94.0,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 95.5,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 97.0,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 98.5,
+        "gmvPct": 100.0
+      },
+      {
+        "skuPct": 100.0,
+        "gmvPct": 100.0
+      }
+    ]
+  },
+  "shopVideos": {
+    "window": "Đăng trong 180N, doanh số 90N",
+    "source": "[Kami Ely]_Shoppable_Videos (180 ngày) .xlsx",
+    "note": "Khung thời gian lệch: video đăng trong 180 ngày nhưng doanh số chỉ tính 90 ngày.",
+    "all": {
+      "videos": 4417,
+      "withOrders": 960,
+      "conversionPct": 21.73,
+      "gmv": 2170840326.0,
+      "views": 30335271,
+      "gpm": 71562.0
+    },
+    "self": {
+      "videos": 142,
+      "withOrders": 101,
+      "conversionPct": 71.13,
+      "gmv": 838771700.0,
+      "views": 6876930,
+      "gpm": 121969.0
+    },
+    "affiliate": {
+      "videos": 4275,
+      "withOrders": 859,
+      "conversionPct": 20.09,
+      "gmv": 1332068626.0,
+      "views": 23458341,
+      "gpm": 56784.0
+    },
+    "uniqueCreators": 1847,
+    "adsSharePct": 78.83
+  },
+  "goods": {
+    "window": "90N",
+    "source": "[Kami Ely]-Creator's Goods for Sale List (90 ngày).xlsx",
+    "products": 394,
+    "ownStoreProducts": 278,
+    "otherStoreProducts": 116,
+    "productsWithSales": 69,
+    "units": 20027,
+    "gmv": 3026020300.0,
+    "note": "GMV ở định dạng rút gọn (vd 500,2Tr ₫) nên chỉ chính xác tới 0,1 triệu."
+  },
+  "derived": {
+    "girlStyleLiveShareOfShopGmvPct": {
+      "value": 9.86,
+      "window": "180N",
+      "scope": "Toàn shop",
+      "source": "_shop LIVE (180 ngày) 1.xlsx ÷ Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+      "unit": "%",
+      "note": "Chỉ tính GMV LIVE của Girl Style; cùng khung 180 ngày."
+    },
+    "inhouseDualChannelLiveGmv": {
+      "value": 8279858009.0,
+      "window": "180N",
+      "scope": "Toàn shop",
+      "source": "_shop LIVE (180 ngày) 1.xlsx",
+      "unit": "VND",
+      "note": "Tổng GMV LIVE của Kami Ely + Girl Style (cùng 1 đội ngũ in-house vận hành)."
+    },
+    "inhouseDualChannelLiveShareOfShopGmvPct": {
+      "value": 65.02,
+      "window": "180N",
+      "scope": "Toàn shop",
+      "source": "_shop LIVE (180 ngày) 1.xlsx ÷ Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+      "unit": "%",
+      "note": "Tỷ trọng GMV LIVE in-house (Kami Ely + Girl Style) trên tổng GMV toàn shop."
+    },
+    "inhouseDualChannelLiveShareOfAllLivePct": {
+      "value": 89.39,
+      "window": "180N",
+      "scope": "Toàn shop",
+      "source": "_shop LIVE (180 ngày) 1.xlsx",
+      "unit": "%",
+      "note": "Tỷ trọng GMV LIVE in-house trên tổng GMV livestream toàn shop."
+    },
+    "trueExternalAffiliateLiveGmv": {
+      "value": 982419931.0,
+      "window": "180N",
+      "scope": "Toàn shop",
+      "source": "_shop LIVE (180 ngày) 1.xlsx",
+      "unit": "VND",
+      "note": "GMV LIVE từ mạng lưới affiliate bên ngoài thực thụ sau khi bóc tách Girl Style."
+    },
+    "trueExternalAffiliateLiveShareOfShopGmvPct": {
+      "value": 7.71,
+      "window": "180N",
+      "scope": "Toàn shop",
+      "source": "_shop LIVE (180 ngày) 1.xlsx ÷ Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+      "unit": "%"
+    },
+    "liveShareOfShopGmvPct": {
+      "value": 72.73,
+      "window": "180N",
+      "scope": "Toàn shop",
+      "source": "_shop LIVE (180 ngày) 1.xlsx ÷ Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
+      "unit": "%"
+    }
+  }
+}

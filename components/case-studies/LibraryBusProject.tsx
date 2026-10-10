@@ -98,7 +98,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProj
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFDFE] font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
+    <div className="min-h-screen bg-ground font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       {/* Top Navbar & Sub-navigation bar */}
       <LibraryBusNav
         onBack={handleBack}
@@ -143,7 +143,7 @@ export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProj
       </div>
 
       {/* Body Content Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-20">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 space-y-20">
         {/* Chapter 01: About Us & UX Research */}
         <Chapter1UxResearch
           isEn={isEn}

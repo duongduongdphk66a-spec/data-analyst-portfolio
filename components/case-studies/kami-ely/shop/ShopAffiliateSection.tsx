@@ -50,32 +50,50 @@ export default function ShopAffiliateSection({
         } 
       />
 
-      {/* Nano Powerhouse callout with #C8EEF7 & #FFE485 gradient */}
-      <div className="p-6 rounded-3xl bg-gradient-to-r from-[#C8EEF7]/50 via-[#FFFDF5] to-[#FFE485]/40 border border-[#9BE7FA] border-l-4 border-l-[#0D7287] shadow-sm flex flex-col md:flex-row gap-6 items-start md:items-center justify-between dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:border-slate-700 dark:border-l-[#9BE7FA]">
-        <div className="space-y-2 max-w-2xl">
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-md bg-[#0D7287] text-white text-[11px] font-black uppercase">KOC Nano</span>
-            <h3 className="text-base font-black text-slate-950 dark:text-white flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-              Sức Mạnh Vượt Trội Của Nhóm Nano-Affiliate (1k - 5k Followers)
-            </h3>
+      {/* In-House Satellite vs True External Affiliate Callout Banner */}
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-indigo-50 via-white to-sky-50 border-2 border-indigo-200 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 dark:border-indigo-800 shadow-sm space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-600 text-white text-xs font-black uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>{isEn ? 'DE-BIASING AFFILIATE DATA · IN-HOUSE SATELLITE DISCOVERY' : 'PHÁT HIỆN ĐẶC QUYỀN · BÓC TÁCH KÊNH VỆ TINH NỘI BỘ'}</span>
           </div>
+          <span className="text-xs text-slate-500 font-mono font-bold">1 Team · 2 Kênh Live Song Song</span>
+        </div>
+
+        <div className="space-y-2 max-w-4xl">
+          <h3 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
+            {isEn 
+              ? 'Girl Style (@girlstyle.vn) is an In-House Satellite Channel, Not an External Affiliate!'
+              : 'Girl Style (@girlstyle.vn) Là Kênh Vệ Tinh Trực Thuộc Shop, Không Phải Affiliate Ngoài!'}
+          </h3>
           <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-            Nhóm creator có từ 1k đến 5k followers chiếm 48.2% số lượng nhưng mang lại tới 52.7% GMV (2,5 Tỷ đ) và 52.7% sản lượng (16.6k đơn), vượt xa nhóm Macro (&gt;100k chỉ đóng góp 5.3% GMV).
+            {isEn
+              ? 'On FastMoss dashboards, Girl Style is classified as an affiliate with 42.9% of affiliate GMV (732.8M VND in 90d, 1.26B VND in Live 180d). However, operational audit confirms it is operated by the shop’s internal team. True external affiliates generate only 982M VND in Live (10.6% share), with 94.9% of 5,712 registered KOCs being completely dormant (0 orders).'
+              : 'Báo cáo FastMoss gắn nhãn Girl Style là affiliate (chiếm 42,9% GMV creator 90N và 56,1% GMV Live affiliate 180N). Nhưng thực tế vận hành xác nhận Girl Style thuộc shop và do cùng 1 team in-house livestream. Khi bóc tách, mạng lưới affiliate ngoài thực thụ chỉ tạo 982 triệu VNĐ Live (10,6%), với 94,9% trong 5.712 KOC đăng ký hoàn toàn không ra đơn!'}
           </p>
         </div>
-        <div className="flex gap-4 shrink-0">
-          <div className="p-3 rounded-2xl bg-white border border-[#9BE7FA]/60 text-center dark:bg-slate-900 dark:border-slate-800">
-            <div className="text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">5.7k</div>
-            <div className="text-[10px] text-slate-500">Tổng Influencers</div>
+
+        {/* 4 Stat Badges */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+          <div className="p-3 rounded-2xl bg-white border border-indigo-200 text-center dark:bg-slate-900 dark:border-slate-800">
+            <div className="text-[10px] text-slate-500 font-bold uppercase">Live Nội Bộ (2 Kênh)</div>
+            <div className="text-base sm:text-lg font-black text-indigo-600 dark:text-indigo-400 mt-0.5">8,28 Tỷ ₫ (89.4%)</div>
+            <div className="text-[10px] text-slate-400">Kami Ely + Girl Style</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white border border-[#FFD14C] text-center dark:bg-slate-900 dark:border-slate-800">
-            <div className="text-lg font-black text-[#0D7287] dark:text-[#FFD14C]">4,7 Tỷ đ</div>
-            <div className="text-[10px] text-slate-500">GMV 90 Ngày</div>
+          <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
+            <div className="text-[10px] text-slate-500 font-bold uppercase">Live KOC Ngoài Thực</div>
+            <div className="text-base sm:text-lg font-black text-amber-600 dark:text-amber-400 mt-0.5">982,4 Tr ₫ (10.6%)</div>
+            <div className="text-[10px] text-slate-400">6.321 phiên · 155k/phiên</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white border border-[#9BE7FA]/60 text-center dark:bg-slate-900 dark:border-slate-800">
-            <div className="text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">+983</div>
-            <div className="text-[10px] text-slate-500">KOC Mới Onboard</div>
+          <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
+            <div className="text-[10px] text-slate-500 font-bold uppercase">KOC &quot;Ngủ Đông&quot; (0 Đơn)</div>
+            <div className="text-base sm:text-lg font-black text-rose-500 mt-0.5">94,91%</div>
+            <div className="text-[10px] text-slate-400">5.421 / 5.712 KOC</div>
+          </div>
+          <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
+            <div className="text-[10px] text-slate-500 font-bold uppercase">Tier Ngoài Hiệu Quả Nhất</div>
+            <div className="text-base sm:text-lg font-black text-emerald-600 dark:text-emerald-400 mt-0.5">10k – 50k Follow</div>
+            <div className="text-[10px] text-slate-400">37.5% GMV ngoài · conv 7.8%</div>
           </div>
         </div>
       </div>

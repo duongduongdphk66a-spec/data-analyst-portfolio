@@ -127,7 +127,7 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
     <section 
       id={isSummary ? undefined : "experience"} 
       ref={sectionRef} 
-      className={`transition-colors duration-200 ${isSummary ? 'pt-2 pb-0' : 'section-ground py-14 sm:py-20 md:py-28 bg-data-dots'}`}
+      className={`transition-colors duration-200 ${isSummary ? 'pt-2 pb-0' : 'section-ground section-cinematic bg-data-dots'}`}
     >
       <div className={isSummary ? 'w-full' : 'max-w-6xl mx-auto px-5 sm:px-8'}>
         {!isSummary && (
@@ -151,6 +151,9 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
               {finalEducation.map(item => renderItem(item, isSummary))}
             </div>
           </div>
+
+          {/* taste-skill §4.3: Gradient divider between Education and Work */}
+          <div className="section-divider-gradient" />
 
           {/* Work column */}
           <div>

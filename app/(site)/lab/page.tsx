@@ -11,7 +11,7 @@ export async function generateMetadata() {
 
 export default function LabPage() {
   return (
-    <div className="py-8">
+    <div className="py-12 md:py-20">
       <InteractiveLab />
     </div>
   );

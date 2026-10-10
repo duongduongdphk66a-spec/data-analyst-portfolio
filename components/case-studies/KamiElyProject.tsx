@@ -18,6 +18,7 @@ import {
 
 import KamiElyTabsNav, { NavItemDef } from './kami-ely/KamiElyTabsNav';
 import KamiElyHero from './kami-ely/KamiElyHero';
+import KamiElyExecutiveStory from './kami-ely/KamiElyExecutiveStory';
 import KamiElyProofModal from './kami-ely/KamiElyProofModal';
 import KamiElyDataScopeMatrix from './kami-ely/KamiElyDataScopeMatrix';
 import KamiElyScienceCaseStudy from './kami-ely/science/KamiElyScienceCaseStudy';
@@ -174,7 +175,7 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
   );
 
   return (
-    <div className="min-h-screen bg-[#FAFDFE] font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
+    <div className="min-h-screen bg-ground font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       {/* Top Navbar + Subnav */}
       <KamiElyTabsNav
         activeTab={activeTab}
@@ -198,7 +199,13 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
       <KamiElyHero isEn={isEn} activeTab={activeTab} />
 
       {/* BODY CONTENT AREA */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+        {/* Layer 2: 3-Minute Executive Story */}
+        <KamiElyExecutiveStory isEn={isEn} onJumpToTab={handleTabChange} />
+
+        {/* Anchor for tabs */}
+        <div id="tabs-container" />
+
         {/* TAB 1: KHOA HỌC DỮ LIỆU */}
         {activeTab === 'science' && (
           <div className="space-y-12">
@@ -290,7 +297,8 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
       </main>
 
       {/* Footer */}
-      <footer className="py-10 bg-white border-t border-[#9BE7FA]/40 text-center text-xs text-slate-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400">
+      <div className="section-divider-gradient max-w-7xl mx-auto" />
+      <footer className="py-12 bg-ground-alt text-center text-xs text-slate-500 dark:bg-slate-900 dark:text-slate-400">
         <div className="max-w-7xl mx-auto px-4 space-y-1.5">
           <p className="font-bold text-slate-800 dark:text-slate-200 text-sm">
             Dự Án Phân Tích Hiệu Suất TikTok Shop & Người Bán Kamielyn

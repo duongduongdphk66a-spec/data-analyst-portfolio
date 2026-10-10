@@ -162,7 +162,7 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-5 sm:px-8 space-y-8">
+    <div className="max-w-6xl mx-auto py-16 md:py-20 px-5 sm:px-8 space-y-8">
       {/* Editorial Header */}
       <div className="space-y-3 pb-6 border-b border-slate-200/80 dark:border-slate-800">
         <div className="flex items-center gap-2">
@@ -186,7 +186,7 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
         <div className="inline-flex p-1 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
           <button
             onClick={() => setSandboxMode('presets')}
-            className={`px-4 py-2 text-xs font-heading font-semibold rounded-lg transition-all cursor-pointer ${
+            className={`px-4 py-2 text-xs font-heading font-semibold rounded-lg transition-all cursor-pointer active:scale-[0.97] ${
               sandboxMode === 'presets'
                 ? 'bg-[#9BE7FA] text-slate-950 shadow-xs font-bold'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
@@ -196,7 +196,7 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
           </button>
           <button
             onClick={() => setSandboxMode('custom')}
-            className={`px-4 py-2 text-xs font-heading font-semibold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
+            className={`px-4 py-2 text-xs font-heading font-semibold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 active:scale-[0.97] ${
               sandboxMode === 'custom'
                 ? 'bg-[#9BE7FA] text-slate-950 shadow-xs font-bold'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
@@ -220,7 +220,7 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
               <button
                 key={s.id}
                 onClick={() => handleSelectScenario(i)}
-                className={`px-4 py-2 text-xs font-heading font-semibold rounded-xl transition-colors duration-150 cursor-pointer ${
+                className={`px-4 py-2 text-xs font-heading font-semibold rounded-xl transition-colors duration-150 cursor-pointer active:scale-[0.97] ${
                   activeScenario === i
                     ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs'
                     : 'bg-white text-slate-600 hover:text-slate-950 border border-slate-200/80 hover:border-[#9BE7FA]/50 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'

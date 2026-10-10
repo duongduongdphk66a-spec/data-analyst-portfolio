@@ -27,7 +27,7 @@ export default function ScienceOptimizerSection({
   simulatorMetrics
 }: ScienceOptimizerSectionProps) {
   return (
-    <section id="sec-optimization" className="space-y-8 py-14 border-b border-slate-200/80 dark:border-slate-800">
+    <section id="sec-optimization" className="space-y-8 py-16 md:py-20 border-b border-slate-200/80 dark:border-slate-800">
       <div className="space-y-3">
         <div className="flex items-center gap-2">
           <span className="editorial-kicker">
@@ -45,15 +45,15 @@ export default function ScienceOptimizerSection({
       </div>
 
       {/* Interactive Optimization Simulator */}
-      <div className="rounded-2xl border-2 border-[#FFD14C] bg-gradient-to-br from-[#FFFDF5] via-[#FFF9E6] to-[#FFE485]/40 p-6 text-slate-900 shadow-lg dark:border-teal-500/30 dark:bg-gradient-to-br dark:from-teal-950/20 dark:via-slate-950 dark:to-slate-900 dark:text-white dark:shadow-xl transition-colors">
-        <div className="flex items-center justify-between border-b border-[#FFE485]/80 pb-4 dark:border-slate-800">
+      <div className="rounded-2xl border-2 border-[#9BE7FA] bg-gradient-to-br from-white via-[#EAF8FC] to-[#C8EEF7]/40 p-6 text-slate-900 shadow-sm dark:border-[#9BE7FA]/40 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 dark:text-white transition-colors">
+        <div className="flex items-center justify-between border-b border-[#C8EEF7] pb-4 dark:border-slate-800">
           <div className="flex items-center gap-2">
-            <Sliders className="h-5 w-5 text-[#0D7287] dark:text-teal-400" />
+            <Sliders className="h-5 w-5 text-[#074553] dark:text-[#9BE7FA]" />
             <h3 className="font-bold text-base sm:text-lg text-slate-950 dark:text-white">
               {isEn ? 'Interactive Resource Reallocation Simulator' : 'Trình Giả Lập Tối Ưu Hóa Phân Bổ Nguồn Lực'}
             </h3>
           </div>
-          <span className="rounded-full bg-[#FFE485] px-3 py-1 text-xs font-bold text-slate-900 border border-[#FFD14C] dark:border-transparent dark:bg-teal-500/20 dark:text-teal-300">
+          <span className="rounded-full bg-[#9BE7FA] px-3 py-1 text-xs font-black text-slate-950 border border-[#9BE7FA] shadow-xs dark:bg-[#9BE7FA] dark:text-slate-950">
             {isEn ? 'Business Impact Forecast Model' : 'Mô hình Dự báo Lợi ích Kinh doanh'}
           </span>
         </div>
@@ -64,7 +64,7 @@ export default function ScienceOptimizerSection({
             <div className="space-y-2">
               <div className="flex justify-between text-xs font-semibold">
                 <span className="text-slate-700 dark:text-slate-300">{isEn ? 'Reduce Low-GPM Live Hours:' : 'Cắt giảm giờ Live vượt ngưỡng hiệu quả:'}</span>
-                <span className="font-bold text-amber-700 dark:text-amber-400">-{liveHoursReduction}%</span>
+                <span className="font-bold text-[#FFD14C] dark:text-[#FFE485]">-{liveHoursReduction}%</span>
               </div>
               <input 
                 type="range" 
@@ -73,7 +73,7 @@ export default function ScienceOptimizerSection({
                 step="5" 
                 value={liveHoursReduction} 
                 onChange={(e) => setLiveHoursReduction(Number(e.target.value))}
-                className="w-full accent-[#0D7287] dark:accent-teal-400 cursor-pointer"
+                className="w-full accent-[#074553] dark:accent-[#9BE7FA] cursor-pointer"
               />
               <span className="text-[11px] text-slate-600 dark:text-slate-400">
                 {isEn 
@@ -85,7 +85,7 @@ export default function ScienceOptimizerSection({
             <div className="space-y-2">
               <div className="flex justify-between text-xs font-semibold">
                 <span className="text-slate-700 dark:text-slate-300">{isEn ? 'Shoppable Video Coverage:' : 'Số lượng video có gắn link giỏ hàng:'}</span>
-                <span className="font-bold text-[#0D7287] dark:text-teal-300">{videoCoverage} / 859 Video</span>
+                <span className="font-bold text-[#074553] dark:text-[#9BE7FA]">{videoCoverage} / 859 Video</span>
               </div>
               <input 
                 type="range" 
@@ -94,7 +94,7 @@ export default function ScienceOptimizerSection({
                 step="20" 
                 value={videoCoverage} 
                 onChange={(e) => setVideoCoverage(Number(e.target.value))}
-                className="w-full accent-[#0D7287] dark:accent-teal-400 cursor-pointer"
+                className="w-full accent-[#074553] dark:accent-[#9BE7FA] cursor-pointer"
               />
               <span className="text-[11px] text-slate-600 dark:text-slate-400">
                 {isEn 
@@ -105,33 +105,33 @@ export default function ScienceOptimizerSection({
           </div>
 
           {/* Simulated Financial Outcomes */}
-          <div className="grid grid-cols-2 gap-4 rounded-xl border border-[#FFE485] bg-white/90 p-5 shadow-xs dark:border-slate-800 dark:bg-slate-950/80">
+          <div className="grid grid-cols-2 gap-4 rounded-xl border border-[#9BE7FA] bg-white/95 p-5 shadow-xs dark:border-slate-800 dark:bg-slate-950/80">
             <div className="space-y-1">
-              <span className="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
                 {isEn ? 'Operational Cost Saved' : 'Tiết kiệm Chi phí Vận hành'}
               </span>
-              <p className="text-2xl font-bold text-amber-700 dark:text-amber-400">+{simulatorMetrics.operationalCostSavedMillion}M</p>
+              <p className="text-2xl font-bold text-slate-900 dark:text-white">+{simulatorMetrics.operationalCostSavedMillion}M</p>
               <span className="text-[10px] text-slate-500">
                 {isEn ? 'Reduced headcount & live studio depreciation' : 'Giảm nhân sự & khấu hao phòng live'}
               </span>
             </div>
 
             <div className="space-y-1">
-              <span className="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-[11px] uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA] font-semibold">
                 {isEn ? 'Additional Video GMV' : 'GMV Video Bổ Sung'}
               </span>
-              <p className="text-2xl font-bold text-[#0D7287] dark:text-teal-300">+{simulatorMetrics.additionalVideoGmvMillion}M</p>
+              <p className="text-2xl font-bold text-[#074553] dark:text-[#9BE7FA]">+{simulatorMetrics.additionalVideoGmvMillion}M</p>
               <span className="text-[10px] text-slate-500">
                 {isEn ? `From ${simulatorMetrics.incrementalVideos} new shoppable videos` : `Từ ${simulatorMetrics.incrementalVideos} video gắn giỏ hàng mới`}
               </span>
             </div>
 
-            <div className="col-span-2 border-t border-[#FFE485]/80 pt-3 dark:border-slate-800">
-              <span className="text-xs uppercase tracking-wider text-[#0D7287] dark:text-teal-400 font-bold">
+            <div className="col-span-2 border-t border-[#C8EEF7] pt-3 dark:border-slate-800">
+              <span className="text-xs uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA] font-bold">
                 {isEn ? 'Expected Net Financial Impact:' : 'Lợi ích Tài chính Ròng Kỳ Vọng:'}
               </span>
               <div className="mt-1 flex flex-wrap items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">
+                <span className="text-3xl font-extrabold text-[#074553] dark:text-[#9BE7FA]">
                   +{simulatorMetrics.netBenefitMillion} {isEn ? 'Million VND' : 'Triệu VNĐ'}
                 </span>
                 <span className="text-xs text-slate-600 dark:text-slate-300">
@@ -157,7 +157,7 @@ export default function ScienceOptimizerSection({
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+            <span className="rounded-full bg-[#C8EEF7]/80 px-3 py-1 text-xs font-bold text-[#074553] border border-[#9BE7FA] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA]">
               Ngưỡng Top 5% Sản lượng: &ge; {Math.round(KAMI_MATH_STATS.skuMatrix.p95Units)} Sản phẩm
             </span>
           </div>
@@ -165,13 +165,13 @@ export default function ScienceOptimizerSection({
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {/* Left: Hero SKUs table */}
-          <div className="col-span-2 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950/60">
-            <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 font-semibold text-xs text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
+          <div className="col-span-2 overflow-hidden rounded-2xl border border-[#9BE7FA]/70 bg-white shadow-xs dark:border-slate-800 dark:bg-slate-950/60">
+            <div className="border-b border-[#C8EEF7] bg-[#C8EEF7]/30 px-4 py-3 font-semibold text-xs text-[#074553] dark:border-slate-800 dark:bg-slate-900 dark:text-[#9BE7FA]">
               ⭐ TOP HERO SKUs (Tập trung 80% Ngân sách Ads & Creator Seeding)
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-50/50 text-slate-500 dark:bg-slate-900/50">
+                <thead className="bg-[#C8EEF7]/15 text-slate-600 dark:bg-slate-900/50 dark:text-slate-400">
                   <tr>
                     <th className="py-2.5 px-4">Tên Sản phẩm / Mã SKU</th>
                     <th className="py-2.5 px-3">Ngành hàng</th>

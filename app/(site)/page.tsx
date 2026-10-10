@@ -22,7 +22,7 @@ export default async function HomePage() {
   const { profile, projects } = await getServerPortfolioData();
 
   return (
-    <div className="space-y-16 pb-24">
+    <div className="space-y-20 md:space-y-28 pb-24">
       {/* 1. Hero Section */}
       <HeroSection 
         profile={profile} 
@@ -51,15 +51,18 @@ export default async function HomePage() {
         />
       </section>
 
+      {/* taste-skill §4.3: Gradient divider for visual rhythm */}
+      <div className="max-w-6xl mx-auto px-5 sm:px-8">
+        <div className="section-divider-gradient" />
+      </div>
+
       {/* 3. Experience & Career Timeline */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-8 space-y-6 pt-4">
+      {/* taste-skill §4.7 Eyebrow Restraint: eyebrow removed (previous section already has one) */}
+      <section className="max-w-6xl mx-auto px-5 sm:px-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-800">
-          <div className="space-y-1">
-            <span className="editorial-kicker">CAREER & RESEARCH PATH</span>
-            <h2 className="editorial-section-title text-2xl sm:text-3xl lg:text-4xl">
-              {language === 'en' ? 'Experience & Quantitative Background' : 'Học Vấn & Kinh Nghiệm Phân Tích'}
-            </h2>
-          </div>
+          <h2 className="editorial-section-title text-2xl sm:text-3xl lg:text-4xl">
+            {language === 'en' ? 'Experience & Quantitative Background' : 'Học Vấn & Kinh Nghiệm Phân Tích'}
+          </h2>
           <Link
             href="/experience"
             className="text-xs font-heading font-bold text-[#074553] dark:text-[#9BE7FA] hover:underline flex items-center gap-1 cursor-pointer"
@@ -76,13 +79,16 @@ export default async function HomePage() {
         />
       </section>
 
+      {/* taste-skill §4.3: Gradient divider before CTA */}
+      <div className="max-w-6xl mx-auto px-5 sm:px-8">
+        <div className="section-divider-gradient" />
+      </div>
+
       {/* 4. Editorial Bottom CTA Strip */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-8 pt-8">
+      {/* taste-skill §4.5: Single CTA intent — contact only (Download CV already in hero + sidebar) */}
+      <section className="max-w-6xl mx-auto px-5 sm:px-8">
         <div className="p-8 sm:p-12 rounded-2xl bg-[#FEF9C3] dark:bg-[#131E2E] border border-amber-300 dark:border-[#9BE7FA]/25 flex flex-col md:flex-row md:items-center justify-between gap-8 shadow-xl shadow-amber-500/5 dark:shadow-[#9BE7FA]/5">
           <div className="space-y-2 max-w-xl">
-            <span className="text-xs font-mono font-bold text-[#074553] dark:text-[#9BE7FA] uppercase tracking-wider">
-              {language === 'en' ? 'DIRECT COLLABORATION' : 'CƠ HỘI HỢP TÁC'}
-            </span>
             <h3 className="text-2xl sm:text-3xl font-heading font-extrabold text-slate-950 dark:text-white leading-tight">
               {language === 'en' ? 'Looking for an evidence-driven data analyst?' : 'Tìm kiếm Data Analyst giải quyết bài toán tăng trưởng?'}
             </h3>
@@ -94,18 +100,18 @@ export default async function HomePage() {
           </div>
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <a
-              href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
-              target="_blank"
-              className="btn-cta-teal text-xs py-3 px-5"
-            >
-              <Download className="w-4 h-4" />
-              <span>{language === 'en' ? 'Download CV PDF' : 'Tải CV PDF'}</span>
-            </a>
-            <a
               href="mailto:mavanhung.da@gmail.com"
-              className="btn-cta-white text-xs py-3 px-5 dark:bg-[#1E293B] dark:text-white dark:border-slate-600 dark:hover:bg-[#334155]"
+              className="btn-cta-teal text-xs py-3 px-6"
             >
               <span>{language === 'en' ? 'Contact Directly' : 'Liên Hệ Trực Tiếp'}</span>
+            </a>
+            <a
+              href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
+              target="_blank"
+              className="btn-cta-white text-xs py-3 px-5 dark:bg-[#1E293B] dark:text-white dark:border-slate-600 dark:hover:bg-[#334155]"
+            >
+              <Download className="w-4 h-4" />
+              <span>{language === 'en' ? 'Download CV' : 'Tải CV'}</span>
             </a>
           </div>
         </div>

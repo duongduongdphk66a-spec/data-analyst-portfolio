@@ -120,7 +120,7 @@ export default React.memo(function ProjectsSection({
               <button
                 key={tag}
                 onClick={() => setSelectedTag(tag)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer active:scale-[0.97] ${
                   selectedTag === tag
                     ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs'
                     : 'bg-white text-slate-700 border border-slate-200 hover:bg-[#C8EEF7]/20 hover:border-[#9BE7FA]/60 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800'
@@ -158,7 +158,7 @@ export default React.memo(function ProjectsSection({
                 id={proj.id}
                 key={proj.id}
                 onClick={() => handleOpenDetail(proj.id)}
-                className="project-card-item animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both card-minimal flex flex-col justify-between overflow-hidden p-0 group cursor-pointer border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-[#0E1524] rounded-2xl hover:border-[#9BE7FA] dark:hover:border-[#9BE7FA] transition-all hover:shadow-xl hover:-translate-y-1"
+                className="project-card-item animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both card-minimal flex flex-col justify-between overflow-hidden p-0 group cursor-pointer border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-[#0E1524] rounded-2xl hover:border-[#9BE7FA] dark:hover:border-[#9BE7FA] transition-all hover:shadow-xl hover:-translate-y-1 active:scale-[0.98]"
                 style={{ animationDelay: `${idx * 100}ms` }}
               >
                 {/* Structured Card Content */}

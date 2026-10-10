@@ -11,6 +11,7 @@ interface AcademicThesisMockupProps {
   unitEn: string;
   pageInDoc: number;
   data: Array<{ year: string; value: number }>;
+  imageSrc?: string;
   isEn?: boolean;
 }
 
@@ -22,9 +23,12 @@ export function AcademicThesisMockup({
   unitEn,
   pageInDoc,
   data,
+  imageSrc,
   isEn = false
 }: AcademicThesisMockupProps) {
+  const [displayType, setDisplayType] = React.useState<'image' | 'vector'>(imageSrc ? 'image' : 'vector');
   const maxVal = Math.max(...data.map(d => d.value), 1);
+
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 sm:p-8 bg-[#FAFDFE] border border-[#0D7287]/20 rounded-2xl shadow-lg dark:bg-slate-950 dark:border-slate-800 text-slate-800 dark:text-slate-100 font-serif">
@@ -62,38 +66,83 @@ export function AcademicThesisMockup({
             {isEn ? `Unit: ${unitEn}` : `Đơn vị tính: ${unitVi}`}
           </span>
         </div>
+
+        {imageSrc && (
+          <div className="mt-3 flex items-center justify-end gap-2">
+            <span className="text-[11px] font-sans text-stone-500">{isEn ? 'Display mode:' : 'Chế độ hiển thị:'}</span>
+            <div className="inline-flex rounded-lg p-0.5 bg-stone-150 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 text-[11px] font-sans">
+              <button
+                type="button"
+                onClick={() => setDisplayType('image')}
+                className={`px-2.5 py-1 rounded font-bold cursor-pointer transition-all ${
+                  displayType === 'image'
+                    ? 'bg-white dark:bg-stone-900 text-stone-950 dark:text-white shadow-xs font-black'
+                    : 'text-stone-600 dark:text-stone-400 hover:text-stone-900'
+                }`}
+              >
+                {isEn ? '📷 Original Scan (DOCX)' : '📷 Bản Chụp Gốc (Niên luận)'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setDisplayType('vector')}
+                className={`px-2.5 py-1 rounded font-bold cursor-pointer transition-all ${
+                  displayType === 'vector'
+                    ? 'bg-white dark:bg-stone-900 text-stone-950 dark:text-white shadow-xs font-black'
+                    : 'text-stone-600 dark:text-stone-400 hover:text-stone-900'
+                }`}
+              >
+                {isEn ? '📐 Digitized Grid' : '📐 Tái Hiện Số Hóa'}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Vector Academic Graph Simulation Canvas */}
-      <div className="relative p-4 rounded-xl bg-white border border-stone-200 dark:bg-slate-900 dark:border-slate-800 shadow-inner">
-        {/* Academic Grid Coordinate System */}
-        <div className="h-56 sm:h-64 w-full flex items-end gap-1.5 sm:gap-3 pt-6 pb-2 px-2 border-b-2 border-l-2 border-stone-800 dark:border-stone-400">
-          {data.map((item, idx) => {
-            const heightPercent = Math.max(8, Math.round((item.value / maxVal) * 100));
-            return (
-              <div key={idx} className="flex-1 flex flex-col items-center justify-end h-full group">
-                <span className="text-[10px] font-mono text-stone-600 dark:text-stone-300 mb-1 opacity-80 group-hover:opacity-100 font-bold">
-                  {item.value}
-                </span>
-                <div 
-                  className="w-full max-w-[28px] bg-gradient-to-t from-[#0D7287] to-[#9BE7FA] rounded-t-xs dark:from-[#0D7287] dark:to-[#9BE7FA] group-hover:brightness-110 transition-all shadow-xs"
-                  style={{ height: `${heightPercent}%` }}
-                />
-                <span className="text-[9px] sm:text-[10px] font-mono text-stone-500 dark:text-stone-400 mt-1.5 -rotate-45 sm:rotate-0 origin-center">
-                  {item.year.replace('20', "'")}
-                </span>
-              </div>
-            );
-          })}
+      {/* Main Content Canvas */}
+      {displayType === 'image' && imageSrc ? (
+        <div className="relative p-3 rounded-xl bg-white border border-stone-200 dark:bg-slate-900 dark:border-slate-800 shadow-inner flex flex-col items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={imageSrc}
+            alt={isEn ? `Figure ${chartId}: ${nameEn}` : `Biểu đồ ${chartId}: ${nameVi}`}
+            className="w-full max-h-[380px] object-contain rounded-lg border border-stone-150 dark:border-stone-800 bg-white"
+          />
+          <div className="mt-2 w-full flex justify-between items-center text-[10px] font-sans text-stone-500 dark:text-stone-400 border-t border-stone-100 dark:border-stone-800 pt-2">
+            <span>{isEn ? 'Extracted directly from Niên luận.docx (USSH VNU Hanoi)' : 'Trích xuất trực tiếp từ file Niên luận.docx gốc (Khoa Đông Phương học)'}</span>
+            <span className="font-mono text-emerald-700 dark:text-emerald-400 font-bold">{isEn ? 'Verified Primary Source' : 'Nguồn Sơ Cấp Thẩm Tra'}</span>
+          </div>
         </div>
+      ) : (
+        <div className="relative p-4 rounded-xl bg-white border border-stone-200 dark:bg-slate-900 dark:border-slate-800 shadow-inner">
+          {/* Academic Grid Coordinate System */}
+          <div className="h-56 sm:h-64 w-full flex items-end gap-1.5 sm:gap-3 pt-6 pb-2 px-2 border-b-2 border-l-2 border-stone-800 dark:border-stone-400">
+            {data.map((item, idx) => {
+              const heightPercent = Math.max(8, Math.round((item.value / maxVal) * 100));
+              return (
+                <div key={idx} className="flex-1 flex flex-col items-center justify-end h-full group">
+                  <span className="text-[10px] font-mono text-stone-600 dark:text-stone-300 mb-1 opacity-80 group-hover:opacity-100 font-bold">
+                    {item.value}
+                  </span>
+                  <div 
+                    className="w-full max-w-[28px] bg-gradient-to-t from-[#0D7287] to-[#9BE7FA] rounded-t-xs dark:from-[#0D7287] dark:to-[#9BE7FA] group-hover:brightness-110 transition-all shadow-xs"
+                    style={{ height: `${heightPercent}%` }}
+                  />
+                  <span className="text-[9px] sm:text-[10px] font-mono text-stone-500 dark:text-stone-400 mt-1.5 -rotate-45 sm:rotate-0 origin-center">
+                    {item.year.replace('20', "'")}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
 
-        <div className="mt-4 flex justify-between items-center text-[10px] font-sans text-stone-500 dark:text-stone-400 border-t border-stone-100 dark:border-stone-800 pt-2">
-          <span>{isEn ? 'Coordinate System: Cartesian 2D' : 'Hệ quy chiếu: Lưới tọa độ Đề-các chuẩn học thuật'}</span>
-          <span className="font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-            {isEn ? `Max Range: ${maxVal} ${unitEn}` : `Ngưỡng cực đại: ${maxVal} ${unitVi}`}
-          </span>
+          <div className="mt-4 flex justify-between items-center text-[10px] font-sans text-stone-500 dark:text-stone-400 border-t border-stone-100 dark:border-stone-800 pt-2">
+            <span>{isEn ? 'Coordinate System: Cartesian 2D' : 'Hệ quy chiếu: Lưới tọa độ Đề-các chuẩn học thuật'}</span>
+            <span className="font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+              {isEn ? `Max Range: ${maxVal} ${unitEn}` : `Ngưỡng cực đại: ${maxVal} ${unitVi}`}
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Academic Citation & Footnote */}
       <div className="mt-5 pt-3 border-t border-stone-200 dark:border-stone-800 text-xs font-sans text-stone-600 dark:text-stone-400 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">

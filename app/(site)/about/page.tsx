@@ -17,7 +17,7 @@ export default async function AboutPage() {
   const { profile } = await getServerPortfolioData();
 
   return (
-    <div className="py-8">
+    <div className="py-12 md:py-20">
       <AboutSection 
         profile={profile} 
       />

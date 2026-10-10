@@ -198,7 +198,7 @@ export default function Sidebar() {
             href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="relative overflow-hidden group p-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/90 border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:border-[#9BE7FA]/60 transition-all duration-300 flex items-center justify-between cursor-pointer"
+            className="relative overflow-hidden group p-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/90 border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:border-[#9BE7FA]/60 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center justify-between cursor-pointer"
           >
             <div className="flex items-center gap-2.5 text-xs font-bold text-slate-900 dark:text-white relative z-10">
               <div className="p-1.5 rounded-lg bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 text-[#074553] dark:text-[#9BE7FA] group-hover:scale-110 transition-transform">

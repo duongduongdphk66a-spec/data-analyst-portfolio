@@ -38,7 +38,7 @@ export default function ProjectDetailView({
   // 1. Loading State
   if (isLoading) {
     return (
-      <div className="min-h-[80vh] bg-[#FAFDFE] flex flex-col items-center justify-center p-6 dark:bg-[#0B0F17]">
+      <div className="min-h-[80vh] bg-ground flex flex-col items-center justify-center p-6 dark:bg-[#0B0F17]">
         <div className="animate-pulse flex flex-col items-center">
           <div className="w-12 h-12 rounded-full border-4 border-[#FFD14C] border-t-transparent animate-spin mb-4" />
           <p className="text-slate-600 font-medium text-sm dark:text-slate-300">
@@ -52,7 +52,7 @@ export default function ProjectDetailView({
   // 2. Project Not Found State
   if (!project) {
     return (
-      <div className="min-h-[80vh] bg-[#FAFDFE] flex flex-col items-center justify-center p-6 text-center dark:bg-[#0B0F17]">
+      <div className="min-h-[80vh] bg-ground flex flex-col items-center justify-center p-6 text-center dark:bg-[#0B0F17]">
         <div className="w-16 h-16 rounded-full bg-amber-50 dark:bg-amber-950/40 flex items-center justify-center mb-4">
           <AlertCircle className="w-8 h-8 text-amber-500" />
         </div>
@@ -76,13 +76,13 @@ export default function ProjectDetailView({
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFDFE] font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
+    <div className="min-h-screen bg-ground font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#FAFDFE]/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs transition-all dark:bg-[#0B0F17]/95 dark:border-slate-800">
+      <header className="sticky top-0 z-50 bg-ground/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs transition-all dark:bg-[#0B0F17]/95 dark:border-slate-800">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <button 
             onClick={handleBack}
-            className="flex items-center gap-2 text-slate-700 hover:text-slate-950 transition-colors font-semibold cursor-pointer group dark:text-slate-300 dark:hover:text-white"
+            className="flex items-center gap-2 text-slate-700 hover:text-slate-950 transition-colors font-semibold cursor-pointer group active:scale-[0.97] dark:text-slate-300 dark:hover:text-white"
             aria-label="Quay lại Portfolio"
           >
             <ArrowLeft className="w-5 h-5 text-[#074553] dark:text-[#9BE7FA] group-hover:-translate-x-1 transition-transform" />
@@ -107,7 +107,7 @@ export default function ProjectDetailView({
             {/* Quick Language Toggle */}
             <button
               onClick={() => setLanguage(isEn ? 'vi' : 'en')}
-              className="px-2.5 py-1 rounded-xl bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 text-xs font-black transition-all shadow-xs flex items-center gap-1 cursor-pointer border border-[#FFD14C] dark:bg-slate-900 dark:text-white dark:border-slate-800 dark:hover:bg-slate-800"
+              className="px-2.5 py-1 rounded-xl bg-[#FFD14C] hover:bg-[#FFE485] text-slate-950 text-xs font-black transition-all shadow-xs flex items-center gap-1 cursor-pointer border border-[#FFD14C] active:scale-[0.97] dark:bg-slate-900 dark:text-white dark:border-slate-800 dark:hover:bg-slate-800"
               title={isEn ? 'Chuyển sang Tiếng Việt' : 'Switch to English'}
               aria-label={isEn ? 'Switch to Vietnamese' : 'Chuyển sang Tiếng Anh'}
             >
@@ -118,7 +118,7 @@ export default function ProjectDetailView({
       </header>
 
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto px-6 pt-12 pb-8 sm:pt-16 sm:pb-12 border-b border-slate-200/80 dark:border-slate-800">
+      <section className="max-w-6xl mx-auto px-6 pt-14 pb-10 sm:pt-20 sm:pb-14 border-b border-slate-200/80 dark:border-slate-800">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6">
           <div className="flex-1 space-y-3">
             <span className="editorial-kicker">
@@ -175,7 +175,7 @@ export default function ProjectDetailView({
       </section>
 
       {/* Main Content / Markdown Case Study */}
-      <main className="max-w-6xl mx-auto px-6 py-12">
+      <main className="max-w-6xl mx-auto px-6 py-16 md:py-20">
         {project.content ? (
           <article className="prose prose-slate max-w-none prose-headings:font-heading prose-headings:font-bold prose-headings:text-slate-950 prose-a:text-[#074553] dark:prose-a:text-[#9BE7FA] prose-img:rounded-2xl prose-img:border prose-img:border-slate-200 dark:prose-img:border-slate-800 prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-pre:border prose-pre:border-slate-800 prose-pre:font-mono dark:prose-invert">
             <ReactMarkdown 
@@ -217,7 +217,12 @@ export default function ProjectDetailView({
         )}
       </main>
 
-      <footer className="border-t border-slate-200/80 dark:border-slate-800 text-slate-500 py-12 text-center text-xs">
+      {/* taste-skill §4.3: Gradient divider before footer */}
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="section-divider-gradient" />
+      </div>
+
+      <footer className="border-t-0 text-slate-500 py-12 text-center text-xs">
         <div className="max-w-4xl mx-auto px-6">
           <p className="mb-1 font-medium">{isEn ? 'Personal Project · Data Analytics Case Study' : 'Dự án cá nhân · Phân tích dữ liệu'}</p>
           <p className="font-mono text-[11px] text-slate-400">Ma Van Hung · Data Analyst Portfolio</p>

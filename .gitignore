@@ -19,6 +19,8 @@
 .DS_Store
 *.pem
 *.log
+*.docx
+*.zip
 __pycache__/
 *.py[cod]
 *$py.class

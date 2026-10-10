@@ -22,7 +22,7 @@ export default function ScienceTimeSeriesSection({
   handleExport
 }: ScienceTimeSeriesSectionProps) {
   return (
-    <section id="sec-timeseries" className="space-y-8 py-14 border-b border-slate-200/80 dark:border-slate-800">
+    <section id="sec-timeseries" className="space-y-8 py-16 md:py-20 border-b border-slate-200/80 dark:border-slate-800">
       <div className="space-y-3">
         <div className="flex items-center gap-2">
           <span className="editorial-kicker">
@@ -40,35 +40,35 @@ export default function ScienceTimeSeriesSection({
       </div>
 
       {/* Signal Breakdown Framework */}
-      <div className="card-minimal p-6 space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 text-xs font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA]">
+      <div className="card-minimal p-6 space-y-4 border border-[#9BE7FA] bg-gradient-to-br from-white via-[#EAF8FC]/50 to-[#C8EEF7]/30 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
+        <div className="flex items-center justify-between border-b border-[#C8EEF7] dark:border-slate-800 pb-3 text-xs font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA]">
           <span className="flex items-center gap-2">
-            <Activity className="h-4 w-4" />
+            <Activity className="h-4 w-4 text-[#074553] dark:text-[#9BE7FA]" />
             {isEn ? '180-Day Revenue Signal Breakdown' : 'Bóc Tách 3 Thành Phần Doanh Thu 180 Ngày'}
           </span>
-          <span className="font-mono text-[11px] text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/60 px-2.5 py-0.5 rounded border border-teal-200 dark:border-teal-800">
+          <span className="font-mono text-[11px] text-[#074553] dark:text-[#9BE7FA] bg-[#C8EEF7]/70 dark:bg-[#9BE7FA]/15 px-2.5 py-0.5 rounded-full border border-[#9BE7FA]">
             Chu kỳ tuần hoàn 7 ngày
           </span>
         </div>
 
         <div className="grid grid-cols-1 gap-4 pt-1 text-xs sm:grid-cols-3">
           <div className="space-y-1">
-            <strong className="text-[#0D7287] dark:text-[#9BE7FA]">1. Xu hướng Dài hạn (Trend):</strong>
-            <p className="text-slate-500 dark:text-slate-400">Tăng trưởng mạnh lúc cao điểm sắm đồ bơi hè (tháng 4-6), giảm tự nhiên khi vào năm học mới (tháng 8-9).</p>
+            <strong className="text-[#074553] dark:text-[#9BE7FA]">1. Xu hướng Dài hạn (Trend):</strong>
+            <p className="text-slate-600 dark:text-slate-400">Tăng trưởng mạnh lúc cao điểm sắm đồ bơi hè (tháng 4-6), giảm tự nhiên khi vào năm học mới (tháng 8-9).</p>
           </div>
           <div className="space-y-1">
-            <strong className="text-amber-600 dark:text-amber-400">2. Chu kỳ Tuần hoàn (Seasonality):</strong>
-            <p className="text-slate-500 dark:text-slate-400">Doanh số tập trung cao từ thứ Năm đến thứ Bảy để kịp giao hàng cho các chuyến du lịch cuối tuần.</p>
+            <strong className="text-slate-800 dark:text-slate-200">2. Chu kỳ Tuần hoàn (Seasonality):</strong>
+            <p className="text-slate-600 dark:text-slate-400">Doanh số tập trung cao từ thứ Năm đến thứ Bảy để kịp giao hàng cho các chuyến du lịch cuối tuần.</p>
           </div>
           <div className="space-y-1">
-            <strong className="text-emerald-600 dark:text-emerald-400">3. Xung lực Đột biến (Residual):</strong>
-            <p className="text-slate-500 dark:text-slate-400">Các đợt bùng nổ đơn hàng phát sinh từ chiến dịch Mega Sale định kỳ của nền tảng TikTok Shop (6.6, 7.7).</p>
+            <strong className="text-[#074553] dark:text-[#9BE7FA]">3. Xung lực Đột biến (Residual):</strong>
+            <p className="text-slate-600 dark:text-slate-400">Các đợt bùng nổ đơn hàng phát sinh từ chiến dịch Mega Sale định kỳ của nền tảng TikTok Shop (6.6, 7.7).</p>
           </div>
         </div>
       </div>
 
       {/* 4-Panel Synchronized Time-Series Chart */}
-      <div id="chart-decomp-4panel" className="card-minimal p-6 space-y-6">
+      <div id="chart-decomp-4panel" className="card-minimal p-6 space-y-6 border border-[#9BE7FA]/80">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h3 className="font-bold text-slate-900 dark:text-white">
@@ -88,7 +88,11 @@ export default function ScienceTimeSeriesSection({
               <button
                 key={btn.id}
                 onClick={() => setTsPanelFocus(btn.id as any)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition cursor-pointer ${tsPanelFocus === btn.id ? 'bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 font-bold' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'}`}
+                className={`rounded-lg px-3 py-1.5 text-xs transition cursor-pointer active:scale-[0.97] ${
+                  tsPanelFocus === btn.id
+                    ? 'bg-[#9BE7FA] text-slate-950 font-bold border border-[#9BE7FA] shadow-xs dark:bg-[#9BE7FA] dark:text-slate-950'
+                    : 'bg-[#C8EEF7]/30 text-slate-700 hover:bg-[#C8EEF7]/60 border border-[#C8EEF7] dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'
+                }`}
               >
                 {btn.label}
               </button>
@@ -107,16 +111,16 @@ export default function ScienceTimeSeriesSection({
           {/* Panel 1: Original */}
           {(tsPanelFocus === 'all' || tsPanelFocus === 'trend') && (
             <div className="space-y-2">
-              <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">1. Doanh thu Thực tế & Đường Xu hướng Dài hạn</span>
+              <span className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">1. Doanh thu Thực tế & Đường Xu hướng Dài hạn</span>
               <div className="h-44 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={KAMI_MATH_STATS.timeSeries.data} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.2} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
                     <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
                     <YAxis tick={{ fontSize: 10 }} unit="M" />
-                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc', borderRadius: '12px' }} />
-                    <Line type="monotone" dataKey="original" stroke="#0D7287" strokeWidth={1.5} dot={false} name="Doanh thu thực tế (M)" />
-                    <Line type="monotone" dataKey="trend" stroke="#f59e0b" strokeWidth={2.5} dot={false} name="Xu hướng dài hạn" />
+                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
+                    <Line type="monotone" dataKey="original" stroke="#074553" strokeWidth={1.5} dot={false} name="Doanh thu thực tế (M)" />
+                    <Line type="monotone" dataKey="trend" stroke="#FFD14C" strokeWidth={2.5} dot={false} name="Xu hướng dài hạn" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -126,15 +130,15 @@ export default function ScienceTimeSeriesSection({
           {/* Panel 2: Seasonal */}
           {(tsPanelFocus === 'all' || tsPanelFocus === 'seasonal') && (
             <div className="space-y-2">
-              <span className="text-xs font-bold text-amber-600 dark:text-amber-400">2. Chu kỳ Biến động Tuần hoàn (Seasonality)</span>
+              <span className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">2. Chu kỳ Biến động Tuần hoàn (Seasonality)</span>
               <div className="h-36 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={KAMI_MATH_STATS.timeSeries.data} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.2} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
                     <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
                     <YAxis tick={{ fontSize: 10 }} unit="M" />
-                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc', borderRadius: '12px' }} />
-                    <Area type="monotone" dataKey="seasonal" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.2} name="Biến động tuần hoàn (M)" />
+                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
+                    <Area type="monotone" dataKey="seasonal" stroke="#0D7287" fill="#9BE7FA" fillOpacity={0.4} name="Biến động tuần hoàn (M)" />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -144,15 +148,15 @@ export default function ScienceTimeSeriesSection({
           {/* Panel 3: Residual */}
           {(tsPanelFocus === 'all' || tsPanelFocus === 'residual') && (
             <div className="space-y-2">
-              <span className="text-xs font-bold text-slate-600 dark:text-slate-400">3. Tác động Ngẫu nhiên & Đợt Sale (Residual)</span>
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">3. Tác động Ngẫu nhiên & Đợt Sale (Residual)</span>
               <div className="h-36 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={KAMI_MATH_STATS.timeSeries.data} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.2} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
                     <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
                     <YAxis tick={{ fontSize: 10 }} unit="M" />
-                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc', borderRadius: '12px' }} />
-                    <Bar dataKey="residual" fill="#64748b" name="Tác động đột biến (M)" />
+                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
+                    <Bar dataKey="residual" fill="#9BE7FA" name="Tác động đột biến (M)" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -160,8 +164,11 @@ export default function ScienceTimeSeriesSection({
           )}
         </div>
 
-        <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-xs text-amber-900 dark:text-amber-200">
-          <strong>Bài học Quản trị Vận hành:</strong> Doanh thu tháng 8-9 giảm theo tính mùa vụ (hết hè). Việc ép đội ngũ tăng 27 phiên LIVE/ngày vào tháng 9 là đi ngược thị trường và gây lãng phí chi phí.
+        <div className="rounded-xl border border-[#9BE7FA] bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 p-4 text-xs text-slate-800 dark:text-slate-200">
+          <span className="inline-block px-2 py-0.5 rounded bg-[#FFD14C] text-slate-950 font-bold mr-2 text-[10px] uppercase">
+            Bài học Quản trị Vận hành
+          </span>
+          Doanh thu tháng 8-9 giảm theo tính mùa vụ (hết hè). Việc ép đội ngũ tăng 27 phiên LIVE/ngày vào tháng 9 là đi ngược thị trường và gây lãng phí chi phí.
         </div>
       </div>
     </section>

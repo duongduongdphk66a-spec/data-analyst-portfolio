@@ -16,6 +16,8 @@ import { Chapter1HeritageSection } from './heritage-japan/Chapter1HeritageSectio
 import { Chapter2PolicySection } from './heritage-japan/Chapter2PolicySection';
 import { Chapter3AnalyticsSection } from './heritage-japan/Chapter3AnalyticsSection';
 import { Chapter3CaseStudiesSection } from './heritage-japan/Chapter3CaseStudiesSection';
+import { DataAuditSection } from './heritage-japan/DataAuditSection';
+import { PolicyEvaluationSection } from './heritage-japan/PolicyEvaluationSection';
 import { ConclusionSection } from './heritage-japan/ConclusionSection';
 import SectionHeader from '@/components/ui/SectionHeader';
 
@@ -24,6 +26,8 @@ const HERITAGE_JAPAN_SECTIONS = [
   'chuong-1',
   'chuong-2',
   'chuong-3',
+  'kiem-dinh-du-lieu',
+  'danh-gia-hieu-qua',
   'ket-luan'
 ];
 
@@ -49,6 +53,8 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
     { id: 'chuong-1', label: isEn ? 'Ch1: Heritage Concept' : 'Chương 1' },
     { id: 'chuong-2', label: isEn ? 'Ch2: Policies' : 'Chương 2' },
     { id: 'chuong-3', label: isEn ? 'Ch3: Analytics & Cases' : 'Chương 3' },
+    { id: 'kiem-dinh-du-lieu', label: isEn ? 'Data Audit' : 'Kiểm định Data' },
+    { id: 'danh-gia-hieu-qua', label: isEn ? 'Policy Evaluation' : 'Đánh giá Hiệu quả' },
     { id: 'ket-luan', label: isEn ? 'Conclusion' : 'Kết luận' },
   ], [isEn]);
 
@@ -70,7 +76,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFDFE] font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
+    <div className="min-h-screen bg-ground font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       {/* Top Navbar */}
       <HeritageJapanNav
         onBack={handleBack}
@@ -89,7 +95,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
       />
 
       {/* Executive Summary - 60-second overview */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-16 md:pt-20">
         <ExecutiveSummary
           isEn={isEn}
           readingTime={isEn ? '~3 min deep dive' : '~3 phút đọc chi tiết'}
@@ -131,7 +137,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
       />
 
       {/* 4. Chương 3: Sự phát triển của Du lịch Di sản (#chuong-3) */}
-      <section id="chuong-3" className="py-16 bg-[#FAFDFE] border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
+      <section id="chuong-3" className="py-20 md:py-28 bg-ground border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeader
             variant="stacked"
@@ -152,7 +158,19 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
         </div>
       </section>
 
-      {/* 5. Kết luận & Footer (#ket-luan) */}
+      {/* 4. Kiểm định Dữ liệu & Phát hiện Bất thường (#kiem-dinh-du-lieu) */}
+      <DataAuditSection
+        isEn={isEn}
+        onCopyDeepLink={handleCopyDeepLink}
+      />
+
+      {/* 5. Đánh giá Hiệu quả Chính sách & Mô hình Phản thực tế (#danh-gia-hieu-qua) */}
+      <PolicyEvaluationSection
+        isEn={isEn}
+        onCopyDeepLink={handleCopyDeepLink}
+      />
+
+      {/* 6. Kết luận & Footer (#ket-luan) */}
       <ConclusionSection
         isEn={isEn}
         onCopyDeepLink={handleCopyDeepLink}

@@ -110,7 +110,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body suppressHydrationWarning className="bg-ground text-ink font-sans min-h-screen transition-colors duration-200 antialiased selection:bg-brand-yellow-light/80 dark:selection:bg-slate-700">
+      <body suppressHydrationWarning className="bg-ground text-ink font-sans min-h-screen transition-colors duration-200 antialiased selection:bg-brand-blue-vivid/70 dark:selection:bg-slate-700">
         <ThemeProvider>
           <PortfolioDataProvider>
             <LanguageProvider>

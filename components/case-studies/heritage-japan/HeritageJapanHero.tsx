@@ -11,7 +11,7 @@ interface HeritageJapanHeroProps {
 
 export function HeritageJapanHero({ isEn, onNavClick }: HeritageJapanHeroProps) {
   return (
-    <header className="py-14 border-b border-slate-200/80 dark:border-slate-800">
+    <header className="py-16 md:py-24 border-b border-slate-200/80 dark:border-slate-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="max-w-4xl space-y-6">
           
@@ -85,7 +85,21 @@ export function HeritageJapanHero({ isEn, onNavClick }: HeritageJapanHeroProps) 
               onClick={(e) => onNavClick('chuong-3', e)}
               className="btn-secondary-editorial cursor-pointer"
             >
-              {isEn ? 'View Data & Charts 3.1 - 3.6' : 'Xem Dữ liệu & Biểu đồ 3.1 - 3.6'}
+              {isEn ? 'View Data & Charts 3.1 - 3.6' : 'Biểu đồ 3.1 - 3.6'}
+            </a>
+            <a
+              href="#kiem-dinh-du-lieu"
+              onClick={(e) => onNavClick('kiem-dinh-du-lieu', e)}
+              className="btn-secondary-editorial cursor-pointer text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-800"
+            >
+              {isEn ? 'Data Audit & Anomalies' : 'Kiểm định Dữ liệu'}
+            </a>
+            <a
+              href="#danh-gia-hieu-qua"
+              onClick={(e) => onNavClick('danh-gia-hieu-qua', e)}
+              className="btn-secondary-editorial cursor-pointer text-[#0D7287] dark:text-[#9BE7FA] border-[#9BE7FA]"
+            >
+              {isEn ? 'Counterfactual Model' : 'Đánh giá Hiệu quả'}
             </a>
           </div>
 

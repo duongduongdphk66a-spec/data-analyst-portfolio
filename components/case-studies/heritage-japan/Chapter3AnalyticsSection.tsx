@@ -217,6 +217,7 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
               unitEn={selectedVolumeMeta.unitEn}
               pageInDoc={selectedVolumeMeta.pageInDoc}
               data={volumeChartId === '3.1' ? touristsData : volumeChartId === '3.2' ? kyotoVisitorsData : naraVisitorsData}
+              imageSrc={selectedVolumeMeta.imageSrc}
               isEn={isEn}
             />
           )}
@@ -232,20 +233,39 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
               Niên luận (2003–2022) + Cập nhật chính thức (2023–2024)
             </span>
           </div>
+
           {volumeChartId === '3.1' && (
             <p>
-              Lượng khách tăng vọt sau 2013, lập <strong>kỷ lục 36.9 triệu lượt vào 2024</strong>, phục hồi sau đại dịch.
+              Lượng khách tăng vọt sau 2013 với tốc độ CAGR <strong>+20.6%/năm</strong>, lập đỉnh tiền đại dịch 31.9 triệu (2019) và tái thiết lập <strong>kỷ lục 36.9 triệu lượt vào 2024</strong> (theo JNTO).
             </p>
           )}
+
           {volumeChartId === '3.2' && (
-            <p>
-              Năm 2024 lập kỷ lục <strong>8.21 triệu khách quốc tế</strong>, lần đầu vượt khách nội địa (theo DMO KYOTO).
-            </p>
+            <div className="space-y-2">
+              <p>
+                Khách quốc tế đến Kyoto bùng nổ từ 844.9k (2013) lên đỉnh 4.5M (2019). Năm 2024 lập kỷ lục <strong>8.21 triệu khách quốc tế</strong>, lần đầu vượt khách nội địa (theo DMO KYOTO).
+              </p>
+              <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-xs flex items-start gap-2">
+                <span className="font-mono font-bold text-amber-700 dark:text-amber-400 shrink-0">🔍 KIỂM ĐỊNH DATA:</span>
+                <span>
+                  Đồ thị nguyên bản trong Niên luận (trang 31) ghi nhận năm 2020 là <strong>3,799 k</strong> (do lỗi gõ thiếu dấu phẩy thập phân của <strong>379.9 k</strong>). Biểu đồ tương tác đã được Data Analyst chuẩn hóa khoa học theo thống kê DMO Kyoto.
+                </span>
+              </div>
+            </div>
           )}
+
           {volumeChartId === '3.3' && (
-            <p>
-              Khách đến Nara tăng mạnh. Năm 2024 đạt <strong>3.14 triệu lượt khách</strong>, phục hồi mạnh mẽ sau đại dịch.
-            </p>
+            <div className="space-y-2">
+              <p>
+                Khách đến Nara tăng mạnh từ 435k (2013) lên đỉnh 3.32M (2019). Năm 2024 đạt <strong>3.14 triệu lượt khách</strong>, phục hồi 94.6% so với trước đại dịch.
+              </p>
+              <div className="p-2.5 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-900 dark:text-indigo-200 text-xs flex items-start gap-2">
+                <span className="font-mono font-bold text-indigo-700 dark:text-indigo-400 shrink-0">💡 NGHỊCH LÝ DAY-TRIPPER:</span>
+                <span>
+                  Dù đón hơn 3.3M khách ngoại quốc, trên <strong>85% du khách chỉ ghé thăm trong ngày</strong> (rời đi sau 3–4 tiếng ngắm hươu) khiến doanh thu lưu trú thấp và gây quá tải hạ tầng đô thị.
+                </span>
+              </div>
+            </div>
           )}
 
           {/* Kyoto vs Nara Table */}
@@ -410,6 +430,7 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
               unitEn={selectedRevenueMeta.unitEn}
               pageInDoc={selectedRevenueMeta.pageInDoc}
               data={revenueChartId === '3.4' ? spendNationalData : revenueChartId === '3.5' ? kyotoSpendData : naraSpendData}
+              imageSrc={selectedRevenueMeta.imageSrc}
               isEn={isEn}
             />
           )}
@@ -425,20 +446,31 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
               Niên luận (2010–2021) + Cập nhật chính thức (2022–2024)
             </span>
           </div>
+
           {revenueChartId === '3.4' && (
             <p>
-              Chi tiêu du lịch bùng nổ. Năm 2024 đạt <strong>kỷ lục 8.14 nghìn tỷ Yên</strong>, gấp 5.8 lần năm 2013.
+              Chi tiêu du lịch toàn quốc bùng nổ theo cấp số nhân từ 1.41T ¥ (2013) lên 4.81T ¥ (2019, x3.4 lần). Năm 2024 đạt <strong>kỷ lục 8.14 nghìn tỷ Yên</strong> và sơ bộ 2025 vượt mốc <strong>9.46 nghìn tỷ Yên</strong> (theo JTA 観光庁).
             </p>
           )}
+
           {revenueChartId === '3.5' && (
             <p>
-              Doanh thu du lịch Kyoto hồi phục ngoạn mục, đạt <strong>kỷ lục 1.908 tỷ Yên</strong> vào 2024.
+              Doanh thu du lịch Cố đô Kyoto hồi phục ngoạn mục từ 648.8 tỷ Yên (2011) lên đỉnh 1,308 tỷ Yên (2019) và đạt <strong>kỷ lục 1,908 tỷ Yên</strong> vào 2024 (đóng góp ~12.8% ngân sách thuế thành phố).
             </p>
           )}
+
           {revenueChartId === '3.6' && (
-            <p>
-              Chi tiêu tại Nara bứt phá sau đại dịch, đạt <strong>kỷ lục 2.060 tỷ Yên</strong> năm 2024.
-            </p>
+            <div className="space-y-2">
+              <p>
+                Chi tiêu tại Cố đô Nara được ghi nhận 872.6 (2013), đỉnh 1,208 (2018) và phục hồi mạnh mẽ sau đại dịch đạt <strong>2,060 tỷ Yên (2024)</strong>.
+              </p>
+              <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-xs flex items-start gap-2">
+                <span className="font-mono font-bold text-amber-700 dark:text-amber-400 shrink-0">🔍 KIỂM ĐỊNH DATA:</span>
+                <span>
+                  Đồ thị gốc trong Niên luận ghi đơn vị &quot;tỷ yên&quot;. Tuy nhiên số liệu cấp tỉnh của Nhật Bản thường đo bằng <strong>億円 (trăm triệu Yên)</strong>. Doanh thu Nara phản ánh tổng chi tiêu (gồm cả khách nội địa và chi phí vận tải liên vùng), vì nếu chỉ tính riêng khách quốc tế thì doanh thu Nara không thể tiệm cận Kyoto do phần lớn là khách đi về trong ngày.
+                </span>
+              </div>
+            </div>
           )}
 
           {/* GDP Contribution Table */}

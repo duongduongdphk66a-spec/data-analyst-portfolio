@@ -17,7 +17,7 @@ export default async function ProjectsPage() {
   const { projects } = await getServerPortfolioData();
 
   return (
-    <div className="py-8">
+    <div className="py-12 md:py-20">
       <ProjectsSection 
         projects={projects} 
       />

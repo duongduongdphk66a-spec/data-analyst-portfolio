@@ -72,7 +72,7 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
   };
 
   return (
-    <section ref={containerRef} className="relative min-h-0 sm:min-h-[85vh] flex flex-col justify-center bg-[#FAFDFE] dark:bg-[#0B0F17] hero-glow bg-data-dots overflow-hidden transition-colors duration-200">
+    <section ref={containerRef} className="relative min-h-0 sm:hero-viewport flex flex-col justify-center bg-[#FAFDFE] dark:bg-[#0B0F17] hero-glow bg-data-dots overflow-hidden transition-colors duration-200">
       {/* Background visual graph (Subtle) */}
       <div className="absolute inset-0 opacity-10 dark:opacity-[0.04] pointer-events-none overflow-hidden">
         <div className="absolute -bottom-32 -right-32 w-full h-full max-w-4xl scale-125 origin-bottom-right">
