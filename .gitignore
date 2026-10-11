@@ -25,10 +25,23 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# local env files
-.env*.local
+# local env files & secrets (CRITICAL: Never commit secrets)
 .env
+.env.*
+.env*.local
 !.env.example
+*.pem
+*.key
+*.cert
+*.crt
+
+# database dumps & local sqlite / backups
+*.dump
+*.bak
+*.sqlite
+*.sqlite3
+dump.sql
+backup.sql
 
 # typescript build cache
 *.tsbuildinfo
@@ -38,6 +51,8 @@ tsconfig.tsbuildinfo
 proj/
 data-sources/
 scratch/
+scripts/test_*.js
+scripts/inspect_*.js
 
 # vercel
 .vercel

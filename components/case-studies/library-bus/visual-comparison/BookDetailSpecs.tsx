@@ -162,7 +162,7 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
         <div>
           <div className="flex items-center gap-2">
             <h3 className="font-sans font-black text-sm text-[#0D7287] dark:text-[#9BE7FA]">Bản Cực (Origin) - Dan Brown</h3>
-            <span className="px-1.5 py-0.5 rounded bg-[#FFD14C]/80 text-slate-950 text-[9px] font-black">Có sẵn</span>
+            <span className="px-1.5 py-0.5 rounded bg-[#FFD14C]/80 text-slate-950 text-[10px] font-black">Có sẵn</span>
           </div>
           <p className="text-[10px] text-slate-500">Mã sách: BK-DAN-8802 • NXB Tổng hợp TP.HCM • 2021</p>
         </div>
@@ -170,28 +170,28 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
         <div className="grid grid-cols-4 gap-2">
           <div className="col-span-3 rounded-xl overflow-hidden shadow-xs border border-[#9BE7FA]/40 relative group bg-gradient-to-br from-[#074553] via-[#0D7287] to-[#1E293B] p-3 text-white flex flex-col justify-between h-32">
             <div className="flex justify-between items-start">
-              <span className="px-2 py-0.5 rounded bg-black/40 backdrop-blur-xs text-[#FFD14C] text-[9px] font-bold">
+              <span className="px-2 py-0.5 rounded bg-black/40 backdrop-blur-xs text-[#FFD14C] text-[10px] font-bold">
                 ⭐ 4.8 / 5.0
               </span>
               <BookOpen className="w-4 h-4 text-[#9BE7FA] opacity-90" />
             </div>
             <div className="space-y-0.5 border-l-2 border-[#FFD14C] pl-2">
               <div className="text-[11px] font-sans font-black tracking-wide text-white">ORIGIN</div>
-              <div className="text-[8px] font-sans text-[#FFE485]">DAN BROWN</div>
+              <div className="text-[10px] font-sans text-[#FFE485]">DAN BROWN</div>
             </div>
-            <div className="flex justify-between text-[7px] font-mono text-[#C8EEF7] border-t border-white/20 pt-1">
+            <div className="flex justify-between text-[10px] font-mono text-[#C8EEF7] border-t border-white/20 pt-1">
               <span>THƯ VIỆN SỐ</span>
               <span>BẢN CHUẨN</span>
             </div>
           </div>
           <div className="col-span-1 flex flex-col gap-1.5">
-            <div className="w-full h-9 rounded-lg border border-[#9BE7FA]/40 bg-gradient-to-r from-[#0D7287] to-[#49C6E5] p-1 flex items-center justify-center text-[7px] font-bold text-white shadow-2xs">
+            <div className="w-full h-9 rounded-lg border border-[#9BE7FA]/40 bg-gradient-to-r from-[#0D7287] to-[#49C6E5] p-1 flex items-center justify-center text-[10px] font-bold text-white shadow-2xs">
               Bìa 1
             </div>
-            <div className="w-full h-9 rounded-lg border border-[#9BE7FA]/40 bg-gradient-to-r from-[#074553] to-[#0D7287] p-1 flex items-center justify-center text-[7px] font-bold text-[#FFD14C] shadow-2xs">
+            <div className="w-full h-9 rounded-lg border border-[#9BE7FA]/40 bg-gradient-to-r from-[#074553] to-[#0D7287] p-1 flex items-center justify-center text-[10px] font-bold text-[#FFD14C] shadow-2xs">
               Mục lục
             </div>
-            <div className="w-full h-9 rounded-lg border border-[#9BE7FA]/40 bg-gradient-to-r from-[#FFD14C] to-[#FFE485] p-1 flex items-center justify-center text-[7px] font-bold text-slate-950 shadow-2xs">
+            <div className="w-full h-9 rounded-lg border border-[#9BE7FA]/40 bg-gradient-to-r from-[#FFD14C] to-[#FFE485] p-1 flex items-center justify-center text-[10px] font-bold text-slate-950 shadow-2xs">
               Lời tựa
             </div>
           </div>
@@ -222,14 +222,14 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
                   </div>
                   <div>
                     <div className="font-bold text-[11px] text-slate-900 dark:text-white">{bus.name}</div>
-                    <div className="text-[9px] text-slate-500">Cách {bus.dist} • Dừng tiếp sau {bus.eta}</div>
+                    <div className="text-[10px] text-slate-500">Cách {bus.dist} • Dừng tiếp sau {bus.eta}</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className={`inline-block px-1.5 py-0.5 rounded text-[9px] font-bold ${bus.copies > 0 ? 'bg-cyan-50 text-[#0D7287] border border-[#9BE7FA]/40 dark:bg-slate-900 dark:text-[#9BE7FA]' : 'bg-slate-100 text-slate-600 dark:bg-slate-900 dark:text-slate-400'}`}>
+                  <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-bold ${bus.copies > 0 ? 'bg-cyan-50 text-[#0D7287] border border-[#9BE7FA]/40 dark:bg-slate-900 dark:text-[#9BE7FA]' : 'bg-slate-100 text-slate-600 dark:bg-slate-900 dark:text-slate-400'}`}>
                     {bus.status}
                   </span>
-                  <button className="block mt-0.5 px-2 py-0.5 rounded-md bg-[#0D7287] hover:bg-[#074553] text-white text-[9px] font-bold">
+                  <button className="block mt-0.5 px-2 py-0.5 rounded-md bg-[#0D7287] hover:bg-[#074553] text-white text-[10px] font-bold">
                     Giữ sách
                   </button>
                 </div>
@@ -256,7 +256,7 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
           <div className="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
             <div className="bg-[#FFD14C] h-full w-[97%]" />
           </div>
-          <div className="text-[9px] text-slate-500 mt-0.5 flex justify-between">
+          <div className="text-[10px] text-slate-500 mt-0.5 flex justify-between">
             <span>Chất lượng sách: 9.8</span>
             <span>Tiện nghi xe: 9.6</span>
           </div>
@@ -266,7 +266,7 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
       <div className="p-2.5 rounded-xl border border-[#9BE7FA]/30 bg-white dark:bg-slate-800 dark:border-slate-700 space-y-1">
         <div className="flex justify-between items-center text-[10px]">
           <div className="font-bold text-slate-900 dark:text-white">Nguyễn Hoàng Nam • Độc giả thân thiết</div>
-          <span className="text-[9px] text-slate-400">12/03/2024</span>
+          <span className="text-[10px] text-slate-400">12/03/2024</span>
         </div>
         <p className="text-[10px] text-slate-600 dark:text-slate-300 leading-relaxed italic">
           &ldquo;Sách rất mới, xe buýt đỗ đúng giờ tại điểm đón ngã tư Linh Đàm. Thủ thư hỗ trợ mượn trả qua mã QR rất nhanh!&rdquo;
@@ -285,9 +285,9 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
             <div key={idx} className="p-1.5 rounded-lg border border-[#9BE7FA]/30 bg-white dark:bg-slate-800 dark:border-slate-700 text-center group cursor-pointer hover:border-[#0D7287] transition-colors">
               <div className={`w-full h-11 rounded mb-1 bg-gradient-to-br ${book.color} flex flex-col items-center justify-center p-1 shadow-2xs`}>
                 <BookOpen className={`w-3 h-3 ${book.textColor} mb-0.5 opacity-90`} />
-                <span className={`text-[7px] font-black ${book.textColor} leading-none truncate max-w-full`}>DAN BROWN</span>
+                <span className={`text-[10px] font-black ${book.textColor} leading-none truncate max-w-full`}>DAN BROWN</span>
               </div>
-              <div className="text-[8px] font-bold text-slate-800 dark:text-slate-200 truncate">{book.title}</div>
+              <div className="text-[10px] font-bold text-slate-800 dark:text-slate-200 truncate">{book.title}</div>
             </div>
           ))}
         </div>

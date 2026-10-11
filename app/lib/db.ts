@@ -839,4 +839,200 @@ export async function getDbTikTokTopAffiliates() {
   }
 }
 
+// ==========================================
+// TikTok Shop (Kami Ely) 180-Day Time-Series Query
+// ==========================================
+
+export async function getDbTikTokTimeSeries() {
+  const p = getDbPool();
+  if (!p) return null;
+
+  try {
+    const [rows] = await p.query<RowDataPacket[]>(
+      'SELECT record_date as date, date_label as dateLabel, original_gmv as original, trend_gmv as trend, seasonal_gmv as seasonal, residual_gmv as residual, live_streams as liveStreams FROM tiktok_shop_timeseries ORDER BY record_date ASC'
+    );
+    if (Array.isArray(rows) && rows.length > 0) {
+      return rows.map((r) => ({
+        date: String(r.date),
+        dateLabel: String(r.dateLabel),
+        original: Number(r.original),
+        trend: Number(r.trend),
+        seasonal: Number(r.seasonal),
+        residual: Number(r.residual),
+        liveStreams: Number(r.liveStreams),
+      }));
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+// ==========================================
+// Heritage Japan Tourism Queries
+// ==========================================
+
+export async function getDbHeritageJapanTourists() {
+  const p = getDbPool();
+  if (!p) return null;
+
+  try {
+    const [rows] = await p.query<RowDataPacket[]>(
+      'SELECT year, visitors_million as value, counterfactual_million as counterfactual, is_thesis as isThesis, policy_event as policyEvent, source FROM heritage_japan_tourists ORDER BY year ASC'
+    );
+    if (Array.isArray(rows) && rows.length > 0) {
+      return rows.map((r) => ({
+        year: String(r.year),
+        value: Number(r.value),
+        counterfactual: Number(r.counterfactual),
+        isThesis: Boolean(r.isThesis),
+        policyEvent: r.policyEvent ? String(r.policyEvent) : undefined,
+        source: r.source ? String(r.source) : undefined,
+      }));
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export async function getDbHeritageJapanSpend() {
+  const p = getDbPool();
+  if (!p) return null;
+
+  try {
+    const [rows] = await p.query<RowDataPacket[]>(
+      'SELECT year, spend_trillion_jpy as value, is_thesis as isThesis, source FROM heritage_japan_spend ORDER BY year ASC'
+    );
+    if (Array.isArray(rows) && rows.length > 0) {
+      return rows.map((r) => ({
+        year: String(r.year),
+        value: Number(r.value),
+        isThesis: Boolean(r.isThesis),
+        source: r.source ? String(r.source) : undefined,
+      }));
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export async function getDbHeritageJapanRegional() {
+  const p = getDbPool();
+  if (!p) return null;
+
+  try {
+    const [rows] = await p.query<RowDataPacket[]>(
+      'SELECT year, kyoto_visitors_thousand as kyoto, nara_visitors_thousand as nara FROM heritage_japan_regional ORDER BY year ASC'
+    );
+    if (Array.isArray(rows) && rows.length > 0) {
+      return rows.map((r) => ({
+        year: String(r.year),
+        kyoto: Number(r.kyoto),
+        nara: Number(r.nara),
+      }));
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+// ==========================================
+// Library Bus System Queries
+// ==========================================
+
+export async function getDbLibraryBusBenchmarks() {
+  const p = getDbPool();
+  if (!p) return null;
+
+  try {
+    const [rows] = await p.query<RowDataPacket[]>(
+      'SELECT endpoint_name as endpoint, without_cache_ms as withoutCache, with_cache_ms as withCache, reduction_percent as reduction FROM library_bus_latency_benchmarks'
+    );
+    if (Array.isArray(rows) && rows.length > 0) {
+      return rows.map((r) => ({
+        endpoint: String(r.endpoint),
+        withoutCache: Number(r.withoutCache),
+        withCache: Number(r.withCache),
+        reduction: String(r.reduction),
+      }));
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export async function getDbLibraryBusWeekly() {
+  const p = getDbPool();
+  if (!p) return null;
+
+  try {
+    const [rows] = await p.query<RowDataPacket[]>(
+      'SELECT day_code as day, borrows_count as borrows, returns_count as returns, active_users as activeUsers FROM library_bus_weekly_activity ORDER BY day_index ASC'
+    );
+    if (Array.isArray(rows) && rows.length > 0) {
+      return rows.map((r) => ({
+        day: String(r.day),
+        borrows: Number(r.borrows),
+        returns: Number(r.returns),
+        activeUsers: Number(r.activeUsers),
+      }));
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export async function getDbTsddFleet() {
+  const p = getDbPool();
+  if (!p) return null;
+
+  try {
+    const [rows] = await p.query<RowDataPacket[]>(
+      'SELECT name, license_plate as licensePlate, operating_status as status, capacity, _book_count as bookCount FROM tsdd.inventory_librarybus ORDER BY created_at ASC'
+    );
+    if (Array.isArray(rows) && rows.length > 0) {
+      return rows.map((r) => ({
+        name: String(r.name),
+        licensePlate: String(r.licensePlate),
+        status: String(r.status),
+        capacity: Number(r.capacity) || 500,
+        bookCount: Number(r.bookCount) || 0,
+      }));
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export async function getDbDapOrderStats() {
+  const p = getDbPool();
+  if (!p) return null;
+
+  try {
+    const [summary] = await p.query<RowDataPacket[]>(
+      'SELECT COUNT(*) as totalOrders, SUM(gross_revenue) as totalGmv, SUM(quantity) as totalQty FROM dap.fact_order_items'
+    );
+    const [topCreators] = await p.query<RowDataPacket[]>(
+      `SELECT c.creator_name as name, c.creator_handle as handle, COUNT(*) as orders, SUM(f.gross_revenue) as gmv 
+       FROM dap.fact_order_items f 
+       JOIN dap.dim_creators c ON f.creator_sk = c.creator_sk 
+       GROUP BY c.creator_name, c.creator_handle 
+       ORDER BY gmv DESC`
+    );
+    return {
+      summary: summary[0] || null,
+      topCreators: topCreators || [],
+    };
+  } catch {
+    return null;
+  }
+}
+
+
 

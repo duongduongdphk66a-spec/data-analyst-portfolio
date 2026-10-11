@@ -72,7 +72,7 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
   };
 
   return (
-    <section ref={containerRef} className="relative min-h-0 sm:hero-viewport flex flex-col justify-center bg-[#FAFDFE] dark:bg-[#0B0F17] hero-glow bg-data-dots overflow-hidden transition-colors duration-200">
+    <section ref={containerRef} className="relative min-h-0 sm:hero-viewport flex flex-col justify-center bg-ground dark:bg-[#0B0F17] hero-glow bg-data-dots overflow-hidden transition-colors duration-200">
       {/* Background visual graph (Subtle) */}
       <div className="absolute inset-0 opacity-10 dark:opacity-[0.04] pointer-events-none overflow-hidden">
         <div className="absolute -bottom-32 -right-32 w-full h-full max-w-4xl scale-125 origin-bottom-right">
@@ -80,7 +80,7 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
         </div>
       </div>
 
-      <div className="relative max-w-5xl mx-auto px-5 sm:px-8 w-full pt-16 sm:pt-24 pb-16 text-center sm:text-left z-10 flex-1 flex flex-col justify-center">
+      <div className="relative page-container w-full pt-16 sm:pt-24 pb-16 text-center sm:text-left z-10 flex-1 flex flex-col justify-center">
         <div className="space-y-8 sm:space-y-10">
 
           {/* 1. Identity & Kicker Badge */}
@@ -132,7 +132,7 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
 
       {/* 5. Metrics Box (Moved out of hero stack) */}
       <div className="w-full border-t border-slate-200/60 dark:border-slate-800 bg-white/30 dark:bg-slate-900/30 backdrop-blur-sm relative z-10 animate-in fade-in duration-700 delay-300">
-        <div className="max-w-5xl mx-auto px-5 sm:px-8 py-6 sm:py-8">
+        <div className="page-container py-6 sm:py-8">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 lg:gap-x-12 gap-y-6 sm:gap-y-0">
             {stats.map((stat, i) => (
               <div key={i} className="flex flex-col text-center sm:text-left">

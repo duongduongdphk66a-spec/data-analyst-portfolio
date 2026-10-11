@@ -257,11 +257,54 @@ export async function getServerPortfolioData(): Promise<{ profile: ProfileData; 
  * Fetch TikTok / Kami Ely live telemetry data from MySQL with fallback.
  */
 export async function getKamiElyDataWithFallback() {
-  const { getDbTikTokWeeklyTrends, getDbTikTokTopSKUs, getDbTikTokTopAffiliates } = await import('./db');
-  const [weeklyTrends, topSkus, topAffiliates] = await Promise.all([
+  const { 
+    getDbTikTokWeeklyTrends, 
+    getDbTikTokTopSKUs, 
+    getDbTikTokTopAffiliates,
+    getDbTikTokTimeSeries,
+    getDbDapOrderStats
+  } = await import('./db');
+  const [weeklyTrends, topSkus, topAffiliates, timeSeries, dapStats] = await Promise.all([
     getDbTikTokWeeklyTrends(),
     getDbTikTokTopSKUs(),
     getDbTikTokTopAffiliates(),
+    getDbTikTokTimeSeries(),
+    getDbDapOrderStats(),
   ]);
-  return { weeklyTrends, topSkus, topAffiliates };
+  return { weeklyTrends, topSkus, topAffiliates, timeSeries, dapStats };
 }
+
+/**
+ * Fetch Heritage Japan live telemetry data from MySQL with fallback.
+ */
+export async function getHeritageJapanDataWithFallback() {
+  const { 
+    getDbHeritageJapanTourists, 
+    getDbHeritageJapanSpend, 
+    getDbHeritageJapanRegional 
+  } = await import('./db');
+  const [tourists, spend, regional] = await Promise.all([
+    getDbHeritageJapanTourists(),
+    getDbHeritageJapanSpend(),
+    getDbHeritageJapanRegional(),
+  ]);
+  return { tourists, spend, regional };
+}
+
+/**
+ * Fetch Library Bus live telemetry data from MySQL with fallback.
+ */
+export async function getLibraryBusDataWithFallback() {
+  const { 
+    getDbLibraryBusBenchmarks, 
+    getDbLibraryBusWeekly, 
+    getDbTsddFleet 
+  } = await import('./db');
+  const [latencyBenchmarks, weeklyActivity, fleet] = await Promise.all([
+    getDbLibraryBusBenchmarks(),
+    getDbLibraryBusWeekly(),
+    getDbTsddFleet(),
+  ]);
+  return { latencyBenchmarks, weeklyActivity, fleet };
+}
+

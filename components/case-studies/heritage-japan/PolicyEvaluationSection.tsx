@@ -9,22 +9,26 @@ import SectionHeader from '@/components/ui/SectionHeader';
 import { 
   POLICY_EVALUATION_MATRIX, 
   COUNTERFACTUAL_SUMMARY, 
-  touristsData 
+  touristsData as defaultTouristsData
 } from '@/app/data/heritageJapanData';
 
 interface PolicyEvaluationSectionProps {
   isEn: boolean;
   onCopyDeepLink: (_sectionId: string, _title?: string) => void;
+  touristsData?: any[];
+  isLiveDb?: boolean;
 }
 
-export function PolicyEvaluationSection({ isEn, onCopyDeepLink }: PolicyEvaluationSectionProps) {
+export function PolicyEvaluationSection({ isEn, onCopyDeepLink, touristsData, isLiveDb }: PolicyEvaluationSectionProps) {
   const [selectedPillarId, setSelectedPillarId] = useState<string>('policy-1');
   const [showCounterfactual, setShowCounterfactual] = useState<boolean>(true);
 
   const activePillar = POLICY_EVALUATION_MATRIX.find((p) => p.id === selectedPillarId) || POLICY_EVALUATION_MATRIX[0];
 
   // Slice data for counterfactual view (2003 - 2019 pre-covid to cleanly evaluate the policy shock)
-  const preCovidData = touristsData.filter((d) => Number(d.year) >= 2003 && Number(d.year) <= 2019);
+  const sourceData = touristsData && touristsData.length > 0 ? touristsData : defaultTouristsData;
+  const preCovidData = sourceData.filter((d: any) => Number(d.year) >= 2003 && Number(d.year) <= 2019);
+
 
   return (
     <section id="danh-gia-hieu-qua" className="py-16 md:py-24 bg-white border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
@@ -57,7 +61,7 @@ export function PolicyEvaluationSection({ isEn, onCopyDeepLink }: PolicyEvaluati
         </div>
 
         {/* Counterfactual Interactive Chart Container */}
-        <div className="mb-12 p-6 sm:p-8 rounded-2xl bg-[#FAFDFE] border border-slate-200 shadow-sm dark:bg-slate-900 dark:border-slate-800">
+        <div className="mb-12 p-6 sm:p-8 rounded-2xl bg-ground border border-slate-200 shadow-sm dark:bg-slate-900 dark:border-slate-800">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-200 dark:border-slate-800">
             <div>
               <div className="flex items-center gap-2 mb-1">
@@ -69,6 +73,12 @@ export function PolicyEvaluationSection({ isEn, onCopyDeepLink }: PolicyEvaluati
               <h4 className="text-base sm:text-lg font-black text-slate-950 dark:text-white flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                 <span>Mô hình Đối chứng Tăng trưởng Khách Quốc tế (2003 – 2019)</span>
+                {isLiveDb && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    MySQL Live
+                  </span>
+                )}
               </h4>
             </div>
 

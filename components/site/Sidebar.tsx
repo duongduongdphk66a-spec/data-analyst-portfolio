@@ -12,6 +12,7 @@ import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useTheme } from '@/app/context/ThemeContext';
 import { usePortfolioData } from '@/app/context/PortfolioDataContext';
+import LanguageToggle from '@/components/ui/LanguageToggle';
 
 export default function Sidebar() {
   const { language, setLanguage } = useLanguage();
@@ -89,7 +90,7 @@ export default function Sidebar() {
                 {language === 'en' ? 'Quick search...' : 'Tìm kiếm nhanh...'}
               </span>
             </div>
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[9px] font-mono font-bold text-slate-500 dark:text-slate-400">
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400">
               Ctrl K
             </kbd>
           </button>
@@ -261,14 +262,7 @@ export default function Sidebar() {
 
           {/* Language & Theme Controls Bar */}
           <div className="flex items-center gap-1.5">
-            <button
-              type="button"
-              onClick={() => setLanguage(language === 'en' ? 'vi' : 'en')}
-              className="px-2 py-1 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono text-[11px] font-black transition-all border border-slate-200 dark:border-slate-700 hover:shadow-xs cursor-pointer uppercase"
-              title={language === 'en' ? 'Chuyển sang Tiếng Việt' : 'Switch to English'}
-            >
-              {language === 'en' ? 'VI' : 'EN'}
-            </button>
+            <LanguageToggle size="sm" />
             
             <button
               type="button"

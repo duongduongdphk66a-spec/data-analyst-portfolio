@@ -9,6 +9,7 @@ import Sidebar from '@/components/site/Sidebar';
 import CommandPalette from '@/components/ui/CommandPalette';
 import Link from 'next/link';
 import { ProjectData } from '../types';
+import LanguageToggle from '@/components/ui/LanguageToggle';
 
 export default function MainLayoutClient({ children, initialProjects = [] }: { children: React.ReactNode, initialProjects?: ProjectData[] }) {
   const { language, setLanguage } = useLanguage();
@@ -45,7 +46,7 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
   ];
 
   return (
-    <div className="flex h-screen bg-[#FAFDFE] text-slate-900 font-sans overflow-hidden dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
+    <div className="flex h-screen bg-ground text-slate-900 font-sans overflow-hidden dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       {/* 
         NOTE: Sidebar relies on PortfolioDataContext. To fully sever the tie, Sidebar would need projects as props.
         But let's leave it as is if it pulls from PortfolioDataContext. If it's a Server Sidebar later, we'll update it.
@@ -54,27 +55,25 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
 
       <div className="flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#0B0F17]">
         {/* Mobile Header */}
-        <header className="md:hidden bg-[#FAFDFE] text-slate-900 h-14 flex items-center justify-between px-4 border-b border-slate-200/80 flex-shrink-0 z-30 dark:bg-[#0B0F17] dark:border-slate-800 dark:text-white transition-colors duration-200 font-sans">
+        <header className="md:hidden bg-ground text-slate-900 h-14 flex items-center justify-between px-4 border-b border-slate-200/80 flex-shrink-0 z-30 dark:bg-[#0B0F17] dark:border-slate-800 dark:text-white transition-colors duration-200 font-sans">
           <div className="font-heading font-extrabold text-sm tracking-tight text-slate-900 dark:text-white">
             <Link href="/">MVH</Link>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={toggleTheme} className="p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer">
+            <button onClick={toggleTheme} aria-label="Toggle theme" className="p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer">
               {resolvedTheme === 'dark' ? <Sun className="w-4 h-4 text-[#FFD14C]" /> : <Moon className="w-4 h-4 text-slate-700" />}
             </button>
-            <button onClick={() => setLanguage(language === 'vi' ? 'en' : 'vi')} className="px-2 py-0.5 rounded text-[11px] font-mono font-bold text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
-              {language.toUpperCase()}
-            </button>
+            <LanguageToggle size="sm" />
           </div>
         </header>
 
         {/* Main Content */}
-        <main ref={mainRef} className="flex-1 overflow-y-auto bg-[#FAFDFE] relative dark:bg-[#0B0F17] transition-colors duration-200 mb-16 md:mb-0 pb-safe">
+        <main ref={mainRef} className="flex-1 overflow-y-auto bg-ground relative dark:bg-[#0B0F17] transition-colors duration-200 mb-16 md:mb-0 pb-safe">
           {children}
         </main>
 
         {/* Mobile Bottom Navigation */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#FAFDFE]/90 dark:bg-[#0B0F17]/90 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-around z-50 px-2 pb-safe-bottom">
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-ground/90 dark:bg-[#0B0F17]/90 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-around z-50 px-2 pb-safe-bottom">
           {navItems.map((item) => {
             const isActive = pathname === item.id || (item.id === '/projects' && pathname.startsWith('/projects'));
             return (

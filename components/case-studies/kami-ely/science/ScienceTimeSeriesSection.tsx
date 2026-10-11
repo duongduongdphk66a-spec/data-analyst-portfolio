@@ -13,14 +13,20 @@ interface ScienceTimeSeriesSectionProps {
   tsPanelFocus: 'all' | 'trend' | 'seasonal' | 'residual';
   setTsPanelFocus: (_v: 'all' | 'trend' | 'seasonal' | 'residual') => void;
   handleExport: (_id: string, _name: string) => void;
+  timeSeriesData?: any[];
+  isLiveDb?: boolean;
 }
 
 export default function ScienceTimeSeriesSection({
   isEn,
   tsPanelFocus,
   setTsPanelFocus,
-  handleExport
+  handleExport,
+  timeSeriesData,
+  isLiveDb
 }: ScienceTimeSeriesSectionProps) {
+  const chartData = timeSeriesData && timeSeriesData.length > 0 ? timeSeriesData : KAMI_MATH_STATS.timeSeries.data;
+
   return (
     <section id="sec-timeseries" className="space-y-8 py-16 md:py-20 border-b border-slate-200/80 dark:border-slate-800">
       <div className="space-y-3">
@@ -71,9 +77,17 @@ export default function ScienceTimeSeriesSection({
       <div id="chart-decomp-4panel" className="card-minimal p-6 space-y-6 border border-[#9BE7FA]/80">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h3 className="font-bold text-slate-900 dark:text-white">
-              {isEn ? '5.1. 4-Panel Synchronized Time-Series Chart' : '5.1. Biểu đồ 4 Panel Phân Rã Tín Hiệu Doanh Thu'}
-            </h3>
+            <div className="flex items-center gap-2">
+              <h3 className="font-bold text-slate-900 dark:text-white">
+                {isEn ? '5.1. 4-Panel Synchronized Time-Series Chart' : '5.1. Biểu đồ 4 Panel Phân Rã Tín Hiệu Doanh Thu'}
+              </h3>
+              {isLiveDb && (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  {isEn ? 'MySQL Live (180 Days)' : 'MySQL Live (180 Ngày)'}
+                </span>
+              )}
+            </div>
             <p className="text-xs text-slate-500">
               {isEn ? 'Visualizing Original Revenue, Trend Line, Weekly Cycle, and Event Spikes' : 'Trực quan hóa Doanh thu thực tế, Đường xu hướng, Chu kỳ tuần hoàn và Xung lực sale'}
             </p>
@@ -114,7 +128,7 @@ export default function ScienceTimeSeriesSection({
               <span className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">1. Doanh thu Thực tế & Đường Xu hướng Dài hạn</span>
               <div className="h-44 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={KAMI_MATH_STATS.timeSeries.data} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
+                  <LineChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
                     <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
                     <YAxis tick={{ fontSize: 10 }} unit="M" />
@@ -133,7 +147,7 @@ export default function ScienceTimeSeriesSection({
               <span className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">2. Chu kỳ Biến động Tuần hoàn (Seasonality)</span>
               <div className="h-36 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={KAMI_MATH_STATS.timeSeries.data} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
+                  <AreaChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
                     <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
                     <YAxis tick={{ fontSize: 10 }} unit="M" />
@@ -151,7 +165,7 @@ export default function ScienceTimeSeriesSection({
               <span className="text-xs font-bold text-slate-700 dark:text-slate-300">3. Tác động Ngẫu nhiên & Đợt Sale (Residual)</span>
               <div className="h-36 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={KAMI_MATH_STATS.timeSeries.data} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
+                  <BarChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
                     <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
                     <YAxis tick={{ fontSize: 10 }} unit="M" />

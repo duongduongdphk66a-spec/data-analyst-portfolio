@@ -162,7 +162,7 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-16 md:py-20 px-5 sm:px-8 space-y-8">
+    <div className="page-container py-16 md:py-20 space-y-8">
       {/* Editorial Header */}
       <div className="space-y-3 pb-6 border-b border-slate-200/80 dark:border-slate-800">
         <div className="flex items-center gap-2">

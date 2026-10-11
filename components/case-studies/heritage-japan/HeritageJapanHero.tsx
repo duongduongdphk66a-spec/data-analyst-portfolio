@@ -12,7 +12,7 @@ interface HeritageJapanHeroProps {
 export function HeritageJapanHero({ isEn, onNavClick }: HeritageJapanHeroProps) {
   return (
     <header className="py-16 md:py-24 border-b border-slate-200/80 dark:border-slate-800">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="page-container">
         <div className="max-w-4xl space-y-6">
           
           <div className="flex flex-wrap items-center gap-3">

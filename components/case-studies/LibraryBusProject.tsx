@@ -8,7 +8,9 @@ import { useLanguage } from '@/app/context/LanguageContext';
 import { scrollToSection, centerTabInContainer, useCaseStudyActions } from '@/app/lib/uiHelpers';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 import ExecutiveSummary from './ExecutiveSummary';
+import LibraryBusExecutiveStory from './library-bus/LibraryBusExecutiveStory';
 import SectionHeader from '@/components/ui/SectionHeader';
+import CaseStudyFooter from './shared/CaseStudyFooter';
 
 // Subcomponents
 import { LibraryBusNav } from './library-bus/LibraryBusNav';
@@ -58,11 +60,36 @@ export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProj
     { id: 'sec-interactive', label: isEn ? '3.3 Live Demos' : '3.3 Trình diễn tương tác', chapter: '03' },
     { id: 'sec-tech', label: isEn ? '3.4 Tech & Telemetry' : '3.4 Kỹ thuật & Telemetry', chapter: '03' },
   ], [isEn]);
-
   // Unified ScrollSpy
   const sectionIds = useMemo(() => navItems.map(item => item.id), [navItems]);
   const { activeSection, scrollProgress, setActiveSection } = useScrollSpy(sectionIds, 130);
   const subnavContainerRef = useRef<HTMLDivElement>(null);
+
+  const [libraryData, setLibraryData] = React.useState<{
+    latencyBenchmarks?: any[];
+    weeklyActivity?: any[];
+    fleet?: any[];
+    isLiveDb?: boolean;
+  } | null>(null);
+
+  React.useEffect(() => {
+    let active = true;
+    fetch('/api/case-studies/library-bus')
+      .then((r) => r.json())
+      .then((res) => {
+        if (active && res.success && res.data) {
+          setLibraryData({
+            ...res.data,
+            isLiveDb: res.source === 'mysql',
+          });
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
 
   // Center active tab on taskbar horizontally only
   useEffect(() => {
@@ -118,32 +145,16 @@ export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProj
         onNavClick={handleNavClick}
       />
 
-      {/* Executive Summary - 60-second overview */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12">
-        <ExecutiveSummary
+      {/* 3-Minute Executive Story */}
+      <div className="page-container pt-12 md:pt-16">
+        <LibraryBusExecutiveStory
           isEn={isEn}
-          readingTime={isEn ? '~3 min deep dive' : '~3 phút đọc chi tiết'}
-          problem={isEn
-            ? 'Distributed library system faces inventory desynchronization, transaction conflicts during concurrent reservations, and high query latency.'
-            : 'Hệ thống phân tán gặp lỗi không đồng bộ tồn kho, xung đột giao dịch khi đặt sách và độ trễ truy vấn cao.'}
-          method={isEn
-            ? 'Design 3NF ERD with ACID constraints, implement Redis distributed cache, and deploy Celery workers for CPU-intensive operations.'
-            : 'Thiết kế ERD 3NF chuẩn ACID, áp dụng Redis Cache và Celery Background Worker giảm tải CPU.'}
-          insight={isEn
-            ? 'Reduced query latency by 93.7%, sustained 500 concurrent connections, and eliminated 100% of reservation conflicts.'
-            : 'Giảm 93.7% độ trễ, chịu tải ổn định 500 kết nối và loại bỏ hoàn toàn xung đột dữ liệu.'}
-          metrics={[
-            { label: isEn ? 'Users Served' : 'Quy Mô Người Dùng Phục Vụ', value: '50,000+', change: 'Active Accounts', isPositive: true },
-            { label: isEn ? 'Query Response Latency' : 'Độ Trễ Phản Hồi Truy Vấn', value: '28ms', change: '-93.7% Latency', isPositive: true },
-            { label: isEn ? 'Concurrent Connections' : 'Kết Nối Đồng Thời', value: '500 RPS', change: 'Zero Downtime', isPositive: true },
-            { label: isEn ? 'Data Conflict Rate' : 'Tỷ Lệ Xung Đột Dữ Liệu', value: '0.0%', change: 'ACID Enforced', isPositive: true },
-          ]}
-          tools={['MySQL', 'Django ORM', 'Redis', 'Celery', 'Docker Architecture']}
+          onJumpToSection={(secId) => scrollToSection(secId, 16)}
         />
       </div>
 
       {/* Body Content Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 space-y-20">
+      <main className="page-container py-16 md:py-20 space-y-20">
         {/* Chapter 01: About Us & UX Research */}
         <Chapter1UxResearch
           isEn={isEn}
@@ -188,8 +199,21 @@ export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProj
           onCopyDeepLink={handleCopyDeepLink}
           onExportChart={handleExportChart}
           showToast={showToast}
+          liveData={libraryData}
         />
       </main>
+
+      {/* Unified Case Study Footer */}
+      <CaseStudyFooter
+        isEn={isEn}
+        currentProjectId="proj-library-bus"
+        attribution={{
+          datasetVi: 'Hạ tầng kiểm thử & đo kiểm Apache Bench, Locust, Redis & MySQL InnoDB Telemetry',
+          datasetEn: 'Apache Bench, Locust, Redis & MySQL InnoDB Concurrency Telemetry',
+          scopeVi: 'Hệ thống phân tán 500 CCU, 48 trạm GPS Hà Nội và 50.000 độc giả đăng ký',
+          scopeEn: 'Distributed architecture serving 500 CCU, 48 Ha Noi GPS stops, and 50k registered readers',
+        }}
+      />
     </div>
   );
 }

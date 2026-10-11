@@ -69,7 +69,7 @@ export function Chapter3GridAndWireframe({ isEn, onCopyDeepLink }: Chapter3GridA
                 >
                   <span>Col</span>
                   <span className="font-bold">{i+1}</span>
-                  <span className="text-[8px] opacity-70">78px</span>
+                  <span className="text-[10px] opacity-70">78px</span>
                 </div>
               ))}
             </div>

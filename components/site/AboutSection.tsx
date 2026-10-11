@@ -58,8 +58,8 @@ export default function AboutSection({ profile, onNavigateTab }: AboutSectionPro
   ];
 
   return (
-    <section id="about" ref={sectionRef} className="section-cinematic bg-[#FAFDFE] dark:bg-[#0B0F17] transition-colors duration-200">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 space-y-16">
+    <section id="about" ref={sectionRef} className="section-cinematic bg-ground dark:bg-[#0B0F17] transition-colors duration-200">
+      <div className="page-container space-y-16">
         
         {/* Editorial Section Header */}
         {/* taste-skill §4.7 Eyebrow Restraint: No eyebrow — headline alone is enough */}

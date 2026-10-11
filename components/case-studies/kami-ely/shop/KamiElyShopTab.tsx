@@ -111,6 +111,8 @@ export default function KamiElyShopTab({
         setCategoryMetric={setCategoryMetric}
         priceMetric={priceMetric}
         setPriceMetric={setPriceMetric}
+        topSkus={dynamicData?.topSkus}
+        isLiveDb={Boolean(dynamicData)}
       />
 
       <ShopAffiliateSection
@@ -121,6 +123,8 @@ export default function KamiElyShopTab({
         setAffMetric={setAffMetric}
         affCatMetric={affCatMetric}
         setAffCatMetric={setAffCatMetric}
+        topAffiliates={dynamicData?.topAffiliates}
+        isLiveDb={Boolean(dynamicData)}
       />
 
       {/* GROUP DIVIDER: KÊNH TỰ VẬN HÀNH CHÍNH CHỦ */}

@@ -24,6 +24,7 @@ import KamiElyDataScopeMatrix from './kami-ely/KamiElyDataScopeMatrix';
 import KamiElyScienceCaseStudy from './kami-ely/science/KamiElyScienceCaseStudy';
 import KamiElyShopTab from './kami-ely/shop/KamiElyShopTab';
 import KamiElyCreatorTab from './kami-ely/creator/KamiElyCreatorTab';
+import CaseStudyFooter from './shared/CaseStudyFooter';
 
 interface KamiElyProjectProps {
   onBack?: () => void;
@@ -199,7 +200,7 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
       <KamiElyHero isEn={isEn} activeTab={activeTab} />
 
       {/* BODY CONTENT AREA */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+      <main className="page-container py-8 md:py-12">
         {/* Layer 2: 3-Minute Executive Story */}
         <KamiElyExecutiveStory isEn={isEn} onJumpToTab={handleTabChange} />
 
@@ -296,18 +297,17 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
         )}
       </main>
 
-      {/* Footer */}
-      <div className="section-divider-gradient max-w-7xl mx-auto" />
-      <footer className="py-12 bg-ground-alt text-center text-xs text-slate-500 dark:bg-slate-900 dark:text-slate-400">
-        <div className="max-w-7xl mx-auto px-4 space-y-1.5">
-          <p className="font-bold text-slate-800 dark:text-slate-200 text-sm">
-            Dự Án Phân Tích Hiệu Suất TikTok Shop & Người Bán Kamielyn
-          </p>
-          <p>
-            Dữ liệu tổng hợp từ FastMoss · Portfolio Data Analyst · Ma Văn Hùng
-          </p>
-        </div>
-      </footer>
+      {/* Unified Case Study Footer */}
+      <CaseStudyFooter
+        isEn={isEn}
+        currentProjectId="proj-kami-ely"
+        attribution={{
+          datasetVi: 'Dữ liệu kiểm chứng FastMoss & TikTok Shop',
+          datasetEn: 'Audited FastMoss & TikTok Shop Telemetry Dataset',
+          scopeVi: 'Phân tích 180 ngày và 90 ngày (12,74 tỷ VNĐ GMV, 331 SKU, 5.7k Creator)',
+          scopeEn: '180d & 90d telemetry window (12.74B VND GMV, 331 SKUs, 5.7k Creators)',
+        }}
+      />
 
       {/* FastMoss Proof Gallery Modal */}
       <KamiElyProofModal

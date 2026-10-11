@@ -27,7 +27,7 @@ export function Chapter1HeritageSection({ isEn, onCopyDeepLink }: Chapter1Herita
   }, [unescoFilter, unescoSearch]);
 
   return (
-    <section id="chuong-1" className="py-16 bg-[#FAFDFE] border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
+    <section id="chuong-1" className="py-16 bg-ground border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionHeader
           variant="stacked"

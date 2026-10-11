@@ -20,6 +20,8 @@ interface ShopAffiliateSectionProps {
   setAffMetric: (_m: 'units' | 'gmv' | 'count') => void;
   affCatMetric: 'units' | 'gmv' | 'count';
   setAffCatMetric: (_m: 'units' | 'gmv' | 'count') => void;
+  topAffiliates?: any[];
+  isLiveDb?: boolean;
 }
 
 export default function ShopAffiliateSection({
@@ -29,8 +31,12 @@ export default function ShopAffiliateSection({
   affMetric,
   setAffMetric,
   affCatMetric,
-  setAffCatMetric
+  setAffCatMetric,
+  topAffiliates,
+  isLiveDb
 }: ShopAffiliateSectionProps) {
+  const affList = topAffiliates && topAffiliates.length > 0 ? topAffiliates : topAffiliatesList;
+
   return (
     <section id="shop-affiliates" className="space-y-6 scroll-mt-36">
       <SectionHeader 
@@ -124,12 +130,20 @@ export default function ShopAffiliateSection({
 
         {/* Top KOC Table */}
         <div className="p-6 rounded-3xl bg-white border border-[#FFE485] shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
-          <h3 className="text-base font-black text-slate-950 dark:text-white flex items-center gap-2 border-b border-slate-100 pb-3 dark:border-slate-800">
-            <Award className="w-5 h-5 text-[#FFD14C]" />
-            {isEn ? 'Top Performing Affiliates' : 'Top KOC / Affiliates Tiêu Biểu'}
-          </h3>
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-800">
+            <h3 className="text-base font-black text-slate-950 dark:text-white flex items-center gap-2">
+              <Award className="w-5 h-5 text-[#FFD14C]" />
+              {isEn ? 'Top Performing Affiliates' : 'Top KOC / Affiliates Tiêu Biểu'}
+            </h3>
+            {isLiveDb && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                MySQL Live
+              </span>
+            )}
+          </div>
           <div className="space-y-2.5">
-            {topAffiliatesList.map((aff) => (
+            {affList.map((aff) => (
               <div key={aff.id} className="p-3 rounded-2xl bg-[#FFFDF5] border border-[#FFE485]/50 flex items-center justify-between gap-3 dark:bg-slate-800/60 dark:border-slate-700/60">
                 <div className="space-y-0.5">
                   <div className="font-extrabold text-xs text-slate-900 dark:text-white flex items-center gap-2">

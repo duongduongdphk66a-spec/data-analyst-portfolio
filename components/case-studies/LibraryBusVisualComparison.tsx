@@ -345,7 +345,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                         : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 dark:bg-slate-950 dark:text-slate-300 dark:border-slate-800'
                     }`}
                   >
-                    <span className={`w-4 h-4 rounded flex items-center justify-center font-mono text-[9px] font-black ${
+                    <span className={`w-4 h-4 rounded flex items-center justify-center font-mono text-[10px] font-black ${
                       isActive ? 'bg-[#FFD14C] text-slate-950 font-black' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
                     }`}>
                       {screen.index}
@@ -532,7 +532,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
               </div>
 
               {/* UI Design Canvas Card */}
-              <div className="p-4 sm:p-6 rounded-3xl bg-[#FAFDFE] border border-[#9BE7FA]/40 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 dark:border-[#9BE7FA]/30 group relative">
+              <div className="p-4 sm:p-6 rounded-3xl bg-ground border border-[#9BE7FA]/40 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 dark:border-[#9BE7FA]/30 group relative">
                 <div 
                   className={`rounded-2xl overflow-hidden border border-[#9BE7FA]/30 bg-[#F0F9FB] flex justify-center p-3 cursor-zoom-in dark:bg-slate-950 dark:border-slate-800 transition-all ${
                     viewFitMode === 'fit' 
@@ -921,7 +921,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                   </div>
 
                   {/* Mobile Box */}
-                  <div className="p-2.5 rounded-xl bg-[#FAFDFE] border border-[#C8EEF7] dark:bg-slate-800/60 dark:border-slate-700/60 space-y-1">
+                  <div className="p-2.5 rounded-xl bg-ground border border-[#C8EEF7] dark:bg-slate-800/60 dark:border-slate-700/60 space-y-1">
                     <div className="flex items-center gap-1.5 text-[11px] font-black text-[#0D7287] dark:text-[#9BE7FA]">
                       <Smartphone className="w-3.5 h-3.5" />
                       <span>Hệ Thống Mobile:</span>
@@ -1038,7 +1038,7 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                       setActiveScreenId(screen.id);
                       setMainTab('side-by-side');
                     }}
-                    className="px-3 py-1.5 rounded-xl bg-[#FAFDFE] border border-[#0D7287]/40 text-[#0D7287] hover:bg-[#F0F9FB] text-xs font-bold flex items-center gap-1.5 transition-colors dark:bg-slate-800 dark:text-[#9BE7FA]"
+                    className="px-3 py-1.5 rounded-xl bg-ground border border-[#0D7287]/40 text-[#0D7287] hover:bg-[#F0F9FB] text-xs font-bold flex items-center gap-1.5 transition-colors dark:bg-slate-800 dark:text-[#9BE7FA]"
                   >
                     Xem chi tiết đối chiếu <ArrowRight className="w-3.5 h-3.5" />
                   </button>
@@ -1480,18 +1480,18 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
                 <span className="text-[11px] font-mono text-[#0D7287] dark:text-[#9BE7FA] font-bold">Cyan & Honey Gold 4-Tone</span>
               </div>
 
-              <div className="p-4 rounded-3xl bg-[#FAFDFE] border border-[#0D7287]/20 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+              <div className="p-4 rounded-3xl bg-ground border border-[#0D7287]/20 shadow-xs dark:bg-slate-900 dark:border-slate-800">
                 <div className="text-[10px] font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA] mb-2 flex justify-between items-center">
                   <span>SHEET 01: PRODUCTION READY COMPONENT</span>
-                  <span className="px-1.5 py-0.5 rounded bg-[#FFE485] text-slate-950 font-bold text-[9px]">Live Interactive</span>
+                  <span className="px-1.5 py-0.5 rounded bg-[#FFE485] text-slate-950 font-bold text-[10px]">Live Interactive</span>
                 </div>
                 {renderBookDetailUI(1)}
               </div>
 
-              <div className="p-4 rounded-3xl bg-[#FAFDFE] border border-[#0D7287]/20 shadow-xs dark:bg-slate-900 dark:border-slate-800">
+              <div className="p-4 rounded-3xl bg-ground border border-[#0D7287]/20 shadow-xs dark:bg-slate-900 dark:border-slate-800">
                 <div className="text-[10px] font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA] mb-2 flex justify-between items-center">
                   <span>SHEET 02: REVIEWS & FOOTER SPECS</span>
-                  <span className="px-1.5 py-0.5 rounded bg-[#C8EEF7] text-[#0D7287] font-bold text-[9px]">Score 9.7/10</span>
+                  <span className="px-1.5 py-0.5 rounded bg-[#C8EEF7] text-[#0D7287] font-bold text-[10px]">Score 9.7/10</span>
                 </div>
                 {renderBookDetailUI(2)}
               </div>

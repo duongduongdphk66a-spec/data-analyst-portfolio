@@ -7,6 +7,7 @@ import { useLanguage } from '@/app/context/LanguageContext';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { scrollToSection, useCaseStudyActions } from '@/app/lib/uiHelpers';
 import ExecutiveSummary from './ExecutiveSummary';
+import HeritageJapanExecutiveStory from './heritage-japan/HeritageJapanExecutiveStory';
 
 // Subcomponents
 import { HeritageJapanNav } from './heritage-japan/HeritageJapanNav';
@@ -20,6 +21,7 @@ import { DataAuditSection } from './heritage-japan/DataAuditSection';
 import { PolicyEvaluationSection } from './heritage-japan/PolicyEvaluationSection';
 import { ConclusionSection } from './heritage-japan/ConclusionSection';
 import SectionHeader from '@/components/ui/SectionHeader';
+import CaseStudyFooter from './shared/CaseStudyFooter';
 
 const HERITAGE_JAPAN_SECTIONS = [
   'mo-dau',
@@ -47,6 +49,31 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
   };
 
   const { activeSection } = useScrollSpy(HERITAGE_JAPAN_SECTIONS, 130);
+  const [heritageData, setHeritageData] = React.useState<{
+    tourists?: any[];
+    spend?: any[];
+    regional?: any[];
+    isLiveDb?: boolean;
+  } | null>(null);
+
+  React.useEffect(() => {
+    let active = true;
+    fetch('/api/case-studies/heritage-japan')
+      .then((r) => r.json())
+      .then((res) => {
+        if (active && res.success && res.data) {
+          setHeritageData({
+            ...res.data,
+            isLiveDb: res.source === 'mysql',
+          });
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
 
   const navItems = useMemo(() => [
     { id: 'mo-dau', label: isEn ? 'Introduction' : 'Mở đầu' },
@@ -94,27 +121,11 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
         onNavClick={handleNavClick}
       />
 
-      {/* Executive Summary - 60-second overview */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-16 md:pt-20">
-        <ExecutiveSummary
+      {/* 3-Minute Executive Story */}
+      <div className="page-container pt-12 md:pt-16">
+        <HeritageJapanExecutiveStory
           isEn={isEn}
-          readingTime={isEn ? '~3 min deep dive' : '~3 phút đọc chi tiết'}
-          problem={isEn
-            ? 'Quantifying the economic impact of heritage tourism strategies and measuring the recovery speed of cultural destinations (Kyoto, Nara).'
-            : 'Đánh giá tác động của chiến lược du lịch di sản và đo lường tốc độ phục hồi của các điểm đến văn hóa truyền thống (Kyoto, Nara).'}
-          method={isEn
-            ? 'Collect and normalize 20-year time-series data from JNTO, MLIT. Apply time-series decomposition and multi-dimensional visual comparison models.'
-            : 'Thu thập dữ liệu chuỗi thời gian 20 năm từ MLIT, JNTO. Áp dụng mô hình chuỗi thời gian và trực quan hóa so sánh đa chiều.'}
-          insight={isEn
-            ? 'Tourism spending peaked at ¥4.81 trillion (+318%). Cultural travelers spend 3.2x more. Post-pandemic recovery forecast reaches 88.4%.'
-            : 'Chi tiêu du lịch đạt 4.81 nghìn tỷ Yên (+318%). Nhóm khách văn hóa chi tiêu gấp 3.2 lần. Phục hồi dự báo đạt 88.4%.'}
-          metrics={[
-            { label: isEn ? 'Time-Series Data Span' : 'Dữ Liệu Chuỗi Thời Gian', value: isEn ? '20 Years' : '20 Năm', change: '2003 - 2022', isPositive: true },
-            { label: isEn ? 'Peak Tourist Arrivals' : 'Lượng Khách Đạt Đỉnh', value: isEn ? '31.9 Million' : '31.9 Triệu', change: isEn ? 'Year 2019' : 'Năm 2019', isPositive: true },
-            { label: isEn ? 'Peak Total Spending' : 'Tổng Chi Tiêu Đỉnh Điểm', value: isEn ? '¥4.81T' : '4.81T Yên', change: '+318% vs 2010', isPositive: true },
-            { label: isEn ? 'Recovery Rate Forecast' : 'Tỷ Lệ Phục Hồi Dự Báo', value: '88.4%', change: isEn ? 'Post-pandemic' : 'Hậu đại dịch', isPositive: true },
-          ]}
-          tools={['Python', 'Time-Series Modeling', 'Recharts', 'SQL', 'Data Storytelling']}
+          onJumpToSection={(secId) => scrollToSection(secId, 16)}
         />
       </div>
 
@@ -138,7 +149,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
 
       {/* 4. Chương 3: Sự phát triển của Du lịch Di sản (#chuong-3) */}
       <section id="chuong-3" className="py-20 md:py-28 bg-ground border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="page-container">
           <SectionHeader
             variant="stacked"
             id="chuong-3"
@@ -151,6 +162,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
           <Chapter3AnalyticsSection
             isEn={isEn}
             onExportChart={handleExportChart}
+            liveData={heritageData}
           />
 
           {/* 3.2 Tiêu chí Bảo tồn & Quản lý Di sản (5 Case Studies) */}
@@ -168,12 +180,26 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
       <PolicyEvaluationSection
         isEn={isEn}
         onCopyDeepLink={handleCopyDeepLink}
+        touristsData={heritageData?.tourists}
+        isLiveDb={heritageData?.isLiveDb}
       />
 
       {/* 6. Kết luận & Footer (#ket-luan) */}
       <ConclusionSection
         isEn={isEn}
         onCopyDeepLink={handleCopyDeepLink}
+      />
+
+      {/* Unified Case Study Footer */}
+      <CaseStudyFooter
+        isEn={isEn}
+        currentProjectId="proj-heritage-japan"
+        attribution={{
+          datasetVi: 'Dữ liệu chuỗi thời gian MLIT (Bộ Đất đai, Cơ sở hạ tầng, Giao thông & Du lịch Nhật Bản) & JNTO',
+          datasetEn: 'MLIT (Ministry of Land, Infrastructure, Transport & Tourism) & JNTO Telemetry',
+          scopeVi: 'Chuỗi thời gian 2003–2023, 25 di sản UNESCO và 47 tỉnh thành Nhật Bản',
+          scopeEn: '2003–2023 time-series, 25 UNESCO sites across 47 Japanese prefectures',
+        }}
       />
     </div>
   );

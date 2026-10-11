@@ -29,7 +29,7 @@ export default async function HomePage() {
       />
 
       {/* 2. Featured Projects (Selected Work Stream) */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-8 space-y-8">
+      <section className="page-container space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-800">
           <div className="space-y-1">
             <span className="editorial-kicker">SELECTED CASE STUDIES</span>
@@ -52,13 +52,13 @@ export default async function HomePage() {
       </section>
 
       {/* taste-skill §4.3: Gradient divider for visual rhythm */}
-      <div className="max-w-6xl mx-auto px-5 sm:px-8">
+      <div className="page-container">
         <div className="section-divider-gradient" />
       </div>
 
       {/* 3. Experience & Career Timeline */}
       {/* taste-skill §4.7 Eyebrow Restraint: eyebrow removed (previous section already has one) */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-8 space-y-6">
+      <section className="page-container space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-800">
           <h2 className="editorial-section-title text-2xl sm:text-3xl lg:text-4xl">
             {language === 'en' ? 'Experience & Quantitative Background' : 'Học Vấn & Kinh Nghiệm Phân Tích'}
@@ -80,13 +80,13 @@ export default async function HomePage() {
       </section>
 
       {/* taste-skill §4.3: Gradient divider before CTA */}
-      <div className="max-w-6xl mx-auto px-5 sm:px-8">
+      <div className="page-container">
         <div className="section-divider-gradient" />
       </div>
 
       {/* 4. Editorial Bottom CTA Strip */}
       {/* taste-skill §4.5: Single CTA intent — contact only (Download CV already in hero + sidebar) */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-8">
+      <section className="page-container">
         <div className="p-8 sm:p-12 rounded-2xl bg-[#FEF9C3] dark:bg-[#131E2E] border border-amber-300 dark:border-[#9BE7FA]/25 flex flex-col md:flex-row md:items-center justify-between gap-8 shadow-xl shadow-amber-500/5 dark:shadow-[#9BE7FA]/5">
           <div className="space-y-2 max-w-xl">
             <h3 className="text-2xl sm:text-3xl font-heading font-extrabold text-slate-950 dark:text-white leading-tight">

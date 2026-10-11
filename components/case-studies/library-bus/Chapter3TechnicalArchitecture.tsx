@@ -21,6 +21,12 @@ interface Chapter3TechnicalArchitectureProps {
   onCopyDeepLink: (_sectionId: string, _title?: string) => void;
   onExportChart: (_chartId: string, _filename: string) => void;
   showToast: (_msg: string, _type?: 'success' | 'error' | 'info') => void;
+  liveData?: {
+    latencyBenchmarks?: any[];
+    weeklyActivity?: any[];
+    fleet?: any[];
+    isLiveDb?: boolean;
+  } | null;
 }
 
 export function Chapter3TechnicalArchitecture({
@@ -28,8 +34,16 @@ export function Chapter3TechnicalArchitecture({
   onCopyDeepLink,
   onExportChart,
   showToast,
+  liveData,
 }: Chapter3TechnicalArchitectureProps) {
   const [copiedSnippet, setCopiedSnippet] = useState<boolean>(false);
+  const activeBenchmarks = liveData?.latencyBenchmarks && liveData.latencyBenchmarks.length > 0 
+    ? liveData.latencyBenchmarks 
+    : latencyBenchmarkData;
+  const activeWeeklyData = liveData?.weeklyActivity && liveData.weeklyActivity.length > 0 
+    ? liveData.weeklyActivity 
+    : weeklyActivityData;
+
 
   const handleCopyCode = () => {
     if (typeof window !== 'undefined') {
@@ -149,15 +163,23 @@ export function Chapter3TechnicalArchitecture({
           {/* Performance Benchmark Table & Analysis */}
           <div className="lg:col-span-5 space-y-4">
             <div className="p-5 rounded-3xl bg-white border border-slate-200/80 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
-              <h4 className="text-sm font-black uppercase text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
-                <Zap className="w-4 h-4" />
-                {isEn ? 'Redis Caching Benchmark (ms)' : 'Benchmark Đo Lường Hiệu Năng Redis Cache'}
-              </h4>
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-black uppercase text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
+                  <Zap className="w-4 h-4" />
+                  {isEn ? 'Redis Caching Benchmark (ms)' : 'Benchmark Đo Lường Hiệu Năng Redis Cache'}
+                </h4>
+                {liveData?.isLiveDb && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    MySQL Live
+                  </span>
+                )}
+              </div>
               <p className="text-xs text-slate-600 dark:text-slate-400">
                 Triển khai bộ đệm đa tầng Redis Memory giúp giảm trung bình 93.7% thời gian truy vấn cho độc giả.
               </p>
               <div className="space-y-2 pt-1">
-                {latencyBenchmarkData.map((item, idx) => (
+                {activeBenchmarks.map((item, idx) => (
                   <div key={idx} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/60 text-xs space-y-1 dark:bg-slate-800 dark:border-slate-700">
                     <div className="flex justify-between font-bold text-slate-900 dark:text-white">
                       <span>{item.endpoint}</span>
@@ -209,10 +231,18 @@ export function Chapter3TechnicalArchitecture({
           {/* Weekly Borrow/Return Telemetry Chart */}
           <div id="chart-weekly-circulation" className="lg:col-span-5 rounded-3xl bg-white border border-slate-200/80 p-6 shadow-xs space-y-4 dark:bg-slate-900 dark:border-slate-800">
             <div className="flex justify-between items-center">
-              <h4 className="text-sm font-black uppercase text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
-                <BarChart2 className="w-4 h-4" />
-                {isEn ? 'Weekly Borrow vs Return Trend' : 'Xu Hướng Mượn / Trả Trong Tuần'}
-              </h4>
+              <div className="flex items-center gap-2">
+                <h4 className="text-sm font-black uppercase text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
+                  <BarChart2 className="w-4 h-4" />
+                  {isEn ? 'Weekly Borrow vs Return Trend' : 'Xu Hướng Mượn / Trả Trong Tuần'}
+                </h4>
+                {liveData?.isLiveDb && (
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    MySQL Live
+                  </span>
+                )}
+              </div>
               <button
                 onClick={() => onExportChart('chart-weekly-circulation', 'weekly_circulation_trend')}
                 className="p-1 rounded-lg text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
@@ -223,7 +253,7 @@ export function Chapter3TechnicalArchitecture({
             </div>
             <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weeklyActivityData}>
+                <AreaChart data={activeWeeklyData}>
                   <defs>
                     <linearGradient id="colorBorrows" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#0D7287" stopOpacity={0.4}/>

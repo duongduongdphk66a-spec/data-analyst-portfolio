@@ -82,4 +82,30 @@ describe('Security Utility Module', () => {
       expect(validateUploadedFile(invalidExtFile).isValid).toBe(false);
     });
   });
+
+  describe('Git Repository & MySQL Credential Leakage Prevention', () => {
+    it('should strictly ignore all .env files in .gitignore except .env.example', async () => {
+      const fs = await import('fs');
+      const path = await import('path');
+      const gitignorePath = path.resolve(process.cwd(), '.gitignore');
+      const gitignore = fs.readFileSync(gitignorePath, 'utf-8');
+
+      expect(gitignore).toMatch(/^\.env$/m);
+      expect(gitignore).toMatch(/^\.env\.\*$/m);
+      expect(gitignore).toMatch(/^!\.env\.example$/m);
+    });
+
+    it('should ensure .env.example contains only dummy placeholders and no real secrets', async () => {
+      const fs = await import('fs');
+      const path = await import('path');
+      const examplePath = path.resolve(process.cwd(), '.env.example');
+      const exampleContent = fs.readFileSync(examplePath, 'utf-8');
+
+      // Ensure no live passwords or secrets are in .env.example
+      expect(exampleContent).not.toMatch(/173053/);
+      expect(exampleContent).toMatch(/MYSQL_PASSWORD=""/);
+      expect(exampleContent).toMatch(/your_admin_password_here/);
+    });
+  });
 });
+

@@ -193,19 +193,19 @@ export default function CreatorContentSection({
                 </h4>
                 <div className="grid grid-cols-4 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-center">
                   <div className="p-1 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                    <div className="text-[9px] text-slate-400">{isEn ? 'Views' : 'Lượt xem'}</div>
+                    <div className="text-[10px] text-slate-400">{isEn ? 'Views' : 'Lượt xem'}</div>
                     <div className="font-bold text-slate-800 dark:text-slate-200">{v.views.toLocaleString()}</div>
                   </div>
                   <div className="p-1 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                    <div className="text-[9px] text-slate-400">{isEn ? 'Likes' : 'Thích'}</div>
+                    <div className="text-[10px] text-slate-400">{isEn ? 'Likes' : 'Thích'}</div>
                     <div className="font-bold text-slate-800 dark:text-slate-200">{v.likes.toLocaleString()}</div>
                   </div>
                   <div className="p-1 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                    <div className="text-[9px] text-slate-400">{isEn ? 'Sold' : 'Đã bán'}</div>
+                    <div className="text-[10px] text-slate-400">{isEn ? 'Sold' : 'Đã bán'}</div>
                     <div className="font-black text-slate-950 dark:text-white">{v.units.toLocaleString()} SP</div>
                   </div>
                   <div className="p-1 rounded-xl bg-[#FFE485]/40 dark:bg-slate-800/60">
-                    <div className="text-[9px] text-slate-400">{isEn ? 'GMV' : 'Doanh thu'}</div>
+                    <div className="text-[10px] text-slate-400">{isEn ? 'GMV' : 'Doanh thu'}</div>
                     <div className="font-black text-[#0D7287] dark:text-[#FFD14C]">{v.gmv} Tr đ</div>
                   </div>
                 </div>

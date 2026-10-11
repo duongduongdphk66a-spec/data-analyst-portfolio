@@ -129,7 +129,7 @@ export default React.memo(function CVSection({ experiences, name: _name, title: 
       ref={sectionRef} 
       className={`transition-colors duration-200 ${isSummary ? 'pt-2 pb-0' : 'section-ground section-cinematic bg-data-dots'}`}
     >
-      <div className={isSummary ? 'w-full' : 'max-w-6xl mx-auto px-5 sm:px-8'}>
+      <div className={isSummary ? 'w-full' : 'page-container'}>
         {!isSummary && (
           <h2 className="editorial-section-title text-3xl sm:text-4xl md:text-5xl mb-12 sm:mb-16 max-w-2xl">
             {isEn ? 'Education & professional timeline.' : 'Học vấn và lộ trình nghề nghiệp.'}

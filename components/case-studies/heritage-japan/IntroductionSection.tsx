@@ -11,7 +11,7 @@ interface IntroductionSectionProps {
 
 export function IntroductionSection({ isEn, onCopyDeepLink }: IntroductionSectionProps) {
   return (
-    <section id="mo-dau" className="py-16 bg-[#FAFDFE] border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
+    <section id="mo-dau" className="py-16 bg-ground border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <SectionHeader
           variant="stacked"

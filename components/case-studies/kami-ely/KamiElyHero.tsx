@@ -39,7 +39,7 @@ export default function KamiElyHero({ isEn, activeTab, onJumpToStory }: KamiElyH
       <div className="absolute right-[5%] top-0 w-72 h-72 rounded-full bg-gradient-to-br from-[#9BE7FA]/30 to-[#FFE485]/20 blur-3xl pointer-events-none hidden md:block" />
       <div className="absolute left-[2%] bottom-0 w-64 h-64 rounded-full bg-gradient-to-tr from-[#0D7287]/15 to-transparent blur-3xl pointer-events-none hidden md:block" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 space-y-6">
+      <div className="relative z-10 page-container space-y-6">
         {/* Top Badges & Meta */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#C8EEF7]/80 border border-[#9BE7FA] rounded-full text-xs font-bold tracking-wide text-[#0D7287] shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
@@ -81,7 +81,7 @@ export default function KamiElyHero({ isEn, activeTab, onJumpToStory }: KamiElyH
         {/* 30-SECOND SCAN: 3 IMPACT METRIC CARDS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
           {/* Card 1 */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-[#9BE7FA]/80 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 dark:border-slate-800 space-y-2">
+          <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[#9BE7FA]/80 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 dark:border-slate-800 space-y-2">
             <div className="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400">
               <span className="uppercase tracking-wider">{isEn ? '180d Real GMV' : 'Doanh Thu 180 Ngày'}</span>
               <span className="text-rose-500 flex items-center gap-1 font-mono font-bold">
@@ -89,38 +89,50 @@ export default function KamiElyHero({ isEn, activeTab, onJumpToStory }: KamiElyH
               </span>
             </div>
             <div className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white font-mono">
-              12,74 <span className="text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA]">Tỷ VNĐ</span>
+              {isEn ? '12.74' : '12,74'} <span className="text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA]">{isEn ? 'Billion VND' : 'Tỷ VNĐ'}</span>
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              Đỉnh T6 đạt <strong>3,77 tỷ</strong> (ngày 16/06 đạt 315M), rơi tự do xuống <strong>645M</strong> ở T8 do đứt gãy mùa vụ đồ bơi &amp; phụ thuộc mùa hè.
+              {isEn ? (
+                <>June peak hit <strong>3.77B</strong> (June 16 reached 315M), free-falling to <strong>645M</strong> in August due to swimwear seasonality collapse &amp; summer over-reliance.</>
+              ) : (
+                <>Đỉnh T6 đạt <strong>3,77 tỷ</strong> (ngày 16/06 đạt 315M), rơi tự do xuống <strong>645M</strong> ở T8 do đứt gãy mùa vụ đồ bơi &amp; phụ thuộc mùa hè.</>
+              )}
             </p>
           </div>
 
           {/* Card 2 */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-[#FFD14C]/90 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 dark:border-slate-800 space-y-2">
+          <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[#FFD14C]/90 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 dark:border-slate-800 space-y-2">
             <div className="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400">
               <span className="uppercase tracking-wider">{isEn ? 'In-House Live Share' : 'Cỗ Máy Live Nội Bộ'}</span>
-              <span className="text-indigo-600 dark:text-indigo-400 font-bold font-mono">2 Kênh</span>
+              <span className="text-indigo-600 dark:text-indigo-400 font-bold font-mono">{isEn ? '2 Channels' : '2 Kênh'}</span>
             </div>
             <div className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white font-mono">
-              8,28 <span className="text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA]">Tỷ VNĐ (89.4%)</span>
+              {isEn ? '8.28' : '8,28'} <span className="text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA]">{isEn ? 'Billion VND (89.4%)' : 'Tỷ VNĐ (89.4%)'}</span>
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              Kami Ely (7,02 tỷ) + Girl Style (1,26 tỷ) cùng do team in-house vận hành. Affiliate ngoài thực thụ chỉ đóng góp <strong>982 triệu (10.6%)</strong>.
+              {isEn ? (
+                <>Kami Ely (7.02B) + Girl Style (1.26B) operated by the in-house team. True external affiliates only contribute <strong>982M (10.6%)</strong>.</>
+              ) : (
+                <>Kami Ely (7,02 tỷ) + Girl Style (1,26 tỷ) cùng do team in-house vận hành. Affiliate ngoài thực thụ chỉ đóng góp <strong>982 triệu (10.6%)</strong>.</>
+              )}
             </p>
           </div>
 
           {/* Card 3 */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-slate-300 dark:border-slate-700 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 space-y-2">
+          <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-300 dark:border-slate-700 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 space-y-2">
             <div className="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400">
               <span className="uppercase tracking-wider">{isEn ? 'Catalog Pareto' : 'Quy Luật Pareto SKU'}</span>
               <span className="text-emerald-600 dark:text-emerald-400 font-mono font-bold">Gini: 0.92</span>
             </div>
             <div className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white font-mono">
-              6.3% <span className="text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA]">Tạo 80% GMV</span>
+              6.3% <span className="text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA]">{isEn ? 'Creates 80% GMV' : 'Tạo 80% GMV'}</span>
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              Chỉ <strong>21 Hero SKU</strong> gánh phần lớn shop; <strong>197 SKU (59.5%)</strong> là tồn kho chết không có đơn hàng nào suốt 90 ngày.
+              {isEn ? (
+                <>Only <strong>21 Hero SKUs</strong> generate 80% of revenue; <strong>197 SKUs (59.5%)</strong> are dead stock with zero orders across 90 days.</>
+              ) : (
+                <>Chỉ <strong>21 Hero SKU</strong> gánh phần lớn shop; <strong>197 SKU (59.5%)</strong> là tồn kho chết không có đơn hàng nào suốt 90 ngày.</>
+              )}
             </p>
           </div>
         </div>
@@ -130,15 +142,15 @@ export default function KamiElyHero({ isEn, activeTab, onJumpToStory }: KamiElyH
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-              <span>Team in-house tạo 11,4M/phiên (gấp 73,5× affiliate ngoài)</span>
+              <span>{isEn ? 'In-house team generates 11.4M/session (73.5× external affiliates)' : 'Team in-house tạo 11,4M/phiên (gấp 73,5× affiliate ngoài)'}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-              <span>Bác bỏ giả thuyết: Tăng live mùa thấp điểm không thể đảo ngược sức mua</span>
+              <span>{isEn ? 'Debunked fallacy: Increasing live sessions cannot reverse off-season drop' : 'Bác bỏ giả thuyết: Tăng live mùa thấp điểm không thể đảo ngược sức mua'}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-              <span>Cần xả kho 197 SKU chết &amp; xoay trục đồ Thu-Đông</span>
+              <span>{isEn ? 'Strategy: Liquidate 197 dead SKUs & pivot to Autumn-Winter catalog' : 'Cần xả kho 197 SKU chết & xoay trục đồ Thu-Đông'}</span>
             </div>
           </div>
 

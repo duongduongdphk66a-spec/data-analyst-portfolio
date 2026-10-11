@@ -34,6 +34,25 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
   const [tsPanelFocus, setTsPanelFocus] = useState<'all' | 'trend' | 'seasonal' | 'residual'>('all');
   const [liveHoursReduction, setLiveHoursReduction] = useState<number>(50); // % cut
   const [videoCoverage, setVideoCoverage] = useState<number>(859); // from 551 to 859 videos
+  const [liveData, setLiveData] = useState<{ timeSeries?: any[]; isLiveDb?: boolean } | null>(null);
+
+  React.useEffect(() => {
+    let active = true;
+    fetch('/api/case-studies/kami-ely')
+      .then((r) => r.json())
+      .then((res) => {
+        if (active && res.success && res.data) {
+          setLiveData({
+            timeSeries: res.data.timeSeries,
+            isLiveDb: res.source === 'mysql',
+          });
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const handleExport = (elementId: string, chartName: string) => {
     exportChartWithToast(elementId, chartName, showToast, isEn);
@@ -114,6 +133,8 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
         tsPanelFocus={tsPanelFocus} 
         setTsPanelFocus={setTsPanelFocus} 
         handleExport={handleExport} 
+        timeSeriesData={liveData?.timeSeries}
+        isLiveDb={liveData?.isLiveDb}
       />
 
       <ScienceOptimizerSection 

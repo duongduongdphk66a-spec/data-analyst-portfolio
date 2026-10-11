@@ -31,7 +31,7 @@ export function AcademicThesisMockup({
 
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6 sm:p-8 bg-[#FAFDFE] border border-[#0D7287]/20 rounded-2xl shadow-lg dark:bg-slate-950 dark:border-slate-800 text-slate-800 dark:text-slate-100 font-serif">
+    <div className="w-full max-w-4xl mx-auto p-6 sm:p-8 bg-ground border border-[#0D7287]/20 rounded-2xl shadow-lg dark:bg-slate-950 dark:border-slate-800 text-slate-800 dark:text-slate-100 font-serif">
       {/* Archival Document Header */}
       <div className="border-b-2 border-stone-800 dark:border-stone-400 pb-4 mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -127,7 +127,7 @@ export function AcademicThesisMockup({
                     className="w-full max-w-[28px] bg-gradient-to-t from-[#0D7287] to-[#9BE7FA] rounded-t-xs dark:from-[#0D7287] dark:to-[#9BE7FA] group-hover:brightness-110 transition-all shadow-xs"
                     style={{ height: `${heightPercent}%` }}
                   />
-                  <span className="text-[9px] sm:text-[10px] font-mono text-stone-500 dark:text-stone-400 mt-1.5 -rotate-45 sm:rotate-0 origin-center">
+                  <span className="text-[10px] sm:text-xs font-mono text-stone-500 dark:text-stone-400 mt-1.5 -rotate-45 sm:rotate-0 origin-center">
                     {item.year.replace('20', "'")}
                   </span>
                 </div>

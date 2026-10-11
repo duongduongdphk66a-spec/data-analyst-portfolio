@@ -22,9 +22,15 @@ import {
 interface Chapter3AnalyticsSectionProps {
   isEn: boolean;
   onExportChart: (_chartId: string, _filename: string) => void;
+  liveData?: {
+    tourists?: any[];
+    spend?: any[];
+    regional?: any[];
+    isLiveDb?: boolean;
+  } | null;
 }
 
-export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3AnalyticsSectionProps) {
+export function Chapter3AnalyticsSection({ isEn, onExportChart, liveData }: Chapter3AnalyticsSectionProps) {
   // Volume Charts (3.1, 3.2, 3.3)
   const [volumeChartId, setVolumeChartId] = useState<string>('3.1');
   const [volumeViewMode, setVolumeViewMode] = useState<'interactive' | 'authentic'>('interactive');
@@ -38,6 +44,13 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
 
   const selectedVolumeMeta = volumeCharts.find(c => c.chartId === volumeChartId) || volumeCharts[0];
   const selectedRevenueMeta = revenueCharts.find(c => c.chartId === revenueChartId) || revenueCharts[0];
+
+  const activeTouristsData = liveData?.tourists && liveData.tourists.length > 0 ? liveData.tourists : touristsData;
+  const activeSpendData = liveData?.spend && liveData.spend.length > 0 ? liveData.spend : spendNationalData;
+  const activeKyotoData = liveData?.regional && liveData.regional.length > 0 ? liveData.regional.map((r: any) => ({ year: r.year, value: r.kyoto })) : kyotoVisitorsData;
+  const activeNaraData = liveData?.regional && liveData.regional.length > 0 ? liveData.regional.map((r: any) => ({ year: r.year, value: r.nara })) : naraVisitorsData;
+  const activeRegionalData = liveData?.regional && liveData.regional.length > 0 ? liveData.regional : kyotoNaraVisitorsData;
+
 
   return (
     <div className="mb-14">
@@ -103,9 +116,17 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
               </span>
               <span className="text-xs text-slate-500 font-semibold">(Trang {selectedVolumeMeta.pageInDoc} trong Niên luận)</span>
             </div>
-            <h4 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
-              {isEn ? selectedVolumeMeta.nameEn : selectedVolumeMeta.nameVi}
-            </h4>
+            <div className="flex items-center gap-2">
+              <h4 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
+                {isEn ? selectedVolumeMeta.nameEn : selectedVolumeMeta.nameVi}
+              </h4>
+              {liveData?.isLiveDb && (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  MySQL Live
+                </span>
+              )}
+            </div>
             <p className="text-xs text-slate-500">Đơn vị đo lường: <strong>{isEn ? selectedVolumeMeta.unitEn : selectedVolumeMeta.unitVi}</strong></p>
           </div>
 
@@ -168,7 +189,7 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
             <div className="h-[340px] w-full">
               {volumeChartId === '3.1' && (
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={touristsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <AreaChart data={activeTouristsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <defs>
                       <linearGradient id="colorTourists" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#0D7287" stopOpacity={0.8}/>
@@ -186,7 +207,7 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
 
               {volumeChartId === '3.2' && (
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={kyotoVisitorsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <BarChart data={activeKyotoData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                     <XAxis dataKey="year" tick={{ fontSize: 12 }} />
                     <YAxis tick={{ fontSize: 12 }} unit="k" />
@@ -198,7 +219,7 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
 
               {volumeChartId === '3.3' && (
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={naraVisitorsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <BarChart data={activeNaraData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                     <XAxis dataKey="year" tick={{ fontSize: 12 }} />
                     <YAxis tick={{ fontSize: 12 }} unit="k" />
@@ -216,7 +237,7 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
               unitVi={selectedVolumeMeta.unitVi}
               unitEn={selectedVolumeMeta.unitEn}
               pageInDoc={selectedVolumeMeta.pageInDoc}
-              data={volumeChartId === '3.1' ? touristsData : volumeChartId === '3.2' ? kyotoVisitorsData : naraVisitorsData}
+              data={volumeChartId === '3.1' ? activeTouristsData : volumeChartId === '3.2' ? activeKyotoData : activeNaraData}
               imageSrc={selectedVolumeMeta.imageSrc}
               isEn={isEn}
             />
@@ -285,7 +306,7 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {kyotoNaraVisitorsData.filter(d => ['2013', '2015', '2017', '2019', '2021', '2022', '2023', '2024'].includes(d.year)).map(d => {
+                  {activeRegionalData.filter(d => ['2013', '2015', '2017', '2019', '2021', '2022', '2023', '2024'].includes(d.year)).map(d => {
                     const ratio = d.nara && d.kyoto ? ((d.nara / d.kyoto) * 100).toFixed(1) : '-';
                     return (
                       <tr key={d.year}>
@@ -316,9 +337,17 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
               </span>
               <span className="text-xs text-slate-500 font-semibold">(Trang {selectedRevenueMeta.pageInDoc} trong Niên luận)</span>
             </div>
-            <h4 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
-              {isEn ? selectedRevenueMeta.nameEn : selectedRevenueMeta.nameVi}
-            </h4>
+            <div className="flex items-center gap-2">
+              <h4 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
+                {isEn ? selectedRevenueMeta.nameEn : selectedRevenueMeta.nameVi}
+              </h4>
+              {liveData?.isLiveDb && (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  MySQL Live
+                </span>
+              )}
+            </div>
             <p className="text-xs text-slate-500">Đơn vị đo lường: <strong>{isEn ? selectedRevenueMeta.unitEn : selectedRevenueMeta.unitVi}</strong></p>
           </div>
 
@@ -381,7 +410,7 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart }: Chapter3Analyt
             <div className="h-[340px] w-full">
               {revenueChartId === '3.4' && (
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={spendNationalData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <AreaChart data={activeSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                     <defs>
                       <linearGradient id="colorSpend" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>

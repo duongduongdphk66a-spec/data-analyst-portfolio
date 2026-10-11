@@ -58,7 +58,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
 
           <div className="relative z-10 flex justify-between items-start">
             <div className="space-y-0.5">
-              <span className="text-[9px] uppercase font-mono tracking-wider text-slate-400 flex items-center gap-1">
+              <span className="text-[10px] uppercase font-mono tracking-wider text-slate-400 flex items-center gap-1">
                 <Terminal className="w-2.5 h-2.5 text-[#9BE7FA]" />
                 FastMoss API v2.4
               </span>
@@ -99,7 +99,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
           </div>
 
           {/* Canvas Bottom Ticker */}
-          <div className="relative z-10 flex justify-between items-center text-[8px] font-mono text-slate-400 border-t border-slate-800/80 pt-1">
+          <div className="relative z-10 flex justify-between items-center text-[10px] font-mono text-slate-400 border-t border-slate-800/80 pt-1">
             <span>INDEX: OK</span>
             <span className="text-emerald-400">VERIFIED HASH</span>
             <span>REST API</span>

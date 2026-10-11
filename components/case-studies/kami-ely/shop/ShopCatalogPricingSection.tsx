@@ -17,6 +17,8 @@ interface ShopCatalogPricingSectionProps {
   setCategoryMetric: (_m: 'units' | 'gmv' | 'byCount') => void;
   priceMetric: 'units' | 'gmv' | 'byCount';
   setPriceMetric: (_m: 'units' | 'gmv' | 'byCount') => void;
+  topSkus?: any[];
+  isLiveDb?: boolean;
 }
 
 export default function ShopCatalogPricingSection({
@@ -27,8 +29,12 @@ export default function ShopCatalogPricingSection({
   categoryMetric,
   setCategoryMetric,
   priceMetric,
-  setPriceMetric
+  setPriceMetric,
+  topSkus,
+  isLiveDb
 }: ShopCatalogPricingSectionProps) {
+  const skuList = topSkus && topSkus.length > 0 ? topSkus : shopTopSKUs;
+
   return (
     <section id="shop-products" className="space-y-6 scroll-mt-36">
       <SectionHeader 
@@ -97,10 +103,18 @@ export default function ShopCatalogPricingSection({
 
       {/* Top 6 SKUs Table */}
       <div className="space-y-3">
-        <h3 className="text-base font-black text-slate-950 dark:text-white flex items-center gap-2">
-          <ShoppingBag className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
-          {isEn ? 'Top Performing SKUs (Last 90 Days Telemetry)' : 'Top Sản Phẩm Bán Chạy Nhất (Dữ Liệu 90 Ngày)'}
-        </h3>
+        <div className="flex items-center justify-between">
+          <h3 className="text-base font-black text-slate-950 dark:text-white flex items-center gap-2">
+            <ShoppingBag className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
+            {isEn ? 'Top Performing SKUs (Last 90 Days Telemetry)' : 'Top Sản Phẩm Bán Chạy Nhất (Dữ Liệu 90 Ngày)'}
+          </h3>
+          {isLiveDb && (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              MySQL Live Telemetry
+            </span>
+          )}
+        </div>
         {/* Desktop Table Layout */}
         <div className="hidden md:block overflow-x-auto rounded-2xl border border-[#9BE7FA]/60 bg-white shadow-xs dark:bg-slate-900 dark:border-slate-800">
           <table className="w-full text-left text-xs sm:text-sm">
@@ -116,7 +130,7 @@ export default function ShopCatalogPricingSection({
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {shopTopSKUs.map((sku) => (
+              {skuList.map((sku) => (
                 <tr key={sku.code} className="hover:bg-[#C8EEF7]/10 transition-colors dark:hover:bg-slate-800/50">
                   <td className="p-3.5 font-bold font-mono text-[#0D7287] dark:text-[#9BE7FA]">{sku.code}</td>
                   <td className="p-3.5 font-bold text-slate-900 dark:text-white max-w-xs truncate">{sku.name}</td>
@@ -133,7 +147,7 @@ export default function ShopCatalogPricingSection({
 
         {/* Mobile Card Layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:hidden">
-          {shopTopSKUs.map((sku) => (
+          {skuList.map((sku) => (
             <div key={sku.code} className="p-4 rounded-2xl bg-white border border-[#9BE7FA]/60 shadow-xs space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
               <div className="flex items-center justify-between gap-2">
                 <span className="font-mono text-xs font-black text-[#0D7287] dark:text-[#9BE7FA] px-2 py-0.5 rounded-md bg-[#C8EEF7]/50 dark:bg-slate-800">

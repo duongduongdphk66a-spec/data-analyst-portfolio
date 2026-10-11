@@ -17,45 +17,52 @@ export interface SectionHeaderProps {
 }
 
 /**
- * Reusable SectionHeader for portfolio case-study sub-sections
- * Supports:
- * - 'pill': [BADGE] Title (Kami Ely style)
- * - 'stacked': Subtitle over large H2 (Heritage Japan style)
- * - 'chapter': CHAPTER badge + subtitle over H2 with colored number prefix (Library Bus style)
+ * Reusable SectionHeader for portfolio case-study sub-sections.
+ * Unified data-analyst editorial design:
+ * - 'pill': Pill badge + Title (Kami Ely style)
+ * - 'stacked': Eyebrow above Title (Heritage Japan style)
+ * - 'chapter': Chapter badge + Subtitle + Title (Library Bus style)
  */
 export function SectionHeader({
   badge,
   title,
   id,
   onCopy,
-  badgeBg = 'bg-[#9BE7FA]',
+  badgeBg,
   extraAction,
   variant = 'pill',
   chapter,
   subtitle,
-  className = ''
+  className = '',
 }: SectionHeaderProps) {
+  const copyBtn = (
+    <button
+      type="button"
+      onClick={() => onCopy(id, `${badge ? badge + ' ' : ''}${title}`)}
+      className="p-1.5 rounded-lg text-slate-400 hover:text-brand-teal hover:bg-slate-100 dark:hover:text-[#9BE7FA] dark:hover:bg-slate-800 transition-colors cursor-pointer"
+      title="Sao chép liên kết"
+      aria-label={`Sao chép liên kết ${title}`}
+    >
+      <LinkIcon className="w-4 h-4" />
+    </button>
+  );
+
   if (variant === 'stacked') {
     return (
-      <div className={`flex items-center justify-between pb-4 mb-8 border-b border-slate-200 dark:border-slate-800 ${className}`}>
-        <div>
-          <span className="text-xs font-extrabold text-[#074553] dark:text-[#9BE7FA]">
-            {badge}
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-black text-slate-950 mt-1 dark:text-white">
+      <div className={`flex items-start sm:items-center justify-between gap-4 pb-4 mb-6 border-b border-slate-200/80 dark:border-slate-800 ${className}`}>
+        <div className="space-y-1">
+          {badge && (
+            <span className="editorial-kicker text-xs block text-brand-teal dark:text-[#9BE7FA]">
+              {badge}
+            </span>
+          )}
+          <h2 className="editorial-section-title text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white">
             {title}
           </h2>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0 pt-1 sm:pt-0">
           {extraAction}
-          <button
-            onClick={() => onCopy(id, `${badge} ${title}`)}
-            className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all dark:hover:text-white dark:hover:bg-slate-800 cursor-pointer"
-            title="Sao chép liên kết"
-            aria-label={`Sao chép liên kết ${title}`}
-          >
-            <LinkIcon className="w-4 h-4" />
-          </button>
+          {copyBtn}
         </div>
       </div>
     );
@@ -63,62 +70,53 @@ export function SectionHeader({
 
   if (variant === 'chapter') {
     return (
-      <div className={`flex items-center justify-between border-b border-slate-200 pb-3 dark:border-slate-800 ${className}`}>
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
+      <div className={`flex items-start sm:items-center justify-between gap-4 pb-4 mb-6 border-b border-slate-200/80 dark:border-slate-800 ${className}`}>
+        <div className="space-y-1.5">
+          <div className="flex flex-wrap items-center gap-2">
             {chapter && (
-              <span className="px-2.5 py-0.5 bg-[#9BE7FA] text-slate-950 rounded-md text-[11px] font-mono font-black shrink-0">
+              <span className="px-2 py-0.5 bg-brand-blue-vivid text-slate-950 rounded-md text-[11px] font-mono font-bold tracking-wide shrink-0">
                 {chapter}
               </span>
             )}
             {subtitle && (
-              <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                 {subtitle}
               </span>
             )}
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white flex items-center gap-2">
-            {badge && <span className="text-[#074553] dark:text-[#9BE7FA]">{badge}</span>}
+          <h2 className="editorial-section-title text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white flex items-center gap-2">
+            {badge && <span className="text-brand-teal dark:text-[#9BE7FA] font-mono text-xl">{badge}</span>}
             <span>{title}</span>
           </h2>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0 pt-1 sm:pt-0">
           {extraAction}
-          <button
-            onClick={() => onCopy(id, `${badge} ${title}`)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-[#074553] dark:hover:text-[#9BE7FA] transition-colors cursor-pointer"
-            title="Sao chép liên kết"
-            aria-label={`Sao chép liên kết ${title}`}
-          >
-            <LinkIcon className="w-4 h-4" />
-          </button>
+          {copyBtn}
         </div>
       </div>
     );
   }
 
-  const isLightBadge = badgeBg.includes('9BE7FA') || badgeBg.includes('C8EEF7') || badgeBg.includes('FFD14C') || badgeBg.includes('FFE485');
+  // Variant: 'pill'
+  const customBadgeStyle = badgeBg
+    ? badgeBg
+    : 'bg-brand-blue-light/50 border border-brand-blue-vivid text-brand-teal dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]';
 
   return (
-    <div className={`flex items-center justify-between border-b border-slate-200 pb-3 dark:border-slate-800 ${className}`}>
-      <div className="flex items-center gap-2">
-        <span className={`px-3 py-1 ${badgeBg} ${isLightBadge ? 'text-slate-950 font-bold' : 'text-white font-bold'} rounded-lg text-xs font-black shrink-0`}>
-          {badge}
-        </span>
-        <h2 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
+    <div className={`flex items-center justify-between gap-4 pb-4 mb-6 border-b border-slate-200/80 dark:border-slate-800 ${className}`}>
+      <div className="flex flex-wrap items-center gap-2.5">
+        {badge && (
+          <span className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold shrink-0 ${customBadgeStyle}`}>
+            {badge}
+          </span>
+        )}
+        <h2 className="editorial-section-title text-xl sm:text-2xl font-extrabold text-slate-950 dark:text-white">
           {title}
         </h2>
       </div>
       <div className="flex items-center gap-2 shrink-0">
         {extraAction}
-        <button
-          onClick={() => onCopy(id, `${badge} ${title}`)}
-          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
-          title="Sao chép liên kết"
-          aria-label={`Sao chép liên kết ${title}`}
-        >
-          <LinkIcon className="w-4 h-4" />
-        </button>
+        {copyBtn}
       </div>
     </div>
   );

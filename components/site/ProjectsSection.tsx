@@ -67,21 +67,21 @@ export default React.memo(function ProjectsSection({
   return (
     <div 
       ref={containerRef} 
-      className={isFeaturedView ? "w-full space-y-8" : "max-w-6xl mx-auto py-10 px-4 sm:px-8 lg:px-10 space-y-10"}
+      className={isFeaturedView ? "w-full space-y-8" : "page-container py-10 sm:py-16 space-y-10"}
     >
       {/* Search & Filter Header (ONLY rendered on full Projects page, omitted on Homepage to prevent duplicate header) */}
       {!isFeaturedView && (
         <div className="space-y-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-200/90 dark:border-slate-800">
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#C8EEF7]/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-[#9BE7FA] dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>{t('projects_badge', 'Case Studies & Phân Tích Thực Tế')}</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-blue-light/50 text-slate-900 rounded-md text-xs font-bold tracking-wide border border-brand-blue-vivid dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                <Sparkles className="w-3.5 h-3.5 text-brand-teal dark:text-[#9BE7FA]" />
+                <span className="editorial-kicker">{t('projects_badge', 'Case Studies & Phân Tích Thực Tế')}</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight dark:text-white">
+              <h1 className="editorial-section-title text-3xl sm:text-4xl lg:text-5xl">
                 {t('projects_heading', 'Dự Án Phân Tích Dữ Liệu Nổi Bật')}
               </h1>
-              <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl font-normal">
+              <p className="editorial-lead text-sm sm:text-base max-w-2xl">
                 {t('projects_subheading', 'Các dự án thực chiến giải quyết bài toán kinh doanh cụ thể bằng SQL, Python, Power BI và Recharts')}
               </p>
             </div>
@@ -195,7 +195,7 @@ export default React.memo(function ProjectsSection({
                       {presentation.tools.slice(0, 3).map((tool) => (
                         <span
                           key={tool}
-                          className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[9px] font-mono font-semibold text-slate-500 dark:text-slate-400"
+                          className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[10px] font-mono font-semibold text-slate-500 dark:text-slate-400"
                         >
                           {tool}
                         </span>

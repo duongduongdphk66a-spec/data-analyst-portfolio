@@ -16,6 +16,16 @@
   --color-brand-deep: #074553;             /* High contrast anchor on light backgrounds */
   --color-brand-deep-hover: #05333d;
 
+  /* Interactive teal: links, active states, primary CTA, progress bars.
+     #0D7287 was already the most-used hardcoded teal (500+ uses) — promote it to a token. */
+  --color-brand-teal: #0D7287;
+  --color-brand-teal-hover: #095262;
+
+  /* Semantic data colors (use instead of ad-hoc emerald/rose/amber/indigo shades) */
+  --color-positive: #059669;
+  --color-negative: #E11D48;
+  --color-warning: #D97706;
+
   /* taste-skill 60-30-10 rule:
      60% Sky Blue family (#9BE7FA / #C8EEF7) → canvas, surfaces, borders
      30% White + Ink → cards, typography
@@ -24,12 +34,13 @@
   /* Semantic Theme Tokens */
   --color-accent: #FFD14C;
   --color-accent-soft: #FFE485;
-  --color-surface: #EAF8FC;                /* Sky wash canvas (tint of #C8EEF7) */
+  /* ONE canvas color for every page (site pages and case studies alike) */
+  --color-surface: #FAFDFE;
   --color-surface-tint: #DDF4FA;
   --color-surface-vivid: #9BE7FA;
   --color-surface-raised: #FFFFFF;
-  --color-ground: #EAF8FC;
-  --color-ground-alt: #C8EEF7;             /* Alternating section band */
+  --color-ground: #FAFDFE;
+  --color-ground-alt: #EAF8FC;             /* Alternating section band (sky wash) */
 
   /* Remap neutral light greys to Sky Blue tints so hardcoded utilities follow the 60% rule */
   --color-slate-50: #F1FAFD;
@@ -64,13 +75,18 @@
   --color-brand-yellow: #FFD14C;
   --color-brand-deep: #9BE7FA;
   --color-brand-deep-hover: #C8EEF7;
+  --color-brand-teal: #9BE7FA;
+  --color-brand-teal-hover: #C8EEF7;
+  --color-positive: #34D399;
+  --color-negative: #FB7185;
+  --color-warning: #FBBF24;
   --color-accent: #FFD14C;
   --color-accent-soft: #FFE485;
   --color-surface: #0B0F17;
   --color-surface-tint: #131E2E;
   --color-surface-raised: #131E2E;
-  --color-ground: #070B12;
-  --color-ground-alt: #0B0F17;
+  --color-ground: #0B0F17;
+  --color-ground-alt: #0F1623;
   --color-text: #F8FAFC;
   --color-text-muted: #94A3B8;
   --color-ink: #F8FAFC;
@@ -161,6 +177,22 @@ kbd {
 
 .section-alt {
   background-color: var(--color-ground-alt);
+}
+
+/* Single content container used by every page and case-study section */
+.page-container {
+  width: 100%;
+  max-width: 72rem; /* = max-w-6xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+@media (min-width: 640px) {
+  .page-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
 /* taste-skill §3.E: Viewport-safe hero height (iOS Safari address bar safe) */
@@ -378,15 +410,16 @@ a {
   color: var(--color-brand-primary);
 }
 
-/* Button System: #9BE7FA Dominant Primary CTA + Honey Gold Accent + Crisp Secondary */
+/* Button System: ONE primary style site-wide (solid teal, white text; sky in dark mode)
+   + Honey Gold accent (use sparingly) + Crisp secondary outline */
 .btn-primary {
-  background-color: #9BE7FA;
-  color: #0F172A;
+  background-color: #0D7287;
+  color: #FFFFFF !important;
   font-weight: 700;
   font-family: var(--font-sans);
   border-radius: 0.75rem;
   padding: 0.75rem 1.5rem;
-  box-shadow: 0 2px 8px rgba(155, 231, 250, 0.4);
+  box-shadow: 0 4px 12px rgba(13, 114, 135, 0.22);
   transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
   cursor: pointer;
   display: inline-flex;
@@ -394,11 +427,19 @@ a {
   justify-content: center;
   gap: 0.5rem;
 }
+.dark .btn-primary {
+  background-color: #9BE7FA;
+  color: #0F172A !important;
+  box-shadow: 0 2px 8px rgba(155, 231, 250, 0.2);
+}
 @media (hover: hover) and (pointer: fine) {
   .btn-primary:hover {
-    background-color: #82e2f8;
-    box-shadow: 0 4px 16px rgba(155, 231, 250, 0.65);
+    background-color: #095262;
+    box-shadow: 0 6px 18px rgba(13, 114, 135, 0.3);
     transform: translateY(-1px);
+  }
+  .dark .btn-primary:hover {
+    background-color: #C8EEF7;
   }
 }
 .btn-primary:active {
@@ -484,14 +525,15 @@ a {
   transform: scale(0.97);
 }
 
+/* Legacy alias: identical to .btn-primary so older markup stays consistent */
 .btn-cta-teal {
-  background-color: #074553;
+  background-color: #0D7287;
   color: #FFFFFF !important;
   font-weight: 700;
   font-family: var(--font-sans);
   border-radius: 0.75rem;
   padding: 0.75rem 1.25rem;
-  box-shadow: 0 4px 12px rgba(7, 69, 83, 0.25);
+  box-shadow: 0 4px 12px rgba(13, 114, 135, 0.22);
   transition: all 160ms var(--ease-out);
   display: inline-flex;
   align-items: center;
@@ -499,10 +541,18 @@ a {
   gap: 0.5rem;
 }
 .btn-cta-teal:hover {
-  background-color: #05333d;
-  box-shadow: 0 6px 18px rgba(7, 69, 83, 0.35);
+  background-color: #095262;
+  box-shadow: 0 6px 18px rgba(13, 114, 135, 0.3);
   transform: translateY(-1px);
   color: #FFFFFF !important;
+}
+.dark .btn-cta-teal {
+  background-color: #9BE7FA;
+  color: #0F172A !important;
+}
+.dark .btn-cta-teal:hover {
+  background-color: #C8EEF7;
+  color: #0F172A !important;
 }
 .btn-cta-teal:active {
   transform: scale(0.97);
