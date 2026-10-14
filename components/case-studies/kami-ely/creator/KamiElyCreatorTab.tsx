@@ -8,6 +8,8 @@ import CreatorContentSection from './CreatorContentSection';
 import CreatorSalesSection from './CreatorSalesSection';
 import CreatorAnalysisNarrative from './CreatorAnalysisNarrative';
 
+import type { KamiElyDataPayload } from '@/app/types/caseStudies';
+
 interface KamiElyCreatorTabProps {
   isEn: boolean;
   copyDeepLink: (_id: string, _name?: string) => void;
@@ -15,6 +17,7 @@ interface KamiElyCreatorTabProps {
   handleExportChart: (_chartId: string, _fileName: string) => void;
   handleTabChange: (_tab: 'science' | 'shop' | 'creator') => void;
   renderDataScopeMatrix: (_scope: 'shop' | 'creator') => React.ReactNode;
+  telemetryData?: KamiElyDataPayload | null;
 }
 
 export default function KamiElyCreatorTab({
@@ -23,7 +26,8 @@ export default function KamiElyCreatorTab({
   openProofScreenshot,
   handleExportChart,
   handleTabChange,
-  renderDataScopeMatrix
+  renderDataScopeMatrix,
+  telemetryData
 }: KamiElyCreatorTabProps) {
   return (
     <div className="space-y-16">
@@ -32,6 +36,8 @@ export default function KamiElyCreatorTab({
         isEn={isEn}
         copyDeepLink={copyDeepLink}
         renderDataScopeMatrix={renderDataScopeMatrix}
+        profile={telemetryData?.creatorProfile as any}
+        collaborativeStores={telemetryData?.collaborativeStores as any}
       />
 
       {/* 2.2 HOẠT ĐỘNG (ACTIVITY & POSTING BEHAVIOR) */}
@@ -39,6 +45,8 @@ export default function KamiElyCreatorTab({
         isEn={isEn}
         copyDeepLink={copyDeepLink}
         handleExportChart={handleExportChart}
+        hourlyActivity={telemetryData?.hourlyActivity as any}
+        activityHighlights={telemetryData?.activityHighlights as any}
       />
 
       {/* 2.3 NGƯỜI THEO DÕI (FOLLOWERS & DEMOGRAPHICS) */}
@@ -51,6 +59,8 @@ export default function KamiElyCreatorTab({
       <CreatorContentSection
         isEn={isEn}
         copyDeepLink={copyDeepLink}
+        topVideos={telemetryData?.videos as any}
+        topLiveStreams={telemetryData?.livestreams as any}
       />
 
       {/* 2.6 & 2.7 DOANH SỐ & CỬA HÀNG ĐỐI TÁC + CTA */}
@@ -59,6 +69,7 @@ export default function KamiElyCreatorTab({
         copyDeepLink={copyDeepLink}
         openProofScreenshot={openProofScreenshot}
         handleTabChange={handleTabChange}
+        collaborativeStores={telemetryData?.collaborativeStores as any}
       />
 
       {/* STRATEGIC NARRATIVE & RECOMMENDATIONS */}

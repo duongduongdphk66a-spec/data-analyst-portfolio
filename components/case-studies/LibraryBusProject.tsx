@@ -34,12 +34,16 @@ const LibraryBusVisualComparison = dynamic(
   }
 );
 
+import type { LibraryBusDataPayload } from '@/app/types/caseStudies';
+import { useCaseStudyData } from '@/hooks/useCaseStudyData';
+
 interface LibraryBusProjectProps {
   onBack?: () => void;
   isEmbedded?: boolean;
+  initialData?: LibraryBusDataPayload;
 }
 
-export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProjectProps = {}) {
+export default function LibraryBusProject({ onBack, isEmbedded, initialData }: LibraryBusProjectProps = {}) {
   const router = useRouter();
   const { language, setLanguage } = useLanguage();
   const isEn = language === 'en';
@@ -65,30 +69,11 @@ export default function LibraryBusProject({ onBack, isEmbedded }: LibraryBusProj
   const { activeSection, scrollProgress, setActiveSection } = useScrollSpy(sectionIds, 130);
   const subnavContainerRef = useRef<HTMLDivElement>(null);
 
-  const [libraryData, setLibraryData] = React.useState<{
-    latencyBenchmarks?: any[];
-    weeklyActivity?: any[];
-    fleet?: any[];
-    isLiveDb?: boolean;
-  } | null>(null);
-
-  React.useEffect(() => {
-    let active = true;
-    fetch('/api/case-studies/library-bus')
-      .then((r) => r.json())
-      .then((res) => {
-        if (active && res.success && res.data) {
-          setLibraryData({
-            ...res.data,
-            isLiveDb: res.source === 'mysql',
-          });
-        }
-      })
-      .catch(() => {});
-    return () => {
-      active = false;
-    };
-  }, []);
+  const { data: libraryData } = useCaseStudyData<LibraryBusDataPayload>({
+    projectId: 'proj-library-bus',
+    endpoint: '/api/case-studies/library-bus',
+    initialData,
+  });
 
 
   // Center active tab on taskbar horizontally only

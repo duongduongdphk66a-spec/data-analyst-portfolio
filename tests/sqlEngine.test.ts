@@ -151,5 +151,45 @@ describe('executeClientSql Engine', () => {
     expect(res.error).toBeUndefined();
     expect(res.rowCount).toBe(2);
   });
+
+  it('should successfully execute analytical queries on Kami Ely lab datasets', async () => {
+    const { KAMI_LAB_DATASETS } = await import('../app/lib/seedKamiData');
+
+    // Query 1: Channels Attribution
+    const res1 = executeClientSql(
+      'SELECT channel_type, COUNT(*) AS total_assets, SUM(gmv_million_vnd) AS total_gmv FROM kami_channel_performance GROUP BY channel_type ORDER BY total_gmv DESC',
+      KAMI_LAB_DATASETS.kami_channel_performance
+    );
+    expect(res1.error).toBeUndefined();
+    expect(res1.rowCount).toBeGreaterThan(0);
+
+    // Query 2: Paid Ads vs Organic Videos
+    const res2 = executeClientSql(
+      'SELECT is_ads, COUNT(*) AS video_count, SUM(gmv_million_vnd) AS total_gmv, ROUND(AVG(interaction_rate_pct), 2) AS avg_engagement FROM tiktok_shop_videos GROUP BY is_ads ORDER BY is_ads DESC',
+      KAMI_LAB_DATASETS.tiktok_shop_videos
+    );
+    expect(res2.error).toBeUndefined();
+    expect(res2.rowCount).toBe(2);
+    const adsRow = res2.rows.find((r) => r.is_ads === 1);
+    expect(adsRow).toBeDefined();
+    expect(adsRow?.video_count).toBeGreaterThan(0);
+
+    // Query 3: Live Duration & Fatigue
+    const res3 = executeClientSql(
+      'SELECT duration_bracket, COUNT(*) AS session_count, ROUND(AVG(gmv_per_hour_m), 2) AS avg_gmv_hour FROM tiktok_shop_livestreams GROUP BY duration_bracket ORDER BY avg_gmv_hour DESC',
+      KAMI_LAB_DATASETS.tiktok_shop_livestreams
+    );
+    expect(res3.error).toBeUndefined();
+    expect(res3.rowCount).toBeGreaterThan(1);
+
+    // Query 4: Affiliate Pareto
+    const res4 = executeClientSql(
+      'SELECT koc_tier, COUNT(*) AS creator_count, SUM(gmv_million_vnd) AS total_gmv FROM tiktok_shop_affiliates GROUP BY koc_tier ORDER BY total_gmv DESC',
+      KAMI_LAB_DATASETS.tiktok_shop_affiliates
+    );
+    expect(res4.error).toBeUndefined();
+    expect(res4.rowCount).toBe(3);
+  });
 });
+
 

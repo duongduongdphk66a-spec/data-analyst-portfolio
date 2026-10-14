@@ -210,6 +210,95 @@ export default function ShopAffiliateSection({
           </div>
         </div>
       </div>
+      {/* 1.4.B KOC Risk Concentration & Follower Tier Dynamics */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-slate-50 to-amber-50/30 border-2 border-amber-300/80 dark:from-slate-900 dark:via-slate-900 dark:to-amber-950/20 dark:border-amber-700/60 shadow-sm space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-200/60 dark:border-slate-800 pb-4">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-900 dark:text-amber-300 text-xs font-black uppercase tracking-wider border border-amber-500/20">
+              <Lightbulb className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+              <span>{isEn ? 'KOC TIER AUDIT & VENDOR CONCENTRATION' : 'ĐỐI SOÁT PHÂN TẦNG KOC & RỦI RO TẬP TRUNG ĐƠN LẺ'}</span>
+            </div>
+            <h3 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
+              {isEn 
+                ? 'Follower Tier Asymmetry vs. Single-Creator Vulnerability' 
+                : 'Nghịch Lý Phân Tầng Follower: Nhóm <5k Gánh 96% GMV vs. Rủi Ro Phụ Thuộc 1 KOC'}
+            </h3>
+          </div>
+          <span className="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-amber-300 dark:border-slate-700 text-amber-800 dark:text-amber-300 shrink-0 self-start sm:self-auto">
+            90-Day Affiliate Audit: 4,7 Tỷ ₫
+          </span>
+        </div>
+
+        {/* 2-Column Comparative Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left: Follower Tier Realities */}
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-3">
+            <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              {isEn ? '1. Follower Tier Dynamics (<5k Follower Rule)' : '1. Cấu Trúc Tầng Follower: Quy Luật <5k Follower'}
+            </h4>
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Dữ liệu đối soát 90 ngày (31,6k đơn bán / 4,7 Tỷ đ) chứng minh nghịch lý lớn: Nhóm có lượng follow thấp nhất lại mang lại doanh số cao nhất toàn sàn:
+            </p>
+            <div className="space-y-2 pt-1 text-xs">
+              <div className="p-2.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-between">
+                <div>
+                  <span className="font-black text-emerald-900 dark:text-emerald-200">Nano KOC (≤ 1k Follow):</span>
+                  <span className="text-[11px] text-slate-500 block">16,0k SP (50,7% đơn)</span>
+                </div>
+                <div className="text-right font-black text-emerald-700 dark:text-emerald-300 text-sm">
+                  2,1 Tỷ ₫ (43,4% GMV)
+                </div>
+              </div>
+              <div className="p-2.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-between">
+                <div>
+                  <span className="font-black text-emerald-900 dark:text-emerald-200">Micro KOC (1k – 5k Follow):</span>
+                  <span className="text-[11px] text-slate-500 block">16,6k SP (52,7% đơn)</span>
+                </div>
+                <div className="text-right font-black text-emerald-700 dark:text-emerald-300 text-sm">
+                  2,5 Tỷ ₫ (52,7% GMV)
+                </div>
+              </div>
+            </div>
+            <p className="text-[11px] text-slate-500 italic pt-1">
+              → Tổng cộng nhóm KOC dưới 5.000 followers đóng góp hơn <strong>95% – 96% doanh số Affiliate</strong>, trong khi nhóm Macro (&gt;50k follow) chỉ chiếm chưa đầy 15% sản lượng.
+            </p>
+          </div>
+
+          {/* Right: Creator Dependency & Dormancy */}
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-3">
+            <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-rose-500" />
+              {isEn ? '2. Single-Creator Concentration Risk' : '2. Rủi Ro Tập Trung Cá Nhân & KOC "Ngủ Đông"'}
+            </h4>
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Mặc dù có tới <strong>5.713 Creators</strong> liên kết giỏ hàng, chỉ <strong>5,1% (292 KOC)</strong> thực sự phát sinh đơn hàng thành công (94,9% hoàn toàn ngủ đông):
+            </p>
+            <div className="p-3 rounded-xl bg-rose-50/60 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60 space-y-2 text-xs">
+              <div className="flex items-center justify-between font-bold text-rose-900 dark:text-rose-200">
+                <span>Trọng số kênh @girlstyle.vn:</span>
+                <span className="font-black text-sm">&gt;40% GMV Affiliate</span>
+              </div>
+              <p className="text-[11px] text-rose-800/80 dark:text-rose-300/80 leading-relaxed">
+                Khi bóc tách tuần giữa tháng 3/2026, khi cả <code>@girlstyle.vn</code> và <code>@yumireview07</code> không lên sóng LIVE, toàn bộ doanh thu LIVE của mạng lưới affiliate rơi thẳng về <strong>0 VNĐ</strong>!
+              </p>
+            </div>
+            <p className="text-[11px] text-slate-500 leading-relaxed pt-1">
+              → Ngành hàng <strong>Clothing & Accessories</strong> chiếm 68,69% sản lượng affiliate nhưng việc dồn doanh số vào 1 KOC duy nhất tạo ra lỗ hổng lớn về tính liên tục của doanh nghiệp.
+            </p>
+          </div>
+        </div>
+
+        {/* Actionable Strategy Takeaway */}
+        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2.5 leading-relaxed">
+          <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+          <p>
+            <strong className="text-amber-900 dark:text-amber-300">Giải pháp chiến lược: </strong>
+            Triển khai chương trình <em>"Automated Sample Kit"</em> cho tệp Nano/Micro (&lt;5k follow) và nâng mức hoa hồng LIVE lên <strong>12% – 14%</strong> (so với mức 8% – 10% của video) để chuyển đổi một phần trong 5.400 KOC video sang mảng LIVE, phân tán rủi ro phụ thuộc vào kênh vệ tinh duy nhất.
+          </p>
+        </div>
+      </div>
     </section>
   );
 }
+

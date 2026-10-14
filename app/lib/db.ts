@@ -8,6 +8,10 @@ import {
   shopWeeklyTrendData,
   shopTopSKUs,
   topAffiliatesList,
+  shopLivestreamsList,
+  shopVideosList,
+  collaborativeStoresList,
+  dataScopesList,
 } from './seedKamiData';
 
 let pool: Pool | null = null;
@@ -540,6 +544,68 @@ export async function initDatabase(force = false): Promise<{ success: boolean; m
       }
     }
 
+    // Seed Livestreams if empty
+    const [ttLiveRows] = await p.query<RowDataPacket[]>('SELECT COUNT(*) as count FROM tiktok_shop_livestreams');
+    if (ttLiveRows && ttLiveRows[0] && ttLiveRows[0].count === 0) {
+      for (let i = 0; i < shopLivestreamsList.length; i++) {
+        const ls = shopLivestreamsList[i];
+        await p.query(`
+          INSERT INTO tiktok_shop_livestreams (
+            channel_type, session_date, title, creator, duration, viewers, units_sold, gmv_million_vnd, extra_metric
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [ls.channelType, ls.sessionDate, ls.title, ls.creator, ls.duration, ls.viewers, ls.unitsSold, ls.gmvMillionVnd, ls.extraMetric]);
+      }
+    }
+
+    // Seed Videos if empty
+    const [ttVideoRows] = await p.query<RowDataPacket[]>('SELECT COUNT(*) as count FROM tiktok_shop_videos');
+    if (ttVideoRows && ttVideoRows[0] && ttVideoRows[0].count === 0) {
+      for (let i = 0; i < shopVideosList.length; i++) {
+        const v = shopVideosList[i];
+        await p.query(`
+          INSERT INTO tiktok_shop_videos (
+            channel_type, video_date, title, author, views, likes, units_sold, gmv_million_vnd, interaction_rate
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [v.channelType, v.videoDate, v.title, v.author, v.views, v.likes, v.unitsSold, v.gmvMillionVnd, v.interactionRate]);
+      }
+    }
+
+    // Seed Collaborative Stores if empty
+    const [ttStoreRows] = await p.query<RowDataPacket[]>('SELECT COUNT(*) as count FROM tiktok_shop_collaborative_stores');
+    if (ttStoreRows && ttStoreRows[0] && ttStoreRows[0].count === 0) {
+      for (let i = 0; i < collaborativeStoresList.length; i++) {
+        const s = collaborativeStoresList[i];
+        await p.query(`
+          INSERT INTO tiktok_shop_collaborative_stores (
+            store_rank, store_name, category, total_shop_units, affiliated_products,
+            best_seller, creator_units_sold, creator_gmv_million_vnd, gmv_share, live_sessions, videos_count
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+          s.storeRank, s.storeName, s.category, s.totalShopUnits, s.affiliatedProducts,
+          s.bestSeller, s.creatorUnitsSold, s.creatorGmvMillionVnd, s.gmvShare, s.liveSessions, s.videosCount,
+        ]);
+      }
+    }
+
+    // Seed Data Scopes if empty
+    const [ttScopeRows] = await p.query<RowDataPacket[]>('SELECT COUNT(*) as count FROM tiktok_shop_data_scopes');
+    if (ttScopeRows && ttScopeRows[0] && ttScopeRows[0].count === 0) {
+      for (let i = 0; i < dataScopesList.length; i++) {
+        const ds = dataScopesList[i];
+        await p.query(`
+          INSERT INTO tiktok_shop_data_scopes (
+            scope_code, scope_type, title_vi, title_en, timeframe_vi, timeframe_en,
+            timeframe_badge, period_vi, period_en, total_gmv, total_units,
+            key_highlights_json, screenshot_ids_json
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+          ds.scopeCode, ds.scopeType, ds.titleVi, ds.titleEn, ds.timeframeVi, ds.timeframeEn,
+          ds.timeframeBadge, ds.periodVi, ds.periodEn, ds.totalGmv, ds.totalUnits,
+          ds.keyHighlightsJson, ds.screenshotIdsJson,
+        ]);
+      }
+    }
+
     _isInitialized = true;
 
     // Cleanup stale rate limit records (older than 24h, not currently locked)
@@ -868,6 +934,190 @@ export async function getDbTikTokTimeSeries() {
   }
 }
 
+export async function getDbTikTokOverview() {
+  const p = getDbPool();
+  if (!p) return { shop: shopOverviewKPIs, creator: creatorProfile };
+
+  try {
+    const [rows] = await p.query<RowDataPacket[]>('SELECT * FROM tiktok_shop_overview');
+    if (Array.isArray(rows) && rows.length > 0) {
+      let shop: any = shopOverviewKPIs;
+      let creator: any = creatorProfile;
+      for (const r of rows) {
+        if (r.entity_type === 'shop') {
+          shop = r.metrics_json ? JSON.parse(r.metrics_json) : {
+            totalGmvAllTime: r.total_gmv_all_time,
+            totalUnitsAllTime: r.total_units_all_time,
+            activeSkus: Number(r.active_skus),
+            historicalSkus: Number(r.historical_skus),
+            nationalRank: r.national_rank,
+            categoryRank: r.category_rank,
+            categoryName: r.category_name,
+            inclusionDate: r.inclusion_date,
+            priceRange: r.price_range,
+            totalLiveStreams: r.total_livestreams,
+            totalVideos: r.total_videos,
+            totalAffiliates: r.total_affiliates,
+            rating: r.rating,
+            positiveRate: r.positive_rate,
+            qualityScore: Number(r.quality_score),
+            responseRate24h: r.response_rate_24h,
+            shipWithin48h: r.ship_within_48h,
+            period180dUnits: r.period_180d_units,
+            period180dGmv: r.period_180d_gmv,
+          };
+        } else if (r.entity_type === 'creator') {
+          creator = r.metrics_json ? JSON.parse(r.metrics_json) : {
+            name: r.entity_name,
+            totalGmv: r.total_gmv_all_time,
+            totalUnitsSold: r.total_units_all_time,
+            nationalRank: r.national_rank,
+            categoryRank: r.category_rank,
+            category: r.category_name,
+            priceRange: r.price_range,
+            liveGmv: r.period_180d_gmv,
+          };
+        }
+      }
+      return { shop, creator };
+    }
+    return { shop: shopOverviewKPIs, creator: creatorProfile };
+  } catch {
+    return { shop: shopOverviewKPIs, creator: creatorProfile };
+  }
+}
+
+export async function getDbTikTokCollaborativeStores() {
+  const p = getDbPool();
+  if (!p) return collaborativeStoresList;
+
+  try {
+    const [rows] = await p.query<RowDataPacket[]>(
+      'SELECT store_rank as `rank`, store_name as name, store_name as storeName, category, total_shop_units as totalShopUnits, affiliated_products as affiliatedProducts, best_seller as bestSeller, creator_units_sold as creatorUnitsSold, CONCAT(creator_units_sold, " SP") as unitsSold, creator_gmv_million_vnd as creatorGmv, CONCAT(creator_gmv_million_vnd, " Triệu đ") as gmv, CONCAT(creator_gmv_million_vnd, " Triệu đ") as gmvDisplay, gmv_share as gmvShare, live_sessions as liveSessions, videos_count as videosCount FROM tiktok_shop_collaborative_stores ORDER BY store_rank ASC'
+    );
+    if (Array.isArray(rows) && rows.length > 0) {
+      return rows.map((r) => ({
+        rank: Number(r.rank),
+        name: String(r.name),
+        storeName: String(r.storeName),
+        category: String(r.category || ''),
+        totalShopUnits: String(r.totalShopUnits || ''),
+        affiliatedProducts: Number(r.affiliatedProducts || 0),
+        bestSeller: String(r.bestSeller || ''),
+        creatorUnitsSold: Number(r.creatorUnitsSold || 0),
+        unitsSold: String(r.unitsSold || ''),
+        unitsShare: String(r.unitsShare || ''),
+        creatorGmv: Number(r.creatorGmv || 0),
+        gmv: String(r.gmv || ''),
+        gmvDisplay: String(r.gmvDisplay || ''),
+        gmvShare: String(r.gmvShare || ''),
+        liveSessions: Number(r.liveSessions || 0),
+        videosCount: Number(r.videosCount || 0),
+      }));
+    }
+    return collaborativeStoresList;
+  } catch {
+    return collaborativeStoresList;
+  }
+}
+
+export async function getDbTikTokDataScopes() {
+  const p = getDbPool();
+  if (!p) return dataScopesList;
+
+  try {
+    const [rows] = await p.query<RowDataPacket[]>(
+      'SELECT * FROM tiktok_shop_data_scopes ORDER BY id ASC'
+    );
+    if (Array.isArray(rows) && rows.length > 0) {
+      return rows.map((r) => ({
+        id: Number(r.id),
+        scopeCode: String(r.scope_code),
+        scopeType: String(r.scope_type) as 'shop' | 'creator',
+        titleVi: String(r.title_vi),
+        titleEn: String(r.title_en),
+        timeframeVi: String(r.timeframe_vi || ''),
+        timeframeEn: String(r.timeframe_en || ''),
+        timeframeBadge: String(r.timeframe_badge || ''),
+        periodVi: String(r.period_vi || ''),
+        periodEn: String(r.period_en || ''),
+        totalGmv: String(r.total_gmv || ''),
+        totalUnits: String(r.total_units || ''),
+        keyHighlights: r.key_highlights_json ? JSON.parse(r.key_highlights_json) : [],
+        screenshotIds: r.screenshot_ids_json ? JSON.parse(r.screenshot_ids_json) : [],
+      }));
+    }
+    return dataScopesList;
+  } catch {
+    return dataScopesList;
+  }
+}
+
+export async function getDbTikTokLivestreams(channelType?: 'shop' | 'creator') {
+  const p = getDbPool();
+  if (!p) return shopLivestreamsList;
+
+  try {
+    let sql = 'SELECT id, channel_type as channelType, session_date as sessionDate, title, creator, duration, viewers, units_sold as units, gmv_million_vnd as gmv FROM tiktok_shop_livestreams';
+    const params: any[] = [];
+    if (channelType) {
+      sql += ' WHERE channel_type = ?';
+      params.push(channelType);
+    }
+    sql += ' ORDER BY gmv_million_vnd DESC';
+    const [rows] = await p.query<RowDataPacket[]>(sql, params);
+    if (Array.isArray(rows) && rows.length > 0) {
+      return rows.map((r) => ({
+        id: Number(r.id),
+        channelType: String(r.channelType) as 'shop' | 'creator',
+        sessionDate: String(r.sessionDate || ''),
+        title: String(r.title),
+        creator: String(r.creator || ''),
+        duration: String(r.duration || ''),
+        viewers: Number(r.viewers || 0),
+        units: Number(r.units || 0),
+        gmv: Number(r.gmv || 0),
+      }));
+    }
+    return shopLivestreamsList;
+  } catch {
+    return shopLivestreamsList;
+  }
+}
+
+export async function getDbTikTokVideos(channelType?: 'shop' | 'creator') {
+  const p = getDbPool();
+  if (!p) return shopVideosList;
+
+  try {
+    let sql = 'SELECT id, channel_type as channelType, video_date as videoDate, title, author, views, likes, units_sold as units, gmv_million_vnd as gmv, interaction_rate as interactionRate FROM tiktok_shop_videos';
+    const params: any[] = [];
+    if (channelType) {
+      sql += ' WHERE channel_type = ?';
+      params.push(channelType);
+    }
+    sql += ' ORDER BY gmv_million_vnd DESC';
+    const [rows] = await p.query<RowDataPacket[]>(sql, params);
+    if (Array.isArray(rows) && rows.length > 0) {
+      return rows.map((r) => ({
+        id: Number(r.id),
+        channelType: String(r.channelType) as 'shop' | 'creator',
+        videoDate: String(r.videoDate || ''),
+        title: String(r.title),
+        author: String(r.author || ''),
+        views: String(r.views || '0'),
+        likes: String(r.likes || '0'),
+        units: Number(r.units || 0),
+        gmv: Number(r.gmv || 0),
+        interactionRate: String(r.interactionRate || ''),
+      }));
+    }
+    return shopVideosList;
+  } catch {
+    return shopVideosList;
+  }
+}
+
 // ==========================================
 // Heritage Japan Tourism Queries
 // ==========================================
@@ -1034,5 +1284,20 @@ export async function getDbDapOrderStats() {
   }
 }
 
+export async function getDbTsddInventoryStats() {
+  const p = getDbPool();
+  if (!p) return null;
 
-
+  try {
+    const [books] = await p.query<RowDataPacket[]>('SELECT COUNT(*) as totalBooks FROM tsdd.inventory_book');
+    const [buses] = await p.query<RowDataPacket[]>('SELECT COUNT(*) as totalBuses FROM tsdd.inventory_librarybus');
+    const [borrows] = await p.query<RowDataPacket[]>('SELECT COUNT(*) as totalBorrows FROM tsdd.transactions_borrowrecord');
+    return {
+      totalBooks: Number(books[0]?.totalBooks) || 0,
+      totalBuses: Number(buses[0]?.totalBuses) || 0,
+      totalBorrows: Number(borrows[0]?.totalBorrows) || 0,
+    };
+  } catch {
+    return null;
+  }
+}

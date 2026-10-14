@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Bookmark, Video, Radio } from 'lucide-react';
+import { Bookmark, Video, Radio, Search, Eye, AlertCircle, Sparkles, ShoppingCart, TrendingUp } from 'lucide-react';
 import {
   ResponsiveContainer,
   BarChart,
@@ -27,13 +27,19 @@ import {
 interface CreatorContentSectionProps {
   isEn: boolean;
   copyDeepLink: (_id: string, _name?: string) => void;
+  topVideos?: typeof creatorTopVideos;
+  topLiveStreams?: typeof creatorTopLiveStreams;
 }
 
 export default function CreatorContentSection({
   isEn,
-  copyDeepLink
+  copyDeepLink,
+  topVideos,
+  topLiveStreams
 }: CreatorContentSectionProps) {
   const [crVideoCatMetric, setCrVideoCatMetric] = useState<'units' | 'gmv'>('units');
+  const activeVideos = (topVideos && topVideos.length > 0) ? topVideos : creatorTopVideos;
+  const activeStreams = (topLiveStreams && topLiveStreams.length > 0) ? topLiveStreams : creatorTopLiveStreams;
 
   return (
     <div className="space-y-16">
@@ -161,7 +167,7 @@ export default function CreatorContentSection({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {creatorTopVideos.map((v, i) => (
+                {activeVideos.map((v, i) => (
                   <tr key={i} className="hover:bg-[#FFE485]/10 transition-colors dark:hover:bg-slate-800/50">
                     <td className="p-3.5 font-bold text-slate-900 dark:text-white max-w-sm truncate">{v.title}</td>
                     <td className="p-3.5 text-slate-600 dark:text-slate-400 font-mono">{v.publishDate}</td>
@@ -178,7 +184,7 @@ export default function CreatorContentSection({
 
           {/* Mobile Card Layout */}
           <div className="grid grid-cols-1 gap-3 md:hidden">
-            {creatorTopVideos.map((v, i) => (
+            {activeVideos.map((v, i) => (
               <div key={i} className="p-4 rounded-2xl bg-white border border-[#FFE485] shadow-xs space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">
@@ -266,7 +272,7 @@ export default function CreatorContentSection({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {creatorTopLiveStreams.map((l, i) => (
+                {activeStreams.map((l, i) => (
                   <tr key={i} className="hover:bg-[#FFE485]/10 transition-colors dark:hover:bg-slate-800/50">
                     <td className="p-3.5 font-bold text-slate-900 dark:text-white max-w-sm truncate">{l.title}</td>
                     <td className="p-3.5 text-slate-600 dark:text-slate-400 font-mono">{l.startTime}</td>
@@ -287,7 +293,7 @@ export default function CreatorContentSection({
 
           {/* Mobile Card Layout */}
           <div className="grid grid-cols-1 gap-3 md:hidden">
-            {creatorTopLiveStreams.map((l, i) => (
+            {activeStreams.map((l, i) => (
               <div key={i} className="p-4 rounded-2xl bg-white border border-[#FFD14C] shadow-xs space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">
@@ -318,7 +324,112 @@ export default function CreatorContentSection({
             ))}
           </div>
         </div>
+
+        {/* 2.5.B LIVE Traffic Funnel Bottlenecks & Conversion Diagnostics */}
+        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-slate-50 to-sky-50/40 border-2 border-[#9BE7FA]/80 dark:from-slate-900 dark:via-slate-900 dark:to-sky-950/20 dark:border-sky-800/60 shadow-sm space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sky-200/60 dark:border-slate-800 pb-4">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 text-sky-900 dark:text-sky-300 text-xs font-black uppercase tracking-wider border border-sky-500/20">
+                <Radio className="w-3.5 h-3.5 text-[#0D7287] dark:text-sky-400" />
+                <span>{isEn ? 'LIVE FUNNEL DIAGNOSTICS & ENTRY BOTTLENECKS' : 'CHẨN ĐOÁN PHỄU LIVE & NÚT THẮT TỶ LỆ VÀO PHÒNG'}</span>
+              </div>
+              <h3 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
+                {isEn 
+                  ? 'The 5.09% Feed Preview Bottleneck vs. 25.68% Search Efficiency' 
+                  : 'Nút Thắt Ô Xem Trước 5,09% Vào Phòng vs. Đòn Bẩy Tìm Kiếm 25,68%'}
+              </h3>
+            </div>
+            <span className="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-sky-300 dark:border-slate-700 text-[#0D7287] dark:text-sky-300 shrink-0 self-start sm:self-auto">
+              Low-Season Funnel: CTOR 1,44% · CTR 5,49%
+            </span>
+          </div>
+
+          {/* 2-Column Comparative Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left: Traffic Source Entry Rates */}
+            <div className="p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-3">
+              <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                <Eye className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                {isEn ? '1. Traffic Source Entry Rate Paradox' : '1. Nơi Khán Giả Tìm Thấy Bạn (Hiển Thị vs. Vào Phòng)'}
+              </h4>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Bóc tách dữ liệu viễn trắc TikTok Live Workbench chỉ ra nghịch lý lớn ở phễu tiếp cận:
+              </p>
+              <div className="space-y-2 pt-1 text-xs">
+                {/* Feed preview */}
+                <div className="p-2.5 rounded-xl bg-rose-50/70 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60 flex items-center justify-between">
+                  <div>
+                    <span className="font-black text-rose-950 dark:text-rose-200">Bảng tin - Ô Live (Feed Preview):</span>
+                    <span className="text-[11px] text-slate-500 block">46% Tổng lượt hiển thị (PV khổng lồ)</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="font-black text-rose-600 dark:text-rose-400 text-sm">5,09% vào phòng</span>
+                    <span className="text-[10px] text-slate-500 block">95% người xem lướt qua</span>
+                  </div>
+                </div>
+
+                {/* Search */}
+                <div className="p-2.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-between">
+                  <div>
+                    <span className="font-black text-emerald-950 dark:text-emerald-200">Tìm kiếm (Search Intent):</span>
+                    <span className="text-[11px] text-slate-500 block">43% Tổng lượt hiển thị</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="font-black text-emerald-700 dark:text-emerald-300 text-sm">25,68% vào phòng</span>
+                    <span className="text-[10px] text-slate-500 block">Gấp 5x so với Feed Preview</span>
+                  </div>
+                </div>
+
+                {/* Live Merge */}
+                <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 flex items-center justify-between text-[11px]">
+                  <span className="text-slate-600 dark:text-slate-400">Hợp nhất Live (Live Merge): 2% PV</span>
+                  <span className="font-black text-indigo-600 dark:text-indigo-400">41,41% vào phòng (Cao nhất sàn)</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Conversion Leakage */}
+            <div className="p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-3">
+              <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                <ShoppingCart className="w-4 h-4 text-amber-500" />
+                {isEn ? '2. In-Room Checkout Conversion Funnel' : '2. Nghẽn Phễu Chuyển Đổi Trong Phòng LIVE'}
+              </h4>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Chẩn đoán 28 ngày giai đoạn thấp điểm (843 đơn SKU / 93,5 Tr đ GMV trên 47 đơn/phiên):
+              </p>
+              <div className="space-y-2 pt-1 text-xs">
+                <div className="p-2.5 rounded-xl bg-sky-50/70 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-800/60 flex items-center justify-between">
+                  <div>
+                    <span className="font-black text-slate-900 dark:text-white">Tỷ lệ Nhấp Sản Phẩm (CTR):</span>
+                    <span className="text-[11px] text-slate-500 block">Khách xem bấm mở giỏ hàng</span>
+                  </div>
+                  <span className="font-black text-[#0D7287] dark:text-[#9BE7FA] text-sm">5,49%</span>
+                </div>
+                <div className="p-2.5 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 flex items-center justify-between">
+                  <div>
+                    <span className="font-black text-amber-950 dark:text-amber-200">Tỷ lệ Chốt Đơn Từ Lượt Nhấp (CTOR):</span>
+                    <span className="text-[11px] text-slate-500 block">Nút thắt nghiêm trọng nhất của phòng live</span>
+                  </div>
+                  <span className="font-black text-rose-600 dark:text-rose-400 text-sm">1,44%</span>
+                </div>
+              </div>
+              <p className="text-[11px] text-slate-500 italic pt-1">
+                → Doanh số từ công cụ Flash Sale LIVE hiện mới chỉ chiếm <strong>19,65%</strong> doanh thu marketing, cho thấy phòng live thiếu voucher chốt hạ khẩn cấp (Urgency / Countdown).
+              </p>
+            </div>
+          </div>
+
+          {/* Actionable Strategy Takeaway */}
+          <div className="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2.5 leading-relaxed">
+            <Sparkles className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA] shrink-0 mt-0.5" />
+            <p>
+              <strong className="text-[#0D7287] dark:text-[#9BE7FA]">Kế hoạch hành động phễu LIVE: </strong>
+              (1) <em>Cải tổ 3 giây đầu ô Live</em>: Tối ưu cover title và góc quay cận chất vải đồ bơi ngay trên màn hình preview để kéo tỷ lệ vào phòng từ 5,09% lên 8–10%. (2) <em>Khai thác từ khóa SEO</em>: Tối ưu tiêu đề phòng theo từ khóa có ý định mua cao (&quot;Bikini đi biển&quot;, &quot;Chân váy ngắn&quot;). (3) <em>Đồng bộ Ghim Đinh & Flash Sale 15 phút</em>: Host nói mã nào ghim ngay mã đó kèm đồng hồ đếm ngược để nâng CTOR từ 1,44% lên ngưỡng chuẩn 3–4%.
+            </p>
+          </div>
+        </div>
       </section>
     </div>
   );
 }
+

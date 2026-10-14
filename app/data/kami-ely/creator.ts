@@ -400,6 +400,354 @@ export const creator180dTelemetry = {
 
 
 // ============================================================================
-// DATA COLLECTION SCOPES & TIMEFRAMES DEFINITIONS
-// Phân định chuẩn xác 2 nhóm dữ liệu và các chu kỳ thời gian thu thập
+// DỮ LIỆU CHẨN ĐOÁN PHÒNG LIVE & HIỆU SUẤT KÊNH CHÍNH CHỦ (ĐỒNG BỘ 180 NGÀY & 90 NGÀY)
+// Tệp đích: app/data/kami-ely/creator.ts
+// Khung thời gian chuẩn: 180 ngày (09/03/2026 – 04/09/2026) & 90 ngày gần nhất
 // ============================================================================
+
+export interface CreatorFormatComparisonItem {
+  formatId: 'self-live' | 'affiliate-live' | 'self-video';
+  formatName: { vi: string; en: string };
+  contentVolume: { vi: string; en: string };
+  gmvContribution: { vi: string; en: string };
+  costStructure: { vi: string; en: string };
+  conversionEfficiency: { vi: string; en: string };
+  gpmRange: string;
+}
+
+export interface LiveTrafficSourceItem {
+  source: { vi: string; en: string };
+  pvSharePct: number;
+  roomEntryRatePct: number;
+  status: 'high-efficiency' | 'bottleneck' | 'secondary';
+  diagnosis: { vi: string; en: string };
+}
+
+export interface SynchronizedLiveSessionTelemetry {
+  sessionCode: string;
+  datasetSource: string;
+  sessionType: { vi: string; en: string };
+  duration: string;
+  totalGmv: string;
+  rawGmv: number;
+  unitsSold: number;
+  viewers: string;
+  views: string;
+  impressions: string;
+  gmvPerHour: string;
+  impressionGpm: string;
+  avgWatchTimeSec: number;
+  viewsOver1Min: number;
+  previewEntryRatePct: number;
+  productClickRatePct: number;
+  liveCtrPct: number;
+  skuOrderCvrPct: number;
+  commentRatePct: number;
+  likeRatePct: number;
+  adSpend: string;
+  rawAdSpend: number;
+  roas: number;
+  trafficBreakdown: {
+    feedProposalGmvPct: number;
+    livePreviewGmvPct: number;
+    searchGmvPct: number;
+    searchViewsPct?: number;
+  };
+  nonFollowerGmvSharePct: number;
+  followerGmvSharePct: number;
+  heroSku: {
+    productId: string;
+    productName: string;
+    clicks: number;
+    ctrPct: number;
+    orders: number;
+    gmv: string;
+    gmvShareOfSessionPct: number;
+  };
+}
+
+export const creatorLiveDiagnosticsData = {
+  // 1. Tổng hợp Đa khung thời gian chuẩn hóa của Kênh Chính Chủ (@kamielyhn)
+  multiWindowSummary: {
+    allTime: {
+      totalGmv: '9,2 Tỉ VNĐ',
+      rawGmv: 9200000000,
+      shopGmvSharePct: 29.1,
+      unitsSold: '69,9k đơn',
+      liveGmv: '5,9 Tỉ VNĐ',
+      liveSessions: '2,5k phiên (Lũy kế toàn thời gian)',
+      avgLiveDuration: '02:26:18',
+      videoGmv: '3,2 Tỉ VNĐ',
+      totalVideos: 859,
+      shoppableVideos: 551,
+      totalVideoViews: '34,3M views'
+    },
+    last180Days: {
+      period: '09/03/2026 – 04/09/2026 (180 ngày)',
+      channelTotalGmv: '5,8 Tỉ VNĐ',
+      channelTotalUnits: '39,3k đơn',
+      shopGmvSharePct: 45.7,
+      // Số liệu đối chiếu giữa Dashboard 180d (4,9 Tỉ đ / 470 phiên) và File CSV chi tiết phiên (7,02 Tỉ đ / 475 phiên)
+      liveDashboardGmv: '4,9 Tỉ VNĐ (52,7% GMV LIVE toàn sàn)',
+      liveCsvGrossGmv: '7.023.530.158 VNĐ (~7,02 Tỉ VNĐ)',
+      liveCsvTotalUnits: 49817,
+      liveCsvTotalViewers: 3292698,
+      liveSessionsCount: 470,
+      liveCsvSessionsCount: 475,
+      convertingSessionsCount: 454,
+      convertingSessionRatePct: 95.58,
+      avgViewersPerSession: 6932,
+      avgGmvPerSession: '12,55 – 14,79 Tr VNĐ/phiên',
+      videoGmv180d: '870,2 Tr – 872,2 Tr VNĐ'
+    },
+    last90Days: {
+      period: '90 ngày gần nhất (Trong chuỗi 180 ngày)',
+      totalGmv: '3,0 Tỉ VNĐ',
+      unitsSold: '20,0k đơn',
+      shopUnitsSharePct: 49.76,
+      shopGmvSharePct: 49.3,
+      liveSessionsCount: 208,
+      videosPublishedCount: 147,
+      avgVideoViews: '16,4k views/video'
+    }
+  },
+
+  // 2. Bóc tách 3 trụ cột nội dung & Nghịch lý GPM 4,5x (Đồng bộ bảng 180 ngày & 90 ngày)
+  formatComparison: [
+    {
+      formatId: 'self-live',
+      formatName: { vi: 'LIVE Chính chủ (@kamielyhn)', en: 'Self-Operated LIVE (@kamielyhn)' },
+      contentVolume: {
+        vi: '470 – 475 phiên (180 ngày) / 208 phiên (90 ngày)',
+        en: '470 – 475 sessions (180d) / 208 sessions (90d)'
+      },
+      gmvContribution: {
+        vi: '4,9 – 7,02 Tỉ VNĐ (180 ngày) / 3,0 Tỉ VNĐ (90 ngày)',
+        en: '4.9B – 7.02B VND (180d) / 3.0B VND (90d)'
+      },
+      costStructure: {
+        vi: 'Chi phí cố định cao: Setup phòng live, lương cứng + KPI host, lịch live ~7,5h/ngày (11:30–13:30 & 16:30–22:00).',
+        en: 'High fixed cost: Studio setup, host base salary + KPI, fixed ~7.5h/day schedule (11:30–13:30 & 16:30–22:00).'
+      },
+      conversionEfficiency: {
+        vi: 'GPM thấp (29,2k – 30,2k VNĐ); 95,58% phiên có đơn (454/475 phiên); gắn dàn trải 375 SKUs gây loãng nhận diện.',
+        en: 'Low GPM (29.2k – 30.2k VND); 95.58% converting sessions (454/475); diluted by 375 pinned SKUs.'
+      },
+      gpmRange: '29,2k – 30,2k VNĐ'
+    },
+    {
+      formatId: 'affiliate-live',
+      formatName: { vi: 'LIVE Tiếp thị Liên kết (Affiliate)', en: 'Affiliate Creator LIVE' },
+      contentVolume: {
+        vi: 'Phần còn lại trong 7.046 phiên toàn sàn (234 KOC chuyên LIVE / 5,7k Creators)',
+        en: 'Remainder of 7,046 shop sessions (234 LIVE KOCs out of 5.7k Creators)'
+      },
+      gmvContribution: {
+        vi: 'Khoảng 3,4 Tỉ VNĐ (180 ngày) / 28,75% sản lượng shop (90 ngày)',
+        en: '~3.4B VND (180d) / 28.75% of shop volume (90d)'
+      },
+      costStructure: {
+        vi: 'Chi phí biến đổi: Thuần trả hoa hồng (8% – 12%) theo đơn phát sinh thành công.',
+        en: 'Variable cost: Pure commission (8% – 12%) paid on successful orders.'
+      },
+      conversionEfficiency: {
+        vi: 'Doanh thu trung bình toàn sàn đạt 1,3 Tr VNĐ/phiên (10 sản phẩm/phiên; 5,5k viewers/phiên).',
+        en: 'Shop-wide average of 1.3M VND/session (10 units/session; 5.5k viewers/session).'
+      },
+      gpmRange: 'TB 1,3 Tr đ / phiên'
+    },
+    {
+      formatId: 'self-video',
+      formatName: { vi: 'Shoppable Video (Chính chủ)', en: 'Self-Operated Shoppable Video' },
+      contentVolume: {
+        vi: '551 video gắn giỏ hàng (All-time) / 147 video xuất bản (90 ngày)',
+        en: '551 shoppable videos (All-time) / 147 videos published (90d)'
+      },
+      gmvContribution: {
+        vi: '3,2 Tỉ VNĐ (All-time) / ~872,2 Tr VNĐ (180 ngày)',
+        en: '3.2B VND (All-time) / ~872.2M VND (180d)'
+      },
+      costStructure: {
+        vi: 'Chi phí sản xuất 1 lần, phân phối hiển thị tự động 24/7 (tập trung 137 SKUs chủ lực).',
+        en: 'One-time production cost, 24/7 distribution (focused on 137 core SKUs).'
+      },
+      conversionEfficiency: {
+        vi: 'GPM vượt trội (134,8k – 135,2k VNĐ), cao gấp 4,5 lần so với Livestream.',
+        en: 'Superior GPM (134.8k – 135.2k VND), 4.5x higher than Livestream.'
+      },
+      gpmRange: '134,8k – 135,2k VNĐ (4,5x)'
+    }
+  ] as CreatorFormatComparisonItem[],
+
+  // 3. Chẩn đoán Phễu Lưu Lượng & Phiên Thực Nghiệm (Đồng bộ trực tiếp vào bảng 475 phiên 180 ngày)
+  inWindowLiveDiagnostics: {
+    // Chỉ số phễu 28 ngày của các phiên trong giai đoạn thấp điểm/chuyển mùa thuộc chuỗi 180 ngày
+    lowSeason28dFunnel: {
+      scopeNote: {
+        vi: 'Chỉ số chẩn đoán 28 ngày của các phiên LIVE trong giai đoạn thấp điểm (thuộc chuỗi 180 ngày)',
+        en: '28-day diagnostic funnel of LIVE sessions during off-peak window (within the 180-day dataset)'
+      },
+      gmv: '93.504.198 đ',
+      skuOrders: 843,
+      customers: 712,
+      itemsSold: 846,
+      ctorPct: 1.44,
+      ctrPct: 5.49,
+      recent28dAvgPerSession: {
+        avgOrders: 47,
+        avgGmv: '5,2 Tr VNĐ/phiên',
+        followerNetChange: -260
+      }
+    },
+
+    // Bảng "Nơi khán giả tìm thấy bạn" (Trích xuất từ các phiên tuần 16/03 – 18/03/2026 trong bảng 180 ngày)
+    trafficSourcesDistribution: [
+      {
+        source: { vi: 'Bảng tin - Ô Live (Feed Live Preview)', en: 'For You Feed - Live Preview' },
+        pvSharePct: 46,
+        roomEntryRatePct: 5.09,
+        status: 'bottleneck',
+        diagnosis: {
+          vi: 'Chiếm 46% tổng hiển thị của các phiên LIVE trong bảng 180 ngày nhưng tỷ lệ vào phòng chỉ đạt 5,09% (95% khách lướt qua).',
+          en: 'Accounts for 46% of PV across sessions in the 180d dataset, but room entry rate is only 5.09% (95% scroll past).'
+        }
+      },
+      {
+        source: { vi: 'Tìm kiếm (Search)', en: 'Search' },
+        pvSharePct: 43,
+        roomEntryRatePct: 25.68,
+        status: 'high-efficiency',
+        diagnosis: {
+          vi: 'Chiếm 43% hiển thị với tỷ lệ vào phòng lên tới 25,68% — nguồn lưu lượng có ý định mua hàng cao nhất của kênh.',
+          en: 'Accounts for 43% of PV with a 25.68% room entry rate — the highest-intent traffic source for the channel.'
+        }
+      },
+      {
+        source: { vi: 'Hợp nhất Live (Live Merge)', en: 'Live Merge' },
+        pvSharePct: 2,
+        roomEntryRatePct: 41.41,
+        status: 'high-efficiency',
+        diagnosis: {
+          vi: 'Đạt tỷ lệ vào phòng cao nhất (41,41%) trên tập phiên được chẩn đoán.',
+          en: 'Highest room entry rate (41.41%) among diagnosed sessions.'
+        }
+      },
+      {
+        source: { vi: 'Bảng tin - Đầu video & Nguồn khác', en: 'Video Header, Shop Tab & Others' },
+        pvSharePct: 9,
+        roomEntryRatePct: 6.45,
+        status: 'secondary',
+        diagnosis: {
+          vi: 'Gồm Đầu video (3% PV - 3,24% vào phòng), Khác (2% PV - 9,99%), Tin nhắn (2% PV - 0,77%), Tab Cửa hàng (1% PV - 2,90%) và Bảng tin khác (1% PV - 19,93%).',
+          en: 'Includes Video Header (3% PV - 3.24% entry), Others (2% PV - 9.99%), Messages (2% PV - 0.77%), Shop Tab (1% PV - 2.90%), and Other Feed (1% PV - 19.93%).'
+        }
+      }
+    ] as LiveTrafficSourceItem[],
+
+    // Các phiên thực tế khớp trực tiếp ngày giờ trong bảng Creator's Live Streaming (180 ngày: 09/03 - 04/09/2026)
+    verifiedInWindowSessions: [
+      { date: '16/06/2026 (Đỉnh mùa vụ)', gmv: '272.100.000 đ', units: 1850, note: 'Phiên kỷ lục 180 ngày (Marathon 13–16h)' },
+      { date: '12/06/2026 (Cao điểm hè)', gmv: '216.800.000 đ', units: 1495, note: 'Phiên bùng nổ mùa du lịch biển' },
+      { date: '15/06/2026 (Cao điểm hè)', gmv: '194.900.000 đ', units: 1305, note: 'Phiên cao điểm liền kề trước đỉnh 16/06' },
+      { date: '17/03/2026 20:29', gmv: '6.705.758 đ', viewers: 4032, note: 'Top 1 phiên yêu thích tuần giữa tháng 3/2026' },
+      { date: '16/03/2026 19:20', gmv: '6.526.649 đ', viewers: 5203, note: 'Top 2 phiên yêu thích tuần giữa tháng 3/2026' },
+      { date: '18/03/2026 10:09', gmv: '5.046.672 đ', viewers: 2500, note: 'Top 3 phiên yêu thích tuần giữa tháng 3/2026' },
+      { date: '23/03/2026 (Phiên tối)', gmv: '1.319.779 đ', viewers: 1885, note: 'Phiên ghi nhận trên bảng Chỉ số chính' },
+      { date: '24/03/2026 (Phiên trưa)', gmv: '947.569 đ', viewers: 1409, note: 'Phiên ghi nhận trên bảng Chỉ số chính' },
+      { date: '04/09/2026 (Đáy cuối vụ)', gmv: '119.000 đ', units: 1, note: 'Phiên suy kiệt doanh thu cuối chu kỳ 180 ngày' }
+    ],
+
+    // 2 Mẫu Phiên Thực Nghiệm (Baseline vs. Ads-Boosted) chuẩn hóa làm Hồ sơ Kỹ thuật của các phiên trong bảng 180 ngày
+    sampledSessionTelemetryProfiles: [
+      {
+        sessionCode: 'LIVE-PROFILE-A (Baseline Session)',
+        datasetSource: '[Kami Ely]-Creator\'s Live Streaming for Goods Promotion List (180 ngày)',
+        sessionType: {
+          vi: 'Mẫu Phiên Tiêu Chuẩn (Ngân sách Ads tối thiểu - 5h07m)',
+          en: 'Baseline Session Profile (Minimal Ads Spend - 5h07m)'
+        },
+        duration: '5 giờ 07 phút 26 giây',
+        totalGmv: '9.250.675 VNĐ',
+        rawGmv: 9250675,
+        unitsSold: 83,
+        viewers: '1.620 người',
+        views: '2,37K lượt xem',
+        impressions: '53,52K lượt (10,44K/giờ)',
+        gmvPerHour: '1,81 triệu VNĐ/giờ',
+        impressionGpm: '172,86K VNĐ',
+        avgWatchTimeSec: 30,
+        viewsOver1Min: 229,
+        previewEntryRatePct: 2.62,
+        productClickRatePct: 4.43,
+        liveCtrPct: 48.57,
+        skuOrderCvrPct: 3.5,
+        commentRatePct: 9.9,
+        likeRatePct: 52.91,
+        adSpend: '678.750 VNĐ',
+        rawAdSpend: 678750,
+        roas: 13.63,
+        trafficBreakdown: {
+          feedProposalGmvPct: 49.71,
+          livePreviewGmvPct: 41.14,
+          searchGmvPct: 8.26
+        },
+        nonFollowerGmvSharePct: 92.0,
+        followerGmvSharePct: 8.0,
+        heroSku: {
+          productId: '1732394234571031644',
+          productName: 'Chân Váy Ngắn Form Chữ A Dáng Ôm (CV11)',
+          clicks: 17900,
+          ctrPct: 5.51,
+          orders: 57,
+          gmv: '9.091.674 VNĐ',
+          gmvShareOfSessionPct: 98.28
+        }
+      },
+      {
+        sessionCode: 'LIVE-PROFILE-B (Ads-Boosted Session)',
+        datasetSource: '[Kami Ely]-Creator\'s Live Streaming for Goods Promotion List (180 ngày)',
+        sessionType: {
+          vi: 'Mẫu Phiên Bùng Nổ Đòn Bẩy Ads (Tối ưu Search & Ads 3,2x - 3h36m)',
+          en: 'Ads-Scaled Session Profile (Search & 3.2x Ads Leverage - 3h36m)'
+        },
+        duration: '3 giờ 36 phút 07 giây',
+        totalGmv: '20.649.761 VNĐ',
+        rawGmv: 20649761,
+        unitsSold: 188,
+        viewers: '3.020 người',
+        views: '4,33K lượt xem',
+        impressions: '94,76K lượt (26,31K/giờ)',
+        gmvPerHour: '5,73 triệu VNĐ/giờ',
+        impressionGpm: '217,92K VNĐ',
+        avgWatchTimeSec: 24,
+        viewsOver1Min: 363,
+        previewEntryRatePct: 3.17,
+        productClickRatePct: 4.57,
+        liveCtrPct: 46.51,
+        skuOrderCvrPct: 4.3,
+        commentRatePct: 7.73,
+        likeRatePct: 50.93,
+        adSpend: '2.170.000 VNĐ',
+        rawAdSpend: 2170000,
+        roas: 9.52,
+        trafficBreakdown: {
+          feedProposalGmvPct: 37.4,
+          livePreviewGmvPct: 25.09,
+          searchGmvPct: 15.97,
+          searchViewsPct: 40.56
+        },
+        nonFollowerGmvSharePct: 94.0,
+        followerGmvSharePct: 6.0,
+        heroSku: {
+          productId: '1732394234571031644',
+          productName: 'Chân Váy Ngắn Form Chữ A Dáng Ôm (CV11)',
+          clicks: 24093,
+          ctrPct: 7.43,
+          orders: 130,
+          gmv: '20.335.121 VNĐ',
+          gmvShareOfSessionPct: 98.48
+        }
+      }
+    ] as SynchronizedLiveSessionTelemetry[]
+  }
+};

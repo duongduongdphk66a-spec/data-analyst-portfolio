@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ShoppingBag, ImageIcon } from 'lucide-react';
+import { ShoppingBag, ImageIcon, TrendingUp, Tag, Compass, Sparkles, Layers } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
@@ -182,6 +182,97 @@ export default function ShopCatalogPricingSection({
           ))}
         </div>
       </div>
+
+      {/* 1.3.B Pricing Sweet Spot & Seasonal Category Pivot Strategy */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-slate-50 to-sky-50/40 border-2 border-sky-300/80 dark:from-slate-900 dark:via-slate-900 dark:to-sky-950/20 dark:border-sky-800/60 shadow-sm space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sky-200/60 dark:border-slate-800 pb-4">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 text-sky-900 dark:text-sky-300 text-xs font-black uppercase tracking-wider border border-sky-500/20">
+              <Compass className="w-3.5 h-3.5 text-[#0D7287] dark:text-sky-400" />
+              <span>{isEn ? 'STRATEGIC PORTFOLIO MANAGEMENT' : 'ĐỊNH VỊ RỔ GIÁ & XOAY TRỤC DANH MỤC THU – ĐÔNG'}</span>
+            </div>
+            <h3 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
+              {isEn 
+                ? 'Pricing Sweet Spot (100k–200k VND) & Seasonal Category Pivot' 
+                : 'Vùng Giá Vàng (100k–200k đ) & Kịch Bản Chuyển Dịch Danh Mục Mùa Vụ'}
+            </h3>
+          </div>
+          <span className="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-sky-300 dark:border-slate-700 text-[#0D7287] dark:text-sky-300 shrink-0 self-start sm:self-auto">
+            159/179 SKUs &gt; 75k đ (88,8%)
+          </span>
+        </div>
+
+        {/* 2-Column Comparative Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left: Pricing Sweet Spot */}
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-3">
+            <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+              <Tag className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+              {isEn ? '1. Pricing Sweet Spot Concentration' : '1. Vùng Giá Vàng & Cơ Cấu Phân Khúc'}
+            </h4>
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Dữ liệu viễn trắc rổ giá chứng minh shop tập trung cực kỳ nhất quán vào phân khúc thời trang trung cấp:
+            </p>
+            <div className="space-y-2 pt-1 text-xs">
+              <div className="p-2.5 rounded-xl bg-sky-50/70 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-800/60 flex items-center justify-between">
+                <div>
+                  <span className="font-black text-slate-900 dark:text-white">Phân khúc &gt; 75.000 đ:</span>
+                  <span className="text-[11px] text-slate-500 block">159 SKU (88,75% danh mục)</span>
+                </div>
+                <div className="text-right">
+                  <span className="font-black text-[#0D7287] dark:text-[#9BE7FA] text-sm">98,90% GMV</span>
+                  <span className="text-[10px] text-slate-500 block">94,95% Sản lượng</span>
+                </div>
+              </div>
+              <div className="p-2.5 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 flex items-center justify-between">
+                <div>
+                  <span className="font-black text-amber-900 dark:text-amber-200">Vùng Giá Vàng (100k – 200k đ):</span>
+                  <span className="text-[11px] text-slate-500 block">Top Hero SKUs (CV11 125k, H36 194k, H32 162k)</span>
+                </div>
+                <div className="text-right font-black text-amber-700 dark:text-amber-300 text-sm">
+                  67,4% Doanh số
+                </div>
+              </div>
+            </div>
+            <p className="text-[11px] text-slate-500 italic pt-1">
+              → Phân khúc &lt; 45.000 đ chỉ đóng góp <strong>1,21% sản lượng</strong> và <strong>0,13% GMV</strong>, khẳng định shop không bán phá giá mà thành công nhờ định vị phân khúc chất lượng.
+            </p>
+          </div>
+
+          {/* Right: Seasonal Category Pivot */}
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-3">
+            <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+              <Layers className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+              {isEn ? '2. Seasonal Category Pivot Strategy' : '2. Kịch Bản Xoay Trục Ngành Hàng Mùa Vụ'}
+            </h4>
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Ngành hàng <strong>Sports & Outdoor (Bikini/Đồ bơi)</strong> đang chiếm tới <strong>60,46% sản lượng</strong> và <strong>66,48% GMV</strong> toàn shop (thậm chí 79,31% sản lượng & 98,33% GMV trên Shoppable Video):
+            </p>
+            <div className="p-3 rounded-xl bg-indigo-50/60 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-900/60 space-y-2 text-xs">
+              <div className="flex items-center justify-between font-bold text-indigo-950 dark:text-indigo-200">
+                <span>Rủi ro điểm rơi tháng 8 – 9:</span>
+                <span className="font-black text-rose-600 dark:text-rose-400">Doanh số hạ nhiệt cuối hè</span>
+              </div>
+              <p className="text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                Khi mùa du lịch biển khép lại (doanh thu trượt dốc từ đỉnh 1,06 Tỷ/tuần về 83,5M đ/2 tuần cuối tháng 8), shop cần lập tức kích hoạt nhóm <strong>Womenswear & Underwear</strong> (đang sẵn có 37,85% sản lượng và 33,22% GMV).
+              </p>
+            </div>
+            <p className="text-[11px] text-slate-500 leading-relaxed pt-1">
+              → Đẩy mạnh các mã thời trang 4 mùa như <strong>Chân váy ngắn chữ A (CV11)</strong>, <strong>Chân váy ren dài</strong>, kết hợp điều chuyển ngân sách từ các chiến dịch xả kho hè sang dòng sản phẩm ứng dụng quanh năm.
+            </p>
+          </div>
+        </div>
+
+        {/* Senior Strategic Takeaway */}
+        <div className="p-4 rounded-2xl bg-[#0D7287]/10 border border-[#0D7287]/20 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2.5 leading-relaxed">
+          <Sparkles className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA] shrink-0 mt-0.5" />
+          <p>
+            <strong className="text-[#0D7287] dark:text-[#9BE7FA]">Khuyến nghị Analytics: </strong>
+            Không giữ nguyên tỷ trọng ngân sách quảng cáo của mùa hè cho mùa thu đông. Tái cấu trúc danh mục SKU ngay từ tháng 7 bằng cách chuẩn bị các bộ sưu tập thời trang dạo phố / công sở trẻ để giữ nhịp tăng trưởng doanh thu mà không bị suy giảm theo tính mùa vụ của đồ bơi.
+          </p>
+        </div>
+      </div>
     </section>
   );
 }
+

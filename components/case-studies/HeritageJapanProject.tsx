@@ -33,12 +33,16 @@ const HERITAGE_JAPAN_SECTIONS = [
   'ket-luan'
 ];
 
+import type { HeritageJapanDataPayload } from '@/app/types/caseStudies';
+import { useCaseStudyData } from '@/hooks/useCaseStudyData';
+
 interface HeritageJapanProjectProps {
   onBack?: () => void;
   isEmbedded?: boolean;
+  initialData?: HeritageJapanDataPayload;
 }
 
-export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJapanProjectProps = {}) {
+export default function HeritageJapanProject({ onBack, isEmbedded, initialData }: HeritageJapanProjectProps = {}) {
   const router = useRouter();
   const { language, setLanguage } = useLanguage();
   const isEn = language === 'en';
@@ -49,30 +53,11 @@ export default function HeritageJapanProject({ onBack, isEmbedded }: HeritageJap
   };
 
   const { activeSection } = useScrollSpy(HERITAGE_JAPAN_SECTIONS, 130);
-  const [heritageData, setHeritageData] = React.useState<{
-    tourists?: any[];
-    spend?: any[];
-    regional?: any[];
-    isLiveDb?: boolean;
-  } | null>(null);
-
-  React.useEffect(() => {
-    let active = true;
-    fetch('/api/case-studies/heritage-japan')
-      .then((r) => r.json())
-      .then((res) => {
-        if (active && res.success && res.data) {
-          setHeritageData({
-            ...res.data,
-            isLiveDb: res.source === 'mysql',
-          });
-        }
-      })
-      .catch(() => {});
-    return () => {
-      active = false;
-    };
-  }, []);
+  const { data: heritageData } = useCaseStudyData<HeritageJapanDataPayload>({
+    projectId: 'proj-heritage-japan',
+    endpoint: '/api/case-studies/heritage-japan',
+    initialData,
+  });
 
 
   const navItems = useMemo(() => [

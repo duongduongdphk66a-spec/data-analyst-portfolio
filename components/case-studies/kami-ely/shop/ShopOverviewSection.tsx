@@ -9,13 +9,16 @@ interface ShopOverviewSectionProps {
   isEn: boolean;
   copyDeepLink: (_id: string) => void;
   renderDataScopeMatrix: (_scope: 'shop' | 'creator') => React.ReactNode;
+  overviewKPIs?: typeof shopOverviewKPIs;
 }
 
 export default function ShopOverviewSection({
   isEn,
   copyDeepLink,
-  renderDataScopeMatrix
+  renderDataScopeMatrix,
+  overviewKPIs
 }: ShopOverviewSectionProps) {
+  const activeOverview = overviewKPIs || shopOverviewKPIs;
   return (
     <section id="shop-overview" className="space-y-6 scroll-mt-36">
       <SectionHeader 
@@ -44,19 +47,19 @@ export default function ShopOverviewSection({
           <div className="divide-y divide-slate-100 text-xs text-slate-600 dark:divide-slate-800 dark:text-slate-400">
             <div className="py-2 flex justify-between">
               <span>{isEn ? 'Inclusion Time' : 'Thời gian gia nhập'}:</span>
-              <b className="text-slate-900 dark:text-slate-200">{shopOverviewKPIs.inclusionDate}</b>
+              <b className="text-slate-900 dark:text-slate-200">{activeOverview.inclusionDate}</b>
             </div>
             <div className="py-2 flex justify-between">
               <span>{isEn ? 'Product Price Range' : 'Dải giá niêm yết'}:</span>
-              <b className="text-slate-900 dark:text-slate-200">{shopOverviewKPIs.priceRange}</b>
+              <b className="text-slate-900 dark:text-slate-200">{activeOverview.priceRange}</b>
             </div>
             <div className="py-2 flex justify-between">
               <span>{isEn ? 'National Ranking' : 'Xếp hạng toàn quốc'}:</span>
-              <b className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">{shopOverviewKPIs.nationalRank}</b>
+              <b className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">{activeOverview.nationalRank}</b>
             </div>
             <div className="py-2 flex justify-between">
               <span>{isEn ? 'Category Rank' : 'Xếp hạng ngành hàng'}:</span>
-              <b className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">{shopOverviewKPIs.categoryRank}</b>
+              <b className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">{activeOverview.categoryRank}</b>
             </div>
           </div>
         </div>
@@ -69,19 +72,19 @@ export default function ShopOverviewSection({
           </h3>
           <div className="grid grid-cols-2 gap-3 pt-1">
             <div className="p-3 rounded-2xl bg-[#FFFDF5] dark:bg-slate-800/60 border border-[#FFE485]/60 dark:border-slate-700/60">
-              <div className="text-xl font-black text-[#0D7287] dark:text-[#FFD14C]">{shopOverviewKPIs.rating}</div>
+              <div className="text-xl font-black text-[#0D7287] dark:text-[#FFD14C]">{activeOverview.rating}</div>
               <div className="text-[11px] text-slate-500 dark:text-slate-400">{isEn ? 'Shop Overall Rating' : 'Đánh giá chung'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-[#F0FBFE] dark:bg-slate-800/60 border border-[#9BE7FA]/60 dark:border-slate-700/60">
-              <div className="text-xl font-black text-[#0D7287] dark:text-[#9BE7FA]">{shopOverviewKPIs.positiveRate}</div>
+              <div className="text-xl font-black text-[#0D7287] dark:text-[#9BE7FA]">{activeOverview.positiveRate}</div>
               <div className="text-[11px] text-slate-500 dark:text-slate-400">{isEn ? 'Positive Rating' : 'Tỷ lệ tích cực'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-[#F0FBFE] dark:bg-slate-800/60 border border-[#9BE7FA]/60 dark:border-slate-700/60">
-              <div className="text-xl font-black text-[#0D7287] dark:text-[#9BE7FA]">{shopOverviewKPIs.responseRate24h}</div>
+              <div className="text-xl font-black text-[#0D7287] dark:text-[#9BE7FA]">{activeOverview.responseRate24h}</div>
               <div className="text-[11px] text-slate-500 dark:text-slate-400">{isEn ? 'Responds <24h' : 'Phản hồi trong 24h'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-[#FFFDF5] dark:bg-slate-800/60 border border-[#FFE485]/60 dark:border-slate-700/60">
-              <div className="text-xl font-black text-[#0D7287] dark:text-[#FFD14C]">{shopOverviewKPIs.shipWithin48h}</div>
+              <div className="text-xl font-black text-[#0D7287] dark:text-[#FFD14C]">{activeOverview.shipWithin48h}</div>
               <div className="text-[11px] text-slate-500 dark:text-slate-400">{isEn ? 'Ships <48h' : 'Giao hàng trong 48h'}</div>
             </div>
           </div>
@@ -96,19 +99,19 @@ export default function ShopOverviewSection({
           <div className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300">
             <div className="flex justify-between items-center p-2 rounded-xl bg-[#C8EEF7]/30 dark:bg-slate-800/60">
               <span>{isEn ? 'Active Products on Sale' : 'Sản phẩm đang mở bán'}</span>
-              <span className="font-extrabold text-slate-900 dark:text-white">{shopOverviewKPIs.activeSkus} / {shopOverviewKPIs.historicalSkus}</span>
+              <span className="font-extrabold text-slate-900 dark:text-white">{activeOverview.activeSkus} / {activeOverview.historicalSkus}</span>
             </div>
             <div className="flex justify-between items-center p-2 rounded-xl bg-[#C8EEF7]/30 dark:bg-slate-800/60">
               <span>{isEn ? 'Shoppable LIVE Sessions' : 'Phiên LIVE gắn giỏ hàng'}</span>
-              <span className="font-extrabold text-[#0D7287] dark:text-[#9BE7FA]">{shopOverviewKPIs.totalLiveStreams}</span>
+              <span className="font-extrabold text-[#0D7287] dark:text-[#9BE7FA]">{activeOverview.totalLiveStreams}</span>
             </div>
             <div className="flex justify-between items-center p-2 rounded-xl bg-[#C8EEF7]/30 dark:bg-slate-800/60">
               <span>{isEn ? 'Shoppable Short Videos' : 'Video ngắn gắn giỏ hàng'}</span>
-              <span className="font-extrabold text-[#0D7287] dark:text-[#9BE7FA]">{shopOverviewKPIs.totalVideos}</span>
+              <span className="font-extrabold text-[#0D7287] dark:text-[#9BE7FA]">{activeOverview.totalVideos}</span>
             </div>
             <div className="flex justify-between items-center p-2 rounded-xl bg-[#C8EEF7]/30 dark:bg-slate-800/60">
               <span>{isEn ? 'Active Affiliate Creators' : 'Nhà sáng tạo Affiliate'}</span>
-              <span className="font-extrabold text-slate-900 dark:text-white">{shopOverviewKPIs.totalAffiliates}</span>
+              <span className="font-extrabold text-slate-900 dark:text-white">{activeOverview.totalAffiliates}</span>
             </div>
           </div>
         </div>

@@ -37,13 +37,15 @@ interface CreatorSalesSectionProps {
   copyDeepLink: (_id: string, _name?: string) => void;
   openProofScreenshot: (_id: string) => void;
   handleTabChange: (_tab: 'science' | 'shop' | 'creator') => void;
+  collaborativeStores?: any;
 }
 
 export default function CreatorSalesSection({
   isEn,
   copyDeepLink,
   openProofScreenshot,
-  handleTabChange
+  handleTabChange,
+  collaborativeStores: _collaborativeStores
 }: CreatorSalesSectionProps) {
   const [crSalesMetric, setCrSalesMetric] = useState<'gmv' | 'units'>('gmv');
 

@@ -4,12 +4,18 @@ import { RowDataPacket } from 'mysql2';
 import { DEFAULT_PROJECTS } from '../../../defaultData';
 import ProjectDetailClient from './ProjectDetailClient';
 import { getDbPool } from '@/app/lib/db';
-import { getProjectByIdWithFallback } from '@/app/lib/serverData';
+import { 
+  getProjectByIdWithFallback,
+  getKamiElyDataWithFallback,
+  getHeritageJapanDataWithFallback,
+  getLibraryBusDataWithFallback
+} from '@/app/lib/serverData';
 
 export const dynamicParams = true;
 export const revalidate = 60;
 
 export async function generateStaticParams() {
+
   try {
     const pool = getDbPool();
     if (pool) {
@@ -98,5 +104,25 @@ export default async function ProjectDetailPage({
   const { id } = await params;
   const project = await getProjectByIdWithFallback(id);
 
-  return <ProjectDetailClient id={id} project={project} />;
+  let initialCaseStudyData: any = null;
+  try {
+    if (id === 'proj-kami-ely') {
+      initialCaseStudyData = await getKamiElyDataWithFallback();
+    } else if (id === 'proj-heritage-japan') {
+      initialCaseStudyData = await getHeritageJapanDataWithFallback();
+    } else if (id === 'proj-library-bus') {
+      initialCaseStudyData = await getLibraryBusDataWithFallback();
+    }
+  } catch (err) {
+    console.warn(`[ProjectDetailPage] Could not pre-fetch case study data for ${id}:`, err);
+  }
+
+  return (
+    <ProjectDetailClient 
+      id={id} 
+      project={project} 
+      initialCaseStudyData={initialCaseStudyData} 
+    />
+  );
 }
+

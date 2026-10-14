@@ -4,6 +4,7 @@ import { getDbPool } from './db';
 import { getApiCacheAsync, setApiCacheAsync } from './cache';
 import { DEFAULT_PROFILE, DEFAULT_PROJECTS } from '../defaultData';
 import { ProfileData, ProjectData } from '../types';
+import { KamiElyDataPayload, HeritageJapanDataPayload, LibraryBusDataPayload } from '../types/caseStudies';
 import { RowDataPacket } from 'mysql2';
 
 export async function getServerLanguage() {
@@ -256,55 +257,141 @@ export async function getServerPortfolioData(): Promise<{ profile: ProfileData; 
 /**
  * Fetch TikTok / Kami Ely live telemetry data from MySQL with fallback.
  */
-export async function getKamiElyDataWithFallback() {
+export async function getKamiElyDataWithFallback(): Promise<KamiElyDataPayload> {
+  const cacheKey = 'case-study:kami-ely';
+  try {
+    const cached = await getApiCacheAsync<KamiElyDataPayload>(cacheKey);
+    if (cached) return cached;
+  } catch {
+    // Non-critical cache error
+  }
+
   const { 
     getDbTikTokWeeklyTrends, 
     getDbTikTokTopSKUs, 
     getDbTikTokTopAffiliates,
     getDbTikTokTimeSeries,
-    getDbDapOrderStats
+    getDbDapOrderStats,
+    getDbTikTokOverview,
+    getDbTikTokCollaborativeStores,
+    getDbTikTokDataScopes,
+    getDbTikTokLivestreams,
+    getDbTikTokVideos
   } = await import('./db');
-  const [weeklyTrends, topSkus, topAffiliates, timeSeries, dapStats] = await Promise.all([
+
+  const [
+    weeklyTrends, 
+    topSkus, 
+    topAffiliates, 
+    timeSeries, 
+    dapStats,
+    overview,
+    collaborativeStores,
+    dataScopes,
+    livestreams,
+    videos
+  ] = await Promise.all([
     getDbTikTokWeeklyTrends(),
     getDbTikTokTopSKUs(),
     getDbTikTokTopAffiliates(),
     getDbTikTokTimeSeries(),
     getDbDapOrderStats(),
+    getDbTikTokOverview(),
+    getDbTikTokCollaborativeStores(),
+    getDbTikTokDataScopes(),
+    getDbTikTokLivestreams(),
+    getDbTikTokVideos(),
   ]);
-  return { weeklyTrends, topSkus, topAffiliates, timeSeries, dapStats };
+
+  const payload: KamiElyDataPayload = {
+    weeklyTrends,
+    topSkus,
+    topAffiliates,
+    timeSeries,
+    dapStats,
+    shopOverview: overview.shop,
+    creatorProfile: overview.creator,
+    collaborativeStores,
+    dataScopes,
+    livestreams,
+    videos,
+    isLiveDb: Boolean(timeSeries && timeSeries.length > 0),
+  };
+
+  setApiCacheAsync(cacheKey, payload, 120000).catch(() => {});
+  return payload;
 }
 
 /**
  * Fetch Heritage Japan live telemetry data from MySQL with fallback.
  */
-export async function getHeritageJapanDataWithFallback() {
+export async function getHeritageJapanDataWithFallback(): Promise<HeritageJapanDataPayload> {
+  const cacheKey = 'case-study:heritage-japan';
+  try {
+    const cached = await getApiCacheAsync<HeritageJapanDataPayload>(cacheKey);
+    if (cached) return cached;
+  } catch {
+    // Non-critical cache error
+  }
+
   const { 
     getDbHeritageJapanTourists, 
     getDbHeritageJapanSpend, 
     getDbHeritageJapanRegional 
   } = await import('./db');
+
   const [tourists, spend, regional] = await Promise.all([
     getDbHeritageJapanTourists(),
     getDbHeritageJapanSpend(),
     getDbHeritageJapanRegional(),
   ]);
-  return { tourists, spend, regional };
+
+  const payload: HeritageJapanDataPayload = {
+    tourists: tourists || [],
+    spend: spend || [],
+    regional: regional || [],
+    isLiveDb: Boolean(tourists && tourists.length > 0),
+  };
+
+  setApiCacheAsync(cacheKey, payload, 120000).catch(() => {});
+  return payload;
 }
 
 /**
  * Fetch Library Bus live telemetry data from MySQL with fallback.
  */
-export async function getLibraryBusDataWithFallback() {
+export async function getLibraryBusDataWithFallback(): Promise<LibraryBusDataPayload> {
+  const cacheKey = 'case-study:library-bus';
+  try {
+    const cached = await getApiCacheAsync<LibraryBusDataPayload>(cacheKey);
+    if (cached) return cached;
+  } catch {
+    // Non-critical cache error
+  }
+
   const { 
     getDbLibraryBusBenchmarks, 
     getDbLibraryBusWeekly, 
-    getDbTsddFleet 
+    getDbTsddFleet,
+    getDbTsddInventoryStats
   } = await import('./db');
-  const [latencyBenchmarks, weeklyActivity, fleet] = await Promise.all([
+
+  const [latencyBenchmarks, weeklyActivity, fleet, inventoryStats] = await Promise.all([
     getDbLibraryBusBenchmarks(),
     getDbLibraryBusWeekly(),
     getDbTsddFleet(),
+    getDbTsddInventoryStats(),
   ]);
-  return { latencyBenchmarks, weeklyActivity, fleet };
+
+  const payload: LibraryBusDataPayload = {
+    latencyBenchmarks: latencyBenchmarks || [],
+    weeklyActivity: weeklyActivity || [],
+    fleet: fleet || [],
+    inventoryStats,
+    isLiveDb: Boolean(fleet && fleet.length > 0),
+  };
+
+  setApiCacheAsync(cacheKey, payload, 120000).catch(() => {});
+  return payload;
 }
 

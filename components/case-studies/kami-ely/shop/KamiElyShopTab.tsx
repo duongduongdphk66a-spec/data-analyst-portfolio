@@ -8,6 +8,8 @@ import ShopAffiliateSection from './ShopAffiliateSection';
 import ShopLiveVideoSection from './ShopLiveVideoSection';
 import ShopAnalysisNarrative from './ShopAnalysisNarrative';
 
+import type { KamiElyDataPayload } from '@/app/types/caseStudies';
+
 interface KamiElyShopTabProps {
   isEn: boolean;
   copyDeepLink: (_id: string) => void;
@@ -30,6 +32,7 @@ interface KamiElyShopTabProps {
   setAffMetric: (_m: 'units' | 'gmv' | 'count') => void;
   affCatMetric: 'units' | 'gmv' | 'count';
   setAffCatMetric: (_m: 'units' | 'gmv' | 'count') => void;
+  telemetryData?: KamiElyDataPayload | null;
 }
 
 export default function KamiElyShopTab({
@@ -53,11 +56,16 @@ export default function KamiElyShopTab({
   affMetric,
   setAffMetric,
   affCatMetric,
-  setAffCatMetric
+  setAffCatMetric,
+  telemetryData
 }: KamiElyShopTabProps) {
-  const [dynamicData, setDynamicData] = useState<{ weeklyTrends?: any[]; topSkus?: any[]; topAffiliates?: any[] } | null>(null);
+  const [dynamicData, setDynamicData] = useState<KamiElyDataPayload | null>(telemetryData || null);
 
   useEffect(() => {
+    if (telemetryData) {
+      setDynamicData(telemetryData);
+      return;
+    }
     let active = true;
     fetch('/api/case-studies/kami-ely')
       .then((r) => r.json())
@@ -70,7 +78,9 @@ export default function KamiElyShopTab({
     return () => {
       active = false;
     };
-  }, []);
+  }, [telemetryData]);
+
+  const activeData = telemetryData || dynamicData;
 
   return (
     <div className="space-y-16">
@@ -78,6 +88,7 @@ export default function KamiElyShopTab({
         isEn={isEn}
         copyDeepLink={copyDeepLink}
         renderDataScopeMatrix={renderDataScopeMatrix}
+        overviewKPIs={activeData?.shopOverview as any}
       />
 
       {/* GROUP DIVIDER: DOANH SỐ & SẢN PHẨM */}
@@ -99,7 +110,7 @@ export default function KamiElyShopTab({
         setChannelMetric={setChannelMetric}
         contentMetric={contentMetric}
         setContentMetric={setContentMetric}
-        weeklyTrendData={dynamicData?.weeklyTrends}
+        weeklyTrendData={activeData?.weeklyTrends}
       />
 
       <ShopCatalogPricingSection
@@ -111,8 +122,8 @@ export default function KamiElyShopTab({
         setCategoryMetric={setCategoryMetric}
         priceMetric={priceMetric}
         setPriceMetric={setPriceMetric}
-        topSkus={dynamicData?.topSkus}
-        isLiveDb={Boolean(dynamicData)}
+        topSkus={activeData?.topSkus}
+        isLiveDb={Boolean(activeData?.isLiveDb)}
       />
 
       <ShopAffiliateSection
@@ -123,8 +134,8 @@ export default function KamiElyShopTab({
         setAffMetric={setAffMetric}
         affCatMetric={affCatMetric}
         setAffCatMetric={setAffCatMetric}
-        topAffiliates={dynamicData?.topAffiliates}
-        isLiveDb={Boolean(dynamicData)}
+        topAffiliates={activeData?.topAffiliates}
+        isLiveDb={Boolean(activeData?.isLiveDb)}
       />
 
       {/* GROUP DIVIDER: KÊNH TỰ VẬN HÀNH CHÍNH CHỦ */}

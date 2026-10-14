@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Download, Clock, TrendingUp, Radio } from 'lucide-react';
+import { Download, Clock, TrendingUp, Radio, AlertCircle, Sparkles, CheckCircle2 } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from 'recharts';
@@ -15,13 +15,19 @@ interface CreatorActivitySectionProps {
   isEn: boolean;
   copyDeepLink: (_id: string) => void;
   handleExportChart: (_id: string, _name: string) => void;
+  hourlyActivity?: typeof creatorHourlyActivity;
+  activityHighlights?: typeof creatorActivityHighlights;
 }
 
 export default function CreatorActivitySection({
   isEn,
   copyDeepLink,
-  handleExportChart
+  handleExportChart,
+  hourlyActivity,
+  activityHighlights
 }: CreatorActivitySectionProps) {
+  const activeHourly = (hourlyActivity && hourlyActivity.length > 0) ? hourlyActivity : creatorHourlyActivity;
+  const activeHighlights = activityHighlights || creatorActivityHighlights;
   return (
     <section id="creator-activity" className="space-y-6 scroll-mt-36">
       <SectionHeader 
@@ -54,7 +60,7 @@ export default function CreatorActivitySection({
 
         <div className="h-72 w-full pt-2">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={creatorHourlyActivity} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
+            <LineChart data={activeHourly} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
               <XAxis dataKey="hour" stroke="#64748B" fontSize={11} tickLine={false} />
               <YAxis yAxisId="left" stroke="#0D7287" fontSize={11} tickLine={false} />
@@ -124,6 +130,87 @@ export default function CreatorActivitySection({
           <p className="text-[11px] text-slate-500 pt-1">Mật độ phủ sóng dày đặc ~2.6 phiên LIVE/ngày giúp duy trì tương tác cao.</p>
         </div>
       </div>
+
+      {/* 2.2.B Posting Schedule Mismatch vs. Audience Peak Engagement Diagnostics */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-slate-50 to-amber-50/30 border-2 border-[#FFD14C]/80 dark:from-slate-900 dark:via-slate-900 dark:to-amber-950/20 dark:border-amber-700/60 shadow-sm space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-200/60 dark:border-slate-800 pb-4">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-900 dark:text-amber-300 text-xs font-black uppercase tracking-wider border border-amber-500/20">
+              <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+              <span>{isEn ? 'BEHAVIORAL ENGAGEMENT GAP ANALYSIS' : 'CHẨN ĐOÁN ĐIỂM RƠI TƯƠNG TÁC & LỆCH PHA LỊCH ĐĂNG'}</span>
+            </div>
+            <h3 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
+              {isEn 
+                ? 'Posting Schedule Mismatch vs. Audience Peak Engagement Hours' 
+                : 'Lệch Pha Giờ Đăng (54% Đăng Sáng) vs. Giờ Vàng Tương Tác Khán Giả (12h & 15h)'}
+            </h3>
+          </div>
+          <span className="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-amber-300 dark:border-slate-700 text-amber-800 dark:text-amber-300 shrink-0 self-start sm:self-auto">
+            Audience: 73% Nữ · 60% 18–24 Tuổi
+          </span>
+        </div>
+
+        {/* 2-Column Comparison */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left: Current Ineffective Habit */}
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-3">
+            <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-rose-500" />
+              {isEn ? '1. Current Publication Practice (Morning Heavy)' : '1. Thói Quen Xuất Bản Hiện Tại (Lệch Buổi Sáng)'}
+            </h4>
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Dữ liệu chu kỳ 24 giờ cho thấy <strong>54% số lượng video</strong> được đăng tập trung dồn dập trong khung giờ <strong>08:00 – 12:00 sáng</strong>:
+            </p>
+            <div className="space-y-1.5 pt-1 text-xs">
+              <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 flex justify-between">
+                <span>08:00 sáng:</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">8 video (Tương tác chỉ 0,66%)</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 flex justify-between">
+                <span>10:00 – 11:00 trưa:</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">13 video (Tương tác chỉ 0,55% – 0,60%)</span>
+              </div>
+            </div>
+            <p className="text-[11px] text-slate-500 italic pt-1">
+              → Khán giả mục tiêu (60% độ tuổi 18–24, học sinh/sinh viên & nhân sự trẻ) đang trong giờ học và làm việc, khiến video bỏ lỡ cửa sổ 1 giờ vàng đầu tiên của thuật toán phân phối.
+            </p>
+          </div>
+
+          {/* Right: Actual Audience Behavioral Peak */}
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-3">
+            <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              {isEn ? '2. Actual Audience Engagement Peak Hours' : '2. Điểm Rơi Tương Tác Thật Của Khán Giả'}
+            </h4>
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Tỷ lệ tương tác thực tế (Engagement Rate %) bùng nổ mạnh nhất vào hai thời điểm thư giãn tự nhiên:
+            </p>
+            <div className="space-y-1.5 pt-1 text-xs">
+              <div className="p-2.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 flex justify-between">
+                <span className="font-bold text-emerald-900 dark:text-emerald-200">Khung 15:00 – 16:00 (Chiều):</span>
+                <span className="font-black text-emerald-700 dark:text-emerald-300">0,74% (Đỉnh cao nhất ngày)</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 flex justify-between">
+                <span className="font-bold text-emerald-900 dark:text-emerald-200">Khung 12:00 – 13:00 (Nghỉ trưa):</span>
+                <span className="font-black text-emerald-700 dark:text-emerald-300">0,71% (Đỉnh nhì ngày)</span>
+              </div>
+            </div>
+            <p className="text-[11px] text-slate-500 italic pt-1">
+              → Mức tương tác lúc 15h–16h vượt trội <strong>+76%</strong> so với tỷ lệ tương tác bình quân 0,42% của toàn kênh.
+            </p>
+          </div>
+        </div>
+
+        {/* Action Plan */}
+        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2.5 leading-relaxed">
+          <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+          <p>
+            <strong className="text-amber-900 dark:text-amber-300">Hành động điều chỉnh lịch đăng: </strong>
+            Dịch chuyển toàn bộ lịch đăng video sáng sang <strong>11:30 – 12:00</strong> (đón dòng người lướt mạng giờ nghỉ trưa) và <strong>14:30 – 15:00</strong> (đón giờ giải lao chiều). Việc đăng trước đỉnh tương tác 30 phút cho phép thuật toán TikTok thu thập đủ tín hiệu retention ban đầu để đẩy video vào For You Feed tại đúng đỉnh tương tác.
+          </p>
+        </div>
+      </div>
     </section>
   );
 }
+

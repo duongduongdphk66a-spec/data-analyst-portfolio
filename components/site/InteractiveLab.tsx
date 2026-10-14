@@ -15,6 +15,7 @@ import { executeClientSql, SqlQueryResult } from '@/app/lib/sqlEngine';
 import { exportChartAsPng } from '@/app/lib/uiHelpers';
 import { useToast } from '@/components/ui/Toast';
 import { validateUploadedFile } from '@/app/lib/security';
+import { KAMI_LAB_DATASETS } from '@/app/lib/seedKamiData';
 
 const AboutSqlChart = dynamic(() => import('@/components/case-studies/charts/AboutSqlChart'), {
   ssr: false,
@@ -40,7 +41,8 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
   const isDark = resolvedTheme === 'dark';
 
   const [sandboxMode, setSandboxMode] = useState<'presets' | 'custom'>('presets');
-  const [activeScenario, setActiveScenario] = useState(0);
+  const [scenarioFilter, setScenarioFilter] = useState<'all' | 'kami' | 'other'>('all');
+  const [activeScenarioId, setActiveScenarioId] = useState<string>(SQL_SCENARIOS[0].id);
   const [isRunning, setIsRunning] = useState(false);
   const [showResult, setShowResult] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -50,16 +52,12 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
   const [customQuery, setCustomQuery] = useState(
     'SELECT channel_name, SUM(gmv_millions) AS total_gmv, COUNT(*) AS orders FROM sales_data GROUP BY channel_name ORDER BY total_gmv DESC;'
   );
-  const [customData, setCustomData] = useState<Record<string, any>[]>([
-    { channel_name: 'Live Shopping', gmv_millions: 4665, orders: 1850, category: 'Sports' },
-    { channel_name: 'Short Video', gmv_millions: 1607, orders: 620, category: 'Apparel' },
-    { channel_name: 'Product Showcase', gmv_millions: 1128, orders: 490, category: 'Accessories' },
-    { channel_name: 'Affiliate Creator', gmv_millions: 3300, orders: 1210, category: 'Sports' },
-  ]);
+  const [customData, setCustomData] = useState<Record<string, any>[]>(KAMI_LAB_DATASETS.kami_channel_performance);
+  const [selectedSampleTable, setSelectedSampleTable] = useState<string>('kami_channel_performance');
   const [customResult, setCustomResult] = useState<SqlQueryResult | null>(null);
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
 
-  const scenario = SQL_SCENARIOS[activeScenario];
+  const scenario = SQL_SCENARIOS.find((s) => s.id === activeScenarioId) || SQL_SCENARIOS[0];
 
   useEffect(() => {
     if (sandboxMode !== 'presets') return;
@@ -148,10 +146,40 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSelectScenario = (idx: number) => {
-    setActiveScenario(idx);
+  const handleSelectScenario = (id: string) => {
+    setActiveScenarioId(id);
     setShowResult(false);
     setIsRunning(false);
+  };
+
+  const handleSelectSampleTable = (tableKey: keyof typeof KAMI_LAB_DATASETS) => {
+    const data = KAMI_LAB_DATASETS[tableKey];
+    setCustomData(data);
+    setSelectedSampleTable(tableKey);
+    setUploadedFileName(null);
+
+    let defaultQuery = '';
+    switch (tableKey) {
+      case 'kami_channel_performance':
+        defaultQuery = 'SELECT channel_name, channel_type, gmv_million_vnd, orders, conversion_rate_pct FROM kami_channel_performance ORDER BY gmv_million_vnd DESC;';
+        break;
+      case 'tiktok_shop_videos':
+        defaultQuery = 'SELECT is_ads, COUNT(*) AS videos, SUM(views_k) AS total_views_k, SUM(gmv_million_vnd) AS total_gmv FROM tiktok_shop_videos GROUP BY is_ads;';
+        break;
+      case 'tiktok_shop_livestreams':
+        defaultQuery = 'SELECT duration_bracket, COUNT(*) AS sessions, ROUND(AVG(gmv_per_hour_m), 2) AS avg_gmv_hour FROM tiktok_shop_livestreams GROUP BY duration_bracket ORDER BY avg_gmv_hour DESC;';
+        break;
+      case 'tiktok_shop_affiliates':
+        defaultQuery = 'SELECT koc_tier, COUNT(*) AS creators, SUM(gmv_million_vnd) AS total_gmv FROM tiktok_shop_affiliates GROUP BY koc_tier ORDER BY total_gmv DESC;';
+        break;
+      default:
+        defaultQuery = 'SELECT * FROM table LIMIT 10;';
+    }
+
+    setCustomQuery(defaultQuery);
+    const res = executeClientSql(defaultQuery, data);
+    setCustomResult(res);
+    showToast(isEn ? `Loaded ${tableKey} (${data.length} rows)` : `Đã nạp bảng ${tableKey} (${data.length} dòng)`, 'info');
   };
 
   const handleExportChart = async () => {
@@ -214,22 +242,67 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
 
       {sandboxMode === 'presets' ? (
         <div className="space-y-6">
-          {/* Preset Buttons */}
-          <div className="flex flex-wrap gap-2">
-            {SQL_SCENARIOS.map((s, i) => (
-              <button
-                key={s.id}
-                onClick={() => handleSelectScenario(i)}
-                className={`px-4 py-2 text-xs font-heading font-semibold rounded-xl transition-colors duration-150 cursor-pointer active:scale-[0.97] ${
-                  activeScenario === i
-                    ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs'
-                    : 'bg-white text-slate-600 hover:text-slate-950 border border-slate-200/80 hover:border-[#9BE7FA]/50 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'
-                }`}
-              >
-                <span className="font-mono text-[11px] opacity-70 mr-1.5">{s.tag}</span>
-                {s.title}
-              </button>
-            ))}
+          {/* Category Filter Pills & Preset Scenario Buttons */}
+          <div className="space-y-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-[11px] font-heading font-bold text-slate-500 uppercase tracking-wider">
+                {isEn ? 'Filter by Case Study:' : 'Lọc Theo Dự Án:'}
+              </span>
+              <div className="inline-flex p-0.5 bg-slate-100 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 text-[11px] font-heading">
+                <button
+                  type="button"
+                  onClick={() => setScenarioFilter('all')}
+                  className={`px-2.5 py-1 rounded-md transition-all cursor-pointer font-semibold ${
+                    scenarioFilter === 'all'
+                      ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  {isEn ? 'All (6)' : 'Tất Cả (6)'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setScenarioFilter('kami')}
+                  className={`px-2.5 py-1 rounded-md transition-all cursor-pointer font-semibold ${
+                    scenarioFilter === 'kami'
+                      ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  ⚡ Kami Ely TikTok Shop (4)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setScenarioFilter('other')}
+                  className={`px-2.5 py-1 rounded-md transition-all cursor-pointer font-semibold ${
+                    scenarioFilter === 'other'
+                      ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  🏛️ {isEn ? 'Other Projects (2)' : 'Dự Án Khác (2)'}
+                </button>
+              </div>
+            </div>
+
+            {/* Preset Buttons */}
+            <div className="flex flex-wrap gap-2">
+              {SQL_SCENARIOS.filter((s) => scenarioFilter === 'all' || (s as any).category === scenarioFilter).map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => handleSelectScenario(s.id)}
+                  className={`px-3.5 py-2 text-xs font-heading font-semibold rounded-xl transition-colors duration-150 cursor-pointer active:scale-[0.97] ${
+                    activeScenarioId === s.id
+                      ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs ring-2 ring-[#074553]/30 dark:ring-[#9BE7FA]/40'
+                      : 'bg-white text-slate-600 hover:text-slate-950 border border-slate-200/80 hover:border-[#9BE7FA]/50 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'
+                  }`}
+                >
+                  <span className="font-mono text-[11px] opacity-70 mr-1.5">{s.tag}</span>
+                  {s.title}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Editor + Results Grid */}
@@ -331,6 +404,65 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
       ) : (
         /* CUSTOM SQL & CSV UPLOAD */
         <div className="space-y-6">
+          {/* Preset Telemetry Tables Strip */}
+          <div className="p-4 card-minimal space-y-2.5 bg-slate-50/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-heading font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <Database className="w-3.5 h-3.5 text-[#074553] dark:text-[#9BE7FA]" />
+                {isEn ? 'Preset Telemetry Tables (In-Memory Database):' : 'Bảng Dữ Liệu Thực Tế Kami Ely (Nạp Sẵn Trong Bộ Nhớ):'}
+              </span>
+              <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                Client-side In-Memory Execution
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => handleSelectSampleTable('kami_channel_performance')}
+                className={`px-3 py-1.5 text-xs font-heading font-semibold rounded-lg transition-all cursor-pointer ${
+                  selectedSampleTable === 'kami_channel_performance' && !uploadedFileName
+                    ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs ring-2 ring-[#074553]/20'
+                    : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-[#9BE7FA]'
+                }`}
+              >
+                📊 {isEn ? 'Channels Attribution' : '1. Kênh Phân Phối (Channels)'}
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelectSampleTable('tiktok_shop_videos')}
+                className={`px-3 py-1.5 text-xs font-heading font-semibold rounded-lg transition-all cursor-pointer ${
+                  selectedSampleTable === 'tiktok_shop_videos' && !uploadedFileName
+                    ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs ring-2 ring-[#074553]/20'
+                    : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-[#9BE7FA]'
+                }`}
+              >
+                🎬 {isEn ? 'Videos & Paid Ads' : '2. Shoppable Videos & Ads'}
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelectSampleTable('tiktok_shop_livestreams')}
+                className={`px-3 py-1.5 text-xs font-heading font-semibold rounded-lg transition-all cursor-pointer ${
+                  selectedSampleTable === 'tiktok_shop_livestreams' && !uploadedFileName
+                    ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs ring-2 ring-[#074553]/20'
+                    : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-[#9BE7FA]'
+                }`}
+              >
+                🔴 {isEn ? 'Live Telemetry & Fatigue' : '3. Phiên Live & Suy Giảm Hiệu Suất'}
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelectSampleTable('tiktok_shop_affiliates')}
+                className={`px-3 py-1.5 text-xs font-heading font-semibold rounded-lg transition-all cursor-pointer ${
+                  selectedSampleTable === 'tiktok_shop_affiliates' && !uploadedFileName
+                    ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs ring-2 ring-[#074553]/20'
+                    : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-[#9BE7FA]'
+                }`}
+              >
+                👥 {isEn ? 'Affiliates & Pareto' : '4. Mạng Lưới KOC & Pareto'}
+              </button>
+            </div>
+          </div>
+
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 card-minimal">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white">

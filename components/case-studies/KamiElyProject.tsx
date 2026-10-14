@@ -25,19 +25,31 @@ import KamiElyScienceCaseStudy from './kami-ely/science/KamiElyScienceCaseStudy'
 import KamiElyShopTab from './kami-ely/shop/KamiElyShopTab';
 import KamiElyCreatorTab from './kami-ely/creator/KamiElyCreatorTab';
 import CaseStudyFooter from './shared/CaseStudyFooter';
+import type { KamiElyDataPayload } from '@/app/types/caseStudies';
+import { useCaseStudyData } from '@/hooks/useCaseStudyData';
 
 interface KamiElyProjectProps {
   onBack?: () => void;
   isEmbedded?: boolean;
+  initialData?: KamiElyDataPayload;
 }
 
-export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyProjectProps) {
+export default function KamiElyProject({ onBack, isEmbedded = false, initialData }: KamiElyProjectProps) {
   const { language } = useLanguage();
   const isEn = language === 'en';
   const router = useRouter();
 
+  const { data: telemetryData, isLiveDb } = useCaseStudyData<KamiElyDataPayload>({
+    projectId: 'proj-kami-ely',
+    endpoint: '/api/case-studies/kami-ely',
+    initialData,
+  });
+
   // Active Major Tab state: 'science' (data science) vs 'shop' (store) vs 'creator' (seller)
   const [activeTab, setActiveTab] = useState<'science' | 'shop' | 'creator'>('science');
+
+  // Recruiter / Executive 3-Minute Quick View Mode
+  const [isExecutiveMode, setIsExecutiveMode] = useState(false);
 
   // FastMoss Proof screenshots modal & inspector lightbox
   const [isProofModalOpen, setIsProofModalOpen] = useState(false);
@@ -53,6 +65,16 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
   const [affCatMetric, setAffCatMetric] = useState<'units' | 'gmv' | 'count'>('units');
 
   const subnavContainerRef = useRef<HTMLDivElement>(null);
+
+  const handleToggleExecutiveMode = () => {
+    const nextMode = !isExecutiveMode;
+    setIsExecutiveMode(nextMode);
+    if (nextMode) {
+      setTimeout(() => {
+        scrollToSection('executive-story', 20);
+      }, 50);
+    }
+  };
 
   const openProofScreenshot = (id: string) => {
     const sc = fastmossScreenshotsManifest.find((s) => s.id === id);
@@ -194,6 +216,8 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
         scrollProgress={scrollProgress}
         subnavContainerRef={subnavContainerRef}
         handleNavClick={handleNavClick}
+        isExecutiveMode={isExecutiveMode}
+        onToggleExecutiveMode={handleToggleExecutiveMode}
       />
 
       {/* Main Hero Header */}
@@ -201,6 +225,33 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
 
       {/* BODY CONTENT AREA */}
       <main className="page-container py-8 md:py-12">
+        {/* Recruiter / Executive Quick Glance Notice Banner */}
+        {isExecutiveMode && (
+          <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-[#FFD14C]/25 to-amber-500/15 border-2 border-[#FFD14C] text-slate-900 dark:text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-in fade-in duration-300 shadow-md">
+            <div className="flex items-center gap-3">
+              <span className="p-2 rounded-xl bg-[#FFD14C] text-slate-950 font-black text-sm shrink-0">
+                ⚡
+              </span>
+              <div className="space-y-0.5">
+                <p className="text-xs font-black uppercase tracking-wider text-amber-800 dark:text-amber-300">
+                  {isEn ? 'Recruiter Quick-View Active (3-Minute Executive Summary)' : 'Chế Độ Tóm Tắt 3-Phút Dành Cho Nhà Tuyển Dụng & C-Level'}
+                </p>
+                <p className="text-xs text-slate-700 dark:text-slate-200">
+                  {isEn
+                    ? 'Synthesizing the 5 executive insights, data reconciliation matrix, and What-If simulator for rapid senior evaluation.'
+                    : 'Tập trung vào 5 phát hiện cốt lõi, ma trận đối soát dữ liệu và mô phỏng What-If tối ưu biên lợi nhuận.'}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setIsExecutiveMode(false)}
+              className="px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer shrink-0 shadow-2xs"
+            >
+              {isEn ? 'Exit Quick View' : 'Tắt Tóm Tắt (Xem Đầy Đủ)'}
+            </button>
+          </div>
+        )}
+
         {/* Layer 2: 3-Minute Executive Story */}
         <KamiElyExecutiveStory isEn={isEn} onJumpToTab={handleTabChange} />
 
@@ -281,6 +332,7 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
             setAffMetric={setAffMetric}
             affCatMetric={affCatMetric}
             setAffCatMetric={setAffCatMetric}
+            telemetryData={telemetryData}
           />
         )}
 
@@ -293,6 +345,7 @@ export default function KamiElyProject({ onBack, isEmbedded = false }: KamiElyPr
             handleExportChart={handleExportChart}
             handleTabChange={handleTabChange}
             renderDataScopeMatrix={renderDataScopeMatrix}
+            telemetryData={telemetryData}
           />
         )}
       </main>

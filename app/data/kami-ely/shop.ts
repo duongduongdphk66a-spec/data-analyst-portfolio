@@ -308,3 +308,359 @@ export const shopSelfOperatedAccount = {
 };
 
 // ============================================================================
+// BỔ SUNG DỮ LIỆU TIKTOK SHOP SELLER CENTER (1ST-PARTY DATA) & ĐỐI SOÁT CSV
+// Tệp đích: app/data/kami-ely/shop.ts
+// ============================================================================
+
+export interface SellerCenterMetricItem {
+  id: string;
+  label: { vi: string; en: string };
+  value: string;
+  rawValue: number;
+  unit: string;
+  growthPct?: number;
+  status: 'positive' | 'warning' | 'critical' | 'neutral';
+  insight: { vi: string; en: string };
+}
+
+export interface ShoppingTabTrafficSource {
+  sourceName: { vi: string; en: string };
+  pageViews?: string;
+  gmv: string;
+  rawGmv: number;
+  sharePct: number;
+  intentLevel: 'High' | 'Low-Mid' | 'Paid/External';
+  note: { vi: string; en: string };
+}
+
+export interface HighPotentialProductCard {
+  id: string;
+  productName: { vi: string; en: string };
+  category: string;
+  weeklyViews: string;
+  gmv7d?: string;
+  currentCvr: string;
+  targetCvr: string;
+  expectedMultiplier: string;
+  bottleneck: { vi: string; en: string };
+  actionPlan: { vi: string; en: string };
+}
+
+export interface CollaborativeStoreItem {
+  rank: number;
+  shopName: string;
+  category: string;
+  shopTotalUnitsSold: string;
+  affiliatedProducts: number;
+  bestSellingProduct: string;
+  bestSellingUnits: string;
+  channelUnitsSold: string;
+  channelGmv: string;
+}
+
+export const synchronizedShopTelemetryLabels = {
+  overviewWindow: {
+    vi: 'Chu kỳ 28 ngày thuộc phạm vi bảng dữ liệu 180 ngày (09/03/2026 – 04/09/2026)',
+    en: '28-day cycle within the 180-day dataset scope (09/03/2026 – 04/09/2026)'
+  },
+  productCardWindow: {
+    vi: 'Dữ liệu Thẻ sản phẩm đồng bộ với bảng _product data (90 ngày gần nhất)',
+    en: 'Product Card telemetry synchronized with _product data (Last 90 days)'
+  }
+};
+
+export const sellerCenterShopData = {
+  // 1. Tổng quan hiệu suất 28 ngày (Chu kỳ thuộc phạm vi bảng 180 ngày: 09/03/2026 – 04/09/2026)
+  overview28d: {
+    period: '24/02/2026 – 23/03/2026 (Chu kỳ 28 ngày thuộc phạm vi 180 ngày)',
+    periodLabel: synchronizedShopTelemetryLabels.overviewWindow,
+    metrics: [
+      {
+        id: 'sc-gmv-28d',
+        label: { vi: 'GMV (Tổng giá trị hàng hóa)', en: 'Gross Merchandise Value (GMV)' },
+        value: '1,35 tỷ đ',
+        rawValue: 1350000000,
+        unit: 'VNĐ',
+        growthPct: 56.24,
+        status: 'positive',
+        insight: {
+          vi: 'Tăng trưởng nóng (+56,24% so với 28 ngày trước), nhu cầu đặt đơn mới đầu mùa rất lớn.',
+          en: 'Rapid growth (+56.24% MoM), indicating strong early-season order demand.'
+        }
+      },
+      {
+        id: 'sc-rev-28d',
+        label: { vi: 'Tổng doanh thu thực nhận', en: 'Total Recognized Revenue' },
+        value: '1,40 tỷ đ',
+        rawValue: 1400000000,
+        unit: 'VNĐ',
+        growthPct: 36.29,
+        status: 'warning',
+        insight: {
+          vi: 'Tốc độ tăng doanh thu (+36,29%) thấp hơn tốc độ tăng GMV (+56,24%), cảnh báo tỷ lệ đơn hủy/hoàn hoặc chưa thanh toán tăng.',
+          en: 'Revenue growth (+36.29%) lags behind GMV growth (+56.24%), signaling rising cancellation/return or unpaid order rates.'
+        }
+      },
+      {
+        id: 'sc-units-28d',
+        label: { vi: 'Số món bán ra (28 ngày)', en: 'Items Sold (28 Days)' },
+        value: '10.554',
+        rawValue: 10554,
+        unit: 'món',
+        growthPct: 40.31,
+        status: 'positive',
+        insight: {
+          vi: 'Sản lượng tăng +40,31% với AOV 28 ngày duy trì ổn định ở mức ~127.900 đ/món.',
+          en: 'Volume grew +40.31% with 28-day AOV remaining stable at ~127,900 VND/item.'
+        }
+      }
+    ] as SellerCenterMetricItem[],
+
+    // Snapshot vận hành trong ngày (tính đến 13:12)
+    intradaySnapshot: {
+      timestamp: '13:12',
+      gmvToday: '17,37M đ',
+      rawGmvToday: 17370000,
+      unitsToday: 135,
+      buyersToday: 122,
+      visitorsToday: 7250,
+      aovToday: 128600,
+      aov28dAvg: 127900,
+      conversionRatePct: 1.68,
+      benchmarkCrPct: '2,0% – 3,0%',
+      diagnosis: {
+        vi: 'Lượt truy cập đạt 7.250 lượt với 122 người mua (CR = 1,68%). Phân khúc giá ổn định (~128,6k đ) nhưng cần rà soát tình trạng đứt size/hết kho (out of stock) để nâng CR lên ngưỡng 2–3%.',
+        en: '7,250 visits yielded 122 buyers (1.68% CR). Price positioning is stable (~128.6k VND), but stockout checks are required to lift CR toward the 2–3% top-shop benchmark.'
+      }
+    }
+  },
+
+  // 2. Chẩn đoán Thẻ sản phẩm / Kệ hàng (Shopping Tab - Đồng bộ bảng 90 ngày)
+  shoppingTabDiagnostics: {
+    period: '90 ngày gần nhất (Đồng bộ bảng _product data)',
+    periodLabel: synchronizedShopTelemetryLabels.productCardWindow,
+    summaryMetrics: [
+      {
+        id: 'card-viewers-28d',
+        label: { vi: 'Người xem Thẻ sản phẩm', en: 'Product Card Viewers' },
+        value: '1,17 Triệu',
+        rawValue: 1170000,
+        unit: 'lượt xem',
+        growthPct: 34.46,
+        status: 'positive',
+        insight: {
+          vi: 'Tăng 34,46% — sản phẩm được thuật toán TikTok đề xuất rất tốt và SEO từ khóa hiệu quả.',
+          en: 'Up 34.46% — strong algorithmic recommendation and effective keyword SEO.'
+        }
+      },
+      {
+        id: 'card-gmv-28d',
+        label: { vi: 'GMV Thẻ sản phẩm', en: 'Product Card GMV' },
+        value: '442,3 Triệu đ',
+        rawValue: 442300000,
+        unit: 'VNĐ',
+        growthPct: -11.93,
+        status: 'warning',
+        insight: {
+          vi: 'Giảm 11,93% bất chấp lượng người xem tăng mạnh do nghẽn ở bước chuyển đổi thanh toán (giảm 38%).',
+          en: 'Down 11.93% despite surging traffic due to checkout conversion drop-offs (-38%).'
+        }
+      },
+      {
+        id: 'card-cvr-28d',
+        label: { vi: 'Tỷ lệ chuyển đổi Kệ hàng (CVR)', en: 'Product Card CVR' },
+        value: '0,25%',
+        rawValue: 0.25,
+        unit: '%',
+        growthPct: -38.4,
+        status: 'critical',
+        insight: {
+          vi: 'Báo động đỏ: Giảm 38,4% (chỉ vượt qua 10% người bán khác). Trung bình 400 người xem mới có 1 người mua.',
+          en: 'Red alert: Down 38.4% (outperforming only 10% of peers). Only 1 in 400 viewers completes a purchase.'
+        }
+      }
+    ] as SellerCenterMetricItem[],
+
+    trafficSources: [
+      {
+        sourceName: { vi: 'Nguồn Khác (Shopping Ads / Link ngoại sàn / Affiliate)', en: 'Other Sources (Shopping Ads / External / Affiliate)' },
+        gmv: '192,0 triệu đ',
+        rawGmv: 192000000,
+        sharePct: 44.5,
+        intentLevel: 'Paid/External',
+        note: {
+          vi: 'Đóng góp gần 45% doanh thu thẻ sản phẩm nhờ luồng quảng cáo Shopping Ads và link Affiliate đổ về.',
+          en: 'Contributes nearly 45% of card GMV driven by Shopping Ads and external Affiliate links.'
+        }
+      },
+      {
+        sourceName: { vi: 'Tìm kiếm chủ động (Search)', en: 'Organic Search' },
+        gmv: '74,6 triệu đ',
+        rawGmv: 74600000,
+        sharePct: 17.3,
+        intentLevel: 'High',
+        note: {
+          vi: 'Nhóm khách hàng chủ động gõ từ khóa (chiếm 43% lượng tìm kiếm toàn shop), có ý định mua cao nhất.',
+          en: 'High-intent shoppers actively searching keywords (accounting for 43% of shop search discovery).'
+        }
+      },
+      {
+        sourceName: { vi: 'Đề xuất của TikTok (Recommendations)', en: 'TikTok Recommendations' },
+        pageViews: '1,71 triệu PV',
+        gmv: '58,0 triệu đ',
+        rawGmv: 58000000,
+        sharePct: 13.4,
+        intentLevel: 'Low-Mid',
+        note: {
+          vi: 'Lưu lượng hiển thị khổng lồ (1,71M PV) nhưng rò rỉ chuyển đổi lớn vì thiếu video thực tế và feedback ảnh thật.',
+          en: 'Massive impression volume (1.71M PV) but high leakage due to lack of try-on videos and photo reviews.'
+        }
+      }
+    ] as ShoppingTabTrafficSource[],
+
+    highPotentialCards: [
+      {
+        id: 'card-lace-skirt',
+        productName: { vi: 'Chân váy dài phối viền ren', en: 'Lace-Trimmed Long Skirt' },
+        category: 'Womenswear & Underwear',
+        weeklyViews: '23,6k+ lượt xem/tuần',
+        gmv7d: '4,0 triệu đ (7 ngày)',
+        currentCvr: 'Tốt nhất kệ hàng',
+        targetCvr: '1,5% – 2,0%',
+        expectedMultiplier: 'Mũi nhọn thời trang ứng dụng',
+        bottleneck: {
+          vi: 'Sản phẩm hiệu quả nhất trên Thẻ sản phẩm trong 7 ngày qua, cần thêm combo mua kèm (Add-on Deal).',
+          en: 'Top-performing product card over the past 7 days; needs Add-on Deal bundling.'
+        },
+        actionPlan: {
+          vi: 'Ghép combo cùng áo croptop/áo lưới và đẩy mạnh Flash Sale khung giờ vàng.',
+          en: 'Bundle with croptops/mesh tops and feature in peak-hour Flash Sales.'
+        }
+      },
+      {
+        id: 'card-bikini-2pc',
+        productName: { vi: 'Bikini 2 chi tiết / Bikini 2 mảnh đi biển', en: '2-Piece Beach Bikini Set' },
+        category: 'Sports & Outdoor',
+        weeklyViews: '65.000 lượt xem/tuần',
+        currentCvr: '0,25%',
+        targetCvr: '1,00%',
+        expectedMultiplier: 'Tăng gấp 4 lần GMV (4x)',
+        bottleneck: {
+          vi: 'Lượt xem cực cao (65k/tuần) nhưng khách thoát ra vì thiếu video quay cận chất vải/mút ngực và thiếu voucher chốt đơn.',
+          en: 'High traffic (65k/week) but high bounce rate due to missing fabric/padding close-up videos and closing vouchers.'
+        },
+        actionPlan: {
+          vi: 'Bổ sung clip 15s quay form thật, ghim đánh giá có ảnh thực tế và tạo Flash Sale 2–4 tiếng.',
+          en: 'Add 15s real-model clip, pin photo reviews, and run 2–4 hour Flash Sales.'
+        }
+      },
+      {
+        id: 'card-mesh-voile-jumpsuit',
+        productName: { vi: 'Áo lưới xuyên thấu, Set áo voan & Jumpsuit', en: 'Mesh Top, Voile Set & Jumpsuit' },
+        category: 'Womenswear & Underwear',
+        weeklyViews: '25.000 – 44.000 lượt xem/tuần',
+        currentCvr: '0,25%',
+        targetCvr: '0,80% – 1,00%',
+        expectedMultiplier: 'Tăng 3x – 4x GMV thụ động',
+        bottleneck: {
+          vi: 'Khách hàng ngại rủi ro lệch size và hình mạng khác thực tế (tỷ lệ xem đến thanh toán giảm 38%).',
+          en: 'Shoppers hesitate over sizing and photo accuracy (view-to-checkout rate dropped 38%).'
+        },
+        actionPlan: {
+          vi: 'Chuẩn hóa bảng size (chiều cao/cân nặng), kích hoạt Freeship Xtra và Mua kèm deal sốc giảm 50% cho Áo lưới.',
+          en: 'Standardize height/weight size chart, enable Freeship Xtra, and set 50% off Add-on Deals for Mesh Tops.'
+        }
+      }
+    ] as HighPotentialProductCard[]
+  },
+
+  // 3. Phân tích Marketing & Công cụ Khuyến mãi (Promotions Engine)
+  marketingPromotions: {
+    promoGmvContributionPct: 35.86,
+    promoGmvValue: '123,3 triệu đ',
+    rawPromoGmv: 123300000,
+    discountCostValue: '62,2 triệu đ',
+    rawDiscountCost: 62200000,
+    effectiveDiscountRatePct: 50.45,
+    promoAov: 150991,
+    shopBaseAov: 128600,
+    aovUpliftPct: 17.41,
+    livePreviewEntryRatePct: 5.09,
+    searchDiscoverySharePct: 43.0,
+    insights: {
+      vi: 'Khuyến mãi đóng góp 35,86% tổng GMV (123,3 triệu đ) và kéo AOV lên 150.991 đ (+17,4% so với AOV cơ sở 128,6k đ). Tuy nhiên, chi phí giảm giá đang chiếm tới 62,2 triệu đ (~50% doanh thu khuyến mãi), cần chuyển từ giảm giá cố định dài ngày sang Flash Sale ngắn hạn và Combo để bảo vệ biên lợi nhuận.',
+      en: 'Promotions drive 35.86% of total GMV (123.3M VND) and lift AOV to 150,991 VND (+17.4% vs 128.6k base AOV). However, discount costs reached 62.2M VND (~50% of promo revenue), requiring a shift from flat 28-day discounts to short Flash Sales and Bundles to protect margins.'
+    }
+  },
+
+  // 4. Đối soát Quảng cáo Trả phí vs. Tự nhiên trên 4.417 Shoppable Videos (CSV 180d/90d)
+  shoppableVideoAdsBreakdown: {
+    totalVideos: 4417,
+    totalUnits90d: 13083,
+    totalGmv90d: 2170840326,
+    paidAds: {
+      videoCount: 3482,
+      videoSharePct: 78.83,
+      unitsSold: 12398,
+      unitsSharePct: 94.76,
+      gmv: 2055758301,
+      gmvSharePct: 94.70
+    },
+    organic: {
+      videoCount: 935,
+      videoSharePct: 21.17,
+      unitsSold: 685,
+      unitsSharePct: 5.24,
+      gmv: 115082025,
+      gmvSharePct: 5.30
+    }
+  },
+
+  // 5. Hệ sinh thái TOP 4 Cửa hàng Hợp tác (Collaborative Store Ecosystem)
+  collaborativeStores: [
+    {
+      rank: 1,
+      shopName: 'Kami Ely',
+      category: 'Sports & Outdoor',
+      shopTotalUnitsSold: '238,2k',
+      affiliatedProducts: 177,
+      bestSellingProduct: 'KAMI BiKINI BestSeller - ...',
+      bestSellingUnits: '15,7k',
+      channelUnitsSold: '69,2k',
+      channelGmv: '9,1 Tỉ đ'
+    },
+    {
+      rank: 2,
+      shopName: 'Havi Bikini',
+      category: 'Womenswear & Underwear',
+      shopTotalUnitsSold: '2,1k',
+      affiliatedProducts: 4,
+      bestSellingProduct: 'Combo GIÁ SHOCK: Biki...',
+      bestSellingUnits: '548',
+      channelUnitsSold: '668',
+      channelGmv: '71,8 Tr đ'
+    },
+    {
+      rank: 3,
+      shopName: 'KamiBiii',
+      category: 'Womenswear & Underwear',
+      shopTotalUnitsSold: '966',
+      affiliatedProducts: 0,
+      bestSellingProduct: 'DEAL MUA 1 TẶNG 1: M...',
+      bestSellingUnits: '251',
+      channelUnitsSold: '55',
+      channelGmv: '6,2 Tr đ'
+    },
+    {
+      rank: 4,
+      shopName: 'KamiBiki',
+      category: 'Womenswear & Underwear',
+      shopTotalUnitsSold: '14',
+      affiliatedProducts: 0,
+      bestSellingProduct: 'Bikini 2 mảnh phối vòng...',
+      bestSellingUnits: '0',
+      channelUnitsSold: '0',
+      channelGmv: '0 đ'
+    }
+  ] as CollaborativeStoreItem[]
+};
