@@ -16,6 +16,7 @@ import { exportChartAsPng } from '@/app/lib/uiHelpers';
 import { useToast } from '@/components/ui/Toast';
 import { validateUploadedFile } from '@/app/lib/security';
 import { KAMI_LAB_DATASETS } from '@/app/lib/seedKamiData';
+import { KamiElySqlLabWorkbench } from '@/components/case-studies/kami-ely/KamiElySqlLabWorkbench';
 
 const AboutSqlChart = dynamic(() => import('@/components/case-studies/charts/AboutSqlChart'), {
   ssr: false,
@@ -565,6 +566,11 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
           </div>
         </div>
       )}
+
+      {/* 8-Table Kami Ely SQL Analytics Lab Workbench */}
+      <div className="pt-6 border-t border-slate-200 dark:border-slate-800">
+        <KamiElySqlLabWorkbench />
+      </div>
     </div>
   );
 }
