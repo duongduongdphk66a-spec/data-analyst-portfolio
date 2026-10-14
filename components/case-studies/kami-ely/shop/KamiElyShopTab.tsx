@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '@/app/context/LanguageContext';
+import { getShopChannelData, getShopContentData, getShopCategoryData } from '@/app/data/kamiElyData';
 import ShopOverviewSection from './ShopOverviewSection';
 import ShopSalesSection from './ShopSalesSection';
 import ShopCatalogPricingSection from './ShopCatalogPricingSection';
@@ -10,55 +12,87 @@ import ShopAnalysisNarrative from './ShopAnalysisNarrative';
 
 import type { KamiElyDataPayload } from '@/app/types/caseStudies';
 
-interface KamiElyShopTabProps {
-  isEn: boolean;
-  copyDeepLink: (_id: string) => void;
-  handleExportChart: (_id: string, _name: string) => void;
-  openProofScreenshot: (_id: string) => void;
-  renderDataScopeMatrix: (_scope: 'shop' | 'creator') => React.ReactNode;
-  handleTabChange: (_tab: 'science' | 'shop' | 'creator') => void;
-  channelData: Record<string, any[]>;
-  contentData: Record<string, any[]>;
-  shopCategoryData: Record<string, any[]>;
-  channelMetric: 'units' | 'gmv';
-  setChannelMetric: (_m: 'units' | 'gmv') => void;
-  contentMetric: 'units' | 'gmv';
-  setContentMetric: (_m: 'units' | 'gmv') => void;
-  categoryMetric: 'units' | 'gmv' | 'byCount';
-  setCategoryMetric: (_m: 'units' | 'gmv' | 'byCount') => void;
-  priceMetric: 'units' | 'gmv' | 'byCount';
-  setPriceMetric: (_m: 'units' | 'gmv' | 'byCount') => void;
-  affMetric: 'units' | 'gmv' | 'count';
-  setAffMetric: (_m: 'units' | 'gmv' | 'count') => void;
-  affCatMetric: 'units' | 'gmv' | 'count';
-  setAffCatMetric: (_m: 'units' | 'gmv' | 'count') => void;
+export interface KamiElyShopTabProps {
+  isEn?: boolean;
+  copyDeepLink?: (_id: string) => void;
+  handleExportChart?: (_id: string, _name: string) => void;
+  openProofScreenshot?: (_id: string) => void;
+  renderDataScopeMatrix?: (_scope: 'shop' | 'creator') => React.ReactNode;
+  handleTabChange?: (_tab: 'science' | 'shop' | 'creator') => void;
+  channelData?: Record<string, any[]>;
+  contentData?: Record<string, any[]>;
+  shopCategoryData?: Record<string, any[]>;
+  channelMetric?: 'units' | 'gmv';
+  setChannelMetric?: (_m: 'units' | 'gmv') => void;
+  contentMetric?: 'units' | 'gmv';
+  setContentMetric?: (_m: 'units' | 'gmv') => void;
+  categoryMetric?: 'units' | 'gmv' | 'byCount';
+  setCategoryMetric?: (_m: 'units' | 'gmv' | 'byCount') => void;
+  priceMetric?: 'units' | 'gmv' | 'byCount';
+  setPriceMetric?: (_m: 'units' | 'gmv' | 'byCount') => void;
+  affMetric?: 'units' | 'gmv' | 'count';
+  setAffMetric?: (_m: 'units' | 'gmv' | 'count') => void;
+  affCatMetric?: 'units' | 'gmv' | 'count';
+  setAffCatMetric?: (_m: 'units' | 'gmv' | 'count') => void;
   telemetryData?: KamiElyDataPayload | null;
 }
 
 export default function KamiElyShopTab({
-  isEn,
-  copyDeepLink,
-  handleExportChart,
-  openProofScreenshot,
-  renderDataScopeMatrix,
-  handleTabChange,
-  channelData,
-  contentData,
-  shopCategoryData,
-  channelMetric,
-  setChannelMetric,
-  contentMetric,
-  setContentMetric,
-  categoryMetric,
-  setCategoryMetric,
-  priceMetric,
-  setPriceMetric,
-  affMetric,
-  setAffMetric,
-  affCatMetric,
-  setAffCatMetric,
+  isEn: propIsEn,
+  copyDeepLink = () => {},
+  handleExportChart = () => {},
+  openProofScreenshot = () => {},
+  renderDataScopeMatrix = () => null,
+  handleTabChange = () => {},
+  channelData: propChannelData,
+  contentData: propContentData,
+  shopCategoryData: propShopCategoryData,
+  channelMetric: controlledChannelMetric,
+  setChannelMetric: controlledSetChannelMetric,
+  contentMetric: controlledContentMetric,
+  setContentMetric: controlledSetContentMetric,
+  categoryMetric: controlledCategoryMetric,
+  setCategoryMetric: controlledSetCategoryMetric,
+  priceMetric: controlledPriceMetric,
+  setPriceMetric: controlledSetPriceMetric,
+  affMetric: controlledAffMetric,
+  setAffMetric: controlledSetAffMetric,
+  affCatMetric: controlledAffCatMetric,
+  setAffCatMetric: controlledSetAffCatMetric,
   telemetryData
-}: KamiElyShopTabProps) {
+}: KamiElyShopTabProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn ?? (language === 'en');
+
+  const channelData = propChannelData || getShopChannelData(isEn);
+  const contentData = propContentData || getShopContentData(isEn);
+  const shopCategoryData = propShopCategoryData || getShopCategoryData(isEn);
+
+  const [channelMetric, setChannelMetric] = useState<'units' | 'gmv'>('units');
+  const [contentMetric, setContentMetric] = useState<'units' | 'gmv'>('units');
+  const [categoryMetric, setCategoryMetric] = useState<'units' | 'gmv' | 'byCount'>('units');
+  const [priceMetric, setPriceMetric] = useState<'units' | 'gmv' | 'byCount'>('units');
+  const [affMetric, setAffMetric] = useState<'units' | 'gmv' | 'count'>('units');
+  const [affCatMetric, setAffCatMetric] = useState<'units' | 'gmv' | 'count'>('units');
+
+  const activeChannelMetric = controlledChannelMetric ?? channelMetric;
+  const activeSetChannelMetric = controlledSetChannelMetric ?? setChannelMetric;
+
+  const activeContentMetric = controlledContentMetric ?? contentMetric;
+  const activeSetContentMetric = controlledSetContentMetric ?? setContentMetric;
+
+  const activeCategoryMetric = controlledCategoryMetric ?? categoryMetric;
+  const activeSetCategoryMetric = controlledSetCategoryMetric ?? setCategoryMetric;
+
+  const activePriceMetric = controlledPriceMetric ?? priceMetric;
+  const activeSetPriceMetric = controlledSetPriceMetric ?? setPriceMetric;
+
+  const activeAffMetric = controlledAffMetric ?? affMetric;
+  const activeSetAffMetric = controlledSetAffMetric ?? setAffMetric;
+
+  const activeAffCatMetric = controlledAffCatMetric ?? affCatMetric;
+  const activeSetAffCatMetric = controlledSetAffCatMetric ?? setAffCatMetric;
+
   const [dynamicData, setDynamicData] = useState<KamiElyDataPayload | null>(telemetryData || null);
 
   useEffect(() => {
@@ -106,10 +140,10 @@ export default function KamiElyShopTab({
         handleExportChart={handleExportChart}
         channelData={channelData}
         contentData={contentData}
-        channelMetric={channelMetric}
-        setChannelMetric={setChannelMetric}
-        contentMetric={contentMetric}
-        setContentMetric={setContentMetric}
+        channelMetric={activeChannelMetric}
+        setChannelMetric={activeSetChannelMetric}
+        contentMetric={activeContentMetric}
+        setContentMetric={activeSetContentMetric}
         weeklyTrendData={activeData?.weeklyTrends}
       />
 
@@ -118,10 +152,10 @@ export default function KamiElyShopTab({
         copyDeepLink={copyDeepLink}
         openProofScreenshot={openProofScreenshot}
         shopCategoryData={shopCategoryData}
-        categoryMetric={categoryMetric}
-        setCategoryMetric={setCategoryMetric}
-        priceMetric={priceMetric}
-        setPriceMetric={setPriceMetric}
+        categoryMetric={activeCategoryMetric}
+        setCategoryMetric={activeSetCategoryMetric}
+        priceMetric={activePriceMetric}
+        setPriceMetric={activeSetPriceMetric}
         topSkus={activeData?.topSkus}
         isLiveDb={Boolean(activeData?.isLiveDb)}
       />
@@ -130,10 +164,10 @@ export default function KamiElyShopTab({
         isEn={isEn}
         copyDeepLink={copyDeepLink}
         openProofScreenshot={openProofScreenshot}
-        affMetric={affMetric}
-        setAffMetric={setAffMetric}
-        affCatMetric={affCatMetric}
-        setAffCatMetric={setAffCatMetric}
+        affMetric={activeAffMetric}
+        setAffMetric={activeSetAffMetric}
+        affCatMetric={activeAffCatMetric}
+        setAffCatMetric={activeSetAffCatMetric}
         topAffiliates={activeData?.topAffiliates}
         isLiveDb={Boolean(activeData?.isLiveDb)}
       />

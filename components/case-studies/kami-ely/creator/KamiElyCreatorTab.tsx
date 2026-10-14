@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useLanguage } from '@/app/context/LanguageContext';
 import CreatorProfileSection from './CreatorProfileSection';
 import CreatorActivitySection from './CreatorActivitySection';
 import CreatorAudienceSection from './CreatorAudienceSection';
@@ -10,25 +11,28 @@ import CreatorAnalysisNarrative from './CreatorAnalysisNarrative';
 
 import type { KamiElyDataPayload } from '@/app/types/caseStudies';
 
-interface KamiElyCreatorTabProps {
-  isEn: boolean;
-  copyDeepLink: (_id: string, _name?: string) => void;
-  openProofScreenshot: (_id: string) => void;
-  handleExportChart: (_chartId: string, _fileName: string) => void;
-  handleTabChange: (_tab: 'science' | 'shop' | 'creator') => void;
-  renderDataScopeMatrix: (_scope: 'shop' | 'creator') => React.ReactNode;
+export interface KamiElyCreatorTabProps {
+  isEn?: boolean;
+  copyDeepLink?: (_id: string, _name?: string) => void;
+  openProofScreenshot?: (_id: string) => void;
+  handleExportChart?: (_chartId: string, _fileName: string) => void;
+  handleTabChange?: (_tab: 'science' | 'shop' | 'creator') => void;
+  renderDataScopeMatrix?: (_scope: 'shop' | 'creator') => React.ReactNode;
   telemetryData?: KamiElyDataPayload | null;
 }
 
 export default function KamiElyCreatorTab({
-  isEn,
-  copyDeepLink,
-  openProofScreenshot,
-  handleExportChart,
-  handleTabChange,
-  renderDataScopeMatrix,
+  isEn: propIsEn,
+  copyDeepLink = () => {},
+  openProofScreenshot = () => {},
+  handleExportChart = () => {},
+  handleTabChange = () => {},
+  renderDataScopeMatrix = () => null,
   telemetryData
-}: KamiElyCreatorTabProps) {
+}: KamiElyCreatorTabProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn ?? (language === 'en');
+
   return (
     <div className="space-y-16">
       {/* 2.1 TỔNG QUAN CREATOR */}

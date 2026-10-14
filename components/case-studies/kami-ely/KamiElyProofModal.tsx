@@ -1,29 +1,65 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
+import { useLanguage } from '@/app/context/LanguageContext';
 import { FastMossTelemetryCard, FastMossTelemetryModal } from '@/components/ui/FastMossTelemetryCard';
 import { fastmossScreenshotsManifest, FastMossScreenshotItem } from '@/app/data/kamiElyData';
 
-interface KamiElyProofModalProps {
-  isEn: boolean;
+export interface KamiElyProofModalProps {
+  isEn?: boolean;
   isOpen: boolean;
   onClose: () => void;
-  selectedProofGroup: 'all' | 'shop' | 'creator';
-  setSelectedProofGroup: (_group: 'all' | 'shop' | 'creator') => void;
-  activeScreenshot: FastMossScreenshotItem | null;
-  setActiveScreenshot: (_item: FastMossScreenshotItem | null) => void;
+  selectedProofGroup?: 'all' | 'shop' | 'creator';
+  setSelectedProofGroup?: (_group: 'all' | 'shop' | 'creator') => void;
+  activeScreenshot?: FastMossScreenshotItem | null;
+  setActiveScreenshot?: (_item: FastMossScreenshotItem | null) => void;
+  initialScreenshotId?: string;
 }
 
 export default function KamiElyProofModal({
-  isEn,
+  isEn: propIsEn,
   isOpen,
   onClose,
-  selectedProofGroup,
-  setSelectedProofGroup,
-  activeScreenshot,
-  setActiveScreenshot
+  selectedProofGroup: controlledGroup,
+  setSelectedProofGroup: controlledSetGroup,
+  activeScreenshot: controlledScreenshot,
+  setActiveScreenshot: controlledSetScreenshot,
+  initialScreenshotId
 }: KamiElyProofModalProps) {
+  const { language } = useLanguage();
+  const isEn = propIsEn ?? (language === 'en');
+
+  const [internalGroup, setInternalGroup] = useState<'all' | 'shop' | 'creator'>('all');
+  const [internalScreenshot, setInternalScreenshot] = useState<FastMossScreenshotItem | null>(() => {
+    if (initialScreenshotId) {
+      return fastmossScreenshotsManifest.find((s) => s.id === initialScreenshotId) || null;
+    }
+    return null;
+  });
+
+  useEffect(() => {
+    if (initialScreenshotId) {
+      const match = fastmossScreenshotsManifest.find((s) => s.id === initialScreenshotId);
+      if (match) {
+        setInternalScreenshot(match);
+      }
+    }
+  }, [initialScreenshotId]);
+
+  const selectedProofGroup = controlledGroup ?? internalGroup;
+  const setSelectedProofGroup = controlledSetGroup ?? setInternalGroup;
+
+  const activeScreenshot = controlledScreenshot !== undefined ? controlledScreenshot : internalScreenshot;
+  const setActiveScreenshot = controlledSetScreenshot ?? setInternalScreenshot;
+
+  const handleCloseInspector = () => {
+    setActiveScreenshot(null);
+    if (!isOpen) {
+      onClose();
+    }
+  };
+
   if (!isOpen && !activeScreenshot) return null;
 
   return (
@@ -61,6 +97,7 @@ export default function KamiElyProofModal({
                 {/* Filter group buttons */}
                 <div className="flex bg-[#C8EEF7]/50 rounded-xl p-1 dark:bg-slate-800">
                   <button
+                    type="button"
                     onClick={() => setSelectedProofGroup('all')}
                     className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                       selectedProofGroup === 'all'
@@ -71,6 +108,7 @@ export default function KamiElyProofModal({
                     {isEn ? 'All' : 'Tất cả'} ({fastmossScreenshotsManifest.length})
                   </button>
                   <button
+                    type="button"
                     onClick={() => setSelectedProofGroup('shop')}
                     className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                       selectedProofGroup === 'shop'
@@ -78,9 +116,10 @@ export default function KamiElyProofModal({
                         : 'text-slate-600 dark:text-slate-400'
                     }`}
                   >
-                    Shop ({fastmossScreenshotsManifest.filter(s => s.group === 'shop').length})
+                    Shop ({fastmossScreenshotsManifest.filter((s) => s.group === 'shop').length})
                   </button>
                   <button
+                    type="button"
                     onClick={() => setSelectedProofGroup('creator')}
                     className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                       selectedProofGroup === 'creator'
@@ -88,11 +127,12 @@ export default function KamiElyProofModal({
                         : 'text-slate-600 dark:text-slate-400'
                     }`}
                   >
-                    Creator ({fastmossScreenshotsManifest.filter(s => s.group === 'creator').length})
+                    Creator ({fastmossScreenshotsManifest.filter((s) => s.group === 'creator').length})
                   </button>
                 </div>
 
                 <button
+                  type="button"
                   onClick={onClose}
                   className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-white transition-colors cursor-pointer"
                   title={isEn ? 'Close' : 'Đóng'}
@@ -132,7 +172,7 @@ export default function KamiElyProofModal({
           <FastMossTelemetryModal
             item={activeScreenshot}
             isEn={isEn}
-            onClose={() => setActiveScreenshot(null)}
+            onClose={handleCloseInspector}
             onPrev={prevItem ? () => setActiveScreenshot(prevItem) : undefined}
             onNext={nextItem ? () => setActiveScreenshot(nextItem) : undefined}
           />
