@@ -1,329 +1,427 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
-import { 
-  Search, Briefcase, FileText, User, LayoutDashboard, Database, 
-  Sun, Moon, Globe, Download, CornerDownLeft, X
-} from 'lucide-react';
-import { ProjectData } from '@/app/types';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useTheme } from '@/app/context/ThemeContext';
-import { trackVisitorAction } from '@/app/lib/visitorTracking';
+import { ProjectData } from '@/app/types';
 
-interface CommandPaletteProps {
-  isOpen: boolean;
-  onClose: () => void;
-  projects: ProjectData[];
+export interface CommandItem {
+  id: string;
+  category: { vi: string; en: string };
+  title: { vi: string; en: string };
+  subtitle: { vi: string; en: string };
+  keywords: string;
+  icon: string;
+  action: () => void;
+}
+
+export interface CommandPaletteProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+  projects?: ProjectData[];
   onSelectTab?: (_tabId: string) => void;
   onSelectProject?: (_projId: string) => void;
 }
 
-interface CommandItem {
-  id: string;
-  category: 'Navigation' | 'Projects' | 'Quick Actions' | 'Skills';
-  title: string;
-  subtitle?: string;
-  icon: React.ElementType;
-  action: () => void;
-  badge?: string;
-}
-
 export default function CommandPalette({
-  isOpen,
-  onClose,
-  projects,
+  isOpen: propIsOpen,
+  onClose: propOnClose,
+  projects: propProjects,
   onSelectTab,
   onSelectProject,
-}: CommandPaletteProps) {
+}: CommandPaletteProps = {}) {
   const router = useRouter();
+  const pathname = usePathname();
   const { language, setLanguage } = useLanguage();
-  const { resolvedTheme, toggleTheme } = useTheme();
-  const isEn = language === 'en';
-  const isDark = resolvedTheme === 'dark';
+  const { theme, resolvedTheme, toggleTheme } = useTheme();
+  const lang = language === 'en' ? 'en' : 'vi';
+
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const isOpen = propIsOpen !== undefined ? propIsOpen : internalIsOpen;
 
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
 
-  // Focus input when opened
+  const closePalette = useCallback(() => {
+    setInternalIsOpen(false);
+    propOnClose?.();
+    setQuery('');
+    setSelectedIndex(0);
+  }, [propOnClose]);
+
+  const navigateSpa = useCallback(
+    (href: string) => {
+      closePalette();
+      if (href.startsWith('/#') && pathname === '/') {
+        const targetId = href.replace('/#', '');
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+      }
+      router.push(href);
+    },
+    [closePalette, pathname, router]
+  );
+
+  const commands: CommandItem[] = useMemo(
+    () => {
+      const items: CommandItem[] = [
+        {
+          id: 'case-kami-ely',
+          category: { vi: 'Dự Án Mũi Nhọn (Case Studies)', en: 'Featured Case Studies' },
+          title: {
+            vi: 'TikTok Shop Kami Ely (@kamielyhn) — 12,74 Tỉ VNĐ (180d)',
+            en: 'TikTok Shop Kami Ely (@kamielyhn) — 12.74B VND (180d)'
+          },
+          subtitle: {
+            vi: 'Phân tích 8 bảng dữ liệu (18.778 dòng), Phễu LIVE, Kệ hàng 1,17M views & What-If ROI',
+            en: '8 datasets (18,778 rows), LIVE Funnel, 1.17M Card views & What-If ROI Simulator'
+          },
+          keywords: 'kami ely tiktok shop ecommerce live video koc affiliate sql 180d 90d',
+          icon: '🛍️',
+          action: () => {
+            navigateSpa('/projects/proj-kami-ely');
+            onSelectProject?.('proj-kami-ely');
+          }
+        },
+        {
+          id: 'case-heritage-japan',
+          category: { vi: 'Dự Án Mũi Nhọn (Case Studies)', en: 'Featured Case Studies' },
+          title: {
+            vi: 'Di Sản Văn Hóa & Kinh Tế Du Lịch Nhật Bản',
+            en: 'Japan Cultural Heritage & Tourism Economics'
+          },
+          subtitle: {
+            vi: 'Kiểm định thống kê, Hồi quy không gian & Đánh giá chính sách công',
+            en: 'Statistical testing, Spatial regression & Public policy evaluation'
+          },
+          keywords: 'heritage japan tourism policy statistics thesis',
+          icon: '⛩️',
+          action: () => {
+            navigateSpa('/projects/proj-heritage-japan');
+            onSelectProject?.('proj-heritage-japan');
+          }
+        },
+        {
+          id: 'case-library-bus',
+          category: { vi: 'Dự Án Mũi Nhọn (Case Studies)', en: 'Featured Case Studies' },
+          title: {
+            vi: 'Hệ Sinh Thái Thư Viện Lưu Động (Library Bus UX & BI)',
+            en: 'Mobile Library Bus Ecosystem (UX Research & BI)'
+          },
+          subtitle: {
+            vi: 'Kiến trúc dữ liệu, Thiết kế hệ thống & Dashboard vận hành',
+            en: 'Data architecture, System design & Operations dashboard'
+          },
+          keywords: 'library bus ux research dashboard architecture',
+          icon: '🚌',
+          action: () => {
+            navigateSpa('/projects/proj-library-bus');
+            onSelectProject?.('proj-library-bus');
+          }
+        },
+        {
+          id: 'nav-sql-lab',
+          category: { vi: 'Công Cụ & Điều Hướng', en: 'Navigation & Tools' },
+          title: {
+            vi: 'Phòng Thí Nghiệm Truy Vấn SQL Tương Tác (/lab)',
+            en: 'Interactive SQL Analytics Workbench (/lab)'
+          },
+          subtitle: {
+            vi: 'Chạy trực tiếp các câu lệnh SQL đối soát dữ liệu trên trình duyệt',
+            en: 'Execute live SQL reconciliation queries directly in the browser'
+          },
+          keywords: 'sql lab query workbench database interactive',
+          icon: '💻',
+          action: () => {
+            navigateSpa('/lab');
+            onSelectTab?.('lab');
+          }
+        },
+        {
+          id: 'nav-home',
+          category: { vi: 'Công Cụ & Điều Hướng', en: 'Navigation & Tools' },
+          title: { vi: 'Trang Chủ Tổng Quan (Dashboard)', en: 'Home Overview Dashboard' },
+          subtitle: { vi: 'Về đầu trang chủ & Tổng hợp chỉ số Portfolio', en: 'Return to main portfolio dashboard' },
+          keywords: 'home dashboard overview main',
+          icon: '🏠',
+          action: () => {
+            navigateSpa('/');
+            onSelectTab?.('home');
+          }
+        },
+        {
+          id: 'nav-projects',
+          category: { vi: 'Công Cụ & Điều Hướng', en: 'Navigation & Tools' },
+          title: { vi: 'Danh Mục Tất Cả Dự Án (/projects)', en: 'All Projects Directory (/projects)' },
+          subtitle: { vi: 'Xem toàn bộ các dự án Phân tích Dữ liệu & BI', en: 'Browse all Data Analytics & BI projects' },
+          keywords: 'projects portfolio list case studies',
+          icon: '📂',
+          action: () => {
+            navigateSpa('/projects');
+            onSelectTab?.('projects');
+          }
+        },
+        {
+          id: 'nav-experience',
+          category: { vi: 'Công Cụ & Điều Hướng', en: 'Navigation & Tools' },
+          title: { vi: 'Kinh Nghiệm & Hồ Sơ Năng Lực (/experience)', en: 'Experience & Resume (/experience)' },
+          subtitle: { vi: 'Quá trình làm việc, Kỹ năng SQL/Python/BI & Học vấn', en: 'Work history, SQL/Python/BI skills & Education' },
+          keywords: 'experience cv resume career skills',
+          icon: '💼',
+          action: () => {
+            navigateSpa('/experience');
+            onSelectTab?.('experience');
+          }
+        },
+        {
+          id: 'action-download-cv',
+          category: { vi: 'Tài Liệu & Thiết Lập', en: 'Documents & Preferences' },
+          title: {
+            vi: 'Tải Xuống CV PDF (Mã Văn Hùng — Data Analyst 2026)',
+            en: 'Download Resume PDF (Ma Van Hung — Data Analyst 2026)'
+          },
+          subtitle: {
+            vi: 'Mở hoặc tải trực tiếp tệp PDF hồ sơ năng lực chính thức',
+            en: 'Open or download official PDF curriculum vitae'
+          },
+          keywords: 'download cv resume pdf ma van hung',
+          icon: '📄',
+          action: () => {
+            closePalette();
+            window.open('/Ma_Van_Hung_CV_Data_Analyst_2026.pdf', '_blank', 'noopener,noreferrer');
+          }
+        },
+        {
+          id: 'action-toggle-lang',
+          category: { vi: 'Tài Liệu & Thiết Lập', en: 'Documents & Preferences' },
+          title: {
+            vi: lang === 'vi' ? 'Chuyển Ngôn Ngữ: Tiếng Anh (English)' : 'Switch Language: Vietnamese (Tiếng Việt)',
+            en: lang === 'vi' ? 'Switch Language: English' : 'Switch Language: Tiếng Việt'
+          },
+          subtitle: { vi: 'Thay đổi ngôn ngữ hiển thị toàn trang tức thì', en: 'Toggle site-wide display language' },
+          keywords: 'language vietnamese english vi en translate',
+          icon: '🌐',
+          action: () => {
+            setLanguage(lang === 'vi' ? 'en' : 'vi');
+            closePalette();
+          }
+        },
+        {
+          id: 'action-toggle-theme',
+          category: { vi: 'Tài Liệu & Thiết Lập', en: 'Documents & Preferences' },
+          title: {
+            vi: `Chuyển Giao Diện: ${(resolvedTheme || theme) === 'dark' ? 'Chế Độ Sáng (Light)' : 'Chế Độ Tối (Dark)'}`,
+            en: `Switch Theme: ${(resolvedTheme || theme) === 'dark' ? 'Light Mode' : 'Dark Mode'}`
+          },
+          subtitle: { vi: 'Tối ưu độ tương phản thị giác theo môi trường', en: 'Toggle dark/light visual theme' },
+          keywords: 'theme dark light mode appearance',
+          icon: (resolvedTheme || theme) === 'dark' ? '☀️' : '🌙',
+          action: () => {
+            toggleTheme();
+            closePalette();
+          }
+        }
+      ];
+
+      // Thêm các dự án mở rộng nếu có propProjects truyền vào
+      if (propProjects && propProjects.length > 0) {
+        propProjects.forEach((p) => {
+          if (!items.some((it) => it.id.includes(p.id))) {
+            items.splice(3, 0, {
+              id: `case-${p.id}`,
+              category: { vi: 'Dự Án Bổ Sung', en: 'Additional Case Studies' },
+              title: { vi: p.title, en: p.title },
+              subtitle: { vi: p.desc, en: p.desc },
+              keywords: `${p.title} ${p.tags?.join(' ') || ''}`.toLowerCase(),
+              icon: '📊',
+              action: () => {
+                navigateSpa(`/projects/${p.id}`);
+                onSelectProject?.(p.id);
+              }
+            });
+          }
+        });
+      }
+
+      return items;
+    },
+    [closePalette, lang, navigateSpa, onSelectProject, onSelectTab, propProjects, resolvedTheme, setLanguage, theme, toggleTheme]
+  );
+
+  const filteredCommands = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return commands;
+    return commands.filter(
+      (item) =>
+        item.title.vi.toLowerCase().includes(q) ||
+        item.title.en.toLowerCase().includes(q) ||
+        item.subtitle.vi.toLowerCase().includes(q) ||
+        item.subtitle.en.toLowerCase().includes(q) ||
+        item.keywords.toLowerCase().includes(q)
+    );
+  }, [commands, query]);
+
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [query]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (propIsOpen !== undefined) {
+          if (isOpen) closePalette();
+          else setInternalIsOpen(true);
+        } else {
+          setInternalIsOpen((prev) => !prev);
+        }
+        return;
+      }
+
+      if (!isOpen) return;
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closePalette();
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setSelectedIndex((prev) => (filteredCommands.length > 0 ? (prev + 1) % filteredCommands.length : 0));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSelectedIndex((prev) =>
+          filteredCommands.length > 0 ? (prev - 1 + filteredCommands.length) % filteredCommands.length : 0
+        );
+      } else if (e.key === 'Enter' && filteredCommands[selectedIndex]) {
+        e.preventDefault();
+        filteredCommands[selectedIndex].action();
+      }
+    };
+
+    const handleCustomOpen = () => {
+      setInternalIsOpen(true);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('open-command-palette', handleCustomOpen);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('open-command-palette', handleCustomOpen);
+    };
+  }, [closePalette, filteredCommands, isOpen, propIsOpen, selectedIndex]);
+
   useEffect(() => {
     if (isOpen) {
-      const timer = setTimeout(() => {
-        setQuery('');
-        setSelectedIndex(0);
-        inputRef.current?.focus();
-      }, 0);
+      const timer = setTimeout(() => inputRef.current?.focus(), 40);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
 
-  // Build command list
-  const commands: CommandItem[] = useMemo(() => {
-    const items: CommandItem[] = [
-      // Navigation
-      {
-        id: 'nav-home',
-        category: 'Navigation',
-        title: isEn ? 'Home (Overview)' : 'Trang Chủ (Tổng quan)',
-        subtitle: isEn ? 'Hero profile and summary' : 'Giới thiệu tổng quan và tóm tắt',
-        icon: User,
-        action: () => { 
-          router.push('/');
-          onSelectTab?.('home'); 
-          onClose(); 
-        },
-      },
-      {
-        id: 'nav-about',
-        category: 'Navigation',
-        title: isEn ? 'About & SQL Sandbox' : 'Giới Thiệu & SQL Sandbox',
-        subtitle: isEn ? 'Interactive SQL runner & bio' : 'Trình thực thi SQL tương tác & tiểu sử',
-        icon: Database,
-        action: () => { 
-          router.push('/about');
-          onSelectTab?.('about'); 
-          onClose(); 
-        },
-        badge: 'Interactive',
-      },
-      {
-        id: 'nav-cv',
-        category: 'Navigation',
-        title: isEn ? 'Education & Experience' : 'Học Vấn & Kinh Nghiệm',
-        subtitle: isEn ? 'Career timeline and research' : 'Lộ trình sự nghiệp và nghiên cứu khoa học',
-        icon: FileText,
-        action: () => { 
-          router.push('/experience');
-          onSelectTab?.('experience'); 
-          onClose(); 
-        },
-      },
-      {
-        id: 'nav-projects',
-        category: 'Navigation',
-        title: isEn ? 'All Projects' : 'Tất Cả Dự Án',
-        subtitle: isEn ? 'Explore all data analyst case studies' : 'Khám phá danh mục các dự án phân tích',
-        icon: Briefcase,
-        action: () => { 
-          router.push('/projects');
-          onSelectTab?.('projects'); 
-          onClose(); 
-        },
-      },
-      {
-        id: 'nav-dashboard',
-        category: 'Navigation',
-        title: isEn ? 'Interactive Lab' : 'Thực Hành Lab',
-        subtitle: isEn ? 'Live metrics and SQL visualizer' : 'Chỉ số thời gian thực và SQL/CSV',
-        icon: LayoutDashboard,
-        action: () => { 
-          router.push('/lab');
-          onSelectTab?.('lab'); 
-          onClose(); 
-        },
-        badge: 'Interactive',
-      },
-
-      // Project Case Studies
-      ...projects.map((p) => ({
-        id: `proj-${p.id}`,
-        category: 'Projects' as const,
-        title: p.title,
-        subtitle: p.desc,
-        icon: Briefcase,
-        action: () => { 
-          router.push(`/projects/${p.id}`);
-          onSelectProject?.(p.id); 
-          onClose(); 
-        },
-        badge: p.tags?.[0] || 'Case Study',
-      })),
-
-      // Quick Actions
-      {
-        id: 'action-theme',
-        category: 'Quick Actions',
-        title: isEn ? `Switch to ${isDark ? 'Light' : 'Dark'} Mode` : `Chuyển sang Giao diện ${isDark ? 'Sáng' : 'Tối'}`,
-        subtitle: isEn ? 'Toggle application color theme' : 'Đổi chế độ màu sắc giao diện',
-        icon: isDark ? Sun : Moon,
-        action: () => { toggleTheme(); onClose(); },
-        badge: isDark ? 'Light' : 'Dark',
-      },
-      {
-        id: 'action-lang',
-        category: 'Quick Actions',
-        title: isEn ? 'Chuyển sang Tiếng Việt' : 'Switch to English',
-        subtitle: isEn ? 'Đổi ngôn ngữ hiển thị sang tiếng Việt' : 'Change display language to English',
-        icon: Globe,
-        action: () => { setLanguage(isEn ? 'vi' : 'en'); onClose(); },
-        badge: isEn ? 'VI' : 'EN',
-      },
-      {
-        id: 'action-cv',
-        category: 'Quick Actions',
-        title: isEn ? 'Download CV (PDF)' : 'Tải Hồ Sơ Năng Lực (CV PDF)',
-        subtitle: isEn ? 'Download complete curriculum vitae' : 'Mở và tải tệp CV đầy đủ',
-        icon: Download,
-        action: () => { window.open('/Ma_Van_Hung_CV_Data_Analyst_2026.pdf', '_blank'); onClose(); },
-      },
-    ];
-
-    return items;
-  }, [isEn, isDark, projects, onSelectTab, onSelectProject, toggleTheme, setLanguage, onClose, router]);
-
-  // Filter commands by query
-  const filteredCommands = useMemo(() => {
-    if (!query.trim()) return commands;
-    const lower = query.toLowerCase();
-    return commands.filter(
-      (c) =>
-        c.title.toLowerCase().includes(lower) ||
-        (c.subtitle && c.subtitle.toLowerCase().includes(lower)) ||
-        c.category.toLowerCase().includes(lower)
-    );
-  }, [commands, query]);
-
-  // Keyboard navigation inside palette
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        onClose();
-      } else if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        setSelectedIndex((prev) => (prev + 1) % (filteredCommands.length || 1));
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        setSelectedIndex((prev) => (prev - 1 + filteredCommands.length) % (filteredCommands.length || 1));
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        if (filteredCommands[selectedIndex]) {
-          filteredCommands[selectedIndex].action();
-          trackVisitorAction(`Command Palette: ${filteredCommands[selectedIndex].title}`, 'command_palette', 'navigation');
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, filteredCommands, selectedIndex, onClose]);
-
-  if (!isOpen) return null;
-
   return (
-    <div 
-      className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/60 backdrop-blur-sm" 
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Command Palette"
-    >
-      <div 
-        className="relative w-full max-w-xl bg-ground-alt/95 dark:bg-slate-900/95 border border-[#9BE7FA]/40 dark:border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden font-heading"
-        onClick={(e) => e.stopPropagation()}
+    <>
+      {/* NÚT MỞ NHANH COMMAND PALETTE & TẢI CV TRÊN MOBILE (390px) */}
+      <button
+        type="button"
+        onClick={() => setInternalIsOpen(true)}
+        aria-label={lang === 'vi' ? 'Mở bảng tìm kiếm nhanh (Ctrl+K)' : 'Open quick command search (Ctrl+K)'}
+        className="lg:hidden fixed bottom-20 right-4 z-40 min-h-[42px] px-3.5 py-2 rounded-full bg-slate-900/95 hover:bg-slate-800 text-sky-300 border border-sky-500/40 shadow-xl backdrop-blur-md flex items-center gap-1.5 text-xs font-mono font-bold"
       >
-        {/* Search Header */}
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-border-subtle dark:border-slate-800 bg-surface/20 dark:bg-slate-900">
-          <Search className="w-5 h-5 text-[#074553] dark:text-[#9BE7FA] shrink-0" />
-          <input
-            ref={inputRef}
-            type="text"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setSelectedIndex(0);
-            }}
-            placeholder={isEn ? 'Type a command, search project, or skill...' : 'Tìm nhanh dự án, kỹ năng, hoặc lệnh điều hướng...'}
-            className="w-full bg-transparent border-none text-ink dark:text-white placeholder-ink-muted dark:placeholder-slate-500 text-sm focus:outline-hidden"
+        <span>🔍</span>
+        <span>{lang === 'vi' ? 'Tìm nhanh / CV' : 'Search / CV'}</span>
+      </button>
+
+      {isOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={lang === 'vi' ? 'Bảng điều khiển và tìm kiếm nhanh' : 'Command Palette Search'}
+          className="fixed inset-0 z-[90] flex items-start justify-center pt-14 sm:pt-24 px-3 sm:px-4"
+        >
+          {/* BACKDROP */}
+          <div
+            onClick={closePalette}
+            className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity"
           />
-          <button
-            onClick={onClose}
-            aria-label="Đóng bảng lệnh nhanh"
-            className="p-1 rounded-md text-ink-muted hover:text-ink dark:text-slate-400 dark:hover:text-white cursor-pointer"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
 
-        {/* Command List */}
-        <div ref={listRef} className="max-h-80 overflow-y-auto p-2" role="listbox">
-          {filteredCommands.length === 0 ? (
-            <div className="py-8 text-center text-sm text-ink-muted dark:text-slate-400">
-              {isEn ? 'No commands matching your query' : 'Không tìm thấy kết quả phù hợp'}
+          {/* DIALOG BOX */}
+          <div className="relative z-10 w-full max-w-2xl rounded-2xl border border-slate-700/90 bg-slate-900 shadow-2xl overflow-hidden">
+            {/* SEARCH INPUT BAR */}
+            <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-800">
+              <span className="text-sky-400 text-base">🔍</span>
+              <input
+                ref={inputRef}
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={
+                  lang === 'vi'
+                    ? 'Nhập tên dự án (Kami Ely, Japan, Library Bus), SQL Lab hoặc tải CV...'
+                    : 'Search projects (Kami Ely, Japan, Library Bus), SQL Lab, or download CV...'
+                }
+                aria-label={lang === 'vi' ? 'Ô nhập từ khóa tìm kiếm' : 'Command search input'}
+                className="w-full bg-transparent text-sm text-white placeholder-slate-400 focus:outline-none"
+              />
+              <button
+                type="button"
+                onClick={closePalette}
+                className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono"
+              >
+                ESC
+              </button>
             </div>
-          ) : (
-            filteredCommands.map((cmd, idx) => {
-              const Icon = cmd.icon;
-              const isSelected = idx === selectedIndex;
 
-              return (
-                <div
-                  key={cmd.id}
-                  role="option"
-                  aria-selected={isSelected}
-                  onClick={() => {
-                    cmd.action();
-                    trackVisitorAction(`Command Palette: ${cmd.title}`, 'command_palette', 'navigation');
-                  }}
-                  onMouseEnter={() => setSelectedIndex(idx)}
-                  className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl cursor-pointer transition-colors ${
-                    isSelected
-                      ? 'bg-[#C8EEF7]/50 dark:bg-slate-800 text-ink dark:text-white'
-                      : 'text-ink-secondary dark:text-slate-300 hover:bg-surface/20 dark:hover:bg-slate-800/60'
-                  }`}
-                >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className={`p-2 rounded-lg ${isSelected ? 'bg-[#9BE7FA] text-slate-950 dark:bg-[#9BE7FA]' : 'bg-surface/40 dark:bg-slate-800 text-[#074553] dark:text-[#9BE7FA]'}`}>
-                      <Icon className="w-4 h-4 shrink-0" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs sm:text-sm font-semibold truncate text-ink dark:text-white">
-                        {cmd.title}
-                      </p>
-                      {cmd.subtitle && (
-                        <p className="text-[11px] text-ink-muted dark:text-slate-400 truncate">
-                          {cmd.subtitle}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    {cmd.badge && (
-                      <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-surface/50 border border-border-subtle dark:bg-slate-800 dark:border-slate-700 text-[#074553] dark:text-[#9BE7FA]">
-                        {cmd.badge}
-                      </span>
-                    )}
-                    {isSelected && (
-                      <CornerDownLeft className="w-3.5 h-3.5 text-ink-muted dark:text-slate-400" />
-                    )}
-                  </div>
+            {/* COMMAND LIST */}
+            <div className="max-h-[65vh] overflow-y-auto p-2 space-y-1">
+              {filteredCommands.length === 0 ? (
+                <div className="py-10 text-center text-sm text-slate-400">
+                  {lang === 'vi' ? 'Không tìm thấy kết quả phù hợp.' : 'No matching commands found.'}
                 </div>
-              );
-            })
-          )}
-        </div>
+              ) : (
+                filteredCommands.map((cmd, index) => {
+                  const isActive = index === selectedIndex;
+                  return (
+                    <button
+                      key={cmd.id}
+                      type="button"
+                      onMouseEnter={() => setSelectedIndex(index)}
+                      onClick={cmd.action}
+                      className={`w-full text-left p-3 rounded-xl transition flex items-start justify-between gap-3 ${
+                        isActive
+                          ? 'bg-sky-500/20 border border-sky-500/40 text-white'
+                          : 'hover:bg-slate-800/70 border border-transparent text-slate-300'
+                      }`}
+                    >
+                      <div className="flex items-start gap-3 min-w-0">
+                        <span className="text-lg shrink-0 mt-0.5">{cmd.icon}</span>
+                        <div className="min-w-0">
+                          <div className="text-xs font-mono uppercase text-sky-400">{cmd.category[lang]}</div>
+                          <div className="text-sm font-bold text-white truncate">{cmd.title[lang]}</div>
+                          <div className="text-xs text-slate-400 line-clamp-1 mt-0.5">{cmd.subtitle[lang]}</div>
+                        </div>
+                      </div>
+                      <span className="text-xs font-mono text-slate-400 shrink-0 self-center">↵</span>
+                    </button>
+                  );
+                })
+              )}
+            </div>
 
-        {/* Footer shortcuts */}
-        <div className="flex items-center justify-between px-4 py-2 bg-ground dark:bg-slate-950 border-t border-border-subtle dark:border-slate-800 text-[11px] text-ink-muted dark:text-slate-400">
-          <div className="flex items-center gap-2">
-            <span>Dùng</span>
-            <kbd className="px-1.5 py-0.5 rounded-sm bg-surface/50 dark:bg-slate-800 border border-border-subtle dark:border-slate-700 font-mono text-[10px]">↑</kbd>
-            <kbd className="px-1.5 py-0.5 rounded-sm bg-surface/50 dark:bg-slate-800 border border-border-subtle dark:border-slate-700 font-mono text-[10px]">↓</kbd>
-            <span>để chọn</span>
-            <kbd className="px-1.5 py-0.5 rounded-sm bg-surface/50 dark:bg-slate-800 border border-border-subtle dark:border-slate-700 font-mono text-[10px]">Enter</kbd>
-            <span>để mở</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <kbd className="px-1.5 py-0.5 rounded-sm bg-surface/50 dark:bg-slate-800 border border-border-subtle dark:border-slate-700 font-mono text-[10px]">ESC</kbd>
-            <span>đóng</span>
+            {/* FOOTER SHORTCUT HINTS */}
+            <div className="px-4 py-2.5 bg-slate-950/90 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-400">
+              <div className="flex items-center gap-3">
+                <span>↑↓ {lang === 'vi' ? 'Di chuyển' : 'Navigate'}</span>
+                <span>↵ {lang === 'vi' ? 'Mở trang (SPA)' : 'Open (SPA)'}</span>
+                <span>ESC {lang === 'vi' ? 'Đóng' : 'Close'}</span>
+              </div>
+              <span className="text-emerald-400">Next.js App Router • Instant SPA Navigation</span>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
