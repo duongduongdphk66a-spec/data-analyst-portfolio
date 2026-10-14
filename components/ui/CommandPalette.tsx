@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   Search, Briefcase, FileText, User, LayoutDashboard, Database, 
   Sun, Moon, Globe, Download, CornerDownLeft, X
@@ -14,8 +15,8 @@ interface CommandPaletteProps {
   isOpen: boolean;
   onClose: () => void;
   projects: ProjectData[];
-  onSelectTab: (_tabId: string) => void;
-  onSelectProject: (_projId: string) => void;
+  onSelectTab?: (_tabId: string) => void;
+  onSelectProject?: (_projId: string) => void;
 }
 
 interface CommandItem {
@@ -35,6 +36,7 @@ export default function CommandPalette({
   onSelectTab,
   onSelectProject,
 }: CommandPaletteProps) {
+  const router = useRouter();
   const { language, setLanguage } = useLanguage();
   const { resolvedTheme, toggleTheme } = useTheme();
   const isEn = language === 'en';
@@ -67,7 +69,11 @@ export default function CommandPalette({
         title: isEn ? 'Home (Overview)' : 'Trang Chủ (Tổng quan)',
         subtitle: isEn ? 'Hero profile and summary' : 'Giới thiệu tổng quan và tóm tắt',
         icon: User,
-        action: () => { onSelectTab('home'); onClose(); },
+        action: () => { 
+          router.push('/');
+          onSelectTab?.('home'); 
+          onClose(); 
+        },
       },
       {
         id: 'nav-about',
@@ -75,7 +81,11 @@ export default function CommandPalette({
         title: isEn ? 'About & SQL Sandbox' : 'Giới Thiệu & SQL Sandbox',
         subtitle: isEn ? 'Interactive SQL runner & bio' : 'Trình thực thi SQL tương tác & tiểu sử',
         icon: Database,
-        action: () => { onSelectTab('about'); onClose(); },
+        action: () => { 
+          router.push('/about');
+          onSelectTab?.('about'); 
+          onClose(); 
+        },
         badge: 'Interactive',
       },
       {
@@ -84,7 +94,11 @@ export default function CommandPalette({
         title: isEn ? 'Education & Experience' : 'Học Vấn & Kinh Nghiệm',
         subtitle: isEn ? 'Career timeline and research' : 'Lộ trình sự nghiệp và nghiên cứu khoa học',
         icon: FileText,
-        action: () => { onSelectTab('experience'); onClose(); },
+        action: () => { 
+          router.push('/experience');
+          onSelectTab?.('experience'); 
+          onClose(); 
+        },
       },
       {
         id: 'nav-projects',
@@ -92,7 +106,11 @@ export default function CommandPalette({
         title: isEn ? 'All Projects' : 'Tất Cả Dự Án',
         subtitle: isEn ? 'Explore all data analyst case studies' : 'Khám phá danh mục các dự án phân tích',
         icon: Briefcase,
-        action: () => { onSelectTab('projects'); onClose(); },
+        action: () => { 
+          router.push('/projects');
+          onSelectTab?.('projects'); 
+          onClose(); 
+        },
       },
       {
         id: 'nav-dashboard',
@@ -100,7 +118,11 @@ export default function CommandPalette({
         title: isEn ? 'Interactive Lab' : 'Thực Hành Lab',
         subtitle: isEn ? 'Live metrics and SQL visualizer' : 'Chỉ số thời gian thực và SQL/CSV',
         icon: LayoutDashboard,
-        action: () => { onSelectTab('lab'); onClose(); },
+        action: () => { 
+          router.push('/lab');
+          onSelectTab?.('lab'); 
+          onClose(); 
+        },
         badge: 'Interactive',
       },
 
@@ -111,7 +133,11 @@ export default function CommandPalette({
         title: p.title,
         subtitle: p.desc,
         icon: Briefcase,
-        action: () => { onSelectProject(p.id); onClose(); },
+        action: () => { 
+          router.push(`/projects/${p.id}`);
+          onSelectProject?.(p.id); 
+          onClose(); 
+        },
         badge: p.tags?.[0] || 'Case Study',
       })),
 
@@ -145,7 +171,7 @@ export default function CommandPalette({
     ];
 
     return items;
-  }, [isEn, isDark, projects, onSelectTab, onSelectProject, toggleTheme, setLanguage, onClose]);
+  }, [isEn, isDark, projects, onSelectTab, onSelectProject, toggleTheme, setLanguage, onClose, router]);
 
   // Filter commands by query
   const filteredCommands = useMemo(() => {

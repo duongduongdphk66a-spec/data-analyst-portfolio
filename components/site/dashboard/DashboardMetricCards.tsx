@@ -51,9 +51,9 @@ export const DashboardMetricCards = React.memo(function DashboardMetricCards({
           </div>
 
           {kpi.change && (
-            <div className="text-xs font-bold mt-2 flex items-center gap-1 text-[#0D7287] dark:text-[#9BE7FA]">
-              <TrendingUp className="w-3.5 h-3.5" />
-              {kpi.change}
+            <div className="text-xs font-bold mt-2 flex items-center gap-1.5 text-[#0D7287] dark:text-[#9BE7FA]">
+              <TrendingUp className="w-3.5 h-3.5 shrink-0" />
+              <span className="leading-tight">{kpi.change}</span>
             </div>
           )}
         </div>

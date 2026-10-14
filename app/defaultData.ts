@@ -156,35 +156,35 @@ export const DEFAULT_DASHBOARD: DashboardData = {
   kpis: [
     {
       id: 'kpi-1',
-      title: 'Tổng Doanh Thu (YTD)',
-      value: '$845,200',
-      change: '+18.4% so với cùng kỳ',
+      title: 'Tổng Doanh Thu (GMV)',
+      value: '12,74 Tỉ VNĐ',
+      change: '12,74 Tỉ VNĐ GMV 180 ngày — TikTok Shop Kami Ely',
       isPositive: true,
       icon: 'dollar'
     },
     {
       id: 'kpi-2',
-      title: 'Tổng Khách Hàng Hoạt Động',
-      value: '24,850',
-      change: '+12.1% tăng trưởng',
+      title: 'Hiệu Năng Cơ Sở Dữ Liệu',
+      value: '28ms',
+      change: 'Giảm 93,7% độ trễ truy vấn — SQL Caching',
+      isPositive: true,
+      icon: 'activity'
+    },
+    {
+      id: 'kpi-3',
+      title: 'Mạng Lưới Creators',
+      value: '5,700+',
+      change: '+18.4% KOC liên kết — Creator Network',
       isPositive: true,
       icon: 'users'
     },
     {
-      id: 'kpi-3',
+      id: 'kpi-4',
       title: 'Giá Trị Đơn Trung Bình (AOV)',
-      value: '$34.01',
-      change: '+5.6% cải thiện',
+      value: '268,500 đ',
+      change: '+12.1% tăng trưởng — RFM Segmentation',
       isPositive: true,
       icon: 'trending'
-    },
-    {
-      id: 'kpi-4',
-      title: 'Tỷ Lệ Chuyển Đổi (CVR)',
-      value: '3.82%',
-      change: '+0.4% tháng này',
-      isPositive: true,
-      icon: 'activity'
     }
   ],
   charts: [
