@@ -10,9 +10,10 @@ services:
       MYSQL_USER: ${MYSQL_USER:-portfolio_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-changeme_user_password}
     ports:
-      - "3306:3306"
+      - "127.0.0.1:3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s

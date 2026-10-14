@@ -56,3 +56,8 @@ scripts/inspect_*.js
 
 # vercel
 .vercel
+
+# raw data files (data privacy)
+data/kami/*.xlsx
+data/kami/*.csv
+

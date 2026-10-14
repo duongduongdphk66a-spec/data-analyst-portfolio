@@ -2,46 +2,42 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const nonce = crypto.randomUUID().replace(/-/g, '');
-  
-  const isDev = process.env.NODE_ENV === 'development';
-  const cspHeader = `
-    default-src 'self';
-    script-src 'self' https://unpkg.com ${isDev ? "'unsafe-eval' 'unsafe-inline'" : `'nonce-${nonce}' 'strict-dynamic'`};
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com;
-    img-src 'self' data: blob: https://images.unsplash.com https://*.githubusercontent.com https://avatars.githubusercontent.com;
-    font-src 'self' data: https://fonts.gstatic.com;
-    connect-src 'self' ${isDev ? 'ws: wss:' : ''};
-    frame-src 'self' https://*.google.com https://lookerstudio.google.com https://public.tableau.com https://*.powerbi.com https://*.youtube.com https://*.loom.com;
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-    frame-ancestors 'self';
-  `.replace(/\s{2,}/g, ' ').trim();
- 
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('x-nonce', nonce);
-  requestHeaders.set('Content-Security-Policy', cspHeader);
- 
-  const response = NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  });
-  
+  const { pathname } = request.nextUrl;
+
+  // 1. Bỏ qua hoàn toàn các file HTML tĩnh trong /library-bus/ để không chặn inline script
+  if (pathname.startsWith('/library-bus/') && pathname.endsWith('.html')) {
+    return NextResponse.next();
+  }
+
+  const response = NextResponse.next();
+
+  // 2. CSP chuẩn cho Next.js App Router: không chặn Next.js preload chunks & giữ tương thích tĩnh
+  const cspHeader = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com",
+    "img-src 'self' blob: data: https:",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "connect-src 'self' https: ws: wss:",
+    "frame-src 'self' https:",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'self'"
+  ].join('; ');
+
   response.headers.set('Content-Security-Policy', cspHeader);
- 
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  response.headers.set('X-Frame-Options', 'SAMEORIGIN');
+
   return response;
 }
 
 export const config = {
   matcher: [
-    {
-      source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
-      missing: [
-        { type: 'header', key: 'next-router-prefetch' },
-        { type: 'header', key: 'purpose', value: 'prefetch' },
-      ],
-    },
-  ],
+    // Loại trừ _next/static, _next/image, favicon, file ảnh/pdf và toàn bộ file .html tĩnh
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|pdf|html)$).*)'
+  ]
 };
+

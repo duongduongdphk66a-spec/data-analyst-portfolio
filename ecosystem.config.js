@@ -3,16 +3,20 @@ module.exports = {
     {
       name: 'data-analyst-portfolio',
       script: '.next/standalone/server.js',
-      cwd: './',
-      // Tận dụng đa nhân CPU với cluster mode (mặc định 'max').
-      // Nếu server chỉ có 1 vCPU hoặc RAM hạn chế (< 1GB), có thể đặt PM2_INSTANCES=1 và PM2_EXEC_MODE=fork
-      instances: process.env.PM2_INSTANCES || 'max',
-      exec_mode: process.env.PM2_EXEC_MODE || 'cluster',
+      cwd: __dirname,
+      instances: 'max',
+      exec_mode: 'cluster',
+      node_args: '--env-file=.env', // Bắt buộc để Node 20+ nạp toàn bộ biến từ .env vào standalone
       env: {
         NODE_ENV: 'production',
-        PORT: process.env.PORT || 3000,
+        PORT: 3000,
+        HOSTNAME: '0.0.0.0',
+        TRUST_PROXY: 'true'
       },
-      max_memory_restart: '500M',
-    },
-  ],
+      max_memory_restart: '512M',
+      exp_backoff_restart_delay: 100,
+      merge_logs: true
+    }
+  ]
 };
+

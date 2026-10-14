@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sun, Moon, Home, Briefcase, FileText, UserCheck } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { Sun, Moon, Home, Briefcase, FileText, UserCheck, Search, Download } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import Sidebar from '@/components/site/Sidebar';
@@ -15,16 +15,14 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
   const { language } = useLanguage();
   const { resolvedTheme, toggleTheme } = useTheme();
   const pathname = usePathname();
+  const router = useRouter();
 
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  
   const mainRef = useRef<HTMLElement>(null);
 
-  // Scroll to top on path change
+  // Scroll to top on path change (Window/Document level)
   useEffect(() => {
-    if (mainRef.current) {
-      mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [pathname]);
 
   useEffect(() => {
@@ -46,21 +44,57 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
   ];
 
   return (
-    <div className="flex h-screen bg-ground text-slate-900 font-sans overflow-hidden dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
-      {/* 
-        NOTE: Sidebar relies on PortfolioDataContext. To fully sever the tie, Sidebar would need projects as props.
-        But let's leave it as is if it pulls from PortfolioDataContext. If it's a Server Sidebar later, we'll update it.
-      */}
-      <Sidebar />
+    <div className="min-h-dvh w-full bg-ground text-slate-900 font-sans dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200 flex flex-col md:flex-row">
+      {/* 1. Skip Link cho bàn phím & screen reader */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[#0D7287] focus:text-white dark:focus:bg-[#9BE7FA] dark:focus:text-slate-950 focus:font-bold focus:shadow-lg focus:outline-none"
+      >
+        {language === 'en' ? 'Skip to main content' : 'Chuyển tới nội dung chính (Skip to content)'}
+      </a>
 
-      <div className="flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#0B0F17]">
+      {/* 2. Sidebar cố định ở màn hình desktop, cuộn độc lập nếu dài hơn viewport */}
+      <aside
+        aria-label={language === 'en' ? 'Primary Navigation' : 'Thanh điều hướng chính'}
+        className="hidden md:flex md:w-20 lg:w-64 shrink-0 md:sticky md:top-0 md:h-dvh md:overflow-y-auto border-r border-slate-200/80 dark:border-slate-800 z-40"
+      >
+        <Sidebar />
+      </aside>
+
+      {/* 3. Main Content cuộn tự nhiên ở cấp Document/Window */}
+      <div className="flex-1 min-w-0 flex flex-col bg-white dark:bg-[#0B0F17]">
         {/* Mobile Header */}
-        <header className="md:hidden bg-ground text-slate-900 h-14 flex items-center justify-between px-4 border-b border-slate-200/80 flex-shrink-0 z-30 dark:bg-[#0B0F17] dark:border-slate-800 dark:text-white transition-colors duration-200 font-sans">
+        <header className="md:hidden bg-ground text-slate-900 h-14 flex items-center justify-between px-3 border-b border-slate-200/80 flex-shrink-0 z-30 dark:bg-[#0B0F17] dark:border-slate-800 dark:text-white transition-colors duration-200 font-sans sticky top-0 backdrop-blur-md">
           <div className="font-heading font-extrabold text-sm tracking-tight text-slate-900 dark:text-white">
-            <Link href="/">MVH</Link>
+            <Link href="/" aria-label="Trang chủ MVH">MVH</Link>
           </div>
-          <div className="flex items-center gap-2">
-            <button onClick={toggleTheme} aria-label="Toggle theme" className="p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer">
+          <div className="flex items-center gap-1">
+            {/* Quick search (Ctrl+K) trigger button on mobile (min-h-[40px] min-w-[40px]) */}
+            <button
+              type="button"
+              onClick={() => setIsCommandPaletteOpen(true)}
+              aria-label="Tìm kiếm nhanh (Ctrl+K)"
+              className="min-h-[40px] min-w-[40px] flex items-center justify-center p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            >
+              <Search className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+            </button>
+
+            {/* Quick download CV button on mobile (min-h-[40px] min-w-[40px]) */}
+            <a
+              href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Tải CV"
+              className="min-h-[40px] min-w-[40px] flex items-center justify-center p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            >
+              <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            </a>
+
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="min-h-[40px] min-w-[40px] flex items-center justify-center p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
+            >
               {resolvedTheme === 'dark' ? <Sun className="w-4 h-4 text-[#FFD14C]" /> : <Moon className="w-4 h-4 text-slate-700" />}
             </button>
             <LanguageToggle size="sm" />
@@ -68,19 +102,23 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
         </header>
 
         {/* Main Content */}
-        <main ref={mainRef} className="flex-1 overflow-y-auto bg-ground relative dark:bg-[#0B0F17] transition-colors duration-200 mb-16 md:mb-0 pb-safe">
+        <main id="main-content" ref={mainRef} className="flex-1 min-w-0 bg-ground relative dark:bg-[#0B0F17] transition-colors duration-200 mb-16 md:mb-0 pb-safe">
           {children}
         </main>
 
         {/* Mobile Bottom Navigation */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-ground/90 dark:bg-[#0B0F17]/90 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-around z-50 px-2 pb-safe-bottom">
+        <nav
+          aria-label="Thanh điều hướng di động"
+          className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-ground/95 dark:bg-[#0B0F17]/95 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-around z-50 px-2 pb-safe-bottom"
+        >
           {navItems.map((item) => {
             const isActive = pathname === item.id || (item.id === '/projects' && pathname.startsWith('/projects'));
             return (
               <Link
                 key={item.id}
                 href={item.id}
-                className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${
+                aria-current={isActive ? 'page' : undefined}
+                className={`min-h-[44px] min-w-[44px] flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${
                   isActive
                     ? 'text-[#0D7287] dark:text-[#9BE7FA]'
                     : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
@@ -102,12 +140,13 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
         projects={initialProjects}
         onSelectTab={(tab) => {
           const url = tab === 'home' ? '/' : `/${tab}`;
-          window.location.href = url;
+          router.push(url);
         }}
         onSelectProject={(id) => {
-          window.location.href = `/projects/${id}`;
+          router.push(`/projects/${id}`);
         }}
       />
     </div>
   );
 }
+

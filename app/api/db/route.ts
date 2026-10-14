@@ -4,9 +4,18 @@ import { getDbPool, testDbConnection, initDatabase } from '@/app/lib/db';
 import { verifyAdminRequest } from '@/app/lib/auth';
 import { invalidateApiCacheAsync } from '@/app/lib/cache';
 
+let lastHealthCheckCache: { timestamp: number; payload: Record<string, unknown> } | null = null;
+const HEALTHCHECK_CACHE_TTL_MS = 15_000;
+
 export async function GET(req: NextRequest) {
   try {
     const auth = verifyAdminRequest(req);
+
+    const now = Date.now();
+    if (!auth.authenticated && lastHealthCheckCache && (now - lastHealthCheckCache.timestamp < HEALTHCHECK_CACHE_TTL_MS)) {
+      return NextResponse.json({ ...lastHealthCheckCache.payload, cached: true });
+    }
+
     const connTest = await testDbConnection();
 
     const responsePayload: any = {
@@ -16,6 +25,11 @@ export async function GET(req: NextRequest) {
         ? 'Dịch vụ dữ liệu hoạt động bình thường.' 
         : (auth.authenticated ? connTest.message : 'Kết nối cơ sở dữ liệu bị gián đoạn.'),
     };
+
+    if (!auth.authenticated) {
+      lastHealthCheckCache = { timestamp: now, payload: responsePayload };
+      return NextResponse.json(responsePayload);
+    }
 
     // Admin authenticated: trả full stats
     if (auth.authenticated && connTest.connected) {

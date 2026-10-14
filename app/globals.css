@@ -840,3 +840,35 @@ a {
   border-color: #1e293b;
 }
 
+/* ============================================================================
+   Nâng sàn kích thước chữ tối thiểu (>= 11.5px) & vùng chạm nút bấm (>= 36px)
+============================================================================ */
+@layer utilities {
+  .text-\[9px\],
+  .text-\[10px\] {
+    font-size: 0.72rem !important; /* ~11.5px: Đảm bảo độ rõ nét trên cả màn hình 1440px và 390px */
+    line-height: 1.1rem !important;
+  }
+
+  .text-\[11px\] {
+    font-size: 0.76rem !important; /* ~12.1px */
+    line-height: 1.15rem !important;
+  }
+}
+
+/* Đảm bảo mọi nút bấm tương tác đạt chuẩn vùng chạm tối thiểu (Touch Target) */
+button,
+[role="button"],
+nav a {
+  min-height: 36px;
+}
+
+/* Tăng độ tương phản cho các badge màu pastel trên nền tối */
+.dark .bg-sky-500\/10,
+.dark .bg-emerald-500\/10,
+.dark .bg-amber-500\/10,
+.dark .bg-pink-500\/10 {
+  background-color: rgba(15, 23, 42, 0.9) !important;
+}
+
+

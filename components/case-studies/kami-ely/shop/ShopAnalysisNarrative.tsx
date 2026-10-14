@@ -1,159 +1,151 @@
-import React from 'react';
-import { TrendingDown, PieChart, Tag, Users, ShoppingCart, Lightbulb } from 'lucide-react';
+'use client';
 
-interface ShopAnalysisNarrativeProps {
-  isEn: boolean;
+import React, { useState } from 'react';
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface ShopAnalysisNarrativeProps {
+  isEn?: boolean;
 }
 
-export default function ShopAnalysisNarrative({ isEn }: ShopAnalysisNarrativeProps) {
+export default function ShopAnalysisNarrative({ isEn: propIsEn }: ShopAnalysisNarrativeProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
+  const lang = isEn ? 'en' : 'vi';
+  const [expandedText, setExpandedText] = useState<boolean>(false);
+
+  const visualActionCards = [
+    {
+      badge: isEn ? 'CATEGORY PIVOT • FALL/WINTER' : 'XOAY TRỤC DANH MỤC • THU ĐÔNG',
+      color: 'border-sky-500/30 bg-sky-500/10 text-sky-300',
+      barColor: 'bg-sky-400',
+      pct: 69.31,
+      metric: isEn ? '69.31% Swimwear → Push CV11 (6,375 Units)' : '69,31% Đồ bơi → Đẩy Chân váy CV11 (6.375 SP)',
+      title: {
+        vi: 'Giải Cứu Đà Giảm -82,9% Tháng 8 Do 43% Khách Hà Nội Hết Mùa Biển',
+        en: 'Reverse August -82.9% Drop as 43% Hanoi Audience Exits Beach Season'
+      },
+      shortAction: {
+        vi: 'Dừng nhập Bikini từ cuối tháng 7; đưa Chân váy chữ A (CV11 - #1 sản lượng shop) và Chân váy dài viền ren (+471% GMV tuần) làm chủ lực.',
+        en: 'Stop restocking Bikinis by late July; pivot to CV11 A-Line Skirt (#1 shop volume) and Lace Midi Skirt (+471% weekly GMV).'
+      }
+    },
+    {
+      badge: isEn ? 'ORGANIC SHOWCASE • 0 VND COMMISSION' : 'MỎ VÀNG KỆ HÀNG • 0Đ HOA HỒNG',
+      color: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
+      barColor: 'bg-emerald-400',
+      pct: 22.85,
+      metric: isEn ? '1.17M Viewers • CVR 0.25% → 1.0% Target' : '1,17M Người xem • CVR 0,25% → Mục tiêu 1,0%',
+      title: {
+        vi: 'Mở Khóa +1,32 Tỉ Đ/Tháng Từ Luồng Tìm Kiếm & Đề Xuất (1,71M PV)',
+        en: 'Unlock +1.32B VND/Month from Search & Recommendations (1.71M PV)'
+      },
+      shortAction: {
+        vi: 'Bật Freeship Xtra, bổ sung kho size lẻ và gắn video 15s cận chất vải vào 4 thẻ sản phẩm có lượt xem cao nhất.',
+        en: 'Enable Freeship Xtra, restock broken sizes, and attach 15s fabric close-up videos to the top 4 high-traffic product cards.'
+      }
+    },
+    {
+      badge: isEn ? 'PROMO RESTRUCTURING • AOV 150.9K' : 'TÁI CẤU TRÚC KHUYẾN MÃI • AOV 150,9K',
+      color: 'border-amber-500/30 bg-amber-500/10 text-amber-300',
+      barColor: 'bg-amber-400',
+      pct: 50.45,
+      metric: isEn ? 'Discount cost 62.2M / 123.3M GMV (50.45%)' : 'Chi phí giảm giá 62,2 Tr / 123,3 Tr GMV (50,45%)',
+      title: {
+        vi: 'Thay Thế Giảm Giá Cố Định (96,35%) Bằng Flash Sale Ngắn Hạn & Deal Mua Kèm',
+        en: 'Replace Fixed Discounts (96.35%) with Time-Boxed Flash Sales & Add-on Deals'
+      },
+      shortAction: {
+        vi: 'Giữ nguyên AOV khuyến mãi 150.991 đ (+17,4%) nhưng kéo tỷ lệ chiết khấu từ 50,45% xuống 32%–35% nhờ Flash Sale khung 20h–22h.',
+        en: 'Preserve the 150,991 VND promo AOV (+17.4%) while cutting markdown rate from 50.45% to 32%–35% via 20:00–22:00 Flash Sales.'
+      }
+    },
+    {
+      badge: isEn ? 'PARETO RISK MITIGATION • 5,712 KOCS' : 'QUẢN TRỊ RỦI RO PARETO • 5.712 KOCS',
+      color: 'border-pink-500/30 bg-pink-500/10 text-pink-300',
+      barColor: 'bg-pink-400',
+      pct: 91.49,
+      metric: isEn ? 'Top 1% (58 KOC) = 91.49% GMV • @girlstyle.vn = 42.9%' : 'Top 1% (58 KOC) = 91,49% GMV • @girlstyle.vn = 42,9%',
+      title: {
+        vi: 'Nhân Bản Nhóm Nano/Micro KOC (<5k Follow Chiếm 96,09% GMV Affiliate)',
+        en: 'Scale Nano/Micro KOC Tier (<5k Followers Driving 96.09% of Affiliate GMV)'
+      },
+      shortAction: {
+        vi: 'Áp dụng hoa hồng bậc thang 10%–14% và gửi mẫu thử cho 286 KOC thuộc Top 5% để giảm phụ thuộc vào duy nhất @girlstyle.vn.',
+        en: 'Deploy 10%–14% tiered commissions and free samples to the Top 5% (286 KOCs) to reduce single-KOC dependency on @girlstyle.vn.'
+      }
+    }
+  ];
+
   return (
-    <div className="space-y-8 mt-12 pt-12 border-t border-slate-200 dark:border-slate-800">
-      <div className="space-y-3">
-        <h3 className="text-2xl font-black text-slate-900 dark:text-white">
-          {isEn ? 'Store-Level Analysis & Strategy' : 'Phân Tích Quy Mô Toàn Shop & Chiến Lược'}
-        </h3>
-        <p className="text-slate-600 dark:text-slate-400">
-          {isEn 
-            ? 'Key insights and recommendations derived from analyzing the entire ecosystem of Kami Ely TikTok Shop.' 
-            : 'Các phát hiện chính và định hướng chiến lược từ dữ liệu toàn bộ hệ sinh thái của Kami Ely TikTok Shop.'}
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
-          <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <PieChart className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
-            {isEn ? '1. Key Findings' : '1. Điểm Khám Phá Chính'}
-          </h4>
-          
-          <ul className="space-y-4 text-sm text-slate-700 dark:text-slate-300">
-            <li className="flex gap-3">
-              <TrendingDown className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-              <div>
-                <strong className="text-slate-900 dark:text-white block mb-1">
-                  {isEn ? '180-Day Time-Series:' : 'Chuỗi thời gian 180 Ngày:'}
-                </strong>
-                {isEn 
-                  ? 'GMV peaked in July, sharply declining in Aug-Sep. Hypothesis points to summer travel seasonality shifting user attention away from TikTok.'
-                  : 'GMV đạt đỉnh vào tháng 7, giảm sâu trong tháng 8 và 9. Giả thuyết chính là do tính mùa vụ, tập tệp khách hàng GenZ/Millennials dành thời gian du lịch hè thay vì lướt TikTok.'}
-              </div>
-            </li>
-            
-            <li className="flex gap-3">
-              <PieChart className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
-              <div>
-                <strong className="text-slate-900 dark:text-white block mb-1">
-                  {isEn ? 'Channel Attribution Paradox:' : 'Phân bổ Kênh (Channel Attribution):'}
-                </strong>
-                {isEn 
-                  ? 'Live accounts for 68.6% of GMV but requires massive resource allocation. Shoppable Video (26.3% GMV) achieves much higher ROI and operates semi-passively.'
-                  : 'Kênh Live chiếm tỷ trọng lớn nhất (68.6% GMV) nhưng đòi hỏi phân bổ nguồn lực (nhân sự, thời gian) khổng lồ. Shoppable Video (26.3% GMV) đạt ROI cao hơn và mang tính thụ động.'}
-              </div>
-            </li>
-
-            <li className="flex gap-3">
-              <Tag className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
-              <div>
-                <strong className="text-slate-900 dark:text-white block mb-1">
-                  {isEn ? 'Category & Pricing Structure:' : 'Cơ cấu Ngành hàng & Giá (Pricing):'}
-                </strong>
-                {isEn 
-                  ? 'Top sales come from 100k - 200k VND items (impulse buy zone). Higher priced items (>300k VND) lack trust elements on standard product cards.'
-                  : 'Thắng lớn ở phân khúc 100k - 200k VNĐ (vùng giá mua ngẫu hứng). Các sản phẩm giá cao (>300k VNĐ) khó chuyển đổi do thiếu yếu tố xây dựng lòng tin trên thẻ sản phẩm (Product Card).'}
-              </div>
-            </li>
-
-            <li className="flex gap-3">
-              <Users className="w-5 h-5 text-purple-500 shrink-0 mt-0.5" />
-              <div>
-                <strong className="text-slate-900 dark:text-white block mb-1">
-                  {isEn ? 'Affiliate KOC Efficiency:' : 'Đóng góp mạng lưới Affiliate KOC:'}
-                </strong>
-                {isEn 
-                  ? '5,7k Affiliates act as the primary traffic engine. Over 95% of sales come from Nano and Micro influencers, indicating a highly decentralized and organic reach model.'
-                  : 'Sở hữu mạng lưới khổng lồ 5,7k Affiliate đóng vai trò như động cơ traffic. Đáng chú ý, >95% doanh số đến từ Nano và Micro influencers, cho thấy sự phi tập trung và viral tự nhiên.'}
-              </div>
-            </li>
-
-            <li className="flex gap-3">
-              <ShoppingCart className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
-              <div>
-                <strong className="text-slate-900 dark:text-white block mb-1">
-                  {isEn ? 'Product Card Funnel:' : 'Product Card Funnel (Cửa hàng):'}
-                </strong>
-                {isEn 
-                  ? 'The "Shop Tab" (Product Cards) has an unexpectedly low conversion rate, highlighting severe UI/UX or trust issues preventing passive purchases.'
-                  : 'Tỷ lệ chuyển đổi từ việc khách hàng tự lướt thẻ sản phẩm (Shop Tab) thấp bất ngờ. Chỉ ra điểm nghẽn ở việc tối ưu hiển thị (UI/UX) và thông tin kích thích mua thụ động.'}
-              </div>
-            </li>
-          </ul>
+    <section className="w-full rounded-2xl border border-slate-800/90 bg-slate-950/90 p-5 sm:p-7 shadow-xl space-y-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div>
+          <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-sky-500/15 text-sky-300 border border-sky-500/30">
+            {lang === 'vi' ? 'TÓM TẮT CHIẾN LƯỢC TOÀN SHOP (VISUAL SUMMARY)' : 'SHOP-WIDE VISUAL ACTION SUMMARY'}
+          </span>
+          <h3 className="text-base sm:text-lg font-extrabold text-white mt-1">
+            {lang === 'vi'
+              ? '4 Trọng Tâm Tối Ưu Hóa Vận Hành Gian Hàng Kami Ely'
+              : '4 Core Operational Optimization Pillars for Kami Ely'}
+          </h3>
         </div>
 
-        <div className="bg-gradient-to-br from-[#F0FBFE] to-[#C8EEF7]/40 dark:from-slate-900 dark:to-slate-800/80 rounded-3xl p-6 sm:p-8 border-2 border-[#0D7287] dark:border-[#9BE7FA] shadow-sm space-y-6 flex flex-col justify-between">
-          <div>
-            <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
-              <Lightbulb className="w-6 h-6 text-[#0D7287] dark:text-[#9BE7FA]" />
-              {isEn ? '2. Strategic Recommendations (Store Level)' : '2. Đề xuất Strategy Cấp độ Toàn Shop'}
-            </h4>
-            
-            <div className="space-y-5">
-              <div className="bg-white/60 dark:bg-slate-800/60 rounded-2xl p-4 border border-slate-200 dark:border-slate-700">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#0D7287]/10 dark:bg-[#9BE7FA]/10 flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="font-black text-[#0D7287] dark:text-[#9BE7FA]">1</span>
-                  </div>
-                  <div>
-                    <strong className="text-slate-900 dark:text-white block text-sm">
-                      {isEn ? 'Restructure Product Mix (High vs Low Ticket):' : 'Tái Cấu Trúc Product Mix (Phân Khúc Giá):'}
-                    </strong>
-                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 mt-1">
-                      {isEn 
-                        ? 'Double down on the 100k-200k VND segment for mass-market affiliate campaigns. Reposition >300k items exclusively for high-trust Livestreams or Macro KOC reviews.'
-                        : 'Dồn tổng lực đẩy các sản phẩm phễu 100k-200k VNĐ cho chiến dịch Affiliate số lượng lớn. Dịch chuyển các mặt hàng >300k VNĐ sang kênh Livestream trực tiếp hoặc KOC Review sâu để xây dựng Trust.'}
-                    </p>
-                  </div>
-                </div>
-              </div>
+        <button
+          type="button"
+          onClick={() => setExpandedText((prev) => !prev)}
+          className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 text-xs font-mono font-semibold transition self-start sm:self-auto cursor-pointer"
+        >
+          {expandedText
+            ? lang === 'vi'
+              ? '📖 Thu gọn phần diễn giải chữ ▲'
+              : '📖 Hide Detailed Text ▲'
+            : lang === 'vi'
+            ? '📖 Xem thêm thuyết minh chi tiết ▼'
+            : '📖 Read Full Analytical Notes ▼'}
+        </button>
+      </div>
 
-              <div className="bg-white/60 dark:bg-slate-800/60 rounded-2xl p-4 border border-slate-200 dark:border-slate-700">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#0D7287]/10 dark:bg-[#9BE7FA]/10 flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="font-black text-[#0D7287] dark:text-[#9BE7FA]">2</span>
-                  </div>
-                  <div>
-                    <strong className="text-slate-900 dark:text-white block text-sm">
-                      {isEn ? 'Optimize the "Shop Tab" Passive Engine:' : 'Tối ưu Hóa "Cỗ Máy Thụ Động" (Product Card):'}
-                    </strong>
-                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 mt-1">
-                      {isEn 
-                        ? 'Redesign product thumbnails, add trust badges, and utilize text-overlay images to fix the drop-off in passive product card clicks.'
-                        : 'Cải tổ hàng loạt Thumbnail sản phẩm, thêm nhãn dán uy tín (Trust Badges), hình ảnh có text overlay để sửa lỗi tụt phễu khi khách hàng tự lướt Shop.'}
-                    </p>
-                  </div>
-                </div>
+      {/* 4 VISUAL INFOGRAPHIC CARDS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {visualActionCards.map((item, idx) => (
+          <div
+            key={idx}
+            className="p-4 rounded-xl bg-slate-900/75 border border-slate-800 flex flex-col justify-between space-y-3"
+          >
+            <div className="space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${item.color}`}>
+                  {item.badge}
+                </span>
+                <span className="text-xs font-mono font-bold text-white">{item.metric}</span>
               </div>
-
-              <div className="bg-white/60 dark:bg-slate-800/60 rounded-2xl p-4 border border-slate-200 dark:border-slate-700">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#0D7287]/10 dark:bg-[#9BE7FA]/10 flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="font-black text-[#0D7287] dark:text-[#9BE7FA]">3</span>
-                  </div>
-                  <div>
-                    <strong className="text-slate-900 dark:text-white block text-sm">
-                      {isEn ? 'Nano/Micro KOC Gamification:' : 'Gamification Mạng Lưới Nano/Micro KOC:'}
-                    </strong>
-                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 mt-1">
-                      {isEn 
-                        ? 'Since 95% of affiliate GMV is long-tail, implement a tiered commission system or monthly challenges to motivate this decentralized network.'
-                        : 'Vì 95% GMV đến từ đuôi dài, cần thiết lập hệ thống hoa hồng theo bậc (Tiered Commission) hoặc Challenge hàng tháng để kích thích toàn bộ mạng lưới phân tán này.'}
-                    </p>
-                  </div>
-                </div>
+              <h4 className="text-sm font-bold text-white">{item.title[lang]}</h4>
+              <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                <div className={`h-full rounded-full ${item.barColor}`} style={{ width: `${item.pct}%` }} />
               </div>
             </div>
+            <p className="text-xs text-slate-300 leading-relaxed">{item.shortAction[lang]}</p>
           </div>
-        </div>
+        ))}
       </div>
-    </div>
+
+      {/* COLLAPSIBLE TEXT DETAILS (HIDDEN BY DEFAULT TO REDUCE TEXT CLUTTER) */}
+      {expandedText && (
+        <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 text-xs text-slate-300 space-y-2 leading-relaxed animate-in fade-in duration-200">
+          <p>
+            • <strong>{isEn ? '180-Day Audit (09/03 – 04/09/2026):' : 'Kiểm toán Chu kỳ 180 ngày (09/03 – 04/09/2026):'}</strong>{' '}
+            {isEn
+              ? 'The store reached 12,735,128,067 VND (85,500 units), averaging 70.75M VND/day. Seasonality peaked in June 2026 at 3,772.43M VND (29.6% of total GMV), reaching an all-time daily peak on Jun 16 with 315.05M VND (1,936 units).'
+              : 'Toàn gian hàng đạt 12.735.128.067 VNĐ (85.500 SP), trung bình 70,75 triệu đ/ngày. Đỉnh mùa vụ rơi vào tháng 6/2026 với 3.772,43 triệu đ (chiếm 29,6% tổng GMV), lập kỷ lục ngày 16/06 đạt 315,05 triệu đ (1.936 SP).'}
+          </p>
+          <p>
+            • <strong>{isEn ? '90-Day 3-Channel Reconciliation (6,136,205,973 VND | 40,229 units):' : 'Đối soát 3 Kênh Giao dịch 90 ngày (6.136.205.973 VNĐ | 40.229 SP):'}</strong>{' '}
+            {isEn
+              ? 'Self-operated @kamielyhn drives 49.31% GMV (3,026,026,869 VND | 20,027 units), 5,712 affiliate KOCs contribute 27.84% GMV (1,708,159,874 VND | 11,572 units), and Showcase product cards deliver 22.85% GMV (1,402,019,230 VND | 8,630 units).'
+              : 'Kênh chính chủ @kamielyhn tự gánh 49,31% GMV (3.026.026.869 đ | 20.027 SP), mạng lưới 5.712 KOC ngoài đóng góp 27,84% GMV (1.708.159.874 đ | 11.572 SP), và Thẻ sản phẩm đóng góp 22,85% GMV (1.402.019.230 đ | 8.630 SP).'}
+          </p>
+        </div>
+      )}
+    </section>
   );
 }

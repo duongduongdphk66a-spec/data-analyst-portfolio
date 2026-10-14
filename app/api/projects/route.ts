@@ -4,7 +4,7 @@ import { DEFAULT_PROJECTS } from '@/app/defaultData';
 import { ProjectData } from '@/app/types';
 import { verifyAdminRequest } from '@/app/lib/auth';
 import { getApiCacheAsync, setApiCacheAsync, invalidateApiCacheAsync } from '@/app/lib/cache';
-import { sanitizeTextInput, sanitizeUrl } from '@/app/lib/security';
+import { sanitizeTextInput, sanitizeUrl, sanitizeEmbedUrl } from '@/app/lib/security';
 
 import { getProjectsWithFallback } from '@/app/lib/serverData';
 
@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
       const cleanImg = proj.img ? sanitizeUrl(sanitizeTextInput(proj.img, 1000)) : '';
       const cleanDemoUrl = proj.demoUrl ? sanitizeUrl(sanitizeTextInput(proj.demoUrl, 1000)) : '';
       const cleanGithubUrl = proj.githubUrl ? sanitizeUrl(sanitizeTextInput(proj.githubUrl, 1000)) : '';
-      const cleanEmbedUrl = proj.embedUrl ? sanitizeUrl(sanitizeTextInput(proj.embedUrl, 1000)) : '';
+      const cleanEmbedUrl = proj.embedUrl ? sanitizeEmbedUrl(sanitizeTextInput(proj.embedUrl, 1000)) : '';
       const cleanProblem = sanitizeTextInput(proj.problem, 10000);
       const cleanMethod = sanitizeTextInput(proj.method, 10000);
       const cleanInsight = sanitizeTextInput(proj.insight, 10000);

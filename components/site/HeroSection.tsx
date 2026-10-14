@@ -33,17 +33,17 @@ const heroChartData = [
 ];
 
 const STATS_VI = [
-  { value: '3', label: 'Case Studies' },
-  { value: '93.7%', label: 'latency ↓' },
-  { value: '8.5B', label: 'VND' },
-  { value: '5,700+', label: 'creators' },
+  { value: '3', label: 'Case Studies thực tế' },
+  { value: '93,7%', label: 'Giảm độ trễ truy vấn (Dự án Tối ưu SQL & Caching)' },
+  { value: '12,74 Tỉ', label: 'VNĐ GMV 180 ngày (Dự án TikTok Shop Kami Ely)' },
+  { value: '5,700+', label: 'Creators liên kết' },
 ];
 
 const STATS_EN = [
-  { value: '3', label: 'Case Studies' },
-  { value: '93.7%', label: 'latency ↓' },
-  { value: '8.5B', label: 'VND' },
-  { value: '5,700+', label: 'creators' },
+  { value: '3', label: 'Real Case Studies' },
+  { value: '93.7%', label: 'Query latency reduction (SQL & Caching Project)' },
+  { value: '12.74B', label: 'VND 180-day GMV (TikTok Shop Kami Ely Project)' },
+  { value: '5,700+', label: 'Affiliated creators' },
 ];
 
 export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps) {
@@ -72,7 +72,7 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
   };
 
   return (
-    <section ref={containerRef} className="relative min-h-0 sm:hero-viewport flex flex-col justify-center bg-ground dark:bg-[#0B0F17] hero-glow bg-data-dots overflow-hidden transition-colors duration-200">
+    <section ref={containerRef} className="relative flex flex-col justify-center bg-ground dark:bg-[#0B0F17] hero-glow bg-data-dots overflow-hidden transition-colors duration-200">
       {/* Background visual graph (Subtle) */}
       <div className="absolute inset-0 opacity-10 dark:opacity-[0.04] pointer-events-none overflow-hidden">
         <div className="absolute -bottom-32 -right-32 w-full h-full max-w-4xl scale-125 origin-bottom-right">
@@ -80,7 +80,7 @@ export default function HeroSection({ profile, onNavigateTab }: HeroSectionProps
         </div>
       </div>
 
-      <div className="relative page-container w-full pt-16 sm:pt-24 pb-16 text-center sm:text-left z-10 flex-1 flex flex-col justify-center">
+      <div className="relative page-container w-full py-10 lg:py-14 text-center sm:text-left z-10 flex-1 flex flex-col justify-center">
         <div className="space-y-8 sm:space-y-10">
 
           {/* 1. Identity & Kicker Badge */}

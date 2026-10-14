@@ -41,7 +41,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Core Page',
     wireframeSrc: '/library-bus/screens/wf_01_trang_chu.webp',
     uiSrc: '/library-bus/screens/ui_01_trang_chu.webp',
-    uiFullSrc: '/library-bus/full_screens/full_01_trang_chu.png'
+    uiFullSrc: '/library-bus/full_screens/full_01_trang_chu.webp'
   },
   {
     id: 'screen-02',

@@ -16,6 +16,111 @@ import {
 
 let pool: Pool | null = null;
 let _isInitialized = false;
+let rateLimitTableReady = false;
+
+export function buildMysqlPoolConfig(databaseUrl?: string): PoolOptions {
+  if (databaseUrl) {
+    const parsedUrl = new URL(databaseUrl);
+    const sslMode = (
+      parsedUrl.searchParams.get('ssl-mode') ||
+      parsedUrl.searchParams.get('sslMode') ||
+      parsedUrl.searchParams.get('ssl') ||
+      process.env.MYSQL_SSL ||
+      ''
+    ).toUpperCase();
+
+    const requireSsl =
+      sslMode === 'REQUIRED' ||
+      sslMode === 'TRUE' ||
+      sslMode === '1' ||
+      sslMode === 'VERIFY_CA' ||
+      sslMode === 'VERIFY_IDENTITY';
+
+    // Xóa ssl-mode khỏi query string để mysql2 không cảnh báo tham số lạ
+    parsedUrl.searchParams.delete('ssl-mode');
+    parsedUrl.searchParams.delete('sslMode');
+
+    const connectionLimit = parseInt(
+      process.env.MYSQL_CONNECTION_LIMIT || process.env.DB_CONNECTION_LIMIT || '10',
+      10
+    );
+    const connectTimeout = parseInt(
+      process.env.MYSQL_CONNECT_TIMEOUT || process.env.DB_CONNECT_TIMEOUT || '5000',
+      10
+    );
+
+    return {
+      uri: parsedUrl.toString(),
+      waitForConnections: true,
+      connectionLimit,
+      queueLimit: 0,
+      connectTimeout,
+      enableKeepAlive: true,
+      keepAliveInitialDelay: 0,
+      ...(requireSsl
+        ? {
+            ssl: {
+              rejectUnauthorized: process.env.MYSQL_SSL_REJECT_UNAUTHORIZED !== 'false',
+            },
+          }
+        : {}),
+    };
+  }
+
+  const requireSslEnv =
+    process.env.MYSQL_SSL === 'true' || process.env.MYSQL_SSL_MODE?.toUpperCase() === 'REQUIRED';
+
+  const connectionLimit = parseInt(
+    process.env.MYSQL_CONNECTION_LIMIT || process.env.DB_CONNECTION_LIMIT || '10',
+    10
+  );
+  const connectTimeout = parseInt(
+    process.env.MYSQL_CONNECT_TIMEOUT || process.env.DB_CONNECT_TIMEOUT || '5000',
+    10
+  );
+
+  return {
+    host: process.env.MYSQL_HOST || process.env.DB_HOST || '127.0.0.1',
+    port: Number(process.env.MYSQL_PORT || process.env.DB_PORT || 3306),
+    user: process.env.MYSQL_USER || process.env.DB_USER || 'root',
+    password: process.env.MYSQL_PASSWORD || process.env.DB_PASSWORD || '',
+    database: process.env.MYSQL_DATABASE || process.env.DB_NAME || 'portfolio_db',
+    waitForConnections: true,
+    connectionLimit,
+    queueLimit: 0,
+    connectTimeout,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0,
+    ...(requireSslEnv
+      ? {
+          ssl: {
+            rejectUnauthorized: process.env.MYSQL_SSL_REJECT_UNAUTHORIZED !== 'false',
+          },
+        }
+      : {}),
+  };
+}
+
+/**
+ * Đảm bảo bảng portfolio_rate_limits luôn tồn tại ngay từ lần đăng nhập đầu tiên
+ * giúp đồng bộ bộ đếm chống brute-force trên mọi worker PM2
+ */
+export async function ensureRateLimitTable(p: Pool): Promise<void> {
+  if (rateLimitTableReady) return;
+  try {
+    await p.query(`
+      CREATE TABLE IF NOT EXISTS portfolio_rate_limits (
+        ip VARCHAR(64) PRIMARY KEY,
+        failed_attempts INT NOT NULL DEFAULT 0,
+        locked_until BIGINT DEFAULT NULL,
+        last_attempt BIGINT NOT NULL
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+    rateLimitTableReady = true;
+  } catch {
+    // Nếu MySQL offline, hệ thống tự động lùi về bộ nhớ RAM an toàn
+  }
+}
 
 /**
  * Get or create the MySQL connection pool.
@@ -23,40 +128,9 @@ let _isInitialized = false;
 export function getDbPool(): Pool | null {
   if (pool) return pool;
 
-  const dbHost = process.env.MYSQL_HOST || process.env.DB_HOST || '127.0.0.1';
-  const dbPort = parseInt(process.env.MYSQL_PORT || process.env.DB_PORT || '3306', 10);
-  const dbUser = process.env.MYSQL_USER || process.env.DB_USER || 'root';
-  const dbPassword = process.env.MYSQL_PASSWORD || process.env.DB_PASSWORD || '';
-  const dbName = process.env.MYSQL_DATABASE || process.env.DB_NAME || 'portfolio_db';
-  const databaseUrl = process.env.DATABASE_URL;
-
-  const connectionLimit = parseInt(
-    process.env.MYSQL_CONNECTION_LIMIT || process.env.DB_CONNECTION_LIMIT || '5',
-    10
-  );
-
-  const connectTimeout = parseInt(
-    process.env.MYSQL_CONNECT_TIMEOUT || process.env.DB_CONNECT_TIMEOUT || '5000',
-    10
-  );
-
   try {
-    const config: PoolOptions = databaseUrl
-      ? { uri: databaseUrl, waitForConnections: true, connectionLimit, queueLimit: 0, connectTimeout }
-      : {
-          host: dbHost,
-          port: dbPort,
-          user: dbUser,
-          password: dbPassword,
-          database: dbName,
-          waitForConnections: true,
-          connectionLimit,
-          queueLimit: 0,
-          connectTimeout,
-          enableKeepAlive: true,
-          keepAliveInitialDelay: 0,
-        };
-
+    const databaseUrl = process.env.DATABASE_URL;
+    const config = buildMysqlPoolConfig(databaseUrl);
     pool = mysql.createPool(config);
     return pool;
   } catch (err) {
@@ -659,6 +733,8 @@ export async function getDbRateLimit(ip: string): Promise<{
   const p = getDbPool();
   if (!p) return null;
 
+  await ensureRateLimitTable(p);
+
   try {
     const [rows] = await p.query<RowDataPacket[]>(
       'SELECT failed_attempts, locked_until, last_attempt FROM portfolio_rate_limits WHERE ip = ?',
@@ -688,6 +764,8 @@ export async function recordDbFailedLogin(
 } | null> {
   const p = getDbPool();
   if (!p) return null;
+
+  await ensureRateLimitTable(p);
 
   const now = Date.now();
   const conn = await p.getConnection();

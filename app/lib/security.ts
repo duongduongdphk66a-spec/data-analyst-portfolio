@@ -1,6 +1,7 @@
 /**
  * Security Utility Module
  * Phòng chống tấn công XSS, Prototype Pollution và kiểm soát dữ liệu đầu vào.
+ * Tương thích 100% cả Client (Browser) và Server (Node.js).
  */
 
 // Danh sách các giao thức URL được coi là an toàn
@@ -154,4 +155,6 @@ export function sanitizeTextInput(text: unknown, maxLength = 10000, fallback = '
   }
   return text.trim().slice(0, maxLength);
 }
+
+
 

@@ -3,6 +3,70 @@ import crypto from 'crypto';
 import net from 'net';
 import { getDbRateLimit, recordDbFailedLogin, resetDbRateLimit } from './db';
 
+function isValidIp(ip: string | null | undefined): boolean {
+  if (!ip) return false;
+  const trimmed = ip.trim();
+  return Boolean(trimmed && net.isIP(trimmed) !== 0);
+}
+
+/**
+ * Trích xuất Client IP an toàn trên Vercel / Nginx / Reverse Proxy.
+ * Hỗ trợ x-vercel-forwarded-for, cf-connecting-ip, x-real-ip, x-forwarded-for.
+ * Khi chạy cục bộ, phân tách theo fingerprint User-Agent để tránh khóa chung 1 bucket.
+ */
+export function getClientIp(request: NextRequest | Request): string {
+  const headers = request.headers;
+  const isExplicitlyNoProxy = process.env.TRUST_PROXY === 'false';
+  const trustProxy =
+    !isExplicitlyNoProxy && (
+      process.env.TRUST_PROXY === 'true' ||
+      process.env.VERCEL === '1' ||
+      Boolean(headers.get('x-vercel-forwarded-for')) ||
+      Boolean(headers.get('cf-connecting-ip'))
+    );
+
+  if (trustProxy) {
+    const vercelIp = headers.get('x-vercel-forwarded-for');
+    if (vercelIp) {
+      const parts = vercelIp.split(',');
+      for (const part of parts) {
+        const candidate = part.trim();
+        if (isValidIp(candidate)) return candidate;
+      }
+    }
+
+    const cfIp = headers.get('cf-connecting-ip');
+    if (cfIp && isValidIp(cfIp)) return cfIp.trim();
+
+    const realIp = headers.get('x-real-ip');
+    if (realIp && isValidIp(realIp)) return realIp.trim();
+
+    const forwardedFor = headers.get('x-forwarded-for');
+    if (forwardedFor) {
+      const parts = forwardedFor.split(',');
+      for (const part of parts) {
+        const candidate = part.trim();
+        if (isValidIp(candidate)) return candidate;
+      }
+    }
+  }
+
+  // Khi chạy cục bộ không có Proxy: phân tách theo fingerprint nhẹ của User-Agent
+  // để tránh 1 kẻ tấn công khóa toàn bộ người dùng khác vào chung bucket 'unknown'
+  const ua = headers.get('user-agent');
+  if (ua) {
+    const uaHash = crypto.createHash('sha256').update(ua).digest('hex').slice(0, 10);
+    return `local-${uaHash}`;
+  }
+
+  const reqIp = (request as unknown as { ip?: string }).ip;
+  if (reqIp && typeof reqIp === 'string' && isValidIp(reqIp)) {
+    return reqIp.trim();
+  }
+
+  return '127.0.0.1';
+}
+
 /**
  * Server-side Admin Authentication & Rate Limiting Utility
  * Quản lý xác thực và kiểm soát quyền truy cập API quản trị viên.
@@ -10,15 +74,38 @@ import { getDbRateLimit, recordDbFailedLogin, resetDbRateLimit } from './db';
 
 // Tạo secret ngẫu nhiên lúc khởi động cho môi trường dev nếu không có biến môi trường
 const FALLBACK_RANDOM_SECRET = crypto.randomBytes(32).toString('hex');
+const MIN_PROD_PASSWORD_LENGTH = 16; // Khớp 100% với tài liệu README.md
+
+export function getSessionSigningSecret(): string {
+  if (process.env.SESSION_SECRET && process.env.SESSION_SECRET.length >= 16) {
+    return process.env.SESSION_SECRET;
+  }
+  const adminPwd = process.env.ADMIN_PASSWORD || '';
+  if (!adminPwd) return FALLBACK_RANDOM_SECRET;
+  // Dẫn xuất khóa ký độc lập bằng HMAC thay vì dùng trực tiếp ADMIN_PASSWORD thô
+  return crypto.createHmac('sha256', 'portfolio-session-v1').update(adminPwd).digest('hex');
+}
+
+export function isProductionAuthConfigured(): boolean {
+  const pwd = process.env.ADMIN_PASSWORD || '';
+  const verifyCode = process.env.ADMIN_VERIFY_CODE || '';
+  const isProd = process.env.NODE_ENV === 'production';
+
+  if (isProd) {
+    return pwd.length >= MIN_PROD_PASSWORD_LENGTH && verifyCode.length >= 4;
+  }
+  return pwd.length >= 6;
+}
 
 function getAdminPassword(): string {
   const envPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET;
-  if (envPassword && envPassword.trim().length >= 6) {
+  const minLength = process.env.NODE_ENV === 'production' ? MIN_PROD_PASSWORD_LENGTH : 6;
+  if (envPassword && envPassword.trim().length >= minLength) {
     return envPassword.trim();
   }
   if (process.env.NODE_ENV === 'production') {
     throw new Error(
-      '[CRITICAL SECURITY ERROR] ADMIN_PASSWORD must be configured in environment in production mode.'
+      `[CRITICAL SECURITY ERROR] ADMIN_PASSWORD must be configured with >= ${MIN_PROD_PASSWORD_LENGTH} characters in production mode.`
     );
   }
   return envPassword?.trim() || FALLBACK_RANDOM_SECRET;
@@ -64,55 +151,6 @@ setInterval(() => {
   }
 }, 10 * 60 * 1000).unref?.();
 
-function isValidIp(ip: string | null | undefined): boolean {
-  if (!ip) return false;
-  const trimmed = ip.trim();
-  return Boolean(trimmed && net.isIP(trimmed) !== 0);
-}
-
-/**
- * Trích xuất Client IP an toàn từ Request
- * Chỉ tin cậy các proxy header khi TRUST_PROXY='true' được bật tường minh.
- * Ngăn chặn tuyệt đối việc kẻ tấn công tự set header giả lập IP để bypass rate limiting.
- */
-export function getClientIp(req: NextRequest): string {
-  const isTrustProxy = process.env.TRUST_PROXY === 'true';
-
-  if (isTrustProxy) {
-    // 1. Cloudflare header (chỉ tin khi đứng sau Cloudflare Proxy tin cậy)
-    const cfIp = req.headers.get('cf-connecting-ip');
-    if (cfIp && isValidIp(cfIp)) {
-      return cfIp.trim();
-    }
-
-    // 2. Nginx/Traefik X-Real-IP header do reverse proxy thiết lập
-    const realIp = req.headers.get('x-real-ip');
-    if (realIp && isValidIp(realIp)) {
-      return realIp.trim();
-    }
-
-    // 3. X-Forwarded-For: lấy IP hợp lệ đầu tiên (client IP)
-    const forwarded = req.headers.get('x-forwarded-for');
-    if (forwarded) {
-      const parts = forwarded.split(',');
-      for (const part of parts) {
-        const candidate = part.trim();
-        if (isValidIp(candidate)) {
-          return candidate;
-        }
-      }
-    }
-  }
-
-  // Khi TRUST_PROXY=false hoặc không đứng sau proxy:
-  // Lấy IP từ NextRequest socket nếu có hoặc fallback an toàn
-  const reqIp = (req as unknown as { ip?: string }).ip;
-  if (reqIp && typeof reqIp === 'string' && isValidIp(reqIp)) {
-    return reqIp.trim();
-  }
-
-  return '127.0.0.1';
-}
 
 /**
  * Kiểm tra xem IP có đang bị khoá hoặc quá số lần thử không (Sync In-Memory)
@@ -261,10 +299,10 @@ export async function resetLoginAttemptsAsync(ip: string): Promise<void> {
  * Tạo token phiên đăng nhập (Signed Session Token) dựa trên HMAC-SHA256
  */
 export function generateAdminToken(): string {
-  const password = getAdminPassword();
+  const secret = getSessionSigningSecret();
   const timestamp = Date.now().toString();
   const signature = crypto
-    .createHmac('sha256', password)
+    .createHmac('sha256', secret)
     .update(timestamp)
     .digest('hex');
   return `${timestamp}.${signature}`;
@@ -327,16 +365,12 @@ export function verifyAdminToken(token: string | null | undefined): boolean {
     return false; // Token đã hết hạn hoặc timestamp không hợp lệ
   }
 
-  let password = '';
-  try {
-    password = getAdminPassword();
-  } catch {
-    return false;
-  }
+  const secret = getSessionSigningSecret();
+  if (!secret) return false;
 
   // Xác minh chữ ký số bằng so sánh an toàn timingSafeEqual
   const expectedSignature = crypto
-    .createHmac('sha256', password)
+    .createHmac('sha256', secret)
     .update(timestampStr)
     .digest('hex');
 
