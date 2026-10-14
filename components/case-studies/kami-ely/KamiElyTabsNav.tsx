@@ -80,7 +80,7 @@ export default function KamiElyTabsNav({
         en: '180d Cycle (12.74B) • Product Cards (1.17M views) • 5,712 KOCs'
       },
       badge: '12,74 Tỉ • 85,5k SP',
-      activeClass: 'bg-sky-500/20 text-sky-300 border-sky-500/50 shadow-sky-950/50'
+      activeClass: 'bg-sky-50 text-sky-950 border-sky-400 ring-1 ring-sky-300 shadow-sm dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/50 dark:shadow-sky-950/50'
     },
     {
       id: 'creator',
@@ -90,7 +90,7 @@ export default function KamiElyTabsNav({
         en: '470–475 LIVEs • 4.5x GPM Paradox • Live Ads A/B Testing'
       },
       badge: '49,3% GMV • 4,5x GPM',
-      activeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-emerald-950/50'
+      activeClass: 'bg-emerald-50 text-emerald-950 border-emerald-400 ring-1 ring-emerald-300 shadow-sm dark:bg-emerald-500/20 dark:text-emerald-300 dark:border-emerald-500/50 dark:shadow-emerald-950/50'
     },
     {
       id: 'science',
@@ -100,14 +100,14 @@ export default function KamiElyTabsNav({
         en: 'Hypothesis Testing • Correlation • What-If Optimizer'
       },
       badge: 'Jupyter • Simulator',
-      activeClass: 'bg-pink-500/20 text-pink-300 border-pink-500/50 shadow-pink-950/50'
+      activeClass: 'bg-pink-50 text-pink-950 border-pink-400 ring-1 ring-pink-300 shadow-sm dark:bg-pink-500/20 dark:text-pink-300 dark:border-pink-500/50 dark:shadow-pink-950/50'
     }
   ];
 
   return (
     <nav
       aria-label="Kami Ely Case Study Navigation"
-      className="sticky top-3 z-30 w-full rounded-2xl border border-slate-800/90 bg-slate-950/95 backdrop-blur-md p-3 sm:p-4 shadow-xl space-y-3"
+      className="sticky top-3 z-30 w-full rounded-2xl border border-slate-200/90 bg-white/95 dark:border-slate-800/90 dark:bg-slate-950/95 backdrop-blur-md p-3 sm:p-4 shadow-lg space-y-3"
     >
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
         {/* OPTIONAL BACK BUTTON & EMBEDDED NOTICE */}
@@ -115,7 +115,7 @@ export default function KamiElyTabsNav({
           <button
             type="button"
             onClick={handleBack}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-bold text-slate-300 hover:text-white transition cursor-pointer shrink-0"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-bold text-slate-700 hover:text-slate-950 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-800 dark:text-slate-300 dark:hover:text-white transition cursor-pointer shrink-0"
             title={lang === 'vi' ? 'Quay lại danh mục dự án' : 'Back to projects'}
           >
             <ArrowLeft className="w-3.5 h-3.5" />
@@ -139,32 +139,32 @@ export default function KamiElyTabsNav({
                 }}
                 className={`p-3 rounded-xl border text-left transition flex flex-col justify-between gap-1.5 cursor-pointer ${
                   isSelected
-                    ? `${tab.activeClass} shadow-lg ring-1 ring-sky-400/30`
-                    : 'bg-slate-900/60 border-slate-800/80 text-slate-400 hover:bg-slate-900 hover:text-slate-200'
+                    ? `${tab.activeClass} shadow-md`
+                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:bg-slate-900/60 dark:border-slate-800/80 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs sm:text-sm font-bold text-white">{tab.title[lang]}</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-slate-950/80 text-slate-300 border border-slate-800 shrink-0">
+                  <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{tab.title[lang]}</span>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-white text-slate-700 border border-slate-200 dark:bg-slate-950/80 dark:text-slate-300 dark:border-slate-800 shrink-0">
                     {tab.badge}
                   </span>
                 </div>
-                <span className="text-[11px] text-slate-400 line-clamp-1">{tab.subtitle[lang]}</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1">{tab.subtitle[lang]}</span>
               </button>
             );
           })}
         </div>
 
         {/* ACTIONS: 3-MINUTE HR EXECUTIVE SCAN TOGGLE BUTTON & PROOF GALLERY */}
-        <div className="flex items-center justify-end gap-2 shrink-0 border-t xl:border-t-0 xl:border-l border-slate-800 pt-2.5 xl:pt-0 xl:pl-3">
+        <div className="flex items-center justify-end gap-2 shrink-0 border-t xl:border-t-0 xl:border-l border-slate-200 dark:border-slate-800 pt-2.5 xl:pt-0 xl:pl-3">
           {toggleExec && (
             <button
               type="button"
               onClick={toggleExec}
-              className={`w-full xl:w-auto px-4 py-3 rounded-xl border text-xs font-mono font-bold transition flex items-center justify-center gap-2 cursor-pointer shadow-sm ${
+              className={`w-full xl:w-auto px-4 py-3 rounded-xl border text-xs font-mono font-bold transition flex items-center justify-center gap-2 cursor-pointer shadow-xs ${
                 isExecActive
-                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-lg shadow-amber-950/40 ring-1 ring-amber-400/40'
-                  : 'bg-slate-900 hover:bg-slate-850 text-amber-300 border-amber-500/30'
+                  ? 'bg-amber-100 text-amber-900 border-amber-400 ring-1 ring-amber-400/40 shadow-sm dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/50 dark:shadow-amber-950/40'
+                  : 'bg-amber-50 hover:bg-amber-100 text-amber-800 border-amber-300 dark:bg-slate-900 dark:hover:bg-slate-850 dark:text-amber-300 dark:border-amber-500/30'
               }`}
             >
               <span>⚡</span>
@@ -184,7 +184,7 @@ export default function KamiElyTabsNav({
             <button
               type="button"
               onClick={onOpenProofModal}
-              className="p-3 rounded-xl border border-slate-800 bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-850 transition cursor-pointer shrink-0"
+              className="p-3 rounded-xl border border-slate-200 bg-slate-100 text-slate-700 hover:text-slate-950 hover:bg-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-850 transition cursor-pointer shrink-0"
               title={lang === 'vi' ? 'Kho 36 ảnh gốc kiểm chứng FastMoss' : 'FastMoss Proof Gallery (36 Captures)'}
               aria-label="FastMoss Proof Gallery"
             >
@@ -198,7 +198,7 @@ export default function KamiElyTabsNav({
       {!isExecActive && currentNavItems && currentNavItems.length > 0 && handleNavClick && (
         <div
           ref={subnavContainerRef}
-          className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none border-t border-slate-800/80 pt-2.5 text-xs"
+          className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none border-t border-slate-200 dark:border-slate-800/80 pt-2.5 text-xs"
         >
           {currentNavItems.map((item) => {
             const isActive = activeSection === item.id;
@@ -209,14 +209,14 @@ export default function KamiElyTabsNav({
                 onClick={(e) => handleNavClick(item.id, e)}
                 className={`px-3 py-1 rounded-lg font-medium whitespace-nowrap transition cursor-pointer flex items-center gap-1.5 ${
                   isActive
-                    ? 'bg-sky-500 text-slate-950 font-bold shadow-xs'
-                    : 'bg-slate-900/80 text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                    ? 'bg-sky-600 text-white font-bold shadow-xs dark:bg-sky-500 dark:text-slate-950'
+                    : 'bg-slate-100 text-slate-600 hover:text-slate-950 hover:bg-slate-200 dark:bg-slate-900/80 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-900'
                 }`}
               >
                 <span>{item.label}</span>
                 {item.badge && (
                   <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded ${
-                    isActive ? 'bg-slate-950/20 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400'
+                    isActive ? 'bg-white/20 text-white font-bold dark:bg-slate-950/20 dark:text-slate-950' : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
                   }`}>
                     {item.badge}
                   </span>

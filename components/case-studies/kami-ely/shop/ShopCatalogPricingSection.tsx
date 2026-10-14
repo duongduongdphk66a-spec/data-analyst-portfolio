@@ -181,19 +181,19 @@ export default function ShopCatalogPricingSection({
   ];
 
   return (
-    <section id="shop-products" className="w-full rounded-2xl border border-slate-800/90 bg-slate-950/90 p-5 sm:p-8 shadow-2xl space-y-6 scroll-mt-36">
+    <section id="shop-products" className="w-full rounded-2xl border border-slate-200 bg-white p-5 sm:p-8 shadow-xl dark:border-slate-800/90 dark:bg-slate-950/90 dark:shadow-2xl space-y-6 scroll-mt-36">
       {/* HEADER */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-5">
         <div className="space-y-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="px-2.5 py-1 text-[11px] font-mono font-bold uppercase tracking-wider bg-sky-500/15 text-sky-300 border border-sky-500/30 rounded-md">
+            <span className="px-2.5 py-1 text-[11px] font-mono font-bold uppercase tracking-wider bg-sky-50 text-sky-800 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30 rounded-md">
               {lang === 'vi' ? 'Danh Mục 331 SKUs • Kệ Hàng & Khuyến Mãi' : '331 SKUs Catalog • Shopping Tab & Promotions'}
             </span>
-            <span className="px-2.5 py-1 text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-md">
+            <span className="px-2.5 py-1 text-[11px] font-mono text-emerald-800 bg-emerald-50 border border-emerald-200 dark:text-emerald-400 dark:bg-emerald-500/10 dark:border-emerald-500/20 rounded-md">
               {lang === 'vi' ? '90 Ngày: 6.136.205.973 đ • 40.229 SP' : '90d: 6,136,205,973 VND • 40,229 Units'}
             </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white mt-1">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-950 dark:text-white mt-1">
             {lang === 'vi'
               ? 'Chiến Lược Danh Mục Ngành Hàng, Phễu Thẻ Sản Phẩm (1,17M Views) & Công Cụ Giá'
               : 'Category Portfolio Strategy, Product Card Funnel (1.17M Views) & Pricing Engine'}
@@ -206,7 +206,7 @@ export default function ShopCatalogPricingSection({
             <button
               type="button"
               onClick={() => openProofScreenshot('sc-073543')}
-              className="px-3 py-2 rounded-xl text-xs font-mono font-semibold bg-slate-900 hover:bg-slate-800 text-sky-300 border border-slate-800 transition flex items-center gap-1.5 cursor-pointer"
+              className="px-3 py-2 rounded-xl text-xs font-mono font-semibold bg-slate-100 hover:bg-slate-200 text-sky-800 border border-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-sky-300 dark:border-slate-800 transition flex items-center gap-1.5 cursor-pointer"
               title="Xem ảnh FastMoss gốc #073543-#073557"
             >
               <ImageIcon className="w-3.5 h-3.5" />
@@ -225,8 +225,8 @@ export default function ShopCatalogPricingSection({
               onClick={() => setActiveSubTab(tab.id as typeof activeSubTab)}
               className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition border cursor-pointer ${
                 activeSubTab === tab.id
-                  ? 'bg-sky-500/20 text-sky-300 border-sky-500/50'
-                  : 'bg-slate-900/70 text-slate-400 border-slate-800 hover:text-slate-200'
+                  ? 'bg-sky-50 text-sky-950 border-sky-400 shadow-xs dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/50'
+                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-950 hover:bg-slate-100 dark:bg-slate-900/70 dark:text-slate-400 dark:border-slate-800 dark:hover:text-slate-200'
               }`}
             >
               {tab.label[lang]}
@@ -243,21 +243,21 @@ export default function ShopCatalogPricingSection({
             {categoryBreakdown.map((cat) => (
               <div
                 key={cat.id}
-                className="p-5 rounded-2xl bg-slate-900/75 border border-slate-800 flex flex-col justify-between space-y-3"
+                className="p-5 rounded-2xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 flex flex-col justify-between space-y-3"
               >
                 <div className="space-y-2">
                   <span className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-mono font-bold border ${cat.badgeColor}`}>
                     CSV: {cat.csvGmvSharePct}% GMV (UI: {cat.uiGmvSharePct}%)
                   </span>
-                  <h3 className="text-sm font-bold text-white">{cat.name[lang]}</h3>
-                  <div className="text-2xl font-extrabold font-mono text-white">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">{cat.name[lang]}</h3>
+                  <div className="text-2xl font-extrabold font-mono text-slate-950 dark:text-white">
                     {(cat.gmvVnd / 1e9).toFixed(2)} Tỉ VNĐ
                   </div>
-                  <div className="text-xs font-mono text-emerald-400">
+                  <div className="text-xs font-mono text-emerald-700 dark:text-emerald-400">
                     {cat.unitsSold.toLocaleString('vi-VN')} SP ({cat.csvUnitsSharePct}% CSV | {cat.uiUnitsSharePct}% UI)
                   </div>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed border-t border-slate-800 pt-2.5">
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200 dark:border-slate-800 pt-2.5">
                   {cat.seasonalityNote[lang]}
                 </p>
               </div>
@@ -265,32 +265,32 @@ export default function ShopCatalogPricingSection({
           </div>
 
           {/* SWEET SPOT PRICE TIER BAR */}
-          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-3">
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800 space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-              <span className="font-bold text-white">
+              <span className="font-bold text-slate-900 dark:text-white">
                 {lang === 'vi'
                   ? 'Phân Bổ Phân Khúc Giá (Sweet Spot 100.000đ – 200.000đ chiếm 67,37% GMV; Nhóm >75.000đ chiếm 98,9% GMV)'
                   : 'Price Tier Distribution (100k–200k VND Sweet Spot drives 67.37% GMV; >75k VND drives 98.9% GMV)'}
               </span>
-              <span className="font-mono text-sky-400">AOV Cơ Sở: 128.600 đ → AOV Khuyến Mãi: 150.991 đ</span>
+              <span className="font-mono text-sky-700 dark:text-sky-400 font-bold">AOV Cơ Sở: 128.600 đ → AOV Khuyến Mãi: 150.991 đ</span>
             </div>
-            <div className="w-full h-3 rounded-full bg-slate-800 overflow-hidden flex">
+            <div className="w-full h-3 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden flex">
               <div className="bg-amber-400 h-full" style={{ width: '20.8%' }} title="< 100k VNĐ: 20,80%" />
               <div className="bg-sky-500 h-full" style={{ width: '67.37%' }} title="100k - 200k VNĐ: 67,37%" />
               <div className="bg-emerald-500 h-full" style={{ width: '11.83%' }} title="> 200k VNĐ: 11,83%" />
             </div>
-            <div className="flex flex-wrap justify-between text-[11px] font-mono text-slate-400">
+            <div className="flex flex-wrap justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
               <span>🟡 &lt; 100k VNĐ: 20,80% GMV (1,28 Tỉ đ • 9.898 SP)</span>
-              <span className="text-sky-300 font-bold">🔵 100k – 200k VNĐ (Vùng giá vàng): 67,37% GMV (4,13 Tỉ đ • 27.276 SP)</span>
+              <span className="text-sky-700 dark:text-sky-300 font-bold">🔵 100k – 200k VNĐ (Vùng giá vàng): 67,37% GMV (4,13 Tỉ đ • 27.276 SP)</span>
               <span>🟢 200k – 300k VNĐ: 11,83% GMV (726,07 Tr đ • 3.054 SP)</span>
             </div>
           </div>
 
           {/* HERO SKU SELF-RELIANCE TABLE */}
-          <div className="overflow-x-auto rounded-xl border border-slate-800">
+          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-slate-900/95 text-slate-300 border-b border-slate-800 font-mono uppercase text-[11px]">
+                <tr className="bg-slate-50 text-slate-700 border-b border-slate-200 font-mono uppercase text-[11px] dark:bg-slate-900/95 dark:text-slate-300 dark:border-slate-800">
                   <th className="p-3.5">{lang === 'vi' ? 'Mã & Tên Sản Phẩm (Hero SKU)' : 'Hero SKU'}</th>
                   <th className="p-3.5">{lang === 'vi' ? 'Đơn Giá' : 'Price'}</th>
                   <th className="p-3.5">{lang === 'vi' ? 'Toàn Shop (90d)' : 'Shop Total (90d)'}</th>
@@ -299,24 +299,24 @@ export default function ShopCatalogPricingSection({
                   <th className="p-3.5">{lang === 'vi' ? 'Chiến Lược Phân Bổ Kênh' : 'Channel Strategy'}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/70 text-slate-200">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/70 text-slate-700 dark:text-slate-200">
                 {heroSkuMatrix.map((sku) => (
-                  <tr key={sku.skuCode} className="hover:bg-slate-900/50 transition">
-                    <td className="p-3.5 font-bold text-white">
+                  <tr key={sku.skuCode} className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition">
+                    <td className="p-3.5 font-bold text-slate-900 dark:text-white">
                       <div>{sku.name[lang]}</div>
-                      <div className="text-[10px] font-mono text-slate-400">{sku.category}</div>
+                      <div className="text-[10px] font-mono text-slate-500 dark:text-slate-400">{sku.category}</div>
                     </td>
-                    <td className="p-3.5 font-mono text-slate-300">{sku.priceVnd.toLocaleString('vi-VN')} đ</td>
+                    <td className="p-3.5 font-mono text-slate-700 dark:text-slate-300">{sku.priceVnd.toLocaleString('vi-VN')} đ</td>
                     <td className="p-3.5 font-mono">
-                      <div className="font-bold text-white">{sku.shopUnits90d.toLocaleString('vi-VN')} SP</div>
-                      <div className="text-[11px] text-slate-400">{(sku.shopGmv90d / 1e6).toFixed(2)} Tr đ</div>
+                      <div className="font-bold text-slate-950 dark:text-white">{sku.shopUnits90d.toLocaleString('vi-VN')} SP</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">{(sku.shopGmv90d / 1e6).toFixed(2)} Tr đ</div>
                     </td>
                     <td className="p-3.5 font-mono">
-                      <div className="font-bold text-sky-300">{sku.selfUnits90d.toLocaleString('vi-VN')} SP</div>
-                      <div className="text-[11px] text-slate-400">{(sku.selfGmv90d / 1e6).toFixed(1)} Tr đ</div>
+                      <div className="font-bold text-sky-700 dark:text-sky-300">{sku.selfUnits90d.toLocaleString('vi-VN')} SP</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">{(sku.selfGmv90d / 1e6).toFixed(1)} Tr đ</div>
                     </td>
-                    <td className="p-3.5 font-mono font-bold text-emerald-400">{sku.selfReliancePct}%</td>
-                    <td className="p-3.5 text-[11px] text-amber-300 font-medium">{sku.roleTag[lang]}</td>
+                    <td className="p-3.5 font-mono font-bold text-emerald-700 dark:text-emerald-400">{sku.selfReliancePct}%</td>
+                    <td className="p-3.5 text-[11px] text-amber-800 dark:text-amber-300 font-semibold">{sku.roleTag[lang]}</td>
                   </tr>
                 ))}
               </tbody>
@@ -329,32 +329,32 @@ export default function ShopCatalogPricingSection({
       {activeSubTab === 'shopping-tab' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-1.5">
-              <div className="text-xs font-mono text-slate-400">
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 dark:bg-slate-900/80 dark:border-slate-800 space-y-1.5">
+              <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
                 {lang === 'vi' ? 'Lượt Xem Thẻ Sản Phẩm (28 Ngày)' : 'Product Card Viewers (28d)'}
               </div>
-              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-white">1,17 Triệu</div>
-              <div className="text-xs font-mono text-emerald-400">+34,46% (Vượt 80% đối thủ cùng ngành)</div>
+              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-950 dark:text-white">1,17 Triệu</div>
+              <div className="text-xs font-mono text-emerald-700 dark:text-emerald-400">+34,46% (Vượt 80% đối thủ cùng ngành)</div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-1.5">
-              <div className="text-xs font-mono text-slate-400">
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 dark:bg-slate-900/80 dark:border-slate-800 space-y-1.5">
+              <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
                 {lang === 'vi' ? 'Doanh Thu Kệ Hàng (28d / 90d)' : 'Product Card GMV (28d / 90d)'}
               </div>
-              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-sky-400">
+              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-sky-700 dark:text-sky-400">
                 442,36 Tr / 1,40 Tỉ
               </div>
-              <div className="text-xs font-mono text-slate-300">
+              <div className="text-xs font-mono text-slate-600 dark:text-slate-300">
                 Chiếm 22,85% – 22,87% GMV 90 ngày (8.630 SP)
               </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-rose-950/20 border border-rose-500/30 space-y-1.5">
-              <div className="text-xs font-mono text-rose-300">
+            <div className="p-5 rounded-2xl bg-rose-50 border border-rose-200 dark:bg-rose-950/20 dark:border-rose-500/30 space-y-1.5">
+              <div className="text-xs font-mono text-rose-800 dark:text-rose-300">
                 {lang === 'vi' ? 'Tỷ Lệ Xem Đến Thanh Toán (CVR)' : 'View-to-Pay Conversion Rate (CVR)'}
               </div>
-              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-rose-400">0,25% 🚨</div>
-              <div className="text-xs font-mono text-rose-300">
+              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-rose-700 dark:text-rose-400">0,25% 🚨</div>
+              <div className="text-xs font-mono text-rose-800 dark:text-rose-300">
                 Giảm -38,4% (400 người xem mới có 1 người mua)
               </div>
             </div>
@@ -362,28 +362,28 @@ export default function ShopCatalogPricingSection({
 
           {/* 3 TRAFFIC SOURCES OF PRODUCT CARDS */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
-              <div className="font-mono font-bold text-amber-400">1. Nguồn Khác / Shopping Ads (44,5% GMV)</div>
-              <div className="text-lg font-extrabold font-mono text-white">192,0 Triệu VNĐ</div>
-              <p className="text-slate-400">Đổ về từ quảng cáo Shopping Ads, link ngoại sàn và giỏ hàng Affiliate.</p>
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800 space-y-1">
+              <div className="font-mono font-bold text-amber-700 dark:text-amber-400">1. Nguồn Khác / Shopping Ads (44,5% GMV)</div>
+              <div className="text-lg font-extrabold font-mono text-slate-950 dark:text-white">192,0 Triệu VNĐ</div>
+              <p className="text-slate-600 dark:text-slate-400">Đổ về từ quảng cáo Shopping Ads, link ngoại sàn và giỏ hàng Affiliate.</p>
             </div>
-            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
-              <div className="font-mono font-bold text-emerald-400">2. Tìm Kiếm Chủ Động (Search)</div>
-              <div className="text-lg font-extrabold font-mono text-white">74,6 Triệu VNĐ</div>
-              <p className="text-slate-400">Khách gõ từ khóa trực tiếp, tỷ lệ chuyển đổi cao nhất trên Kệ hàng.</p>
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800 space-y-1">
+              <div className="font-mono font-bold text-emerald-700 dark:text-emerald-400">2. Tìm Kiếm Chủ Động (Search)</div>
+              <div className="text-lg font-extrabold font-mono text-slate-950 dark:text-white">74,6 Triệu VNĐ</div>
+              <p className="text-slate-600 dark:text-slate-400">Khách gõ từ khóa trực tiếp, tỷ lệ chuyển đổi cao nhất trên Kệ hàng.</p>
             </div>
-            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
-              <div className="font-mono font-bold text-sky-400">3. Đề Xuất TikTok (1,71 Triệu PV)</div>
-              <div className="text-lg font-extrabold font-mono text-white">58,0 Triệu VNĐ</div>
-              <p className="text-slate-400">Lượng hiển thị khổng lồ (1,71M PV) nhưng thoát trang cao do thiếu video review thật.</p>
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800 space-y-1">
+              <div className="font-mono font-bold text-sky-700 dark:text-sky-400">3. Đề Xuất TikTok (1,71 Triệu PV)</div>
+              <div className="text-lg font-extrabold font-mono text-slate-950 dark:text-white">58,0 Triệu VNĐ</div>
+              <p className="text-slate-600 dark:text-slate-400">Lượng hiển thị khổng lồ (1,71M PV) nhưng thoát trang cao do thiếu video review thật.</p>
             </div>
           </div>
 
           {/* HIGH POTENTIAL PRODUCT CARDS TABLE (SYNCED TO MAR 25 - MAR 31, 2026) */}
-          <div className="overflow-x-auto rounded-xl border border-slate-800">
+          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-slate-900/95 text-slate-300 border-b border-slate-800 font-mono uppercase text-[11px]">
+                <tr className="bg-slate-50 text-slate-700 border-b border-slate-200 font-mono uppercase text-[11px] dark:bg-slate-900/95 dark:text-slate-300 dark:border-slate-800">
                   <th className="p-3.5">{lang === 'vi' ? 'Thẻ Sản Phẩm Tiềm Năng (Tuần 25/03 – 31/03/2026)' : 'High-Potential Product Card'}</th>
                   <th className="p-3.5">{lang === 'vi' ? 'Người Xem (7d)' : 'Viewers (7d)'}</th>
                   <th className="p-3.5">{lang === 'vi' ? 'Lượt Click (CTR)' : 'Clicks (CTR)'}</th>
@@ -391,16 +391,16 @@ export default function ShopCatalogPricingSection({
                   <th className="p-3.5">{lang === 'vi' ? 'Hành Động Tối Ưu Kệ Hàng' : 'Optimization Action'}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/70 text-slate-200">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/70 text-slate-700 dark:text-slate-200">
                 {highPotentialProductCards.map((card) => (
-                  <tr key={card.sku} className="hover:bg-slate-900/50 transition">
-                    <td className="p-3.5 font-bold text-white">{card.name[lang]}</td>
-                    <td className="p-3.5 font-mono text-sky-300 font-bold">{card.viewers7d}</td>
+                  <tr key={card.sku} className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition">
+                    <td className="p-3.5 font-bold text-slate-900 dark:text-white">{card.name[lang]}</td>
+                    <td className="p-3.5 font-mono text-sky-700 dark:text-sky-300 font-bold">{card.viewers7d}</td>
                     <td className="p-3.5 font-mono">
-                      {card.clicks7d} <span className="text-emerald-400">({card.ctrPct})</span>
+                      {card.clicks7d} <span className="text-emerald-700 dark:text-emerald-400 font-semibold">({card.ctrPct})</span>
                     </td>
-                    <td className="p-3.5 font-mono text-amber-300">{card.conversionMetric[lang]}</td>
-                    <td className="p-3.5 text-slate-300">{card.action[lang]}</td>
+                    <td className="p-3.5 font-mono text-amber-800 dark:text-amber-300 font-semibold">{card.conversionMetric[lang]}</td>
+                    <td className="p-3.5 text-slate-600 dark:text-slate-300">{card.action[lang]}</td>
                   </tr>
                 ))}
               </tbody>
@@ -413,30 +413,30 @@ export default function ShopCatalogPricingSection({
       {activeSubTab === 'promo-engine' && (
         <div className="space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-              <div className="text-[11px] font-mono text-slate-400">Tỷ Trọng GMV Khuyến Mãi</div>
-              <div className="text-2xl font-extrabold font-mono text-white mt-1">35,86% (123,3 Tr đ)</div>
-              <div className="text-[11px] text-emerald-400 font-mono mt-1">Động lực kích cầu đơn hàng</div>
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/80 dark:border-slate-800">
+              <div className="text-[11px] font-mono text-slate-500 dark:text-slate-400">Tỷ Trọng GMV Khuyến Mãi</div>
+              <div className="text-2xl font-extrabold font-mono text-slate-950 dark:text-white mt-1">35,86% (123,3 Tr đ)</div>
+              <div className="text-[11px] text-emerald-700 dark:text-emerald-400 font-mono mt-1 font-semibold">Động lực kích cầu đơn hàng</div>
             </div>
-            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-              <div className="text-[11px] font-mono text-slate-400">AOV Đơn Hàng Khuyến Mãi</div>
-              <div className="text-2xl font-extrabold font-mono text-sky-400 mt-1">150.991 VNĐ</div>
-              <div className="text-[11px] text-sky-300 font-mono mt-1">+17,41% vs. AOV chung (128.600 đ)</div>
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/80 dark:border-slate-800">
+              <div className="text-[11px] font-mono text-slate-500 dark:text-slate-400">AOV Đơn Hàng Khuyến Mãi</div>
+              <div className="text-2xl font-extrabold font-mono text-sky-700 dark:text-sky-400 mt-1">150.991 VNĐ</div>
+              <div className="text-[11px] text-sky-700 dark:text-sky-300 font-mono mt-1 font-semibold">+17,41% vs. AOV chung (128.600 đ)</div>
             </div>
-            <div className="p-4 rounded-xl bg-rose-950/20 border border-rose-500/30">
-              <div className="text-[11px] font-mono text-rose-300">Chi Phí Giảm Giá (Discount Cost)</div>
-              <div className="text-2xl font-extrabold font-mono text-rose-400 mt-1">62,2 Triệu VNĐ</div>
-              <div className="text-[11px] text-rose-300 font-mono mt-1">Chiết khấu ~50,45% doanh thu KM</div>
+            <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 dark:bg-rose-950/20 dark:border-rose-500/30">
+              <div className="text-[11px] font-mono text-rose-800 dark:text-rose-300">Chi Phí Giảm Giá (Discount Cost)</div>
+              <div className="text-2xl font-extrabold font-mono text-rose-700 dark:text-rose-400 mt-1">62,2 Triệu VNĐ</div>
+              <div className="text-[11px] text-rose-800 dark:text-rose-300 font-mono mt-1 font-semibold">Chiết khấu ~50,45% doanh thu KM</div>
             </div>
-            <div className="p-4 rounded-xl bg-amber-950/20 border border-amber-500/30">
-              <div className="text-[11px] font-mono text-amber-300">Cơ Cấu Công Cụ Bị Lệch</div>
-              <div className="text-2xl font-extrabold font-mono text-amber-400 mt-1">96,35% Cố Định</div>
-              <div className="text-[11px] text-amber-200 font-mono mt-1">Flash Sale LIVE: 19,65% • Thường: 0,2%</div>
+            <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 dark:bg-amber-950/20 dark:border-amber-500/30">
+              <div className="text-[11px] font-mono text-amber-800 dark:text-amber-300">Cơ Cấu Công Cụ Bị Lệch</div>
+              <div className="text-2xl font-extrabold font-mono text-amber-700 dark:text-amber-400 mt-1">96,35% Cố Định</div>
+              <div className="text-[11px] text-amber-800 dark:text-amber-200 font-mono mt-1 font-semibold">Flash Sale LIVE: 19,65% • Thường: 0,2%</div>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800 text-xs text-slate-300 space-y-2 leading-relaxed">
-            <div className="font-bold text-white text-sm">
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 dark:bg-slate-900/70 dark:border-slate-800 dark:text-slate-300 space-y-2 leading-relaxed">
+            <div className="font-bold text-slate-950 dark:text-white text-sm">
               {lang === 'vi'
                 ? 'Chẩn đoán & Giải pháp Tái cấu trúc Biên lợi nhuận Khuyến mãi:'
                 : 'Diagnostic & Promotional Margin Restructuring Plan:'}

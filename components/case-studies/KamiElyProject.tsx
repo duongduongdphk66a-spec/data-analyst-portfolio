@@ -66,9 +66,9 @@ export default function KamiElyProject({
       {isExecutiveScanMode ? (
         <div className="space-y-8 animate-fadeIn">
           {/* Banner thông báo đang ở chế độ đọc nhanh 3 phút */}
-          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="text-xs sm:text-sm text-amber-200">
-              <strong className="text-amber-400">
+          <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 dark:bg-amber-500/10 dark:border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+            <div className="text-xs sm:text-sm text-amber-900 dark:text-amber-200">
+              <strong className="text-amber-700 dark:text-amber-400">
                 ⚡ {lang === 'vi' ? 'Chế độ Đọc lướt 3 phút cho HR:' : '3-Minute HR Executive Scan:'}
               </strong>{' '}
               {lang === 'vi'

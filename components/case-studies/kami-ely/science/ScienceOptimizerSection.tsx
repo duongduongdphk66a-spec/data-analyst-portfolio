@@ -87,19 +87,19 @@ export default function ScienceOptimizerSection({
   };
 
   return (
-    <section id="science-optimizer" className="w-full rounded-2xl border border-slate-800/90 bg-slate-950/90 p-5 sm:p-8 shadow-2xl space-y-6 scroll-mt-36">
+    <section id="science-optimizer" className="w-full rounded-2xl border border-slate-200 bg-white p-5 sm:p-8 shadow-xl dark:border-slate-800/90 dark:bg-slate-950/90 dark:shadow-2xl space-y-6 scroll-mt-36">
       {/* HEADER */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
         <div className="space-y-1">
-          <span className="px-2.5 py-1 text-[11px] font-mono font-bold uppercase tracking-wider bg-pink-500/15 text-pink-300 border border-pink-500/30 rounded-md">
+          <span className="px-2.5 py-1 text-[11px] font-mono font-bold uppercase tracking-wider bg-pink-50 text-pink-800 border border-pink-200 dark:bg-pink-500/15 dark:text-pink-300 dark:border-pink-500/30 rounded-md">
             {lang === 'vi' ? 'Mô Hình Mô Phỏng Quyết Định (What-If ROI & Margin Simulator)' : 'Interactive What-If ROI & Margin Simulator'}
           </span>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white mt-1">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-950 dark:text-white mt-1">
             {lang === 'vi'
               ? 'Mô Phỏng Tác Động Doanh Thu & Biên Lợi Nhuận Từ 4 Đòn Bẩy Dữ Liệu'
               : 'Simulating GMV & Margin Impact Across 4 Data-Driven Levers'}
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
             {lang === 'vi'
               ? 'Kéo các thanh trượt bên dưới để kiểm chứng tác động tài chính dựa trên hệ số thực tế từ 18.778 bản ghi.'
               : 'Drag the sliders below to test financial impact using empirical coefficients from the 18,778 records.'}
@@ -114,7 +114,7 @@ export default function ScienceOptimizerSection({
             setTargetPromoDiscountPct(32.0);
             setTargetActiveKocPct(12.0);
           }}
-          className="self-start lg:self-auto px-4 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold transition cursor-pointer"
+          className="self-start lg:self-auto px-4 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-500/20 dark:hover:bg-emerald-500/30 dark:text-emerald-300 dark:border-emerald-500/40 text-xs font-mono font-bold transition cursor-pointer"
         >
           ⚡ {lang === 'vi' ? 'Áp dụng Kịch bản Tối ưu Toàn diện (1,0% CVR)' : 'Apply Full Optimization Preset (1.0% CVR)'}
         </button>
@@ -124,14 +124,14 @@ export default function ScienceOptimizerSection({
         {/* LEFT 7 COLS: 4 INTERACTIVE SLIDERS */}
         <div className="lg:col-span-7 space-y-4">
           {/* Slider 1 */}
-          <div className="p-4 rounded-xl bg-slate-900/75 border border-slate-800 space-y-2">
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-white">
+              <span className="font-bold text-slate-950 dark:text-white">
                 {lang === 'vi'
                   ? `1. Nâng CVR Kệ hàng (${BASE_CARD_VIEWERS_28D.toLocaleString('vi-VN')} người xem — Baseline: 0,25%)`
                   : '1. Lift Shopping Tab CVR (1.17M Viewers — Baseline: 0.25%)'}
               </span>
-              <span className="font-mono font-extrabold text-sky-400 text-sm">{targetCardCvr.toFixed(2)}%</span>
+              <span className="font-mono font-extrabold text-sky-700 dark:text-sky-400 text-sm">{targetCardCvr.toFixed(2)}%</span>
             </div>
             <input
               type="range"
@@ -142,7 +142,7 @@ export default function ScienceOptimizerSection({
               onChange={(e) => setTargetCardCvr(parseFloat(e.target.value))}
               className="w-full accent-sky-500 cursor-pointer"
             />
-            <div className="flex justify-between text-[11px] font-mono text-slate-400">
+            <div className="flex justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
               <span>Hiện tại: 0,25% (442,36 Tr đ)</span>
               <span>Mục tiêu: 1,00% (~1,77 Tỉ đ)</span>
               <span>Tối đa: 1,25%</span>
@@ -150,14 +150,14 @@ export default function ScienceOptimizerSection({
           </div>
 
           {/* Slider 2 */}
-          <div className="p-4 rounded-xl bg-slate-900/75 border border-slate-800 space-y-2">
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-white">
+              <span className="font-bold text-slate-950 dark:text-white">
                 {lang === 'vi'
                   ? '2. Gắn giỏ hàng cho 308 Video còn trống & Đăng giờ vàng (GPM 135,2k đ)'
                   : '2. Monetize 308 Unlinked Videos & Post at Peak Hours (135.2k GPM)'}
               </span>
-              <span className="font-mono font-extrabold text-pink-400 text-sm">
+              <span className="font-mono font-extrabold text-pink-700 dark:text-pink-400 text-sm">
                 +{monetizedVideosCount} / 308 videos
               </span>
             </div>
@@ -170,7 +170,7 @@ export default function ScienceOptimizerSection({
               onChange={(e) => setMonetizedVideosCount(parseInt(e.target.value, 10))}
               className="w-full accent-pink-500 cursor-pointer"
             />
-            <div className="flex justify-between text-[11px] font-mono text-slate-400">
+            <div className="flex justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
               <span>Hiện tại: 551/859 gắn giỏ</span>
               <span>Giờ vàng: 12h–13h & 15h–16h</span>
               <span>Tối đa: +308 videos (100%)</span>
@@ -178,14 +178,14 @@ export default function ScienceOptimizerSection({
           </div>
 
           {/* Slider 3 */}
-          <div className="p-4 rounded-xl bg-slate-900/75 border border-slate-800 space-y-2">
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-white">
+              <span className="font-bold text-slate-950 dark:text-white">
                 {lang === 'vi'
                   ? '3. Tối ưu Tỷ lệ Chiết khấu Khuyến mãi (Thay Giảm cố định bằng Flash Sale)'
                   : '3. Optimize Promo Markdown Rate (Replace Fixed Discounts with Flash Sales)'}
               </span>
-              <span className="font-mono font-extrabold text-amber-400 text-sm">
+              <span className="font-mono font-extrabold text-amber-700 dark:text-amber-400 text-sm">
                 {targetPromoDiscountPct.toFixed(1)}%
               </span>
             </div>
@@ -198,7 +198,7 @@ export default function ScienceOptimizerSection({
               onChange={(e) => setTargetPromoDiscountPct(parseFloat(e.target.value))}
               className="w-full accent-amber-500 cursor-pointer"
             />
-            <div className="flex justify-between text-[11px] font-mono text-slate-400">
+            <div className="flex justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
               <span>Tối ưu: 25,0%</span>
               <span>Chuẩn ngành: 32% – 35%</span>
               <span>Hiện tại: 50,45% (Chi 62,2 Tr đ)</span>
@@ -206,14 +206,14 @@ export default function ScienceOptimizerSection({
           </div>
 
           {/* Slider 4 */}
-          <div className="p-4 rounded-xl bg-slate-900/75 border border-slate-800 space-y-2">
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-white">
+              <span className="font-bold text-slate-950 dark:text-white">
                 {lang === 'vi'
                   ? '4. Kích hoạt Mạng lưới KOC Có Đơn (5.713 Creators — Nhóm <5k Follow)'
                   : '4. Activate Converting KOC Rate (5,713 Creators — <5k Follower Tier)'}
               </span>
-              <span className="font-mono font-extrabold text-emerald-400 text-sm">
+              <span className="font-mono font-extrabold text-emerald-700 dark:text-emerald-400 text-sm">
                 {targetActiveKocPct.toFixed(1)}% ({Math.round((TOTAL_CREATORS_COUNT * targetActiveKocPct) / 100)} KOCs)
               </span>
             </div>
@@ -226,7 +226,7 @@ export default function ScienceOptimizerSection({
               onChange={(e) => setTargetActiveKocPct(parseFloat(e.target.value))}
               className="w-full accent-emerald-500 cursor-pointer"
             />
-            <div className="flex justify-between text-[11px] font-mono text-slate-400">
+            <div className="flex justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
               <span>Hiện tại: 5,1% (292 KOCs)</span>
               <span>Hoa hồng LIVE: 12%–14%</span>
               <span>Mục tiêu: 15,0% (857 KOCs)</span>
@@ -235,52 +235,52 @@ export default function ScienceOptimizerSection({
         </div>
 
         {/* RIGHT 5 COLS: FINANCIAL IMPACT DASHBOARD */}
-        <div className="lg:col-span-5 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 p-6 flex flex-col justify-between space-y-5">
+        <div className="lg:col-span-5 rounded-2xl bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950 border border-slate-200 dark:border-slate-800 p-6 flex flex-col justify-between space-y-5 shadow-xs">
           <div className="space-y-1.5">
-            <div className="text-xs font-mono uppercase text-emerald-400 font-bold">
+            <div className="text-xs font-mono uppercase text-emerald-700 dark:text-emerald-400 font-bold">
               {lang === 'vi' ? 'Tổng Giá Trị Tài Chính Tạo Thêm (GMV + Lợi Nhuận Giữ Lại)' : 'Total Incremental Value Created (GMV + Saved Margin)'}
             </div>
-            <div className="text-3xl sm:text-4xl font-extrabold font-mono text-white">
+            <div className="text-3xl sm:text-4xl font-extrabold font-mono text-slate-950 dark:text-white">
               +{formatVnd(sim.totalMonthlyValueCreated)}
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
               {lang === 'vi'
                 ? 'Tính toán trực tiếp trên tệp 1,17 triệu người xem Kệ hàng, 308 video sẵn có và mạng lưới Nano/Micro KOC (<5k followers đang đóng góp >95% doanh thu Affiliate).'
                 : 'Computed directly across the 1.17M Product Card viewers, 308 existing videos, and the Nano/Micro KOC network (<5k followers driving >95% of Affiliate GMV).'}
             </p>
           </div>
 
-          <div className="space-y-2.5 border-t border-slate-800 pt-4 text-xs">
-            <div className="flex items-center justify-between p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+          <div className="space-y-2.5 border-t border-slate-200 dark:border-slate-800 pt-4 text-xs">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
               <div>
-                <div className="font-bold text-white">1. Doanh thu Kệ hàng Mở khóa (0đ Ads)</div>
-                <div className="text-[11px] text-slate-400">Tổng Kệ hàng đạt {formatVnd(sim.newCardGmv)}</div>
+                <div className="font-bold text-slate-950 dark:text-white">1. Doanh thu Kệ hàng Mở khóa (0đ Ads)</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400">Tổng Kệ hàng đạt {formatVnd(sim.newCardGmv)}</div>
               </div>
-              <span className="font-mono font-bold text-sky-400 text-sm">+{formatVnd(sim.cardGmvUplift)}</span>
+              <span className="font-mono font-bold text-sky-700 dark:text-sky-400 text-sm">+{formatVnd(sim.cardGmvUplift)}</span>
             </div>
 
-            <div className="flex items-center justify-between p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
               <div>
-                <div className="font-bold text-white">2. Doanh thu Thương mại hóa Video</div>
-                <div className="text-[11px] text-slate-400">Từ +{monetizedVideosCount} video (GPM 135,2k đ)</div>
+                <div className="font-bold text-slate-950 dark:text-white">2. Doanh thu Thương mại hóa Video</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400">Từ +{monetizedVideosCount} video (GPM 135,2k đ)</div>
               </div>
-              <span className="font-mono font-bold text-pink-400 text-sm">+{formatVnd(sim.videoGmvUplift)}</span>
+              <span className="font-mono font-bold text-pink-700 dark:text-pink-400 text-sm">+{formatVnd(sim.videoGmvUplift)}</span>
             </div>
 
-            <div className="flex items-center justify-between p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
               <div>
-                <div className="font-bold text-white">3. Biên lợi nhuận Khuyến mãi Thu hồi</div>
-                <div className="text-[11px] text-slate-400">Giữ AOV 150.991 đ • Giảm chiết khấu về {targetPromoDiscountPct.toFixed(1)}%</div>
+                <div className="font-bold text-slate-950 dark:text-white">3. Biên lợi nhuận Khuyến mãi Thu hồi</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400">Giữ AOV 150.991 đ • Giảm chiết khấu về {targetPromoDiscountPct.toFixed(1)}%</div>
               </div>
-              <span className="font-mono font-bold text-amber-400 text-sm">+{formatVnd(sim.savedDiscountMargin)}</span>
+              <span className="font-mono font-bold text-amber-700 dark:text-amber-400 text-sm">+{formatVnd(sim.savedDiscountMargin)}</span>
             </div>
 
-            <div className="flex items-center justify-between p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
               <div>
-                <div className="font-bold text-white">4. Doanh thu Kích hoạt Nano/Micro KOC</div>
-                <div className="text-[11px] text-slate-400">Thêm +{sim.newlyActivatedKocs} KOC có đơn (Giảm phụ thuộc @girlstyle.vn)</div>
+                <div className="font-bold text-slate-950 dark:text-white">4. Doanh thu Kích hoạt Nano/Micro KOC</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400">Thêm +{sim.newlyActivatedKocs} KOC có đơn (Giảm phụ thuộc @girlstyle.vn)</div>
               </div>
-              <span className="font-mono font-bold text-emerald-400 text-sm">+{formatVnd(sim.affiliateGmvUplift)}</span>
+              <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-sm">+{formatVnd(sim.affiliateGmvUplift)}</span>
             </div>
           </div>
         </div>

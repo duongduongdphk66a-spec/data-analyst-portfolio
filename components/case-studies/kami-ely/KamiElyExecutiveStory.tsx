@@ -108,20 +108,20 @@ export default function KamiElyExecutiveStory({ isEn: propIsEn, onJumpToTab }: K
   const activeItem = executivePillars[selectedPillar];
 
   return (
-    <section id="executive-story" className="w-full rounded-2xl border border-slate-800/90 bg-slate-950/95 p-5 sm:p-8 shadow-2xl space-y-6">
+    <section id="executive-story" className="w-full rounded-2xl border border-slate-200 bg-white p-5 sm:p-8 shadow-xl dark:border-slate-800/90 dark:bg-slate-950/95 dark:shadow-2xl space-y-6">
       {/* SECTION HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
         <div>
-          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-amber-400">
+          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">
             ⚡ {lang === 'vi' ? 'Tóm Tắt Điều Hành Đọc Nhanh 3 Phút' : '3-Minute Executive Scan'}
           </span>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white mt-0.5">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-950 dark:text-white mt-0.5">
             {lang === 'vi'
               ? '4 Phát Hiện Cốt Lõi & Bằng Chứng Thực Nghiệm Từ 18.778 Bản Ghi'
               : '4 Core Findings & Empirical Proofs Across 18,778 Records'}
           </h2>
         </div>
-        <div className="text-xs font-mono text-slate-400">
+        <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
           {lang === 'vi'
             ? 'Bấm vào từng thẻ bên dưới để xem Vấn đề → Bằng chứng → Giải pháp'
             : 'Select each pillar below to inspect Problem → Proof → Solution'}
@@ -139,16 +139,16 @@ export default function KamiElyExecutiveStory({ isEn: propIsEn, onJumpToTab }: K
               onClick={() => setSelectedPillar(index)}
               className={`p-4 rounded-xl border text-left transition flex flex-col justify-between gap-2 cursor-pointer ${
                 isSelected
-                  ? 'bg-slate-900 border-sky-500/60 shadow-lg shadow-sky-950/40 ring-1 ring-sky-500/30'
-                  : 'bg-slate-900/40 border-slate-800/80 hover:bg-slate-900/70 hover:border-slate-700'
+                  ? 'bg-sky-50 border-sky-400 ring-1 ring-sky-300 shadow-md dark:bg-slate-900 dark:border-sky-500/60 dark:shadow-lg dark:shadow-sky-950/40 dark:ring-sky-500/30'
+                  : 'bg-slate-50 border-slate-200 hover:bg-slate-100 hover:border-slate-300 dark:bg-slate-900/40 dark:border-slate-800/80 dark:hover:bg-slate-900/70 dark:hover:border-slate-700'
               }`}
             >
               <div className="space-y-1">
-                <div className="text-[10px] font-mono font-bold uppercase text-sky-400">{pillar.tag[lang]}</div>
-                <div className="text-xs font-bold text-white line-clamp-2">{pillar.title[lang]}</div>
+                <div className="text-[10px] font-mono font-bold uppercase text-sky-700 dark:text-sky-400">{pillar.tag[lang]}</div>
+                <div className="text-xs font-bold text-slate-900 dark:text-white line-clamp-2">{pillar.title[lang]}</div>
               </div>
-              <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
-                <span className="text-xs font-mono font-extrabold text-emerald-400">{pillar.summaryMetric}</span>
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
+                <span className="text-xs font-mono font-extrabold text-emerald-700 dark:text-emerald-400">{pillar.summaryMetric}</span>
                 <span className="text-[10px] font-mono text-slate-400">{isSelected ? '▼' : '▶'}</span>
               </div>
             </button>
@@ -157,21 +157,21 @@ export default function KamiElyExecutiveStory({ isEn: propIsEn, onJumpToTab }: K
       </div>
 
       {/* ACTIVE PILLAR DETAIL: PROBLEM -> EMPIRICAL PROOF -> SOLUTION */}
-      <div className="p-5 sm:p-6 rounded-2xl bg-slate-900/75 border border-slate-800 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+      <div className="p-5 sm:p-6 rounded-2xl bg-slate-50/70 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
           <div>
-            <span className="text-[11px] font-mono font-bold text-sky-400 uppercase">{activeItem.tag[lang]}</span>
-            <h3 className="text-base sm:text-lg font-extrabold text-white mt-0.5">{activeItem.title[lang]}</h3>
+            <span className="text-[11px] font-mono font-bold text-sky-700 dark:text-sky-400 uppercase">{activeItem.tag[lang]}</span>
+            <h3 className="text-base sm:text-lg font-extrabold text-slate-950 dark:text-white mt-0.5">{activeItem.title[lang]}</h3>
           </div>
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 font-mono text-xs font-bold text-emerald-300">
+            <span className="px-3 py-1 rounded-lg bg-emerald-100 border border-emerald-300 font-mono text-xs font-bold text-emerald-900 dark:bg-emerald-500/15 dark:border-emerald-500/30 dark:text-emerald-300">
               {activeItem.summaryMetric}
             </span>
             {onJumpToTab && (
               <button
                 type="button"
                 onClick={() => onJumpToTab(activeItem.targetTab)}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-sky-500/15 text-sky-300 hover:bg-sky-500/25 border border-sky-500/30 transition cursor-pointer"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-sky-100 text-sky-800 hover:bg-sky-200 border border-sky-300 dark:bg-sky-500/15 dark:text-sky-300 dark:hover:bg-sky-500/25 dark:border-sky-500/30 transition cursor-pointer"
                 title={lang === 'vi' ? 'Xem chi tiết phân hệ' : 'Inspect tab details'}
               >
                 <span>{lang === 'vi' ? 'Xem phân hệ' : 'Go to tab'}</span>
@@ -182,25 +182,25 @@ export default function KamiElyExecutiveStory({ isEn: propIsEn, onJumpToTab }: K
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 text-xs sm:text-sm">
-          <div className="p-4 rounded-xl bg-slate-950/80 border border-rose-500/20 space-y-1.5">
-            <div className="text-xs font-mono font-bold uppercase text-rose-400">
+          <div className="p-4 rounded-xl bg-white border border-rose-200 dark:bg-slate-950/80 dark:border-rose-500/20 space-y-1.5 shadow-xs">
+            <div className="text-xs font-mono font-bold uppercase text-rose-700 dark:text-rose-400">
               1. {lang === 'vi' ? 'Nút Thắt Vận Hành (Problem)' : 'Operational Bottleneck'}
             </div>
-            <p className="text-slate-300 leading-relaxed text-xs">{activeItem.problemStatement[lang]}</p>
+            <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-xs">{activeItem.problemStatement[lang]}</p>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-950/80 border border-sky-500/20 space-y-1.5">
-            <div className="text-xs font-mono font-bold uppercase text-sky-400">
+          <div className="p-4 rounded-xl bg-white border border-sky-200 dark:bg-slate-950/80 dark:border-sky-500/20 space-y-1.5 shadow-xs">
+            <div className="text-xs font-mono font-bold uppercase text-sky-700 dark:text-sky-400">
               2. {lang === 'vi' ? 'Bằng Chứng Dữ Liệu (Empirical Proof)' : 'Empirical Data Proof'}
             </div>
-            <p className="text-slate-300 leading-relaxed text-xs">{activeItem.empiricalProof[lang]}</p>
+            <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-xs">{activeItem.empiricalProof[lang]}</p>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-950/80 border border-emerald-500/25 space-y-1.5">
-            <div className="text-xs font-mono font-bold uppercase text-emerald-400">
+          <div className="p-4 rounded-xl bg-white border border-emerald-200 dark:bg-slate-950/80 dark:border-emerald-500/25 space-y-1.5 shadow-xs">
+            <div className="text-xs font-mono font-bold uppercase text-emerald-700 dark:text-emerald-400">
               3. {lang === 'vi' ? 'Giải Pháp & Tác Động (Action & ROI)' : 'Strategic Action & ROI'}
             </div>
-            <p className="text-slate-200 font-medium leading-relaxed text-xs">{activeItem.actionableSolution[lang]}</p>
+            <p className="text-slate-800 dark:text-slate-200 font-medium leading-relaxed text-xs">{activeItem.actionableSolution[lang]}</p>
           </div>
         </div>
       </div>

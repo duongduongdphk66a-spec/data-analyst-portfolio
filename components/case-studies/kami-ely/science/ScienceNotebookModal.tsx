@@ -27,18 +27,18 @@ export default function ScienceNotebookModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-sm">
-      <div className="relative flex max-h-[90vh] w-full max-w-4xl flex-col rounded-3xl border border-slate-700 bg-slate-900 text-slate-100 shadow-2xl">
+      <div className="relative flex max-h-[90vh] w-full max-w-4xl flex-col rounded-3xl border border-slate-200 bg-white text-slate-900 shadow-2xl dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 p-6">
+        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 p-6">
           <div className="flex items-center gap-3">
-            <div className="rounded-xl bg-teal-500/20 p-2 text-teal-400">
+            <div className="rounded-xl bg-teal-500/10 dark:bg-teal-500/20 p-2 text-teal-600 dark:text-teal-400">
               <Terminal className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="font-bold text-lg text-white">
+              <h3 className="font-bold text-lg text-slate-950 dark:text-white">
                 {isEn ? 'Python Notebook Source Code' : 'Mã Nguồn Phân Tích Python Notebook'}
               </h3>
-              <p className="text-xs text-slate-400 font-mono">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-mono">
                 public/kami/kami_ely_applied_statistics.ipynb
               </p>
             </div>
@@ -54,7 +54,7 @@ export default function ScienceNotebookModal({
             </a>
             <button
               onClick={onClose}
-              className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white cursor-pointer"
+              className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-white cursor-pointer"
             >
               <X className="h-5 w-5" />
             </button>
@@ -62,12 +62,12 @@ export default function ScienceNotebookModal({
         </div>
 
         {/* Snippet Tabs */}
-        <div className="flex overflow-x-auto border-b border-slate-800 px-6 py-2">
+        <div className="flex overflow-x-auto border-b border-slate-100 dark:border-slate-800 px-6 py-2 bg-slate-50/50 dark:bg-slate-900/50">
           {KAMI_MATH_STATS.notebookSnippets.map((snippet: any, idx: number) => (
             <button
               key={idx}
               onClick={() => setSelectedSnippetIdx(idx)}
-              className={`whitespace-nowrap px-4 py-2 text-xs font-semibold transition cursor-pointer ${selectedSnippetIdx === idx ? 'border-b-2 border-teal-400 text-teal-300' : 'text-slate-400 hover:text-slate-200'}`}
+              className={`whitespace-nowrap px-4 py-2 text-xs font-semibold transition cursor-pointer ${selectedSnippetIdx === idx ? 'border-b-2 border-teal-600 text-teal-800 font-bold dark:border-teal-400 dark:text-teal-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'}`}
             >
               {snippet.title}
             </button>
@@ -83,17 +83,17 @@ export default function ScienceNotebookModal({
             {copiedCode ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
             {copiedCode ? (isEn ? 'Copied' : 'Đã chép') : (isEn ? 'Copy Code' : 'Sao chép')}
           </button>
-          <pre className="rounded-2xl border border-slate-800 bg-slate-950 p-5 text-slate-200 leading-relaxed overflow-x-auto">
+          <pre className="rounded-2xl border border-slate-800 bg-slate-950 p-5 text-emerald-300 dark:text-slate-200 leading-relaxed overflow-x-auto">
             <code>{KAMI_MATH_STATS.notebookSnippets[selectedSnippetIdx].code}</code>
           </pre>
         </div>
 
         {/* Modal Footer */}
-        <div className="flex items-center justify-between border-t border-slate-800 bg-slate-950/60 p-4 px-6 text-xs text-slate-400">
+        <div className="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60 p-4 px-6 text-xs text-slate-600 dark:text-slate-400">
           <span>Mã nguồn hoàn chỉnh phục vụ đánh giá năng lực Data Science / Data Analytics.</span>
           <button
             onClick={onClose}
-            className="rounded-lg border border-slate-700 px-4 py-1.5 text-slate-300 hover:bg-slate-800 cursor-pointer"
+            className="rounded-lg border border-slate-200 dark:border-slate-700 px-4 py-1.5 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
           >
             Đóng
           </button>

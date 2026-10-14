@@ -35,12 +35,12 @@
   --color-accent: #FFD14C;
   --color-accent-soft: #FFE485;
   /* ONE canvas color for every page (site pages and case studies alike) */
-  --color-surface: #FAFDFE;
-  --color-surface-tint: #DDF4FA;
+  --color-surface: #FFFFFF;
+  --color-surface-tint: #F0F9FB;
   --color-surface-vivid: #9BE7FA;
   --color-surface-raised: #FFFFFF;
-  --color-ground: #FAFDFE;
-  --color-ground-alt: #EAF8FC;             /* Alternating section band (sky wash) */
+  --color-ground: #FFFFFF;
+  --color-ground-alt: #F8FCFD;             /* Alternating section band (sky wash) */
 
   /* Remap neutral light greys to Sky Blue tints so hardcoded utilities follow the 60% rule */
   --color-slate-50: #F1FAFD;
