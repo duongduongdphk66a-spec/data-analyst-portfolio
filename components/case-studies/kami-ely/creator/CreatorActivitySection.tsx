@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Download, Clock, TrendingUp, Radio, AlertCircle, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Download, Clock, TrendingUp, Radio, AlertCircle, Sparkles } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from 'recharts';
@@ -82,7 +82,7 @@ export default function CreatorActivitySection({
             <h4 className="font-black text-sm text-slate-950 dark:text-white">Khung Giờ Đăng Nhiều Nhất</h4>
           </div>
           <div className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-            {creatorActivityHighlights.topPostingHours.map((h, i) => (
+            {activeHighlights.topPostingHours.map((h, i) => (
               <div key={i} className="p-2.5 rounded-xl bg-[#C8EEF7]/30 font-bold dark:bg-slate-800 flex justify-between">
                 <span>Top {i + 1}</span>
                 <span className="text-[#0D7287] dark:text-[#9BE7FA]">{h}</span>
@@ -98,7 +98,7 @@ export default function CreatorActivitySection({
             <h4 className="font-black text-sm text-slate-950 dark:text-white">Khung Giờ Tương Tác Đỉnh</h4>
           </div>
           <div className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-            {creatorActivityHighlights.topEngagementWindows.map((w, i) => (
+            {activeHighlights.topEngagementWindows.map((w, i) => (
               <div key={i} className="p-2.5 rounded-xl bg-[#FFFDF5] font-bold border border-[#FFE485]/60 dark:bg-slate-800 flex justify-between">
                 <span>{w.time}</span>
                 <span className="text-[#0D7287] dark:text-[#FFD14C]">{w.rate}</span>

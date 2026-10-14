@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { ShieldCheck, Sparkles } from 'lucide-react';
+import { ShieldCheck, Sparkles, Clock, Activity } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
-import { shopOverviewKPIs } from '@/app/data/kamiElyData';
+import { shopOverviewKPIs, sellerCenterShopData } from '@/app/data/kamiElyData';
 
 interface ShopOverviewSectionProps {
   isEn: boolean;
@@ -113,6 +113,108 @@ export default function ShopOverviewSection({
               <span>{isEn ? 'Active Affiliate Creators' : 'Nhà sáng tạo Affiliate'}</span>
               <span className="font-extrabold text-slate-900 dark:text-white">{activeOverview.totalAffiliates}</span>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* TikTok Shop Seller Center 28-Day Operational Growth & Real-Time Snapshot */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-slate-50 to-sky-50/40 border-2 border-sky-300/80 dark:from-slate-900 dark:via-slate-900 dark:to-sky-950/20 dark:border-sky-800/60 shadow-sm space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sky-200/60 dark:border-slate-800 pb-4">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 text-sky-900 dark:text-sky-300 text-xs font-black uppercase tracking-wider border border-sky-500/20">
+              <Activity className="w-3.5 h-3.5 text-[#0D7287] dark:text-sky-400" />
+              <span>{isEn ? '1ST-PARTY SELLER CENTER TELEMETRY' : 'DỮ LIỆU GỐC TIKTOK SHOP SELLER CENTER · CHẨN ĐOÁN 28 NGÀY'}</span>
+            </div>
+            <h3 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
+              {isEn 
+                ? '28-Day Growth Diagnostic & Real-Time Intraday Operational Health' 
+                : 'Chẩn Đoán Tăng Trưởng 28 Ngày & Ảnh Chụp Vận Hành Trong Ngày (Intraday Snapshot)'}
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              {isEn ? sellerCenterShopData.overview28d.periodLabel.en : sellerCenterShopData.overview28d.periodLabel.vi} ({sellerCenterShopData.overview28d.period})
+            </p>
+          </div>
+          <span className="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-sky-300 dark:border-slate-700 text-[#0D7287] dark:text-sky-300 shrink-0 self-start sm:self-auto">
+            {isEn ? 'Real-Time Sync: 13:12' : 'Ảnh chụp viễn trắc: 13:12'}
+          </span>
+        </div>
+
+        {/* 3 Growth Metric Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {sellerCenterShopData.overview28d.metrics.map((m) => (
+            <div 
+              key={m.id}
+              className={`p-4 rounded-2xl bg-white dark:bg-slate-900 border ${
+                m.status === 'warning' 
+                  ? 'border-amber-300 dark:border-amber-900/60 bg-amber-50/20' 
+                  : 'border-sky-200 dark:border-sky-900/60 bg-sky-50/20'
+              } shadow-xs space-y-2`}
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  {isEn ? m.label.en : m.label.vi}
+                </span>
+                {m.growthPct !== undefined && (
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                    +{m.growthPct}% MoM
+                  </span>
+                )}
+              </div>
+              <div className="text-2xl font-black text-slate-950 dark:text-white">
+                {m.value}
+              </div>
+              <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                {isEn ? m.insight.en : m.insight.vi}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Real-time Intraday Operational Snapshot */}
+        <div className="p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+              <h4 className="font-extrabold text-sm text-slate-900 dark:text-white">
+                {isEn ? 'Intraday Operations Snapshot (Recorded at 13:12)' : 'Ảnh Chụp Vận Hành Trong Ngày (Ghi Nhận Lúc 13:12)'}
+              </h4>
+            </div>
+            <div className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
+              {isEn ? 'Daily Conversion Rate:' : 'Tỷ lệ chuyển đổi ngày:'} <b className="text-emerald-600 dark:text-emerald-400 font-black">{sellerCenterShopData.overview28d.intradaySnapshot.conversionRatePct}%</b> (Top Benchmark: {sellerCenterShopData.overview28d.intradaySnapshot.benchmarkCrPct})
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 font-bold uppercase">{isEn ? 'GMV Today (13:12)' : 'GMV Hôm Nay (13:12)'}</div>
+              <div className="text-lg font-black text-[#0D7287] dark:text-[#9BE7FA] mt-0.5">{sellerCenterShopData.overview28d.intradaySnapshot.gmvToday}</div>
+              <div className="text-[10px] text-slate-500">135 đơn hàng</div>
+            </div>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 font-bold uppercase">{isEn ? 'Visitors Today' : 'Lượt Ghé Thăm'}</div>
+              <div className="text-lg font-black text-slate-900 dark:text-white mt-0.5">{sellerCenterShopData.overview28d.intradaySnapshot.visitorsToday.toLocaleString()}</div>
+              <div className="text-[10px] text-slate-500">122 người mua</div>
+            </div>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 font-bold uppercase">{isEn ? 'AOV Today' : 'AOV Trong Ngày'}</div>
+              <div className="text-lg font-black text-slate-900 dark:text-white mt-0.5">{sellerCenterShopData.overview28d.intradaySnapshot.aovToday.toLocaleString()} đ</div>
+              <div className="text-[10px] text-slate-500">Giá trị đơn hàng</div>
+            </div>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 font-bold uppercase">{isEn ? 'AOV 28d Average' : 'AOV Bình Quân 28N'}</div>
+              <div className="text-lg font-black text-slate-900 dark:text-white mt-0.5">{sellerCenterShopData.overview28d.intradaySnapshot.aov28dAvg.toLocaleString()} đ</div>
+              <div className="text-[10px] text-emerald-600 font-bold">Chênh lệch +0,5%</div>
+            </div>
+            <div className="p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 col-span-2 sm:col-span-1">
+              <div className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold uppercase">{isEn ? 'Conversion Rate' : 'CR Chuyển Đổi'}</div>
+              <div className="text-lg font-black text-emerald-700 dark:text-emerald-300 mt-0.5">{sellerCenterShopData.overview28d.intradaySnapshot.conversionRatePct}%</div>
+              <div className="text-[10px] text-slate-500">{isEn ? 'Benchmark: 2–3%' : 'Chuẩn ngành: 2–3%'}</div>
+            </div>
+          </div>
+
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 text-xs text-slate-600 dark:text-slate-400 leading-relaxed border border-slate-200/60 dark:border-slate-800">
+            <span className="font-bold text-slate-800 dark:text-slate-200">{isEn ? 'Diagnostic Note: ' : 'Ghi chú vận hành: '}</span>
+            {isEn ? sellerCenterShopData.overview28d.intradaySnapshot.diagnosis.en : sellerCenterShopData.overview28d.intradaySnapshot.diagnosis.vi}
           </div>
         </div>
       </div>

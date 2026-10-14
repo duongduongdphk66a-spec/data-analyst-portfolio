@@ -3,27 +3,22 @@
 import React, { useState } from 'react';
 import { 
   TrendingDown, 
-  TrendingUp,
   ShieldAlert, 
   CheckCircle2, 
   AlertTriangle, 
   Sparkles, 
-  Flame, 
   Clock, 
   BarChart2, 
   Users2, 
   Package, 
   ArrowUpRight,
-  Zap,
-  Target,
-  Layers,
-  FileSpreadsheet
+  Target
 } from 'lucide-react';
 import metrics from '@/app/data/kami-ely/generated/metrics.json';
 
 interface KamiElyExecutiveStoryProps {
   isEn: boolean;
-  onJumpToTab?: (tab: 'science' | 'shop' | 'creator') => void;
+  onJumpToTab?: (_tab: 'science' | 'shop' | 'creator') => void;
 }
 
 export default function KamiElyExecutiveStory({ isEn, onJumpToTab }: KamiElyExecutiveStoryProps) {

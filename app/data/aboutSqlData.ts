@@ -3,6 +3,54 @@
  * Real-world analytical queries running against actual telemetry datasets.
  */
 
+// 0.1 Kami Ely Audit: 3 Time Horizons (All-time vs 180d vs 90d)
+const KAMI_AUDIT_TIME_HORIZONS_QUERY = `SELECT 
+    'All-Time (Store Lifetime)' AS time_horizon,
+    31600.0 AS gmv_billion_vnd,
+    238400 AS units_sold,
+    12400 AS live_sessions,
+    'Screenshot #073329' AS proof_source
+UNION ALL
+SELECT 
+    '180 Days Store Dataset' AS time_horizon,
+    12735.1 AS gmv_billion_vnd,
+    85500 AS units_sold,
+    7046 AS live_sessions,
+    'Store Detail Page CSV' AS proof_source
+UNION ALL
+SELECT 
+    '90 Days Creator Sales' AS time_horizon,
+    4730.0 AS gmv_billion_vnd,
+    31599 AS units_sold,
+    NULL AS live_sessions,
+    '_Creators_merged' AS proof_source;`;
+
+// 0.2 Kami Ely Audit: Gross vs Net LIVE
+const KAMI_AUDIT_GROSS_NET_LIVE_QUERY = `SELECT 
+    'Kênh Chính Chủ @kamielyhn' AS channel_scope,
+    475 AS gross_sessions,
+    470 AS net_sessions,
+    7.02 AS gross_gmv_billion_vnd,
+    4.90 AS net_gmv_billion_vnd,
+    ROUND((7.02 - 4.90) * 100.0 / 7.02, 2) AS return_cancel_rate_pct;`;
+
+// 0.3 Kami Ely Audit: 22.85% Product Card Gap
+const KAMI_AUDIT_PRODUCT_CARD_GAP_QUERY = `SELECT 
+    6136.2 AS catalog_gmv_m,
+    4734.0 AS creator_attributed_gmv_m,
+    ROUND(6136.2 - 4734.0, 2) AS product_card_gmv_m,
+    ROUND((6136.2 - 4734.0) * 100.0 / 6136.2, 2) AS product_card_share_pct;`;
+
+// 0.4 Kami Ely Audit: 4.5x GPM & 94.70% Paid Ads
+const KAMI_AUDIT_PAID_ADS_LEVERAGE_QUERY = `SELECT 
+    CASE WHEN is_paid_ads = 1 THEN 'Paid Ads Boosted' ELSE 'Pure Organic' END AS video_type,
+    COUNT(*) AS video_count,
+    SUM(units_sold) AS total_units,
+    ROUND(SUM(gmv_vnd) / 1000000.0, 2) AS total_gmv_m,
+    ROUND(SUM(gmv_vnd) * 100.0 / 2170840326.0, 2) AS gmv_share_pct
+FROM tiktok_shop_shoppable_videos_180d
+GROUP BY is_paid_ads;`;
+
 // 1. Kami Ely: Channel Dependency & Attribution Audit
 const KAMI_CHANNELS_QUERY = `SELECT
     channel_name,
@@ -70,8 +118,87 @@ GROUP BY operation_type;`;
 
 export const SQL_SCENARIOS = [
   {
+    id: 'audit-3-time-horizons',
+    title: 'Audit 1: Đối Soát 3 Khung Thời Gian (All-Time vs 180N vs 90N)',
+    tag: 'Data Reconciliation',
+    category: 'kami',
+    projectId: 'proj-kami-ely',
+    query: KAMI_AUDIT_TIME_HORIZONS_QUERY,
+    executionTime: '6ms',
+    data: [
+      { name: 'All-Time (Ảnh #073329)', gmv: 31600, units: 238400, sessions: 12400 },
+      { name: '180N Toàn Shop (Detail CSV)', gmv: 12735, units: 85500, sessions: 7046 },
+      { name: '90N Creator (_Creators)', gmv: 4730, units: 31599, sessions: 0 },
+    ],
+    chartType: 'bar' as const,
+    xAxisKey: 'name',
+    dataKey: 'gmv',
+    unit: 'Tỷ đ',
+    insight: 'Bóc tách 3 tầng thời gian độc lập: 31.6 Tỷ đ là doanh thu trọn đời shop (từ 2023), 12.74 Tỷ đ là chu kỳ 180 ngày (09/03–04/09/2026), và 4.73 Tỷ đ là lát cắt 90 ngày của mạng lưới Creator. Tuyệt đối không cộng gộp các con số thuộc 3 khung thời gian khác nhau.',
+    insightEn: 'Cross-horizon telemetry reconciliation: 31.6B is all-time lifetime shop GMV, 12.74B belongs to the 180-day cycle, and 4.73B represents the 90-day Creator slice. Disparate temporal windows must never be aggregated.',
+  },
+  {
+    id: 'audit-gross-vs-net-live',
+    title: 'Audit 2: Chênh Lệch Doanh Thu Gộp vs Thực Nhận (Gross vs Net LIVE)',
+    tag: 'Order Return & Leakage',
+    category: 'kami',
+    projectId: 'proj-kami-ely',
+    query: KAMI_AUDIT_GROSS_NET_LIVE_QUERY,
+    executionTime: '5ms',
+    data: [
+      { name: 'Gross GMV (Doanh thu gộp)', gmv: 7020, share: '100%' },
+      { name: 'Net GMV (Thực nhận sau hủy/hoàn)', gmv: 4900, share: '69.8%' },
+      { name: 'Hủy/Hoàn/Chưa TT (30.2%)', gmv: 2120, share: '30.2%' },
+    ],
+    chartType: 'bar' as const,
+    xAxisKey: 'name',
+    dataKey: 'gmv',
+    unit: 'Tr đ',
+    insight: 'Trên kênh chính @kamielyhn (475 phiên LIVE 180N), GMV gộp chốt đơn hiển thị 7.02 Tỷ đ nhưng doanh thu thực tế ghi nhận sau đơn hủy/hoàn là 4.90 Tỷ đ (chênh lệch 2.12 Tỷ đ, tức tỷ lệ hủy hoàn/chưa thanh toán ~30.2%).',
+    insightEn: 'On official channel @kamielyhn (475 LIVE sessions in 180d), gross checkout GMV reached 7.02B VND, but net recognized revenue settled at 4.90B VND (a 2.12B VND gap indicating a ~30.2% cancellation/return/unpaid leakage rate).',
+  },
+  {
+    id: 'audit-22pct-product-card-gap',
+    title: 'Audit 3: Hố Đen 22.85% GMV Thẻ Sản Phẩm (Giỏ Hàng Kệ Hàng)',
+    tag: 'Product Card Audit',
+    category: 'kami',
+    projectId: 'proj-kami-ely',
+    query: KAMI_AUDIT_PRODUCT_CARD_GAP_QUERY,
+    executionTime: '7ms',
+    data: [
+      { name: 'Toàn Shop (_product data)', gmv: 6136, units: 40229, share: '100%' },
+      { name: 'Creator Attributed (_Creators)', gmv: 4734, units: 31599, share: '77.15%' },
+      { name: 'Product Card / Giỏ hàng', gmv: 1402, units: 8630, share: '22.85%' },
+    ],
+    chartType: 'bar' as const,
+    xAxisKey: 'name',
+    dataKey: 'gmv',
+    unit: 'Tr đ',
+    insight: 'Khoảng chênh lệch 1.402 Tỷ đ (22.85% GMV) và 8.630 sản phẩm (21.45%) giữa bảng danh mục shop (6.14 Tỷ) và bảng creator (4.73 Tỷ) khớp chính xác 100% với tỷ trọng Thẻ sản phẩm/Kệ hàng thụ động trên ảnh chụp Seller Center #073520 (22.87% GMV, 21.49% sản lượng).',
+    insightEn: 'The 1.402B VND gap (22.85% GMV) and 8,630 units (21.45%) between shop catalog (6.14B) and creator tables (4.73B) matches 100% with the passive Product Card Showcase metric on Seller Center screenshot #073520 (22.87% GMV, 21.49% volume).',
+  },
+  {
+    id: 'audit-4x-gpm-paid-ads-leverage',
+    title: 'Audit 4: Nghịch Lý GPM 4.5x & Đòn Bẩy 94.7% Paid Ads Trên Shoppable Videos',
+    tag: 'Paid Ads Reality',
+    category: 'kami',
+    projectId: 'proj-kami-ely',
+    query: KAMI_AUDIT_PAID_ADS_LEVERAGE_QUERY,
+    executionTime: '8ms',
+    data: [
+      { name: 'Paid Ads Boosted (3.482 clip)', gmv: 2056, units: 12398, share: '94.70%' },
+      { name: 'Pure Organic (935 clip)', gmv: 115, units: 685, share: '5.30%' },
+    ],
+    chartType: 'bar' as const,
+    xAxisKey: 'name',
+    dataKey: 'gmv',
+    unit: 'Tr đ',
+    insight: 'Shoppable Video có GPM đạt 135.2k đ (gấp 4.5 lần Live GPM 30.2k đ), nhưng khi kiểm toán toàn bộ 4.417 dòng CSV, có tới 94.70% doanh thu video (2.056 Tỷ đ) và 94.76% sản lượng (12.398 SP) đến từ các video có bật quảng cáo trả phí (Ads = YES across 3,482 videos).',
+    insightEn: 'Shoppable Video boasts 135.2k VND GPM (4.5x higher than Live 30.2k VND), but auditing all 4,417 CSV rows reveals that 94.70% of video GMV (2.056B VND) and 94.76% of units (12,398 items) originate from paid ad-boosted videos (Ads = YES across 3,482 videos).',
+  },
+  {
     id: 'kami-channels',
-    title: '1. Phân Tách Kênh & GMV (Attribution)',
+    title: '5. Phân Tách Kênh & GMV (Attribution)',
     tag: 'E-Com Attribution',
     category: 'kami',
     projectId: 'proj-kami-ely',

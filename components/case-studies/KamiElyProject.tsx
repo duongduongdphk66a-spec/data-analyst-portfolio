@@ -39,7 +39,7 @@ export default function KamiElyProject({ onBack, isEmbedded = false, initialData
   const isEn = language === 'en';
   const router = useRouter();
 
-  const { data: telemetryData, isLiveDb } = useCaseStudyData<KamiElyDataPayload>({
+  const { data: telemetryData } = useCaseStudyData<KamiElyDataPayload>({
     projectId: 'proj-kami-ely',
     endpoint: '/api/case-studies/kami-ely',
     initialData,

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Bookmark, Video, Radio, Search, Eye, AlertCircle, Sparkles, ShoppingCart, TrendingUp } from 'lucide-react';
+import { Bookmark, Video, Radio, Eye, Sparkles, ShoppingCart } from 'lucide-react';
 import {
   ResponsiveContainer,
   BarChart,

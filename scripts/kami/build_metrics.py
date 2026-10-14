@@ -89,8 +89,21 @@ def parse_dt(val):
     return pd.to_datetime(s, errors="coerce")
 
 
+import unicodedata
+
+def find_file(name: str) -> str:
+    direct = os.path.join(DATA, name)
+    if os.path.exists(direct):
+        return direct
+    norm_name = unicodedata.normalize("NFC", name).strip()
+    for f in os.listdir(DATA):
+        if unicodedata.normalize("NFC", f).strip() == norm_name:
+            return os.path.join(DATA, f)
+    raise FileNotFoundError(f"Cannot find {name} in {DATA}")
+
+
 def load(key: str) -> pd.DataFrame:
-    return pd.read_excel(os.path.join(DATA, FILES[key]))
+    return pd.read_excel(find_file(FILES[key]))
 
 
 def r(x, nd=2):

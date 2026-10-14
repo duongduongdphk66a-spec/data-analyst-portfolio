@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Store } from 'lucide-react';
+import { Store, Sparkles } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
 import {
   creatorProfile,
@@ -120,6 +120,7 @@ export default function CreatorProfileSection({
                 <th className="p-3.5">Sản Phẩm Nổi Bật</th>
                 <th className="p-3.5">Creator Đã Bán</th>
                 <th className="p-3.5">GMV Đóng Góp</th>
+                <th className="p-3.5">Tỷ Trọng GMV</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -132,10 +133,24 @@ export default function CreatorProfileSection({
                   <td className="p-3.5 text-slate-800 dark:text-slate-200">{store.bestSeller}</td>
                   <td className="p-3.5 font-bold text-slate-900 dark:text-white">{store.creatorUnitsSold.toLocaleString()} SP</td>
                   <td className="p-3.5 font-bold text-[#0D7287] dark:text-[#FFD14C]">{store.gmvDisplay}</td>
+                  <td className="p-3.5">
+                    <span className="font-mono font-bold text-xs px-2 py-0.5 rounded-md bg-[#FFE485]/50 text-slate-950 dark:bg-slate-800 dark:text-[#FFD14C]">
+                      {store.gmvShare}
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Captive Store Architecture Takeaway */}
+        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2.5 leading-relaxed">
+          <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+          <p>
+            <strong className="text-amber-900 dark:text-amber-300">Phát hiện kiến trúc kênh liên kết: </strong>
+            Creator <code>@kamielyhn</code> phân phối tới <strong>98,92% GMV (9,1 Tỷ ₫)</strong> cho duy nhất gian hàng Kami Ely (gánh 69.100 trên tổng số 69.900 đơn hàng toàn kênh). Ba shop còn lại (Havi Bikini 71,8 Tr đ, KamiBiii 6,2 Tr đ, KamiBiki 0 đ) chỉ là các sub-brand thử nghiệm với đóng góp danh nghĩa dưới 1%. Điều này khẳng định <code>@kamielyhn</code> là một kênh bán hàng nội bộ độc quyền (captive channel) chứ không phải creator affiliate chạy đa nhãn hàng.
+          </p>
         </div>
       </div>
     </section>

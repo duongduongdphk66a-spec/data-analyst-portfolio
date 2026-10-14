@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { Sparkles } from 'lucide-react';
 import {
   ResponsiveContainer,
   PieChart as RechartsPieChart,
@@ -118,6 +119,15 @@ export default function CreatorAudienceSection({
             )}
           </div>
         </div>
+      </div>
+
+      {/* Audience Behavioral Synthesis & Content Fit */}
+      <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2.5 leading-relaxed">
+        <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+        <p>
+          <strong className="text-amber-900 dark:text-amber-300">Tổng hợp hành vi tệp khán giả: </strong>
+          Với cơ cấu <strong>73% Nữ giới</strong>, <strong>60% độ tuổi 18–24 (Gen Z)</strong> và <strong>82% tập trung tại hai đại đô thị Hà Nội & TP. HCM</strong>, đây là nhóm khách hàng văn phòng trẻ và học sinh/sinh viên có sức mua thời trang rất nhanh. Họ có nhịp sinh hoạt đặc thù: bận học tập và làm việc buổi sáng (lý giải tại sao 54% bài đăng sáng chỉ đạt tương tác thấp), và chỉ tích cực lướt mạng tìm kiếm deal vào giờ nghỉ trưa <strong>12:00 – 13:00</strong> và giải lao chiều <strong>15:00 – 16:00</strong>.
+        </p>
       </div>
     </section>
   );

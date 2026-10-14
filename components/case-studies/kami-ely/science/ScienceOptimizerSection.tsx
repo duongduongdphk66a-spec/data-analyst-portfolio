@@ -15,8 +15,6 @@ import {
   Sparkles, 
   ArrowUpRight, 
   ShieldCheck, 
-  CheckCircle2, 
-  Table, 
   ExternalLink,
   ChevronDown,
   ChevronUp,
@@ -48,7 +46,6 @@ export default function ScienceOptimizerSection({
 }: ScienceOptimizerSectionProps) {
   const { language } = useLanguage();
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
-  const lang = isEn ? 'en' : 'vi';
 
   // Toggle for Collapsible Telemetry Reconciliation Audit
   const [showAuditPanel, setShowAuditPanel] = useState<boolean>(false);

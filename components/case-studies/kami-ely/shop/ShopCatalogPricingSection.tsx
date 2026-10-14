@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import { ShoppingBag, ImageIcon, TrendingUp, Tag, Compass, Sparkles, Layers } from 'lucide-react';
+import { ShoppingBag, ImageIcon, Tag, Compass, Sparkles, Layers, Flame, Zap, Search } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 import SectionHeader from '@/components/ui/SectionHeader';
-import { shopPriceTierData, shopTopSKUs } from '@/app/data/kamiElyData';
+import { shopPriceTierData, shopTopSKUs, sellerCenterShopData } from '@/app/data/kamiElyData';
 
 interface ShopCatalogPricingSectionProps {
   isEn: boolean;
@@ -269,6 +269,183 @@ export default function ShopCatalogPricingSection({
           <p>
             <strong className="text-[#0D7287] dark:text-[#9BE7FA]">Khuyến nghị Analytics: </strong>
             Không giữ nguyên tỷ trọng ngân sách quảng cáo của mùa hè cho mùa thu đông. Tái cấu trúc danh mục SKU ngay từ tháng 7 bằng cách chuẩn bị các bộ sưu tập thời trang dạo phố / công sở trẻ để giữ nhịp tăng trưởng doanh thu mà không bị suy giảm theo tính mùa vụ của đồ bơi.
+          </p>
+        </div>
+      </div>
+
+      {/* 1.3.C Shopping Tab Funnel Diagnostics & High-Potential Product Cards */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-slate-50 to-emerald-50/30 border-2 border-emerald-300/80 dark:from-slate-900 dark:via-slate-900 dark:to-emerald-950/20 dark:border-emerald-700/60 shadow-sm space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-emerald-200/60 dark:border-slate-800 pb-4">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-900 dark:text-emerald-300 text-xs font-black uppercase tracking-wider border border-emerald-500/20">
+              <ShoppingBag className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span>{isEn ? 'SHOPPING TAB FUNNEL & PASSIVE SHELF ENGINE' : 'CHẨN ĐOÁN KỆ HÀNG (SHOPPING TAB) & 3 THẺ SẢN PHẨM MŨI NHỌN'}</span>
+            </div>
+            <h3 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
+              {isEn 
+                ? 'Product Card Telemetry: 1.17M Viewers vs. 0.25% CVR Bottleneck' 
+                : 'Thẻ Sản Phẩm Kệ Hàng: 1,17 Triệu Lượt Xem vs. Nghẽn CVR 0,25%'}
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              {isEn 
+                ? 'Synchronized 28-day TikTok Shop Seller Center telemetry (442.3M VND GMV, ~22.87% of shop volume)' 
+                : 'Dữ liệu viễn trắc TikTok Shop Seller Center 28 ngày (442,3 Triệu ₫ GMV, đóng góp 21,49% sản lượng toàn shop)'}
+            </p>
+          </div>
+          <span className="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-emerald-300 dark:border-slate-700 text-emerald-800 dark:text-emerald-300 shrink-0 self-start sm:self-auto">
+            {isEn ? 'CVR Gap: Only 1 in 400 Buys' : 'Nút Thắt: 400 Lượt Xem / 1 Đơn Mua'}
+          </span>
+        </div>
+
+        {/* 3 Bento Diagnostic Metric Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {sellerCenterShopData.shoppingTabDiagnostics.summaryMetrics.map((m) => {
+            const isCritical = m.status === 'critical';
+            const isWarning = m.status === 'warning';
+            return (
+              <div 
+                key={m.id}
+                className={`p-4 rounded-2xl bg-white dark:bg-slate-900 border ${
+                  isCritical 
+                    ? 'border-rose-300 dark:border-rose-900/60 bg-rose-50/30' 
+                    : isWarning 
+                    ? 'border-amber-300 dark:border-amber-900/60 bg-amber-50/20' 
+                    : 'border-emerald-300 dark:border-emerald-900/60 bg-emerald-50/20'
+                } shadow-xs space-y-2`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                    {isEn ? m.label.en : m.label.vi}
+                  </span>
+                  {m.growthPct !== undefined && (
+                    <span className={`text-[10px] font-black px-2 py-0.5 rounded-md ${
+                      m.growthPct > 0 
+                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' 
+                        : 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
+                    }`}>
+                      {m.growthPct > 0 ? `+${m.growthPct}%` : `${m.growthPct}%`}
+                    </span>
+                  )}
+                </div>
+                <div className={`text-2xl font-black ${
+                  isCritical 
+                    ? 'text-rose-600 dark:text-rose-400' 
+                    : isWarning 
+                    ? 'text-amber-600 dark:text-amber-400' 
+                    : 'text-emerald-600 dark:text-emerald-400'
+                }`}>
+                  {m.value}
+                </div>
+                <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {isEn ? m.insight.en : m.insight.vi}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 2-Column Split: Traffic Sources vs High-Potential SKUs */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Traffic Sources Breakdown (5 cols) */}
+          <div className="lg:col-span-5 p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+              <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                <Search className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                {isEn ? 'Shopping Tab Traffic Sources' : 'Nguồn Truy Cập Thẻ Sản Phẩm'}
+              </h4>
+              <span className="text-[10px] text-slate-400 font-mono">28 Days Seller Center</span>
+            </div>
+            <div className="space-y-3 text-xs">
+              {sellerCenterShopData.shoppingTabDiagnostics.trafficSources.map((source, idx) => (
+                <div 
+                  key={idx}
+                  className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 space-y-1.5"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-black text-slate-900 dark:text-white">
+                      {isEn ? source.sourceName.en : source.sourceName.vi}
+                    </span>
+                    <span className="font-black text-xs px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300">
+                      {source.sharePct}% GMV ({source.gmv})
+                    </span>
+                  </div>
+                  {source.pageViews && (
+                    <div className="text-[11px] font-mono text-[#0D7287] dark:text-[#9BE7FA]">
+                      Hiển thị: <b>{source.pageViews}</b>
+                    </div>
+                  )}
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {isEn ? source.note.en : source.note.vi}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Top 3 High-Potential Product Cards (7 cols) */}
+          <div className="lg:col-span-7 p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+              <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                <Flame className="w-4 h-4 text-amber-500" />
+                {isEn ? '3 High-Potential Cards to Unlock' : '3 Nhóm Thẻ Sản Phẩm Tiềm Năng Nhất Cần Khơi Thông'}
+              </h4>
+              <span className="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase">
+                {isEn ? 'Target: 3x – 4x GMV' : 'Mục Tiêu: 3x – 4x Doanh Thu'}
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              {sellerCenterShopData.shoppingTabDiagnostics.highPotentialCards.map((card) => (
+                <div 
+                  key={card.id}
+                  className="p-3.5 rounded-xl bg-gradient-to-r from-slate-50 to-white dark:from-slate-900 dark:to-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-2 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-1.5">
+                    <span className="font-black text-xs text-slate-950 dark:text-white">
+                      {isEn ? card.productName.en : card.productName.vi}
+                    </span>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+                      {card.weeklyViews}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px] pt-1">
+                    <div className="p-1.5 rounded-lg bg-white dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
+                      <span className="text-[10px] text-slate-400 block">{isEn ? 'Current CVR' : 'CVR hiện tại'}</span>
+                      <b className="text-slate-800 dark:text-slate-200">{card.currentCvr}</b>
+                    </div>
+                    <div className="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60">
+                      <span className="text-[10px] text-emerald-700 dark:text-emerald-400 block">{isEn ? 'Target CVR' : 'CVR mục tiêu'}</span>
+                      <b className="text-emerald-700 dark:text-emerald-300 font-black">{card.targetCvr}</b>
+                    </div>
+                    <div className="p-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 col-span-2 sm:col-span-1">
+                      <span className="text-[10px] text-amber-700 dark:text-amber-400 block">{isEn ? 'Impact' : 'Kỳ vọng'}</span>
+                      <b className="text-amber-800 dark:text-amber-300 font-black">{card.expectedMultiplier}</b>
+                    </div>
+                  </div>
+
+                  <div className="text-[11px] space-y-1 pt-1 border-t border-slate-100 dark:border-slate-800">
+                    <div className="text-slate-600 dark:text-slate-400">
+                      <span className="text-rose-500 font-bold">Nút thắt: </span>
+                      {isEn ? card.bottleneck.en : card.bottleneck.vi}
+                    </div>
+                    <div className="text-slate-700 dark:text-slate-300 font-medium">
+                      <span className="text-emerald-600 dark:text-emerald-400 font-bold">Kế hoạch khắc phục: </span>
+                      {isEn ? card.actionPlan.en : card.actionPlan.vi}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Actionable Strategic Takeaway */}
+        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2.5 leading-relaxed">
+          <Zap className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+          <p>
+            <strong className="text-emerald-900 dark:text-emerald-300">Đòn bẩy tăng trưởng 0 Đồng Chi Phí: </strong>
+            Thẻ sản phẩm kệ hàng đang sở hữu nguồn lưu lượng khổng lồ (<strong>1,17 Triệu người xem</strong> và <strong>1,71 Triệu PV đề xuất</strong>) nhưng chịu mức CVR rơi tự do chỉ <strong>0,25%</strong>. Nếu chỉ cần nâng CVR lên mức chuẩn ngành <strong>0,75% – 1,00%</strong> qua việc bổ sung video 15s quay cận chất liệu, gắn feedback ảnh thật và thiết lập Deal Mua Kèm cho Chân Váy CV11 & Áo Lưới, doanh thu kệ hàng sẽ tăng vọt từ <strong>442 Triệu lên 1,32 – 1,76 Tỷ VNĐ/tháng</strong> mà hoàn toàn không mất chi phí quảng cáo hay hoa hồng KOC!
           </p>
         </div>
       </div>

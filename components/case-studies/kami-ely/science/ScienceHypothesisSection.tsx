@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { ShieldCheck, Download, AlertTriangle, CheckCircle2, HelpCircle } from 'lucide-react';
-import metrics from '@/app/data/kami-ely/generated/metrics.json';
 
 interface ScienceHypothesisSectionProps {
   isEn: boolean;
@@ -10,8 +9,6 @@ interface ScienceHypothesisSectionProps {
 }
 
 export default function ScienceHypothesisSection({ isEn, handleExport }: ScienceHypothesisSectionProps) {
-  const hyp = metrics.channel.hypothesis;
-
   return (
     <section id="sec-hypothesis" className="space-y-8 py-16 md:py-20 border-b border-slate-200/80 dark:border-slate-800">
       <div className="space-y-3">
