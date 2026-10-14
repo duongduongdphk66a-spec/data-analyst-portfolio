@@ -6,7 +6,7 @@ import {
   Sparkles, Database, FileSpreadsheet, Terminal
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useTheme } from '@/app/context/ThemeContext';
 import { trackVisitorAction } from '@/app/lib/visitorTracking';
@@ -34,6 +34,7 @@ interface InteractiveLabProps {
 
 export default function InteractiveLab({ onSelectProject }: InteractiveLabProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { language } = useLanguage();
   const { resolvedTheme } = useTheme();
   const { showToast } = useToast();
@@ -43,6 +44,14 @@ export default function InteractiveLab({ onSelectProject }: InteractiveLabProps)
   const [sandboxMode, setSandboxMode] = useState<'presets' | 'custom'>('presets');
   const [scenarioFilter, setScenarioFilter] = useState<'all' | 'kami' | 'other'>('all');
   const [activeScenarioId, setActiveScenarioId] = useState<string>(SQL_SCENARIOS[0].id);
+
+  useEffect(() => {
+    const scenarioParam = searchParams?.get('scenario');
+    if (scenarioParam && SQL_SCENARIOS.some((s) => s.id === scenarioParam)) {
+      setActiveScenarioId(scenarioParam);
+      setSandboxMode('presets');
+    }
+  }, [searchParams]);
   const [isRunning, setIsRunning] = useState(false);
   const [showResult, setShowResult] = useState(true);
   const [copied, setCopied] = useState(false);

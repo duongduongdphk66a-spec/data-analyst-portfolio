@@ -3,20 +3,21 @@
 import React, { useState } from 'react';
 import { 
   TrendingDown, 
+  TrendingUp,
   ShieldAlert, 
   CheckCircle2, 
-  Layers, 
   AlertTriangle, 
   Sparkles, 
   Flame, 
   Clock, 
-  ChevronRight,
-  PieChart,
-  BarChart2,
-  FileText,
-  Users2,
-  Package,
-  ArrowUpRight
+  BarChart2, 
+  Users2, 
+  Package, 
+  ArrowUpRight,
+  Zap,
+  Target,
+  Layers,
+  FileSpreadsheet
 } from 'lucide-react';
 import metrics from '@/app/data/kami-ely/generated/metrics.json';
 
@@ -53,24 +54,24 @@ export default function KamiElyExecutiveStory({ isEn, onJumpToTab }: KamiElyExec
           <div className="space-y-2.5 max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD14C] text-slate-950 text-xs font-black uppercase tracking-wider">
               <Clock className="w-3.5 h-3.5" />
-              <span>{isEn ? '3-MINUTE EXECUTIVE AUDIT' : 'BẢN PHÂN TÍCH ĐIỀU HÀNH · ĐỌC TRONG 3 PHÚT'}</span>
+              <span>{isEn ? '3-MINUTE EXECUTIVE AUDIT' : 'BẢN PHÂN TÍCH ĐIỀU HÀNH · ĐỌC HIỂU TRONG 3 PHÚT'}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white leading-tight">
               {isEn 
                 ? 'Deconstructing TikTok Shop Performance: Operational Reality vs Dashboard Illusions'
-                : 'Chẩn Đoán Thực Tế Vận Hành TikTok Shop: Bóc Tách Bản Chất Kênh Vệ Tinh & Nghịch Lý Mùa Vụ'}
+                : 'Chẩn Đoán Thực Tế Vận Hành TikTok Shop: Bóc Tách Bản Chất Kênh Vệ Tinh & 3 Bằng Chứng Thực Nghiệm'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
               {isEn
-                ? 'Synthesized from 8 raw FastMoss files (12.7B VND GMV). An end-to-end data audit revealing dual-channel in-house concentration, catalog seasonality cliffs, and debunking dashboard correlation fallacies.'
-                : 'Tổng hợp từ 8 nguồn dữ liệu FastMoss (12,7 tỷ VNĐ GMV 180N). Phẫu thuật chuyên sâu phát hiện cỗ máy Livestream 2 kênh in-house gánh 89% doanh thu, bóc trần sự suy kiệt tệp affiliate ngoài và vạch ra chiến lược cứu vãn mùa thấp điểm.'}
+                ? 'Synthesized from 8 raw FastMoss & Seller Center files (12.74B VND GMV). An empirical investigation uncovering in-house dual channel reliance, seasonality saturation, and high-impact Autumn-Winter recovery.'
+                : 'Tổng hợp từ 8 tệp dữ liệu FastMoss & Seller Center (12,74 tỷ VNĐ GMV 180N). Bóc tách cỗ máy Livestream nội bộ gánh 89% doanh thu, loại bỏ ngụy biện tương quan và đối chiếu 3 thực nghiệm định đoạt hiệu quả kinh doanh.'}
             </p>
           </div>
 
           {/* Quick Stats Pill */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 gap-3 shrink-0">
             <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
-              <div className="text-[10px] text-slate-300 uppercase font-bold tracking-wider">{isEn ? '180d GMV' : 'GMV 180 Ngày'}</div>
+              <div className="text-[10px] text-slate-300 uppercase font-bold tracking-wider">{isEn ? '180d Real GMV' : 'GMV 180 Ngày'}</div>
               <div className="text-lg sm:text-xl font-black text-[#9BE7FA]">12,74 Tỷ ₫</div>
             </div>
             <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
@@ -78,33 +79,171 @@ export default function KamiElyExecutiveStory({ isEn, onJumpToTab }: KamiElyExec
               <div className="text-lg sm:text-xl font-black text-[#FFD14C]">89.4%</div>
             </div>
             <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center col-span-2 sm:col-span-1 md:col-span-2">
-              <div className="text-[10px] text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Peak-to-Trough Cliff' : 'Sụt Giảm Sau Đỉnh'}</div>
-              <div className="text-lg sm:text-xl font-black text-rose-400">-82.9% (T6 → T8)</div>
+              <div className="text-[10px] text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Seasonality Cliff' : 'Sụt Giảm Mùa Vụ'}</div>
+              <div className="text-lg sm:text-xl font-black text-rose-400">315M ➔ 5,4M/ngày</div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Tab switcher inside Executive Story */}
-        <div className="flex items-center gap-2 overflow-x-auto pt-6 scrollbar-none border-t border-white/10 mt-6">
-          {blocks.map((b) => {
-            const Icon = b.icon;
-            const isActive = activeStoryBlock === b.id;
-            return (
-              <button
-                key={b.id}
-                onClick={() => setActiveStoryBlock(b.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer ${
-                  isActive
-                    ? 'bg-[#9BE7FA] text-slate-950 shadow-md font-black scale-102'
-                    : 'bg-white/10 text-slate-300 hover:bg-white/20 hover:text-white'
-                }`}
-              >
-                <Icon className="w-3.5 h-3.5" />
-                <span>{b.title}</span>
-              </button>
-            );
-          })}
+      {/* =================================================================== */}
+      {/* 3 CỘT SO SÁNH THỰC NGHIỆM ĐỊNH ĐOẠT CHIẾN LƯỢC                      */}
+      {/* =================================================================== */}
+      <div className="p-6 sm:p-8 bg-gradient-to-b from-slate-100 via-slate-50 to-white dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-950 border-b border-slate-200 dark:border-slate-800 space-y-5">
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 text-xs font-mono font-bold border border-amber-500/30">
+            <Target className="w-3.5 h-3.5" />
+            <span>{isEn ? '3 EMPIRICAL A/B PROOF COLUMNS' : '3 CỘT SO SÁNH THỰC NGHIỆM ĐỊNH ĐOẠT CHIẾN LƯỢC'}</span>
+          </div>
+          <h3 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
+            {isEn
+              ? 'Data-Driven Reality: 3 A/B Case Studies Proving Operational Turning Points'
+              : 'Thực Chứng Dữ Liệu: 3 Case So Sánh A/B Khẳng Định Năng Lực Senior Data Analyst'}
+          </h3>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+            {isEn
+              ? 'Direct side-by-side empirical evidence eliminating guesswork from operational management.'
+              : 'Đối chiếu số liệu thực tế từng phiên và từng mã hàng, loại bỏ hoàn toàn các phỏng đoán cảm tính trong quản trị vận hành.'}
+          </p>
         </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          {/* Cột 1: Spam Số Lượng vs. Tối Ưu Chất Lượng */}
+          <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md dark:bg-slate-900 dark:border-slate-800 space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <span className="px-2.5 py-1 rounded-md bg-rose-500/15 text-rose-700 dark:text-rose-300 font-mono text-[11px] font-bold border border-rose-500/30">
+                {isEn ? 'PROOF 1 · QUANTITY VS. QUALITY' : 'BẰNG CHỨNG 1 · BẪY SỐ LƯỢNG PHIÊN LIVE'}
+              </span>
+              <h4 className="text-base font-bold text-slate-950 dark:text-white leading-snug">
+                {isEn ? 'Spamming 106 LIVEs (79M) vs. Quality 45 LIVEs (196M)' : 'Spam 106 Phiên LIVE (79,4M) vs. Tối Ưu 45 Phiên LIVE (196,1M)'}
+              </h4>
+              
+              <div className="space-y-2 text-xs">
+                <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/50 space-y-1">
+                  <div className="flex justify-between font-bold text-rose-800 dark:text-rose-300">
+                    <span>{isEn ? 'Spam Day: 2026-04-09' : 'Ngày Spam: 09/04/2026'}</span>
+                    <span className="font-mono">79,4 Triệu ₫</span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                    Phát tán <strong>106 phiên LIVE</strong> toàn sàn ➔ TB chỉ <strong>749k đ/phiên</strong>. Gây kiệt sức host và phân tán thuật toán.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 space-y-1">
+                  <div className="flex justify-between font-bold text-emerald-800 dark:text-emerald-300">
+                    <span>{isEn ? 'Optimized Day: 2026-06-25' : 'Ngày Tối Ưu: 25/06/2026'}</span>
+                    <span className="font-mono text-emerald-600 dark:text-emerald-400">196,1 Triệu ₫</span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                    Chỉ phát <strong>45 phiên LIVE</strong> chất lượng ➔ Đạt <strong>4,36 Triệu đ/phiên</strong> (Gấp <strong>5,82 lần</strong> ngày 09/04).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed">
+              <strong>Bài học Analytics:</strong> Tăng số lượng phiên LIVE trong ngày không làm tăng doanh thu ròng. TikTok ưu tiên giữ chân người xem (Retention) hơn là tần suất mở phòng.
+            </div>
+          </div>
+
+          {/* Cột 2: Thực Nghiệm A/B Testing Live Ads */}
+          <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md dark:bg-slate-900 dark:border-slate-800 space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <span className="px-2.5 py-1 rounded-md bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 font-mono text-[11px] font-bold border border-indigo-500/30">
+                {isEn ? 'PROOF 2 · LIVE ADS A/B TEST' : 'BẰNG CHỨNG 2 · A/B TEST LIVE ADS'}
+              </span>
+              <h4 className="text-base font-bold text-slate-950 dark:text-white leading-snug">
+                {isEn ? 'Standard (1.81M/hr) vs. Ads Booster (5.73M/hr · 3.16x)' : 'Phiên Tiêu Chuẩn (1,81M/h) vs. Kích Hoạt Ads (5,73M/h · Gấp 3,16x)'}
+              </h4>
+
+              <div className="space-y-2 text-xs">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-1">
+                  <div className="flex justify-between font-bold text-slate-800 dark:text-slate-200">
+                    <span>{isEn ? 'Standard: 2026-03-22' : 'Phiên Chuẩn: 22/03/2026'}</span>
+                    <span className="font-mono">9,25 Triệu ₫</span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                    Chi phí Ads: <strong>678,75k đ</strong> | Thời lượng: 5h07m | Tốc độ chốt đơn: <strong>1,81 Triệu đ/giờ</strong>.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-900/50 space-y-1">
+                  <div className="flex justify-between font-bold text-indigo-800 dark:text-indigo-300">
+                    <span>{isEn ? 'Boosted: 2026-03-28' : 'Phiên Bùng Nổ: 28/03/2026'}</span>
+                    <span className="font-mono text-indigo-600 dark:text-indigo-400">20,65 Triệu ₫</span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                    Chi phí Ads: <strong>2,17 Triệu đ</strong> | Thời lượng: 3h36m | Tốc độ chốt đơn: <strong>5,73 Triệu đ/giờ</strong> (Gấp <strong>3,16 lần</strong>).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed">
+              <strong>Bài học Analytics:</strong> Đòn bẩy Live Shopping Ads tạo ra điểm gãy doanh thu rõ rệt: rút ngắn 30% giờ live mà tăng gấp hơn 3 lần hiệu suất doanh thu/giờ.
+            </div>
+          </div>
+
+          {/* Cột 3: Tiềm Năng Xoay Trục Hero SKU Thu - Đông */}
+          <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md dark:bg-slate-900 dark:border-slate-800 space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <span className="px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-mono text-[11px] font-bold border border-emerald-500/30">
+                {isEn ? 'PROOF 3 · HERO SKU PIVOT' : 'BẰNG CHỨNG 3 · XOAY TRỤC HERO SKU'}
+              </span>
+              <h4 className="text-base font-bold text-slate-950 dark:text-white leading-snug">
+                {isEn ? 'Bikini Trap vs. A-Line Skirt (CV11: 6,375 Units · 735M)' : 'Bẫy Đồ Bơi vs. Chân Váy Form Chữ A (CV11: 6.375 SP · 735M)'}
+              </h4>
+
+              <div className="space-y-2 text-xs">
+                <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 space-y-1">
+                  <div className="flex justify-between font-bold text-amber-800 dark:text-amber-300">
+                    <span>{isEn ? 'Swimwear Trap' : 'Bẫy Lệ Thuộc Đồ Bơi'}</span>
+                    <span className="font-mono">69,31% GMV</span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                    Bikini mất 95% lực cầu vào tháng 8–9 khi thời tiết miền Bắc lạnh dần. Host tiếp tục live bikini chỉ tạo ra các phiên 0đ–119k đ.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 space-y-1">
+                  <div className="flex justify-between font-bold text-emerald-800 dark:text-emerald-300">
+                    <span>{isEn ? 'Hero SKU CV11 (All Shop)' : 'Hero SKU CV11 (Toàn Shop)'}</span>
+                    <span className="font-mono text-emerald-600 dark:text-emerald-400">6.375 SP / 735,07M</span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                    Mã <strong>CV11</strong> đạt sản lượng #1 shop, nhưng kênh chính chủ mới chỉ khai thác <strong>21,0% (1.338 SP)</strong>. Tiềm năng xoay trục 79% còn lại sang Thu–Đông cực lớn!
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed">
+              <strong>Bài học Analytics:</strong> Khai phá khoảng trống danh mục: Chuyển giao các mã váy/nỉ Thu–Đông từ kênh vệ tinh và kệ hàng sang phòng LIVE chính chủ.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tab switcher inside Executive Story */}
+      <div className="px-6 sm:px-8 pt-4 pb-2 bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2 overflow-x-auto scrollbar-none">
+        {blocks.map((b) => {
+          const Icon = b.icon;
+          const isActive = activeStoryBlock === b.id;
+          return (
+            <button
+              key={b.id}
+              onClick={() => setActiveStoryBlock(b.id)}
+              className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer ${
+                isActive
+                  ? 'bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 shadow-md font-black scale-102'
+                  : 'bg-white dark:bg-slate-800 text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white border border-slate-200 dark:border-slate-700'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              <span>{b.title}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Body Content Area of 3-Minute Story */}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import InteractiveLab from '@/components/site/InteractiveLab';
 import { getServerPortfolioData } from '../../lib/serverData';
 
@@ -12,7 +12,9 @@ export async function generateMetadata() {
 export default function LabPage() {
   return (
     <div className="py-12 md:py-20">
-      <InteractiveLab />
+      <Suspense fallback={<div className="min-h-[400px] flex items-center justify-center text-slate-400">Loading SQL Lab...</div>}>
+        <InteractiveLab />
+      </Suspense>
     </div>
   );
 }
