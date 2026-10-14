@@ -1,14 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Target, TrendingUp, Scale, Check, AlertCircle, BarChart3, LineChart as LineChartIcon } from 'lucide-react';
+import { Target, Scale, Check, AlertCircle, BarChart3, LineChart as LineChartIcon } from 'lucide-react';
 import { 
   ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend 
 } from 'recharts';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { 
   POLICY_EVALUATION_MATRIX, 
-  COUNTERFACTUAL_SUMMARY, 
   touristsData as defaultTouristsData
 } from '@/app/data/heritageJapanData';
 

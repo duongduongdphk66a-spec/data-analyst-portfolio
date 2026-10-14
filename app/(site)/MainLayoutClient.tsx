@@ -12,7 +12,7 @@ import { ProjectData } from '../types';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 
 export default function MainLayoutClient({ children, initialProjects = [] }: { children: React.ReactNode, initialProjects?: ProjectData[] }) {
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const { resolvedTheme, toggleTheme } = useTheme();
   const pathname = usePathname();
 

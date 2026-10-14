@@ -10,8 +10,6 @@ import {
   Clock, 
   ArrowUpRight, 
   ChevronRight, 
-  Server, 
-  Cpu, 
   Code2, 
   Database, 
   Sparkles, 
@@ -21,12 +19,12 @@ import {
   Activity,
   HardDrive
 } from 'lucide-react';
-import { libraryBusKPIs, latencyBenchmarkData, weeklyActivityData } from '@/app/data/libraryBusData';
-import { LOCKING_CODE_SNIPPET, DJANGO_APPS } from '@/app/data/libraryBusContent';
+import { latencyBenchmarkData, weeklyActivityData } from '@/app/data/libraryBusData';
+import { DJANGO_APPS } from '@/app/data/libraryBusContent';
 
 interface LibraryBusExecutiveStoryProps {
   isEn: boolean;
-  onJumpToSection?: (sectionId: string) => void;
+  onJumpToSection?: (_sectionId: string) => void;
 }
 
 export default function LibraryBusExecutiveStory({ isEn, onJumpToSection }: LibraryBusExecutiveStoryProps) {

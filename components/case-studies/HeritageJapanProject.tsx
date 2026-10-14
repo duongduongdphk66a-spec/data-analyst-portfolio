@@ -6,7 +6,6 @@ import { trackVisitorAction } from '@/app/lib/visitorTracking';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { scrollToSection, useCaseStudyActions } from '@/app/lib/uiHelpers';
-import ExecutiveSummary from './ExecutiveSummary';
 import HeritageJapanExecutiveStory from './heritage-japan/HeritageJapanExecutiveStory';
 
 // Subcomponents

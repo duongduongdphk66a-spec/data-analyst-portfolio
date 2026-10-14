@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { getLibraryBusDataWithFallback } from '@/app/lib/serverData';
-import { getApiCacheAsync, setApiCacheAsync } from '@/app/lib/cache';
 
 const CACHE_HEADERS = {
   'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=600',

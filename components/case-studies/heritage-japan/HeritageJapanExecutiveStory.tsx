@@ -19,17 +19,9 @@ import {
   Compass,
   FileCheck
 } from 'lucide-react';
-import { 
-  touristsData, 
-  spendNationalData, 
-  COUNTERFACTUAL_SUMMARY, 
-  DATA_AUDIT_FINDINGS, 
-  POLICY_EVALUATION_MATRIX 
-} from '@/app/data/heritageJapanData';
-
 interface HeritageJapanExecutiveStoryProps {
   isEn: boolean;
-  onJumpToSection?: (sectionId: string) => void;
+  onJumpToSection?: (_sectionId: string) => void;
 }
 
 export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: HeritageJapanExecutiveStoryProps) {

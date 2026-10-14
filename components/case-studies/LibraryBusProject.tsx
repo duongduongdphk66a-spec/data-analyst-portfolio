@@ -7,7 +7,6 @@ import { trackVisitorAction } from '@/app/lib/visitorTracking';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { scrollToSection, centerTabInContainer, useCaseStudyActions } from '@/app/lib/uiHelpers';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
-import ExecutiveSummary from './ExecutiveSummary';
 import LibraryBusExecutiveStory from './library-bus/LibraryBusExecutiveStory';
 import SectionHeader from '@/components/ui/SectionHeader';
 import CaseStudyFooter from './shared/CaseStudyFooter';

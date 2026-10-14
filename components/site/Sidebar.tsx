@@ -15,7 +15,7 @@ import { usePortfolioData } from '@/app/context/PortfolioDataContext';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 
 export default function Sidebar() {
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const { resolvedTheme, toggleTheme } = useTheme();
   const { profile, projects } = usePortfolioData();
   const pathname = usePathname();

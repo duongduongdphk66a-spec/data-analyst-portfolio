@@ -25,7 +25,7 @@ export default function ProjectDetailView({
   isEmbedded 
 }: ProjectDetailViewProps) {
   const router = useRouter();
-  const { language, setLanguage, t } = useLanguage();
+  const { language, t } = useLanguage();
   const isEn = language === 'en';
 
   const handleBack = () => {
