@@ -5,12 +5,19 @@ import { Grid, Layout } from 'lucide-react';
 import { WEBSITE_DESIGN_DATA } from '@/app/data/libraryBusData';
 import SectionHeader from '@/components/ui/SectionHeader';
 
-interface Chapter3GridAndWireframeProps {
-  isEn: boolean;
-  onCopyDeepLink: (_sectionId: string, _title?: string) => void;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface Chapter3GridAndWireframeProps {
+  isEn?: boolean;
+  onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
 }
 
-export function Chapter3GridAndWireframe({ isEn, onCopyDeepLink }: Chapter3GridAndWireframeProps) {
+export function Chapter3GridAndWireframe({ 
+  isEn: propIsEn, 
+  onCopyDeepLink = () => {} 
+}: Chapter3GridAndWireframeProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   return (
     <section id="sec-grid-wireframe" className="space-y-6 scroll-mt-36">
       <SectionHeader
@@ -88,3 +95,5 @@ export function Chapter3GridAndWireframe({ isEn, onCopyDeepLink }: Chapter3GridA
     </section>
   );
 }
+
+export default Chapter3GridAndWireframe;

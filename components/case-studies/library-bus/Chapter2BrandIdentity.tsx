@@ -8,12 +8,19 @@ import {
 import { BRAND_IDENTITY_DATA } from '@/app/data/libraryBusData';
 import SectionHeader from '@/components/ui/SectionHeader';
 
-interface Chapter2BrandIdentityProps {
-  isEn: boolean;
-  onCopyDeepLink: (_sectionId: string, _title?: string) => void;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface Chapter2BrandIdentityProps {
+  isEn?: boolean;
+  onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
 }
 
-export function Chapter2BrandIdentity({ isEn, onCopyDeepLink }: Chapter2BrandIdentityProps) {
+export function Chapter2BrandIdentity({ 
+  isEn: propIsEn, 
+  onCopyDeepLink = () => {} 
+}: Chapter2BrandIdentityProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   return (
     <>
       {/* 2.1 HỆ THỐNG LOGO */}
@@ -239,3 +246,5 @@ export function Chapter2BrandIdentity({ isEn, onCopyDeepLink }: Chapter2BrandIde
     </>
   );
 }
+
+export default Chapter2BrandIdentity;

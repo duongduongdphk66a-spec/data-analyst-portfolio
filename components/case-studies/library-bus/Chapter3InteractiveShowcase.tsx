@@ -5,12 +5,19 @@ import {
 } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
 
-interface Chapter3InteractiveShowcaseProps {
-  isEn: boolean;
-  onCopyDeepLink: (_sectionId: string, _title?: string) => void;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface Chapter3InteractiveShowcaseProps {
+  isEn?: boolean;
+  onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
 }
 
-export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3InteractiveShowcaseProps) {
+export function Chapter3InteractiveShowcase({ 
+  isEn: propIsEn, 
+  onCopyDeepLink = () => {} 
+}: Chapter3InteractiveShowcaseProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   const [activeShowcaseTab, setActiveShowcaseTab] = useState<'architecture-graph' | 'understand-radar'>('architecture-graph');
 
   return (
@@ -376,3 +383,5 @@ export function Chapter3InteractiveShowcase({ isEn, onCopyDeepLink }: Chapter3In
     </section>
   );
 }
+
+export default Chapter3InteractiveShowcase;

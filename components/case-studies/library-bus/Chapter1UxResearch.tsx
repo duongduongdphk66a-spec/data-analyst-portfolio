@@ -8,12 +8,19 @@ import {
 import { ABOUT_US_DATA, UX_RESEARCH_DATA } from '@/app/data/libraryBusData';
 import SectionHeader from '@/components/ui/SectionHeader';
 
-interface Chapter1UxResearchProps {
-  isEn: boolean;
-  onCopyDeepLink: (_sectionId: string, _title?: string) => void;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface Chapter1UxResearchProps {
+  isEn?: boolean;
+  onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
 }
 
-export function Chapter1UxResearch({ isEn, onCopyDeepLink }: Chapter1UxResearchProps) {
+export function Chapter1UxResearch({ 
+  isEn: propIsEn, 
+  onCopyDeepLink = () => {} 
+}: Chapter1UxResearchProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   return (
     <>
       {/* 1.1 VỀ CHÚNG TÔI (ABOUT US) */}
@@ -271,3 +278,5 @@ export function Chapter1UxResearch({ isEn, onCopyDeepLink }: Chapter1UxResearchP
     </>
   );
 }
+
+export default Chapter1UxResearch;

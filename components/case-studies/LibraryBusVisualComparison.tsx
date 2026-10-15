@@ -10,14 +10,18 @@ import {
 } from 'lucide-react';
 import { LIBRARY_BUS_20_SCREENS, LIBRARY_BUS_MOBILE_SCREENS, LIBRARY_BUS_SYSTEM_PARADIGMS } from '@/app/data/libraryBusData';
 
-interface VisualComparisonProps {
-  isEn: boolean;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface VisualComparisonProps {
+  isEn?: boolean;
   onOpenZoom?: (_imgUrl: string) => void;
 }
 
 import { renderBookDetailWireframe, renderBookDetailUI } from './library-bus/visual-comparison/BookDetailSpecs';
 
-export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualComparisonProps) {
+export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom }: VisualComparisonProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   // Device mode: 'desktop' (20 screens) | 'mobile' (20 screens)
   const [deviceMode, setDeviceMode] = useState<'desktop' | 'mobile'>('desktop');
 
@@ -1573,3 +1577,5 @@ export default function LibraryBusVisualComparison({ isEn, onOpenZoom }: VisualC
     </div>
   );
 }
+
+export { LibraryBusVisualComparison };

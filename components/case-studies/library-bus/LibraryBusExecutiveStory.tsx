@@ -22,12 +22,16 @@ import {
 import { latencyBenchmarkData, weeklyActivityData } from '@/app/data/libraryBusData';
 import { DJANGO_APPS } from '@/app/data/libraryBusContent';
 
-interface LibraryBusExecutiveStoryProps {
-  isEn: boolean;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface LibraryBusExecutiveStoryProps {
+  isEn?: boolean;
   onJumpToSection?: (_sectionId: string) => void;
 }
 
-export default function LibraryBusExecutiveStory({ isEn, onJumpToSection }: LibraryBusExecutiveStoryProps) {
+export default function LibraryBusExecutiveStory({ isEn: propIsEn, onJumpToSection }: LibraryBusExecutiveStoryProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   const [activeStoryBlock, setActiveStoryBlock] = useState<number>(1);
 
   const blocks = [

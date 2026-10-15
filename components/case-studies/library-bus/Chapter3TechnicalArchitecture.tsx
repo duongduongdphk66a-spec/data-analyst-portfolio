@@ -16,11 +16,13 @@ import {
 } from '@/app/data/libraryBusContent';
 import SectionHeader from '@/components/ui/SectionHeader';
 
-interface Chapter3TechnicalArchitectureProps {
-  isEn: boolean;
-  onCopyDeepLink: (_sectionId: string, _title?: string) => void;
-  onExportChart: (_chartId: string, _filename: string) => void;
-  showToast: (_msg: string, _type?: 'success' | 'error' | 'info') => void;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface Chapter3TechnicalArchitectureProps {
+  isEn?: boolean;
+  onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
+  onExportChart?: (_chartId: string, _filename: string) => void;
+  showToast?: (_msg: string, _type?: 'success' | 'error' | 'info') => void;
   liveData?: {
     latencyBenchmarks?: any[];
     weeklyActivity?: any[];
@@ -30,12 +32,14 @@ interface Chapter3TechnicalArchitectureProps {
 }
 
 export function Chapter3TechnicalArchitecture({
-  isEn,
-  onCopyDeepLink,
-  onExportChart,
-  showToast,
-  liveData,
-}: Chapter3TechnicalArchitectureProps) {
+  isEn: propIsEn,
+  onCopyDeepLink = () => {},
+  onExportChart = () => {},
+  showToast = () => {},
+  liveData = null,
+}: Chapter3TechnicalArchitectureProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   const [copiedSnippet, setCopiedSnippet] = useState<boolean>(false);
   const activeBenchmarks = liveData?.latencyBenchmarks && liveData.latencyBenchmarks.length > 0 
     ? liveData.latencyBenchmarks 
@@ -344,3 +348,5 @@ export function Chapter3TechnicalArchitecture({
     </>
   );
 }
+
+export default Chapter3TechnicalArchitecture;

@@ -1,26 +1,26 @@
 'use client';
 
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { trackVisitorAction } from '@/app/lib/visitorTracking';
 import { useLanguage } from '@/app/context/LanguageContext';
-import { scrollToSection, centerTabInContainer, useCaseStudyActions } from '@/app/lib/uiHelpers';
-import { useScrollSpy } from '@/hooks/useScrollSpy';
+import { trackVisitorAction } from '@/app/lib/visitorTracking';
+import { scrollToSection, useCaseStudyActions } from '@/app/lib/uiHelpers';
+import { useCaseStudyData } from '@/hooks/useCaseStudyData';
+import type { LibraryBusDataPayload } from '@/app/types/caseStudies';
+
+import LibraryBusHero from './library-bus/LibraryBusHero';
+import LibraryBusNav from './library-bus/LibraryBusNav';
+import LibraryBusVisualSuite from './library-bus/LibraryBusVisualSuite';
 import LibraryBusExecutiveStory from './library-bus/LibraryBusExecutiveStory';
-import SectionHeader from '@/components/ui/SectionHeader';
+import Chapter1UxResearch from './library-bus/Chapter1UxResearch';
+import Chapter2BrandIdentity from './library-bus/Chapter2BrandIdentity';
+import Chapter3GridAndWireframe from './library-bus/Chapter3GridAndWireframe';
+import Chapter3InteractiveShowcase from './library-bus/Chapter3InteractiveShowcase';
+import Chapter3TechnicalArchitecture from './library-bus/Chapter3TechnicalArchitecture';
 import CaseStudyFooter from './shared/CaseStudyFooter';
 
-// Subcomponents
-import { LibraryBusNav } from './library-bus/LibraryBusNav';
-import { LibraryBusHero } from './library-bus/LibraryBusHero';
-import { Chapter1UxResearch } from './library-bus/Chapter1UxResearch';
-import { Chapter2BrandIdentity } from './library-bus/Chapter2BrandIdentity';
-import { Chapter3GridAndWireframe } from './library-bus/Chapter3GridAndWireframe';
-import { Chapter3InteractiveShowcase } from './library-bus/Chapter3InteractiveShowcase';
-import { Chapter3TechnicalArchitecture } from './library-bus/Chapter3TechnicalArchitecture';
-
-// Dynamic import for the 20-Screen Master Visual Comparison (1.9k lines)
+// Dynamic import for the 20-Screen Master Visual Comparison (1.5k lines)
 const LibraryBusVisualComparison = dynamic(
   () => import('./LibraryBusVisualComparison'),
   {
@@ -33,71 +33,38 @@ const LibraryBusVisualComparison = dynamic(
   }
 );
 
-import type { LibraryBusDataPayload } from '@/app/types/caseStudies';
-import { useCaseStudyData } from '@/hooks/useCaseStudyData';
-
 interface LibraryBusProjectProps {
   onBack?: () => void;
   isEmbedded?: boolean;
   initialData?: LibraryBusDataPayload;
 }
 
-export default function LibraryBusProject({ onBack, isEmbedded, initialData }: LibraryBusProjectProps = {}) {
+export default function LibraryBusProject({ 
+  onBack, 
+  isEmbedded: _isEmbedded, 
+  initialData 
+}: LibraryBusProjectProps = {}) {
   const router = useRouter();
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const isEn = language === 'en';
-  const { showToast, copyDeepLink, handleExportChart } = useCaseStudyActions(isEn);
+  const lang = isEn ? 'en' : 'vi';
 
+  const { showToast, copyDeepLink, handleExportChart } = useCaseStudyActions(isEn);
   const handleCopyDeepLink = (id: string, title = '') => {
     copyDeepLink(id, title);
   };
 
-  // Navigation Items matching the 3 Chapters
-  const navItems = useMemo(() => [
-    { id: 'sec-about', label: isEn ? '1.1 About Us' : '1.1 Về chúng tôi', chapter: '01' },
-    { id: 'sec-research', label: isEn ? '1.2 UX Research' : '1.2 Nghiên cứu UX', chapter: '01' },
-    { id: 'sec-logo', label: isEn ? '2.1 Logo System' : '2.1 Hệ thống Logo', chapter: '02' },
-    { id: 'sec-components', label: isEn ? '2.2 UI Components' : '2.2 UI Components', chapter: '02' },
-    { id: 'sec-grid-wireframe', label: isEn ? '3.1 Grid & Wireframe' : '3.1 Lưới & Wireframe', chapter: '03' },
-    { id: 'sec-screens', label: isEn ? '3.2 20 UI Screens & Boards' : '3.2 20 Màn hình & Bảng Wireframe/UI', chapter: '03' },
-    { id: 'sec-interactive', label: isEn ? '3.3 Live Demos' : '3.3 Trình diễn tương tác', chapter: '03' },
-    { id: 'sec-tech', label: isEn ? '3.4 Tech & Telemetry' : '3.4 Kỹ thuật & Telemetry', chapter: '03' },
-  ], [isEn]);
-  // Unified ScrollSpy
-  const sectionIds = useMemo(() => navItems.map(item => item.id), [navItems]);
-  const { activeSection, scrollProgress, setActiveSection } = useScrollSpy(sectionIds, 130);
-  const subnavContainerRef = useRef<HTMLDivElement>(null);
+  const [activeSection, setActiveSection] = useState<string>('visual-suite');
+  const [isExecutiveScanMode, setIsExecutiveScanMode] = useState<boolean>(false);
 
-  const { data: libraryData } = useCaseStudyData<LibraryBusDataPayload>({
+  const { data: busData } = useCaseStudyData<LibraryBusDataPayload>({
     projectId: 'proj-library-bus',
     endpoint: '/api/case-studies/library-bus',
     initialData,
   });
 
-
-  // Center active tab on taskbar horizontally only
   useEffect(() => {
-    if (activeSection) {
-      centerTabInContainer(subnavContainerRef.current, `nav-tab-${activeSection}`);
-    }
-  }, [activeSection]);
-
-  const handleNavClick = (id: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setActiveSection(id);
-    scrollToSection(id, 16);
-  };
-
-  useEffect(() => {
-    trackVisitorAction('Xem hồ sơ thiết kế & phân tích: Tủ Sách Lưu Động (Library Bus)', 'proj-library-bus', 'project');
-    if (typeof window !== 'undefined' && !window.location.hash) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
-      const mainContainer = document.querySelector('main.overflow-y-auto') || document.querySelector('main');
-      if (mainContainer) {
-        mainContainer.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
-      }
-    }
+    trackVisitorAction('Xem chi tiết dự án: Tủ Sách Lưu Động Library Bus (Ma Văn Hùng)', 'proj-library-bus', 'project');
   }, []);
 
   const handleBack = () => {
@@ -109,93 +76,116 @@ export default function LibraryBusProject({ onBack, isEmbedded, initialData }: L
   };
 
   return (
-    <div className="min-h-screen bg-ground font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
-      {/* Top Navbar & Sub-navigation bar */}
-      <LibraryBusNav
-        onBack={handleBack}
-        isEmbedded={isEmbedded}
-        isEn={isEn}
-        setLanguage={setLanguage}
-        navItems={navItems}
-        activeSection={activeSection}
-        scrollProgress={scrollProgress}
-        onNavClick={handleNavClick}
-        subnavContainerRef={subnavContainerRef}
-      />
-
-      {/* Main Hero Header & Bento Telemetry */}
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8 min-h-screen bg-ground font-sans text-slate-900 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
+      {/* 1. HERO SECTION */}
       <LibraryBusHero
         isEn={isEn}
-        onNavClick={handleNavClick}
+        onNavClick={(id) => scrollToSection(id, 16)}
       />
 
-      {/* 3-Minute Executive Story */}
-      <div className="page-container pt-12 md:pt-16">
-        <LibraryBusExecutiveStory
-          isEn={isEn}
-          onJumpToSection={(secId) => scrollToSection(secId, 16)}
-        />
+      {/* 2. STICKY NAVIGATION + 3-MINUTE HR SCAN TOGGLE */}
+      <LibraryBusNav
+        activeSection={activeSection}
+        onSelectSection={setActiveSection}
+        isExecutiveScanMode={isExecutiveScanMode}
+        onToggleExecutiveScanMode={() => setIsExecutiveScanMode((prev) => !prev)}
+        onBack={handleBack}
+      />
+
+      {/* 3. VISUAL CHARTS, FLEET SIMULATOR & 6-APP DJANGO ARCHITECTURE */}
+      <div id="visual-suite">
+        <LibraryBusVisualSuite isEn={isEn} />
       </div>
 
-      {/* Body Content Area */}
-      <main className="page-container py-16 md:py-20 space-y-20">
-        {/* Chapter 01: About Us & UX Research */}
-        <Chapter1UxResearch
-          isEn={isEn}
-          onCopyDeepLink={handleCopyDeepLink}
-        />
+      {/* 4. CHẾ ĐỘ ĐỌC LƯỚT 3 PHÚT CHO HR VS. CHẾ ĐỘ TOÀN BỘ DỰ ÁN */}
+      {isExecutiveScanMode ? (
+        <div className="space-y-8 animate-fadeIn">
+          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="text-xs sm:text-sm text-amber-200">
+              <strong className="text-amber-400">
+                ⚡ {lang === 'vi' ? 'Chế độ Đọc lướt 3 phút cho HR:' : '3-Minute HR Executive Scan:'}
+              </strong>{' '}
+              {lang === 'vi'
+                ? 'Đã thu gọn các chương Brand Identity và Wireframe chi tiết để tập trung vào Số liệu Phân tích Sản phẩm, Mô phỏng Đội xe, Kiến trúc 6 Django Apps và Tóm tắt Điều hành.'
+                : 'Condensed Brand Identity and Wireframe chapters to highlight Product Analytics Metrics, Fleet Simulator, 6-App Django Architecture, and Executive Summary.'}
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsExecutiveScanMode(false)}
+              className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 text-xs font-mono font-bold shrink-0 cursor-pointer"
+            >
+              {lang === 'vi' ? 'Mở toàn bộ các chương UX/UI →' : 'Expand All UX/UI Chapters →'}
+            </button>
+          </div>
 
-        {/* Chapter 02: Logo & UI Components */}
-        <Chapter2BrandIdentity
-          isEn={isEn}
-          onCopyDeepLink={handleCopyDeepLink}
-        />
+          <div id="executive-story">
+            <LibraryBusExecutiveStory 
+              isEn={isEn} 
+              onJumpToSection={(secId) => scrollToSection(secId, 16)} 
+            />
+          </div>
+          <div id="chapter-3-arch">
+            <Chapter3TechnicalArchitecture
+              isEn={isEn}
+              onCopyDeepLink={handleCopyDeepLink}
+              onExportChart={handleExportChart}
+              showToast={showToast}
+              liveData={busData}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-10">
+          <div id="executive-story">
+            <LibraryBusExecutiveStory 
+              isEn={isEn} 
+              onJumpToSection={(secId) => scrollToSection(secId, 16)} 
+            />
+          </div>
+          <div id="chapter-1-ux">
+            <Chapter1UxResearch
+              isEn={isEn}
+              onCopyDeepLink={handleCopyDeepLink}
+            />
+          </div>
+          <div id="chapter-2-brand">
+            <Chapter2BrandIdentity
+              isEn={isEn}
+              onCopyDeepLink={handleCopyDeepLink}
+            />
+          </div>
+          <div id="chapter-3-arch" className="space-y-8">
+            <Chapter3TechnicalArchitecture
+              isEn={isEn}
+              onCopyDeepLink={handleCopyDeepLink}
+              onExportChart={handleExportChart}
+              showToast={showToast}
+              liveData={busData}
+            />
+            <Chapter3InteractiveShowcase
+              isEn={isEn}
+              onCopyDeepLink={handleCopyDeepLink}
+            />
+            <Chapter3GridAndWireframe
+              isEn={isEn}
+              onCopyDeepLink={handleCopyDeepLink}
+            />
+          </div>
+          <div id="visual-comparison">
+            <LibraryBusVisualComparison isEn={isEn} />
+          </div>
+        </div>
+      )}
 
-        {/* Chapter 03: Grid & Wireframe */}
-        <Chapter3GridAndWireframe
-          isEn={isEn}
-          onCopyDeepLink={handleCopyDeepLink}
-        />
-
-        {/* Chapter 03: 20 UI Screens & Master Boards (Lazy Loaded) */}
-        <section id="sec-screens" className="space-y-6 scroll-mt-36">
-          <SectionHeader
-            variant="chapter"
-            id="sec-screens"
-            chapter="CHAPTER 03"
-            subtitle={isEn ? '3.2 Master 20-Screen System (Wireframe & UI Design)' : '3.2 Hệ thống 20 màn hình Wireframe & Giao diện UI hoàn chỉnh'}
-            badge="3.2"
-            title={isEn ? '20-Screen Master Boards & Side-by-Side Visual Comparison' : 'Bảng Tổng Hợp 20 Màn Hình Wireframe vs Giao Diện Thật (Chuẩn Mẫu Hồ Sơ Thiết Kế)'}
-            onCopy={handleCopyDeepLink}
-          />
-          <LibraryBusVisualComparison isEn={isEn} />
-        </section>
-
-        {/* Chapter 03: Interactive Showcase & Live Demos */}
-        <Chapter3InteractiveShowcase
-          isEn={isEn}
-          onCopyDeepLink={handleCopyDeepLink}
-        />
-
-        {/* Chapter 03: Technical Architecture & Telemetry */}
-        <Chapter3TechnicalArchitecture
-          isEn={isEn}
-          onCopyDeepLink={handleCopyDeepLink}
-          onExportChart={handleExportChart}
-          showToast={showToast}
-          liveData={libraryData}
-        />
-      </main>
-
-      {/* Unified Case Study Footer */}
+      {/* 5. UNIFIED CASE STUDY FOOTER */}
       <CaseStudyFooter
         isEn={isEn}
         currentProjectId="proj-library-bus"
         attribution={{
-          datasetVi: 'Hạ tầng kiểm thử & đo kiểm Apache Bench, Locust, Redis & MySQL InnoDB Telemetry',
-          datasetEn: 'Apache Bench, Locust, Redis & MySQL InnoDB Concurrency Telemetry',
-          scopeVi: 'Hệ thống phân tán 500 CCU, 48 trạm GPS Hà Nội và 50.000 độc giả đăng ký',
-          scopeEn: 'Distributed architecture serving 500 CCU, 48 Ha Noi GPS stops, and 50k registered readers',
+          datasetVi: 'Dữ liệu đo kiểm hiệu năng Django, Celery Beat & Redis Benchmarks (Arena Multimedia & Production Telemetry)',
+          datasetEn: 'Django, Celery Beat & Redis Latency Benchmarks (Arena Multimedia & Production Telemetry)',
+          scopeVi: '5 tuyến xe buýt, 30 điểm đỗ, 55+ templates, 20 màn hình UI/Wireframe đối chuẩn',
+          scopeEn: '5 bus routes, 30 stops, 55+ templates, 20 UI/Wireframe verified screens',
         }}
       />
     </div>
