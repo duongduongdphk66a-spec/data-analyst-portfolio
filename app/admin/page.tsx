@@ -43,9 +43,14 @@ export default function AdminPage() {
   useEffect(() => {
     let active = true;
     fetch('/api/auth/verify', { method: 'GET' })
-      .then((res) => {
+      .then(async (res) => {
         if (!active) return;
-        setIsAuthenticated(res.ok);
+        if (!res.ok) {
+          setIsAuthenticated(false);
+          return;
+        }
+        const data = await res.json().catch(() => ({}));
+        setIsAuthenticated(Boolean(data.authenticated));
       })
       .catch(() => {
         if (!active) return;

@@ -1,5 +1,6 @@
 import mysql, { Pool, PoolOptions } from 'mysql2/promise';
 import { RowDataPacket } from 'mysql2';
+import fs from 'fs';
 import { DEFAULT_PROFILE, DEFAULT_PROJECTS } from '../defaultData';
 import { translations } from '../data/translations';
 import {
@@ -18,7 +19,31 @@ let pool: Pool | null = null;
 let _isInitialized = false;
 let rateLimitTableReady = false;
 
+function getSslCaConfig(): string | undefined {
+  const rawCa = process.env.MYSQL_SSL_CA;
+  if (!rawCa) return undefined;
+  const trimmed = rawCa.trim();
+  if (trimmed.includes('-----BEGIN CERTIFICATE-----')) {
+    return trimmed;
+  }
+  try {
+    if (fs.existsSync(trimmed)) {
+      return fs.readFileSync(trimmed, 'utf8');
+    }
+  } catch {}
+  try {
+    const decoded = Buffer.from(trimmed, 'base64').toString('utf8');
+    if (decoded.includes('-----BEGIN CERTIFICATE-----')) {
+      return decoded;
+    }
+  } catch {}
+  return trimmed;
+}
+
 export function buildMysqlPoolConfig(databaseUrl?: string): PoolOptions {
+  const defaultConnectionLimit = process.env.VERCEL === '1' ? 3 : 5;
+  const sslCa = getSslCaConfig();
+
   if (databaseUrl) {
     const parsedUrl = new URL(databaseUrl);
     const sslMode = (
@@ -41,7 +66,7 @@ export function buildMysqlPoolConfig(databaseUrl?: string): PoolOptions {
     parsedUrl.searchParams.delete('sslMode');
 
     const connectionLimit = parseInt(
-      process.env.MYSQL_CONNECTION_LIMIT || process.env.DB_CONNECTION_LIMIT || '10',
+      process.env.MYSQL_CONNECTION_LIMIT || process.env.DB_CONNECTION_LIMIT || String(defaultConnectionLimit),
       10
     );
     const connectTimeout = parseInt(
@@ -61,6 +86,7 @@ export function buildMysqlPoolConfig(databaseUrl?: string): PoolOptions {
         ? {
             ssl: {
               rejectUnauthorized: process.env.MYSQL_SSL_REJECT_UNAUTHORIZED !== 'false',
+              ...(sslCa ? { ca: sslCa } : {}),
             },
           }
         : {}),
@@ -71,7 +97,7 @@ export function buildMysqlPoolConfig(databaseUrl?: string): PoolOptions {
     process.env.MYSQL_SSL === 'true' || process.env.MYSQL_SSL_MODE?.toUpperCase() === 'REQUIRED';
 
   const connectionLimit = parseInt(
-    process.env.MYSQL_CONNECTION_LIMIT || process.env.DB_CONNECTION_LIMIT || '10',
+    process.env.MYSQL_CONNECTION_LIMIT || process.env.DB_CONNECTION_LIMIT || String(defaultConnectionLimit),
     10
   );
   const connectTimeout = parseInt(
@@ -95,6 +121,7 @@ export function buildMysqlPoolConfig(databaseUrl?: string): PoolOptions {
       ? {
           ssl: {
             rejectUnauthorized: process.env.MYSQL_SSL_REJECT_UNAUTHORIZED !== 'false',
+            ...(sslCa ? { ca: sslCa } : {}),
           },
         }
       : {}),

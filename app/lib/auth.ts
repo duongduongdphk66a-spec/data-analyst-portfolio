@@ -10,22 +10,36 @@ function isValidIp(ip: string | null | undefined): boolean {
 }
 
 /**
- * Trích xuất Client IP an toàn trên Vercel / Nginx / Reverse Proxy.
- * Hỗ trợ x-vercel-forwarded-for, cf-connecting-ip, x-real-ip, x-forwarded-for.
- * Khi chạy cục bộ, phân tách theo fingerprint User-Agent để tránh khóa chung 1 bucket.
+ * Trích xuất Client IP an toàn theo cấu hình Reverse Proxy tường minh.
+ * Không tự động dò header ngoại lai để chống giả mạo IP (IP Spoofing / Proxy Header Poisoning).
+ *
+ * Cấu hình TRUST_PROXY:
+ * - 'false' / rỗng: Chạy trực tiếp hoặc không có proxy tin cậy. Bỏ qua toàn bộ header proxy,
+ *   giới hạn chung theo địa chỉ socket hoặc IP toàn cục '127.0.0.1'. Không phân tách theo User-Agent.
+ * - 'vercel' (hoặc môi trường VERCEL=1): Chỉ tin x-vercel-forwarded-for do Vercel Edge kiểm soát.
+ * - 'cloudflare': Chỉ tin cf-connecting-ip do Cloudflare kiểm soát.
+ * - 'nginx': Chỉ tin x-real-ip do Nginx gán từ $remote_addr.
+ * - 'true': Chế độ proxy thông thường, chỉ tin x-real-ip rồi đến x-forwarded-for (bỏ qua cf-connecting-ip & x-vercel-forwarded-for).
  */
 export function getClientIp(request: NextRequest | Request): string {
   const headers = request.headers;
-  const isExplicitlyNoProxy = process.env.TRUST_PROXY === 'false';
-  const trustProxy =
-    !isExplicitlyNoProxy && (
-      process.env.TRUST_PROXY === 'true' ||
-      process.env.VERCEL === '1' ||
-      Boolean(headers.get('x-vercel-forwarded-for')) ||
-      Boolean(headers.get('cf-connecting-ip'))
-    );
+  const rawTrustProxy = (process.env.TRUST_PROXY || '').trim().toLowerCase();
+  const isVercelEnv = process.env.VERCEL === '1';
 
-  if (trustProxy) {
+  // Xác định loại proxy được tin cậy
+  const proxyMode = rawTrustProxy || (isVercelEnv ? 'vercel' : 'false');
+
+  if (proxyMode === 'false' || !proxyMode) {
+    // Không tin bất kỳ proxy header nào.
+    // Dùng socket IP nếu có từ runtime Next.js, hoặc rơi về '127.0.0.1' (bộ đếm toàn cục)
+    const reqIp = (request as unknown as { ip?: string }).ip;
+    if (reqIp && typeof reqIp === 'string' && isValidIp(reqIp)) {
+      return reqIp.trim();
+    }
+    return '127.0.0.1';
+  }
+
+  if (proxyMode === 'vercel') {
     const vercelIp = headers.get('x-vercel-forwarded-for');
     if (vercelIp) {
       const parts = vercelIp.split(',');
@@ -34,10 +48,24 @@ export function getClientIp(request: NextRequest | Request): string {
         if (isValidIp(candidate)) return candidate;
       }
     }
+    return '127.0.0.1';
+  }
 
+  if (proxyMode === 'cloudflare') {
     const cfIp = headers.get('cf-connecting-ip');
     if (cfIp && isValidIp(cfIp)) return cfIp.trim();
+    return '127.0.0.1';
+  }
 
+  if (proxyMode === 'nginx') {
+    const realIp = headers.get('x-real-ip');
+    if (realIp && isValidIp(realIp)) return realIp.trim();
+    return '127.0.0.1';
+  }
+
+  if (proxyMode === 'true') {
+    // Proxy thông thường: Chỉ tin x-real-ip hoặc x-forwarded-for
+    // Tuyệt đối không kiểm tra cf-connecting-ip hay x-vercel-forwarded-for để tránh kẻ tấn công tiêm header giả mạo qua proxy Nginx
     const realIp = headers.get('x-real-ip');
     if (realIp && isValidIp(realIp)) return realIp.trim();
 
@@ -49,14 +77,6 @@ export function getClientIp(request: NextRequest | Request): string {
         if (isValidIp(candidate)) return candidate;
       }
     }
-  }
-
-  // Khi chạy cục bộ không có Proxy: phân tách theo fingerprint nhẹ của User-Agent
-  // để tránh 1 kẻ tấn công khóa toàn bộ người dùng khác vào chung bucket 'unknown'
-  const ua = headers.get('user-agent');
-  if (ua) {
-    const uaHash = crypto.createHash('sha256').update(ua).digest('hex').slice(0, 10);
-    return `local-${uaHash}`;
   }
 
   const reqIp = (request as unknown as { ip?: string }).ip;
@@ -75,6 +95,7 @@ export function getClientIp(request: NextRequest | Request): string {
 // Tạo secret ngẫu nhiên lúc khởi động cho môi trường dev nếu không có biến môi trường
 const FALLBACK_RANDOM_SECRET = crypto.randomBytes(32).toString('hex');
 const MIN_PROD_PASSWORD_LENGTH = 16; // Khớp 100% với tài liệu README.md
+const MIN_PROD_VERIFY_CODE_LENGTH = 8; // Khớp 100% với tài liệu README.md (>= 8 ký tự)
 
 export function getSessionSigningSecret(): string {
   if (process.env.SESSION_SECRET && process.env.SESSION_SECRET.length >= 16) {
@@ -92,7 +113,7 @@ export function isProductionAuthConfigured(): boolean {
   const isProd = process.env.NODE_ENV === 'production';
 
   if (isProd) {
-    return pwd.length >= MIN_PROD_PASSWORD_LENGTH && verifyCode.length >= 4;
+    return pwd.length >= MIN_PROD_PASSWORD_LENGTH && verifyCode.length >= MIN_PROD_VERIFY_CODE_LENGTH;
   }
   return pwd.length >= 6;
 }
@@ -113,12 +134,13 @@ function getAdminPassword(): string {
 
 function getAdminVerifyCode(): string {
   const envCode = process.env.ADMIN_VERIFY_CODE;
-  if (envCode && envCode.trim().length >= 6) {
+  const minLength = process.env.NODE_ENV === 'production' ? MIN_PROD_VERIFY_CODE_LENGTH : 6;
+  if (envCode && envCode.trim().length >= minLength) {
     return envCode.trim();
   }
   if (process.env.NODE_ENV === 'production') {
     throw new Error(
-      '[CRITICAL SECURITY ERROR] ADMIN_VERIFY_CODE must be configured in environment in production mode.'
+      `[CRITICAL SECURITY ERROR] ADMIN_VERIFY_CODE must be configured in environment in production mode (>= ${MIN_PROD_VERIFY_CODE_LENGTH} characters).`
     );
   }
   return envCode?.trim() || FALLBACK_RANDOM_SECRET;

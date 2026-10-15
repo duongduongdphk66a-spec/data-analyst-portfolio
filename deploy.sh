@@ -15,7 +15,7 @@ echo "📦 [3/5] Đồng bộ public/, static/ và data/kami/ vào .next/standal
 cp -r public .next/standalone/public
 cp -r .next/static .next/standalone/.next/static
 mkdir -p .next/standalone/data
-cp -r data/kami .next/standalone/data/kami
+[ -d data/kami ] && cp -r data/kami .next/standalone/data/kami || true
 
 echo "🔄 [4/5] Khởi động lại PM2 với --env-file=.env..."
 pm2 startOrReload ecosystem.config.js --update-env

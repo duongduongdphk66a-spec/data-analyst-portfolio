@@ -229,9 +229,9 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer Controls */}
-      <div className="p-2.5 lg:p-4 pt-3 space-y-3 relative z-10 border-t border-slate-200/80 dark:border-slate-800 bg-slate-100/60 dark:bg-slate-900/60 backdrop-blur-xs">
+      <div className="p-2 lg:p-4 pt-3 space-y-3 relative z-10 border-t border-slate-200/80 dark:border-slate-800 bg-slate-100/60 dark:bg-slate-900/60 backdrop-blur-xs">
         {/* Social Links & Controls Row */}
-        <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-2 lg:gap-0">
+        <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-2.5 lg:gap-0">
           {/* Social Links */}
           <div className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
             {profile.linkedin && profile.linkedin !== '#' && (
@@ -261,7 +261,7 @@ export default function Sidebar() {
           </div>
 
           {/* Language & Theme Controls Bar */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-1.5">
             <LanguageToggle size="sm" />
             
             <button

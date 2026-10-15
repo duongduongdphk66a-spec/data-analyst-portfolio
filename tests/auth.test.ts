@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { NextRequest } from 'next/server';
 import { 
   generateAdminToken, 
@@ -21,8 +21,8 @@ describe('Admin Authentication & Rate Limiting Module', () => {
     await resetLoginAttemptsAsync(testIp);
   });
 
-  describe('getClientIp', () => {
-    it('should ignore spoofed headers when TRUST_PROXY is false (default)', () => {
+  describe('getClientIp & Anti-Spoofing', () => {
+    it('should ignore all spoofed headers when TRUST_PROXY is false (default)', () => {
       const prev = process.env.TRUST_PROXY;
       process.env.TRUST_PROXY = 'false';
 
@@ -31,6 +31,7 @@ describe('Admin Authentication & Rate Limiting Module', () => {
           'cf-connecting-ip': '203.0.113.195',
           'x-real-ip': '10.0.0.1',
           'x-forwarded-for': '1.2.3.4, 5.6.7.8',
+          'x-vercel-forwarded-for': '198.51.100.22',
         },
       });
 
@@ -38,45 +39,98 @@ describe('Admin Authentication & Rate Limiting Module', () => {
       process.env.TRUST_PROXY = prev;
     });
 
-    it('should prioritize cf-connecting-ip when TRUST_PROXY is true', () => {
+    it('should not split rate-limit buckets by rotating User-Agent when TRUST_PROXY is false', () => {
       const prev = process.env.TRUST_PROXY;
-      process.env.TRUST_PROXY = 'true';
+      process.env.TRUST_PROXY = 'false';
+
+      const req1 = new NextRequest('http://localhost:3000/api/auth/login', {
+        headers: { 'user-agent': 'AttackerBot/1.0', 'cf-connecting-ip': '1.1.1.1' },
+      });
+      const req2 = new NextRequest('http://localhost:3000/api/auth/login', {
+        headers: { 'user-agent': 'AttackerBot/2.0-Rotated', 'cf-connecting-ip': '2.2.2.2' },
+      });
+
+      // Cả hai request dù đổi User-Agent và IP giả đều phải gom về chung 127.0.0.1 để chống bypass rate limit
+      expect(getClientIp(req1)).toBe('127.0.0.1');
+      expect(getClientIp(req2)).toBe('127.0.0.1');
+      process.env.TRUST_PROXY = prev;
+    });
+
+    it('should trust ONLY x-real-ip when TRUST_PROXY is nginx and ignore fake cf/vercel headers', () => {
+      const prev = process.env.TRUST_PROXY;
+      process.env.TRUST_PROXY = 'nginx';
+
+      const req = new NextRequest('http://localhost:3000/api/auth/login', {
+        headers: {
+          'cf-connecting-ip': '203.0.113.195', // Attacker spoofing CF header
+          'x-vercel-forwarded-for': '198.51.100.99', // Attacker spoofing Vercel header
+          'x-real-ip': '198.51.100.50', // Genuine Nginx remote_addr
+        },
+      });
+
+      expect(getClientIp(req)).toBe('198.51.100.50');
+      process.env.TRUST_PROXY = prev;
+    });
+
+    it('should trust ONLY cf-connecting-ip when TRUST_PROXY is cloudflare', () => {
+      const prev = process.env.TRUST_PROXY;
+      process.env.TRUST_PROXY = 'cloudflare';
 
       const req = new NextRequest('http://localhost:3000/api/auth/login', {
         headers: {
           'cf-connecting-ip': '203.0.113.195',
           'x-real-ip': '10.0.0.1',
-          'x-forwarded-for': '1.2.3.4, 5.6.7.8',
+          'x-forwarded-for': '1.2.3.4',
         },
       });
+
       expect(getClientIp(req)).toBe('203.0.113.195');
       process.env.TRUST_PROXY = prev;
     });
 
-    it('should use x-real-ip if cf-connecting-ip is missing and TRUST_PROXY is true', () => {
-      const prev = process.env.TRUST_PROXY;
-      process.env.TRUST_PROXY = 'true';
+    it('should trust ONLY x-vercel-forwarded-for when TRUST_PROXY is vercel or VERCEL=1', () => {
+      const prevTrust = process.env.TRUST_PROXY;
+      const prevVercel = process.env.VERCEL;
+      process.env.TRUST_PROXY = 'vercel';
 
       const req = new NextRequest('http://localhost:3000/api/auth/login', {
         headers: {
-          'x-real-ip': '198.51.100.50',
-          'x-forwarded-for': '1.2.3.4',
+          'cf-connecting-ip': '203.0.113.195',
+          'x-vercel-forwarded-for': '198.51.100.33, 10.0.0.1',
         },
       });
-      expect(getClientIp(req)).toBe('198.51.100.50');
-      process.env.TRUST_PROXY = prev;
+
+      expect(getClientIp(req)).toBe('198.51.100.33');
+
+      // Test automatic detection when VERCEL=1 and TRUST_PROXY not set
+      delete process.env.TRUST_PROXY;
+      process.env.VERCEL = '1';
+      expect(getClientIp(req)).toBe('198.51.100.33');
+
+      process.env.TRUST_PROXY = prevTrust;
+      process.env.VERCEL = prevVercel;
     });
 
-    it('should extract leftmost valid IP from x-forwarded-for when trust proxy is enabled', () => {
-      const prevEnv = process.env.TRUST_PROXY;
+    it('should use x-real-ip or x-forwarded-for when TRUST_PROXY is true (generic proxy)', () => {
+      const prev = process.env.TRUST_PROXY;
       process.env.TRUST_PROXY = 'true';
-      const req = new NextRequest('http://localhost:3000/api/auth/login', {
+
+      const reqRealIp = new NextRequest('http://localhost:3000/api/auth/login', {
+        headers: {
+          'cf-connecting-ip': '203.0.113.195', // Attacker header should be ignored in generic mode
+          'x-real-ip': '198.51.100.50',
+        },
+      });
+      expect(getClientIp(reqRealIp)).toBe('198.51.100.50');
+
+      const reqForwarded = new NextRequest('http://localhost:3000/api/auth/login', {
         headers: {
           'x-forwarded-for': '203.0.113.10, 10.0.0.2',
         },
       });
-      expect(getClientIp(req)).toBe('203.0.113.10');
-      process.env.TRUST_PROXY = prevEnv;
+      expect(getClientIp(reqForwarded)).toBe('203.0.113.10');
+
+      process.env.TRUST_PROXY = prev;
     });
 
     it('should ignore malformed/poisoned IPs in x-forwarded-for and find first valid IP', () => {
@@ -96,7 +150,6 @@ describe('Admin Authentication & Rate Limiting Module', () => {
       process.env.TRUST_PROXY = 'true';
       const req = new NextRequest('http://localhost:3000/api/auth/login', {
         headers: {
-          'cf-connecting-ip': 'invalid-cf-ip',
           'x-real-ip': 'not-an-ip',
           'x-forwarded-for': 'malicious-string, also-invalid',
         },
@@ -205,6 +258,37 @@ describe('Admin Authentication & Rate Limiting Module', () => {
       const asyncCheck2 = await checkLoginRateLimitAsync(testIp);
       expect(asyncCheck2.allowed).toBe(true);
       expect(asyncCheck2.remainingAttempts).toBe(10);
+    });
+  });
+
+  describe('isProductionAuthConfigured', () => {
+    const origNodeEnv = process.env.NODE_ENV;
+    const origPwd = process.env.ADMIN_PASSWORD;
+    const origCode = process.env.ADMIN_VERIFY_CODE;
+
+    afterEach(() => {
+      (process.env as Record<string, string | undefined>).NODE_ENV = origNodeEnv;
+      process.env.ADMIN_PASSWORD = origPwd;
+      process.env.ADMIN_VERIFY_CODE = origCode;
+    });
+
+    it('should require ADMIN_PASSWORD >= 16 and ADMIN_VERIFY_CODE >= 8 in production', async () => {
+      const { isProductionAuthConfigured } = await import('@/app/lib/auth');
+      (process.env as Record<string, string | undefined>).NODE_ENV = 'production';
+
+      // Password short, verify code short
+      process.env.ADMIN_PASSWORD = 'short';
+      process.env.ADMIN_VERIFY_CODE = '1234';
+      expect(isProductionAuthConfigured()).toBe(false);
+
+      // Password 16+ but verify code < 8
+      process.env.ADMIN_PASSWORD = 'super_secret_password_16_chars';
+      process.env.ADMIN_VERIFY_CODE = '1234567'; // 7 chars (< 8)
+      expect(isProductionAuthConfigured()).toBe(false);
+
+      // Both valid
+      process.env.ADMIN_VERIFY_CODE = '12345678'; // 8 chars (>= 8)
+      expect(isProductionAuthConfigured()).toBe(true);
     });
   });
 });

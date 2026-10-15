@@ -22,14 +22,15 @@ export default async function HomePage() {
   const { profile, projects } = await getServerPortfolioData();
 
   return (
-    <div className="space-y-20 md:space-y-28 pb-24">
+    <div className="pb-24">
       {/* 1. Hero Section */}
       <HeroSection 
         profile={profile} 
       />
 
-      {/* 2. Featured Projects (Selected Work Stream) */}
-      <section className="page-container space-y-8">
+      <div className="space-y-16 md:space-y-24 mt-6 sm:mt-10">
+        {/* 2. Featured Projects (Selected Work Stream) */}
+        <section className="page-container space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-800">
           <div className="space-y-1">
             <span className="editorial-kicker">SELECTED CASE STUDIES</span>
@@ -116,6 +117,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 }

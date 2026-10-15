@@ -122,6 +122,30 @@ export default function DatabaseTab({
     }
   };
 
+  const [isInitializing, setIsInitializing] = useState(false);
+
+  const handleInitDb = async () => {
+    setIsInitializing(true);
+    try {
+      const res = await fetch('/api/db', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'init' }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast(data.message || 'Khởi tạo bảng & nạp dữ liệu mẫu thành công!', 'success');
+        await refreshData();
+      } else {
+        showToast(data.message || 'Không thể khởi tạo cơ sở dữ liệu.', 'error');
+      }
+    } catch {
+      showToast('Lỗi mạng khi kết nối tới máy chủ.', 'error');
+    } finally {
+      setIsInitializing(false);
+    }
+  };
+
   const handleExecuteReset = async () => {
     if (resetConfirmInput !== 'CONFIRM_RESET_DATABASE') {
       showToast('Mã xác nhận không chính xác.', 'error');
@@ -237,6 +261,15 @@ export default function DatabaseTab({
           >
             {isCopiedSql ? <CheckCheck className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
             <span>Sao Chép Script Tạo Bảng MySQL</span>
+          </button>
+
+          <button
+            onClick={handleInitDb}
+            disabled={isInitializing}
+            className="flex items-center gap-1.5 px-4 py-2 bg-[#0D7287] hover:bg-[#095262] dark:bg-[#9BE7FA]/20 dark:hover:bg-[#9BE7FA]/30 text-white dark:text-[#9BE7FA] font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer disabled:opacity-50 border border-transparent dark:border-[#9BE7FA]/40"
+          >
+            <RefreshCw className={`w-4 h-4 ${isInitializing ? 'animate-spin' : ''}`} />
+            <span>Khởi Tạo Bảng & Nạp Mẫu</span>
           </button>
 
           <button

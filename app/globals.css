@@ -871,4 +871,37 @@ nav a {
   background-color: rgba(15, 23, 42, 0.9) !important;
 }
 
+/* Tăng độ sắc nét và tương phản cho các badge màu pastel trên nền sáng */
+:root:not(.dark) .bg-sky-500\/10,
+:root:not(.dark) .bg-sky-500\/15,
+:root:not(.dark) .bg-sky-50 {
+  background-color: rgba(14, 165, 233, 0.14) !important;
+  color: #0369a1 !important;
+  border-color: rgba(14, 165, 233, 0.3) !important;
+}
+
+:root:not(.dark) .bg-emerald-500\/10,
+:root:not(.dark) .bg-emerald-500\/15,
+:root:not(.dark) .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.14) !important;
+  color: #047857 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+:root:not(.dark) .bg-amber-500\/10,
+:root:not(.dark) .bg-amber-500\/15,
+:root:not(.dark) .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.14) !important;
+  color: #b45309 !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+:root:not(.dark) .bg-pink-500\/10,
+:root:not(.dark) .bg-pink-500\/15,
+:root:not(.dark) .bg-pink-50 {
+  background-color: rgba(236, 72, 153, 0.14) !important;
+  color: #be185d !important;
+  border-color: rgba(236, 72, 153, 0.3) !important;
+}
+
 

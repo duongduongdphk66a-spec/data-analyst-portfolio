@@ -21,7 +21,16 @@ function handleVerify(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  return handleVerify(req);
+  const auth = verifyAdminRequest(req);
+  return NextResponse.json(
+    {
+      authenticated: Boolean(auth.authenticated),
+      message: auth.authenticated
+        ? 'Phiên quản trị đang hoạt động hợp lệ.'
+        : (auth.error || 'Chưa được xác thực.'),
+    },
+    { status: 200 }
+  );
 }
 
 export async function POST(req: NextRequest) {

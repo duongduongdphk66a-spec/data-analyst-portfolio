@@ -85,14 +85,16 @@ Phương án tối ưu nhất cho portfolio cá nhân: zero-config, tự động
 3. Cấu hình các biến môi trường trong Vercel Project Settings:
    - `DATABASE_URL`: URI kết nối MySQL từ nhà cung cấp cloud (ví dụ: `mysql://user:pass@host:port/db?ssl-mode=REQUIRED`)
    - `ADMIN_PASSWORD`: Mật khẩu quản trị an toàn (≥ 16 ký tự ngẫu nhiên)
-   - `ADMIN_VERIFY_CODE`: Mã xác thực bảo mật 2 lớp khi đăng nhập Admin (≥ 8 ký tự)
+   - `ADMIN_VERIFY_CODE`: Mã xác thực bảo mật 2 lớp khi đăng nhập Admin (bắt buộc ≥ 8 ký tự trên Production)
    - `NEXT_PUBLIC_SITE_URL`: Domain thực tế chính thức (ví dụ: `https://mavanhung.dev` hoặc URL Vercel)
-   - `TRUST_PROXY`: Đặt `true` trên Vercel để nhận diện đúng IP Client qua header `x-forwarded-for`
+   - `TRUST_PROXY`: Cấu hình nguồn proxy tin cậy (`vercel`, `cloudflare`, `nginx`, `true`, hoặc `false` khi chạy trực tiếp). Trên Vercel, hệ thống tự động nhận diện `VERCEL=1`.
+   - `MYSQL_SSL_CA` *(Tùy chọn)*: Đường dẫn tệp CA `.pem`, chuỗi nội dung PEM hoặc Base64 PEM cho Cloud DB có CA riêng.
+   - `MYSQL_CONNECTION_LIMIT` *(Tùy chọn)*: Số kết nối tối đa trong pool (mặc định 5, trên Vercel tự tối ưu 3).
 4. Bấm **Deploy**.
 5. **Khởi tạo và nạp dữ liệu ban đầu**:
    - Truy cập `/api/db` để kiểm tra kết nối CSDL (endpoint trả về `{ appHealthy: true, database: true }` ở chế độ read-only).
    - Nhấn `Ctrl + E` trên website để đăng nhập Admin CMS.
-   - Chuyển sang tab **Cơ sở dữ liệu** và bấm nút **Khởi tạo bảng & Nạp mẫu** (hệ thống sẽ tự động tạo toàn bộ cấu trúc bảng và seed dữ liệu chuẩn).
+   - Chuyển sang tab **Cơ sở dữ liệu (DatabaseTab)** và bấm nút **Khởi Tạo Bảng & Nạp Mẫu** (hệ thống sẽ tạo bảng thiếu và nạp dữ liệu mẫu ban đầu mà không xóa bảng hiện có) hoặc **Khôi Phục Dữ Liệu Gốc (Reset DB)** nếu cần làm sạch.
    - *Cách khác qua CLI*: Chạy `node scripts/seed_all_mysql_data.js` hoặc import file `database/schema.sql`.
 
 ---
@@ -104,7 +106,7 @@ Phương án cho người muốn làm chủ hoàn toàn hạ tầng, chạy đa 
    git clone https://github.com/duongduongdphk66a-spec/data-analyst-portfolio.git
    cd data-analyst-portfolio
    cp .env.example .env
-   nano .env # Điền ADMIN_PASSWORD, ADMIN_VERIFY_CODE, MYSQL_*, NEXT_PUBLIC_SITE_URL
+   nano .env # Điền ADMIN_PASSWORD (>=16), ADMIN_VERIFY_CODE (>=8), TRUST_PROXY="nginx", MYSQL_*, NEXT_PUBLIC_SITE_URL
    ```
 2. Phân quyền và chạy script triển khai tự động `deploy.sh`:
    ```bash
@@ -112,18 +114,18 @@ Phương án cho người muốn làm chủ hoàn toàn hạ tầng, chạy đa 
    ./deploy.sh
    ```
    > **Lưu ý kỹ thuật**: `deploy.sh` đã được cấu hình tự động sao chép `public/` và `.next/static/` vào `.next/standalone/`, giải quyết triệt để lỗi 404 static assets của chế độ Next.js standalone.
-3. Cấu hình Nginx reverse proxy trỏ về `http://127.0.0.1:3000` kèm SSL Certbot.
+3. Cấu hình Nginx reverse proxy trỏ về `http://127.0.0.1:3000` (truyền header `proxy_set_header X-Real-IP $remote_addr;`) kèm SSL Certbot.
 
 ---
 
 ### Phương án 3: Docker & Docker Compose (Container hóa)
 Triển khai cô lập kèm container MySQL 8.0:
 ```bash
-# Khởi chạy cả Web App và MySQL database
+# Khởi chạy cả Web App và MySQL database (tự động truyền NEXT_PUBLIC_SITE_URL vào build args)
 docker compose up -d --build
 
 # Xem nhật ký hoạt động
-docker compose logs -f web
+docker compose logs -f app
 ```
 
 ---
@@ -133,30 +135,30 @@ docker compose logs -f web
 Trước khi công bố portfolio ra môi trường production thực tế:
 
 - [x] **1. Cấu hình biến môi trường production**:
-  - `ADMIN_PASSWORD`: Mật khẩu quản trị độ dài cao, tránh brute-force.
-  - `ADMIN_VERIFY_CODE`: Mã bảo vệ 2 lớp cố định cho CMS.
-  - `DATABASE_URL` hoặc bộ thông số `MYSQL_*`: Kết nối an toàn đến database production.
+  - `ADMIN_PASSWORD`: Mật khẩu quản trị độ dài cao (bắt buộc ≥ 16 ký tự trên Production).
+  - `ADMIN_VERIFY_CODE`: Mã bảo vệ 2 lớp cố định cho CMS (bắt buộc ≥ 8 ký tự trên Production).
+  - `DATABASE_URL` hoặc bộ thông số `MYSQL_*`: Kết nối an toàn đến database production, hỗ trợ SSL CA qua `MYSQL_SSL_CA`.
   - `NEXT_PUBLIC_SITE_URL`: Domain chính thức phục vụ SEO sitemap, canonical links và OpenGraph metadata.
-  - `TRUST_PROXY`: `true` khi đứng sau Reverse Proxy (Cloudflare, Nginx, Vercel), `false` khi chạy trực tiếp.
+  - `TRUST_PROXY`: Tường minh theo hạ tầng (`nginx`, `cloudflare`, `vercel`, `true`, hoặc `false` chống giả mạo IP khi chạy trực tiếp).
 
 - [x] **2. Chuẩn hóa database initialization & migration**:
   - `GET /api/db`: Kiểm tra sức khỏe kết nối (read-only, an toàn).
-  - Khởi tạo bảng & seed dữ liệu qua: Admin CMS (`DatabaseTab` -> "Khởi tạo bảng & Nạp mẫu") hoặc script `node scripts/seed_all_mysql_data.js` hoặc file `database/schema.sql`.
+  - Khởi tạo bảng & seed dữ liệu qua: Admin CMS (`DatabaseTab` -> "Khởi Tạo Bảng & Nạp Mẫu") hoặc script `node scripts/seed_all_mysql_data.js` hoặc file `database/schema.sql`.
 
 - [x] **3. Kiểm tra bảo mật**:
   - Firewall MySQL: Chỉ lắng nghe `127.0.0.1` hoặc mạng nội bộ Docker, chặn truy cập cổng `3306` từ Internet.
   - Phân quyền MySQL: Sử dụng user riêng biệt chỉ có quyền trên database chỉ định.
   - Cookie: `admin_token` với cờ `HttpOnly`, `Secure` (môi trường production), `SameSite=lax`.
-  - Rate Limiting: Tự động khóa IP sau 10 lần nhập sai trong 15 phút, đồng bộ đa luồng qua MySQL cluster.
-  - Content Security Policy (CSP): Cấu hình nonce và strict policy trong `middleware.ts`.
+  - Rate Limiting: Chống giả mạo IP (IP Spoofing / Header Poisoning), tự động khóa IP sau 10 lần nhập sai trong 15 phút, đồng bộ qua MySQL cluster.
+  - Content Security Policy (CSP): Cấu hình Nonce động per-request và `strict-dynamic` trong `middleware.ts`, ngoại lệ an toàn cho các sơ đồ HTML tĩnh trong `/library-bus/`.
 
 - [x] **4. Chạy lint, test và build**:
   - `npm run lint`: Hoàn tất không có cảnh báo hoặc lỗi.
-  - `npm run test`: 100% test suites (67/67 tests) vượt qua thành công.
-  - `npm run build`: Hoàn thành biên dịch và prerender 30/30 static pages.
+  - `npm run test`: 100% test suites (68/68 tests) vượt qua thành công.
+  - `npm run build`: Hoàn thành biên dịch production Next.js.
 
 - [x] **5. Kiểm thử end-to-end**:
-  - Đăng nhập Admin (`Ctrl + E`), sửa dữ liệu CMS, xóa cache API.
+  - Đăng nhập Admin (`Ctrl + E`), sửa dữ liệu CMS, kiểm tra phiên mượt mà không log 401 giả vào console.
   - Tải CV bản in PDF qua nút tải chuyên dụng.
   - Xem và tương tác 3 case study: Kami Ely, Library Bus và Di sản Kyoto.
 

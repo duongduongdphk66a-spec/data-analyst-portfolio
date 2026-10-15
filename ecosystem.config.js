@@ -11,7 +11,7 @@ module.exports = {
         NODE_ENV: 'production',
         PORT: 3000,
         HOSTNAME: '0.0.0.0',
-        TRUST_PROXY: 'true'
+        TRUST_PROXY: process.env.TRUST_PROXY || 'false'
       },
       max_memory_restart: '512M',
       exp_backoff_restart_delay: 100,
