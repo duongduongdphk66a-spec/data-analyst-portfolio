@@ -129,7 +129,7 @@ export default function ScienceCorrelationSection({
         </div>
 
         <div className="flex flex-wrap items-center gap-3 rounded-xl border border-[#9BE7FA] bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 p-4 text-xs text-slate-800 dark:text-slate-200">
-          <span className="inline-block px-2 py-0.5 rounded bg-[#9BE7FA] text-slate-950 font-bold mr-2 text-[10px] uppercase">
+          <span className="inline-block px-2 py-0.5 rounded bg-[#9BE7FA] text-slate-950 font-bold mr-2 text-xs uppercase">
             Dẫn chứng Thực tế
           </span>
           <span>Ngày 09/04 shop đẩy mạnh lên tới 106 phiên LIVE toàn sàn nhưng GMV không tăng tỷ lệ thuận. Việc duy trì các ca LIVE kéo dài trên 4-6 tiếng chỉ làm tăng chi phí studio, mệt mỏi nhân sự mà không tạo thêm đơn hàng mới.</span>

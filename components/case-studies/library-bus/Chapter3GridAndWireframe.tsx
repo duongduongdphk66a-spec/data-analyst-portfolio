@@ -72,15 +72,15 @@ export function Chapter3GridAndWireframe({
               {Array.from({ length: 12 }).map((_, i) => (
                 <div 
                   key={i} 
-                  className="bg-[#9BE7FA]/40 border border-[#0D7287]/30 rounded-lg flex flex-col justify-between items-center py-2 text-[10px] font-mono text-[#0D7287] dark:text-[#9BE7FA]"
+                  className="bg-[#9BE7FA]/40 border border-[#0D7287]/30 rounded-lg flex flex-col justify-between items-center py-2 text-xs font-mono text-[#0D7287] dark:text-[#9BE7FA]"
                 >
                   <span>Col</span>
                   <span className="font-bold">{i+1}</span>
-                  <span className="text-[10px] opacity-70">78px</span>
+                  <span className="text-xs opacity-70">78px</span>
                 </div>
               ))}
             </div>
-            <div className="flex justify-between text-[10px] font-mono text-slate-500 mt-3 pt-2 border-t border-slate-200 dark:border-slate-800">
+            <div className="flex justify-between text-xs font-mono text-slate-500 mt-3 pt-2 border-t border-slate-200 dark:border-slate-800">
               <span>Margin: 360px</span>
               <span>Gutter: 24px</span>
               <span>Container Max-Width: 1280px</span>

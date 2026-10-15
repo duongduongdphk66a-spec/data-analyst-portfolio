@@ -68,11 +68,11 @@ export default function CreatorProfileSection({
         <div className="grid grid-cols-2 gap-3 w-full md:w-auto shrink-0">
           <div className="p-3 rounded-2xl bg-[#FFFDF5] border border-[#FFE485] text-center dark:bg-slate-800 dark:border-slate-700">
             <div className="text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">#{activeProfile.nationalRank}</div>
-            <div className="text-[10px] text-slate-500">Hạng Quốc Gia</div>
+            <div className="text-xs text-slate-500">Hạng Quốc Gia</div>
           </div>
           <div className="p-3 rounded-2xl bg-[#FFFDF5] border border-[#FFD14C] text-center dark:bg-slate-800 dark:border-slate-700">
             <div className="text-lg font-black text-slate-950 dark:text-[#FFD14C]">{activeProfile.ecomPotentialIndex}</div>
-            <div className="text-[10px] text-slate-500">Tiềm Năng E-Com</div>
+            <div className="text-xs text-slate-500">Tiềm Năng E-Com</div>
           </div>
         </div>
       </div>

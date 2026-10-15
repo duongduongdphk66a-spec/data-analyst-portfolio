@@ -197,7 +197,7 @@ export default function DatabaseTab({
             <span className="text-xl font-extrabold text-slate-900 dark:text-white font-mono">
               {dbStatus.stats?.profileRows ?? (dbStatus.connected ? 1 : 0)} bản ghi
             </span>
-            <span className="text-[10px] text-slate-400 block mt-1">`portfolio_profile`</span>
+            <span className="text-xs text-slate-400 block mt-1">`portfolio_profile`</span>
           </div>
 
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60">
@@ -207,7 +207,7 @@ export default function DatabaseTab({
             <span className="text-xl font-extrabold text-[#0D7287] dark:text-[#9BE7FA] font-mono">
               {dbStatus.stats?.textRows ?? (dbStatus.connected ? Object.keys(translations.vi).length * 2 : 0)} bản ghi
             </span>
-            <span className="text-[10px] text-slate-400 block mt-1">`portfolio_texts`</span>
+            <span className="text-xs text-slate-400 block mt-1">`portfolio_texts`</span>
           </div>
 
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60">
@@ -217,7 +217,7 @@ export default function DatabaseTab({
             <span className="text-xl font-extrabold text-slate-900 dark:text-white font-mono">
               {dbStatus.stats?.projectRows ?? projectsCount} dự án
             </span>
-            <span className="text-[10px] text-slate-400 block mt-1">`portfolio_projects`</span>
+            <span className="text-xs text-slate-400 block mt-1">`portfolio_projects`</span>
           </div>
 
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60">
@@ -227,7 +227,7 @@ export default function DatabaseTab({
             <span className="text-xl font-extrabold text-amber-500 dark:text-[#FFD14C] font-mono">
               {dbStatus.stats?.tiktokRows ?? (dbStatus.connected ? 70 : 0)} bản ghi
             </span>
-            <span className="text-[10px] text-slate-400 block mt-1">`tiktok_shop_*`</span>
+            <span className="text-xs text-slate-400 block mt-1">`tiktok_shop_*`</span>
           </div>
         </div>
       </div>

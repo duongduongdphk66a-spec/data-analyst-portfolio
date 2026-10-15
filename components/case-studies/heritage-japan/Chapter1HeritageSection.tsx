@@ -113,14 +113,14 @@ export function Chapter1HeritageSection({
                     className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-[#9BE7FA] transition-all text-xs dark:bg-slate-800/70 dark:border-slate-700/80"
                   >
                     <div className="flex items-center justify-between gap-1 mb-1">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-extrabold ${
+                      <span className={`px-2 py-0.5 rounded text-xs font-extrabold ${
                         site.type === 'Văn hóa' 
                           ? 'bg-amber-100 text-amber-900 border border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800' 
                           : 'bg-emerald-100 text-emerald-900 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
                       }`}>
                         {site.type} • {site.year}
                       </span>
-                      <span className="text-slate-400 font-mono text-[10px]">{site.prefecture}</span>
+                      <span className="text-slate-400 font-mono text-xs">{site.prefecture}</span>
                     </div>
                     <p className="font-extrabold text-slate-900 mb-0.5 dark:text-white">{site.nameVi}</p>
                     <p className="text-[11px] text-slate-500 font-japanese mb-1.5 dark:text-slate-400">{site.nameJa}</p>

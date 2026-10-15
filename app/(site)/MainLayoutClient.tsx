@@ -125,7 +125,7 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
                 }`}
               >
                 <item.icon className={`w-5 h-5 ${isActive ? 'text-[#0D7287] dark:text-[#9BE7FA]' : ''}`} />
-                <span className={`text-[10px] font-semibold ${isActive ? 'font-bold' : ''}`}>
+                <span className={`text-xs font-semibold ${isActive ? 'font-bold' : ''}`}>
                   {item.label}
                 </span>
               </Link>

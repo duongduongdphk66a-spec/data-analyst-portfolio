@@ -257,7 +257,7 @@ export function Chapter3AnalyticsSection({
             <strong className="text-slate-900 font-bold dark:text-white">
               Phân tích học thuật & Cập nhật Dữ liệu Mới nhất (JNTO / DMO KYOTO / Nara):
             </strong>
-            <span className="text-[10px] font-mono text-[#0D7287] dark:text-[#9BE7FA]">
+            <span className="text-xs font-mono text-[#0D7287] dark:text-[#9BE7FA]">
               Niên luận (2003–2022) + Cập nhật chính thức (2023–2024)
             </span>
           </div>
@@ -300,12 +300,12 @@ export function Chapter3AnalyticsSection({
           <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
             <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white text-xs">
               <span>Đối sánh Lượng khách du lịch: Kyoto vs Nara (2013 - 2024)</span>
-              <span className="text-[10px] font-mono text-slate-400">Đơn vị: Nghìn người (k)</span>
+              <span className="text-xs font-mono text-slate-400">Đơn vị: Nghìn người (k)</span>
             </h5>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 text-slate-500 text-[10px] uppercase font-bold dark:border-slate-700">
+                  <tr className="border-b border-slate-200 text-slate-500 text-xs uppercase font-bold dark:border-slate-700">
                     <th className="py-1.5 px-2">Năm khảo sát</th>
                     <th className="py-1.5 px-2 text-[#0D7287] dark:text-[#9BE7FA]">Cố đô Kyoto (Khách quốc tế)</th>
                     <th className="py-1.5 px-2 text-amber-600 dark:text-amber-400">Cố đô Nara (Khách quốc tế)</th>
@@ -478,7 +478,7 @@ export function Chapter3AnalyticsSection({
             <strong className="text-slate-900 font-bold dark:text-white">
               Phân tích học thuật & Cập nhật Doanh thu Mới nhất (観光庁 / DMO KYOTO / Nara):
             </strong>
-            <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400">
+            <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400">
               Niên luận (2010–2021) + Cập nhật chính thức (2022–2024)
             </span>
           </div>
@@ -513,12 +513,12 @@ export function Chapter3AnalyticsSection({
           <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
             <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white text-xs">
               <span>Tăng trưởng Đóng góp GDP Quốc gia của Ngành Du lịch (2000 - 2024)</span>
-              <span className="text-[10px] font-mono text-slate-400">Nguồn: METI, WTTC & Cập nhật JTA/JNTO</span>
+              <span className="text-xs font-mono text-slate-400">Nguồn: METI, WTTC & Cập nhật JTA/JNTO</span>
             </h5>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 text-slate-500 text-[10px] uppercase font-bold dark:border-slate-700">
+                  <tr className="border-b border-slate-200 text-slate-500 text-xs uppercase font-bold dark:border-slate-700">
                     <th className="py-1.5 px-2">Năm thống kê</th>
                     <th className="py-1.5 px-2 text-emerald-600 dark:text-emerald-400">Tỷ trọng trong tổng GDP</th>
                     <th className="py-1.5 px-2">Quy mô Doanh thu trực tiếp</th>

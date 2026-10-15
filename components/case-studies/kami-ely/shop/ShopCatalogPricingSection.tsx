@@ -246,7 +246,7 @@ export default function ShopCatalogPricingSection({
                 className="p-5 rounded-2xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 flex flex-col justify-between space-y-3"
               >
                 <div className="space-y-2">
-                  <span className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-mono font-bold border ${cat.badgeColor}`}>
+                  <span className={`inline-block px-2.5 py-0.5 rounded text-xs font-mono font-bold border ${cat.badgeColor}`}>
                     CSV: {cat.csvGmvSharePct}% GMV (UI: {cat.uiGmvSharePct}%)
                   </span>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white">{cat.name[lang]}</h3>
@@ -304,7 +304,7 @@ export default function ShopCatalogPricingSection({
                   <tr key={sku.skuCode} className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition">
                     <td className="p-3.5 font-bold text-slate-900 dark:text-white">
                       <div>{sku.name[lang]}</div>
-                      <div className="text-[10px] font-mono text-slate-500 dark:text-slate-400">{sku.category}</div>
+                      <div className="text-xs font-mono text-slate-500 dark:text-slate-400">{sku.category}</div>
                     </td>
                     <td className="p-3.5 font-mono text-slate-700 dark:text-slate-300">{sku.priceVnd.toLocaleString('vi-VN')} đ</td>
                     <td className="p-3.5 font-mono">

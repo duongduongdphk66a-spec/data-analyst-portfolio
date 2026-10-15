@@ -245,7 +245,7 @@ export default function ProfileEditorTab({
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="text-[10px] text-slate-500 dark:text-slate-400">Danh mục</label>
+                  <label className="text-xs text-slate-500 dark:text-slate-400">Danh mục</label>
                   <input
                     type="text"
                     value={skill.category || 'Languages & Querying'}
@@ -258,7 +258,7 @@ export default function ProfileEditorTab({
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] text-slate-500 dark:text-slate-400">Cấp độ (1-5 sao)</label>
+                  <label className="text-xs text-slate-500 dark:text-slate-400">Cấp độ (1-5 sao)</label>
                   <input
                     type="number"
                     min={1}
@@ -275,7 +275,7 @@ export default function ProfileEditorTab({
               </div>
 
               <div>
-                <label className="text-[10px] text-slate-500 dark:text-slate-400">Mô tả độ thành thạo</label>
+                <label className="text-xs text-slate-500 dark:text-slate-400">Mô tả độ thành thạo</label>
                 <input
                   type="text"
                   value={skill.proficiencyNote || ''}
@@ -328,7 +328,7 @@ export default function ProfileEditorTab({
               className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 space-y-2 relative"
             >
               <div className="flex items-center justify-between gap-2">
-                <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase ${
+                <span className={`px-2 py-0.5 rounded-md text-xs font-bold uppercase ${
                   exp.type === 'education' 
                     ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300' 
                     : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
@@ -346,7 +346,7 @@ export default function ProfileEditorTab({
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <div className="md:col-span-2">
-                  <label className="text-[10px] text-slate-500 dark:text-slate-400">Chức vụ / Ngành học</label>
+                  <label className="text-xs text-slate-500 dark:text-slate-400">Chức vụ / Ngành học</label>
                   <input
                     type="text"
                     value={exp.role}
@@ -359,7 +359,7 @@ export default function ProfileEditorTab({
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] text-slate-500 dark:text-slate-400">Thời gian</label>
+                  <label className="text-xs text-slate-500 dark:text-slate-400">Thời gian</label>
                   <input
                     type="text"
                     value={exp.period}
@@ -374,7 +374,7 @@ export default function ProfileEditorTab({
               </div>
 
               <div>
-                <label className="text-[10px] text-slate-500 dark:text-slate-400">Tổ chức / Trường học</label>
+                <label className="text-xs text-slate-500 dark:text-slate-400">Tổ chức / Trường học</label>
                 <input
                   type="text"
                   value={exp.company}
@@ -388,7 +388,7 @@ export default function ProfileEditorTab({
               </div>
 
               <div>
-                <label className="text-[10px] text-slate-500 dark:text-slate-400">Chi tiết trách nhiệm (Mỗi dòng một ý)</label>
+                <label className="text-xs text-slate-500 dark:text-slate-400">Chi tiết trách nhiệm (Mỗi dòng một ý)</label>
                 <textarea
                   rows={3}
                   value={(exp.description || []).join('\n')}

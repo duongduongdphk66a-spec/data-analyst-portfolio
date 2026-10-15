@@ -89,27 +89,27 @@ export default function KamiElyDataScopeMatrix({
         {/* QUICK SUMMARY PILLS */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 shrink-0">
           <div className="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800">
-            <div className="text-[10px] font-mono uppercase text-slate-500 dark:text-slate-400">
+            <div className="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">
               {lang === 'vi' ? 'GMV Toàn Shop (180d)' : 'Shop GMV (180d)'}
             </div>
             <div className="text-sm sm:text-base font-extrabold font-mono text-slate-950 dark:text-white">12,74 Tỉ đ</div>
-            <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono">85.500 SP • All-time: 31,6 Tỉ</div>
+            <div className="text-xs text-emerald-600 dark:text-emerald-400 font-mono">85.500 SP • All-time: 31,6 Tỉ</div>
           </div>
           <div className="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800">
-            <div className="text-[10px] font-mono uppercase text-slate-500 dark:text-slate-400">
+            <div className="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">
               {lang === 'vi' ? 'Chính Chủ (180d Net/Gross)' : 'Official (180d Net/Gross)'}
             </div>
             <div className="text-sm sm:text-base font-extrabold font-mono text-sky-700 dark:text-sky-400">5,80 / 7,89 Tỉ</div>
-            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">470–475 LIVE • All-time: 9,2 Tỉ</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400 font-mono">470–475 LIVE • All-time: 9,2 Tỉ</div>
           </div>
           <div className="col-span-2 sm:col-span-1 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800">
-            <div className="text-[10px] font-mono uppercase text-slate-500 dark:text-slate-400">
+            <div className="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">
               {lang === 'vi' ? 'Cơ Cấu 90 Ngày (6,14 Tỉ)' : '90d Split (6.14B VND)'}
             </div>
             <div className="text-xs sm:text-sm font-extrabold font-mono text-pink-700 dark:text-pink-400">
               49,3% • 27,8% • 22,9%
             </div>
-            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">Chính chủ • KOC • Kệ hàng</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400 font-mono">Chính chủ • KOC • Kệ hàng</div>
           </div>
         </div>
       </div>
@@ -132,7 +132,7 @@ export default function KamiElyDataScopeMatrix({
               >
                 <span>{tab.label[lang]}</span>
                 <span
-                  className={`px-1.5 py-0.5 rounded text-[10px] font-mono ${
+                  className={`px-1.5 py-0.5 rounded text-xs font-mono ${
                     isActive ? 'bg-sky-200 text-sky-900 dark:bg-sky-500/30 dark:text-sky-200' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
                   }`}
                 >
@@ -177,7 +177,7 @@ export default function KamiElyDataScopeMatrix({
                     <button
                       type="button"
                       onClick={() => handleOpenScreenshot('sc-073329')}
-                      className="text-[10px] text-sky-600 dark:text-sky-400 hover:underline font-normal cursor-pointer text-left"
+                      className="text-xs text-sky-600 dark:text-sky-400 hover:underline font-normal cursor-pointer text-left"
                     >
                       Ảnh 073329 ↗
                     </button>
@@ -187,26 +187,26 @@ export default function KamiElyDataScopeMatrix({
                     <button
                       type="button"
                       onClick={() => handleOpenScreenshot('sc-080124')}
-                      className="text-[10px] text-sky-600 dark:text-sky-400 hover:underline font-normal cursor-pointer text-left"
+                      className="text-xs text-sky-600 dark:text-sky-400 hover:underline font-normal cursor-pointer text-left"
                     >
                       Ảnh 080124 ↗
                     </button>
                   </th>
                   <th className="p-3.5 min-w-[165px] bg-sky-50 text-sky-900 dark:bg-sky-950/20 dark:text-sky-300">
                     <div>{lang === 'vi' ? 'Toàn Shop (180 Ngày)' : 'Shop (Last 180d)'}</div>
-                    <div className="text-[10px] text-sky-700 dark:text-sky-400/80 font-normal">09/03 – 04/09/2026</div>
+                    <div className="text-xs text-sky-700 dark:text-sky-400/80 font-normal">09/03 – 04/09/2026</div>
                   </th>
                   <th className="p-3.5 min-w-[185px] bg-sky-50 text-sky-900 dark:bg-sky-950/20 dark:text-sky-300">
                     <div>{lang === 'vi' ? 'Chính Chủ (180 Ngày)' : 'Official (Last 180d)'}</div>
-                    <div className="text-[10px] text-sky-700 dark:text-sky-400/80 font-normal">Net UI vs. Gross CSV</div>
+                    <div className="text-xs text-sky-700 dark:text-sky-400/80 font-normal">Net UI vs. Gross CSV</div>
                   </th>
                   <th className="p-3.5 min-w-[160px] bg-emerald-50 text-emerald-900 dark:bg-emerald-950/20 dark:text-emerald-300">
                     <div>{lang === 'vi' ? 'Toàn Shop (90 Ngày)' : 'Shop (Last 90d)'}</div>
-                    <div className="text-[10px] text-emerald-700 dark:text-emerald-400/80 font-normal">_product data</div>
+                    <div className="text-xs text-emerald-700 dark:text-emerald-400/80 font-normal">_product data</div>
                   </th>
                   <th className="p-3.5 min-w-[160px] bg-emerald-50 text-emerald-900 dark:bg-emerald-950/20 dark:text-emerald-300">
                     <div>{lang === 'vi' ? 'Chính Chủ (90 Ngày)' : 'Official (Last 90d)'}</div>
-                    <div className="text-[10px] text-emerald-700 dark:text-emerald-400/80 font-normal">Creator Goods</div>
+                    <div className="text-xs text-emerald-700 dark:text-emerald-400/80 font-normal">Creator Goods</div>
                   </th>
                 </tr>
               </thead>
@@ -253,7 +253,7 @@ export default function KamiElyDataScopeMatrix({
               >
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-200 text-sky-800 dark:bg-slate-800 dark:text-sky-400">
+                    <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-slate-200 text-sky-800 dark:bg-slate-800 dark:text-sky-400">
                       {ds.tableName}
                     </span>
                     <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400">{ds.timeWindow[lang]}</span>
@@ -266,15 +266,15 @@ export default function KamiElyDataScopeMatrix({
 
                 <div className="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-white border border-slate-200 dark:bg-slate-950/80 dark:border-slate-800/80 font-mono text-xs">
                   <div>
-                    <div className="text-[10px] text-slate-500 dark:text-slate-400">{lang === 'vi' ? 'Số bản ghi' : 'Rows'}</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">{lang === 'vi' ? 'Số bản ghi' : 'Rows'}</div>
                     <div className="font-bold text-slate-950 dark:text-white">{ds.rowCount.toLocaleString('vi-VN')}</div>
                   </div>
                   <div>
-                    <div className="text-[10px] text-slate-500 dark:text-slate-400">{lang === 'vi' ? 'Sản lượng' : 'Units'}</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">{lang === 'vi' ? 'Sản lượng' : 'Units'}</div>
                     <div className="font-bold text-emerald-700 dark:text-emerald-400">{ds.totalUnits.toLocaleString('vi-VN')} SP</div>
                   </div>
                   <div>
-                    <div className="text-[10px] text-slate-500 dark:text-slate-400">GMV</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">GMV</div>
                     <div className="font-bold text-sky-700 dark:text-sky-400 truncate" title={ds.formattedGmv}>
                       {(ds.totalGmvVnd / 1e9).toFixed(2)} Tỉ đ
                     </div>
@@ -300,10 +300,10 @@ export default function KamiElyDataScopeMatrix({
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-pink-100 text-pink-800 border border-pink-200 dark:bg-pink-500/15 dark:text-pink-400 dark:border-pink-500/30">
+                  <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-pink-100 text-pink-800 border border-pink-200 dark:bg-pink-500/15 dark:text-pink-400 dark:border-pink-500/30">
                     {rule.ruleCode}
                   </span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-400">
+                  <span className="px-2 py-0.5 rounded text-xs font-mono font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-400">
                     {rule.status}
                   </span>
                 </div>
@@ -345,10 +345,10 @@ export default function KamiElyDataScopeMatrix({
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-100 text-sky-800 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-400 dark:border-sky-500/30">
+                  <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-sky-100 text-sky-800 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-400 dark:border-sky-500/30">
                     {mod.synchronizedWindow}
                   </span>
-                  <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold">180d In-Window Synced</span>
+                  <span className="text-xs font-mono text-emerald-700 dark:text-emerald-400 font-semibold">180d In-Window Synced</span>
                 </div>
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white">{mod.moduleName[lang]}</h3>
                 <div className="p-2.5 rounded-lg bg-white border border-slate-200 text-[11px] font-mono text-emerald-800 dark:bg-slate-950/90 dark:border-slate-800 dark:text-emerald-300">

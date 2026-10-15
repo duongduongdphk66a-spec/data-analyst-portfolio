@@ -217,7 +217,7 @@ export default function KamiElyVisualChartsSuite({
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-sky-500/15 text-sky-300 border border-sky-500/30">
+            <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold uppercase bg-sky-500/15 text-sky-300 border border-sky-500/30">
               {isEn ? 'EXECUTIVE VISUAL SUITE' : 'BỘ BIỂU ĐỒ TRỰC QUAN CẤP CAO'}
             </span>
             <span className="text-xs font-mono text-emerald-400">
@@ -251,7 +251,7 @@ export default function KamiElyVisualChartsSuite({
                   : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-900'
               }`}
             >
-              <span className="text-[10px] font-mono font-bold text-sky-400">
+              <span className="text-xs font-mono font-bold text-sky-400">
                 {isEn ? `ANGLE 0${i + 1}` : `GÓC NHÌN 0${i + 1}`}
               </span>
               <span className="text-xs font-bold truncate mt-1 text-slate-100">
@@ -281,9 +281,9 @@ export default function KamiElyVisualChartsSuite({
             <div className="grid grid-cols-3 gap-3 pt-2">
               {current.kpis.map((k, idx) => (
                 <div key={idx} className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-center">
-                  <div className="text-[10px] font-mono text-slate-400 truncate">{k.label}</div>
+                  <div className="text-xs font-mono text-slate-400 truncate">{k.label}</div>
                   <div className="text-base sm:text-lg font-extrabold font-mono text-white mt-0.5">{k.val}</div>
-                  <div className="text-[10px] text-emerald-400 font-mono mt-0.5 truncate">{k.sub}</div>
+                  <div className="text-xs text-emerald-400 font-mono mt-0.5 truncate">{k.sub}</div>
                 </div>
               ))}
             </div>

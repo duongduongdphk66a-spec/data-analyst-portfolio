@@ -163,7 +163,7 @@ export default function AdminPage() {
             <div>
               <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
                 <span>Quản Trị Nội Dung & Dữ Liệu MySQL</span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-300">
+                <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-300">
                   v2.0
                 </span>
               </h2>

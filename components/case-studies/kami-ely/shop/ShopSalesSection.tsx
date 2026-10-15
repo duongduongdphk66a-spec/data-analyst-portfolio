@@ -182,26 +182,26 @@ export default function ShopSalesSection({
                 <p className="text-[11px] text-slate-500">TikTok Shop Seller Center 28 Ngày</p>
               </div>
             </div>
-            <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+            <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
               {isEn ? 'Discount Burn: 50.45%' : 'Tỷ lệ đốt giảm giá: 50,45%'}
             </span>
           </div>
 
           <div className="grid grid-cols-3 gap-2.5 text-center">
             <div className="p-2.5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80">
-              <div className="text-[10px] text-slate-400 font-bold uppercase">{isEn ? 'Promo GMV' : 'GMV Khuyến Mãi'}</div>
+              <div className="text-xs text-slate-400 font-bold uppercase">{isEn ? 'Promo GMV' : 'GMV Khuyến Mãi'}</div>
               <div className="text-base font-black text-slate-900 dark:text-white mt-0.5">{sellerCenterShopData.marketingPromotions.promoGmvValue}</div>
-              <div className="text-[10px] text-emerald-600 font-bold">{sellerCenterShopData.marketingPromotions.promoGmvContributionPct}% tổng GMV</div>
+              <div className="text-xs text-emerald-600 font-bold">{sellerCenterShopData.marketingPromotions.promoGmvContributionPct}% tổng GMV</div>
             </div>
             <div className="p-2.5 rounded-xl bg-rose-50/80 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60">
-              <div className="text-[10px] text-rose-500 font-bold uppercase">{isEn ? 'Discount Cost' : 'Chi Phí Giảm Giá'}</div>
+              <div className="text-xs text-rose-500 font-bold uppercase">{isEn ? 'Discount Cost' : 'Chi Phí Giảm Giá'}</div>
               <div className="text-base font-black text-rose-600 dark:text-rose-400 mt-0.5">{sellerCenterShopData.marketingPromotions.discountCostValue}</div>
-              <div className="text-[10px] text-rose-500 font-bold">50,45% doanh số KM</div>
+              <div className="text-xs text-rose-500 font-bold">50,45% doanh số KM</div>
             </div>
             <div className="p-2.5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80">
-              <div className="text-[10px] text-slate-400 font-bold uppercase">{isEn ? 'Promo AOV' : 'AOV Khuyến Mãi'}</div>
+              <div className="text-xs text-slate-400 font-bold uppercase">{isEn ? 'Promo AOV' : 'AOV Khuyến Mãi'}</div>
               <div className="text-base font-black text-[#0D7287] dark:text-[#9BE7FA] mt-0.5">{sellerCenterShopData.marketingPromotions.promoAov.toLocaleString()} đ</div>
-              <div className="text-[10px] text-emerald-600 font-bold">+{sellerCenterShopData.marketingPromotions.aovUpliftPct}% vs AOV gốc</div>
+              <div className="text-xs text-emerald-600 font-bold">+{sellerCenterShopData.marketingPromotions.aovUpliftPct}% vs AOV gốc</div>
             </div>
           </div>
 
@@ -230,7 +230,7 @@ export default function ShopSalesSection({
                 <p className="text-[11px] text-slate-500">Đối soát toàn bộ 4.417 dòng CSV Shoppable Videos</p>
               </div>
             </div>
-            <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
+            <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
               Paid Ads: 94,70% GMV
             </span>
           </div>

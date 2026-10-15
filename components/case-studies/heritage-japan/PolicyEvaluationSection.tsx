@@ -73,7 +73,7 @@ export function PolicyEvaluationSection({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-200 dark:border-slate-800">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                <span className="px-2 py-0.5 rounded text-xs font-mono font-bold uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
                   Econometric Simulation
                 </span>
                 <span className="text-xs text-slate-500 font-bold">Thực tế (Actual) vs Phản thực tế (Baseline No-Policy)</span>
@@ -148,27 +148,27 @@ export function PolicyEvaluationSection({
           {/* Key Metrics Bento */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
             <div className="p-3 rounded-xl bg-white border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">Tốc độ Tăng trưởng Trước 2013</span>
+              <span className="text-xs uppercase font-bold text-slate-400 block mb-1">Tốc độ Tăng trưởng Trước 2013</span>
               <p className="font-mono text-xl font-black text-slate-900 dark:text-white">CAGR +5.1%</p>
-              <p className="text-[10px] text-slate-500">2003–2012 (Giai đoạn tăng trưởng chậm)</p>
+              <p className="text-xs text-slate-500">2003–2012 (Giai đoạn tăng trưởng chậm)</p>
             </div>
 
             <div className="p-3 rounded-xl bg-white border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
-              <span className="text-[10px] uppercase font-bold text-emerald-600 block mb-1">Tốc độ Sau Chính Sách 2013</span>
+              <span className="text-xs uppercase font-bold text-emerald-600 block mb-1">Tốc độ Sau Chính Sách 2013</span>
               <p className="font-mono text-xl font-black text-emerald-600 dark:text-emerald-400">CAGR +20.6%</p>
-              <p className="text-[10px] text-emerald-600/80">Tăng gấp 4.04 lần tốc độ tự nhiên</p>
+              <p className="text-xs text-emerald-600/80">Tăng gấp 4.04 lần tốc độ tự nhiên</p>
             </div>
 
             <div className="p-3 rounded-xl bg-white border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
-              <span className="text-[10px] uppercase font-bold text-[#0D7287] dark:text-[#9BE7FA] block mb-1">Thặng Dư Du Khách Năm 2019</span>
+              <span className="text-xs uppercase font-bold text-[#0D7287] dark:text-[#9BE7FA] block mb-1">Thặng Dư Du Khách Năm 2019</span>
               <p className="font-mono text-xl font-black text-[#0D7287] dark:text-[#9BE7FA]">+19.8 Triệu</p>
-              <p className="text-[10px] text-slate-500">31.9M thực tế vs 12.1M baseline</p>
+              <p className="text-xs text-slate-500">31.9M thực tế vs 12.1M baseline</p>
             </div>
 
             <div className="p-3 rounded-xl bg-white border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
-              <span className="text-[10px] uppercase font-bold text-amber-600 block mb-1">Thặng Dư Tích Lũy (2013–2019)</span>
+              <span className="text-xs uppercase font-bold text-amber-600 block mb-1">Thặng Dư Tích Lũy (2013–2019)</span>
               <p className="font-mono text-xl font-black text-amber-600">+63.4 Triệu</p>
-              <p className="text-[10px] text-slate-500">Tổng khách vượt trội thu hút được</p>
+              <p className="text-xs text-slate-500">Tổng khách vượt trội thu hút được</p>
             </div>
           </div>
         </div>
@@ -195,7 +195,7 @@ export function PolicyEvaluationSection({
                   }`}
                 >
                   <div className="flex items-center justify-between gap-1 mb-1">
-                    <span className="text-[10px] font-mono font-bold uppercase opacity-80">
+                    <span className="text-xs font-mono font-bold uppercase opacity-80">
                       Trụ cột {item.id.replace('policy-', '0')}
                     </span>
                     <span className="text-xs font-black">
@@ -224,14 +224,14 @@ export function PolicyEvaluationSection({
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
               <div className="space-y-2 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
-                <span className="text-[10px] uppercase font-bold text-slate-500 block">Biện pháp triển khai cụ thể</span>
+                <span className="text-xs uppercase font-bold text-slate-500 block">Biện pháp triển khai cụ thể</span>
                 <p className="text-slate-800 dark:text-slate-200 leading-relaxed font-medium">
                   {isEn ? activePillar.actionEn : activePillar.actionVi}
                 </p>
               </div>
 
               <div className="space-y-2 p-3.5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/60">
-                <span className="text-[10px] uppercase font-bold text-emerald-700 dark:text-emerald-400 block flex items-center gap-1">
+                <span className="text-xs uppercase font-bold text-emerald-700 dark:text-emerald-400 block flex items-center gap-1">
                   <Check className="w-3.5 h-3.5" />
                   <span>Bằng chứng định lượng đo lường được</span>
                 </span>
@@ -241,7 +241,7 @@ export function PolicyEvaluationSection({
               </div>
 
               <div className="space-y-2 p-3.5 rounded-xl bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/60">
-                <span className="text-[10px] uppercase font-bold text-rose-700 dark:text-rose-400 block flex items-center gap-1">
+                <span className="text-xs uppercase font-bold text-rose-700 dark:text-rose-400 block flex items-center gap-1">
                   <AlertCircle className="w-3.5 h-3.5" />
                   <span>Ngoại ứng tiêu cực & Chi phí ngoài dự kiến</span>
                 </span>

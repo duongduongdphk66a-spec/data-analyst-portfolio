@@ -199,7 +199,7 @@ export default function HeritagePolicySimulator({ isEn: propIsEn }: HeritagePoli
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-1.5">
-                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-md ${
+                    <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded-md ${
                       isSelected ? 'bg-sky-400 text-slate-950' : 'bg-slate-800 text-slate-400'
                     }`}>
                       {preset.badge[lang]}
@@ -238,7 +238,7 @@ export default function HeritagePolicySimulator({ isEn: propIsEn }: HeritagePoli
                 {isEn ? '1. Accommodation Tax Rate:' : '1. Mức Thuế Lưu Trú (Mỗi Đêm):'}
               </label>
               <span className="text-sm font-mono font-extrabold text-sky-300 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/30">
-                ¥{taxRate.toLocaleString()} <span className="text-[10px] text-slate-400">/đêm</span>
+                ¥{taxRate.toLocaleString()} <span className="text-xs text-slate-400">/đêm</span>
               </span>
             </div>
             <input
@@ -253,7 +253,7 @@ export default function HeritagePolicySimulator({ isEn: propIsEn }: HeritagePoli
               }}
               className="w-full accent-sky-400 h-2 bg-slate-800 rounded-lg cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] font-mono text-slate-400">
+            <div className="flex justify-between text-xs font-mono text-slate-400">
               <span>¥200 (Tối thiểu)</span>
               <span>¥1,000 (Đề xuất)</span>
               <span>¥2,000 (Trần)</span>
@@ -287,7 +287,7 @@ export default function HeritagePolicySimulator({ isEn: propIsEn }: HeritagePoli
               }}
               className="w-full accent-emerald-400 h-2 bg-slate-800 rounded-lg cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] font-mono text-slate-400">
+            <div className="flex justify-between text-xs font-mono text-slate-400">
               <span>10% (Chỉ bảo trì nhẹ)</span>
               <span>40% (Cân bằng)</span>
               <span>60% (Tu bổ di tích gỗ)</span>
@@ -321,7 +321,7 @@ export default function HeritagePolicySimulator({ isEn: propIsEn }: HeritagePoli
               }}
               className="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] font-mono text-slate-400">
+            <div className="flex justify-between text-xs font-mono text-slate-400">
               <span>0% (Hiện trạng)</span>
               <span>25% (Mục tiêu 2026)</span>
               <span>40% (Giãn tải tối đa)</span>

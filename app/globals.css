@@ -840,21 +840,6 @@ a {
   border-color: #1e293b;
 }
 
-/* ============================================================================
-   Nâng sàn kích thước chữ tối thiểu (>= 11.5px) & vùng chạm nút bấm (>= 36px)
-============================================================================ */
-@layer utilities {
-  .text-\[9px\],
-  .text-\[10px\] {
-    font-size: 0.72rem !important; /* ~11.5px: Đảm bảo độ rõ nét trên cả màn hình 1440px và 390px */
-    line-height: 1.1rem !important;
-  }
-
-  .text-\[11px\] {
-    font-size: 0.76rem !important; /* ~12.1px */
-    line-height: 1.15rem !important;
-  }
-}
 
 /* Đảm bảo mọi nút bấm tương tác đạt chuẩn vùng chạm tối thiểu (Touch Target) */
 button,

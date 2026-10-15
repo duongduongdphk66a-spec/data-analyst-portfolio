@@ -629,7 +629,7 @@ FROM dim_creators_90d;`
                   : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-900'
               }`}
             >
-              <span className="text-[10px] font-mono font-bold text-sky-400">
+              <span className="text-xs font-mono font-bold text-sky-400">
                 {isEn ? `STAGE ${st.stageNum}` : `PHẦN ${st.stageNum}`}
               </span>
               <span className="text-[11px] font-bold truncate mt-0.5" title={chapterTitle}>
@@ -652,9 +652,9 @@ FROM dim_creators_90d;`
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
               {current.kpis.map((k, i) => (
                 <div key={i} className="p-3 rounded-xl bg-slate-950/90 border border-slate-800/90">
-                  <div className="text-[10px] font-mono text-slate-400">{k.label}</div>
+                  <div className="text-xs font-mono text-slate-400">{k.label}</div>
                   <div className="text-base sm:text-lg font-extrabold font-mono text-white mt-0.5">{k.value}</div>
-                  <div className="text-[10px] text-emerald-400 font-mono mt-0.5 line-clamp-1">{k.sub}</div>
+                  <div className="text-xs text-emerald-400 font-mono mt-0.5 line-clamp-1">{k.sub}</div>
                 </div>
               ))}
             </div>

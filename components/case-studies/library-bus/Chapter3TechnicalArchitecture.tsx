@@ -87,7 +87,7 @@ export function Chapter3TechnicalArchitecture({
                   <span className="font-mono text-xs font-bold px-2.5 py-1 rounded-lg bg-[#C8EEF7]/40 text-[#0D7287] border border-[#9BE7FA]/50 dark:bg-slate-800 dark:text-[#9BE7FA]">
                     app: {app.app}
                   </span>
-                  <span className="text-[10px] text-slate-400 font-mono">0{idx + 1}/07</span>
+                  <span className="text-xs text-slate-400 font-mono">0{idx + 1}/07</span>
                 </div>
                 <h4 className="text-base font-black text-slate-900 dark:text-white">
                   {isEn ? app.nameEn : app.nameVi}
@@ -97,7 +97,7 @@ export function Chapter3TechnicalArchitecture({
                 </p>
                 <div className="pt-2 border-t border-slate-100 flex flex-wrap gap-1.5 dark:border-slate-800">
                   {app.models.map((m, mIdx) => (
-                    <span key={mIdx} className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                    <span key={mIdx} className="text-xs font-mono px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
                       {m}
                     </span>
                   ))}
@@ -123,7 +123,7 @@ export function Chapter3TechnicalArchitecture({
                   <div className="w-8 h-8 rounded-xl bg-[#0D7287] text-white flex items-center justify-center font-black text-sm">
                     {stop.stop}
                   </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#C8EEF7]/40 text-[#0D7287] border border-[#9BE7FA]/40 dark:bg-slate-800 dark:text-[#9BE7FA]">
+                  <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-[#C8EEF7]/40 text-[#0D7287] border border-[#9BE7FA]/40 dark:bg-slate-800 dark:text-[#9BE7FA]">
                     {stop.tag}
                   </span>
                 </div>
@@ -241,7 +241,7 @@ export function Chapter3TechnicalArchitecture({
                   {isEn ? 'Weekly Borrow vs Return Trend' : 'Xu Hướng Mượn / Trả Trong Tuần'}
                 </h4>
                 {liveData?.isLiveDb && (
-                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     MySQL Live
                   </span>

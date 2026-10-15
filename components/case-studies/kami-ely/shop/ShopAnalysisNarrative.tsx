@@ -80,7 +80,7 @@ export default function ShopAnalysisNarrative({ isEn: propIsEn }: ShopAnalysisNa
     <section className="w-full rounded-2xl border border-slate-800/90 bg-slate-950/90 p-5 sm:p-7 shadow-xl space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
         <div>
-          <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-sky-500/15 text-sky-300 border border-sky-500/30">
+          <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold uppercase bg-sky-500/15 text-sky-300 border border-sky-500/30">
             {lang === 'vi' ? 'TÓM TẮT CHIẾN LƯỢC TOÀN SHOP (VISUAL SUMMARY)' : 'SHOP-WIDE VISUAL ACTION SUMMARY'}
           </span>
           <h3 className="text-base sm:text-lg font-extrabold text-white mt-1">
@@ -114,7 +114,7 @@ export default function ShopAnalysisNarrative({ isEn: propIsEn }: ShopAnalysisNa
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${item.color}`}>
+                <span className={`px-2 py-0.5 rounded text-xs font-mono font-bold border ${item.color}`}>
                   {item.badge}
                 </span>
                 <span className="text-xs font-mono font-bold text-white">{item.metric}</span>

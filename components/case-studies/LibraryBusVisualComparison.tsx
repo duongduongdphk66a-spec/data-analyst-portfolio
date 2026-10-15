@@ -349,7 +349,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                         : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 dark:bg-slate-950 dark:text-slate-300 dark:border-slate-800'
                     }`}
                   >
-                    <span className={`w-4 h-4 rounded flex items-center justify-center font-mono text-[10px] font-black ${
+                    <span className={`w-4 h-4 rounded flex items-center justify-center font-mono text-xs font-black ${
                       isActive ? 'bg-[#FFD14C] text-slate-950 font-black' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
                     }`}>
                       {screen.index}
@@ -373,10 +373,10 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
               <h3 className="font-sans font-black text-sm text-[#0D7287] dark:text-[#9BE7FA]">
                 {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}
               </h3>
-              <span className="px-1.5 py-0.5 rounded bg-[#C8EEF7]/50 text-[#0D7287] border border-[#9BE7FA]/40 text-[10px] font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
+              <span className="px-1.5 py-0.5 rounded bg-[#C8EEF7]/50 text-[#0D7287] border border-[#9BE7FA]/40 text-xs font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
                 {selectedScreen.moduleNameVi}
               </span>
-              <span className="text-[10px] font-mono text-slate-500 hidden sm:inline">
+              <span className="text-xs font-mono text-slate-500 hidden sm:inline">
                 Django: <code className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">{selectedScreen.templatePath}</code>
               </span>
             </div>
@@ -678,7 +678,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                         : 'bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
                     }`}
                   >
-                    <span className="font-mono text-[10px] opacity-80">{String(idx + 1).padStart(2, '0')}</span>
+                    <span className="font-mono text-xs opacity-80">{String(idx + 1).padStart(2, '0')}</span>
                     <span>{s.titleVi.replace(/^\d+\.\s*/, '')}</span>
                   </button>
                 ))}
@@ -737,7 +737,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded-md bg-[#0D7287]/10 text-[#0D7287] dark:bg-[#0D7287]/20 dark:text-[#9BE7FA] text-[10px] font-mono font-bold flex items-center gap-1">
+                      <span className="px-2 py-0.5 rounded-md bg-[#0D7287]/10 text-[#0D7287] dark:bg-[#0D7287]/20 dark:text-[#9BE7FA] text-xs font-mono font-bold flex items-center gap-1">
                         <Monitor className="w-3 h-3" />
                         <span>Desktop 1440px</span>
                       </span>
@@ -794,7 +794,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                     </p>
                     <div className="flex flex-wrap gap-1.5 pt-1">
                       {LIBRARY_BUS_20_SCREENS[crossDeviceIdx].uiFeatures.map((feat, fIdx) => (
-                        <span key={fIdx} className="px-2 py-0.5 rounded-md bg-[#0D7287]/10 text-[#0D7287] dark:bg-[#0D7287]/20 dark:text-[#9BE7FA] text-[10px] font-medium">
+                        <span key={fIdx} className="px-2 py-0.5 rounded-md bg-[#0D7287]/10 text-[#0D7287] dark:bg-[#0D7287]/20 dark:text-[#9BE7FA] text-xs font-medium">
                           ✓ {feat}
                         </span>
                       ))}
@@ -818,7 +818,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded-md bg-[#0D7287]/10 text-[#0D7287] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] text-[10px] font-mono font-bold flex items-center gap-1">
+                      <span className="px-2 py-0.5 rounded-md bg-[#0D7287]/10 text-[#0D7287] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] text-xs font-mono font-bold flex items-center gap-1">
                         <Smartphone className="w-3 h-3" />
                         <span>Mobile 390px</span>
                       </span>
@@ -875,7 +875,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                     </p>
                     <div className="flex flex-wrap gap-1.5 pt-1">
                       {LIBRARY_BUS_MOBILE_SCREENS[crossDeviceIdx].uiFeatures.map((feat, fIdx) => (
-                        <span key={fIdx} className="px-2 py-0.5 rounded-md bg-[#FFE485]/40 text-[#473400] dark:bg-[#FFD14C]/20 dark:text-[#FFE485] text-[10px] font-medium">
+                        <span key={fIdx} className="px-2 py-0.5 rounded-md bg-[#FFE485]/40 text-[#473400] dark:bg-[#FFD14C]/20 dark:text-[#FFE485] text-xs font-medium">
                           ✓ {feat}
                         </span>
                       ))}
@@ -908,7 +908,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                 >
                   <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
                     <h5 className="font-bold text-sm text-slate-900 dark:text-white">{item.titleVi}</h5>
-                    <span className="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-[10px] font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                    <span className="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
                       {item.badgeVi}
                     </span>
                   </div>
@@ -954,7 +954,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div className="p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 space-y-1.5">
-                <span className="text-[10px] font-black uppercase text-[#0D7287] tracking-wider">Bảng Màu Đồng Nhất</span>
+                <span className="text-xs font-black uppercase text-[#0D7287] tracking-wider">Bảng Màu Đồng Nhất</span>
                 <h5 className="text-sm font-bold text-slate-900 dark:text-white">Cyan & Honey Gold 4-Tone Palette</h5>
                 <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                   Cả hai hệ thống đều dùng bảng màu chủ đạo gồm Lam Sáng (#9BE7FA), Lam Băng (#C8EEF7), Vàng Ánh Kim (#FFE485), Vàng Mật (#FFD14C) và Lam Đậm (#0D7287) tạo nên nhận diện tươi sáng, hiện đại và chuẩn xác.
@@ -962,7 +962,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
               </div>
 
               <div className="p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 space-y-1.5">
-                <span className="text-[10px] font-black uppercase text-[#0D7287] tracking-wider">Hòa Sắc Typography</span>
+                <span className="text-xs font-black uppercase text-[#0D7287] tracking-wider">Hòa Sắc Typography</span>
                 <h5 className="text-sm font-bold text-slate-900 dark:text-white">Lora Serif + Outfit Sans</h5>
                 <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                   Tiêu đề dùng Lora mang vẻ đẹp trang nhã của sách in truyền thống; văn bản dùng Outfit đạt độ nét tối đa trên mọi mật độ điểm ảnh (Retina / OLED).
@@ -970,7 +970,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
               </div>
 
               <div className="p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 space-y-1.5">
-                <span className="text-[10px] font-black uppercase text-emerald-600 tracking-wider">Đồng Bộ Dữ Liệu O(1)</span>
+                <span className="text-xs font-black uppercase text-emerald-600 tracking-wider">Đồng Bộ Dữ Liệu O(1)</span>
                 <h5 className="text-sm font-bold text-slate-900 dark:text-white">Django ORM + Redis Cache</h5>
                 <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                   Độc giả đặt trước sách trên điện thoại hay thủ thư điều phối xe trên máy tính đều truy xuất qua kiến trúc Redis Caching độ trễ 28ms không lệch pha.
@@ -1027,7 +1027,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                         <h4 className="text-lg font-black text-slate-900 dark:text-white font-serif">
                           {isEn ? screen.titleEn : screen.titleVi}
                         </h4>
-                        <span className="px-2 py-0.5 rounded-md bg-[#C8EEF7]/50 text-[#0D7287] border border-[#9BE7FA]/40 text-[10px] font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
+                        <span className="px-2 py-0.5 rounded-md bg-[#C8EEF7]/50 text-[#0D7287] border border-[#9BE7FA]/40 text-xs font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
                           {screen.badge}
                         </span>
                       </div>
@@ -1464,12 +1464,12 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
               </div>
 
               <div className="p-4 rounded-3xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-                <div className="text-[10px] font-mono font-bold text-slate-400 mb-2">SHEET 01: HERO & CONTROLS</div>
+                <div className="text-xs font-mono font-bold text-slate-400 mb-2">SHEET 01: HERO & CONTROLS</div>
                 {renderBookDetailWireframe(1)}
               </div>
 
               <div className="p-4 rounded-3xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-                <div className="text-[10px] font-mono font-bold text-slate-400 mb-2">SHEET 02: REVIEWS & FOOTER</div>
+                <div className="text-xs font-mono font-bold text-slate-400 mb-2">SHEET 02: REVIEWS & FOOTER</div>
                 {renderBookDetailWireframe(2)}
               </div>
             </div>
@@ -1485,17 +1485,17 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
               </div>
 
               <div className="p-4 rounded-3xl bg-ground border border-[#0D7287]/20 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-                <div className="text-[10px] font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA] mb-2 flex justify-between items-center">
+                <div className="text-xs font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA] mb-2 flex justify-between items-center">
                   <span>SHEET 01: PRODUCTION READY COMPONENT</span>
-                  <span className="px-1.5 py-0.5 rounded bg-[#FFE485] text-slate-950 font-bold text-[10px]">Live Interactive</span>
+                  <span className="px-1.5 py-0.5 rounded bg-[#FFE485] text-slate-950 font-bold text-xs">Live Interactive</span>
                 </div>
                 {renderBookDetailUI(1)}
               </div>
 
               <div className="p-4 rounded-3xl bg-ground border border-[#0D7287]/20 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-                <div className="text-[10px] font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA] mb-2 flex justify-between items-center">
+                <div className="text-xs font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA] mb-2 flex justify-between items-center">
                   <span>SHEET 02: REVIEWS & FOOTER SPECS</span>
-                  <span className="px-1.5 py-0.5 rounded bg-[#C8EEF7] text-[#0D7287] font-bold text-[10px]">Score 9.7/10</span>
+                  <span className="px-1.5 py-0.5 rounded bg-[#C8EEF7] text-[#0D7287] font-bold text-xs">Score 9.7/10</span>
                 </div>
                 {renderBookDetailUI(2)}
               </div>

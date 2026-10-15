@@ -155,7 +155,7 @@ export default function ShopOverviewSection({
                   {isEn ? m.label.en : m.label.vi}
                 </span>
                 {m.growthPct !== undefined && (
-                  <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                  <span className="text-xs font-black px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                     +{m.growthPct}% MoM
                   </span>
                 )}
@@ -186,29 +186,29 @@ export default function ShopOverviewSection({
 
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
             <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
-              <div className="text-[10px] text-slate-400 font-bold uppercase">{isEn ? 'GMV Today (13:12)' : 'GMV Hôm Nay (13:12)'}</div>
+              <div className="text-xs text-slate-400 font-bold uppercase">{isEn ? 'GMV Today (13:12)' : 'GMV Hôm Nay (13:12)'}</div>
               <div className="text-lg font-black text-[#0D7287] dark:text-[#9BE7FA] mt-0.5">{sellerCenterShopData.overview28d.intradaySnapshot.gmvToday}</div>
-              <div className="text-[10px] text-slate-500">135 đơn hàng</div>
+              <div className="text-xs text-slate-500">135 đơn hàng</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
-              <div className="text-[10px] text-slate-400 font-bold uppercase">{isEn ? 'Visitors Today' : 'Lượt Ghé Thăm'}</div>
+              <div className="text-xs text-slate-400 font-bold uppercase">{isEn ? 'Visitors Today' : 'Lượt Ghé Thăm'}</div>
               <div className="text-lg font-black text-slate-900 dark:text-white mt-0.5">{sellerCenterShopData.overview28d.intradaySnapshot.visitorsToday.toLocaleString()}</div>
-              <div className="text-[10px] text-slate-500">122 người mua</div>
+              <div className="text-xs text-slate-500">122 người mua</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
-              <div className="text-[10px] text-slate-400 font-bold uppercase">{isEn ? 'AOV Today' : 'AOV Trong Ngày'}</div>
+              <div className="text-xs text-slate-400 font-bold uppercase">{isEn ? 'AOV Today' : 'AOV Trong Ngày'}</div>
               <div className="text-lg font-black text-slate-900 dark:text-white mt-0.5">{sellerCenterShopData.overview28d.intradaySnapshot.aovToday.toLocaleString()} đ</div>
-              <div className="text-[10px] text-slate-500">Giá trị đơn hàng</div>
+              <div className="text-xs text-slate-500">Giá trị đơn hàng</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
-              <div className="text-[10px] text-slate-400 font-bold uppercase">{isEn ? 'AOV 28d Average' : 'AOV Bình Quân 28N'}</div>
+              <div className="text-xs text-slate-400 font-bold uppercase">{isEn ? 'AOV 28d Average' : 'AOV Bình Quân 28N'}</div>
               <div className="text-lg font-black text-slate-900 dark:text-white mt-0.5">{sellerCenterShopData.overview28d.intradaySnapshot.aov28dAvg.toLocaleString()} đ</div>
-              <div className="text-[10px] text-emerald-600 font-bold">Chênh lệch +0,5%</div>
+              <div className="text-xs text-emerald-600 font-bold">Chênh lệch +0,5%</div>
             </div>
             <div className="p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 col-span-2 sm:col-span-1">
-              <div className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold uppercase">{isEn ? 'Conversion Rate' : 'CR Chuyển Đổi'}</div>
+              <div className="text-xs text-emerald-700 dark:text-emerald-400 font-bold uppercase">{isEn ? 'Conversion Rate' : 'CR Chuyển Đổi'}</div>
               <div className="text-lg font-black text-emerald-700 dark:text-emerald-300 mt-0.5">{sellerCenterShopData.overview28d.intradaySnapshot.conversionRatePct}%</div>
-              <div className="text-[10px] text-slate-500">{isEn ? 'Benchmark: 2–3%' : 'Chuẩn ngành: 2–3%'}</div>
+              <div className="text-xs text-slate-500">{isEn ? 'Benchmark: 2–3%' : 'Chuẩn ngành: 2–3%'}</div>
             </div>
           </div>
 

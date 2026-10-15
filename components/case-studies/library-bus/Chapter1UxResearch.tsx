@@ -173,7 +173,7 @@ export function Chapter1UxResearch({
               <div key={idx} className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
                 <h4 className="text-sm font-black text-slate-900 dark:text-white flex items-center justify-between">
                   <span>{ref.name}</span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">Ref 0{idx+1}</span>
+                  <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">Ref 0{idx+1}</span>
                 </h4>
                 <div className="space-y-2 text-xs">
                   <p><b className="text-emerald-600">Ưu điểm:</b> <span className="text-slate-600 dark:text-slate-400">{ref.prosVi}</span></p>
@@ -201,7 +201,7 @@ export function Chapter1UxResearch({
                   <span className="w-7 h-7 rounded-xl bg-[#0D7287] text-white flex items-center justify-center text-xs font-black">
                     {func.id}
                   </span>
-                  <span className="text-[10px] font-mono text-slate-400">Core Feature</span>
+                  <span className="text-xs font-mono text-slate-400">Core Feature</span>
                 </div>
                 <h4 className="text-sm font-black text-slate-900 dark:text-white">
                   {isEn ? func.nameEn : func.nameVi}

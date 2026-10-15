@@ -62,7 +62,7 @@ export default function Sidebar() {
 
         {/* Live Status Badge (Sole animate-ping on the screen) */}
         <div className="hidden lg:block mt-3">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-[10px] font-bold text-emerald-800 dark:text-emerald-300 shadow-2xs">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-xs font-bold text-emerald-800 dark:text-emerald-300 shadow-2xs">
             <span className="relative flex h-1.5 w-1.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-600 dark:bg-emerald-400"></span>
@@ -90,7 +90,7 @@ export default function Sidebar() {
                 {language === 'en' ? 'Quick search...' : 'Tìm kiếm nhanh...'}
               </span>
             </div>
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400">
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
               Ctrl K
             </kbd>
           </button>
@@ -207,10 +207,10 @@ export default function Sidebar() {
               </div>
               <div className="flex flex-col">
                 <span>{language === 'en' ? 'Download CV' : 'Tải CV Chi Tiết'}</span>
-                <span className="text-[10px] font-mono font-medium text-slate-400 dark:text-slate-500">PDF • 2026</span>
+                <span className="text-xs font-mono font-medium text-slate-400 dark:text-slate-500">PDF • 2026</span>
               </div>
             </div>
-            <span className="text-[10px] font-mono font-black px-1.5 py-0.5 rounded bg-[#FFD14C] text-slate-950 shadow-2xs relative z-10">
+            <span className="text-xs font-mono font-black px-1.5 py-0.5 rounded bg-[#FFD14C] text-slate-950 shadow-2xs relative z-10">
               CV
             </span>
           </a>

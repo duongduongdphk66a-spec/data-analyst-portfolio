@@ -189,18 +189,18 @@ export default function CreatorActivitySection({
                 <div className="space-y-2">
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-sm font-bold text-slate-950 dark:text-white">{item.source[lang]}</span>
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${item.badgeColor}`}>
+                    <span className={`px-2 py-0.5 rounded text-xs font-mono font-bold border ${item.badgeColor}`}>
                       {item.statusBadge[lang]}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 p-3 rounded-lg bg-white border border-slate-200 dark:bg-slate-950/80 dark:border-slate-800/80 font-mono">
                     <div>
-                      <div className="text-[10px] text-slate-500 dark:text-slate-400">Tỷ Trọng Hiển Thị (PV)</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">Tỷ Trọng Hiển Thị (PV)</div>
                       <div className="text-lg font-extrabold text-slate-950 dark:text-white">{item.pvSharePct}%</div>
                     </div>
                     <div>
-                      <div className="text-[10px] text-slate-500 dark:text-slate-400">Tỷ Lệ Bấm Vào Phòng</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">Tỷ Lệ Bấm Vào Phòng</div>
                       <div className="text-lg font-extrabold text-sky-700 dark:text-sky-400">{item.enterRoomRatePct}%</div>
                     </div>
                   </div>
@@ -259,7 +259,7 @@ export default function CreatorActivitySection({
       {activeView === 'posting-schedule' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 space-y-3">
-            <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30">
+            <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30">
               {lang === 'vi' ? 'LỆCH PHA GIỜ ĐĂNG VIDEO (222 VIDEOS / 180D)' : 'VIDEO POSTING SCHEDULE MISMATCH'}
             </span>
             <h3 className="text-base font-bold text-slate-950 dark:text-white">
@@ -278,7 +278,7 @@ export default function CreatorActivitySection({
           </div>
 
           <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 space-y-3">
-            <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-pink-50 text-pink-800 border border-pink-200 dark:bg-pink-500/15 dark:text-pink-300 dark:border-pink-500/30">
+            <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-pink-50 text-pink-800 border border-pink-200 dark:bg-pink-500/15 dark:text-pink-300 dark:border-pink-500/30">
               {lang === 'vi' ? 'BẪY QUÁN TÍNH THỜI LƯỢNG LIVE (~7,5 GIỜ/NGÀY)' : 'LIVE DURATION INERTIA TRAP (~7.5H/DAY)'}
             </span>
             <h3 className="text-base font-bold text-slate-950 dark:text-white">

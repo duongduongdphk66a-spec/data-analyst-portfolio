@@ -161,7 +161,7 @@ export default function KamiElyHero({
           >
             <div className="space-y-2">
               <span
-                className={`inline-block px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider border ${card.badgeColor}`}
+                className={`inline-block px-2.5 py-0.5 rounded-md text-xs font-mono font-bold uppercase tracking-wider border ${card.badgeColor}`}
               >
                 {card.badge[lang]}
               </span>

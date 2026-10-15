@@ -187,10 +187,10 @@ export default function CreatorContentSection({
             {activeVideos.map((v, i) => (
               <div key={i} className="p-4 rounded-2xl bg-white border border-[#FFE485] shadow-xs space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">
+                  <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
                     {v.publishDate}
                   </span>
-                  <span className="px-2 py-0.5 rounded-md bg-[#FFE485] text-slate-950 text-[10px] font-black border border-[#FFD14C]">
+                  <span className="px-2 py-0.5 rounded-md bg-[#FFE485] text-slate-950 text-xs font-black border border-[#FFD14C]">
                     {v.interactionRate} tương tác
                   </span>
                 </div>
@@ -199,19 +199,19 @@ export default function CreatorContentSection({
                 </h4>
                 <div className="grid grid-cols-4 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-center">
                   <div className="p-1 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                    <div className="text-[10px] text-slate-400">{isEn ? 'Views' : 'Lượt xem'}</div>
+                    <div className="text-xs text-slate-400">{isEn ? 'Views' : 'Lượt xem'}</div>
                     <div className="font-bold text-slate-800 dark:text-slate-200">{v.views.toLocaleString()}</div>
                   </div>
                   <div className="p-1 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                    <div className="text-[10px] text-slate-400">{isEn ? 'Likes' : 'Thích'}</div>
+                    <div className="text-xs text-slate-400">{isEn ? 'Likes' : 'Thích'}</div>
                     <div className="font-bold text-slate-800 dark:text-slate-200">{v.likes.toLocaleString()}</div>
                   </div>
                   <div className="p-1 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                    <div className="text-[10px] text-slate-400">{isEn ? 'Sold' : 'Đã bán'}</div>
+                    <div className="text-xs text-slate-400">{isEn ? 'Sold' : 'Đã bán'}</div>
                     <div className="font-black text-slate-950 dark:text-white">{v.units.toLocaleString()} SP</div>
                   </div>
                   <div className="p-1 rounded-xl bg-[#FFE485]/40 dark:bg-slate-800/60">
-                    <div className="text-[10px] text-slate-400">{isEn ? 'GMV' : 'Doanh thu'}</div>
+                    <div className="text-xs text-slate-400">{isEn ? 'GMV' : 'Doanh thu'}</div>
                     <div className="font-black text-[#0D7287] dark:text-[#FFD14C]">{v.gmv} Tr đ</div>
                   </div>
                 </div>
@@ -296,10 +296,10 @@ export default function CreatorContentSection({
             {activeStreams.map((l, i) => (
               <div key={i} className="p-4 rounded-2xl bg-white border border-[#FFD14C] shadow-xs space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">
+                  <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
                     {l.startTime} · {l.duration}
                   </span>
-                  <span className="px-2 py-0.5 rounded-md bg-[#C8EEF7] text-[#0D7287] font-bold font-mono text-[10px] border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
+                  <span className="px-2 py-0.5 rounded-md bg-[#C8EEF7] text-[#0D7287] font-bold font-mono text-xs border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
                     {l.uv.toLocaleString()} đ/view
                   </span>
                 </div>
@@ -308,15 +308,15 @@ export default function CreatorContentSection({
                 </h4>
                 <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-center">
                   <div className="p-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                    <div className="text-[10px] text-slate-400">{isEn ? 'Viewers' : 'Lượt xem'}</div>
+                    <div className="text-xs text-slate-400">{isEn ? 'Viewers' : 'Lượt xem'}</div>
                     <div className="font-bold text-slate-800 dark:text-slate-200">{l.viewers.toLocaleString()}</div>
                   </div>
                   <div className="p-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-                    <div className="text-[10px] text-slate-400">{isEn ? 'Sold' : 'Đã bán'}</div>
+                    <div className="text-xs text-slate-400">{isEn ? 'Sold' : 'Đã bán'}</div>
                     <div className="font-black text-slate-950 dark:text-white">{l.units.toLocaleString()} SP</div>
                   </div>
                   <div className="p-1.5 rounded-xl bg-[#FFE485]/40 dark:bg-slate-800/60">
-                    <div className="text-[10px] text-slate-400">{isEn ? 'GMV' : 'Doanh thu'}</div>
+                    <div className="text-xs text-slate-400">{isEn ? 'GMV' : 'Doanh thu'}</div>
                     <div className="font-black text-[#0D7287] dark:text-[#FFD14C]">{l.gmv} Tr đ</div>
                   </div>
                 </div>
@@ -364,7 +364,7 @@ export default function CreatorContentSection({
                   </div>
                   <div className="text-right">
                     <span className="font-black text-rose-600 dark:text-rose-400 text-sm">5,09% vào phòng</span>
-                    <span className="text-[10px] text-slate-500 block">95% người xem lướt qua</span>
+                    <span className="text-xs text-slate-500 block">95% người xem lướt qua</span>
                   </div>
                 </div>
 
@@ -376,7 +376,7 @@ export default function CreatorContentSection({
                   </div>
                   <div className="text-right">
                     <span className="font-black text-emerald-700 dark:text-emerald-300 text-sm">25,68% vào phòng</span>
-                    <span className="text-[10px] text-slate-500 block">Gấp 5x so với Feed Preview</span>
+                    <span className="text-xs text-slate-500 block">Gấp 5x so với Feed Preview</span>
                   </div>
                 </div>
 

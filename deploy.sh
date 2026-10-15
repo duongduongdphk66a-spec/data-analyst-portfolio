@@ -4,6 +4,11 @@
 # ============================================================================
 set -euo pipefail
 
+if [ ! -f .env ]; then
+  echo "⚠️ Chưa có file .env! Tự động khởi tạo từ .env.example..."
+  cp .env.example .env
+fi
+
 echo "🚀 [1/5] Cài đặt dependencies nghiêm ngặt từ package-lock.json..."
 npm ci --include=dev
 

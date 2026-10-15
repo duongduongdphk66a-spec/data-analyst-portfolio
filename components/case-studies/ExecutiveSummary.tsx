@@ -38,7 +38,7 @@ export default function ExecutiveSummary({
           <Clock className="w-3.5 h-3.5" />
           {isEn ? 'EXECUTIVE SUMMARY' : 'TỔNG QUAN NHANH'}
           {readingTime && (
-            <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 normal-case tracking-normal">
+            <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 normal-case tracking-normal">
               · {readingTime}
             </span>
           )}
@@ -116,7 +116,7 @@ export default function ExecutiveSummary({
                     {metric.label}
                   </div>
                   {metric.change && (
-                    <div className={`text-[10px] font-bold ${
+                    <div className={`text-xs font-bold ${
                       metric.isPositive !== false
                         ? 'text-emerald-600 dark:text-emerald-400'
                         : 'text-red-500 dark:text-red-400'

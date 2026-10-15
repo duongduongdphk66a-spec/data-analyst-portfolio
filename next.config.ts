@@ -34,6 +34,18 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: '/library-bus/:path*.html',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value:
+              "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob:; frame-ancestors 'self';"
+          },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' }
+        ]
+      },
+      {
         source: '/:path*',
         headers: [
           {

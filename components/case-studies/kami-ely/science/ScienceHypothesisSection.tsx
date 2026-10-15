@@ -82,22 +82,22 @@ export default function ScienceHypothesisSection({ isEn, handleExport }: Science
           <div className="space-y-1">
             <span className="text-slate-500 font-medium">Mẫu Shoppable Video:</span>
             <p className="font-mono text-base font-bold text-[#074553] dark:text-[#9BE7FA]">139 Video (có giỏ)</p>
-            <span className="text-[10px] text-slate-400">Median view: 11.582</span>
+            <span className="text-xs text-slate-400">Median view: 11.582</span>
           </div>
           <div className="space-y-1">
             <span className="text-slate-500 font-medium">Mẫu Phiên Live Kênh:</span>
             <p className="font-mono text-base font-bold text-[#FFD14C] dark:text-[#FFE485]">475 Phiên Live</p>
-            <span className="text-[10px] text-slate-400">Median viewer: 2.400</span>
+            <span className="text-xs text-slate-400">Median viewer: 2.400</span>
           </div>
           <div className="space-y-1">
             <span className="text-slate-500 font-medium">Tỷ lệ Video có đơn:</span>
             <p className="font-mono text-base font-bold text-slate-900 dark:text-white">68.35%</p>
-            <span className="text-[10px] text-slate-400">101 / 139 video gắn giỏ</span>
+            <span className="text-xs text-slate-400">101 / 139 video gắn giỏ</span>
           </div>
           <div className="space-y-1">
             <span className="text-slate-500 font-medium">Tỷ lệ Live có đơn:</span>
             <p className="font-mono text-base font-bold text-emerald-600 dark:text-emerald-400">95.58%</p>
-            <span className="text-[10px] text-slate-400">454 / 475 phiên ra đơn</span>
+            <span className="text-xs text-slate-400">454 / 475 phiên ra đơn</span>
           </div>
         </div>
       </div>

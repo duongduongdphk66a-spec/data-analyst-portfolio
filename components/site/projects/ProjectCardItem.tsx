@@ -35,13 +35,13 @@ export const ProjectCardItem = React.memo(function ProjectCardItem({
           <span className="text-[11px] font-mono font-black uppercase tracking-[0.15em] text-[#0D7287] dark:text-[#9BE7FA]">
             {presentation.kicker}
           </span>
-          <span className="text-[10px] font-mono text-slate-300 dark:text-slate-700">/</span>
-          <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+          <span className="text-xs font-mono text-slate-300 dark:text-slate-700">/</span>
+          <span className="text-xs font-mono font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
             #{String(index + 1).padStart(2, '0')}
           </span>
         </div>
 
-        <span className="text-[10px] font-mono font-extrabold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 group-hover:bg-[#C8EEF7]/40 group-hover:text-[#074553] dark:group-hover:bg-[#9BE7FA]/20 dark:group-hover:text-[#9BE7FA] transition-colors">
+        <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 group-hover:bg-[#C8EEF7]/40 group-hover:text-[#074553] dark:group-hover:bg-[#9BE7FA]/20 dark:group-hover:text-[#9BE7FA] transition-colors">
           {isEn ? 'CASE STUDY' : 'BÁO CÁO PHÂN TÍCH'}
         </span>
       </div>
@@ -59,7 +59,7 @@ export const ProjectCardItem = React.memo(function ProjectCardItem({
       {/* 4. Single Highlighted Primary Metric (Hero Stat) */}
       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 p-4 sm:p-4.5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800/80 group-hover:border-[#9BE7FA]/40 transition-colors">
         <div className="space-y-0.5">
-          <div className="text-[10px] font-mono font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
+          <div className="text-xs font-mono font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
             <TrendingUp className="w-3 h-3 text-[#0D7287] dark:text-[#9BE7FA]" />
             <span>{isEn ? 'Key Result / Impact' : 'Kết Quả Trọng Tâm'}</span>
           </div>
@@ -83,7 +83,7 @@ export const ProjectCardItem = React.memo(function ProjectCardItem({
             {presentation.tools.slice(0, 4).map((tool) => (
               <span
                 key={tool}
-                className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-[10px] font-mono font-semibold text-slate-600 dark:text-slate-400"
+                className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-xs font-mono font-semibold text-slate-600 dark:text-slate-400"
               >
                 {tool}
               </span>

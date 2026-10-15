@@ -82,34 +82,34 @@ export default function ShopAffiliateSection({
         {/* 6 Stat Badges: Format Disparity & Pareto Concentration */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-1">
           <div className="p-3 rounded-2xl bg-white border border-indigo-200 text-center dark:bg-slate-900 dark:border-slate-800">
-            <div className="text-[10px] text-slate-500 font-bold uppercase">{isEn ? 'In-House Live (2 Channels)' : 'Live Nội Bộ (2 Kênh)'}</div>
+            <div className="text-xs text-slate-500 font-bold uppercase">{isEn ? 'In-House Live (2 Channels)' : 'Live Nội Bộ (2 Kênh)'}</div>
             <div className="text-base font-black text-indigo-600 dark:text-indigo-400 mt-0.5">8,28 Tỷ ₫ (89.4%)</div>
-            <div className="text-[10px] text-slate-400">Kami Ely + Girl Style</div>
+            <div className="text-xs text-slate-400">Kami Ely + Girl Style</div>
           </div>
           <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
-            <div className="text-[10px] text-slate-500 font-bold uppercase">{isEn ? 'True External KOCs' : 'Live KOC Ngoài Thực'}</div>
+            <div className="text-xs text-slate-500 font-bold uppercase">{isEn ? 'True External KOCs' : 'Live KOC Ngoài Thực'}</div>
             <div className="text-base font-black text-amber-600 dark:text-amber-400 mt-0.5">982,4 Tr ₫ (10.6%)</div>
-            <div className="text-[10px] text-slate-400">6.321 phiên · 155k/phiên</div>
+            <div className="text-xs text-slate-400">6.321 phiên · 155k/phiên</div>
           </div>
           <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
-            <div className="text-[10px] text-slate-500 font-bold uppercase">{isEn ? 'Dormant KOCs (0 Orders)' : 'KOC "Ngủ Đông" (0 Đơn)'}</div>
+            <div className="text-xs text-slate-500 font-bold uppercase">{isEn ? 'Dormant KOCs (0 Orders)' : 'KOC "Ngủ Đông" (0 Đơn)'}</div>
             <div className="text-base font-black text-rose-500 mt-0.5">94,89%</div>
-            <div className="text-[10px] text-slate-400">5.421 / 5.713 KOC</div>
+            <div className="text-xs text-slate-400">5.421 / 5.713 KOC</div>
           </div>
           <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
-            <div className="text-[10px] text-slate-500 font-bold uppercase">{isEn ? 'Active Converting KOCs' : 'KOC Ra Đơn Thực Tế'}</div>
+            <div className="text-xs text-slate-500 font-bold uppercase">{isEn ? 'Active Converting KOCs' : 'KOC Ra Đơn Thực Tế'}</div>
             <div className="text-base font-black text-emerald-600 dark:text-emerald-400 mt-0.5">292 KOC (5,11%)</div>
-            <div className="text-[10px] text-slate-400">Top 1% gánh 91,49% GMV</div>
+            <div className="text-xs text-slate-400">Top 1% gánh 91,49% GMV</div>
           </div>
           <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
-            <div className="text-[10px] text-slate-500 font-bold uppercase">{isEn ? 'Video vs LIVE KOCs' : 'KOC Video vs LIVE'}</div>
+            <div className="text-xs text-slate-500 font-bold uppercase">{isEn ? 'Video vs LIVE KOCs' : 'KOC Video vs LIVE'}</div>
             <div className="text-base font-black text-[#0D7287] dark:text-[#9BE7FA] mt-0.5">5.4k vs 234</div>
-            <div className="text-[10px] text-slate-400">95,9% KOC làm video</div>
+            <div className="text-xs text-slate-400">95,9% KOC làm video</div>
           </div>
           <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
-            <div className="text-[10px] text-slate-500 font-bold uppercase">{isEn ? 'Top External Tier' : 'Tier Ngoài Hiệu Quả Nhất'}</div>
+            <div className="text-xs text-slate-500 font-bold uppercase">{isEn ? 'Top External Tier' : 'Tier Ngoài Hiệu Quả Nhất'}</div>
             <div className="text-base font-black text-emerald-600 dark:text-emerald-400 mt-0.5">10k – 50k Follow</div>
-            <div className="text-[10px] text-slate-400">37.5% GMV ngoài · conv 7.8%</div>
+            <div className="text-xs text-slate-400">37.5% GMV ngoài · conv 7.8%</div>
           </div>
         </div>
       </div>
@@ -158,7 +158,7 @@ export default function ShopAffiliateSection({
                 <div className="space-y-0.5">
                   <div className="font-extrabold text-xs text-slate-900 dark:text-white flex items-center gap-2">
                     <span>{aff.name}</span>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#C8EEF7] text-[#0D7287] dark:bg-slate-700 dark:text-[#9BE7FA] font-bold">
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-[#C8EEF7] text-[#0D7287] dark:bg-slate-700 dark:text-[#9BE7FA] font-bold">
                       @{aff.id}
                     </span>
                   </div>
@@ -168,7 +168,7 @@ export default function ShopAffiliateSection({
                 </div>
                 <div className="text-right">
                   <div className="text-xs font-black text-[#0D7287] dark:text-[#FFD14C]">{aff.gmv.toLocaleString()} Triệu đ</div>
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400">{aff.units.toLocaleString()} SP</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400">{aff.units.toLocaleString()} SP</div>
                 </div>
               </div>
             ))}

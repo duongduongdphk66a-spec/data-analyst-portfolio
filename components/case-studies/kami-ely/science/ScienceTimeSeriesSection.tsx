@@ -179,7 +179,7 @@ export default function ScienceTimeSeriesSection({
         </div>
 
         <div className="rounded-xl border border-[#9BE7FA] bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 p-4 text-xs text-slate-800 dark:text-slate-200">
-          <span className="inline-block px-2 py-0.5 rounded bg-[#FFD14C] text-slate-950 font-bold mr-2 text-[10px] uppercase">
+          <span className="inline-block px-2 py-0.5 rounded bg-[#FFD14C] text-slate-950 font-bold mr-2 text-xs uppercase">
             Bài học Quản trị Vận hành
           </span>
           Doanh thu tháng 8-9 giảm theo tính mùa vụ (hết hè). Việc ép đội ngũ tăng 27 phiên LIVE/ngày vào tháng 9 là đi ngược thị trường và gây lãng phí chi phí.

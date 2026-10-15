@@ -150,14 +150,14 @@ export default function TextsEditorTab({
               >
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded-md bg-cyan-100 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 font-mono text-[10px] font-bold">
+                    <span className="px-2 py-0.5 rounded-md bg-cyan-100 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 font-mono text-xs font-bold">
                       {item.key}
                     </span>
                     <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
                       • {item.sectionLabel}
                     </span>
                   </div>
-                  <span className="text-[10px] text-slate-400 font-mono">
+                  <span className="text-xs text-slate-400 font-mono">
                     {val.length} ký tự
                   </span>
                 </div>

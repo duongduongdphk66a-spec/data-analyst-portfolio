@@ -145,7 +145,7 @@ export default function KamiElyTabsNav({
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{tab.title[lang]}</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-white text-slate-700 border border-slate-200 dark:bg-slate-950/80 dark:text-slate-300 dark:border-slate-800 shrink-0">
+                  <span className="px-2 py-0.5 rounded text-xs font-mono font-semibold bg-white text-slate-700 border border-slate-200 dark:bg-slate-950/80 dark:text-slate-300 dark:border-slate-800 shrink-0">
                     {tab.badge}
                   </span>
                 </div>
@@ -215,7 +215,7 @@ export default function KamiElyTabsNav({
               >
                 <span>{item.label}</span>
                 {item.badge && (
-                  <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded ${
+                  <span className={`text-xs font-mono px-1.5 py-0.2 rounded ${
                     isActive ? 'bg-white/20 text-white font-bold dark:bg-slate-950/20 dark:text-slate-950' : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
                   }`}>
                     {item.badge}

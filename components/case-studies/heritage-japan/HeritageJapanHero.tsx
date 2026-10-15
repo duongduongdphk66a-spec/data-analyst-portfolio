@@ -56,7 +56,7 @@ export function HeritageJapanHero({
           {/* 10% Bento Telemetry Matrix */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
             <div className="card-minimal p-4 space-y-1">
-              <span className="editorial-kicker text-[10px] block">
+              <span className="editorial-kicker text-xs block">
                 {isEn ? 'RESEARCH SCOPE' : 'PHẠM VI NGHIÊN CỨU'}
               </span>
               <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">2013 – 2023</p>
@@ -64,7 +64,7 @@ export function HeritageJapanHero({
             </div>
 
             <div className="card-minimal p-4 space-y-1">
-              <span className="editorial-kicker text-[10px] block">
+              <span className="editorial-kicker text-xs block">
                 {isEn ? 'WORLD HERITAGE SITES' : 'DI SẢN THẾ GIỚI'}
               </span>
               <p className="font-mono text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">25 Điểm Đến</p>
@@ -72,7 +72,7 @@ export function HeritageJapanHero({
             </div>
 
             <div className="card-minimal p-4 space-y-1 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA]">
-              <span className="editorial-kicker text-[10px] block text-[#0D7287] dark:text-[#9BE7FA]">
+              <span className="editorial-kicker text-xs block text-[#0D7287] dark:text-[#9BE7FA]">
                 {isEn ? 'PEAK INBOUND VOLUME' : 'ĐỈNH DU KHÁCH (2019)'}
               </span>
               <p className="font-mono text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">31.9 Triệu</p>

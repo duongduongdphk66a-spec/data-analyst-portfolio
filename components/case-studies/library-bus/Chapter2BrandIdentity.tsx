@@ -60,7 +60,7 @@ export function Chapter2BrandIdentity({
               </div>
               <div className="text-center">
                 <div className="text-lg font-black tracking-tight text-slate-900 dark:text-white">LIBRARY BUS</div>
-                <div className="text-[10px] uppercase font-mono tracking-widest text-[#0D7287] dark:text-[#9BE7FA]">Transit Wisdom · Tri Thức Lưu Động</div>
+                <div className="text-xs uppercase font-mono tracking-widest text-[#0D7287] dark:text-[#9BE7FA]">Transit Wisdom · Tri Thức Lưu Động</div>
               </div>
             </div>
           </div>

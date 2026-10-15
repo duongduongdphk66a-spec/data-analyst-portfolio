@@ -144,12 +144,12 @@ export default function KamiElyExecutiveStory({ isEn: propIsEn, onJumpToTab }: K
               }`}
             >
               <div className="space-y-1">
-                <div className="text-[10px] font-mono font-bold uppercase text-sky-700 dark:text-sky-400">{pillar.tag[lang]}</div>
+                <div className="text-xs font-mono font-bold uppercase text-sky-700 dark:text-sky-400">{pillar.tag[lang]}</div>
                 <div className="text-xs font-bold text-slate-900 dark:text-white line-clamp-2">{pillar.title[lang]}</div>
               </div>
               <div className="pt-2 border-t border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
                 <span className="text-xs font-mono font-extrabold text-emerald-700 dark:text-emerald-400">{pillar.summaryMetric}</span>
-                <span className="text-[10px] font-mono text-slate-400">{isSelected ? '▼' : '▶'}</span>
+                <span className="text-xs font-mono text-slate-400">{isSelected ? '▼' : '▶'}</span>
               </div>
             </button>
           );

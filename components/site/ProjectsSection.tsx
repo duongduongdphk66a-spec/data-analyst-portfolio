@@ -195,7 +195,7 @@ export default React.memo(function ProjectsSection({
                       {presentation.tools.slice(0, 3).map((tool) => (
                         <span
                           key={tool}
-                          className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[10px] font-mono font-semibold text-slate-500 dark:text-slate-400"
+                          className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-mono font-semibold text-slate-500 dark:text-slate-400"
                         >
                           {tool}
                         </span>

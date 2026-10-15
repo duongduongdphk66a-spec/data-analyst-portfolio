@@ -112,31 +112,31 @@ export default function CreatorSalesSection({
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 pt-1">
             <div className="p-3 rounded-2xl bg-white border border-[#FFD14C] text-center dark:bg-slate-950 dark:border-slate-800">
               <div className="text-lg font-black text-slate-950 dark:text-[#FFD14C]">{creator180dTelemetry.totalGmv}</div>
-              <div className="text-[10px] text-slate-500 mt-0.5">{isEn ? '180d GMV' : 'Doanh số 180d'}</div>
+              <div className="text-xs text-slate-500 mt-0.5">{isEn ? '180d GMV' : 'Doanh số 180d'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-white border border-[#9BE7FA] text-center dark:bg-slate-950 dark:border-slate-800">
               <div className="text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">{creator180dTelemetry.totalUnitsSold}</div>
-              <div className="text-[10px] text-slate-500 mt-0.5">{isEn ? 'Units Sold' : 'Sản phẩm bán'}</div>
+              <div className="text-xs text-slate-500 mt-0.5">{isEn ? 'Units Sold' : 'Sản phẩm bán'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-950 dark:border-slate-800">
               <div className="text-lg font-black text-slate-950 dark:text-white">{creator180dTelemetry.totalVideoViews}</div>
-              <div className="text-[10px] text-slate-500 mt-0.5">{isEn ? 'Video Views' : 'Lượt xem video'}</div>
+              <div className="text-xs text-slate-500 mt-0.5">{isEn ? 'Video Views' : 'Lượt xem video'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-950 dark:border-slate-800">
               <div className="text-lg font-black text-rose-600 dark:text-rose-400">{creator180dTelemetry.likes}</div>
-              <div className="text-[10px] text-slate-500 mt-0.5">{isEn ? 'Likes' : 'Lượt thích'}</div>
+              <div className="text-xs text-slate-500 mt-0.5">{isEn ? 'Likes' : 'Lượt thích'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-950 dark:border-slate-800">
               <div className="text-lg font-black text-amber-600 dark:text-amber-400">{creator180dTelemetry.saves}</div>
-              <div className="text-[10px] text-slate-500 mt-0.5">{isEn ? 'Saves' : 'Lưu trữ'}</div>
+              <div className="text-xs text-slate-500 mt-0.5">{isEn ? 'Saves' : 'Lưu trữ'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-950 dark:border-slate-800">
               <div className="text-lg font-black text-blue-600 dark:text-blue-400">{creator180dTelemetry.shares}</div>
-              <div className="text-[10px] text-slate-500 mt-0.5">{isEn ? 'Shares' : 'Chia sẻ'}</div>
+              <div className="text-xs text-slate-500 mt-0.5">{isEn ? 'Shares' : 'Chia sẻ'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-white border border-emerald-300 text-center dark:bg-slate-950 dark:border-slate-800">
               <div className="text-lg font-black text-emerald-600 dark:text-emerald-400">{creator180dTelemetry.followerGrowth}</div>
-              <div className="text-[10px] text-slate-500 mt-0.5">{isEn ? 'Follower Net' : 'Tăng Follow'}</div>
+              <div className="text-xs text-slate-500 mt-0.5">{isEn ? 'Follower Net' : 'Tăng Follow'}</div>
             </div>
           </div>
         </div>
@@ -356,12 +356,12 @@ export default function CreatorSalesSection({
                 {creatorCollaborativeStores.map((s, i) => (
                   <tr key={i} className={`hover:bg-[#FFE485]/10 transition-colors dark:hover:bg-slate-800/50 ${i === 0 ? 'bg-[#FFFDF5] dark:bg-slate-800/40 font-bold' : ''}`}>
                     <td className="p-3.5 flex items-center gap-2">
-                      <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black ${i === 0 ? 'bg-[#0D7287] text-white' : 'bg-slate-200 text-slate-700'}`}>
+                      <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${i === 0 ? 'bg-[#0D7287] text-white' : 'bg-slate-200 text-slate-700'}`}>
                         {i + 1}
                       </span>
                       <span className="font-bold text-slate-900 dark:text-white">{s.storeName}</span>
                       {i === 0 && (
-                        <span className="px-2 py-0.5 rounded-full bg-[#FFE485] text-slate-950 text-[10px] font-extrabold border border-[#FFD14C]">
+                        <span className="px-2 py-0.5 rounded-full bg-[#FFE485] text-slate-950 text-xs font-extrabold border border-[#FFD14C]">
                           {isEn ? 'Flagship Store' : 'Shop Chính Chủ'}
                         </span>
                       )}
@@ -388,32 +388,32 @@ export default function CreatorSalesSection({
               }`}>
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black ${i === 0 ? 'bg-[#0D7287] text-white' : 'bg-slate-200 text-slate-700'}`}>
+                    <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-black ${i === 0 ? 'bg-[#0D7287] text-white' : 'bg-slate-200 text-slate-700'}`}>
                       {i + 1}
                     </span>
                     <span className="font-black text-sm text-slate-950 dark:text-white">{s.storeName}</span>
                   </div>
                   {i === 0 && (
-                    <span className="px-2 py-0.5 rounded-full bg-[#FFE485] text-slate-950 text-[10px] font-extrabold border border-[#FFD14C]">
+                    <span className="px-2 py-0.5 rounded-full bg-[#FFE485] text-slate-950 text-xs font-extrabold border border-[#FFD14C]">
                       {isEn ? 'Flagship Store' : 'Shop Chính Chủ'}
                     </span>
                   )}
                 </div>
                 <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
                   <div>
-                    <div className="text-[10px] text-slate-400">{isEn ? 'Units Sold' : 'Sản lượng'}</div>
+                    <div className="text-xs text-slate-400">{isEn ? 'Units Sold' : 'Sản lượng'}</div>
                     <div className="font-bold text-slate-800 dark:text-slate-200">{s.unitsSold} ({s.unitsShare})</div>
                   </div>
                   <div>
-                    <div className="text-[10px] text-slate-400">{isEn ? 'GMV' : 'Doanh số'}</div>
+                    <div className="text-xs text-slate-400">{isEn ? 'GMV' : 'Doanh số'}</div>
                     <div className="font-black text-[#0D7287] dark:text-[#FFD14C]">{s.gmv} ({s.gmvShare})</div>
                   </div>
                   <div>
-                    <div className="text-[10px] text-slate-400">{isEn ? 'LIVE Sessions' : 'Phiên LIVE'}</div>
+                    <div className="text-xs text-slate-400">{isEn ? 'LIVE Sessions' : 'Phiên LIVE'}</div>
                     <div className="font-bold text-slate-800 dark:text-slate-200">{s.liveSessions}</div>
                   </div>
                   <div>
-                    <div className="text-[10px] text-slate-400">{isEn ? 'Videos' : 'Video gắn giỏ'}</div>
+                    <div className="text-xs text-slate-400">{isEn ? 'Videos' : 'Video gắn giỏ'}</div>
                     <div className="font-bold text-slate-800 dark:text-slate-200">{s.videosCount}</div>
                   </div>
                 </div>

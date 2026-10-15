@@ -35,25 +35,25 @@ export default function FastMossHtmlMockupCard({
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-[11px] font-bold text-sky-400">FASTMOSS • SHOP ID: 7494498...</span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+              <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
                 RANK #259 CATEGORY
               </span>
             </div>
 
             <div className="grid grid-cols-2 gap-2">
               <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
-                <div className="text-[10px] text-slate-400 uppercase">Total GMV (All-Time)</div>
+                <div className="text-xs text-slate-400 uppercase">Total GMV (All-Time)</div>
                 <div className="text-lg font-black text-sky-400 mt-0.5">31,6 Tỉ ₫</div>
-                <div className="text-[10px] text-slate-500 mt-0.5">Cumulative Sales</div>
+                <div className="text-xs text-slate-500 mt-0.5">Cumulative Sales</div>
               </div>
               <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
-                <div className="text-[10px] text-slate-400 uppercase">Total Units Sold</div>
+                <div className="text-xs text-slate-400 uppercase">Total Units Sold</div>
                 <div className="text-lg font-black text-emerald-400 mt-0.5">238,4k SP</div>
-                <div className="text-[10px] text-slate-500 mt-0.5">238,2k on Collab</div>
+                <div className="text-xs text-slate-500 mt-0.5">238,2k on Collab</div>
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 text-center text-[10px]">
+            <div className="grid grid-cols-3 gap-2 text-center text-xs">
               <div className="p-2 rounded bg-slate-900/60 border border-slate-800/80">
                 <div className="text-slate-400">Shoppable LIVE</div>
                 <div className="text-xs font-bold text-white mt-0.5">12,4k phiên</div>
@@ -68,7 +68,7 @@ export default function FastMossHtmlMockupCard({
               </div>
             </div>
 
-            <div className="p-2 rounded bg-sky-500/10 border border-sky-500/20 text-[10px] text-sky-300 flex items-center justify-between">
+            <div className="p-2 rounded bg-sky-500/10 border border-sky-500/20 text-xs text-sky-300 flex items-center justify-between">
               <span>Verified Store: Kami Ely Vietnam</span>
               <span className="font-bold text-white">Active Catalog: 179 SKUs</span>
             </div>
@@ -84,23 +84,23 @@ export default function FastMossHtmlMockupCard({
                 <span className="w-2 h-2 rounded-full bg-indigo-400" />
                 <span className="text-[11px] font-bold text-indigo-300">DATA OVERVIEW • 180 DAYS</span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-bold">
+              <span className="text-xs px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-bold">
                 18.778 ROWS
               </span>
             </div>
 
             <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between">
               <div>
-                <div className="text-[10px] text-slate-400">180d Verified Gross GMV</div>
+                <div className="text-xs text-slate-400">180d Verified Gross GMV</div>
                 <div className="text-base font-black text-white mt-0.5">12.735.128.067 VNĐ</div>
               </div>
               <div className="text-right">
-                <div className="text-[10px] text-slate-400">Units Sold</div>
+                <div className="text-xs text-slate-400">Units Sold</div>
                 <div className="text-base font-black text-emerald-400 mt-0.5">85.500 SP</div>
               </div>
             </div>
 
-            <div className="space-y-1.5 text-[10px]">
+            <div className="space-y-1.5 text-xs">
               <div className="p-1.5 rounded bg-slate-900/60 border border-slate-800 flex justify-between">
                 <span className="text-slate-400">Daily Average (180d)</span>
                 <span className="font-bold text-sky-300">70,75 Triệu đ / ngày (475 SP)</span>
@@ -115,7 +115,7 @@ export default function FastMossHtmlMockupCard({
               </div>
             </div>
 
-            <div className="p-2 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px] text-emerald-300 flex items-center justify-between">
+            <div className="p-2 rounded bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 flex items-center justify-between">
               <span>ETL Regex Match: (180 ng y) .xlsx</span>
               <span className="font-bold">Zero Manual Fixes</span>
             </div>
@@ -131,7 +131,7 @@ export default function FastMossHtmlMockupCard({
                 <span className="w-2 h-2 rounded-full bg-amber-400" />
                 <span className="text-[11px] font-bold text-amber-300">CHANNEL BREAKDOWN • 90 DAYS</span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-bold">
+              <span className="text-xs px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-bold">
                 6,14 TỈ Đ TOTAL
               </span>
             </div>
@@ -140,38 +140,38 @@ export default function FastMossHtmlMockupCard({
               <div className="p-2 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-between">
                 <div>
                   <span className="font-bold text-sky-300 block">Kênh Chính Chủ (@kamielyhn)</span>
-                  <span className="text-[10px] text-slate-400">20.027 SP • 49,76% sản lượng</span>
+                  <span className="text-xs text-slate-400">20.027 SP • 49,76% sản lượng</span>
                 </div>
                 <div className="text-right">
                   <div className="font-bold text-sky-400">3,03 Tỉ ₫</div>
-                  <div className="text-[10px] text-sky-300 font-bold">49,31% GMV</div>
+                  <div className="text-xs text-sky-300 font-bold">49,31% GMV</div>
                 </div>
               </div>
 
               <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between">
                 <div>
                   <span className="font-bold text-emerald-300 block">Mạng Lưới Affiliate (5.712 KOC)</span>
-                  <span className="text-[10px] text-slate-400">11.572 SP • 28,75% sản lượng</span>
+                  <span className="text-xs text-slate-400">11.572 SP • 28,75% sản lượng</span>
                 </div>
                 <div className="text-right">
                   <div className="font-bold text-emerald-400">1,71 Tỉ ₫</div>
-                  <div className="text-[10px] text-emerald-300 font-bold">27,84% GMV</div>
+                  <div className="text-xs text-emerald-300 font-bold">27,84% GMV</div>
                 </div>
               </div>
 
               <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
                 <div>
                   <span className="font-bold text-amber-300 block">Thẻ Sản Phẩm / Kệ Hàng (Showcase)</span>
-                  <span className="text-[10px] text-slate-400">8.630 SP • 21,49% sản lượng</span>
+                  <span className="text-xs text-slate-400">8.630 SP • 21,49% sản lượng</span>
                 </div>
                 <div className="text-right">
                   <div className="font-bold text-amber-400">1,40 Tỉ ₫</div>
-                  <div className="text-[10px] text-amber-300 font-bold">22,85% GMV</div>
+                  <div className="text-xs text-amber-300 font-bold">22,85% GMV</div>
                 </div>
               </div>
             </div>
 
-            <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-400 flex justify-between">
+            <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-xs text-slate-400 flex justify-between">
               <span>Reconciled Sum: 40.229 SP</span>
               <span className="text-white font-bold">100% Khớp Seller Center</span>
             </div>
@@ -187,12 +187,12 @@ export default function FastMossHtmlMockupCard({
                 <span className="w-2 h-2 rounded-full bg-emerald-400" />
                 <span className="text-[11px] font-bold text-emerald-300">180-DAY TIME-SERIES CURVE</span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-rose-500/10 text-rose-300 border border-rose-500/20 font-bold">
+              <span className="text-xs px-2 py-0.5 rounded bg-rose-500/10 text-rose-300 border border-rose-500/20 font-bold">
                 -82,9% SỤT GIẢM T8
               </span>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 text-center text-[10px]">
+            <div className="grid grid-cols-3 gap-2 text-center text-xs">
               <div className="p-2 rounded bg-slate-900 border border-slate-800">
                 <div className="text-slate-400">Tháng 4 (Tăng tốc)</div>
                 <div className="text-sm font-bold text-sky-400 mt-0.5">2,46 Tỉ ₫</div>
@@ -210,7 +210,7 @@ export default function FastMossHtmlMockupCard({
               </div>
             </div>
 
-            <div className="space-y-1 text-[10px] text-slate-300">
+            <div className="space-y-1 text-xs text-slate-300">
               <div className="flex justify-between">
                 <span>Khán giả tại Hà Nội (Hết mùa biển):</span>
                 <span className="font-bold text-amber-400">43% Followers</span>
@@ -221,7 +221,7 @@ export default function FastMossHtmlMockupCard({
               </div>
             </div>
 
-            <div className="p-2 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-400 flex justify-between">
+            <div className="p-2 rounded bg-slate-900 border border-slate-800 text-xs text-slate-400 flex justify-between">
               <span>Đỉnh: 16/06 (315M ₫ / 1.936 SP)</span>
               <span>Đáy: 04/09 (5,4M ₫ / 49 SP)</span>
             </div>
@@ -237,21 +237,21 @@ export default function FastMossHtmlMockupCard({
                 <span className="w-2 h-2 rounded-full bg-pink-400" />
                 <span className="text-[11px] font-bold text-pink-300">KOC PARETO AUDIT • 90 DAYS</span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-pink-500/10 text-pink-300 border border-pink-500/20 font-bold">
+              <span className="text-xs px-2 py-0.5 rounded bg-pink-500/10 text-pink-300 border border-pink-500/20 font-bold">
                 5.713 KOCS
               </span>
             </div>
 
             <div className="grid grid-cols-2 gap-2 text-[11px]">
               <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
-                <div className="text-[10px] text-slate-400">KOC Có Đơn (Active)</div>
+                <div className="text-xs text-slate-400">KOC Có Đơn (Active)</div>
                 <div className="text-base font-bold text-emerald-400 mt-0.5">292 KOCs (5,1%)</div>
-                <div className="text-[10px] text-emerald-300">4,73 Tỉ ₫ Doanh số</div>
+                <div className="text-xs text-emerald-300">4,73 Tỉ ₫ Doanh số</div>
               </div>
               <div className="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30">
-                <div className="text-[10px] text-slate-400">KOC Ngủ Đông (Dormant)</div>
+                <div className="text-xs text-slate-400">KOC Ngủ Đông (Dormant)</div>
                 <div className="text-base font-bold text-rose-400 mt-0.5">5.421 KOCs (94,9%)</div>
-                <div className="text-[10px] text-rose-300">0 đơn phát sinh</div>
+                <div className="text-xs text-rose-300">0 đơn phát sinh</div>
               </div>
             </div>
 
@@ -260,12 +260,12 @@ export default function FastMossHtmlMockupCard({
                 <span className="text-amber-300">Top 1 KOC (@girlstyle.vn):</span>
                 <span className="text-white">732,77 Tr ₫ (5.009 SP)</span>
               </div>
-              <div className="text-[10px] text-slate-400">
+              <div className="text-xs text-slate-400">
                 Gánh 42,9% GMV toàn mạng lưới Affiliate (Top 1% = 91,49% GMV)
               </div>
             </div>
 
-            <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-400 flex justify-between">
+            <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-xs text-slate-400 flex justify-between">
               <span>Followers &lt;5k (Nano/Micro):</span>
               <span className="text-emerald-400 font-bold">Gánh 96,09% GMV Ngoài</span>
             </div>
@@ -281,12 +281,12 @@ export default function FastMossHtmlMockupCard({
                 <span className="w-2 h-2 rounded-full bg-cyan-400" />
                 <span className="text-[11px] font-bold text-cyan-300">@KAMIELYHN • 222 VIDEOS</span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-bold">
+              <span className="text-xs px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-bold">
                 870,2 TR Đ GMV
               </span>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 text-center text-[10px]">
+            <div className="grid grid-cols-3 gap-2 text-center text-xs">
               <div className="p-2 rounded bg-slate-900 border border-slate-800">
                 <div className="text-slate-400">Tổng Views</div>
                 <div className="text-xs font-bold text-white mt-0.5">7,97M</div>
@@ -301,7 +301,7 @@ export default function FastMossHtmlMockupCard({
               </div>
             </div>
 
-            <div className="space-y-1.5 text-[10px]">
+            <div className="space-y-1.5 text-xs">
               <div className="p-2 rounded bg-emerald-500/10 border border-emerald-500/30 flex justify-between">
                 <div>
                   <div className="font-bold text-emerald-300">#1 "Chính Thức Mở Bán_ Croptop yếm..."</div>
@@ -319,7 +319,7 @@ export default function FastMossHtmlMockupCard({
               </div>
             </div>
 
-            <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-400 flex justify-between">
+            <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-xs text-slate-400 flex justify-between">
               <span>GPM Nhóm Hook "Mở Bán":</span>
               <span className="text-white font-bold">Gấp 3,2x Tiêu đề thường</span>
             </div>
@@ -335,12 +335,12 @@ export default function FastMossHtmlMockupCard({
                 <span className="w-2 h-2 rounded-full bg-amber-400" />
                 <span className="text-[11px] font-bold text-amber-300">LIVE ANOMALY DETECTOR • 475 PHIÊN</span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-bold">
+              <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-bold">
                 95,58% RA ĐƠN
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 text-[10px]">
+            <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2 rounded bg-rose-500/10 border border-rose-500/30">
                 <div className="font-bold text-rose-300">Bẫy Số Lượng (09/04)</div>
                 <div className="text-sm font-bold text-white mt-0.5">106 phiên LIVE</div>
@@ -353,7 +353,7 @@ export default function FastMossHtmlMockupCard({
               </div>
             </div>
 
-            <div className="p-2 rounded bg-slate-900 border border-slate-800 text-[10px] space-y-1">
+            <div className="p-2 rounded bg-slate-900 border border-slate-800 text-xs space-y-1">
               <div className="flex justify-between">
                 <span className="text-slate-400">Chênh lệch hiệu suất phiên:</span>
                 <span className="font-bold text-emerald-400">Gấp 5,8x (Chất lượng &gt; Số lượng)</span>
@@ -364,7 +364,7 @@ export default function FastMossHtmlMockupCard({
               </div>
             </div>
 
-            <div className="p-1.5 rounded bg-sky-500/10 border border-sky-500/20 text-[10px] text-sky-300 flex justify-between">
+            <div className="p-1.5 rounded bg-sky-500/10 border border-sky-500/20 text-xs text-sky-300 flex justify-between">
               <span>Đỉnh Marathon (16/06):</span>
               <span className="font-bold">272,1 Tr đ / 1.850 SP</span>
             </div>
@@ -380,25 +380,25 @@ export default function FastMossHtmlMockupCard({
                 <span className="w-2 h-2 rounded-full bg-pink-400" />
                 <span className="text-[11px] font-bold text-pink-300">GPM PARADOX & ENTRY FUNNEL</span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-pink-500/10 text-pink-300 border border-pink-500/20 font-bold">
+              <span className="text-xs px-2 py-0.5 rounded bg-pink-500/10 text-pink-300 border border-pink-500/20 font-bold">
                 VIDEO 4,5X LIVE
               </span>
             </div>
 
             <div className="grid grid-cols-2 gap-2 text-[11px]">
               <div className="p-2.5 rounded-lg bg-pink-500/10 border border-pink-500/30">
-                <div className="text-[10px] text-slate-400">Shoppable Video GPM</div>
+                <div className="text-xs text-slate-400">Shoppable Video GPM</div>
                 <div className="text-lg font-black text-pink-400 mt-0.5">135,2k ₫</div>
-                <div className="text-[10px] text-pink-300">/ 1.000 views (28 ngày)</div>
+                <div className="text-xs text-pink-300">/ 1.000 views (28 ngày)</div>
               </div>
               <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
-                <div className="text-[10px] text-slate-400">Livestream GPM</div>
+                <div className="text-xs text-slate-400">Livestream GPM</div>
                 <div className="text-lg font-black text-slate-300 mt-0.5">30,2k ₫</div>
-                <div className="text-[10px] text-slate-500">/ 1.000 views (208 phiên)</div>
+                <div className="text-xs text-slate-500">/ 1.000 views (208 phiên)</div>
               </div>
             </div>
 
-            <div className="space-y-1.5 text-[10px]">
+            <div className="space-y-1.5 text-xs">
               <div className="p-2 rounded bg-rose-500/10 border border-rose-500/30 flex justify-between">
                 <span className="text-rose-300">Bảng tin - Ô Live (46% PV):</span>
                 <span className="font-bold text-rose-400">5,09% Vào phòng (95% bỏ qua)</span>
@@ -409,7 +409,7 @@ export default function FastMossHtmlMockupCard({
               </div>
             </div>
 
-            <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-400 flex justify-between">
+            <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-xs text-slate-400 flex justify-between">
               <span>Paid Ads Share in Video:</span>
               <span className="text-amber-400 font-bold">94,70% GMV (2,056 Tỉ đ)</span>
             </div>
@@ -425,12 +425,12 @@ export default function FastMossHtmlMockupCard({
                 <span className="w-2 h-2 rounded-full bg-emerald-400" />
                 <span className="text-[11px] font-bold text-emerald-300">4 COLLABORATIVE STORES</span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-bold">
+              <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-bold">
                 9,2 TỈ Đ ALL-TIME
               </span>
             </div>
 
-            <div className="space-y-1.5 text-[10px]">
+            <div className="space-y-1.5 text-xs">
               <div className="p-2 rounded bg-sky-500/10 border border-sky-500/30 flex justify-between">
                 <span className="font-bold text-sky-300">#1 Kami Ely Official Store:</span>
                 <span className="font-bold text-white">9,1 Tỉ ₫ (69.245 SP)</span>
@@ -445,7 +445,7 @@ export default function FastMossHtmlMockupCard({
               </div>
             </div>
 
-            <div className="p-2 rounded bg-amber-500/10 border border-amber-500/30 text-[10px] space-y-1">
+            <div className="p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs space-y-1">
               <div className="flex justify-between font-bold">
                 <span className="text-amber-300">Vùng Giá Vàng (100k - 200k):</span>
                 <span className="text-white">67,37% Doanh Thu</span>
@@ -453,7 +453,7 @@ export default function FastMossHtmlMockupCard({
               <div className="text-slate-400">Hero SKU CV11 dẫn đầu toàn shop với 6.375 đơn bán</div>
             </div>
 
-            <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-400 flex justify-between">
+            <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-xs text-slate-400 flex justify-between">
               <span>Dead Stock (0 đơn bán):</span>
               <span className="text-rose-400 font-bold">197 / 331 SKUs (59,5%)</span>
             </div>
@@ -470,12 +470,12 @@ export default function FastMossHtmlMockupCard({
                 <span className="w-2 h-2 rounded-full bg-cyan-400" />
                 <span className="text-[11px] font-bold text-cyan-300">LIVE WORKBENCH TELEMETRY</span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-bold">
+              <span className="text-xs px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-bold">
                 SELLER CENTER
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 text-[10px]">
+            <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2 rounded bg-slate-900 border border-slate-800">
                 <div className="text-slate-400">Lượt Xem Phòng (PV)</div>
                 <div className="text-base font-bold text-white mt-0.5">3,29M Views</div>
@@ -488,7 +488,7 @@ export default function FastMossHtmlMockupCard({
               </div>
             </div>
 
-            <div className="space-y-1.5 text-[10px]">
+            <div className="space-y-1.5 text-xs">
               <div className="p-2 rounded bg-slate-900 border border-slate-800 flex justify-between">
                 <span className="text-slate-400">Hợp nhất Live (Live Merge 2% PV):</span>
                 <span className="font-bold text-emerald-400">41,41% Vào phòng (Đỉnh CVR)</span>
@@ -499,7 +499,7 @@ export default function FastMossHtmlMockupCard({
               </div>
             </div>
 
-            <div className="p-1.5 rounded bg-sky-500/10 border border-sky-500/20 text-[10px] text-sky-300 flex justify-between">
+            <div className="p-1.5 rounded bg-sky-500/10 border border-sky-500/20 text-xs text-sky-300 flex justify-between">
               <span>Độ dài phiên khuyến nghị:</span>
               <span className="font-bold">3h – 3h30p (Tránh bão hòa)</span>
             </div>
@@ -516,10 +516,10 @@ export default function FastMossHtmlMockupCard({
       {/* CARD TOP META */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-900 text-sky-400 border border-slate-800">
+          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-slate-900 text-sky-400 border border-slate-800">
             📊 HTML TELEMETRY #{screenshotId}
           </span>
-          <span className="text-[10px] text-emerald-400 font-mono hidden sm:inline">
+          <span className="text-xs text-emerald-400 font-mono hidden sm:inline">
             ✓ Ground Truth
           </span>
         </div>

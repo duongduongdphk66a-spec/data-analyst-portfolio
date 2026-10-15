@@ -117,7 +117,7 @@ export function AcademicThesisMockup({
             <ZoomIn className="w-3.5 h-3.5 text-sky-400" />
             <span className="hidden sm:inline">{isEn ? 'Inspect Full Resolution' : 'Phóng to kiểm chứng'}</span>
           </button>
-          <div className="mt-2 w-full flex justify-between items-center text-[10px] font-sans text-stone-500 dark:text-stone-400 border-t border-stone-100 dark:border-stone-800 pt-2">
+          <div className="mt-2 w-full flex justify-between items-center text-xs font-sans text-stone-500 dark:text-stone-400 border-t border-stone-100 dark:border-stone-800 pt-2">
             <span>{isEn ? 'Extracted directly from Niên luận.docx (USSH VNU Hanoi)' : 'Trích xuất trực tiếp từ file Niên luận.docx gốc (Khoa Đông Phương học)'}</span>
             <span className="font-mono text-emerald-700 dark:text-emerald-400 font-bold">{isEn ? 'Verified Primary Source' : 'Nguồn Sơ Cấp Thẩm Tra'}</span>
           </div>
@@ -131,17 +131,17 @@ export function AcademicThesisMockup({
               return (
                 <div key={idx} className="flex-1 flex flex-col items-center justify-end h-full group relative">
                   {/* Tooltip on hover */}
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 bg-slate-900 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded shadow pointer-events-none z-20 whitespace-nowrap">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 bg-slate-900 text-white text-xs font-mono font-bold px-2 py-0.5 rounded shadow pointer-events-none z-20 whitespace-nowrap">
                     {item.year}: {item.value} {isEn ? unitEn : unitVi}
                   </div>
-                  <span className="text-[10px] font-mono text-stone-600 dark:text-stone-300 mb-1 opacity-80 group-hover:opacity-100 font-bold">
+                  <span className="text-xs font-mono text-stone-600 dark:text-stone-300 mb-1 opacity-80 group-hover:opacity-100 font-bold">
                     {item.value}
                   </span>
                   <div 
                     className="w-full max-w-[28px] bg-gradient-to-t from-[#0D7287] to-[#9BE7FA] rounded-t-xs dark:from-[#0D7287] dark:to-[#9BE7FA] group-hover:brightness-110 transition-all shadow-xs"
                     style={{ height: `${heightPercent}%` }}
                   />
-                  <span className="text-[10px] sm:text-xs font-mono text-stone-500 dark:text-stone-400 mt-1.5 -rotate-45 sm:rotate-0 origin-center">
+                  <span className="text-xs sm:text-xs font-mono text-stone-500 dark:text-stone-400 mt-1.5 -rotate-45 sm:rotate-0 origin-center">
                     {item.year.replace('20', "'")}
                   </span>
                 </div>
@@ -149,7 +149,7 @@ export function AcademicThesisMockup({
             })}
           </div>
 
-          <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 text-[10px] font-sans text-stone-500 dark:text-stone-400 border-t border-stone-100 dark:border-stone-800 pt-2">
+          <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 text-xs font-sans text-stone-500 dark:text-stone-400 border-t border-stone-100 dark:border-stone-800 pt-2">
             <span>{isEn ? 'Coordinate System: Cartesian 2D • Mobile Optimized' : 'Hệ quy chiếu: Lưới tọa độ Đề-các chuẩn học thuật (Tối ưu Mobile 390px)'}</span>
             <span className="font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">
               {isEn ? `Max Range: ${maxVal} ${unitEn}` : `Ngưỡng cực đại: ${maxVal} ${unitVi}`}

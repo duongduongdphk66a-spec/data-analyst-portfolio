@@ -26,7 +26,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
         {/* Top Header */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5">
-            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider ${
+            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-extrabold uppercase tracking-wider ${
               isShop 
                 ? 'bg-[#9BE7FA]/25 text-[#074553] border border-[#9BE7FA]/70 dark:bg-[#9BE7FA]/10 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30' 
                 : 'bg-[#FFE485]/30 text-[#B88B0D] border border-[#FFD14C]/40 dark:bg-[#FFD14C]/10 dark:text-[#FFE485] dark:border-[#FFD14C]/30'
@@ -34,12 +34,12 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
               <ShieldCheck className="w-3 h-3" />
               {isShop ? (isEn ? 'SHOP TELEMETRY' : 'DỮ LIỆU SHOP') : (isEn ? 'CREATOR TELEMETRY' : 'DỮ LIỆU KOC')}
             </span>
-            <span className="font-mono text-[10px] text-slate-400 dark:text-slate-500">
+            <span className="font-mono text-xs text-slate-400 dark:text-slate-500">
               #{item.id.replace('sc-', '')}
             </span>
           </div>
 
-          <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold">
+          <span className="inline-flex items-center gap-1 text-xs font-mono text-emerald-600 dark:text-emerald-400 font-bold">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             LIVE
           </span>
@@ -58,7 +58,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
 
           <div className="relative z-10 flex justify-between items-start">
             <div className="space-y-0.5">
-              <span className="text-[10px] uppercase font-mono tracking-wider text-slate-400 flex items-center gap-1">
+              <span className="text-xs uppercase font-mono tracking-wider text-slate-400 flex items-center gap-1">
                 <Terminal className="w-2.5 h-2.5 text-[#9BE7FA]" />
                 FastMoss API v2.4
               </span>
@@ -99,7 +99,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
           </div>
 
           {/* Canvas Bottom Ticker */}
-          <div className="relative z-10 flex justify-between items-center text-[10px] font-mono text-slate-400 border-t border-slate-800/80 pt-1">
+          <div className="relative z-10 flex justify-between items-center text-xs font-mono text-slate-400 border-t border-slate-800/80 pt-1">
             <span>INDEX: OK</span>
             <span className="text-emerald-400">VERIFIED HASH</span>
             <span>REST API</span>
@@ -118,7 +118,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
       </div>
 
       {/* Footer Info */}
-      <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[10px]">
+      <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
         <span className="font-medium text-slate-500 dark:text-slate-400 truncate max-w-[140px]">
           {isEn ? (item.timeframeEn || 'Real-time telemetry') : (item.timeframeVi || 'Viễn trắc thời gian thực')}
         </span>
@@ -290,30 +290,30 @@ export function FastMossTelemetryModal({
               {/* Data Grid Inspector */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700/80 space-y-1">
-                  <span className="text-[10px] font-mono text-slate-400 uppercase">Engine Type</span>
+                  <span className="text-xs font-mono text-slate-400 uppercase">Engine Type</span>
                   <div className="text-sm font-bold text-white flex items-center gap-2">
                     <Activity className="w-4 h-4 text-[#9BE7FA]" />
                     FastMoss Partner REST
                   </div>
-                  <p className="text-[10px] text-slate-400">Real-time TikTok crawler engine</p>
+                  <p className="text-xs text-slate-400">Real-time TikTok crawler engine</p>
                 </div>
 
                 <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700/80 space-y-1">
-                  <span className="text-[10px] font-mono text-slate-400 uppercase">Database Mapping</span>
+                  <span className="text-xs font-mono text-slate-400 uppercase">Database Mapping</span>
                   <div className="text-sm font-bold text-[#9BE7FA] flex items-center gap-2">
                     <Database className="w-4 h-4 text-[#9BE7FA]" />
                     MySQL `portfolio_db` Active
                   </div>
-                  <p className="text-[10px] text-slate-400">Synced to 8 relational tables</p>
+                  <p className="text-xs text-slate-400">Synced to 8 relational tables</p>
                 </div>
 
                 <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700/80 space-y-1">
-                  <span className="text-[10px] font-mono text-slate-400 uppercase">Security Integrity</span>
+                  <span className="text-xs font-mono text-slate-400 uppercase">Security Integrity</span>
                   <div className="text-sm font-bold text-[#FFD14C] flex items-center gap-2">
                     <ShieldCheck className="w-4 h-4 text-[#FFD14C]" />
                     Hash Verified
                   </div>
-                  <p className="text-[10px] text-slate-400">Tamper-proof financial snapshot</p>
+                  <p className="text-xs text-slate-400">Tamper-proof financial snapshot</p>
                 </div>
               </div>
             </div>

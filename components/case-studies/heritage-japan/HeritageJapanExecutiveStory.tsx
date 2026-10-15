@@ -62,15 +62,15 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
           {/* Quick Stats Pill */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 gap-3 shrink-0">
             <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
-              <div className="text-[10px] text-slate-300 uppercase font-bold tracking-wider">{isEn ? '2024 Record Visitors' : 'Kỷ Lục Khách 2024'}</div>
+              <div className="text-xs text-slate-300 uppercase font-bold tracking-wider">{isEn ? '2024 Record Visitors' : 'Kỷ Lục Khách 2024'}</div>
               <div className="text-lg sm:text-xl font-black text-[#9BE7FA]">36.87 Triệu</div>
             </div>
             <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
-              <div className="text-[10px] text-slate-300 uppercase font-bold tracking-wider">{isEn ? '2024 Expenditure' : 'Chi Tiêu 2024'}</div>
+              <div className="text-xs text-slate-300 uppercase font-bold tracking-wider">{isEn ? '2024 Expenditure' : 'Chi Tiêu 2024'}</div>
               <div className="text-lg sm:text-xl font-black text-[#FFD14C]">8.14 Nghìn Tỷ ¥</div>
             </div>
             <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center col-span-2 sm:col-span-1 md:col-span-2">
-              <div className="text-[10px] text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Policy CAGR (2013-19)' : 'Tăng Trưởng CAGR'}</div>
+              <div className="text-xs text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Policy CAGR (2013-19)' : 'Tăng Trưởng CAGR'}</div>
               <div className="text-lg sm:text-xl font-black text-emerald-300">+20.6% / năm</div>
             </div>
           </div>
@@ -124,17 +124,17 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-[10px] uppercase font-bold text-slate-400 font-mono">2003 Baseline</div>
+                    <div className="text-xs uppercase font-bold text-slate-400 font-mono">2003 Baseline</div>
                     <div className="text-lg font-black text-slate-800 dark:text-slate-100">5.21M Khách</div>
                     <div className="text-xs text-slate-500 font-medium">Chi tiêu ~1.1T ¥</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-[10px] uppercase font-bold text-[#0D7287] dark:text-[#9BE7FA] font-mono">2019 Pre-Covid Peak</div>
+                    <div className="text-xs uppercase font-bold text-[#0D7287] dark:text-[#9BE7FA] font-mono">2019 Pre-Covid Peak</div>
                     <div className="text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">31.88M Khách</div>
                     <div className="text-xs text-teal-600 dark:text-teal-400 font-bold">+512% vs 2003</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs col-span-2 sm:col-span-1">
-                    <div className="text-[10px] uppercase font-bold text-[#FFD14C] font-mono">2024 All-Time High</div>
+                    <div className="text-xs uppercase font-bold text-[#FFD14C] font-mono">2024 All-Time High</div>
                     <div className="text-lg font-black text-amber-600 dark:text-amber-400">36.87M Khách</div>
                     <div className="text-xs text-amber-600 font-bold">¥8.14T Chi tiêu</div>
                   </div>
@@ -160,7 +160,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                     <BarChart2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                     {isEn ? 'National Milestone Telemetry' : 'Cột Mốc Tăng Trưởng Toàn Quốc'}
                   </span>
-                  <span className="text-[10px] font-mono font-bold text-slate-400">JNTO / MLIT</span>
+                  <span className="text-xs font-mono font-bold text-slate-400">JNTO / MLIT</span>
                 </div>
 
                 <div className="space-y-2 text-xs">
@@ -180,7 +180,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                       </div>
                       <div className="text-right font-mono">
                         <span className="font-bold text-slate-900 dark:text-white">{row.visitors}</span>
-                        <span className="text-slate-400 text-[10px] ml-1.5">({row.spend})</span>
+                        <span className="text-slate-400 text-xs ml-1.5">({row.spend})</span>
                       </div>
                     </div>
                   ))}
@@ -301,17 +301,17 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
 
                 <div className="grid grid-cols-3 gap-3 pt-2">
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-[10px] uppercase font-bold text-slate-400 font-mono">Tự nhiên (5.1%)</div>
+                    <div className="text-xs uppercase font-bold text-slate-400 font-mono">Tự nhiên (5.1%)</div>
                     <div className="text-base sm:text-lg font-black text-slate-700 dark:text-slate-300">12.1M (2019)</div>
                     <div className="text-xs text-slate-500">Kịch bản không chính sách</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-[10px] uppercase font-bold text-teal-600 dark:text-teal-400 font-mono">Thực tế (20.6%)</div>
+                    <div className="text-xs uppercase font-bold text-teal-600 dark:text-teal-400 font-mono">Thực tế (20.6%)</div>
                     <div className="text-base sm:text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">31.9M (2019)</div>
                     <div className="text-xs text-teal-600 dark:text-teal-400 font-bold">Gấp 2.6 lần dự phóng</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-[10px] uppercase font-bold text-amber-500 font-mono">Thặng dư tích lũy</div>
+                    <div className="text-xs uppercase font-bold text-amber-500 font-mono">Thặng dư tích lũy</div>
                     <div className="text-base sm:text-lg font-black text-amber-600 dark:text-amber-400">+63.4M Lượt</div>
                     <div className="text-xs text-amber-600 font-bold">2013 – 2019</div>
                   </div>
@@ -373,7 +373,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                         <ShieldAlert className="w-4 h-4" />
                         Lỗi 1: Điểm Dị Biệt 10x tại Kyoto Năm 2020 (Biểu đồ 3.2)
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-rose-100 text-rose-800 text-[10px] font-mono font-bold">CRITICAL OUTLIER</span>
+                      <span className="px-2 py-0.5 rounded bg-rose-100 text-rose-800 text-xs font-mono font-bold">CRITICAL OUTLIER</span>
                     </div>
                     <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                       Đồ thị gốc ghi nhận <strong>3,799 nghìn khách</strong> (3.8M). Trong khi toàn quốc chỉ đón 4.1M khách. Kyoto không thể chiếm tới 92% khách cả nước. DMO Kyoto công bố chính thức chỉ có <strong>379.9 nghìn khách</strong>. Tác giả đã gõ sót dấu chấm thập phân trong Excel.
@@ -386,7 +386,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                         <Coins className="w-4 h-4" />
                         Lỗi 2: Nhầm Lẫn Thứ Nguyên &ldquo;Tỷ Yên&rdquo; vs &ldquo;Trăm Triệu Yên&rdquo; tại Nara (Biểu đồ 3.6)
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-mono font-bold">UNIT AMBIGUITY</span>
+                      <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-xs font-mono font-bold">UNIT AMBIGUITY</span>
                     </div>
                     <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                       Biểu đồ 3.6 ghi 1,208 tỷ Yên cho Nara (ngang ngửa doanh thu Kyoto 1,308 tỷ Yên). Thống kê tỉnh Nara sử dụng đơn vị <strong>億円 (Trăm triệu Yên)</strong>. Doanh thu thực tế là 120.8 tỷ Yên. Việc nhầm lẫn giữa 億円 và 10億円 là lỗi dịch thuật kinh tế điển hình.
@@ -494,13 +494,13 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                     <div className="space-y-1.5">
                       <div className="flex justify-between items-center">
                         <span className="font-mono text-xs font-black text-[#0D7287] dark:text-[#9BE7FA]">{item.step}</span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold">{item.tag}</span>
+                        <span className="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold">{item.tag}</span>
                       </div>
                       <h4 className="text-base font-black text-slate-950 dark:text-white">{item.title}</h4>
                       <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{item.desc}</p>
                     </div>
                     <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-                      <div className="text-[10px] font-mono text-slate-400 uppercase font-bold">Mục tiêu định lượng:</div>
+                      <div className="text-xs font-mono text-slate-400 uppercase font-bold">Mục tiêu định lượng:</div>
                       <div className="text-xs font-black text-emerald-600 dark:text-emerald-400 mt-0.5">{item.kpi}</div>
                     </div>
                   </div>

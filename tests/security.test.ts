@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import { sanitizeUrl, sanitizeEmbedUrl, sanitizeObject, safeJsonParse, validateUploadedFile, sanitizeTextInput } from '../app/lib/security';
 
 describe('Security Utility Module', () => {
@@ -105,6 +105,44 @@ describe('Security Utility Module', () => {
       expect(exampleContent).not.toMatch(/173053/);
       expect(exampleContent).toMatch(/MYSQL_PASSWORD=""/);
       expect(exampleContent).toMatch(/your_admin_password_here/);
+    });
+  });
+
+  describe('getClientIp anti-spoofing via security module', () => {
+    const origEnv = process.env.TRUST_PROXY;
+    const origVercel = process.env.VERCEL;
+
+    afterEach(() => {
+      process.env.TRUST_PROXY = origEnv;
+      process.env.VERCEL = origVercel;
+    });
+
+    it('ignores spoofed cf-connecting-ip, x-vercel-forwarded-for, and User-Agent when TRUST_PROXY=false', async () => {
+      const { getClientIp } = await import('../app/lib/auth');
+      process.env.TRUST_PROXY = 'false';
+      delete process.env.VERCEL;
+
+      const req1 = new Request('http://localhost/api/auth/login', {
+        headers: { 'cf-connecting-ip': '1.2.3.4', 'user-agent': 'Bot-1' },
+      });
+      const req2 = new Request('http://localhost/api/auth/login', {
+        headers: { 'x-vercel-forwarded-for': '5.6.7.8', 'user-agent': 'Bot-2' },
+      });
+      expect(getClientIp(req1)).toBe('127.0.0.1');
+      expect(getClientIp(req2)).toBe('127.0.0.1');
+    });
+
+    it('ignores spoofed cf-connecting-ip when TRUST_PROXY=nginx and uses x-real-ip', async () => {
+      const { getClientIp } = await import('../app/lib/auth');
+      process.env.TRUST_PROXY = 'nginx';
+      const req = new Request('http://localhost/api/auth/login', {
+        headers: {
+          'cf-connecting-ip': '9.9.9.9',
+          'x-vercel-forwarded-for': '8.8.8.8',
+          'x-real-ip': '203.0.113.50',
+        },
+      });
+      expect(getClientIp(req)).toBe('203.0.113.50');
     });
   });
 });

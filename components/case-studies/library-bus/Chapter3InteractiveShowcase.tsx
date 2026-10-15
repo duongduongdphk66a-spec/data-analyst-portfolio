@@ -74,7 +74,7 @@ export function Chapter3InteractiveShowcase({
         >
           <GitBranch className="w-4 h-4" />
           <span>{isEn ? '7-App Interactive Architecture Graph' : 'Đồ Thị Mạng Lưới Kiến Trúc 7 Apps'}</span>
-          <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded-md bg-[#C8EEF7] text-[#0D7287] font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
+          <span className="ml-1 text-xs px-1.5 py-0.5 rounded-md bg-[#C8EEF7] text-[#0D7287] font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
             D3 Graph
           </span>
         </button>
@@ -89,7 +89,7 @@ export function Chapter3InteractiveShowcase({
         >
           <Layers className="w-4 h-4" />
           <span>{isEn ? 'Concentric Architecture Radar' : 'Bản Đồ Radar Vòng Tròn Đồng Tâm'}</span>
-          <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded-md bg-[#C8EEF7] text-[#0D7287] font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
+          <span className="ml-1 text-xs px-1.5 py-0.5 rounded-md bg-[#C8EEF7] text-[#0D7287] font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
             Clean Radar
           </span>
         </button>

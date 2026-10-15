@@ -69,15 +69,15 @@ export default function LibraryBusExecutiveStory({ isEn: propIsEn, onJumpToSecti
           {/* Quick Stats Pill */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 gap-3 shrink-0">
             <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
-              <div className="text-[10px] text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Active Users' : 'Độc Giả Hoạt Động'}</div>
+              <div className="text-xs text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Active Users' : 'Độc Giả Hoạt Động'}</div>
               <div className="text-lg sm:text-xl font-black text-[#9BE7FA]">50,000+</div>
             </div>
             <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
-              <div className="text-[10px] text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Query Latency' : 'Độ Trễ Phản Hồi'}</div>
+              <div className="text-xs text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Query Latency' : 'Độ Trễ Phản Hồi'}</div>
               <div className="text-lg sm:text-xl font-black text-[#FFD14C]">28ms (-94%)</div>
             </div>
             <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center col-span-2 sm:col-span-1 md:col-span-2">
-              <div className="text-[10px] text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Concurrency Stability' : 'Chịu Tải Đồng Thời'}</div>
+              <div className="text-xs text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Concurrency Stability' : 'Chịu Tải Đồng Thời'}</div>
               <div className="text-lg sm:text-xl font-black text-emerald-300">500 CCU (0% Lỗi)</div>
             </div>
           </div>
@@ -131,17 +131,17 @@ export default function LibraryBusExecutiveStory({ isEn: propIsEn, onJumpToSecti
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-[10px] uppercase font-bold text-slate-400 font-mono">Độ Trễ Ban Đầu</div>
+                    <div className="text-xs uppercase font-bold text-slate-400 font-mono">Độ Trễ Ban Đầu</div>
                     <div className="text-lg font-black text-rose-600 dark:text-rose-400">440ms / Req</div>
                     <div className="text-xs text-slate-500 font-medium">Chậm khi xe mất sóng</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-[10px] uppercase font-bold text-slate-400 font-mono">Tỷ Lệ Xung Đột</div>
+                    <div className="text-xs uppercase font-bold text-slate-400 font-mono">Tỷ Lệ Xung Đột</div>
                     <div className="text-lg font-black text-rose-600 dark:text-rose-400">14.2% Giờ Đỉnh</div>
                     <div className="text-xs text-slate-500 font-medium">Không có Row Locking</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs col-span-2 sm:col-span-1">
-                    <div className="text-[10px] uppercase font-bold text-[#0D7287] dark:text-[#9BE7FA] font-mono">Mục Tiêu Kỹ Thuật</div>
+                    <div className="text-xs uppercase font-bold text-[#0D7287] dark:text-[#9BE7FA] font-mono">Mục Tiêu Kỹ Thuật</div>
                     <div className="text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">0.0% Xung Đột</div>
                     <div className="text-xs text-teal-600 dark:text-teal-400 font-bold">Chuẩn ACID tuyệt đối</div>
                   </div>
@@ -208,7 +208,7 @@ export default function LibraryBusExecutiveStory({ isEn: propIsEn, onJumpToSecti
 
                 {/* Code Snippet Card */}
                 <div className="rounded-2xl bg-slate-950 border border-slate-800 p-4 font-mono text-xs overflow-x-auto text-slate-200">
-                  <div className="flex justify-between items-center pb-2 mb-2 border-b border-slate-800 text-[10px] text-slate-400">
+                  <div className="flex justify-between items-center pb-2 mb-2 border-b border-slate-800 text-xs text-slate-400">
                     <span className="flex items-center gap-1.5 text-[#9BE7FA]">
                       <Code2 className="w-3.5 h-3.5" />
                       circulation/services.py • Pessimistic Lock Engine
@@ -242,7 +242,7 @@ export default function LibraryBusExecutiveStory({ isEn: propIsEn, onJumpToSecti
                         <span className="font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">{app.app}</span>
                         <span className="text-slate-700 dark:text-slate-300 font-medium text-[11px]">{app.nameVi}</span>
                       </div>
-                      <span className="text-[10px] font-mono font-bold text-slate-400">0{i+1}/07</span>
+                      <span className="text-xs font-mono font-bold text-slate-400">0{i+1}/07</span>
                     </div>
                   ))}
                 </div>
@@ -273,17 +273,17 @@ export default function LibraryBusExecutiveStory({ isEn: propIsEn, onJumpToSecti
 
                 <div className="grid grid-cols-3 gap-3 pt-2">
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-[10px] uppercase font-bold text-slate-400 font-mono">Trước Cache</div>
+                    <div className="text-xs uppercase font-bold text-slate-400 font-mono">Trước Cache</div>
                     <div className="text-base sm:text-lg font-black text-rose-600 dark:text-rose-400">440ms</div>
                     <div className="text-xs text-slate-500">Chờ truy vấn SQL nặng</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-[10px] uppercase font-bold text-teal-600 dark:text-teal-400 font-mono">Sau Redis Cache</div>
+                    <div className="text-xs uppercase font-bold text-teal-600 dark:text-teal-400 font-mono">Sau Redis Cache</div>
                     <div className="text-base sm:text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">28ms</div>
                     <div className="text-xs text-teal-600 dark:text-teal-400 font-bold">-93.7% Độ trễ</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-[10px] uppercase font-bold text-amber-500 font-mono">Celery Tasks/Ngày</div>
+                    <div className="text-xs uppercase font-bold text-amber-500 font-mono">Celery Tasks/Ngày</div>
                     <div className="text-base sm:text-lg font-black text-amber-600 dark:text-amber-400">12,500+</div>
                     <div className="text-xs text-amber-600 font-bold">Không nghẽn luồng</div>
                   </div>
@@ -304,7 +304,7 @@ export default function LibraryBusExecutiveStory({ isEn: propIsEn, onJumpToSecti
                         <span className="text-slate-800 dark:text-slate-200">{b.endpoint}</span>
                         <span className="text-emerald-600 dark:text-emerald-400 font-mono">{b.reduction}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-[10px] font-mono mt-1 text-slate-500">
+                      <div className="flex items-center gap-2 text-xs font-mono mt-1 text-slate-500">
                         <span>Gốc: <strong className="text-rose-500">{b.withoutCache}ms</strong></span>
                         <span>➔</span>
                         <span>Cache: <strong className="text-[#0D7287] dark:text-[#9BE7FA]">{b.withCache}ms</strong></span>
@@ -448,13 +448,13 @@ export default function LibraryBusExecutiveStory({ isEn: propIsEn, onJumpToSecti
                     <div className="space-y-1.5">
                       <div className="flex justify-between items-center">
                         <span className="font-mono text-xs font-black text-[#0D7287] dark:text-[#9BE7FA]">{item.step}</span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold">{item.tag}</span>
+                        <span className="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold">{item.tag}</span>
                       </div>
                       <h4 className="text-base font-black text-slate-950 dark:text-white">{item.title}</h4>
                       <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{item.desc}</p>
                     </div>
                     <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-                      <div className="text-[10px] font-mono text-slate-400 uppercase font-bold">Quy chuẩn kỹ thuật:</div>
+                      <div className="text-xs font-mono text-slate-400 uppercase font-bold">Quy chuẩn kỹ thuật:</div>
                       <div className="text-xs font-black text-teal-600 dark:text-teal-400 mt-0.5">{item.kpi}</div>
                     </div>
                   </div>

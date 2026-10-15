@@ -72,7 +72,7 @@ export function LibraryBusHero({
         {/* 10% Bento Telemetry Matrix (Scale, CCU, Latency, Concurrency) */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
           <div className="card-minimal p-4 space-y-1">
-            <span className="editorial-kicker text-[10px] block">
+            <span className="editorial-kicker text-xs block">
               {isEn ? 'ACTIVE FLEET' : 'ĐỘI XE LƯU ĐỘNG'}
             </span>
             <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">{libraryBusKPIs.activeBusFleet}</p>
@@ -80,7 +80,7 @@ export function LibraryBusHero({
           </div>
 
           <div className="card-minimal p-4 space-y-1">
-            <span className="editorial-kicker text-[10px] block">
+            <span className="editorial-kicker text-xs block">
               {isEn ? 'CATALOG SCALE' : 'QUY MÔ ĐẦU SÁCH'}
             </span>
             <p className="font-mono text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">{libraryBusKPIs.totalCatalogBooks}</p>
@@ -88,7 +88,7 @@ export function LibraryBusHero({
           </div>
 
           <div className="card-minimal p-4 space-y-1">
-            <span className="editorial-kicker text-[10px] block">
+            <span className="editorial-kicker text-xs block">
               {isEn ? 'CONCURRENT READERS' : 'KẾT NỐI ĐỒNG THỜI'}
             </span>
             <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">500 CCU</p>
@@ -96,7 +96,7 @@ export function LibraryBusHero({
           </div>
 
           <div className="card-minimal p-4 space-y-1 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA]">
-            <span className="editorial-kicker text-[10px] block text-[#0D7287] dark:text-[#9BE7FA]">
+            <span className="editorial-kicker text-xs block text-[#0D7287] dark:text-[#9BE7FA]">
               {isEn ? 'REDIS LATENCY & LOCKING' : 'ĐỘ TRỄ TRUY VẤN'}
             </span>
             <p className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400">28ms (-93.7%)</p>
