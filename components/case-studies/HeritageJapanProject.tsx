@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { trackVisitorAction } from '@/app/lib/visitorTracking';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { scrollToSection, useCaseStudyActions } from '@/app/lib/uiHelpers';
 import HeritageJapanExecutiveStory from './heritage-japan/HeritageJapanExecutiveStory';
+import HeritagePolicySimulator from './heritage-japan/HeritagePolicySimulator';
 
 // Subcomponents
 import { HeritageJapanNav } from './heritage-japan/HeritageJapanNav';
@@ -21,12 +22,14 @@ import { PolicyEvaluationSection } from './heritage-japan/PolicyEvaluationSectio
 import { ConclusionSection } from './heritage-japan/ConclusionSection';
 import SectionHeader from '@/components/ui/SectionHeader';
 import CaseStudyFooter from './shared/CaseStudyFooter';
+import { BookOpen, Sparkles } from 'lucide-react';
 
 const HERITAGE_JAPAN_SECTIONS = [
   'mo-dau',
   'chuong-1',
   'chuong-2',
   'chuong-3',
+  'mo-phong-chinh-sach',
   'kiem-dinh-du-lieu',
   'danh-gia-hieu-qua',
   'ket-luan'
@@ -46,6 +49,8 @@ export default function HeritageJapanProject({ onBack, isEmbedded, initialData }
   const { language, setLanguage } = useLanguage();
   const isEn = language === 'en';
   const { copyDeepLink, handleExportChart } = useCaseStudyActions(isEn);
+  const [viewMode, setViewMode] = useState<'executive' | 'academic'>('executive');
+  const [isAcademicExpanded, setIsAcademicExpanded] = useState<boolean>(false);
 
   const handleCopyDeepLink = (id: string, title = '') => {
     copyDeepLink(id, title);
@@ -58,12 +63,12 @@ export default function HeritageJapanProject({ onBack, isEmbedded, initialData }
     initialData,
   });
 
-
   const navItems = useMemo(() => [
     { id: 'mo-dau', label: isEn ? 'Introduction' : 'Mở đầu' },
     { id: 'chuong-1', label: isEn ? 'Ch1: Heritage Concept' : 'Chương 1' },
     { id: 'chuong-2', label: isEn ? 'Ch2: Policies' : 'Chương 2' },
     { id: 'chuong-3', label: isEn ? 'Ch3: Analytics & Cases' : 'Chương 3' },
+    { id: 'mo-phong-chinh-sach', label: isEn ? 'Policy Simulator' : 'Mô phỏng Chính sách' },
     { id: 'kiem-dinh-du-lieu', label: isEn ? 'Data Audit' : 'Kiểm định Data' },
     { id: 'danh-gia-hieu-qua', label: isEn ? 'Policy Evaluation' : 'Đánh giá Hiệu quả' },
     { id: 'ket-luan', label: isEn ? 'Conclusion' : 'Kết luận' },
@@ -71,6 +76,13 @@ export default function HeritageJapanProject({ onBack, isEmbedded, initialData }
 
   const handleNavClick = (id: string, e: React.MouseEvent) => {
     e.preventDefault();
+    if (viewMode === 'executive' && (id === 'mo-dau' || id === 'chuong-1' || id === 'chuong-2' || id === 'ket-luan')) {
+      setViewMode('academic');
+      setTimeout(() => {
+        scrollToSection(id, 16);
+      }, 60);
+      return;
+    }
     scrollToSection(id, 16);
   };
 
@@ -103,6 +115,8 @@ export default function HeritageJapanProject({ onBack, isEmbedded, initialData }
       <HeritageJapanHero
         isEn={isEn}
         onNavClick={handleNavClick}
+        viewMode={viewMode}
+        onToggleViewMode={setViewMode}
       />
 
       {/* 3-Minute Executive Story */}
@@ -113,23 +127,33 @@ export default function HeritageJapanProject({ onBack, isEmbedded, initialData }
         />
       </div>
 
-      {/* 1. Phần Mở Đầu (#mo-dau) */}
-      <IntroductionSection
-        isEn={isEn}
-        onCopyDeepLink={handleCopyDeepLink}
-      />
+      {/* Interactive What-If Policy Scenario Simulator */}
+      <section id="mo-phong-chinh-sach" className="page-container py-12 md:py-16">
+        <HeritagePolicySimulator isEn={isEn} />
+      </section>
 
-      {/* 2. Chương 1: Di sản & Du lịch Di sản (#chuong-1) */}
-      <Chapter1HeritageSection
-        isEn={isEn}
-        onCopyDeepLink={handleCopyDeepLink}
-      />
+      {/* ACADEMIC FULL-TEXT CHAPTERS (Shown in academic mode) */}
+      {viewMode === 'academic' && (
+        <>
+          {/* 1. Phần Mở Đầu (#mo-dau) */}
+          <IntroductionSection
+            isEn={isEn}
+            onCopyDeepLink={handleCopyDeepLink}
+          />
 
-      {/* 3. Chương 2: Chính sách Du lịch Di sản Nhật Bản (#chuong-2) */}
-      <Chapter2PolicySection
-        isEn={isEn}
-        onCopyDeepLink={handleCopyDeepLink}
-      />
+          {/* 2. Chương 1: Di sản & Du lịch Di sản (#chuong-1) */}
+          <Chapter1HeritageSection
+            isEn={isEn}
+            onCopyDeepLink={handleCopyDeepLink}
+          />
+
+          {/* 3. Chương 2: Chính sách Du lịch Di sản Nhật Bản (#chuong-2) */}
+          <Chapter2PolicySection
+            isEn={isEn}
+            onCopyDeepLink={handleCopyDeepLink}
+          />
+        </>
+      )}
 
       {/* 4. Chương 3: Sự phát triển của Du lịch Di sản (#chuong-3) */}
       <section id="chuong-3" className="py-20 md:py-28 bg-ground border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
@@ -137,7 +161,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded, initialData }
           <SectionHeader
             variant="stacked"
             id="chuong-3"
-            badge={isEn ? 'Chapter 3 • Quantitative Telemetry & In-depth Case Studies' : 'Chương 3 • Dữ liệu Định lượng & Khảo sát Thực tiễn'}
+            badge={isEn ? 'Chapter 3 • Quantitative Telemetry & In-depth Analytics' : 'Chương 3 • Dữ liệu Định lượng & Khảo sát Thực tiễn'}
             title={isEn ? 'Development of Heritage Tourism: Efficiency & Conservation' : 'Sự Phát Triển của Du Lịch Di Sản tại Nhật Bản'}
             onCopy={handleCopyDeepLink}
           />
@@ -150,17 +174,55 @@ export default function HeritageJapanProject({ onBack, isEmbedded, initialData }
           />
 
           {/* 3.2 Tiêu chí Bảo tồn & Quản lý Di sản (5 Case Studies) */}
-          <Chapter3CaseStudiesSection />
+          {(viewMode === 'academic' || isAcademicExpanded) && (
+            <Chapter3CaseStudiesSection />
+          )}
         </div>
       </section>
 
-      {/* 4. Kiểm định Dữ liệu & Phát hiện Bất thường (#kiem-dinh-du-lieu) */}
+      {/* In executive mode: Option to unroll or inspect full thesis chapters */}
+      {viewMode === 'executive' && (
+        <div className="page-container py-8">
+          <div className="p-6 rounded-3xl bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-2xl bg-[#0D7287]/10 dark:bg-[#9BE7FA]/10 text-[#0D7287] dark:text-[#9BE7FA] shrink-0">
+                <BookOpen className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="text-base sm:text-lg font-bold text-slate-950 dark:text-white">
+                  {isEn ? 'Looking for Full 10 Academic Thesis Chapters & 5 Case Studies?' : 'Bạn muốn đọc toàn bộ 10 Chương Luận văn & 5 Case Studies thực địa?'}
+                </h4>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-0.5">
+                  {isEn
+                    ? 'Explore complete UNESCO theoretical frameworks, Miyajima/Shirakawa-go cases, and institutional policy timelines.'
+                    : 'Bao gồm cơ sở lý luận UNESCO, 25 di sản vật thể/thiên nhiên, khảo sát Miyajima, Shirakawa-go, Himeji & Yakushima.'}
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                setViewMode('academic');
+                setIsAcademicExpanded(true);
+                scrollToSection('mo-dau', 16);
+              }}
+              className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-950 font-bold text-xs sm:text-sm transition flex items-center gap-2 shrink-0 cursor-pointer shadow-sm"
+            >
+              <span>{isEn ? 'Switch to Full Academic Mode' : 'Chuyển sang Chế độ Toàn văn Niên luận'}</span>
+              <Sparkles className="w-4 h-4 text-sky-400 dark:text-sky-600" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 5. Kiểm định Dữ liệu & Phát hiện Bất thường (#kiem-dinh-du-lieu) */}
       <DataAuditSection
         isEn={isEn}
         onCopyDeepLink={handleCopyDeepLink}
       />
 
-      {/* 5. Đánh giá Hiệu quả Chính sách & Mô hình Phản thực tế (#danh-gia-hieu-qua) */}
+      {/* 6. Đánh giá Hiệu quả Chính sách & Mô hình Phản thực tế (#danh-gia-hieu-qua) */}
       <PolicyEvaluationSection
         isEn={isEn}
         onCopyDeepLink={handleCopyDeepLink}
@@ -168,7 +230,7 @@ export default function HeritageJapanProject({ onBack, isEmbedded, initialData }
         isLiveDb={heritageData?.isLiveDb}
       />
 
-      {/* 6. Kết luận & Footer (#ket-luan) */}
+      {/* 7. Kết luận & Footer (#ket-luan) */}
       <ConclusionSection
         isEn={isEn}
         onCopyDeepLink={handleCopyDeepLink}
