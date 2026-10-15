@@ -5,12 +5,19 @@ import { AlertTriangle, CheckCircle2, Search, SlidersHorizontal, ArrowRight, Shi
 import SectionHeader from '@/components/ui/SectionHeader';
 import { DATA_AUDIT_FINDINGS } from '@/app/data/heritageJapanData';
 
-interface DataAuditSectionProps {
-  isEn: boolean;
-  onCopyDeepLink: (_sectionId: string, _title?: string) => void;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface DataAuditSectionProps {
+  isEn?: boolean;
+  onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
 }
 
-export function DataAuditSection({ isEn, onCopyDeepLink }: DataAuditSectionProps) {
+export function DataAuditSection({ 
+  isEn: propIsEn, 
+  onCopyDeepLink = () => {} 
+}: DataAuditSectionProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   const [selectedAuditId, setSelectedAuditId] = useState<string>('audit-kyoto-2020');
   const activeFinding = DATA_AUDIT_FINDINGS.find((f) => f.id === selectedAuditId) || DATA_AUDIT_FINDINGS[0];
 
@@ -218,3 +225,5 @@ export function DataAuditSection({ isEn, onCopyDeepLink }: DataAuditSectionProps
     </section>
   );
 }
+
+export default DataAuditSection;

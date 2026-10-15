@@ -2,12 +2,19 @@
 
 import SectionHeader from '@/components/ui/SectionHeader';
 
-interface ConclusionSectionProps {
-  isEn: boolean;
-  onCopyDeepLink: (_sectionId: string, _title?: string) => void;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface ConclusionSectionProps {
+  isEn?: boolean;
+  onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
 }
 
-export function ConclusionSection({ isEn, onCopyDeepLink }: ConclusionSectionProps) {
+export function ConclusionSection({ 
+  isEn: propIsEn, 
+  onCopyDeepLink = () => {} 
+}: ConclusionSectionProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   return (
     <>
       <section id="ket-luan" className="py-16 bg-ground border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
@@ -69,3 +76,5 @@ export function ConclusionSection({ isEn, onCopyDeepLink }: ConclusionSectionPro
     </>
   );
 }
+
+export default ConclusionSection;

@@ -261,3 +261,5 @@ export function Chapter3CaseStudiesSection() {
     </div>
   );
 }
+
+export default Chapter3CaseStudiesSection;

@@ -3,20 +3,30 @@
 import React from 'react';
 import { Zap, BookOpen, Sliders } from 'lucide-react';
 import { THESIS_METADATA } from '@/app/data/heritageJapanData';
+import { useLanguage } from '@/app/context/LanguageContext';
 
-interface HeritageJapanHeroProps {
-  isEn: boolean;
-  onNavClick: (_id: string, _e: React.MouseEvent) => void;
+export interface HeritageJapanHeroProps {
+  isEn?: boolean;
+  onNavClick?: (_id: string, _e: React.MouseEvent) => void;
   viewMode?: 'executive' | 'academic';
   onToggleViewMode?: (_mode: 'executive' | 'academic') => void;
 }
 
 export function HeritageJapanHero({ 
-  isEn, 
-  onNavClick, 
+  isEn: propIsEn, 
+  onNavClick = (id, e) => {
+    e?.preventDefault?.();
+    const el = document.getElementById(id);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 95;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, 
   viewMode = 'executive', 
   onToggleViewMode 
-}: HeritageJapanHeroProps) {
+}: HeritageJapanHeroProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   return (
     <header className="py-16 md:py-24 border-b border-slate-200/80 dark:border-slate-800">
       <div className="page-container">
@@ -184,3 +194,5 @@ export function HeritageJapanHero({
     </header>
   );
 }
+
+export default HeritageJapanHero;

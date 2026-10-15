@@ -1,42 +1,114 @@
 'use client';
 
 import React from 'react';
-import CaseStudyNav from '../shared/CaseStudyNav';
+import { ArrowLeft } from 'lucide-react';
+import { useLanguage } from '@/app/context/LanguageContext';
 
-interface HeritageJapanNavProps {
-  onBack: () => void;
+export interface HeritageJapanNavProps {
+  activeSection?: string;
+  onSelectSection?: (_sectionId: string) => void;
+  isExecutiveScanMode?: boolean;
+  onToggleExecutiveScanMode?: () => void;
+  onBack?: () => void;
   isEmbedded?: boolean;
-  isEn: boolean;
-  /** Kept for backward compatibility; the shared LanguageToggle reads the context directly. */
+  isEn?: boolean;
   setLanguage?: (_lang: 'vi' | 'en') => void;
-  navItems: Array<{ id: string; label: string }>;
-  activeSection: string;
+  navItems?: Array<{ id: string; label: string | { vi: string; en: string } }>;
   scrollProgress?: number;
-  onNavClick: (_id: string, _e: React.MouseEvent) => void;
+  onNavClick?: (_id: string, _e: React.MouseEvent) => void;
 }
 
-/** Heritage Japan navbar = shared CaseStudyNav (now with the same reading-progress bar as the other case studies). */
-export function HeritageJapanNav({
-  onBack,
-  isEmbedded,
-  isEn,
-  navItems,
-  activeSection,
-  scrollProgress = 0,
-  onNavClick,
+export default function HeritageJapanNav({
+  activeSection = 'visual-suite',
+  onSelectSection,
+  isExecutiveScanMode = false,
+  onToggleExecutiveScanMode,
+  onBack
 }: HeritageJapanNavProps) {
+  const { language } = useLanguage();
+  const lang = language === 'en' ? 'en' : 'vi';
+
+  const defaultNavItems = [
+    { id: 'visual-suite', label: { vi: '📊 Biểu đồ & Mô phỏng', en: '📊 Charts & Simulator' } },
+    { id: 'executive-story', label: { vi: '1. Tóm tắt Điều hành', en: '1. Executive Story' } },
+    { id: 'chapter-1', label: { vi: '2. Chương 1: Hệ thống Di sản', en: '2. Ch.1: Heritage System' } },
+    { id: 'chapter-2', label: { vi: '3. Chương 2: Chính sách & Luật', en: '3. Ch.2: Policy & Law' } },
+    { id: 'chapter-3', label: { vi: '4. Chương 3: Kinh tế lượng', en: '4. Ch.3: Econometrics' } },
+    { id: 'data-audit', label: { vi: '5. Kiểm toán Dữ liệu', en: '5. Data Audit' } }
+  ];
+
+  const handleJump = (id: string) => {
+    if (onSelectSection) onSelectSection(id);
+    const el = document.getElementById(id);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 95;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <CaseStudyNav
-      isEn={isEn}
-      projectTitle={isEn ? 'Japan Heritage Tourism' : 'Du lịch Di sản Nhật Bản'}
-      onBack={onBack}
-      isEmbedded={isEmbedded}
-      standaloneHref="/projects/proj-heritage-japan"
-      navItems={navItems}
-      activeSection={activeSection}
-      scrollProgress={scrollProgress}
-      onNavClick={onNavClick}
-      tocTitle={isEn ? 'Heritage Tourism Chapters' : 'Các chương Du lịch Di sản'}
-    />
+    <nav
+      aria-label="Heritage Japan Case Study Navigation"
+      className="sticky top-3 z-30 w-full rounded-2xl border border-slate-800/90 bg-slate-950/90 backdrop-blur-md p-3 shadow-xl"
+    >
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-1.5">
+          {onBack && (
+            <button
+              type="button"
+              onClick={onBack}
+              className="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-900/80 text-slate-300 border border-slate-800 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5 shrink-0 cursor-pointer mr-1"
+              title={lang === 'vi' ? 'Quay lại Portfolio' : 'Back to Portfolio'}
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">{lang === 'vi' ? 'Quay lại' : 'Back'}</span>
+            </button>
+          )}
+
+          {defaultNavItems.map((item) => {
+            const isActive = activeSection === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => handleJump(item.id)}
+                className={`px-3 py-2 rounded-xl text-xs font-semibold transition border cursor-pointer ${
+                  isActive
+                    ? 'bg-sky-500/20 text-sky-300 border-sky-500/50'
+                    : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-white hover:bg-slate-900'
+                }`}
+              >
+                {item.label[lang]}
+              </button>
+            );
+          })}
+        </div>
+
+        {onToggleExecutiveScanMode && (
+          <button
+            type="button"
+            onClick={onToggleExecutiveScanMode}
+            className={`px-4 py-2.5 rounded-xl border text-xs font-mono font-bold transition flex items-center justify-center gap-2 shrink-0 cursor-pointer ${
+              isExecutiveScanMode
+                ? 'bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-lg'
+                : 'bg-slate-900 hover:bg-slate-800 text-amber-300 border-amber-500/30'
+            }`}
+          >
+            <span>⚡</span>
+            <span>
+              {isExecutiveScanMode
+                ? lang === 'vi'
+                  ? 'Đang bật: Đọc lướt 3 phút (Bấm xem toàn bộ Luận văn)'
+                  : 'Active: 3-Min HR Scan (Click for Full Thesis)'
+                : lang === 'vi'
+                ? 'Chế độ Đọc lướt 3 phút cho HR'
+                : '3-Min HR Executive Scan'}
+            </span>
+          </button>
+        )}
+      </div>
+    </nav>
   );
 }
+
+export { HeritageJapanNav };

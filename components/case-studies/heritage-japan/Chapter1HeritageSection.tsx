@@ -5,12 +5,19 @@ import { Landmark, Search, TrendingUp, AlertTriangle } from 'lucide-react';
 import { UNESCO_SITES_JAPAN } from '@/app/data/heritageJapanData';
 import SectionHeader from '@/components/ui/SectionHeader';
 
-interface Chapter1HeritageSectionProps {
-  isEn: boolean;
-  onCopyDeepLink: (_sectionId: string, _title?: string) => void;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface Chapter1HeritageSectionProps {
+  isEn?: boolean;
+  onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
 }
 
-export function Chapter1HeritageSection({ isEn, onCopyDeepLink }: Chapter1HeritageSectionProps) {
+export function Chapter1HeritageSection({ 
+  isEn: propIsEn, 
+  onCopyDeepLink = () => {} 
+}: Chapter1HeritageSectionProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   const [unescoFilter, setUnescoFilter] = useState<'all' | 'Văn hóa' | 'Thiên nhiên'>('all');
   const [unescoSearch, setUnescoSearch] = useState<string>('');
 
@@ -175,3 +182,5 @@ export function Chapter1HeritageSection({ isEn, onCopyDeepLink }: Chapter1Herita
     </section>
   );
 }
+
+export default Chapter1HeritageSection;

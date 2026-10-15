@@ -18,10 +18,11 @@ import {
   naraSpendData,
   gdpShareData,
 } from '@/app/data/heritageJapanData';
+import { useLanguage } from '@/app/context/LanguageContext';
 
-interface Chapter3AnalyticsSectionProps {
-  isEn: boolean;
-  onExportChart: (_chartId: string, _filename: string) => void;
+export interface Chapter3AnalyticsSectionProps {
+  isEn?: boolean;
+  onExportChart?: (_chartId: string, _filename: string) => void;
   liveData?: {
     tourists?: any[];
     spend?: any[];
@@ -30,7 +31,13 @@ interface Chapter3AnalyticsSectionProps {
   } | null;
 }
 
-export function Chapter3AnalyticsSection({ isEn, onExportChart, liveData }: Chapter3AnalyticsSectionProps) {
+export function Chapter3AnalyticsSection({ 
+  isEn: propIsEn, 
+  onExportChart = () => {}, 
+  liveData = null 
+}: Chapter3AnalyticsSectionProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   // Volume Charts (3.1, 3.2, 3.3)
   const [volumeChartId, setVolumeChartId] = useState<string>('3.1');
   const [volumeViewMode, setVolumeViewMode] = useState<'interactive' | 'authentic'>('interactive');
@@ -534,3 +541,5 @@ export function Chapter3AnalyticsSection({ isEn, onExportChart, liveData }: Chap
     </div>
   );
 }
+
+export default Chapter3AnalyticsSection;

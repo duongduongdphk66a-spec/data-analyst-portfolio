@@ -4,12 +4,19 @@ import React from 'react';
 import { Compass, Info, Award, Layers } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
 
-interface IntroductionSectionProps {
-  isEn: boolean;
-  onCopyDeepLink: (_sectionId: string, _title?: string) => void;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface IntroductionSectionProps {
+  isEn?: boolean;
+  onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
 }
 
-export function IntroductionSection({ isEn, onCopyDeepLink }: IntroductionSectionProps) {
+export function IntroductionSection({ 
+  isEn: propIsEn, 
+  onCopyDeepLink = () => {} 
+}: IntroductionSectionProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   return (
     <section id="mo-dau" className="py-16 bg-ground border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
@@ -94,3 +101,5 @@ export function IntroductionSection({ isEn, onCopyDeepLink }: IntroductionSectio
     </section>
   );
 }
+
+export default IntroductionSection;

@@ -11,14 +11,23 @@ import {
   touristsData as defaultTouristsData
 } from '@/app/data/heritageJapanData';
 
-interface PolicyEvaluationSectionProps {
-  isEn: boolean;
-  onCopyDeepLink: (_sectionId: string, _title?: string) => void;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface PolicyEvaluationSectionProps {
+  isEn?: boolean;
+  onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
   touristsData?: any[];
   isLiveDb?: boolean;
 }
 
-export function PolicyEvaluationSection({ isEn, onCopyDeepLink, touristsData, isLiveDb }: PolicyEvaluationSectionProps) {
+export function PolicyEvaluationSection({ 
+  isEn: propIsEn, 
+  onCopyDeepLink = () => {}, 
+  touristsData, 
+  isLiveDb 
+}: PolicyEvaluationSectionProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   const [selectedPillarId, setSelectedPillarId] = useState<string>('policy-1');
   const [showCounterfactual, setShowCounterfactual] = useState<boolean>(true);
 
@@ -247,3 +256,5 @@ export function PolicyEvaluationSection({ isEn, onCopyDeepLink, touristsData, is
     </section>
   );
 }
+
+export default PolicyEvaluationSection;

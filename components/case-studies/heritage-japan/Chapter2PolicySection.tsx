@@ -4,12 +4,19 @@ import React from 'react';
 import { Compass, Sparkles, TrendingUp, Camera, Users, ShieldCheck } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
 
-interface Chapter2PolicySectionProps {
-  isEn: boolean;
-  onCopyDeepLink: (_sectionId: string, _title?: string) => void;
+import { useLanguage } from '@/app/context/LanguageContext';
+
+export interface Chapter2PolicySectionProps {
+  isEn?: boolean;
+  onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
 }
 
-export function Chapter2PolicySection({ isEn, onCopyDeepLink }: Chapter2PolicySectionProps) {
+export function Chapter2PolicySection({ 
+  isEn: propIsEn, 
+  onCopyDeepLink = () => {} 
+}: Chapter2PolicySectionProps = {}) {
+  const { language } = useLanguage();
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   return (
     <section id="chuong-2" className="py-16 bg-ground border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -127,3 +134,5 @@ export function Chapter2PolicySection({ isEn, onCopyDeepLink }: Chapter2PolicySe
     </section>
   );
 }
+
+export default Chapter2PolicySection;
