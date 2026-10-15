@@ -44,22 +44,22 @@ export default function LibraryBusExecutiveStory({ isEn: propIsEn, onJumpToSecti
 
   return (
     <section id="library-bus-executive-story" className="mb-14 rounded-3xl bg-white border-2 border-slate-200/90 shadow-xl overflow-hidden dark:bg-slate-900/95 dark:border-slate-800 transition-all">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-r from-slate-950 via-[#041E24] to-[#0D7287] p-6 sm:p-8 text-white relative overflow-hidden">
-        <div className="absolute right-0 top-0 w-96 h-96 bg-gradient-to-br from-[#9BE7FA]/20 to-[#FFD14C]/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Header Banner (White Background) */}
+      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 text-slate-950 dark:text-white relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
+        <div className="absolute right-0 top-0 w-96 h-96 bg-gradient-to-br from-[#9BE7FA]/10 to-[#FFD14C]/10 rounded-full blur-3xl pointer-events-none" />
         
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2.5 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD14C] text-slate-950 text-xs font-black uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFE485] text-slate-950 text-xs font-black uppercase tracking-wider border border-[#FFD14C]">
               <Clock className="w-3.5 h-3.5" />
-              <span>{isEn ? '3-MINUTE SYSTEM & ARCHITECTURE AUDIT' : 'BẢN PHÂN TÍCH ĐIỀU HÀNH · ĐỌC TRONG 3 PHÚT'}</span>
+              <span>{isEn ? 'SYSTEM & ARCHITECTURE AUDIT' : 'BẢN PHÂN TÍCH ĐIỀU HÀNH'}</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-950 dark:text-white leading-tight">
               {isEn 
                 ? 'Mobile Library Bus: Eliminating Distributed Race Conditions & Sub-30ms Caching'
                 : 'Hệ Thống Tủ Sách Xe Buýt: Triệt Tiêu Race Condition & Đột Phá Hiệu Năng 28ms'}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
               {isEn
                 ? 'Engineering a resilient distributed system for 48 GPS mobile bus stations serving 50,000+ active readers. Auditing 3NF relational schemas, ACID pessimistic locking, Redis cache-aside invalidation, and a 20-screen WCAG 2.1 AA UI design system.'
                 : 'Phân tích kỹ thuật hệ thống phân tán 48 trạm buýt di động phục vụ 50,000+ độc giả. Bóc tách cơ chế giải quyết xung đột đặt chỗ thời gian thực, khóa bi quan ACID, bộ đệm phân tán Redis giảm 93.7% độ trễ và hệ thống lưới 12 cột cho 20 màn hình UI.'}
@@ -68,23 +68,23 @@ export default function LibraryBusExecutiveStory({ isEn: propIsEn, onJumpToSecti
 
           {/* Quick Stats Pill */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 gap-3 shrink-0">
-            <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
-              <div className="text-xs text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Active Users' : 'Độc Giả Hoạt Động'}</div>
-              <div className="text-lg sm:text-xl font-black text-[#9BE7FA]">50,000+</div>
+            <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center shadow-xs">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">{isEn ? 'Active Users' : 'Độc Giả Hoạt Động'}</div>
+              <div className="text-lg sm:text-xl font-black text-[#0D7287] dark:text-[#9BE7FA] mt-0.5">50,000+</div>
             </div>
-            <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
-              <div className="text-xs text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Query Latency' : 'Độ Trễ Phản Hồi'}</div>
-              <div className="text-lg sm:text-xl font-black text-[#FFD14C]">28ms (-94%)</div>
+            <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center shadow-xs">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">{isEn ? 'Query Latency' : 'Độ Trễ Phản Hồi'}</div>
+              <div className="text-lg sm:text-xl font-black text-[#0D7287] dark:text-[#FFD14C] mt-0.5">28ms (-94%)</div>
             </div>
-            <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center col-span-2 sm:col-span-1 md:col-span-2">
-              <div className="text-xs text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Concurrency Stability' : 'Chịu Tải Đồng Thời'}</div>
-              <div className="text-lg sm:text-xl font-black text-emerald-300">500 CCU (0% Lỗi)</div>
+            <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center col-span-2 sm:col-span-1 md:col-span-2 shadow-xs">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">{isEn ? 'Concurrency Stability' : 'Chịu Tải Đồng Thời'}</div>
+              <div className="text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400 mt-0.5">500 CCU (0% Lỗi)</div>
             </div>
           </div>
         </div>
 
         {/* Tab switcher inside Executive Story */}
-        <div className="flex items-center gap-2 overflow-x-auto pt-6 scrollbar-none border-t border-white/10 mt-6">
+        <div className="flex items-center gap-2 overflow-x-auto pt-5 scrollbar-none border-t border-slate-200 dark:border-slate-800 mt-6">
           {blocks.map((b) => {
             const Icon = b.icon;
             const isActive = activeStoryBlock === b.id;
@@ -92,10 +92,10 @@ export default function LibraryBusExecutiveStory({ isEn: propIsEn, onJumpToSecti
               <button
                 key={b.id}
                 onClick={() => setActiveStoryBlock(b.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer ${
+                className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer border ${
                   isActive
-                    ? 'bg-[#9BE7FA] text-slate-950 shadow-md font-black scale-102'
-                    : 'bg-white/10 text-slate-300 hover:bg-white/20 hover:text-white'
+                    ? 'bg-[#C8EEF7] text-[#0D7287] border-[#9BE7FA] shadow-xs font-black dark:bg-[#9BE7FA] dark:text-slate-950'
+                    : 'bg-slate-100/80 text-slate-700 border-slate-200 hover:bg-slate-200 hover:text-slate-900 dark:bg-slate-800/60 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />

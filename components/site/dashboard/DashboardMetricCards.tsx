@@ -1,90 +1,80 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { useLanguage } from '@/app/context/LanguageContext';
-import { KpiItem } from '@/app/types';
 
 export interface MetricCardItem {
   id?: string;
-  label?: string | { vi: string; en: string };
-  title?: string;
+  label: string | { vi: string; en: string };
   value: string | number;
   subtext?: string | { vi: string; en: string };
-  change?: string;
   trend?: string;
   projectBadge?: { vi: string; en: string };
+  href?: string;
 }
 
 export interface DashboardMetricCardsProps {
   metrics?: MetricCardItem[];
-  kpis?: (MetricCardItem | KpiItem)[];
+  kpis?: any[];
 }
 
 const DEFAULT_CONTEXTUAL_METRICS: MetricCardItem[] = [
   {
     id: 'metric-kami-gmv',
-    label: { vi: 'Doanh Thu Kiểm Toán (180 Ngày)', en: 'Audited GMV (180-Day Cycle)' },
+    label: { vi: 'Doanh Thu Kiểm Toán (180 Ngày)', en: 'Audited Net GMV (180-Day Cycle)' },
     value: '12,74 Tỉ VNĐ',
     subtext: {
-      vi: '85.500 SP • Lũy kế All-Time: 31,6 Tỉ đ (238,4k SP)',
-      en: '85,500 units • All-Time: 31.6B VND (238.4k units)'
+      vi: '85.500 SP bán ra • Lũy kế All-Time: 31,6 Tỉ đ (238,4k SP)',
+      en: '85,500 units sold • All-Time: 31.6B VND (238.4k units)'
     },
     trend: '+56,24% (28d đầu)',
-    projectBadge: { vi: 'Dự án TikTok Shop Kami Ely', en: 'Kami Ely TikTok Shop Case Study' }
+    projectBadge: { vi: '🛍️ Dự án TikTok Shop Kami Ely', en: '🛍️ Kami Ely TikTok Shop' },
+    href: '/projects/kami-ely'
   },
   {
     id: 'metric-kami-records',
-    label: { vi: 'Quy Mô Dữ Liệu Thực Chiến', en: 'Empirical Dataset Scale' },
+    label: { vi: 'Kho Dữ Liệu SQL Thực Chiến', en: 'Empirical SQL Warehouse Scale' },
     value: '18.778 Dòng',
     subtext: {
       vi: '8 bảng CSV/MySQL • 7.046 LIVE • 4.417 Videos • 5.713 KOCs',
       en: '8 SQL tables • 7,046 LIVEs • 4,417 Videos • 5,713 KOCs'
     },
     trend: '100% Ground Truth',
-    projectBadge: { vi: 'Kho Dữ Liệu E-Commerce & SQL Lab', en: 'E-Commerce Warehouse & SQL Lab' }
+    projectBadge: { vi: '💻 Phòng Thí Nghiệm SQL (/lab)', en: '💻 Interactive SQL Lab (/lab)' },
+    href: '/lab'
   },
   {
-    id: 'metric-query-latency',
-    label: { vi: 'Tối Ưu Hóa Độ Trễ Truy Vấn', en: 'Query Latency Optimization' },
-    value: '93,7% ↓',
+    id: 'metric-library-bus',
+    label: { vi: 'Hiệu Suất Đặt Sách & Đội Xe', en: 'Fleet & Reservation Fulfillment' },
+    value: '92,0% Hoàn tất',
     subtext: {
-      vi: 'Cơ chế L1/L2 Caching & Snapshot ETL cho Dashboard BI',
-      en: 'Two-tier L1/L2 Caching & Snapshot ETL for BI Dashboards'
+      vi: '7.080 lượt mượn/tháng • 5 tuyến (30 điểm đỗ) • 0% trùng đơn',
+      en: '7,080 borrows/mo • 5 routes (30 stops) • 0% race conflict'
     },
-    trend: '< 15ms phản hồi',
-    projectBadge: { vi: 'Kiến Trúc Backend & SQL Engine', en: 'Backend Architecture & SQL Engine' }
+    trend: '6 Django Apps + Celery',
+    projectBadge: { vi: '🚌 Dự án Thư Viện Lưu Động', en: '🚌 Mobile Library Bus BI' },
+    href: '/projects/library-bus'
   },
   {
-    id: 'metric-roi-uplift',
-    label: { vi: 'Tiềm Năng Doanh Thu Mở Khóa', en: 'Simulated Monthly GMV Uplift' },
-    value: '+1,18 Tỉ/tháng',
+    id: 'metric-heritage-japan',
+    label: { vi: 'Mô Hình Kinh Tế Lượng Di Sản', en: 'Heritage Econometric Model' },
+    value: 'R² = 0,84',
     subtext: {
-      vi: 'Nâng CVR Kệ hàng (0,25% → 0,75%) & Gắn giỏ 308 Videos',
-      en: 'Lifting Card CVR (0.25% → 0.75%) & Linking 308 Videos'
+      vi: '1.132 Quốc bảo Nhật Bản • Hệ số co giãn du lịch β = +0,72 (p < 0,01)',
+      en: '1,132 National Treasures • Tourism elasticity β = +0.72 (p < 0.01)'
     },
-    trend: 'GPM Video 4,5x LIVE',
-    projectBadge: { vi: 'Mô Hình What-If ROI Simulator', en: 'What-If ROI Simulator Model' }
+    trend: '+24,6% dự án (DiD)',
+    projectBadge: { vi: '⛩️ Dự án Di Sản Nhật Bản', en: '⛩️ Japan Heritage Policy' },
+    href: '/projects/heritage-japan'
   }
 ];
 
-export function DashboardMetricCards({ metrics, kpis }: DashboardMetricCardsProps) {
+export default function DashboardMetricCards({ metrics }: DashboardMetricCardsProps) {
   const { language } = useLanguage();
   const lang = language === 'en' ? 'en' : 'vi';
 
-  const rawList = metrics && metrics.length > 0 ? metrics : (kpis && kpis.length > 0 ? kpis : DEFAULT_CONTEXTUAL_METRICS);
-
-  const displayList: MetricCardItem[] = rawList.map((rawItem, idx) => {
-    const item = rawItem as MetricCardItem;
-    const fallback = DEFAULT_CONTEXTUAL_METRICS[idx % DEFAULT_CONTEXTUAL_METRICS.length];
-    return {
-      id: item.id || fallback.id,
-      label: item.label || item.title || fallback.label,
-      value: item.value || fallback.value,
-      subtext: item.subtext || item.change || fallback.subtext,
-      trend: item.trend || item.change || fallback.trend,
-      projectBadge: item.projectBadge || fallback.projectBadge,
-    };
-  });
+  const displayList = metrics && metrics.length > 0 ? metrics : DEFAULT_CONTEXTUAL_METRICS;
 
   const resolveText = (val?: string | { vi: string; en: string }) => {
     if (!val) return '';
@@ -99,38 +89,47 @@ export function DashboardMetricCards({ metrics, kpis }: DashboardMetricCardsProp
         const badgeText = item.projectBadge
           ? item.projectBadge[lang]
           : fallbackContext.projectBadge?.[lang];
+        const targetHref = item.href || fallbackContext.href || '/projects';
 
         return (
-          <div
+          <Link
             key={item.id || idx}
-            className="p-5 rounded-2xl bg-slate-900/85 border border-slate-800/90 hover:border-sky-500/40 transition flex flex-col justify-between space-y-3 shadow-lg"
+            href={targetHref}
+            className="group p-5 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 hover:border-sky-500 dark:hover:border-sky-500/50 transition flex flex-col justify-between space-y-3 shadow-md hover:shadow-xl"
           >
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <span className="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold bg-sky-500/15 text-sky-300 border border-sky-500/30 truncate">
+                <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-sky-100 text-sky-950 border border-sky-300 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30 truncate">
                   {badgeText}
                 </span>
-                {item.trend && (
-                  <span className="text-xs font-mono font-semibold text-emerald-400 shrink-0">
-                    {item.trend}
+                {(item.trend || fallbackContext.trend) && (
+                  <span className="text-xs font-mono font-bold text-emerald-800 dark:text-emerald-400 shrink-0">
+                    {item.trend || fallbackContext.trend}
                   </span>
                 )}
               </div>
 
-              <div className="text-xs font-semibold text-slate-300 pt-1">{resolveText(item.label)}</div>
-              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-white tracking-tight">
+              <div className="text-xs font-bold text-slate-600 dark:text-slate-300 pt-1">
+                {resolveText(item.label)}
+              </div>
+              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white tracking-tight group-hover:text-sky-600 dark:group-hover:text-sky-300 transition">
                 {item.value}
               </div>
             </div>
 
-            <div className="text-xs text-slate-400 leading-relaxed border-t border-slate-800/80 pt-2.5">
-              {resolveText(item.subtext) || resolveText(fallbackContext.subtext)}
+            <div className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-200 dark:border-slate-800/80 pt-2.5 flex items-center justify-between gap-2">
+              <span className="line-clamp-2">
+                {resolveText(item.subtext) || resolveText(fallbackContext.subtext)}
+              </span>
+              <span className="text-xs font-mono font-bold text-sky-700 dark:text-sky-400 shrink-0 group-hover:translate-x-0.5 transition">
+                →
+              </span>
             </div>
-          </div>
+          </Link>
         );
       })}
     </div>
   );
 }
 
-export default DashboardMetricCards;
+export { DashboardMetricCards };

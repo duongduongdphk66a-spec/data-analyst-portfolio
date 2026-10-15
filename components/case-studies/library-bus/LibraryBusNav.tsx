@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ArrowLeft, Github } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 export interface LibraryBusNavProps {
@@ -49,76 +49,38 @@ export default function LibraryBusNav({
   return (
     <nav
       aria-label="Library Bus Case Study Navigation"
-      className="sticky top-3 z-30 w-full rounded-2xl border border-slate-800/90 bg-slate-950/90 backdrop-blur-md p-3 shadow-xl"
+      className="sticky top-3 z-30 w-full rounded-2xl border border-slate-200/90 bg-white/95 dark:border-slate-800/90 dark:bg-slate-950/90 backdrop-blur-md p-1.5 sm:p-2 shadow-lg"
     >
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-1.5">
-          {onBack && (
-            <button
-              type="button"
-              onClick={onBack}
-              className="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-900/80 text-slate-300 border border-slate-800 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5 shrink-0 cursor-pointer mr-1"
-              title={lang === 'vi' ? 'Quay lại Portfolio' : 'Back to Portfolio'}
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">{lang === 'vi' ? 'Quay lại' : 'Back'}</span>
-            </button>
-          )}
-
-          {sections.map((sec) => {
-            const isActive = activeSection === sec.id;
-            return (
-              <button
-                key={sec.id}
-                type="button"
-                onClick={() => handleScrollTo(sec.id)}
-                className={`px-3 py-2 rounded-xl text-xs font-semibold transition border cursor-pointer ${
-                  isActive
-                    ? 'bg-sky-500/20 text-sky-300 border-sky-500/50'
-                    : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-white hover:bg-slate-900'
-                }`}
-              >
-                {sec.label[lang]}
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="flex items-center gap-2 self-end xl:self-auto">
-          <a
-            href="https://github.com/duongduongdphk66a-spec/prj"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-800 bg-slate-900/80 text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition"
-            title={lang === 'en' ? 'View Django Codebase on GitHub' : 'Xem mã nguồn Django trên GitHub'}
+      <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-0.5">
+        {onBack && (
+          <button
+            type="button"
+            onClick={onBack}
+            className="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 hover:text-slate-950 hover:bg-slate-200 dark:bg-slate-900/80 dark:text-slate-300 dark:border-slate-800 dark:hover:text-white dark:hover:bg-slate-800 transition flex items-center gap-1.5 shrink-0 cursor-pointer mr-0.5"
+            title={lang === 'vi' ? 'Quay lại Portfolio' : 'Back to Portfolio'}
           >
-            <Github className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Django GitHub</span>
-          </a>
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">{lang === 'vi' ? 'Quay lại' : 'Back'}</span>
+          </button>
+        )}
 
-          {onToggleExecutiveScanMode && (
+        {sections.map((sec) => {
+          const isActive = activeSection === sec.id;
+          return (
             <button
+              key={sec.id}
               type="button"
-              onClick={onToggleExecutiveScanMode}
-              className={`px-4 py-2.5 rounded-xl border text-xs font-mono font-bold transition flex items-center justify-center gap-2 shrink-0 cursor-pointer ${
-                isExecutiveScanMode
-                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-lg'
-                  : 'bg-slate-900 hover:bg-slate-800 text-amber-300 border-amber-500/30'
+              onClick={() => handleScrollTo(sec.id)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition border cursor-pointer shrink-0 ${
+                isActive
+                  ? 'bg-sky-50 text-sky-900 border-sky-400 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/50'
+                  : 'bg-slate-100 text-slate-600 border-slate-200 hover:text-slate-950 hover:bg-slate-200 dark:bg-slate-900/60 dark:text-slate-400 dark:border-slate-800 dark:hover:text-white dark:hover:bg-slate-900'
               }`}
             >
-              <span>⚡</span>
-              <span>
-                {isExecutiveScanMode
-                  ? lang === 'vi'
-                    ? 'Đang bật: Đọc lướt 3 phút (Bấm xem toàn bộ Hệ thống)'
-                    : 'Active: 3-Min HR Scan (Click for Full Case Study)'
-                  : lang === 'vi'
-                  ? 'Chế độ Đọc lướt 3 phút cho HR'
-                  : '3-Min HR Executive Scan'}
-              </span>
+              {sec.label[lang]}
             </button>
-          )}
-        </div>
+          );
+        })}
       </div>
     </nav>
   );

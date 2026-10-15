@@ -16,7 +16,7 @@ export default function CreatorAnalysisNarrative({ isEn: propIsEn }: CreatorAnal
   const creatorVisualCards = [
     {
       tag: isEn ? 'GPM PARADOX 4.5X • VIDEO VS. LIVE' : 'NGHỊCH LÝ GPM 4,5X • VIDEO VS. LIVE',
-      badgeClass: 'bg-pink-500/15 text-pink-300 border-pink-500/30',
+      badgeClass: 'bg-pink-50 text-pink-700 border-pink-200 dark:bg-pink-500/15 dark:text-pink-300 dark:border-pink-500/30',
       barClass: 'bg-pink-500',
       barWidth: 100,
       stat: isEn ? 'Video: 135.2k vs. LIVE: 30.2k / 1k views' : 'Video: 135,2k đ vs. LIVE: 30,2k đ / 1k views',
@@ -31,7 +31,7 @@ export default function CreatorAnalysisNarrative({ isEn: propIsEn }: CreatorAnal
     },
     {
       tag: isEn ? 'LIVE ROOM FUNNEL • 46% FEED PV' : 'PHỄU PHÒNG LIVE • 46% PV Ô LIVE',
-      badgeClass: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+      badgeClass: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-500/15 dark:text-rose-300 dark:border-rose-500/30',
       barClass: 'bg-rose-500',
       barWidth: 20,
       stat: isEn ? 'Feed Preview: 5.09% entry vs. Search: 25.68%' : 'Ô Live: 5,09% vào phòng vs. Search: 25,68%',
@@ -46,7 +46,7 @@ export default function CreatorAnalysisNarrative({ isEn: propIsEn }: CreatorAnal
     },
     {
       tag: isEn ? 'LIVE ADS PLAYBOOK • A/B TESTING' : 'ĐÒN BẨY LIVE ADS • A/B TESTING',
-      badgeClass: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+      badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30',
       barClass: 'bg-emerald-400',
       barWidth: 88,
       stat: isEn ? 'Ads 3.2x → Sales velocity 3.16x (5.73M/h)' : 'Tăng Ads 3,2x → Tốc độ bán tăng 3,16x (5,73M/h)',
@@ -61,7 +61,7 @@ export default function CreatorAnalysisNarrative({ isEn: propIsEn }: CreatorAnal
     },
     {
       tag: isEn ? 'POSTING SCHEDULE • 73% FEMALE (18–24Y)' : 'LỊCH ĐĂNG GIỜ VÀNG • 73% NỮ (18–24T)',
-      badgeClass: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+      badgeClass: 'bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30',
       barClass: 'bg-amber-400',
       barWidth: 74,
       stat: isEn ? 'Peak Engagement: 12:00–13:00 (0.71%) & 15:00–16:00 (0.74%)' : 'Đỉnh tương tác: 12:00–13:00 (0,71%) & 15:00–16:00 (0,74%)',
@@ -77,13 +77,13 @@ export default function CreatorAnalysisNarrative({ isEn: propIsEn }: CreatorAnal
   ];
 
   return (
-    <section className="w-full rounded-2xl border border-slate-800/90 bg-slate-950/90 p-5 sm:p-7 shadow-xl space-y-5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+    <section className="w-full rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 shadow-xl dark:border-slate-800/90 dark:bg-slate-950/90 space-y-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
         <div>
-          <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold uppercase bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+          <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold uppercase bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30">
             {lang === 'vi' ? 'CHẨN ĐOÁN TRỰC QUAN KÊNH @kamielyhn' : '@kamielyhn VISUAL DIAGNOSTIC SUMMARY'}
           </span>
-          <h3 className="text-base sm:text-lg font-extrabold text-white mt-1">
+          <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white mt-1">
             {lang === 'vi'
               ? '4 Đòn Bẩy Tối Ưu Hóa Chuyển Đổi Kênh Chính Chủ (@kamielyhn)'
               : '4 Conversion Optimization Levers for Official Channel (@kamielyhn)'}
@@ -93,7 +93,7 @@ export default function CreatorAnalysisNarrative({ isEn: propIsEn }: CreatorAnal
         <button
           type="button"
           onClick={() => setShowFullNotes((prev) => !prev)}
-          className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 text-xs font-mono font-semibold transition self-start sm:self-auto cursor-pointer"
+          className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-300 dark:border-slate-700 text-xs font-mono font-semibold transition self-start sm:self-auto cursor-pointer"
         >
           {showFullNotes
             ? lang === 'vi'
@@ -110,28 +110,28 @@ export default function CreatorAnalysisNarrative({ isEn: propIsEn }: CreatorAnal
         {creatorVisualCards.map((card, i) => (
           <div
             key={i}
-            className="p-4 rounded-xl bg-slate-900/75 border border-slate-800 flex flex-col justify-between space-y-3"
+            className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/75 border border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-3"
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
                 <span className={`px-2 py-0.5 rounded text-xs font-mono font-bold border ${card.badgeClass}`}>
                   {card.tag}
                 </span>
-                <span className="text-xs font-mono font-bold text-white">{card.stat}</span>
+                <span className="text-xs font-mono font-bold text-slate-900 dark:text-white">{card.stat}</span>
               </div>
-              <h4 className="text-sm font-bold text-white">{card.headline[lang]}</h4>
-              <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white">{card.headline[lang]}</h4>
+              <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
                 <div className={`h-full rounded-full ${card.barClass}`} style={{ width: `${card.barWidth}%` }} />
               </div>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed">{card.action[lang]}</p>
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{card.action[lang]}</p>
           </div>
         ))}
       </div>
 
       {/* COLLAPSIBLE GROSS VS NET AUDIT NOTE */}
       {showFullNotes && (
-        <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 text-xs text-slate-300 space-y-2 leading-relaxed animate-in fade-in duration-200">
+        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed animate-in fade-in duration-200">
           <p>
             • <strong>{isEn ? 'All-Time vs. 180-Day Reconciliation:' : 'Đối soát Toàn thời gian (All-Time) vs. 180 Ngày:'}</strong>{' '}
             {isEn

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
-import { ImageIcon } from 'lucide-react';
 
 export interface ShopCatalogPricingSectionProps {
   isEn?: boolean;
@@ -200,20 +199,8 @@ export default function ShopCatalogPricingSection({
           </h2>
         </div>
 
-        {/* SUB-NAVIGATION & PROOF BUTTON */}
+        {/* SUB-NAVIGATION */}
         <div className="flex flex-wrap items-center gap-2">
-          {openProofScreenshot && (
-            <button
-              type="button"
-              onClick={() => openProofScreenshot('sc-073543')}
-              className="px-3 py-2 rounded-xl text-xs font-mono font-semibold bg-slate-100 hover:bg-slate-200 text-sky-800 border border-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-sky-300 dark:border-slate-800 transition flex items-center gap-1.5 cursor-pointer"
-              title="Xem ảnh FastMoss gốc #073543-#073557"
-            >
-              <ImageIcon className="w-3.5 h-3.5" />
-              <span>Ảnh #073543</span>
-            </button>
-          )}
-
           {[
             { id: 'sku-matrix', label: { vi: '1. Ngành Hàng & Rổ Giá', en: '1. Categories & Price Tiers' } },
             { id: 'shopping-tab', label: { vi: '2. Phễu Thẻ SP (1,17M Views)', en: '2. Shopping Tab (1.17M Views)' } },

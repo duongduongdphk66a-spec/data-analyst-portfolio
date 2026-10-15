@@ -580,21 +580,21 @@ FROM dim_creators_90d;`
   const current = stages[activeStage];
 
   return (
-    <section className="w-full rounded-2xl border border-slate-800/90 bg-slate-950/95 p-5 sm:p-8 shadow-2xl space-y-6">
+    <section className="w-full rounded-2xl border border-slate-200 bg-white p-5 sm:p-8 shadow-xl dark:border-slate-800/90 dark:bg-slate-950/95 dark:shadow-2xl space-y-6">
       {/* HEADER */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
         <div>
-          <span className="px-2.5 py-1 rounded text-[11px] font-mono font-bold uppercase bg-sky-500/15 text-sky-300 border border-sky-500/30">
+          <span className="px-2.5 py-1 rounded text-[11px] font-mono font-bold uppercase bg-sky-50 text-sky-800 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30">
             {isEn
               ? 'SQL FOR DATA ANALYSIS FRAMEWORK • 8 VISUAL STAGES'
               : 'SQL FOR DATA ANALYSIS FRAMEWORK • 8 GIAI ĐOẠN TRỰC QUAN'}
           </span>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white mt-1.5">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-1.5">
             {lang === 'vi'
               ? 'Lộ Trình 8 Bước Phân Tích E-Commerce Bằng Biểu Đồ & Hình Ảnh Thực Tế'
               : '8-Stage Visual E-Commerce Analytics Pipeline (SQL for Data Analysis)'}
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-3xl">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-3xl">
             {lang === 'vi'
               ? 'Mô hình hóa toàn bộ 8 chương phương pháp luận từ sách SQL for Data Analysis bằng biểu đồ thanh tỉ lệ, ảnh chụp FastMoss thực tế và truy vấn SQL có thể mở rộng.'
               : 'End-to-end operationalization of all 8 chapters from SQL for Data Analysis via proportional bar charts, real FastMoss captures, and executable SQL snippets.'}
@@ -604,7 +604,7 @@ FROM dim_creators_90d;`
         <button
           type="button"
           onClick={() => setShowSql((prev) => !prev)}
-          className="self-start lg:self-auto px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-bold transition cursor-pointer shrink-0"
+          className="self-start lg:self-auto px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-emerald-800 border border-emerald-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-emerald-300 dark:border-emerald-500/30 text-xs font-mono font-bold transition cursor-pointer shrink-0"
         >
           💻 {showSql
             ? (isEn ? 'Hide SQL Query' : 'Ẩn Truy Vấn SQL')
@@ -617,22 +617,19 @@ FROM dim_creators_90d;`
         {stages.map((st, idx) => {
           const isSelected = activeStage === idx;
           const chapterText = st.chapter[lang];
-          const chapterTitle = chapterText.includes('•') ? chapterText.split('•')[1] : chapterText;
+          const chapterTitle = chapterText.includes('•') ? chapterText.split('•')[1].trim() : chapterText.trim();
           return (
             <button
               key={st.stageNum}
               type="button"
               onClick={() => setActiveStage(idx)}
-              className={`p-2.5 rounded-xl border text-left transition flex flex-col justify-between cursor-pointer ${
+              className={`p-2.5 rounded-xl border text-center transition flex items-center justify-center min-h-[58px] cursor-pointer ${
                 isSelected
-                  ? 'bg-sky-500/20 border-sky-500/60 text-white shadow-md'
-                  : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                  ? 'bg-sky-50 border-sky-400 text-sky-950 font-bold shadow-xs dark:bg-sky-500/20 dark:border-sky-500/60 dark:text-white dark:shadow-md'
+                  : 'bg-slate-50 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-100 dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:text-slate-100 dark:hover:bg-slate-900'
               }`}
             >
-              <span className="text-xs font-mono font-bold text-sky-400">
-                {isEn ? `STAGE ${st.stageNum}` : `PHẦN ${st.stageNum}`}
-              </span>
-              <span className="text-[11px] font-bold truncate mt-0.5" title={chapterTitle}>
+              <span className="text-xs font-semibold leading-snug text-slate-900 dark:text-slate-200">
                 {chapterTitle}
               </span>
             </button>
@@ -643,32 +640,32 @@ FROM dim_creators_90d;`
       {/* MAIN VISUAL CONTENT: 7 COLS CHART & KPIs + 5 COLS REAL SCREENSHOT */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* LEFT 7 COLS: KPIs + VISUAL BAR CHART */}
-        <div className="lg:col-span-7 rounded-2xl bg-slate-900/70 border border-slate-800 p-5 flex flex-col justify-between space-y-5">
+        <div className="lg:col-span-7 rounded-2xl bg-slate-50 border border-slate-200 p-5 flex flex-col justify-between space-y-5 dark:bg-slate-900/70 dark:border-slate-800">
           <div className="space-y-3">
-            <div className="text-xs font-mono text-sky-400 font-bold uppercase">{current.chapter[lang]}</div>
-            <h3 className="text-base sm:text-lg font-extrabold text-white leading-snug">{current.title[lang]}</h3>
+            <div className="text-xs font-mono text-sky-700 dark:text-sky-400 font-bold uppercase">{current.chapter[lang]}</div>
+            <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white leading-snug">{current.title[lang]}</h3>
 
             {/* 3 COMPACT KPI PILLS */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
               {current.kpis.map((k, i) => (
-                <div key={i} className="p-3 rounded-xl bg-slate-950/90 border border-slate-800/90">
-                  <div className="text-xs font-mono text-slate-400">{k.label}</div>
-                  <div className="text-base sm:text-lg font-extrabold font-mono text-white mt-0.5">{k.value}</div>
-                  <div className="text-xs text-emerald-400 font-mono mt-0.5 line-clamp-1">{k.sub}</div>
+                <div key={i} className="p-3 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-950/90 dark:border-slate-800/90">
+                  <div className="text-xs font-mono text-slate-500 dark:text-slate-400">{k.label}</div>
+                  <div className="text-base sm:text-lg font-extrabold font-mono text-slate-900 dark:text-white mt-0.5">{k.value}</div>
+                  <div className="text-xs text-emerald-700 dark:text-emerald-400 font-mono mt-0.5 line-clamp-1">{k.sub}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* VISUAL HORIZONTAL PROGRESS BARS (REPLACING LONG TEXT) */}
-          <div className="space-y-3 border-t border-slate-800 pt-4">
+          <div className="space-y-3 border-t border-slate-200 dark:border-slate-800 pt-4">
             {current.visualBars.map((bar, idx) => (
               <div key={idx} className="space-y-1">
                 <div className="flex justify-between text-xs">
-                  <span className="font-semibold text-slate-200">{bar.label}</span>
-                  <span className="font-mono font-bold text-sky-300">{bar.val}</span>
+                  <span className="font-semibold text-slate-700 dark:text-slate-200">{bar.label}</span>
+                  <span className="font-mono font-bold text-sky-700 dark:text-sky-300">{bar.val}</span>
                 </div>
-                <div className="w-full h-2.5 rounded-full bg-slate-800 overflow-hidden">
+                <div className="w-full h-2.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
                   <div
                     className={`h-full rounded-full ${bar.color} transition-all duration-500`}
                     style={{ width: `${Math.max(5, Math.min(100, bar.pct))}%` }}
@@ -693,16 +690,16 @@ FROM dim_creators_90d;`
 
       {/* TOGGLEABLE SQL CODE BLOCK */}
       {showSql && (
-        <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-2 animate-in fade-in duration-200">
-          <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-2 animate-in fade-in duration-200 dark:border-slate-800 dark:bg-slate-950">
+          <div className="flex items-center justify-between text-xs font-mono text-slate-600 dark:text-slate-400">
             <span>
               {isEn 
                 ? `📌 Executable SQL Query for Stage ${current.stageNum} (${current.chapter[lang]})` 
                 : `📌 Truy vấn SQL thực thi cho Phần ${current.stageNum} (${current.chapter[lang]})`}
             </span>
-            <span className="text-emerald-400 font-bold">SQL for Data Analysis</span>
+            <span className="text-emerald-700 dark:text-emerald-400 font-bold">SQL for Data Analysis</span>
           </div>
-          <pre className="text-xs font-mono text-sky-200 overflow-x-auto leading-relaxed p-3 bg-slate-900/60 rounded-lg border border-slate-800">
+          <pre className="text-xs font-mono text-slate-800 dark:text-sky-200 overflow-x-auto leading-relaxed p-3 bg-white dark:bg-slate-900/60 rounded-lg border border-slate-200 dark:border-slate-800">
             <code>{current.sqlSnippet}</code>
           </pre>
         </div>

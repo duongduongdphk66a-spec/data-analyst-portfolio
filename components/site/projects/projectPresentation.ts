@@ -17,21 +17,21 @@ export function getProjectPresentation(proj: ProjectData, isEn: boolean): Projec
   if (proj.id === 'proj-kami-ely') {
     return {
       kicker: 'TIKTOK SHOP · CREATOR ANALYTICS',
-      title: isEn ? 'Kami Ely: TikTok Shop & Creator Analytics' : 'Kami Ely: Phân Tích TikTok Shop & Creator Telemetry',
+      title: isEn ? (proj.titleEn || 'Multi-Channel Resource Allocation: Kami Ely Case Study') : proj.title,
       value: isEn ? '31.6B VND' : '31.6 Tỷ VNĐ',
       sub: isEn ? '52.7% affiliate GMV from nano-creators' : '52.7% GMV affiliate từ nano-creator',
       desc: isEn 
-        ? 'E-commerce telemetry & creator performance matrix across 338 products and 5,700 affiliates.'
-        : 'Hệ thống phân tích hiệu suất bán hàng TikTok Shop và ma trận chuyển đổi 5.700 nhà sáng tạo nội dung.',
+        ? (proj.descEn || 'Analyzed 238.4k orders and 31.6B VND in cumulative GMV since store launch. Compared revenue performance between shoppable short videos and livestreams. A 180-day time series models the daily broadcast saturation threshold.')
+        : proj.desc,
       problem: isEn
-        ? 'Optimizing commercial synergy between brand LIVE streams and external affiliate tiers.'
-        : 'Tối ưu hóa doanh thu giữa kênh LIVE thương hiệu và mạng lưới affiliate đa tầng.',
+        ? (proj.problemEn || 'Livestreams consumed most broadcast hours but delivered only 30.2k VND per thousand views. Short videos generated 135.2k VND GPM per thousand views. Late summer revenue dropped, requiring root cause attribution between seasonality and execution.')
+        : (proj.problem || 'Kênh Live chiếm phần lớn thời gian nhưng chỉ đạt GPM 30,2k đồng. Ngược lại, video ngắn mang lại GPM 135,2k đồng trên mỗi nghìn lượt xem. Doanh số tháng 8 và 9 sụt giảm, cần tìm nguyên nhân do mùa vụ hay vận hành.'),
       method: isEn
-        ? 'Compare 551 video vs 470 live sessions, model saturation curves at ~3.1h/day, decompose 180-day time series (Trend + Seasonality + Residual).'
-        : 'So sánh 551 video vs 470 phiên live, mô hình hóa đường cong bão hòa ~3.1h/ngày, phân rã chuỗi thời gian 180 ngày (Xu hướng + Mùa vụ + Nhiễu).',
+        ? (proj.methodEn || 'Conducted statistical hypothesis tests comparing 551 videos against 470 livestreams. Modeled diminishing marginal returns to pinpoint a 3.1-hour daily saturation threshold. Decomposed the 180-day time series into trend, seasonal, and residual components.')
+        : (proj.method || 'So sánh kiểm định thống kê giữa 551 video và 470 phiên live. Mô hình hồi quy xác định ngưỡng bão hòa phiên live ở mức 3,1 giờ mỗi ngày. Phân rã chuỗi thời gian 180 ngày thành ba phần: xu hướng, mùa vụ và nhiễu.'),
       insight: isEn
-        ? 'Video outperforms Live by 4.48x GPM (p<0.0001). Summer seasonality explains 85% of the post-July drop. Cutting 50% excess live hours optimizes cash flow.'
-        : 'Video vượt trội Live 4.48 lần GPM (p<0.0001). Chu kỳ mùa vụ hè lý giải 85% sụt giảm sau tháng 7. Cắt giảm 50% giờ live dư thừa tối ưu dòng tiền.',
+        ? (proj.insightEn || 'Shoppable videos generated 4.48 times higher revenue velocity than livestreams (p < 0.0001). Summer vacation seasonality explained 85% of the post-July sales slump. Cutting excess broadcast hours beyond 3.1 hours recovered operational efficiency.')
+        : (proj.insight || 'Video ngắn đạt hiệu quả doanh thu cao gấp 4,48 lần so với live (p < 0,0001). Mùa du lịch hè giải thích 85% mức giảm doanh số sau tháng 7. Shop cần cắt giảm giờ live vượt ngưỡng 3,1 giờ và gắn giỏ hàng vào toàn bộ video.'),
       metrics: proj.metrics || [],
       tools: proj.tools || [],
     };
@@ -40,21 +40,21 @@ export function getProjectPresentation(proj: ProjectData, isEn: boolean): Projec
   if (proj.id === 'proj-heritage-japan') {
     return {
       kicker: 'TIME-SERIES · MACRO ANALYTICS',
-      title: isEn ? 'Inbound Tourism in Japan: Time-Series Analysis' : 'Phát Triển Du Lịch Di Sản Nhật Bản: Time-Series Analysis',
+      title: isEn ? (proj.titleEn || 'Heritage Tourism Growth in Japan: A Time-Series Analysis') : proj.title,
       value: isEn ? '31.88M Visitors' : '31.88 Triệu Lượt',
       sub: isEn ? '4,810B JPY spending · Peak recovery post-2023' : '4.810 Tỷ Yên chi tiêu · Phục hồi đỉnh cao sau 2023',
       desc: isEn
-        ? '20-year longitudinal econometric analysis on inbound tourism recovery, visitor spend concentration, and regional dispersion.'
-        : 'Phân tích kinh tế lượng 20 năm phục hồi du lịch quốc tế, mức độ tập trung chi tiêu và chiến lược giảm tải điểm đến di sản.',
+        ? (proj.descEn || 'Analyzed international visitor inflows and average tourist spending in Japan since 2013. Evaluated national inbound policies and measured post-disruption recovery across regional heritage destinations.')
+        : proj.desc,
       problem: isEn
-        ? 'Overtourism in the Golden Route (Tokyo-Kyoto-Osaka) vs under-monetized regional heritage sites.'
-        : 'Quá tải du lịch tại Cung đường Vàng (Tokyo-Kyoto-Osaka) đối lập tình trạng phân tán nguồn thu di sản địa phương.',
+        ? (proj.problemEn || 'Needed to quantify post-pandemic recovery speeds for traditional cultural centers like Kyoto and Nara. Evaluated inbound border reopening impacts against actual inbound tourist spending patterns.')
+        : (proj.problem || 'Cần đo lường mức độ phục hồi của các điểm di sản Kyoto và Nara sau biến động. Nghiên cứu đánh giá định lượng tác động của chính sách mở cửa đến mức chi tiêu thực tế.'),
       method: isEn
-        ? 'Indexed growth modeling (2000-2024), seasonal decomposition across 5 key source markets, visitor expenditure clustering.'
-        : 'Mô hình hóa tăng trưởng cơ sở (2000-2024), phân rã mùa vụ 5 thị trường gửi khách trọng điểm, phân cụm chi tiêu bình quân.',
+        ? (proj.methodEn || 'Extracted and standardized 20-year official records from the Japan National Tourism Organization. Applied time-series econometric modeling to evaluate visitor volume and regional spending disparities.')
+        : (proj.method || 'Thu thập và chuẩn hóa dữ liệu từ Cơ quan Xúc tiến Du lịch Nhật Bản. Áp dụng mô hình chuỗi thời gian 20 năm để theo dõi lượng khách và mức chi tiêu.'),
       insight: isEn
-        ? 'Long-haul Western visitors spend 2.8x more per day on cultural experiences but have 4x lower repeat rates. Cultural heritage diversification unlocks regional economic balance.'
-        : 'Khách đường dài Âu-Mỹ chi tiêu gấp 2.8 lần cho trải nghiệm văn hóa nhưng tỷ lệ quay lại thấp hơn 4 lần. Đa dạng hóa di sản là đòn bẩy kinh tế địa phương.',
+        ? (proj.insightEn || 'Total tourist expenditure reached 4.81 trillion Yen, growing 318% during peak expansion. Cultural heritage travelers spent 3.2 times more per trip than general tourists. Post-pandemic recovery reached a projected 88.4% across traditional destination centers.')
+        : (proj.insight || 'Tổng chi tiêu du lịch chạm mức 4,81 nghìn tỷ Yên trong giai đoạn tăng trưởng cao. Khách tham quan di sản chi tiêu cao gấp 3,2 lần so với du khách thông thường. Tỷ lệ phục hồi dự báo đạt 88,4% tại các trung tâm văn hóa truyền thống.'),
       metrics: proj.metrics || [],
       tools: proj.tools || [],
     };
@@ -63,21 +63,21 @@ export function getProjectPresentation(proj: ProjectData, isEn: boolean): Projec
   if (proj.id === 'proj-library-bus') {
     return {
       kicker: 'SYSTEM ARCHITECTURE · DATA MODELING',
-      title: isEn ? 'Mobile Library System: 3NF Database & Architecture' : 'Hệ Thống Thư Viện Lưu Động: CSDL Quan Hệ 3NF & Tối Ưu',
+      title: isEn ? (proj.titleEn || 'Library Bus Management System: Logistics & Architecture') : proj.title,
       value: isEn ? '28ms Latency' : '28ms Độ Trễ',
       sub: isEn ? '93.7% faster queries · 0% booking race conditions' : 'Giảm 93.7% thời gian truy vấn · 0% xung đột đặt sách',
       desc: isEn
-        ? 'Relational database architecture, Redis caching layer, and async Celery pipeline for mobile library operations across 50,000+ patrons.'
-        : 'Thiết kế hệ thống CSDL quan hệ chuẩn 3NF, tầng đệm Redis và kiến trúc bất đồng bộ Celery phục vụ 50.000+ độc giả lưu động.',
+        ? (proj.descEn || 'Architected a relational database and asynchronous pipeline for a multi-stop mobile library. The platform supports 50,000 active patrons with 500 concurrent requests per second.')
+        : proj.desc,
       problem: isEn
-        ? 'Data anomalies in mobile bus routing, concurrency collisions during simultaneous book borrowing, and report latency spikes.'
-        : 'Bất nhất lộ trình xe buýt, xung đột đồng thời khi nhiều bạn đọc mượn cùng một đầu sách, độ trễ báo cáo vượt ngưỡng.',
+        ? (proj.problemEn || 'Distributed mobile buses encountered inventory discrepancies across municipal scheduled pickup stops. Simultaneous book hold requests caused database transaction race conditions and booking collisions.')
+        : (proj.problem || 'Các trạm xe buýt lưu động thường gặp lỗi lệch số lượng sách giữa các điểm dừng. Nhiều người cùng đặt mượn một cuốn sách gây ra lỗi xung đột giao dịch dữ liệu.'),
       method: isEn
-        ? '3NF entity-relationship normalization (7 apps, 22 models), pessimistic DB locking (`select_for_update`), multi-tier indexing.'
-        : 'Chuẩn hóa quan hệ 3NF (7 phân hệ, 22 bảng), cơ chế khóa dòng bi quan (`select_for_update`), lập chỉ mục đa tầng.',
+        ? (proj.methodEn || 'Normalized relational schemas to 3NF and enforced strict ACID transaction row locks. Implemented Redis caching layers with Celery background workers to offload server CPU.')
+        : (proj.method || 'Chuẩn hóa bảng dữ liệu 3NF với các ràng buộc giao dịch ACID để khóa dòng an toàn. Hệ thống sử dụng Redis đệm truy vấn và dùng Celery xử lý tác vụ chạy ngầm.'),
       insight: isEn
-        ? 'Composite indexing on (patron_id, borrow_date) dropped scan rows by 94%. Pessimistic locks eliminated 100% of double-reservation edge cases under simulated 500 CCU load.'
-        : 'Chỉ mục kép (patron_id, borrow_date) giảm 94% số dòng quét ổ đĩa. Khóa bi quan triệt tiêu hoàn toàn lỗi đặt trùng sách ở tải 500 CCU đồng thời.',
+        ? (proj.insightEn || 'Query latency dropped from 450ms to 28ms, yielding a 93.7% performance improvement. The system sustained 500 concurrent connections while eliminating double-borrowing errors entirely.')
+        : (proj.insight || 'Độ trễ truy vấn giảm từ 450ms xuống 28ms, tương đương mức cải thiện 93,7%. Hệ thống vận hành ổn định 500 kết nối đồng thời và ngăn chặn hoàn toàn việc mượn trùng sách.'),
       metrics: proj.metrics || [],
       tools: proj.tools || [],
     };

@@ -1,34 +1,34 @@
-# 📊 Ma Văn Hùng — Data Analyst Portfolio
+# Ma Văn Hùng: Data Analyst Portfolio
 
-An interactive, high-performance web portfolio showcasing data analysis case studies, business intelligence dashboards, and in-browser SQL querying capabilities with full-stack MySQL CMS integration.
+An interactive web portfolio for data analysis case studies, business intelligence dashboards, and in-browser SQL querying with full-stack MySQL CMS integration.
 
-Built with **Next.js 15 (App Router)**, **React 19**, **Tailwind CSS 4**, **MySQL Backend**, and **Recharts**, adhering to modern **`taste-skill` design principles** with curated typography and responsive layout.
+Built with Next.js 15 (App Router), React 19, Tailwind CSS 4, MySQL, and Recharts.
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
-- **In-Browser SQL Engine & CSV Upload**: Client-side in-memory SQL execution supporting a dedicated SQL subset (`SELECT`, `WHERE`, `GROUP BY`, `ORDER BY`, `SUM`, `AVG`, `COUNT`, `LIMIT`) with live Recharts visualization and custom user CSV uploads.
-- **Spotlight Command Palette (`Ctrl + K` / `Cmd + K`)**: Quick keyboard navigation across case studies, skills, theme toggling, language switching, and CMS editing shortcuts.
-- **Secure Admin CMS Portal (`Ctrl + E`)**:
-  - **Password-Protected Authentication Gate**: Protected with session tokens, timing-safe validation, and HTTP 401 API guards.
-  - **Multi-Tab CMS Management**: Dynamic Profile editor, Page Texts CMS, and Project Manager.
-  - **Relational MySQL Database Integration**: Synchronized with `portfolio_profile`, `portfolio_texts`, and `portfolio_projects` tables.
-- **Executive Business Intelligence Dashboard**: Interactive KPI scorecards, multi-dimension time horizon filtering (H1 vs H2), and 2x Retina PNG chart export.
+- **In-Browser SQL Engine & CSV Upload**: Client-side in-memory SQL execution supporting `SELECT`, `WHERE`, `GROUP BY`, `ORDER BY`, `SUM`, `AVG`, `COUNT`, and `LIMIT` with live Recharts visualization and custom CSV uploads.
+- **Spotlight Command Palette (`Ctrl + K` / `Cmd + K`)**: Keyboard navigation across case studies, skills, theme toggling, language switching, and CMS shortcuts.
+- **Admin CMS Portal (`Ctrl + E`)**:
+  - Password authentication with session tokens, timing-safe validation, and HTTP 401 API guards.
+  - Multi-tab management: Dynamic Profile editor, Page Texts CMS, and Project Manager.
+  - MySQL database synchronization with `portfolio_profile`, `portfolio_texts`, and `portfolio_projects` tables.
+- **Business Intelligence Dashboard**: Interactive KPI scorecards, multi-dimension time horizon filtering (H1 vs H2), and 2x Retina PNG chart export.
 - **Interactive Case Studies**:
-  1. **Kami Ely TikTok Shop & Affiliate Performance**: E-commerce funnel, creator matrix, peak live stream analysis.
-  2. **Heritage Tourism in Japan (1990–2024)**: Time-series modeling of 36.8M tourist inflow and regional spending divergence.
-  3. **Real-time Library Bus IoT / Data Pipeline**: High-throughput distributed scheduling with Redis & Celery Beat.
+  1. Kami Ely TikTok Shop & Affiliate Performance: E-commerce funnel, creator matrix, and peak live stream analysis.
+  2. Heritage Tourism in Japan (1990–2024): Time-series modeling of 36.8M tourist inflow and regional spending divergence.
+  3. Real-time Library Bus IoT / Data Pipeline: Distributed scheduling with Redis and Celery Beat.
 - **Internationalization (i18n)**: Instant switching between Vietnamese (`vi`) and English (`en`).
 - **SEO & Performance**: Pre-rendered SSG pages, dynamic `sitemap.xml`, `robots.txt`, and Schema.org JSON-LD structured data.
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js 18+ or 20+
-- MySQL 8.0+ (Optional: XAMPP, Laragon, Docker MySQL, or Cloud MySQL: Aiven/Railway)
+- MySQL 8.0+ (Optional: XAMPP, Laragon, Docker MySQL, or Cloud MySQL like Aiven or Railway)
 
 ### Installation
 ```bash
@@ -46,24 +46,24 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to explore the portfolio.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the portfolio.
 
 ---
 
-## 🔒 Security & Admin Configuration
+## Security & Admin Configuration
 
 Set your admin password in `.env.local`:
 ```env
 ADMIN_PASSWORD="your_secure_password_here"
 ```
 
-To access the CMS Admin Panel, press `Ctrl + E` or click **"Chỉnh Sửa CMS"** in the sidebar, then enter your admin password.
+To access the CMS Admin Panel, press `Ctrl + E` or click "Chỉnh Sửa CMS" in the sidebar, then enter your admin password.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-- **Framework**: Next.js 15.4+ (App Router, Server Components & Route Handlers)
+- **Framework**: Next.js 15.4+ (App Router, Server Components, and Route Handlers)
 - **Database**: MySQL (Connection Pool via `mysql2/promise`)
 - **UI Library**: React 19, Lucide Icons, GSAP
 - **Styling**: Tailwind CSS v4, Vanilla CSS Custom Properties
@@ -74,33 +74,33 @@ To access the CMS Admin Panel, press `Ctrl + E` or click **"Chỉnh Sửa CMS"**
 
 ---
 
-## 🚢 Hướng Dẫn Triển Khai (Deployment Guide)
+## Hướng Dẫn Triển Khai (Deployment Guide)
 
 Dự án hỗ trợ 3 phương án triển khai tùy theo nhu cầu vận hành:
 
-### Phương án 1: Vercel + Cloud MySQL (Khuyên dùng — Khởi chạy nhanh nhất)
-Phương án tối ưu nhất cho portfolio cá nhân: zero-config, tự động CI/CD từ GitHub và tích hợp CDN toàn cầu.
+### Phương án 1: Vercel + Cloud MySQL (Khuyên dùng cho việc khởi chạy nhanh)
+Phương án phù hợp cho portfolio cá nhân với zero-config, CI/CD tự động từ GitHub và CDN toàn cầu.
 1. Tạo database MySQL miễn phí trên [Aiven](https://aiven.io), [PlanetScale](https://planetscale.com), hoặc [Railway](https://railway.app).
 2. Import repository vào tài khoản [Vercel](https://vercel.com).
 3. Cấu hình các biến môi trường trong Vercel Project Settings:
    - `DATABASE_URL`: URI kết nối MySQL từ nhà cung cấp cloud (ví dụ: `mysql://user:pass@host:port/db?ssl-mode=REQUIRED`)
    - `ADMIN_PASSWORD`: Mật khẩu quản trị an toàn (≥ 16 ký tự ngẫu nhiên)
-   - `ADMIN_VERIFY_CODE`: Mã xác thực bảo mật 2 lớp khi đăng nhập Admin (bắt buộc ≥ 8 ký tự trên Production)
+   - `ADMIN_VERIFY_CODE`: Mã xác thực 2 lớp khi đăng nhập Admin (bắt buộc ≥ 8 ký tự trên Production)
    - `NEXT_PUBLIC_SITE_URL`: Domain thực tế chính thức (ví dụ: `https://mavanhung.dev` hoặc URL Vercel)
    - `TRUST_PROXY`: Cấu hình nguồn proxy tin cậy (`vercel`, `cloudflare`, `nginx`, `true`, hoặc `false` khi chạy trực tiếp). Trên Vercel, hệ thống tự động nhận diện `VERCEL=1`.
    - `MYSQL_SSL_CA` *(Tùy chọn)*: Đường dẫn tệp CA `.pem`, chuỗi nội dung PEM hoặc Base64 PEM cho Cloud DB có CA riêng.
    - `MYSQL_CONNECTION_LIMIT` *(Tùy chọn)*: Số kết nối tối đa trong pool (mặc định 5, trên Vercel tự tối ưu 3).
-4. Bấm **Deploy**.
+4. Chọn **Deploy**.
 5. **Khởi tạo và nạp dữ liệu ban đầu**:
    - Truy cập `/api/db` để kiểm tra kết nối CSDL (endpoint trả về `{ appHealthy: true, database: true }` ở chế độ read-only).
    - Nhấn `Ctrl + E` trên website để đăng nhập Admin CMS.
-   - Chuyển sang tab **Cơ sở dữ liệu (DatabaseTab)** và bấm nút **Khởi Tạo Bảng & Nạp Mẫu** (hệ thống sẽ tạo bảng thiếu và nạp dữ liệu mẫu ban đầu mà không xóa bảng hiện có) hoặc **Khôi Phục Dữ Liệu Gốc (Reset DB)** nếu cần làm sạch.
+   - Chuyển sang tab **Cơ sở dữ liệu (DatabaseTab)** và chọn nút **Khởi Tạo Bảng & Nạp Mẫu** (hệ thống sẽ tạo bảng thiếu và nạp dữ liệu mẫu ban đầu mà không xóa bảng hiện có) hoặc **Khôi Phục Dữ Liệu Gốc (Reset DB)** nếu cần làm sạch.
    - *Cách khác qua CLI*: Chạy `node scripts/seed_all_mysql_data.js` hoặc import file `database/schema.sql`.
 
 ---
 
 ### Phương án 2: VPS Ubuntu + PM2 Cluster + Nginx (Tự lưu trữ / DevOps)
-Phương án cho người muốn làm chủ hoàn toàn hạ tầng, chạy đa tiến trình Next.js Standalone tối ưu RAM:
+Phương án cho người muốn quản lý hạ tầng riêng, chạy đa tiến trình Next.js Standalone tối ưu RAM:
 1. SSH vào server VPS, clone repository và chuẩn bị file `.env`:
    ```bash
    git clone https://github.com/duongduongdphk66a-spec/data-analyst-portfolio.git
@@ -113,7 +113,7 @@ Phương án cho người muốn làm chủ hoàn toàn hạ tầng, chạy đa 
    chmod +x deploy.sh
    ./deploy.sh
    ```
-   > **Lưu ý kỹ thuật**: `deploy.sh` đã được cấu hình tự động sao chép `public/` và `.next/static/` vào `.next/standalone/`, giải quyết triệt để lỗi 404 static assets của chế độ Next.js standalone.
+   > **Lưu ý kỹ thuật**: `deploy.sh` tự động sao chép `public/` và `.next/static/` vào `.next/standalone/`, tránh lỗi 404 static assets của chế độ Next.js standalone.
 3. Cấu hình Nginx reverse proxy trỏ về `http://127.0.0.1:3000` (truyền header `proxy_set_header X-Real-IP $remote_addr;`) kèm SSL Certbot.
 
 ---
@@ -130,7 +130,7 @@ docker compose logs -f app
 
 ---
 
-## 📋 Danh Sách Kiểm Tra Sẵn Sàng Triển Khai (Production Readiness Checklist)
+## Danh Sách Kiểm Tra Sẵn Sàng Triển Khai (Production Readiness Checklist)
 
 Trước khi công bố portfolio ra môi trường production thực tế:
 
@@ -158,12 +158,12 @@ Trước khi công bố portfolio ra môi trường production thực tế:
   - `npm run build`: Hoàn thành biên dịch production Next.js.
 
 - [x] **5. Kiểm thử end-to-end**:
-  - Đăng nhập Admin (`Ctrl + E`), sửa dữ liệu CMS, kiểm tra phiên mượt mà không log 401 giả vào console.
+  - Đăng nhập Admin (`Ctrl + E`), sửa dữ liệu CMS, kiểm tra phiên làm việc không ghi nhận lỗi 401 giả vào console.
   - Tải CV bản in PDF qua nút tải chuyên dụng.
   - Xem và tương tác 3 case study: Kami Ely, Library Bus và Di sản Kyoto.
 
-- [x] **6. Kiểm tra responsive và hiệu năng**:
-  - Hiển thị hoàn hảo trên Mobile, Tablet và Desktop.
+- [x] **6. Kiểm tra tương thích và hiệu năng**:
+  - Bố cục responsive trên thiết bị di động, tablet và máy tính để bàn.
   - Biểu đồ Recharts co giãn tự động theo kích thước màn hình.
   - SQL Analytics Lab hiển thị rõ ràng trên mọi độ phân giải.
   - Cơ chế dữ liệu dự phòng (Graceful Degradation) tự động kích hoạt nếu mất kết nối CSDL.
@@ -174,5 +174,7 @@ Trước khi công bố portfolio ra môi trường production thực tế:
   - Health check probe: Endpoint `/api/db` phục vụ uptime monitoring.
   - Quy trình rollback nhanh chóng qua Git commit / Docker image backup.
 
-## 📜 License
+---
+
+## License
 MIT License © 2026 Ma Văn Hùng.

@@ -10,7 +10,6 @@ import {
   Award,
   Sparkles,
   ShieldCheck,
-  Eye,
   Link as LinkIcon,
   ArrowRight
 } from 'lucide-react';
@@ -35,7 +34,7 @@ import {
 interface CreatorSalesSectionProps {
   isEn: boolean;
   copyDeepLink: (_id: string, _name?: string) => void;
-  openProofScreenshot: (_id: string) => void;
+  openProofScreenshot?: (_id: string) => void;
   handleTabChange: (_tab: 'science' | 'shop' | 'creator') => void;
   collaborativeStores?: any;
 }
@@ -43,7 +42,7 @@ interface CreatorSalesSectionProps {
 export default function CreatorSalesSection({
   isEn,
   copyDeepLink,
-  openProofScreenshot,
+  openProofScreenshot: _openProofScreenshot,
   handleTabChange,
   collaborativeStores: _collaborativeStores
 }: CreatorSalesSectionProps) {
@@ -72,14 +71,6 @@ export default function CreatorSalesSection({
             </h2>
           </div>
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => openProofScreenshot('sc-080501')}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-[#FFE485] text-slate-950 hover:bg-[#FFD14C] transition-colors border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C] dark:border-slate-700 cursor-pointer"
-              title={isEn ? 'View FastMoss Proof #080501-#080640' : 'Xem Bằng Chứng FastMoss #080501-#080640'}
-            >
-              <Eye className="w-3.5 h-3.5" />
-              <span>FastMoss #080501-#080640</span>
-            </button>
             <button
               onClick={() => copyDeepLink('creator-sales', '2.6 Phân tích doanh số')}
               className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
@@ -264,12 +255,6 @@ export default function CreatorSalesSection({
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <button
-                onClick={() => openProofScreenshot('sc-081026')}
-                className="px-2.5 py-1 text-xs font-bold rounded-lg bg-[#C8EEF7] text-[#0D7287] hover:bg-[#9BE7FA] transition-colors border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA] cursor-pointer"
-              >
-                FastMoss #081026
-              </button>
               <div className="flex bg-[#C8EEF7]/40 rounded-xl p-1 dark:bg-slate-800 shrink-0">
                 <button 
                   onClick={() => setCrSalesMetric('gmv')} 
@@ -324,16 +309,6 @@ export default function CreatorSalesSection({
           id="creator-collaborative" 
           onCopy={copyDeepLink} 
           badgeBg="bg-[#FFD14C] text-slate-950" 
-          extraAction={
-            <button
-              onClick={() => openProofScreenshot('sc-081121')}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-[#FFE485] text-slate-950 hover:bg-[#FFD14C] transition-colors border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C] dark:border-slate-700 cursor-pointer"
-              title={isEn ? 'View FastMoss Proof #081121' : 'Xem Bằng Chứng FastMoss #081121'}
-            >
-              <Eye className="w-3.5 h-3.5" />
-              <span>FastMoss #081121</span>
-            </button>
-          } 
         />
 
         {/* Collaborative Stores Table & Brand Concentration */}

@@ -71,7 +71,6 @@ export default function KamiElyCreatorTab({
       <CreatorSalesSection
         isEn={isEn}
         copyDeepLink={copyDeepLink}
-        openProofScreenshot={openProofScreenshot}
         handleTabChange={handleTabChange}
         collaborativeStores={telemetryData?.collaborativeStores as any}
       />

@@ -15,11 +15,11 @@ export interface KamiElyDataScopeMatrixProps {
 }
 
 export default function KamiElyDataScopeMatrix({
-  scopeType,
+  scopeType: _scopeType,
   isEn: propIsEn,
-  openProofScreenshot,
-  openProofModalWithGroup,
-  onOpenProofModal
+  openProofScreenshot: _openProofScreenshot,
+  openProofModalWithGroup: _openProofModalWithGroup,
+  onOpenProofModal: _onOpenProofModal
 }: KamiElyDataScopeMatrixProps = {}) {
   const { language } = useLanguage();
   const lang = propIsEn !== undefined ? (propIsEn ? 'en' : 'vi') : (language === 'en' ? 'en' : 'vi');
@@ -48,30 +48,19 @@ export default function KamiElyDataScopeMatrix({
     }
   ];
 
-  const handleOpenScreenshot = (screenshotId: string) => {
-    if (openProofScreenshot) {
-      openProofScreenshot(screenshotId);
-    } else if (onOpenProofModal) {
-      onOpenProofModal(screenshotId);
-    } else if (openProofModalWithGroup) {
-      openProofModalWithGroup(scopeType === 'creator' ? 'creator' : 'shop');
-    }
-  };
+
 
   return (
     <section id="data-scope-matrix" className="w-full rounded-2xl border border-slate-200 bg-white p-5 sm:p-8 shadow-xl dark:border-slate-800/80 dark:bg-slate-950/90 dark:shadow-2xl space-y-6">
       {/* HEADER & DATA INTEGRITY BADGES */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-5">
         <div className="space-y-1.5">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="px-2.5 py-1 text-[11px] font-mono font-bold uppercase tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/30 rounded-md">
+          <div className="flex items-center gap-2 flex-nowrap whitespace-nowrap overflow-x-auto scrollbar-none">
+            <span className="px-2.5 py-1 text-[11px] font-mono font-bold uppercase tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/30 rounded-md shrink-0">
               {lang === 'vi' ? 'Kiểm Toán & Đồng Bộ Hóa Dữ Liệu (SSOT)' : 'Data Governance & Reconciliation (SSOT)'}
             </span>
-            <span className="px-2.5 py-1 text-[11px] font-mono text-sky-800 bg-sky-50 border border-sky-200 dark:text-sky-400 dark:bg-sky-500/10 dark:border-sky-500/20 rounded-md">
+            <span className="px-2.5 py-1 text-[11px] font-mono text-sky-800 bg-sky-50 border border-sky-200 dark:text-sky-400 dark:bg-sky-500/10 dark:border-sky-500/20 rounded-md shrink-0">
               {lang === 'vi' ? 'Thu thập: 05/09/2026' : 'Collected: Sep 05, 2026'}
-            </span>
-            <span className="px-2.5 py-1 text-[11px] font-mono text-amber-800 bg-amber-50 border border-amber-200 dark:text-amber-400 dark:bg-amber-500/10 dark:border-amber-500/20 rounded-md">
-              {lang === 'vi' ? '43% Followers Hà Nội • 73% Nữ' : '43% Hanoi Followers • 73% Female'}
             </span>
           </div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-950 dark:text-white">
@@ -115,8 +104,8 @@ export default function KamiElyDataScopeMatrix({
       </div>
 
       {/* NAVIGATION TABS */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800/80 pb-3">
-        <div className="flex flex-wrap gap-2">
+      <div className="border-b border-slate-200 dark:border-slate-800/80 pb-3 overflow-x-auto scrollbar-none">
+        <div className="flex items-center gap-2 flex-nowrap whitespace-nowrap min-w-max">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -124,7 +113,7 @@ export default function KamiElyDataScopeMatrix({
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 border cursor-pointer ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-2 border cursor-pointer shrink-0 whitespace-nowrap ${
                   isActive
                     ? 'bg-sky-50 text-sky-950 border-sky-400 shadow-xs dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/40 dark:shadow-sm'
                     : 'bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-950 hover:bg-slate-100 dark:bg-slate-900/60 dark:text-slate-400 dark:border-slate-800 dark:hover:text-slate-200 dark:hover:bg-slate-900'
@@ -132,7 +121,7 @@ export default function KamiElyDataScopeMatrix({
               >
                 <span>{tab.label[lang]}</span>
                 <span
-                  className={`px-1.5 py-0.5 rounded text-xs font-mono ${
+                  className={`px-1.5 py-0.5 rounded text-xs font-mono shrink-0 ${
                     isActive ? 'bg-sky-200 text-sky-900 dark:bg-sky-500/30 dark:text-sky-200' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
                   }`}
                 >
@@ -142,26 +131,6 @@ export default function KamiElyDataScopeMatrix({
             );
           })}
         </div>
-
-        {/* PROOF GALLERY ACTION SHORTCUT */}
-        {(openProofScreenshot || openProofModalWithGroup || onOpenProofModal) && (
-          <button
-            type="button"
-            onClick={() => {
-              if (openProofModalWithGroup) {
-                openProofModalWithGroup(scopeType === 'creator' ? 'creator' : 'shop');
-              } else if (onOpenProofModal) {
-                onOpenProofModal();
-              } else if (openProofScreenshot) {
-                openProofScreenshot('sc-073329');
-              }
-            }}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-950 border border-slate-200 dark:bg-slate-900 dark:hover:bg-slate-850 dark:text-slate-300 dark:hover:text-white dark:border-slate-800 transition flex items-center gap-1.5 shrink-0 cursor-pointer"
-          >
-            <span>📷</span>
-            <span>{lang === 'vi' ? 'Xem Ảnh Bằng Chứng' : 'View Proof Gallery'}</span>
-          </button>
-        )}
       </div>
 
       {/* TAB 1: MULTI-WINDOW COMPARISON MATRIX */}
@@ -174,23 +143,9 @@ export default function KamiElyDataScopeMatrix({
                   <th className="p-3.5 min-w-[160px]">{lang === 'vi' ? 'Chỉ Số Đối Chiếu' : 'Metric'}</th>
                   <th className="p-3.5 min-w-[135px] bg-slate-100/60 dark:bg-slate-900/50">
                     <div>{lang === 'vi' ? 'Toàn Shop (All-Time)' : 'Shop (All-Time)'}</div>
-                    <button
-                      type="button"
-                      onClick={() => handleOpenScreenshot('sc-073329')}
-                      className="text-xs text-sky-600 dark:text-sky-400 hover:underline font-normal cursor-pointer text-left"
-                    >
-                      Ảnh 073329 ↗
-                    </button>
                   </th>
                   <th className="p-3.5 min-w-[145px] bg-slate-100/60 dark:bg-slate-900/50">
                     <div>{lang === 'vi' ? 'Chính Chủ (All-Time)' : 'Official (All-Time)'}</div>
-                    <button
-                      type="button"
-                      onClick={() => handleOpenScreenshot('sc-080124')}
-                      className="text-xs text-sky-600 dark:text-sky-400 hover:underline font-normal cursor-pointer text-left"
-                    >
-                      Ảnh 080124 ↗
-                    </button>
                   </th>
                   <th className="p-3.5 min-w-[165px] bg-sky-50 text-sky-900 dark:bg-sky-950/20 dark:text-sky-300">
                     <div>{lang === 'vi' ? 'Toàn Shop (180 Ngày)' : 'Shop (Last 180d)'}</div>

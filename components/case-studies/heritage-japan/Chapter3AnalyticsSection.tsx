@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { TrendingUp, Eye, Download } from 'lucide-react';
+import { TrendingUp, Download } from 'lucide-react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, 
   Tooltip, ResponsiveContainer, AreaChart, Area
 } from 'recharts';
-import { AcademicThesisMockup } from '@/components/ui/AcademicThesisMockup';
 import {
   THESIS_CHARTS_CATALOG,
   touristsData,
@@ -40,11 +39,9 @@ export function Chapter3AnalyticsSection({
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   // Volume Charts (3.1, 3.2, 3.3)
   const [volumeChartId, setVolumeChartId] = useState<string>('3.1');
-  const [volumeViewMode, setVolumeViewMode] = useState<'interactive' | 'authentic'>('interactive');
 
   // Revenue Charts (3.4, 3.5, 3.6)
   const [revenueChartId, setRevenueChartId] = useState<string>('3.4');
-  const [revenueViewMode, setRevenueViewMode] = useState<'interactive' | 'authentic'>('interactive');
 
   const volumeCharts = useMemo(() => THESIS_CHARTS_CATALOG.filter(c => ['3.1', '3.2', '3.3'].includes(c.chartId)), []);
   const revenueCharts = useMemo(() => THESIS_CHARTS_CATALOG.filter(c => ['3.4', '3.5', '3.6'].includes(c.chartId)), []);
@@ -121,7 +118,6 @@ export function Chapter3AnalyticsSection({
               <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
                 Biểu đồ {selectedVolumeMeta.chartId}
               </span>
-              <span className="text-xs text-slate-500 font-semibold">(Trang {selectedVolumeMeta.pageInDoc} trong Niên luận)</span>
             </div>
             <div className="flex items-center gap-2">
               <h4 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
@@ -138,31 +134,6 @@ export function Chapter3AnalyticsSection({
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-              <button
-                onClick={() => setVolumeViewMode('interactive')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                  volumeViewMode === 'interactive'
-                    ? 'bg-white text-slate-950 shadow-xs font-black dark:bg-slate-700 dark:text-white'
-                    : 'text-slate-600 hover:text-slate-950 dark:text-slate-300'
-                }`}
-              >
-                <TrendingUp className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
-                <span>Biểu đồ Tương tác</span>
-              </button>
-              <button
-                onClick={() => setVolumeViewMode('authentic')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                  volumeViewMode === 'authentic'
-                    ? 'bg-white text-slate-950 shadow-xs font-black dark:bg-slate-700 dark:text-white'
-                    : 'text-slate-600 hover:text-slate-950 dark:text-slate-300'
-                }`}
-              >
-                <Eye className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                <span>Ảnh Đồ thị Gốc</span>
-              </button>
-            </div>
-
             <button
               onClick={() => onExportChart(`volume-chart-container-${volumeChartId}`, `Bieu-do-So-luong-${volumeChartId}`)}
               className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 cursor-pointer"
@@ -192,63 +163,49 @@ export function Chapter3AnalyticsSection({
 
         {/* Volume Chart Rendering */}
         <div id={`volume-chart-container-${volumeChartId}`} className="pt-6 min-h-[360px]">
-          {volumeViewMode === 'interactive' ? (
-            <div className="h-[340px] w-full">
-              {volumeChartId === '3.1' && (
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={activeTouristsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                    <defs>
-                      <linearGradient id="colorTourists" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#0D7287" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="#0D7287" stopOpacity={0.05}/>
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                    <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} unit="M" />
-                    <Tooltip formatter={(value: any) => [`${value} Triệu khách`, 'Khách quốc tế']} />
-                    <Area type="monotone" dataKey="value" stroke="#0D7287" strokeWidth={3} fillOpacity={1} fill="url(#colorTourists)" name="Lượng khách quốc tế (triệu người)" />
-                  </AreaChart>
-                </ResponsiveContainer>
-              )}
+          <div className="h-[340px] w-full">
+            {volumeChartId === '3.1' && (
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={activeTouristsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorTourists" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#0D7287" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#0D7287" stopOpacity={0.05}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} unit="M" />
+                  <Tooltip formatter={(value: any) => [`${value} Triệu khách`, 'Khách quốc tế']} />
+                  <Area type="monotone" dataKey="value" stroke="#0D7287" strokeWidth={3} fillOpacity={1} fill="url(#colorTourists)" name="Lượng khách quốc tế (triệu người)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            )}
 
-              {volumeChartId === '3.2' && (
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={activeKyotoData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                    <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} unit="k" />
-                    <Tooltip formatter={(value: any) => [`${value} Nghìn khách`, 'Khách quốc tế đến Kyoto']} />
-                    <Bar dataKey="value" fill="#9BE7FA" stroke="#0D7287" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến TP Kyoto (nghìn người)" />
-                  </BarChart>
-                </ResponsiveContainer>
-              )}
+            {volumeChartId === '3.2' && (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={activeKyotoData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} unit="k" />
+                  <Tooltip formatter={(value: any) => [`${value} Nghìn khách`, 'Khách quốc tế đến Kyoto']} />
+                  <Bar dataKey="value" fill="#9BE7FA" stroke="#0D7287" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến TP Kyoto (nghìn người)" />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
 
-              {volumeChartId === '3.3' && (
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={activeNaraData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                    <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} unit="k" />
-                    <Tooltip formatter={(value: any) => [`${value} Nghìn khách`, 'Khách quốc tế đến Nara']} />
-                    <Bar dataKey="value" fill="#FFD14C" stroke="#B8860B" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến Cố đô Nara (nghìn người)" />
-                  </BarChart>
-                </ResponsiveContainer>
-              )}
-            </div>
-          ) : (
-            <AcademicThesisMockup
-              chartId={selectedVolumeMeta.chartId}
-              nameVi={selectedVolumeMeta.nameVi}
-              nameEn={selectedVolumeMeta.nameEn}
-              unitVi={selectedVolumeMeta.unitVi}
-              unitEn={selectedVolumeMeta.unitEn}
-              pageInDoc={selectedVolumeMeta.pageInDoc}
-              data={volumeChartId === '3.1' ? activeTouristsData : volumeChartId === '3.2' ? activeKyotoData : activeNaraData}
-              imageSrc={selectedVolumeMeta.imageSrc}
-              isEn={isEn}
-            />
-          )}
+            {volumeChartId === '3.3' && (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={activeNaraData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} unit="k" />
+                  <Tooltip formatter={(value: any) => [`${value} Nghìn khách`, 'Khách quốc tế đến Nara']} />
+                  <Bar dataKey="value" fill="#FFD14C" stroke="#B8860B" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến Cố đô Nara (nghìn người)" />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
+          </div>
         </div>
 
         {/* Volume Commentary & Comparison Table */}
@@ -342,7 +299,6 @@ export function Chapter3AnalyticsSection({
               <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
                 Biểu đồ {selectedRevenueMeta.chartId}
               </span>
-              <span className="text-xs text-slate-500 font-semibold">(Trang {selectedRevenueMeta.pageInDoc} trong Niên luận)</span>
             </div>
             <div className="flex items-center gap-2">
               <h4 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
@@ -359,31 +315,6 @@ export function Chapter3AnalyticsSection({
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-              <button
-                onClick={() => setRevenueViewMode('interactive')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                  revenueViewMode === 'interactive'
-                    ? 'bg-white text-slate-950 shadow-xs font-black dark:bg-slate-700 dark:text-white'
-                    : 'text-slate-600 hover:text-slate-950 dark:text-slate-300'
-                }`}
-              >
-                <TrendingUp className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span>Biểu đồ Tương tác</span>
-              </button>
-              <button
-                onClick={() => setRevenueViewMode('authentic')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                  revenueViewMode === 'authentic'
-                    ? 'bg-white text-slate-950 shadow-xs font-black dark:bg-slate-700 dark:text-white'
-                    : 'text-slate-600 hover:text-slate-950 dark:text-slate-300'
-                }`}
-              >
-                <Eye className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                <span>Ảnh Đồ thị Gốc</span>
-              </button>
-            </div>
-
             <button
               onClick={() => onExportChart(`revenue-chart-container-${revenueChartId}`, `Bieu-do-Doanh-thu-${revenueChartId}`)}
               className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 cursor-pointer"
@@ -406,70 +337,56 @@ export function Chapter3AnalyticsSection({
                   : 'bg-slate-50 text-slate-600 hover:bg-slate-100 dark:bg-slate-800/60 dark:text-slate-300 dark:hover:bg-slate-800'
               }`}
             >
-              Biểu đồ {item.chartId} • {item.chartId === '3.4' ? 'Chi tiêu Toàn quốc' : item.chartId === '3.5' ? 'Doanh thu Kyoto' : 'Chi tiêu Nara'}
+              Biểu đồ {item.chartId} • {item.chartId === '3.4' ? 'Chi tiêu Toàn quốc' : item.chartId === '3.5' ? 'Chi tiêu Kyoto' : 'Chi tiêu Nara'}
             </button>
           ))}
         </div>
 
         {/* Revenue Chart Rendering */}
         <div id={`revenue-chart-container-${revenueChartId}`} className="pt-6 min-h-[360px]">
-          {revenueViewMode === 'interactive' ? (
-            <div className="h-[340px] w-full">
-              {revenueChartId === '3.4' && (
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={activeSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                    <defs>
-                      <linearGradient id="colorSpend" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="#10B981" stopOpacity={0.05}/>
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                    <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} unit="T¥" />
-                    <Tooltip formatter={(value: any) => [`${value} Nghìn tỷ Yên`, 'Chi tiêu khách quốc tế']} />
-                    <Area type="monotone" dataKey="value" stroke="#059669" strokeWidth={3} fillOpacity={1} fill="url(#colorSpend)" name="Chi tiêu quốc tế (nghìn tỷ Yên)" />
-                  </AreaChart>
-                </ResponsiveContainer>
-              )}
+          <div className="h-[340px] w-full">
+            {revenueChartId === '3.4' && (
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={activeSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorSpend" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#10B981" stopOpacity={0.05}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} unit="T¥" />
+                  <Tooltip formatter={(value: any) => [`${value} Nghìn tỷ Yên`, 'Chi tiêu khách quốc tế']} />
+                  <Area type="monotone" dataKey="value" stroke="#059669" strokeWidth={3} fillOpacity={1} fill="url(#colorSpend)" name="Chi tiêu quốc tế (nghìn tỷ Yên)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            )}
 
-              {revenueChartId === '3.5' && (
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={kyotoSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                    <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} unit="B¥" />
-                    <Tooltip formatter={(value: any) => [`${value} Tỷ Yên`, 'Chi tiêu tại Kyoto']} />
-                    <Bar dataKey="value" fill="#6366F1" radius={[4, 4, 0, 0]} name="Chi tiêu du lịch TP Kyoto (tỷ Yên)" />
-                  </BarChart>
-                </ResponsiveContainer>
-              )}
+            {revenueChartId === '3.5' && (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={kyotoSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} unit="B¥" />
+                  <Tooltip formatter={(value: any) => [`${value} Tỷ Yên`, 'Chi tiêu tại Kyoto']} />
+                  <Bar dataKey="value" fill="#6366F1" radius={[4, 4, 0, 0]} name="Chi tiêu du lịch TP Kyoto (tỷ Yên)" />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
 
-              {revenueChartId === '3.6' && (
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={naraSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                    <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} unit="B¥" />
-                    <Tooltip formatter={(value: any) => [`${value} Tỷ Yên`, 'Chi tiêu tại Nara']} />
-                    <Bar dataKey="value" fill="#F59E0B" radius={[4, 4, 0, 0]} name="Chi tiêu du lịch Cố đô Nara (tỷ Yên)" />
-                  </BarChart>
-                </ResponsiveContainer>
-              )}
-            </div>
-          ) : (
-            <AcademicThesisMockup
-              chartId={selectedRevenueMeta.chartId}
-              nameVi={selectedRevenueMeta.nameVi}
-              nameEn={selectedRevenueMeta.nameEn}
-              unitVi={selectedRevenueMeta.unitVi}
-              unitEn={selectedRevenueMeta.unitEn}
-              pageInDoc={selectedRevenueMeta.pageInDoc}
-              data={revenueChartId === '3.4' ? spendNationalData : revenueChartId === '3.5' ? kyotoSpendData : naraSpendData}
-              imageSrc={selectedRevenueMeta.imageSrc}
-              isEn={isEn}
-            />
-          )}
+            {revenueChartId === '3.6' && (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={naraSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} unit="B¥" />
+                  <Tooltip formatter={(value: any) => [`${value} Tỷ Yên`, 'Chi tiêu tại Nara']} />
+                  <Bar dataKey="value" fill="#F59E0B" radius={[4, 4, 0, 0]} name="Chi tiêu du lịch Cố đô Nara (tỷ Yên)" />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
+          </div>
         </div>
 
         {/* Revenue Commentary & GDP Contribution Table */}

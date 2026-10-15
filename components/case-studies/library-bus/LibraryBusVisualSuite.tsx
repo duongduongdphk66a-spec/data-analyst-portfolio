@@ -171,67 +171,67 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
     <section className="w-full space-y-6">
       {/* KHỐI 1: 4 THẺ BENTO KPI ĐỊNH LƯỢNG HỆ THỐNG (PRODUCT & DATA ANALYTICS METRICS) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1.5 shadow-lg">
-          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-sky-500/15 text-sky-300 border border-sky-500/30">
+        <div className="p-5 rounded-2xl bg-white border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800 space-y-1.5 shadow-xs dark:shadow-lg">
+          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-sky-50 text-sky-700 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30">
             KIẾN TRÚC FULL-STACK
           </span>
-          <div className="text-xs text-slate-400 pt-1">6 Phân hệ Django + Celery + Redis</div>
-          <div className="text-2xl sm:text-3xl font-extrabold font-mono text-white">55+ Templates</div>
-          <div className="text-xs font-mono text-emerald-400">10 Màn hình Analytics chuyên biệt</div>
+          <div className="text-xs text-slate-500 dark:text-slate-400 pt-1">6 Phân hệ Django + Celery + Redis</div>
+          <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white">55+ Templates</div>
+          <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400">10 Màn hình Analytics chuyên biệt</div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1.5 shadow-lg">
-          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+        <div className="p-5 rounded-2xl bg-white border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800 space-y-1.5 shadow-xs dark:shadow-lg">
+          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30">
             HIỆU SUẤT LUÂN CHUYỂN
           </span>
-          <div className="text-xs text-slate-400 pt-1">Lưu lượng Mượn sách / Tháng</div>
-          <div className="text-2xl sm:text-3xl font-extrabold font-mono text-white">7.080 Lượt</div>
-          <div className="text-xs font-mono text-sky-400">5 Tuyến • 30 Điểm đỗ • Vòng quay 3,6x</div>
+          <div className="text-xs text-slate-500 dark:text-slate-400 pt-1">Lưu lượng Mượn sách / Tháng</div>
+          <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white">7.080 Lượt</div>
+          <div className="text-xs font-mono text-sky-600 dark:text-sky-400">5 Tuyến • 30 Điểm đỗ • Vòng quay 3,6x</div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1.5 shadow-lg">
-          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
+        <div className="p-5 rounded-2xl bg-white border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800 space-y-1.5 shadow-xs dark:shadow-lg">
+          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30">
             TOÀN VẸN GIAO DỊCH
           </span>
-          <div className="text-xs text-slate-400 pt-1">Chống Xung Đột Đặt Sách (Race Lock)</div>
-          <div className="text-2xl sm:text-3xl font-extrabold font-mono text-white">0% Trùng Đơn</div>
-          <div className="text-xs font-mono text-amber-400">Kiểm chứng bằng test_race_condition.py</div>
+          <div className="text-xs text-slate-500 dark:text-slate-400 pt-1">Chống Xung Đột Đặt Sách (Race Lock)</div>
+          <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white">0% Trùng Đơn</div>
+          <div className="text-xs font-mono text-amber-600 dark:text-amber-400">Kiểm chứng bằng test_race_condition.py</div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1.5 shadow-lg">
-          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-pink-500/15 text-pink-300 border border-pink-500/30">
+        <div className="p-5 rounded-2xl bg-white border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800 space-y-1.5 shadow-xs dark:shadow-lg">
+          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-pink-50 text-pink-700 border border-pink-200 dark:bg-pink-500/15 dark:text-pink-300 dark:border-pink-500/30">
             TỐI ƯU HÓA UI/UX
           </span>
-          <div className="text-xs text-slate-400 pt-1">Tỷ lệ Hoàn tất Đặt giữ chỗ trước</div>
-          <div className="text-2xl sm:text-3xl font-extrabold font-mono text-white">92,0% (+34%)</div>
-          <div className="text-xs font-mono text-pink-400">Giảm tỷ lệ trễ hạn xuống &lt;4,8% nhờ Celery</div>
+          <div className="text-xs text-slate-500 dark:text-slate-400 pt-1">Tỷ lệ Hoàn tất Đặt giữ chỗ trước</div>
+          <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white">92,0% (+34%)</div>
+          <div className="text-xs font-mono text-pink-600 dark:text-pink-400">Giảm tỷ lệ trễ hạn xuống &lt;4,8% nhờ Celery</div>
         </div>
       </div>
 
       {/* KHỐI 2: LƯỚI 2 BIỂU ĐỒ LỚN (HIỆU SUẤT 5 TUYẾN XE BUÝT & PHỄU CHUYỂN ĐỔI MƯỢN SÁCH) */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         {/* BIỂU ĐỒ 1 (7 CỘT): ĐỐI SÁNH LƯU LƯỢNG & VÒNG QUAY TỒN KHO 5 TUYẾN XE BUÝT */}
-        <div className="xl:col-span-7 rounded-2xl border border-slate-800/90 bg-slate-950/90 p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div className="xl:col-span-7 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xl dark:border-slate-800/90 dark:bg-slate-950/90 flex flex-col justify-between space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
             <div>
-              <span className="px-2 py-0.5 rounded text-xs font-mono font-bold uppercase bg-sky-500/15 text-sky-300 border border-sky-500/30">
+              <span className="px-2 py-0.5 rounded text-xs font-mono font-bold uppercase bg-sky-50 text-sky-800 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30">
                 BIỂU ĐỒ #1 • TELEMETRY LỘ TRÌNH ĐỘI XE (bus_analytics.html)
               </span>
-              <h3 className="text-base sm:text-lg font-extrabold text-white mt-1">
+              <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white mt-1">
                 {lang === 'vi'
                   ? 'Sản Lượng Mượn Sách & Hệ Số Vòng Quay Tồn Kho Theo 5 Tuyến Xe'
                   : 'Monthly Borrow Volume & Inventory Turnover Across 5 Bus Routes'}
               </h3>
             </div>
             <div className="text-right font-mono text-xs">
-              <div className="text-emerald-400 font-bold">Tổng: 7.080 lượt mượn/tháng</div>
-              <div className="text-slate-400">30 điểm đỗ (Bus Stops)</div>
+              <div className="text-emerald-700 dark:text-emerald-400 font-bold">Tổng: 7.080 lượt mượn/tháng</div>
+              <div className="text-slate-500 dark:text-slate-400">30 điểm đỗ (Bus Stops)</div>
             </div>
           </div>
 
           {/* CỘT TƯƠNG TÁC 5 TUYẾN XE */}
           <div className="pt-4 pb-1">
-            <div className="grid grid-cols-5 gap-3 sm:gap-5 items-end h-48 px-2 border-b border-slate-800 pb-2">
+            <div className="grid grid-cols-5 gap-3 sm:gap-5 items-end h-48 px-2 border-b border-slate-200 dark:border-slate-800 pb-2">
               {busRoutesTelemetry.map((rt, idx) => {
                 const heightPct = Math.max(15, Math.round((rt.monthlyBorrows / maxBorrows) * 100));
                 const isSelected = selectedRouteIdx === idx;
@@ -244,7 +244,7 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
                   >
                     <div
                       className={`text-xs font-mono font-bold mb-1 ${
-                        isSelected ? 'text-white scale-105' : 'text-slate-400'
+                        isSelected ? 'text-slate-900 dark:text-white scale-105' : 'text-slate-500 dark:text-slate-400'
                       }`}
                     >
                       {rt.monthlyBorrows.toLocaleString()}
@@ -252,10 +252,10 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
                     <div
                       style={{ height: `${heightPct}%` }}
                       className={`w-full max-w-[54px] rounded-t-xl bg-gradient-to-t ${rt.color} transition-all relative ${
-                        isSelected ? 'ring-2 ring-white shadow-lg' : 'opacity-80 group-hover:opacity-100'
+                        isSelected ? 'ring-2 ring-sky-500 shadow-lg' : 'opacity-80 group-hover:opacity-100'
                       }`}
                     >
-                      <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-xs font-mono text-sky-300 opacity-0 group-hover:opacity-100 whitespace-nowrap">
+                      <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-xs font-mono text-sky-700 dark:text-sky-300 opacity-0 group-hover:opacity-100 whitespace-nowrap">
                         {rt.turnoverRate}x vòng quay
                       </span>
                     </div>
@@ -269,7 +269,7 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
                 <div
                   key={rt.routeCode}
                   className={`text-xs font-mono truncate ${
-                    selectedRouteIdx === idx ? 'text-sky-300 font-bold' : 'text-slate-400'
+                    selectedRouteIdx === idx ? 'text-sky-700 dark:text-sky-300 font-bold' : 'text-slate-500 dark:text-slate-400'
                   }`}
                 >
                   {rt.routeCode.split('•')[0]}
@@ -279,30 +279,30 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
           </div>
 
           {/* HỘP THÔNG TIN TUYẾN ĐANG CHỌN */}
-          <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
             <div>
-              <span className="text-sky-400 font-bold">{busRoutesTelemetry[selectedRouteIdx].routeCode}: </span>
-              <span className="text-white">
+              <span className="text-sky-700 dark:text-sky-400 font-bold">{busRoutesTelemetry[selectedRouteIdx].routeCode}: </span>
+              <span className="text-slate-900 dark:text-white">
                 {busRoutesTelemetry[selectedRouteIdx].monthlyBorrows} lượt/tháng •{' '}
                 {busRoutesTelemetry[selectedRouteIdx].stopsCount} điểm đỗ • Tỷ lệ đáp ứng đặt trước:{' '}
-                <strong className="text-emerald-400">
+                <strong className="text-emerald-700 dark:text-emerald-400">
                   {busRoutesTelemetry[selectedRouteIdx].reservationFillPct}%
                 </strong>
               </span>
             </div>
-            <span className="px-2.5 py-0.5 rounded bg-slate-800 text-amber-300 font-sans">
+            <span className="px-2.5 py-0.5 rounded bg-slate-100 text-amber-800 border border-slate-200 dark:bg-slate-800 dark:text-amber-300 font-sans">
               📚 Nhóm sách hút khách: {busRoutesTelemetry[selectedRouteIdx].topCategory[lang]}
             </span>
           </div>
         </div>
 
         {/* BIỂU ĐỒ 2 (5 CỘT): PHỄU CHUYỂN ĐỔI ĐẶT GIỮ CHỖ & MƯỢN SÁCH (BORROWING FUNNEL) */}
-        <div className="xl:col-span-5 rounded-2xl border border-slate-800/90 bg-slate-950/90 p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-4">
-          <div className="border-b border-slate-800 pb-3">
-            <span className="px-2 py-0.5 rounded text-xs font-mono font-bold uppercase bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+        <div className="xl:col-span-5 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xl dark:border-slate-800/90 dark:bg-slate-950/90 flex flex-col justify-between space-y-4">
+          <div className="border-b border-slate-200 dark:border-slate-800 pb-3">
+            <span className="px-2 py-0.5 rounded text-xs font-mono font-bold uppercase bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30">
               BIỂU ĐỒ #2 • PRODUCT CONVERSION FUNNEL
             </span>
-            <h3 className="text-base sm:text-lg font-extrabold text-white mt-1">
+            <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white mt-1">
               {lang === 'vi'
                 ? 'Phễu Chuyển Đổi Độc Giả: Tra Cứu → Đặt Giữ Chỗ → Nhận Sách'
                 : 'Reader Conversion Funnel: Search → Reserve → On-Bus Pickup'}
@@ -311,17 +311,17 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
 
           <div className="space-y-3 text-xs">
             {borrowingFunnelSteps.map((st, idx) => (
-              <div key={idx} className="p-3 rounded-xl bg-slate-900/75 border border-slate-800 space-y-1.5">
-                <div className="flex items-center justify-between font-bold text-white">
+              <div key={idx} className="p-3 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 space-y-1.5">
+                <div className="flex items-center justify-between font-bold text-slate-900 dark:text-white">
                   <span className="truncate">{st.step[lang]}</span>
-                  <span className="font-mono text-sky-300 shrink-0">
+                  <span className="font-mono text-sky-700 dark:text-sky-300 shrink-0">
                     {st.users.toLocaleString()} ({st.conversionPct}%)
                   </span>
                 </div>
-                <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
                   <div className={`h-full rounded-full ${st.barColor}`} style={{ width: `${st.conversionPct}%` }} />
                 </div>
-                <div className="text-xs font-mono text-slate-400">{st.dropNote[lang]}</div>
+                <div className="text-xs font-mono text-slate-500 dark:text-slate-400">{st.dropNote[lang]}</div>
               </div>
             ))}
           </div>
@@ -329,13 +329,13 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
       </div>
 
       {/* KHỐI 3: BỘ MÔ PHỎNG TỐI ƯU ĐỘI XE & VÒNG QUAY TỒN KHO (WHAT-IF FLEET SIMULATOR) */}
-      <div className="rounded-2xl border border-slate-800/90 bg-slate-950/95 p-5 sm:p-7 shadow-xl space-y-5">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 shadow-xl dark:border-slate-800/90 dark:bg-slate-950/95 space-y-5">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
           <div>
-            <span className="px-2.5 py-1 rounded text-xs font-mono font-bold uppercase bg-amber-500/15 text-amber-300 border border-amber-500/30">
+            <span className="px-2.5 py-1 rounded text-xs font-mono font-bold uppercase bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30">
               MÔ HÌNH TỐI ƯU VẬN HÀNH • FLEET & INVENTORY SIMULATOR
             </span>
-            <h3 className="text-lg sm:text-xl font-extrabold text-white mt-1.5">
+            <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white mt-1.5">
               {lang === 'vi'
                 ? 'Mô Phỏng Điều Phối Tồn Kho Theo Gợi Ý Analytics & Tự Động Hóa Nhắc Hạn Celery'
                 : 'Simulating Analytics-Driven Inventory Rebalancing & Celery Auto-Reminders'}
@@ -348,7 +348,7 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
               setSmartRestockPct(65);
               setAutoReminderEnabled(95);
             }}
-            className="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold transition self-start lg:self-auto cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-500/20 dark:hover:bg-emerald-500/30 dark:text-emerald-300 dark:border-emerald-500/40 text-xs font-mono font-bold transition self-start lg:self-auto cursor-pointer"
           >
             🚀 {lang === 'vi' ? 'Áp dụng Cấu hình Đội xe Tối ưu (10 Xe + AI Restock)' : 'Apply Optimal Fleet Preset'}
           </button>
@@ -356,12 +356,12 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           <div className="lg:col-span-7 space-y-4">
-            <div className="p-4 rounded-xl bg-slate-900/75 border border-slate-800 space-y-2">
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="font-bold text-white">
+                <span className="font-bold text-slate-900 dark:text-white">
                   1. Quy mô Đội xe Thư viện Lưu động vận hành đồng thời (inventory/bus_list)
                 </span>
-                <span className="font-mono font-extrabold text-sky-400">{activeBusesCount} Xe buýt</span>
+                <span className="font-mono font-extrabold text-sky-700 dark:text-sky-400">{activeBusesCount} Xe buýt</span>
               </div>
               <input
                 type="range"
@@ -372,19 +372,19 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
                 onChange={(e) => setActiveBusesCount(parseInt(e.target.value, 10))}
                 className="w-full accent-sky-500 cursor-pointer"
               />
-              <div className="flex justify-between text-xs font-mono text-slate-400">
+              <div className="flex justify-between text-xs font-mono text-slate-500 dark:text-slate-400">
                 <span>Mức nền: 5 xe</span>
                 <span>Mở rộng: 10 xe</span>
                 <span>Tối đa: 15 xe</span>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900/75 border border-slate-800 space-y-2">
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="font-bold text-white">
+                <span className="font-bold text-slate-900 dark:text-white">
                   2. Tỷ lệ Luân chuyển Đầu sách theo Thuật toán Gợi ý (analytics/recommendations)
                 </span>
-                <span className="font-mono font-extrabold text-emerald-400">{smartRestockPct}% kho sách</span>
+                <span className="font-mono font-extrabold text-emerald-700 dark:text-emerald-400">{smartRestockPct}% kho sách</span>
               </div>
               <input
                 type="range"
@@ -395,19 +395,19 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
                 onChange={(e) => setSmartRestockPct(parseInt(e.target.value, 10))}
                 className="w-full accent-emerald-500 cursor-pointer"
               />
-              <div className="flex justify-between text-xs font-mono text-slate-400">
+              <div className="flex justify-between text-xs font-mono text-slate-500 dark:text-slate-400">
                 <span>Thủ công: 10%</span>
                 <span>Tối ưu theo điểm đỗ: 50%</span>
                 <span>Tối đa: 80%</span>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900/75 border border-slate-800 space-y-2">
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="font-bold text-white">
+                <span className="font-bold text-slate-900 dark:text-white">
                   3. Độ phủ Celery Cronjob Nhắc hạn & Thông báo Sách về (notifications/tasks.py)
                 </span>
-                <span className="font-mono font-extrabold text-amber-400">{autoReminderEnabled}% độc giả</span>
+                <span className="font-mono font-extrabold text-amber-700 dark:text-amber-400">{autoReminderEnabled}% độc giả</span>
               </div>
               <input
                 type="range"
@@ -418,7 +418,7 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
                 onChange={(e) => setAutoReminderEnabled(parseInt(e.target.value, 10))}
                 className="w-full accent-amber-500 cursor-pointer"
               />
-              <div className="flex justify-between text-xs font-mono text-slate-400">
+              <div className="flex justify-between text-xs font-mono text-slate-500 dark:text-slate-400">
                 <span>Mức nền: 20%</span>
                 <span>Email + Web Push: 85%</span>
                 <span>Tự động 100%</span>
@@ -426,31 +426,31 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
             </div>
           </div>
 
-          <div className="lg:col-span-5 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 p-5 flex flex-col justify-between space-y-4">
+          <div className="lg:col-span-5 rounded-2xl bg-gradient-to-b from-slate-50 to-white border border-slate-200 dark:from-slate-900 dark:to-slate-950 dark:border-slate-800 p-5 flex flex-col justify-between space-y-4">
             <div>
-              <div className="text-xs font-mono uppercase text-emerald-400 font-bold">
+              <div className="text-xs font-mono uppercase text-emerald-700 dark:text-emerald-400 font-bold">
                 Sản Lượng Mượn Sách Dự Kiến / Tháng
               </div>
-              <div className="text-3xl font-extrabold font-mono text-white mt-1">
+              <div className="text-3xl font-extrabold font-mono text-slate-900 dark:text-white mt-1">
                 {fleetSimulation.projectedBorrows.toLocaleString('vi-VN')} Lượt mượn
               </div>
-              <div className="text-xs text-slate-400 mt-1">
+              <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                 Tăng +{Math.max(0, fleetSimulation.projectedBorrows - 7080).toLocaleString('vi-VN')} lượt so với cấu hình 5 xe cơ sở
               </div>
             </div>
 
-            <div className="space-y-2.5 border-t border-slate-800 pt-3 text-xs font-mono">
-              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex justify-between items-center">
-                <span className="font-sans text-slate-300">Hệ số Vòng quay Sách (Turnover):</span>
-                <span className="font-bold text-sky-400 text-sm">{fleetSimulation.inventoryTurnover} vòng/tháng</span>
+            <div className="space-y-2.5 border-t border-slate-200 dark:border-slate-800 pt-3 text-xs font-mono">
+              <div className="p-3 rounded-xl bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 flex justify-between items-center shadow-xs">
+                <span className="font-sans text-slate-700 dark:text-slate-300">Hệ số Vòng quay Sách (Turnover):</span>
+                <span className="font-bold text-sky-700 dark:text-sky-400 text-sm">{fleetSimulation.inventoryTurnover} vòng/tháng</span>
               </div>
-              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex justify-between items-center">
-                <span className="font-sans text-slate-300">Tỷ lệ Trả sách Quá hạn (Overdue):</span>
-                <span className="font-bold text-emerald-400 text-sm">Giảm còn {fleetSimulation.overdueRatePct}%</span>
+              <div className="p-3 rounded-xl bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 flex justify-between items-center shadow-xs">
+                <span className="font-sans text-slate-700 dark:text-slate-300">Tỷ lệ Trả sách Quá hạn (Overdue):</span>
+                <span className="font-bold text-emerald-700 dark:text-emerald-400 text-sm">Giảm còn {fleetSimulation.overdueRatePct}%</span>
               </div>
-              <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/30 flex justify-between items-center">
-                <span className="font-sans font-bold text-white">Tỷ lệ Đáp ứng Đặt giữ chỗ trước:</span>
-                <span className="font-extrabold text-amber-300 text-base">
+              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-500/30 flex justify-between items-center">
+                <span className="font-sans font-bold text-slate-900 dark:text-white">Tỷ lệ Đáp ứng Đặt giữ chỗ trước:</span>
+                <span className="font-extrabold text-amber-700 dark:text-amber-300 text-base">
                   {fleetSimulation.FulfilledReservationsPct}%
                 </span>
               </div>
@@ -460,25 +460,25 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
       </div>
 
       {/* KHỐI 4: SƠ ĐỒ KIẾN TRÚC 6 DJANGO APPS & LUỒNG DATAFLOW TỪ PRJ-MAIN */}
-      <div className="rounded-2xl border border-slate-800/90 bg-slate-950/90 p-5 sm:p-6 shadow-xl space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xl dark:border-slate-800/90 dark:bg-slate-950/90 space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
           <div>
-            <span className="px-2 py-0.5 rounded text-xs font-mono font-bold uppercase bg-pink-500/15 text-pink-300 border border-pink-500/30">
+            <span className="px-2 py-0.5 rounded text-xs font-mono font-bold uppercase bg-pink-50 text-pink-800 border border-pink-200 dark:bg-pink-500/15 dark:text-pink-300 dark:border-pink-500/30">
               KIẾN TRÚC HỆ THỐNG GỐC • DJANGO + CELERY + ARCHIFY DIAGRAMS
             </span>
-            <h3 className="text-base sm:text-lg font-extrabold text-white mt-1">
+            <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white mt-1">
               {lang === 'vi'
                 ? 'Bản Đồ 6 Phân Hệ Backend & 3 Luồng Kiến Trúc Tương Tác (docs/architecture/)'
                 : '6 Django Backend Modules & 3 Interactive Architecture Flows'}
             </h3>
           </div>
 
-          <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800 text-xs font-mono">
+          <div className="inline-flex rounded-xl bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800 text-xs font-mono">
             <button
               type="button"
               onClick={() => setActiveDiagramTab('dataflow')}
               className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${
-                activeDiagramTab === 'dataflow' ? 'bg-sky-500/20 text-sky-300 font-bold' : 'text-slate-400'
+                activeDiagramTab === 'dataflow' ? 'bg-sky-50 text-sky-900 border border-sky-200 dark:border-transparent dark:bg-sky-500/20 dark:text-sky-300 font-bold' : 'text-slate-600 dark:text-slate-400'
               }`}
             >
               1. Analytics Dataflow
@@ -487,7 +487,7 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
               type="button"
               onClick={() => setActiveDiagramTab('workflow')}
               className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${
-                activeDiagramTab === 'workflow' ? 'bg-emerald-500/20 text-emerald-300 font-bold' : 'text-slate-400'
+                activeDiagramTab === 'workflow' ? 'bg-emerald-50 text-emerald-900 border border-emerald-200 dark:border-transparent dark:bg-emerald-500/20 dark:text-emerald-300 font-bold' : 'text-slate-600 dark:text-slate-400'
               }`}
             >
               2. Borrowing Workflow
@@ -496,7 +496,7 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
               type="button"
               onClick={() => setActiveDiagramTab('system')}
               className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${
-                activeDiagramTab === 'system' ? 'bg-amber-500/20 text-amber-300 font-bold' : 'text-slate-400'
+                activeDiagramTab === 'system' ? 'bg-amber-50 text-amber-900 border border-amber-200 dark:border-transparent dark:bg-amber-500/20 dark:text-amber-300 font-bold' : 'text-slate-600 dark:text-slate-400'
               }`}
             >
               3. System Graph (30 Nodes)
@@ -509,23 +509,23 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
           {djangoModulesArchitecture.map((mod) => (
             <div
               key={mod.app}
-              className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col justify-between space-y-2"
+              className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/80 dark:border-slate-800 flex flex-col justify-between space-y-2"
             >
               <div className="space-y-1.5">
                 <span className={`px-2 py-0.5 rounded text-xs font-mono font-bold border ${mod.badgeColor}`}>
                   {mod.app}
                 </span>
-                <div className="text-xs font-mono font-bold text-white pt-1">{mod.modelsCount}</div>
+                <div className="text-xs font-mono font-bold text-slate-900 dark:text-white pt-1">{mod.modelsCount}</div>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">{mod.role[lang]}</p>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{mod.role[lang]}</p>
             </div>
           ))}
         </div>
 
         {/* SƠ ĐỒ TRỰC QUAN LUỒNG ĐANG CHỌN + NÚT MỞ INTERACTIVE GRAPH */}
-        <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="space-y-1 text-xs">
-            <div className="font-mono font-bold text-sky-400 uppercase">
+            <div className="font-mono font-bold text-sky-700 dark:text-sky-400 uppercase">
               {activeDiagramTab === 'dataflow' &&
                 '📊 Luồng Dữ Liệu Phân Tích (docs/architecture/analytics-dataflow.html)'}
               {activeDiagramTab === 'workflow' &&
@@ -533,7 +533,7 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
               {activeDiagramTab === 'system' &&
                 '🕸️ Đồ Thị Kiến Trúc 30 Nodes (public/library-bus/architecture-graph.html)'}
             </div>
-            <p className="text-slate-300 leading-relaxed">
+            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
               {activeDiagramTab === 'dataflow' &&
                 'Thu thập sự kiện mượn/trả, đánh giá sách và lộ trình điểm đỗ → Tổng hợp qua Celery Beat → Phục vụ 10 bảng điều khiển (book_analytics, bus_analytics, leaderboard, recommendations).'}
               {activeDiagramTab === 'workflow' &&
@@ -548,7 +548,7 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
               href="/library-bus/analytics-dataflow.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-2 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 text-xs font-mono font-bold transition"
+              className="px-3.5 py-2 rounded-xl bg-sky-50 text-sky-800 border border-sky-200 hover:bg-sky-100 dark:bg-sky-500/20 dark:hover:bg-sky-500/30 dark:text-sky-300 dark:border-sky-500/40 text-xs font-mono font-bold transition"
             >
               📊 Dataflow Diagram ↗
             </a>
@@ -556,7 +556,7 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
               href="/library-bus/borrowing-workflow.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold transition"
+              className="px-3.5 py-2 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-500/20 dark:hover:bg-emerald-500/30 dark:text-emerald-300 dark:border-emerald-500/40 text-xs font-mono font-bold transition"
             >
               🔄 Borrowing Flow ↗
             </a>
@@ -564,7 +564,7 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
               href="/library-bus/architecture-graph.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold transition"
+              className="px-3.5 py-2 rounded-xl bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 dark:bg-amber-500/20 dark:hover:bg-amber-500/30 dark:text-amber-300 dark:border-amber-500/40 text-xs font-mono font-bold transition"
             >
               🕸️ Đồ thị 30 Nodes ↗
             </a>
@@ -572,7 +572,7 @@ export default function LibraryBusVisualSuite({ isEn: propIsEn }: LibraryBusVisu
               href="/library-bus/understand_dashboard.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-2 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 text-xs font-mono font-bold transition"
+              className="px-3.5 py-2 rounded-xl bg-indigo-50 text-indigo-800 border border-indigo-200 hover:bg-indigo-100 dark:bg-indigo-500/20 dark:hover:bg-indigo-500/30 dark:text-indigo-300 dark:border-indigo-500/40 text-xs font-mono font-bold transition"
             >
               📈 Analytics Dashboard ↗
             </a>

@@ -43,7 +43,9 @@ export interface ProfileData {
 export interface ProjectData {
   id: string;
   title: string;
+  titleEn?: string;
   desc: string;
+  descEn?: string;
   tags: string[];
   img: string;
   demoUrl?: string;
@@ -51,10 +53,14 @@ export interface ProjectData {
   embedUrl?: string; // Iframe live interactive preview
   featured?: boolean;
   content?: string; // Markdown content for detail page
+  contentEn?: string;
   problem?: string;
+  problemEn?: string;
   method?: string;
+  methodEn?: string;
   insight?: string;
-  metrics?: { label: string; value: string; change?: string; isPositive?: boolean }[];
+  insightEn?: string;
+  metrics?: { label: string; labelEn?: string; value: string; change?: string; changeEn?: string; isPositive?: boolean }[];
   tools?: string[];
 }
 

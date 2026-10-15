@@ -19,7 +19,7 @@ export interface LibraryBusScreenItem {
   badge: string;
   wireframeSrc: string;
   uiSrc: string;
-  uiFullSrc: string;
+  uiFullSrc?: string;
 }
 
 export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [

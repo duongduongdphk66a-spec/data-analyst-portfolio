@@ -134,9 +134,6 @@ export default function ShopOverviewSection({
               {isEn ? sellerCenterShopData.overview28d.periodLabel.en : sellerCenterShopData.overview28d.periodLabel.vi} ({sellerCenterShopData.overview28d.period})
             </p>
           </div>
-          <span className="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-sky-300 dark:border-slate-700 text-[#0D7287] dark:text-sky-300 shrink-0 self-start sm:self-auto">
-            {isEn ? 'Real-Time Sync: 13:12' : 'Ảnh chụp viễn trắc: 13:12'}
-          </span>
         </div>
 
         {/* 3 Growth Metric Cards */}

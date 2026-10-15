@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, Award, Users, Lightbulb, ImageIcon } from 'lucide-react';
+import { Sparkles, Award, Users, Lightbulb } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
@@ -15,7 +15,7 @@ import {
 interface ShopAffiliateSectionProps {
   isEn: boolean;
   copyDeepLink: (_id: string) => void;
-  openProofScreenshot: (_id: string) => void;
+  openProofScreenshot?: (_id: string) => void;
   affMetric: 'units' | 'gmv' | 'count';
   setAffMetric: (_m: 'units' | 'gmv' | 'count') => void;
   affCatMetric: 'units' | 'gmv' | 'count';
@@ -27,7 +27,7 @@ interface ShopAffiliateSectionProps {
 export default function ShopAffiliateSection({
   isEn,
   copyDeepLink,
-  openProofScreenshot,
+  openProofScreenshot: _openProofScreenshot,
   affMetric,
   setAffMetric,
   affCatMetric,
@@ -44,16 +44,6 @@ export default function ShopAffiliateSection({
         title={isEn ? "Affiliate Network & KOC Performance" : "Mạng Lưới Tiếp Thị Liên Kết & KOC"} 
         id="shop-affiliates" 
         onCopy={copyDeepLink} 
-        extraAction={
-          <button
-            onClick={() => openProofScreenshot('sc-073657')}
-            className="text-xs px-2.5 py-1 rounded-lg bg-[#C8EEF7]/50 hover:bg-[#9BE7FA]/60 text-[#0D7287] font-bold flex items-center gap-1 border border-[#9BE7FA]/60 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 cursor-pointer transition-all"
-            title="Xem ảnh FastMoss gốc #073657, #073705, #073713"
-          >
-            <ImageIcon className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Ảnh FastMoss #073657-#073713</span>
-          </button>
-        } 
       />
 
       {/* In-House Satellite vs True External Affiliate Callout Banner */}

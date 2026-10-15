@@ -131,13 +131,13 @@ export default function ShopSalesSection({
         </div>
 
         {/* Content Distribution */}
-        <div id="shop-content-pie" className="p-6 rounded-3xl bg-white border border-[#FFE485] shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
+        <div id="shop-content-pie" className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/60 shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
           <div className="flex justify-between items-center border-b border-slate-100 pb-3 dark:border-slate-800">
             <div>
               <h3 className="text-base font-black text-slate-950 dark:text-white">{isEn ? 'Content Format Distribution' : 'Cơ Cấu Định Dạng Nội Dung'}</h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">LIVE vs Video vs Thẻ sản phẩm</p>
             </div>
-            <div className="flex bg-[#FFE485]/30 rounded-xl p-1 dark:bg-slate-800">
+            <div className="flex bg-[#C8EEF7]/40 rounded-xl p-1 dark:bg-slate-800">
               <button onClick={() => setContentMetric('units')} className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${contentMetric === 'units' ? 'bg-[#9BE7FA] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>Số lượng</button>
               <button onClick={() => setContentMetric('gmv')} className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${contentMetric === 'gmv' ? 'bg-[#FFD14C] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>GMV</button>
             </div>
@@ -155,7 +155,7 @@ export default function ShopSalesSection({
                   dataKey="value"
                 >
                   {contentData[contentMetric].map((_, index) => (
-                    <Cell key={`cell-ct-${index}`} fill={PALETTE[(index + 2) % PALETTE.length]} />
+                    <Cell key={`cell-ct-${index}`} fill={PALETTE[index % PALETTE.length]} />
                   ))}
                 </Pie>
                 <Tooltip formatter={(value) => [`${value}%`, contentMetric === 'gmv' ? 'Tỷ trọng GMV' : 'Tỷ trọng số lượng']} />

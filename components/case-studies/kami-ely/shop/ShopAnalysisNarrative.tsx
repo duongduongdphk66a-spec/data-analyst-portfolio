@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 export interface ShopAnalysisNarrativeProps {
@@ -11,7 +11,6 @@ export default function ShopAnalysisNarrative({ isEn: propIsEn }: ShopAnalysisNa
   const { language } = useLanguage();
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   const lang = isEn ? 'en' : 'vi';
-  const [expandedText, setExpandedText] = useState<boolean>(false);
 
   const visualActionCards = [
     {
@@ -77,32 +76,18 @@ export default function ShopAnalysisNarrative({ isEn: propIsEn }: ShopAnalysisNa
   ];
 
   return (
-    <section className="w-full rounded-2xl border border-slate-800/90 bg-slate-950/90 p-5 sm:p-7 shadow-xl space-y-5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+    <section className="w-full rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 shadow-xl dark:border-slate-800/90 dark:bg-slate-950/90 space-y-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
         <div>
-          <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold uppercase bg-sky-500/15 text-sky-300 border border-sky-500/30">
+          <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold uppercase bg-sky-50 text-sky-800 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30">
             {lang === 'vi' ? 'TÓM TẮT CHIẾN LƯỢC TOÀN SHOP (VISUAL SUMMARY)' : 'SHOP-WIDE VISUAL ACTION SUMMARY'}
           </span>
-          <h3 className="text-base sm:text-lg font-extrabold text-white mt-1">
+          <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white mt-1">
             {lang === 'vi'
               ? '4 Trọng Tâm Tối Ưu Hóa Vận Hành Gian Hàng Kami Ely'
               : '4 Core Operational Optimization Pillars for Kami Ely'}
           </h3>
         </div>
-
-        <button
-          type="button"
-          onClick={() => setExpandedText((prev) => !prev)}
-          className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 text-xs font-mono font-semibold transition self-start sm:self-auto cursor-pointer"
-        >
-          {expandedText
-            ? lang === 'vi'
-              ? '📖 Thu gọn phần diễn giải chữ ▲'
-              : '📖 Hide Detailed Text ▲'
-            : lang === 'vi'
-            ? '📖 Xem thêm thuyết minh chi tiết ▼'
-            : '📖 Read Full Analytical Notes ▼'}
-        </button>
       </div>
 
       {/* 4 VISUAL INFOGRAPHIC CARDS */}
@@ -110,42 +95,24 @@ export default function ShopAnalysisNarrative({ isEn: propIsEn }: ShopAnalysisNa
         {visualActionCards.map((item, idx) => (
           <div
             key={idx}
-            className="p-4 rounded-xl bg-slate-900/75 border border-slate-800 flex flex-col justify-between space-y-3"
+            className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/75 dark:border-slate-800 flex flex-col justify-between space-y-3"
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
                 <span className={`px-2 py-0.5 rounded text-xs font-mono font-bold border ${item.color}`}>
                   {item.badge}
                 </span>
-                <span className="text-xs font-mono font-bold text-white">{item.metric}</span>
+                <span className="text-xs font-mono font-bold text-slate-900 dark:text-white">{item.metric}</span>
               </div>
-              <h4 className="text-sm font-bold text-white">{item.title[lang]}</h4>
-              <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white">{item.title[lang]}</h4>
+              <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
                 <div className={`h-full rounded-full ${item.barColor}`} style={{ width: `${item.pct}%` }} />
               </div>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed">{item.shortAction[lang]}</p>
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{item.shortAction[lang]}</p>
           </div>
         ))}
       </div>
-
-      {/* COLLAPSIBLE TEXT DETAILS (HIDDEN BY DEFAULT TO REDUCE TEXT CLUTTER) */}
-      {expandedText && (
-        <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 text-xs text-slate-300 space-y-2 leading-relaxed animate-in fade-in duration-200">
-          <p>
-            • <strong>{isEn ? '180-Day Audit (09/03 – 04/09/2026):' : 'Kiểm toán Chu kỳ 180 ngày (09/03 – 04/09/2026):'}</strong>{' '}
-            {isEn
-              ? 'The store reached 12,735,128,067 VND (85,500 units), averaging 70.75M VND/day. Seasonality peaked in June 2026 at 3,772.43M VND (29.6% of total GMV), reaching an all-time daily peak on Jun 16 with 315.05M VND (1,936 units).'
-              : 'Toàn gian hàng đạt 12.735.128.067 VNĐ (85.500 SP), trung bình 70,75 triệu đ/ngày. Đỉnh mùa vụ rơi vào tháng 6/2026 với 3.772,43 triệu đ (chiếm 29,6% tổng GMV), lập kỷ lục ngày 16/06 đạt 315,05 triệu đ (1.936 SP).'}
-          </p>
-          <p>
-            • <strong>{isEn ? '90-Day 3-Channel Reconciliation (6,136,205,973 VND | 40,229 units):' : 'Đối soát 3 Kênh Giao dịch 90 ngày (6.136.205.973 VNĐ | 40.229 SP):'}</strong>{' '}
-            {isEn
-              ? 'Self-operated @kamielyhn drives 49.31% GMV (3,026,026,869 VND | 20,027 units), 5,712 affiliate KOCs contribute 27.84% GMV (1,708,159,874 VND | 11,572 units), and Showcase product cards deliver 22.85% GMV (1,402,019,230 VND | 8,630 units).'
-              : 'Kênh chính chủ @kamielyhn tự gánh 49,31% GMV (3.026.026.869 đ | 20.027 SP), mạng lưới 5.712 KOC ngoài đóng góp 27,84% GMV (1.708.159.874 đ | 11.572 SP), và Thẻ sản phẩm đóng góp 22,85% GMV (1.402.019.230 đ | 8.630 SP).'}
-          </p>
-        </div>
-      )}
     </section>
   );
 }

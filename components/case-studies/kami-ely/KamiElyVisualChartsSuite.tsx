@@ -212,27 +212,23 @@ export default function KamiElyVisualChartsSuite({
   const Icon = current.icon;
 
   return (
-    <section className="w-full rounded-2xl border border-slate-800/90 bg-slate-950/95 p-5 sm:p-7 shadow-2xl space-y-6">
+    <section className="w-full rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 shadow-xl dark:border-slate-800/90 dark:bg-slate-950/95 dark:shadow-2xl space-y-6">
       {/* HEADER */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold uppercase bg-sky-500/15 text-sky-300 border border-sky-500/30">
+            <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold uppercase bg-sky-50 text-sky-800 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30">
               {isEn ? 'EXECUTIVE VISUAL SUITE' : 'BỘ BIỂU ĐỒ TRỰC QUAN CẤP CAO'}
             </span>
-            <span className="text-xs font-mono text-emerald-400">
-              {isEn ? '6 Interactive Findings + FastMoss Evidence' : '6 Biểu Đồ Đối Soát + 6 Bằng Chứng FastMoss'}
+            <span className="text-xs font-mono text-emerald-700 dark:text-emerald-400">
+              {isEn ? '6 Interactive Findings' : '6 Biểu Đồ Đối Soát Dữ Liệu'}
             </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white mt-1">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
             {lang === 'vi'
               ? 'Toàn Cảnh Dữ Liệu Vận Hành TikTok Shop Qua 6 Góc Nhìn Thị Giác'
               : 'TikTok Shop Operational Reality Across 6 Interactive Visual Angles'}
           </h2>
-        </div>
-
-        <div className="text-xs font-mono text-slate-400">
-          {lang === 'vi' ? 'Chọn 1 trong 6 góc nhìn bên dưới để xem đồ thị:' : 'Select any visual angle below:'}
         </div>
       </div>
 
@@ -240,22 +236,20 @@ export default function KamiElyVisualChartsSuite({
       <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-2">
         {charts.map((c, i) => {
           const isSelected = activeChartIdx === i;
+          const chartTitle = c.title[lang].split('. ')[1] || c.title[lang];
           return (
             <button
               key={c.id}
               type="button"
               onClick={() => setActiveChartIdx(i)}
-              className={`p-3 rounded-xl border text-left transition flex flex-col justify-between cursor-pointer ${
+              className={`p-2.5 rounded-xl border text-center transition flex items-center justify-center min-h-[58px] cursor-pointer ${
                 isSelected
-                  ? 'bg-sky-500/20 border-sky-500/60 text-white shadow-md'
-                  : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                  ? 'bg-sky-50 border-sky-400 text-sky-950 font-bold shadow-xs dark:bg-sky-500/20 dark:border-sky-500/60 dark:text-white dark:shadow-md'
+                  : 'bg-slate-50 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-100 dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:text-slate-100 dark:hover:bg-slate-900'
               }`}
             >
-              <span className="text-xs font-mono font-bold text-sky-400">
-                {isEn ? `ANGLE 0${i + 1}` : `GÓC NHÌN 0${i + 1}`}
-              </span>
-              <span className="text-xs font-bold truncate mt-1 text-slate-100">
-                {c.title[lang].split('. ')[1] || c.title[lang]}
+              <span className="text-xs font-semibold leading-snug text-slate-900 dark:text-slate-100">
+                {chartTitle}
               </span>
             </button>
           );
@@ -265,39 +259,39 @@ export default function KamiElyVisualChartsSuite({
       {/* ACTIVE CHART CARD (7 COLS BARS + 5 COLS SCREENSHOT) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* LEFT 7 COLS: KPIS & PROPORTIONAL BARS */}
-        <div className="lg:col-span-7 rounded-2xl bg-slate-900/70 border border-slate-800 p-5 sm:p-6 flex flex-col justify-between space-y-5">
+        <div className="lg:col-span-7 rounded-2xl bg-slate-50 border border-slate-200 p-5 sm:p-6 flex flex-col justify-between space-y-5 dark:bg-slate-900/70 dark:border-slate-800">
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30">
+              <div className="p-2 rounded-xl bg-sky-100 text-sky-700 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-400 dark:border-sky-500/30">
                 <Icon className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-base sm:text-lg font-bold text-white">{current.title[lang]}</h3>
-                <p className="text-xs text-slate-400 mt-0.5">{current.subtitle[lang]}</p>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">{current.title[lang]}</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{current.subtitle[lang]}</p>
               </div>
             </div>
 
             {/* 3 COMPACT KPIS */}
             <div className="grid grid-cols-3 gap-3 pt-2">
               {current.kpis.map((k, idx) => (
-                <div key={idx} className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-center">
-                  <div className="text-xs font-mono text-slate-400 truncate">{k.label}</div>
-                  <div className="text-base sm:text-lg font-extrabold font-mono text-white mt-0.5">{k.val}</div>
-                  <div className="text-xs text-emerald-400 font-mono mt-0.5 truncate">{k.sub}</div>
+                <div key={idx} className="p-3 rounded-xl bg-white border border-slate-200 text-center shadow-xs dark:bg-slate-950/80 dark:border-slate-800">
+                  <div className="text-xs font-mono text-slate-500 dark:text-slate-400 truncate">{k.label}</div>
+                  <div className="text-base sm:text-lg font-extrabold font-mono text-slate-900 dark:text-white mt-0.5">{k.val}</div>
+                  <div className="text-xs text-emerald-700 dark:text-emerald-400 font-mono mt-0.5 truncate">{k.sub}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* VISUAL PROPORTIONAL BARS */}
-          <div className="space-y-3 border-t border-slate-800 pt-4">
+          <div className="space-y-3 border-t border-slate-200 dark:border-slate-800 pt-4">
             {current.bars.map((b, idx) => (
               <div key={idx} className="space-y-1">
                 <div className="flex justify-between text-xs">
-                  <span className="font-semibold text-slate-200">{b.label}</span>
-                  <span className="font-mono font-bold text-sky-300">{b.val}</span>
+                  <span className="font-semibold text-slate-700 dark:text-slate-200">{b.label}</span>
+                  <span className="font-mono font-bold text-sky-700 dark:text-sky-300">{b.val}</span>
                 </div>
-                <div className="w-full h-2.5 rounded-full bg-slate-800 overflow-hidden">
+                <div className="w-full h-2.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
                   <div
                     className={`h-full rounded-full ${b.color} transition-all duration-500`}
                     style={{ width: `${Math.max(5, Math.min(100, b.pct))}%` }}

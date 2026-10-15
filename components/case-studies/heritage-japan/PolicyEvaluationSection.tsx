@@ -177,7 +177,7 @@ export function PolicyEvaluationSection({
         <div className="space-y-4">
           <h4 className="text-base sm:text-lg font-black text-slate-950 dark:text-white flex items-center gap-2">
             <Target className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
-            <span>Đánh Giá Toàn Diện 4 Trụ Cột Chính Sách (Policy Scorecards)</span>
+            <span>{isEn ? 'Comprehensive 4 Policy Scorecards' : 'Đánh Giá Toàn Diện 4 Chính Sách (Policy Scorecards)'}</span>
           </h4>
 
           {/* Pillar Selector Tabs */}
@@ -196,7 +196,7 @@ export function PolicyEvaluationSection({
                 >
                   <div className="flex items-center justify-between gap-1 mb-1">
                     <span className="text-xs font-mono font-bold uppercase opacity-80">
-                      Trụ cột {item.id.replace('policy-', '0')}
+                      {item.id.replace('policy-', '0')}
                     </span>
                     <span className="text-xs font-black">
                       {'★'.repeat(item.impactScore)}

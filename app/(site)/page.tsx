@@ -1,9 +1,9 @@
 import React from 'react';
-import { Download, ChevronRight } from 'lucide-react';
-import Link from 'next/link';
 import HeroSection from '@/components/site/HeroSection';
-import CVSection from '@/components/site/CVSection';
+import DashboardSection from '@/components/site/DashboardSection';
 import ProjectsSection from '@/components/site/ProjectsSection';
+import AboutSection from '@/components/site/AboutSection';
+import CVSection from '@/components/site/CVSection';
 import { getServerLanguage, getServerPortfolioData } from '../lib/serverData';
 
 export async function generateMetadata() {
@@ -17,107 +17,21 @@ export async function generateMetadata() {
   };
 }
 
-export default async function HomePage() {
-  const { language } = await getServerLanguage();
-  const { profile, projects } = await getServerPortfolioData();
-
+export default function HomePage() {
   return (
-    <div className="pb-24">
-      {/* 1. Hero Section */}
-      <HeroSection 
-        profile={profile} 
-      />
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-8 lg:space-y-10">
+      {/* 1. KHỐI MỞ ĐẦU & ĐIỂM NHẤN TƯƠNG TÁC 3 DỰ ÁN */}
+      <HeroSection />
 
-      <div className="space-y-16 md:space-y-24 mt-6 sm:mt-10">
-        {/* 2. Featured Projects (Selected Work Stream) */}
-        <section className="page-container space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-800">
-          <div className="space-y-1">
-            <span className="editorial-kicker">SELECTED CASE STUDIES</span>
-            <h2 className="editorial-section-title text-2xl sm:text-3xl lg:text-4xl">
-              {language === 'en' ? 'Featured Analytical Work' : 'Dự Án Phân Tích Dữ Liệu Nổi Bật'}
-            </h2>
-          </div>
-          <Link
-            href="/projects"
-            className="text-xs font-heading font-bold text-[#074553] dark:text-[#9BE7FA] hover:underline flex items-center gap-1 cursor-pointer"
-          >
-            <span>{language === 'en' ? 'View all projects' : 'Xem toàn bộ dự án'}</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-        <ProjectsSection 
-          projects={projects.slice(0, 3)} 
-          isFeaturedView={true}
-        />
-      </section>
+      {/* 2. BỐN THẺ KPI NGỮ CẢNH & MA TRẬN ĐỐI SÁNH DỰ ÁN */}
+      <DashboardSection />
 
-      {/* taste-skill §4.3: Gradient divider for visual rhythm */}
-      <div className="page-container">
-        <div className="section-divider-gradient" />
-      </div>
+      {/* 3. DANH MỤC CASE STUDIES CHI TIẾT */}
+      <ProjectsSection />
 
-      {/* 3. Experience & Career Timeline */}
-      {/* taste-skill §4.7 Eyebrow Restraint: eyebrow removed (previous section already has one) */}
-      <section className="page-container space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-800">
-          <h2 className="editorial-section-title text-2xl sm:text-3xl lg:text-4xl">
-            {language === 'en' ? 'Experience & Quantitative Background' : 'Học Vấn & Kinh Nghiệm Phân Tích'}
-          </h2>
-          <Link
-            href="/experience"
-            className="text-xs font-heading font-bold text-[#074553] dark:text-[#9BE7FA] hover:underline flex items-center gap-1 cursor-pointer"
-          >
-            <span>{language === 'en' ? 'View full timeline' : 'Xem toàn bộ kinh nghiệm'}</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-        <CVSection 
-          experiences={profile.experiences || []} 
-          name={profile.name} 
-          title={profile.title} 
-          isSummary={true}
-        />
-      </section>
-
-      {/* taste-skill §4.3: Gradient divider before CTA */}
-      <div className="page-container">
-        <div className="section-divider-gradient" />
-      </div>
-
-      {/* 4. Editorial Bottom CTA Strip */}
-      {/* taste-skill §4.5: Single CTA intent — contact only (Download CV already in hero + sidebar) */}
-      <section className="page-container">
-        <div className="p-8 sm:p-12 rounded-2xl bg-[#FEF9C3] dark:bg-[#131E2E] border border-amber-300 dark:border-[#9BE7FA]/25 flex flex-col md:flex-row md:items-center justify-between gap-8 shadow-xl shadow-amber-500/5 dark:shadow-[#9BE7FA]/5">
-          <div className="space-y-2 max-w-xl">
-            <h3 className="text-2xl sm:text-3xl font-heading font-extrabold text-slate-950 dark:text-white leading-tight">
-              {language === 'en' ? 'Looking for an evidence-driven data analyst?' : 'Tìm kiếm Data Analyst giải quyết bài toán tăng trưởng?'}
-            </h3>
-            <p className="text-sm text-slate-900/90 dark:text-slate-300 leading-relaxed font-medium">
-              {language === 'en'
-                ? 'Available for full-time Data Analyst roles, Business Intelligence implementations, and quantitative research consulting.'
-                : 'Sẵn sàng phỏng vấn vị trí Data Analyst full-time hoặc tư vấn xây dựng hệ thống báo cáo BI, tối ưu hóa dữ liệu vận hành.'}
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3 shrink-0">
-            <a
-              href="mailto:mavanhung.da@gmail.com"
-              className="btn-cta-teal text-xs py-3 px-6"
-            >
-              <span>{language === 'en' ? 'Contact Directly' : 'Liên Hệ Trực Tiếp'}</span>
-            </a>
-            <a
-              href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
-              target="_blank"
-              className="btn-cta-white text-xs py-3 px-5 dark:bg-[#1E293B] dark:text-white dark:border-slate-600 dark:hover:bg-[#334155]"
-            >
-              <Download className="w-4 h-4" />
-              <span>{language === 'en' ? 'Download CV' : 'Tải CV'}</span>
-            </a>
-          </div>
-        </div>
-      </section>
-      </div>
+      {/* 4. KỸ NĂNG PHÂN TÍCH & HỒ SƠ NĂNG LỰC (CV) */}
+      <AboutSection />
+      <CVSection />
     </div>
   );
 }

@@ -121,11 +121,6 @@ export default function KamiElyExecutiveStory({ isEn: propIsEn, onJumpToTab }: K
               : '4 Core Findings & Empirical Proofs Across 18,778 Records'}
           </h2>
         </div>
-        <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
-          {lang === 'vi'
-            ? 'Bấm vào từng thẻ bên dưới để xem Vấn đề → Bằng chứng → Giải pháp'
-            : 'Select each pillar below to inspect Problem → Proof → Solution'}
-        </div>
       </div>
 
       {/* 4 PILLAR SELECTOR CARDS */}

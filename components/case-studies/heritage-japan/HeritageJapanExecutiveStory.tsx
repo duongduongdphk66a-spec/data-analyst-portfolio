@@ -37,22 +37,22 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
 
   return (
     <section id="heritage-executive-story" className="mb-14 rounded-3xl bg-white border-2 border-slate-200/90 shadow-xl overflow-hidden dark:bg-slate-900/95 dark:border-slate-800 transition-all">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-r from-slate-950 via-[#062831] to-[#0D7287] p-6 sm:p-8 text-white relative overflow-hidden">
-        <div className="absolute right-0 top-0 w-96 h-96 bg-gradient-to-br from-[#9BE7FA]/20 to-[#FFD14C]/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Header Banner (White Background) */}
+      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 text-slate-950 dark:text-white relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
+        <div className="absolute right-0 top-0 w-96 h-96 bg-gradient-to-br from-[#9BE7FA]/10 to-[#FFD14C]/10 rounded-full blur-3xl pointer-events-none" />
         
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2.5 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD14C] text-slate-950 text-xs font-black uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFE485] text-slate-950 text-xs font-black uppercase tracking-wider border border-[#FFD14C]">
               <Clock className="w-3.5 h-3.5" />
-              <span>{isEn ? '3-MINUTE EXECUTIVE AUDIT' : 'BẢN PHÂN TÍCH ĐIỀU HÀNH · ĐỌC TRONG 3 PHÚT'}</span>
+              <span>{isEn ? 'EXECUTIVE AUDIT' : 'BẢN PHÂN TÍCH ĐIỀU HÀNH'}</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-950 dark:text-white leading-tight">
               {isEn 
                 ? 'Japan Heritage Tourism: ¥8.14T Economic Boom vs Cultural Overtourism Crisis'
                 : 'Du Lịch Di Sản Nhật Bản: Cú Hích Kinh Tế ¥8.14T vs Khủng Hoảng Quá Tải Cố Đô'}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
               {isEn
                 ? 'Synthesized from 20-year JNTO & MLIT datasets and VNU academic thesis. Deconstructing a +481% surge in inbound spending, uncovering hidden statistical typos (10x anomaly), and charting a balanced model between cultural conservation and regional resident vitality.'
                 : 'Tổng hợp từ dữ liệu chuỗi thời gian 20 năm của JNTO, MLIT và Niên luận học thuật ĐHQGHN. Bóc tách sức bật tăng trưởng +481% chi tiêu, phát hiện sai lệch số liệu 10x trong đồ thị lưu trữ và định hình mô hình cân bằng giữa bảo tồn di sản và dân sinh cố đô.'}
@@ -61,23 +61,23 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
 
           {/* Quick Stats Pill */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 gap-3 shrink-0">
-            <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
-              <div className="text-xs text-slate-300 uppercase font-bold tracking-wider">{isEn ? '2024 Record Visitors' : 'Kỷ Lục Khách 2024'}</div>
-              <div className="text-lg sm:text-xl font-black text-[#9BE7FA]">36.87 Triệu</div>
+            <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center shadow-xs">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">{isEn ? '2024 Record Visitors' : 'Kỷ Lục Khách 2024'}</div>
+              <div className="text-lg sm:text-xl font-black text-[#0D7287] dark:text-[#9BE7FA] mt-0.5">36.87 Triệu</div>
             </div>
-            <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center">
-              <div className="text-xs text-slate-300 uppercase font-bold tracking-wider">{isEn ? '2024 Expenditure' : 'Chi Tiêu 2024'}</div>
-              <div className="text-lg sm:text-xl font-black text-[#FFD14C]">8.14 Nghìn Tỷ ¥</div>
+            <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center shadow-xs">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">{isEn ? '2024 Expenditure' : 'Chi Tiêu 2024'}</div>
+              <div className="text-lg sm:text-xl font-black text-[#0D7287] dark:text-[#FFD14C] mt-0.5">8.14 Nghìn Tỷ ¥</div>
             </div>
-            <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-center col-span-2 sm:col-span-1 md:col-span-2">
-              <div className="text-xs text-slate-300 uppercase font-bold tracking-wider">{isEn ? 'Policy CAGR (2013-19)' : 'Tăng Trưởng CAGR'}</div>
-              <div className="text-lg sm:text-xl font-black text-emerald-300">+20.6% / năm</div>
+            <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center col-span-2 sm:col-span-1 md:col-span-2 shadow-xs">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">{isEn ? 'Policy CAGR (2013-19)' : 'Tăng Trưởng CAGR'}</div>
+              <div className="text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400 mt-0.5">+20.6% / năm</div>
             </div>
           </div>
         </div>
 
         {/* Tab switcher inside Executive Story */}
-        <div className="flex items-center gap-2 overflow-x-auto pt-6 scrollbar-none border-t border-white/10 mt-6">
+        <div className="flex items-center gap-2 overflow-x-auto pt-5 scrollbar-none border-t border-slate-200 dark:border-slate-800 mt-6">
           {blocks.map((b) => {
             const Icon = b.icon;
             const isActive = activeStoryBlock === b.id;
@@ -85,10 +85,10 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
               <button
                 key={b.id}
                 onClick={() => setActiveStoryBlock(b.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer ${
+                className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer border ${
                   isActive
-                    ? 'bg-[#9BE7FA] text-slate-950 shadow-md font-black scale-102'
-                    : 'bg-white/10 text-slate-300 hover:bg-white/20 hover:text-white'
+                    ? 'bg-[#C8EEF7] text-[#0D7287] border-[#9BE7FA] shadow-xs font-black dark:bg-[#9BE7FA] dark:text-slate-950'
+                    : 'bg-slate-100/80 text-slate-700 border-slate-200 hover:bg-slate-200 hover:text-slate-900 dark:bg-slate-800/60 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -389,7 +389,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                       <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-xs font-mono font-bold">UNIT AMBIGUITY</span>
                     </div>
                     <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                      Biểu đồ 3.6 ghi 1,208 tỷ Yên cho Nara (ngang ngửa doanh thu Kyoto 1,308 tỷ Yên). Thống kê tỉnh Nara sử dụng đơn vị <strong>億円 (Trăm triệu Yên)</strong>. Doanh thu thực tế là 120.8 tỷ Yên. Việc nhầm lẫn giữa 億円 và 10億円 là lỗi dịch thuật kinh tế điển hình.
+                      Biểu đồ 3.6 ghi 1,208 tỷ Yên cho Nara (ngang ngửa chi tiêu Kyoto 1,308 tỷ Yên). Thống kê tỉnh Nara sử dụng đơn vị <strong>億円 (Trăm triệu Yên)</strong>. Chi tiêu thực tế là 120.8 tỷ Yên. Việc nhầm lẫn giữa 億円 và 10億円 là lỗi dịch thuật kinh tế điển hình.
                     </p>
                   </div>
                 </div>

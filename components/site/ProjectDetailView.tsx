@@ -119,10 +119,10 @@ export default function ProjectDetailView({
               {isEn ? 'CASE STUDY · TECHNICAL OVERVIEW' : 'CHI TIẾT DỰ ÁN · BÁO CÁO PHÂN TÍCH'}
             </span>
             <h1 className="editorial-section-title text-3xl sm:text-4xl md:text-5xl font-black text-slate-950 dark:text-white leading-[1.18]">
-              {project.title}
+              {isEn && project.titleEn ? project.titleEn : project.title}
             </h1>
             <p className="editorial-lead text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-3xl">
-              {project.desc}
+              {isEn && project.descEn ? project.descEn : project.desc}
             </p>
           </div>
           

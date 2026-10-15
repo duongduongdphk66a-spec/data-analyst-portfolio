@@ -9,6 +9,7 @@ import ShopCatalogPricingSection from './ShopCatalogPricingSection';
 import ShopAffiliateSection from './ShopAffiliateSection';
 import ShopLiveVideoSection from './ShopLiveVideoSection';
 import ShopAnalysisNarrative from './ShopAnalysisNarrative';
+import { Sparkles, ArrowRight } from 'lucide-react';
 
 import type { KamiElyDataPayload } from '@/app/types/caseStudies';
 
@@ -150,7 +151,6 @@ export default function KamiElyShopTab({
       <ShopCatalogPricingSection
         isEn={isEn}
         copyDeepLink={copyDeepLink}
-        openProofScreenshot={openProofScreenshot}
         shopCategoryData={shopCategoryData}
         categoryMetric={activeCategoryMetric}
         setCategoryMetric={activeSetCategoryMetric}
@@ -163,7 +163,6 @@ export default function KamiElyShopTab({
       <ShopAffiliateSection
         isEn={isEn}
         copyDeepLink={copyDeepLink}
-        openProofScreenshot={openProofScreenshot}
         affMetric={activeAffMetric}
         setAffMetric={activeSetAffMetric}
         affCatMetric={activeAffCatMetric}
@@ -184,12 +183,54 @@ export default function KamiElyShopTab({
       <ShopLiveVideoSection
         isEn={isEn}
         copyDeepLink={copyDeepLink}
-        openProofScreenshot={openProofScreenshot}
         handleTabChange={handleTabChange}
       />
 
       {/* STRATEGIC NARRATIVE & RECOMMENDATIONS */}
       <ShopAnalysisNarrative isEn={isEn} />
+
+      {/* CROSS-TAB NAVIGATION CTA (Placed at bottom of page) */}
+      <div className="pt-6 border-t border-[#9BE7FA]/60 dark:border-slate-800">
+        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#FFFDF5] via-[#FFF9E6] to-[#FFE485]/40 border-2 border-[#FFD14C] shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-6 dark:bg-gradient-to-br dark:from-[#041E24] dark:via-slate-900 dark:to-[#0D7287]/40 dark:border-[#9BE7FA] dark:shadow-xl transition-colors">
+          <div className="space-y-2 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD14C] text-slate-950 text-xs font-black uppercase tracking-wider dark:bg-[#9BE7FA] dark:text-slate-950">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>{isEn ? 'DEEP-DIVE INTO THE ANCHOR CREATOR' : 'TIẾP TỤC KHÁM PHÁ: KÊNH CHÍNH CHỦ'}</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
+              {isEn 
+                ? 'Discover How @kamielyhn Generates 50% of Shop GMV' 
+                : 'Tìm Hiểu Cách Kênh @kamielyhn Tạo Ra 50% Doanh Số Của Toàn Shop'}
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+              {isEn
+                ? 'Analyze audience demographics, video conversion rates, 208 live sessions, and the 9.2B VND commercial capacity of the host.'
+                : 'Khám phá nhân khẩu học khán giả, tỷ lệ chuyển đổi video, 208 phiên live và năng lực bán hàng 9,2 tỷ của host.'}
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
+            <button
+              onClick={() => {
+                handleTabChange('creator');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-6 py-3.5 rounded-2xl bg-[#0D7287] hover:bg-[#095262] text-white dark:bg-[#9BE7FA] dark:hover:bg-[#72dbf3] dark:text-slate-950 font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>{isEn ? 'View Creator Analysis (Part 2)' : 'Xem Phân Tích Creator (Phần 2)'}</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => {
+                handleTabChange('science');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-300 hover:border-[#0D7287] text-slate-800 dark:bg-white/10 dark:hover:bg-white/20 dark:border-white/20 dark:text-white font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>{isEn ? 'Data Science Case Study' : 'Nghiên Cứu Khoa Học Dữ Liệu'}</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

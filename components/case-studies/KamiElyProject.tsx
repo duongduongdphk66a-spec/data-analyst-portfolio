@@ -11,7 +11,6 @@ import KamiElySqlBookVisualFlow from '@/components/case-studies/kami-ely/KamiEly
 import KamiElyExecutiveStory from '@/components/case-studies/kami-ely/KamiElyExecutiveStory';
 import KamiElyDataScopeMatrix from '@/components/case-studies/kami-ely/KamiElyDataScopeMatrix';
 import KamiElySqlLabWorkbench from '@/components/case-studies/kami-ely/KamiElySqlLabWorkbench';
-import KamiElyProofModal from '@/components/case-studies/kami-ely/KamiElyProofModal';
 
 // 3 Phân hệ Tab Chuyên sâu (Shop • Creator • Science)
 import KamiElyShopTab from '@/components/case-studies/kami-ely/shop/KamiElyShopTab';
@@ -42,19 +41,6 @@ export default function KamiElyProject({
   // Bật/tắt hiển thị Khung 8 Giai đoạn SQL for Data Analysis
   const [showSqlBookPipeline, setShowSqlBookPipeline] = useState<boolean>(true);
 
-  // Quản lý Modal phóng to 22 Ảnh chụp màn hình gốc
-  const [proofModalOpen, setProofModalOpen] = useState<boolean>(false);
-  const [selectedProofId, setSelectedProofId] = useState<string | undefined>(undefined);
-
-  const handleOpenProofModal = useCallback((screenshotId?: string) => {
-    setSelectedProofId(screenshotId);
-    setProofModalOpen(true);
-  }, []);
-
-  const handleCloseProofModal = useCallback(() => {
-    setProofModalOpen(false);
-  }, []);
-
   // Cuộn mượt về đầu vùng nội dung khi đổi giữa 3 Tab lớn
   const handleSelectMainTab = useCallback((tab: KamiElyTabKey) => {
     setActiveTab(tab);
@@ -69,17 +55,17 @@ export default function KamiElyProject({
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
       {/* 1. HERO BENTO GRID: Định vị All-Time (31,6 Tỉ) • 180 Ngày (12,74 Tỉ) • 90 Ngày (6,14 Tỉ) */}
-      <KamiElyHero onOpenProofModal={handleOpenProofModal} />
+      <KamiElyHero />
 
       {/* 2. BỘ 6 BIỂU ĐỒ TƯƠNG TÁC & DẢI 6 ẢNH CHỤP MÀN HÌNH THẬT (VISUAL-FIRST SUITE) */}
-      <KamiElyVisualChartsSuite onOpenProofModal={handleOpenProofModal} />
+      <KamiElyVisualChartsSuite />
 
       {/* 3. LỘ TRÌNH 8 GIAI ĐOẠN "SQL FOR DATA ANALYSIS" BẰNG BIỂU ĐỒ & ẢNH BẰNG CHỨNG */}
       <div className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 px-1">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-mono uppercase tracking-wider text-slate-300 font-bold">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
+            <span className="text-xs font-mono uppercase tracking-wider text-slate-700 dark:text-slate-300 font-bold">
               {lang === 'vi'
                 ? 'Khung Phân Tích Chuẩn: SQL for Data Analysis (Chương 1 → Chương 9)'
                 : 'Standard Framework: SQL for Data Analysis (Ch. 1 → Ch. 9)'}
@@ -88,7 +74,7 @@ export default function KamiElyProject({
           <button
             type="button"
             onClick={() => setShowSqlBookPipeline((prev) => !prev)}
-            className="text-xs font-mono text-sky-400 hover:text-sky-300 underline cursor-pointer"
+            className="text-xs font-mono text-sky-700 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 underline cursor-pointer"
           >
             {showSqlBookPipeline
               ? lang === 'vi'
@@ -100,7 +86,7 @@ export default function KamiElyProject({
           </button>
         </div>
 
-        {showSqlBookPipeline && <KamiElySqlBookVisualFlow onOpenProofModal={handleOpenProofModal} />}
+        {showSqlBookPipeline && <KamiElySqlBookVisualFlow />}
       </div>
 
       {/* 4. THANH ĐIỀU HƯỚNG CỐ ĐỊNH 3 PHÂN HỆ & NÚT CHẾ ĐỘ ĐỌC LƯỚT 3 PHÚT CHO HR */}
@@ -116,7 +102,7 @@ export default function KamiElyProject({
         <div className="space-y-8 animate-fadeIn">
           <ScienceOptimizerSection />
           <KamiElyExecutiveStory />
-          <KamiElyDataScopeMatrix onOpenProofModal={handleOpenProofModal} />
+          <KamiElyDataScopeMatrix />
           <KamiElySqlLabWorkbench />
         </div>
       ) : (
@@ -125,13 +111,11 @@ export default function KamiElyProject({
           <div id="kami-ely-active-tab-content" className="pt-1 space-y-8">
             {activeTab === 'shop' && (
               <KamiElyShopTab
-                openProofScreenshot={handleOpenProofModal}
                 handleTabChange={handleSelectMainTab}
               />
             )}
             {activeTab === 'creator' && (
               <KamiElyCreatorTab
-                openProofScreenshot={handleOpenProofModal}
                 handleTabChange={handleSelectMainTab}
               />
             )}
@@ -139,19 +123,10 @@ export default function KamiElyProject({
           </div>
 
           {/* Ma trận Kiểm toán 8 Bảng gốc & Phòng thí nghiệm SQL đặt gọn ở cuối trang */}
-          <KamiElyDataScopeMatrix onOpenProofModal={handleOpenProofModal} />
+          <KamiElyDataScopeMatrix />
           <KamiElySqlLabWorkbench />
           <KamiElyExecutiveStory />
         </div>
-      )}
-
-      {/* 6. MODAL XEM ẢNH CHỤP MÀN HÌNH ĐỘ PHÂN GIẢI GỐC (22 SCREENSHOTS) */}
-      {proofModalOpen && (
-        <KamiElyProofModal
-          isOpen={proofModalOpen}
-          onClose={handleCloseProofModal}
-          initialScreenshotId={selectedProofId}
-        />
       )}
     </div>
   );

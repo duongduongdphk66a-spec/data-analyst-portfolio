@@ -89,9 +89,9 @@ export default function HeritageJapanProject({
       {/* 4. CHẾ ĐỘ ĐỌC LƯỚT 3 PHÚT CHO HR VS. CHẾ ĐỘ TOÀN BỘ LUẬN VĂN */}
       {isExecutiveScanMode ? (
         <div className="space-y-8 animate-fadeIn">
-          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="text-xs sm:text-sm text-amber-200">
-              <strong className="text-amber-400">
+          <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="text-xs sm:text-sm text-amber-900 dark:text-amber-200">
+              <strong className="text-amber-950 dark:text-amber-400">
                 ⚡ {lang === 'vi' ? 'Chế độ Đọc lướt 3 phút cho HR:' : '3-Minute HR Executive Scan:'}
               </strong>{' '}
               {lang === 'vi'
@@ -101,7 +101,7 @@ export default function HeritageJapanProject({
             <button
               type="button"
               onClick={() => setIsExecutiveScanMode(false)}
-              className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 text-xs font-mono font-bold shrink-0 cursor-pointer"
+              className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-white dark:border-slate-700 text-xs font-mono font-bold shrink-0 cursor-pointer shadow-sm"
             >
               {lang === 'vi' ? 'Mở toàn bộ 3 Chương chi tiết →' : 'Expand All 3 Thesis Chapters →'}
             </button>

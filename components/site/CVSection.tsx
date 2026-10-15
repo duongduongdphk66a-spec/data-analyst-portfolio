@@ -1,190 +1,159 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { GraduationCap, Briefcase, MapPin, Calendar, ArrowRight } from 'lucide-react';
-import { ExperienceItem } from '@/app/types';
 import { useLanguage } from '@/app/context/LanguageContext';
+import { usePortfolioData } from '@/app/context/PortfolioDataContext';
 
-interface CVSectionProps {
-  experiences: ExperienceItem[];
+export interface CVSectionProps {
+  experiences?: any[];
   name?: string;
   title?: string;
   isSummary?: boolean;
 }
 
-export default React.memo(function CVSection({ experiences, name: _name, title: _title, isSummary = false }: CVSectionProps) {
+export default function CVSection({ experiences: _experiences, name: _name, title: _title, isSummary: _isSummary }: CVSectionProps = {}) {
   const { language } = useLanguage();
-  const isEn = language === 'en';
-  const sectionRef = useRef<HTMLElement>(null);
+  const lang = language === 'en' ? 'en' : 'vi';
+  const { profile } = usePortfolioData();
 
-  const education = experiences.filter(e => e.type === 'education');
-  const work = experiences.filter(e => e.type === 'work');
+  const email = profile?.email || 'mavanhung.data@gmail.com';
 
-  const defaultEducationEn: ExperienceItem[] = [
+  const recruiterHighlights = [
     {
-      id: 'default-edu-en',
-      role: 'Bachelor in Japanese Studies (Faculty of Oriental Studies)',
-      company: 'University of Social Sciences and Humanities, VNU Hanoi',
-      period: '2021 - 2025',
-      type: 'education',
-      location: 'Hanoi, Vietnam',
-      description: [
-        'Specialized in Japanese socio-economic development, quantitative research methodology, and empirical data analysis.',
-        'Authored research thesis: "The Evolution of Heritage Tourism in Japan from 2013 to Present" (Supervised by Dr. Vo Minh Vu).',
-      ],
+      category: { vi: '1. Kỹ Thuật Phân Tích & Công Cụ', en: '1. Core Analytics & Tech Stack' },
+      items: [
+        'SQL (MySQL, PostgreSQL, Window Functions, Cohort & Pareto)',
+        'Python (Pandas, NumPy, SciPy, Statsmodels, Jupyter)',
+        'BI & Visualization (Power BI, Tableau, Interactive Web Dashboards)',
+        'Web & Backend (Next.js, TypeScript, Django, Celery, Docker)'
+      ]
     },
+    {
+      category: { vi: '2. Thành Tựu Định Lượng Nổi Bật', en: '2. Quantified Project Deliverables' },
+      items: [
+        lang === 'vi'
+          ? 'Kami Ely TikTok Shop: Kiểm toán 18.778 bản ghi SQL (12,74 Tỉ đ / 180d), phát hiện GPM Video gấp 4,5x LIVE.'
+          : 'Kami Ely TikTok Shop: Audited 18,778 SQL rows (12.74B VND / 180d), uncovered 4.5x Video vs LIVE GPM gap.',
+        lang === 'vi'
+          ? 'Library Bus BI: Thiết kế 6 Django Apps + 10 Analytics Views, đạt 92% hoàn tất đặt sách & 0% trùng đơn.'
+          : 'Library Bus BI: Architected 6 Django Apps + 10 Analytics Views, achieving 92% reservation fill & 0% conflict.',
+        lang === 'vi'
+          ? 'Di sản Nhật Bản: Mô hình OLS (R² = 0,84) & DiD đánh giá Luật Bảo tồn 2019 (+24,6% dự án).'
+          : 'Japan Heritage: OLS (R² = 0.84) & DiD econometric evaluation of 2019 Law Reform (+24.6% projects).'
+      ]
+    },
+    {
+      category: { vi: '3. Giá Trị Đóng Góp Cho Doanh Nghiệp', en: '3. Immediate Value to Your Team' },
+      items: [
+        lang === 'vi'
+          ? 'Làm sạch & đối soát dữ liệu đa nguồn (Gross vs. Net, tránh đếm lặp danh mục).'
+          : 'Multi-source data cleaning & reconciliation (Gross vs. Net, eliminating double-counting).',
+        lang === 'vi'
+          ? 'Xây dựng Dashboard tự động hóa và mô hình What-If ROI phục vụ ra quyết định nhanh.'
+          : 'Automated BI dashboards and What-If ROI simulators for rapid executive decision-making.',
+        lang === 'vi'
+          ? 'Khả năng làm việc độc lập hoặc phối hợp chặt chẽ giữa đội Data, Marketing và Engineering.'
+          : 'Cross-functional collaboration bridging Data Analytics, Growth Marketing, and Engineering.'
+      ]
+    }
   ];
-
-  const defaultWorkEn: ExperienceItem[] = [
-    {
-      id: 'default-work-1-en',
-      role: 'Academic Research: Heritage Tourism Data Analytics in Japan',
-      company: 'University of Social Sciences and Humanities, VNU Hanoi',
-      period: '2023 - 2024',
-      type: 'work',
-      location: 'Hanoi, Vietnam',
-      description: [
-        'Extracted, cleaned, and standardized 6 time-series datasets spanning 20 years from MLIT, JNTO, Kyoto Tourism Board, and Nara Prefecture.',
-        'Synthesized macroeconomic indicators (7.5% GDP, 4M+ jobs) and modeled overtourism counter-measures across 5 UNESCO sites.',
-      ],
-    },
-    {
-      id: 'default-work-2-en',
-      role: 'E-Commerce Operations & Performance Analytics',
-      company: 'Steve x Kami Company',
-      period: '2022 - 2023',
-      type: 'work',
-      location: 'Hanoi, Vietnam',
-      description: [
-        'Built automated sales tracking dashboards monitoring GMV, return rates, and live shopping conversion on TikTok Shop.',
-        'Analyzed affiliate network contribution across 1,000+ creator tiers to optimize commission budget allocation and ROI.',
-      ],
-    },
-    {
-      id: 'default-work-3-en',
-      role: 'Library Bus: Database Architecture & Logistics Optimization',
-      company: 'Mobile Library Management System',
-      period: '2023 - 2024',
-      type: 'work',
-      location: 'Hanoi, Vietnam',
-      description: [
-        'Designed normalized 3NF relational database schema and asynchronous data pipelines serving 50,000+ active users at 500 concurrent RPS.',
-        'Implemented Redis caching and Celery task queues, reducing query latency by 93.7% (450ms to 28ms) with zero data contention.',
-      ],
-    },
-  ];
-
-  const displayEducation = isEn ? (education.length > 0 ? education : defaultEducationEn) : education;
-  const displayWork = isEn ? (work.length > 0 ? work : defaultWorkEn) : work;
-
-  const finalEducation = isSummary ? displayEducation.slice(0, 1) : displayEducation;
-  const finalWork = isSummary ? displayWork.slice(0, 2) : displayWork;
-
-  const renderItem = (item: ExperienceItem, summaryMode: boolean) => (
-    <div key={item.id} className={`timeline-item animate-in fade-in slide-in-from-left-4 duration-500 fill-mode-both relative pl-8 ${summaryMode ? 'pb-6' : 'pb-10'} last:pb-0 group`}>
-      {/* Timeline line */}
-      <div className="absolute left-[11px] top-2 bottom-0 w-px bg-border-subtle dark:bg-slate-800 group-last:hidden" />
-
-      {/* Timeline dot */}
-      <div className="absolute left-0 top-1.5 w-[23px] h-[23px] rounded-full border-2 border-border-subtle dark:border-slate-700 bg-ground dark:bg-slate-900 flex items-center justify-center group-hover:border-[#9BE7FA] dark:group-hover:border-[#9BE7FA] transition-all duration-200">
-        {item.type === 'education'
-          ? <GraduationCap className="w-3 h-3 text-ink-muted dark:text-slate-400 group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition-colors" />
-          : <Briefcase className="w-3 h-3 text-ink-muted dark:text-slate-400 group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition-colors" />
-        }
-      </div>
-
-      {/* Content */}
-      <div className="card-minimal p-5 sm:p-6 ml-3 w-full">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-x-3 gap-y-2 mb-2">
-          <h4 className="text-base sm:text-lg font-heading font-bold text-ink dark:text-white leading-snug">{item.role}</h4>
-          <span className="badge-cyan flex items-center gap-1 w-fit shrink-0">
-            <Calendar className="w-3 h-3" />
-            {item.period}
-          </span>
-        </div>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4">
-          <span className="badge-gold font-heading">{item.company}</span>
-          {item.location && (
-            <span className="flex items-center gap-1 text-xs sm:text-sm text-ink-muted dark:text-slate-400 font-heading">
-              <MapPin className="w-3 h-3" />
-              {item.location}
-            </span>
-          )}
-        </div>
-        <ul className="space-y-2 mt-2 list-disc list-inside marker:text-[#9BE7FA] dark:marker:text-[#9BE7FA]/70">
-          {item.description?.map((desc, i) => (
-            <li key={`${item.id}-desc-${i}`} className="text-sm text-ink-secondary dark:text-slate-300 leading-relaxed font-sans">
-              {desc}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
 
   return (
-    <section 
-      id={isSummary ? undefined : "experience"} 
-      ref={sectionRef} 
-      className={`transition-colors duration-200 ${isSummary ? 'pt-2 pb-0' : 'section-ground section-cinematic bg-data-dots'}`}
-    >
-      <div className={isSummary ? 'w-full' : 'page-container'}>
-        {!isSummary && (
-          <h2 className="editorial-section-title text-3xl sm:text-4xl md:text-5xl mb-12 sm:mb-16 max-w-2xl">
-            {isEn ? 'Education & professional timeline.' : 'Học vấn và lộ trình nghề nghiệp.'}
-          </h2>
-        )}
-
-        <div className={`max-w-3xl ${isSummary ? 'space-y-10' : 'space-y-16'}`}>
-          {/* Education section */}
-          <div>
-            <div className="flex items-center gap-2.5 mb-8 pb-3 border-b border-border-subtle dark:border-slate-800">
-              <div className="w-8 h-8 rounded-lg bg-surface/50 border border-[#9BE7FA]/40 dark:bg-slate-800 dark:border-[#9BE7FA]/40 flex items-center justify-center">
-                <GraduationCap className="w-4 h-4 text-ink dark:text-[#9BE7FA]" />
-              </div>
-              <h3 className="editorial-kicker text-ink dark:text-[#9BE7FA]">
-                {isEn ? 'Education & Academic Rigor' : 'Học vấn & Nghiên cứu'}
-              </h3>
-            </div>
-            <div>
-              {finalEducation.map(item => renderItem(item, isSummary))}
-            </div>
+    <section id="cv" aria-label="Curriculum Vitae & Contact" className="w-full pb-6">
+      <div className="rounded-3xl border border-slate-200 dark:border-slate-800/90 bg-gradient-to-br from-white via-slate-50 to-sky-50/40 dark:from-slate-950 dark:via-slate-900/95 dark:to-slate-950 p-5 sm:p-8 shadow-xl space-y-6">
+        {/* TOP ROW: TITLE & PRIMARY CTAs */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
+          <div className="space-y-1.5">
+            <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold uppercase bg-emerald-100 text-emerald-950 border border-emerald-300 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30">
+              {lang === 'vi' ? 'HỒ SƠ NĂNG LỰC (CV) & LIÊN HỆ TUYỂN DỤNG' : 'CURRICULUM VITAE & RECRUITER HUB'}
+            </span>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white pt-1">
+              {lang === 'vi'
+                ? 'Sẵn Sàng Đồng Hành Cùng Đội Ngũ Dữ Liệu Của Bạn'
+                : 'Ready to Deliver Data-Driven Impact for Your Team'}
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+              {lang === 'vi'
+                ? 'Tải bản CV đầy đủ (PDF) hoặc kiểm tra nhanh tóm tắt năng lực và kinh nghiệm thực chiến ngay bên dưới.'
+                : 'Download the full PDF Resume or review the executive qualification summary below.'}
+            </p>
           </div>
 
-          {/* taste-skill §4.3: Gradient divider between Education and Work */}
-          <div className="section-divider-gradient" />
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <a
+              href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="min-h-[42px] px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm font-bold transition shadow-lg shadow-sky-500/20 flex items-center gap-2"
+            >
+              <span>📄</span>
+              <span>
+                {lang === 'vi' ? 'Mở / Tải CV Đầy Đủ (PDF)' : 'Open / Download Full CV (PDF)'}
+              </span>
+            </a>
 
-          {/* Work column */}
-          <div>
-            <div className="flex items-center gap-2.5 mb-8 pb-3 border-b border-border-subtle dark:border-slate-800">
-              <div className="w-8 h-8 rounded-lg bg-surface/50 border border-[#9BE7FA]/40 dark:bg-slate-800 dark:border-[#9BE7FA]/40 flex items-center justify-center">
-                <Briefcase className="w-4 h-4 text-ink dark:text-[#9BE7FA]" />
-              </div>
-              <h3 className="editorial-kicker text-ink dark:text-[#9BE7FA]">
-                {isEn ? (isSummary ? 'Key Analytical Experience' : 'Work Experience') : (isSummary ? 'Kinh nghiệm phân tích tiêu biểu' : 'Kinh nghiệm thực tế')}
+            <Link
+              href="/experience"
+              className="min-h-[42px] px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 text-xs sm:text-sm font-semibold transition flex items-center gap-2"
+            >
+              <span>💼</span>
+              <span>{lang === 'vi' ? 'Kinh Nghiệm (/experience)' : 'Experience Timeline'}</span>
+            </Link>
+          </div>
+        </div>
+
+        {/* 3 COLUMNS: RECRUITER SUMMARY CHECKLIST */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {recruiterHighlights.map((block, idx) => (
+            <div
+              key={idx}
+              className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-3 shadow-sm"
+            >
+              <h3 className="text-sm font-extrabold font-mono text-sky-800 dark:text-sky-400 border-b border-slate-200 dark:border-slate-800 pb-2">
+                {block.category[lang]}
               </h3>
+              <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                {block.items.map((item, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div>
-              {finalWork.map(item => renderItem(item, isSummary))}
-            </div>
+          ))}
+        </div>
+
+        {/* BOTTOM BAR: QUICK CONTACT & DIRECT LINKS */}
+        <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="flex flex-wrap items-center gap-3 text-slate-700 dark:text-slate-300">
+            <span className="font-mono font-bold text-slate-900 dark:text-white">
+              📬 {lang === 'vi' ? 'Liên hệ trực tiếp:' : 'Direct Contact:'}
+            </span>
+            <a
+              href={`mailto:${email}`}
+              className="font-mono font-semibold text-sky-700 dark:text-sky-400 hover:underline"
+            >
+              {email}
+            </a>
+            <span className="hidden sm:inline text-slate-400">|</span>
+            <span>
+              {lang === 'vi'
+                ? 'Sẵn sàng phỏng vấn trực tiếp hoặc thực hiện bài Test kỹ thuật (SQL / Python / BI).'
+                : 'Available for technical interviews and live SQL / Python / BI assessments.'}
+            </span>
           </div>
 
-          {/* Summary Call to Action */}
-          {isSummary && (
-            <div className="pt-2">
-              <Link
-                href="/experience"
-                className="btn-secondary-editorial text-xs font-bold gap-2 group w-full sm:w-auto justify-center"
-              >
-                <span>{isEn ? 'View Complete Career & Education Timeline' : 'Xem toàn bộ kinh nghiệm & quá trình học vấn'}</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-[#074553] dark:text-[#9BE7FA]" />
-              </Link>
-            </div>
-          )}
+          <Link
+            href="/lab"
+            className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold transition inline-flex items-center justify-center gap-1.5 shrink-0"
+          >
+            <span>💻</span>
+            <span>{lang === 'vi' ? 'Kiểm tra kỹ năng SQL tại /lab →' : 'Verify SQL Skills at /lab →'}</span>
+          </Link>
         </div>
       </div>
     </section>
   );
-});
-
+}
