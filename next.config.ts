@@ -31,6 +31,25 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react', 'recharts'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/projects/heritage-japan',
+        destination: '/projects/proj-heritage-japan',
+        permanent: true,
+      },
+      {
+        source: '/projects/kami-ely',
+        destination: '/projects/proj-kami-ely',
+        permanent: true,
+      },
+      {
+        source: '/projects/library-bus',
+        destination: '/projects/proj-library-bus',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
