@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sun, Moon, Home, Briefcase, FileText, UserCheck, Search, Download } from 'lucide-react';
+import { Sun, Moon, Home, Briefcase, FileText, UserCheck, BookOpen, Search, Download } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
@@ -41,6 +41,7 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
     { id: '/projects', label: language === 'en' ? 'Work' : 'Dự Án', icon: Briefcase, hasChildren: true },
     { id: '/experience', label: language === 'en' ? 'Experience' : 'Kinh Nghiệm', icon: FileText },
     { id: '/about', label: language === 'en' ? 'About' : 'Giới Thiệu', icon: UserCheck },
+    { id: '/blog', label: language === 'en' ? 'Blog' : 'Blog', icon: BookOpen },
   ];
 
   return (

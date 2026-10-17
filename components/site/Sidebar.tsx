@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { 
   ChevronDown, ChevronRight, Github, Linkedin, 
   Sun, Moon, Download,
-  UserCheck, FileText, Briefcase, Home,
+  UserCheck, FileText, Briefcase, Home, BookOpen,
   Search
 } from 'lucide-react';
 import Link from 'next/link';
@@ -32,6 +32,7 @@ export default function Sidebar() {
     { id: '/projects', label: language === 'en' ? 'Work' : 'Dự Án', icon: Briefcase, hasChildren: true },
     { id: '/experience', label: language === 'en' ? 'Experience' : 'Kinh Nghiệm', icon: FileText, hasChildren: false },
     { id: '/about', label: language === 'en' ? 'About' : 'Giới Thiệu', icon: UserCheck, hasChildren: false },
+    { id: '/blog', label: language === 'en' ? 'Blog' : 'Blog Phân Tích', icon: BookOpen, hasChildren: false },
   ];
 
   return (
