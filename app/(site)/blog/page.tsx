@@ -77,21 +77,21 @@ export default function BlogPage() {
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 space-y-10 sm:space-y-12">
       {/* =====================================================================
-       * 1. BLOG HERO HEADER (Native Slate / Blue / Indigo Project Theme)
+       * 1. BLOG HERO HEADER (Official Project Cyan & Deep Teal Palette)
        * ===================================================================== */}
-      <section className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950 border border-slate-800 p-8 sm:p-12 text-white shadow-xl">
+      <section className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#074553] via-[#093540] to-[#0A5F70] border border-[#9BE7FA]/30 text-white p-8 sm:p-12 shadow-xl">
         <div
           className="absolute inset-0 opacity-15 pointer-events-none"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 2px 2px, rgba(99,102,241,0.4) 1px, transparent 0)",
+              "radial-gradient(circle at 2px 2px, rgba(155,231,250,0.4) 1px, transparent 0)",
             backgroundSize: "24px 24px",
           }}
         />
 
         <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/15 border border-blue-400/30 text-blue-300 text-xs font-semibold uppercase tracking-wider">
-            <BookOpen className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#9BE7FA]/15 border border-[#9BE7FA]/40 text-[#9BE7FA] text-xs font-semibold uppercase tracking-wider">
+            <BookOpen className="w-3.5 h-3.5 text-[#FFD14C]" />
             <span>
               {isVi
                 ? "Nhật ký Phân tích & Nghiên cứu Dữ liệu"
@@ -105,15 +105,15 @@ export default function BlogPage() {
               : "Analytical Process, Data Reconciliation & Key Findings"}
           </h1>
 
-          <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
+          <p className="text-[#C8EEF7] text-base sm:text-lg leading-relaxed">
             {isVi
               ? "Nơi tôi ghi lại chi tiết cách đặt câu hỏi nghiên cứu, quy trình làm sạch dữ liệu (Data Audit), tối ưu hóa truy vấn SQL, kiểm định giả thuyết thống kê và đúc kết bài học từ các dự án thực tế."
               : "Detailed write-ups documenting my research hypotheses, data auditing pipelines, SQL query optimization, statistical hypothesis testing, and strategic findings across projects."}
           </p>
         </div>
 
-        {/* Summary Metric Pills (Max 2 columns on mobile, 4 on desktop) */}
-        <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-8 border-t border-slate-800/80">
+        {/* Summary Metric Pills */}
+        <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-8 border-t border-white/10">
           {[
             {
               labelVi: "Chuyên đề Phân tích",
@@ -138,12 +138,12 @@ export default function BlogPage() {
           ].map((stat, idx) => (
             <div
               key={idx}
-              className="rounded-2xl bg-slate-950/60 border border-slate-800 px-4 py-3"
+              className="rounded-2xl bg-[#04242c]/70 border border-white/10 px-4 py-3"
             >
-              <div className="text-lg sm:text-xl font-bold text-blue-400">
+              <div className="text-lg sm:text-xl font-bold text-[#9BE7FA]">
                 {stat.value}
               </div>
-              <div className="text-xs text-slate-400 mt-0.5">
+              <div className="text-xs text-slate-300 mt-0.5">
                 {isVi ? stat.labelVi : stat.labelEn}
               </div>
             </div>
@@ -152,7 +152,7 @@ export default function BlogPage() {
       </section>
 
       {/* =====================================================================
-       * 2. FILTER & SEARCH BAR
+       * 2. FILTER & SEARCH BAR (Cyan & Gold Active States)
        * ===================================================================== */}
       <section className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
         <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
@@ -164,10 +164,10 @@ export default function BlogPage() {
                 key={cat.id}
                 type="button"
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
+                className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer border ${
                   active
-                    ? "bg-blue-600 text-white shadow-sm"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                    ? "bg-[#9BE7FA] text-[#074553] border-[#9BE7FA] font-extrabold shadow-sm shadow-[#9BE7FA]/20"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-transparent hover:border-[#9BE7FA]/40 hover:bg-slate-200 dark:hover:bg-slate-700"
                 }`}
               >
                 {isVi ? cat.labelVi : cat.labelEn}
@@ -187,13 +187,13 @@ export default function BlogPage() {
                 ? "Tìm theo chủ đề, SQL, Python..."
                 : "Search topics, SQL, Python..."
             }
-            className="w-full min-h-[44px] pl-9 pr-4 py-2 rounded-xl text-xs bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full min-h-[44px] pl-9 pr-4 py-2 rounded-xl text-xs bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9BE7FA] focus:border-[#9BE7FA]"
           />
         </div>
       </section>
 
       {/* =====================================================================
-       * 3. ARTICLES LIST WITH PROCESS, CODE PREVIEW & FINDINGS (Max 2 Columns per Article)
+       * 3. ARTICLES LIST (Max 2 Columns per Article Card)
        * ===================================================================== */}
       <section className="space-y-8">
         {filteredPosts.length === 0 ? (
@@ -208,21 +208,21 @@ export default function BlogPage() {
           filteredPosts.map((post) => (
             <article
               key={post.id}
-              className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-9 shadow-sm hover:border-blue-500/40 dark:hover:border-blue-400/40 transition grid grid-cols-1 lg:grid-cols-12 gap-8"
+              className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-9 shadow-sm hover:border-[#9BE7FA]/60 transition grid grid-cols-1 lg:grid-cols-12 gap-8"
             >
               {/* Left Column (7 Cols): Narrative, Process & Actions */}
               <div className="lg:col-span-7 flex flex-col justify-between space-y-5">
                 <div className="space-y-4">
                   {/* Meta Badges */}
                   <div className="flex flex-wrap items-center gap-2.5 text-xs">
-                    <span className="px-3 py-1 rounded-full font-semibold bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200/60 dark:border-blue-500/20">
+                    <span className="px-3 py-1 rounded-full font-bold bg-[#9BE7FA]/15 dark:bg-[#9BE7FA]/10 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/30">
                       {isVi ? post.categoryVi : post.categoryEn}
                     </span>
-                    <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400">
+                    <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 font-mono">
                       <Calendar className="w-3.5 h-3.5" />
                       {post.date}
                     </span>
-                    <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400">
+                    <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 font-mono">
                       <Clock className="w-3.5 h-3.5" />
                       {isVi ? post.readTimeVi : post.readTimeEn}
                     </span>
@@ -240,7 +240,7 @@ export default function BlogPage() {
 
                   {/* Process Steps */}
                   <div className="space-y-2 pt-1">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA]">
                       {isVi
                         ? "Quy trình Phân tích (Analytical Process):"
                         : "Analytical Process:"}
@@ -252,7 +252,7 @@ export default function BlogPage() {
                             key={idx}
                             className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300"
                           >
-                            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                            <CheckCircle2 className="w-4 h-4 text-[#074553] dark:text-[#9BE7FA] shrink-0 mt-0.5" />
                             <span>{step}</span>
                           </li>
                         )
@@ -279,7 +279,7 @@ export default function BlogPage() {
                     <button
                       type="button"
                       onClick={() => setActivePost(post)}
-                      className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition cursor-pointer shadow-sm"
+                      className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-bold transition cursor-pointer shadow-sm border border-[#9BE7FA]"
                     >
                       <BookOpen className="w-3.5 h-3.5" />
                       {isVi ? "Đọc chi tiết" : "Read Full Note"}
@@ -295,16 +295,16 @@ export default function BlogPage() {
                 </div>
               </div>
 
-              {/* Right Column (5 Cols): Code Snippet & Key Finding Highlight */}
+              {/* Right Column (5 Cols): Code Snippet & Key Finding Highlight in #FFE485 */}
               <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
                 {/* Code Block Card */}
                 <div className="rounded-2xl bg-slate-950 border border-slate-800 overflow-hidden">
                   <div className="px-4 py-2.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
                     <span className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-300">
-                      <Terminal className="w-3.5 h-3.5 text-blue-400" />
+                      <Terminal className="w-3.5 h-3.5 text-[#9BE7FA]" />
                       {isVi ? post.codeTitleVi : post.codeTitleEn}
                     </span>
-                    <span className="text-xs font-mono uppercase px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">
+                    <span className="text-xs font-mono uppercase px-2 py-0.5 rounded bg-[#9BE7FA]/20 text-[#9BE7FA]">
                       {post.codeLanguage}
                     </span>
                   </div>
@@ -313,17 +313,17 @@ export default function BlogPage() {
                   </pre>
                 </div>
 
-                {/* Key Findings Box */}
-                <div className="rounded-2xl bg-emerald-500/5 dark:bg-emerald-500/10 border border-emerald-500/20 p-5">
-                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-2">
-                    <Sparkles className="w-4 h-4" />
+                {/* Key Findings Box with Gold Accent (#FFE485 & #FFD14C) */}
+                <div className="rounded-2xl bg-[#FFE485]/15 dark:bg-[#FFE485]/10 border border-[#FFE485]/35 p-5">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-900 dark:text-[#FFE485] mb-2">
+                    <Sparkles className="w-4 h-4 text-[#FFD14C]" />
                     <span>
                       {isVi
                         ? "Phát hiện & Giá trị Cốt lõi (Key Findings)"
                         : "Key Findings & Impact"}
                     </span>
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed">
                     {isVi ? post.findingsVi : post.findingsEn}
                   </p>
                 </div>
@@ -334,7 +334,7 @@ export default function BlogPage() {
       </section>
 
       {/* =====================================================================
-       * 4. FULL ARTICLE READER MODAL
+       * 4. FULL ARTICLE READER MODAL (Consistent Project Theme)
        * ===================================================================== */}
       {activePost && (
         <div
@@ -355,7 +355,7 @@ export default function BlogPage() {
             </button>
 
             <div className="space-y-3 pr-8">
-              <span className="inline-block text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+              <span className="inline-block text-xs font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA]">
                 {isVi ? activePost.categoryVi : activePost.categoryEn}
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white leading-snug">
@@ -373,7 +373,7 @@ export default function BlogPage() {
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA]">
                 {isVi
                   ? "2. Quy trình Xử lý & Phân tích"
                   : "2. Step-by-Step Analytical Process"}
@@ -385,7 +385,7 @@ export default function BlogPage() {
                       key={idx}
                       className="flex items-start gap-2.5 text-sm text-slate-700 dark:text-slate-200"
                     >
-                      <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#074553] dark:text-[#9BE7FA] shrink-0 mt-0.5" />
                       <span>{step}</span>
                     </li>
                   )
@@ -398,7 +398,7 @@ export default function BlogPage() {
                 <span className="text-xs font-mono text-slate-300">
                   {isVi ? activePost.codeTitleVi : activePost.codeTitleEn}
                 </span>
-                <span className="text-xs font-mono uppercase px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">
+                <span className="text-xs font-mono uppercase px-2 py-0.5 rounded bg-[#9BE7FA]/20 text-[#9BE7FA]">
                   {activePost.codeLanguage}
                 </span>
               </div>
@@ -407,13 +407,13 @@ export default function BlogPage() {
               </pre>
             </div>
 
-            <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/20 p-5 space-y-2">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+            <div className="rounded-2xl bg-[#FFE485]/15 border border-[#FFE485]/35 p-5 space-y-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-amber-900 dark:text-[#FFE485]">
                 {isVi
                   ? "3. Phát hiện Cốt lõi (Key Findings)"
                   : "3. Key Findings & Strategic Impact"}
               </h3>
-              <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+              <p className="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">
                 {isVi ? activePost.findingsVi : activePost.findingsEn}
               </p>
             </div>
@@ -422,7 +422,7 @@ export default function BlogPage() {
               <Link
                 href={activePost.projectSlug}
                 onClick={() => setActivePost(null)}
-                className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition cursor-pointer"
+                className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-bold transition border border-[#9BE7FA] cursor-pointer"
               >
                 {isVi
                   ? "Mở Toàn bộ Case Study Tương tác"

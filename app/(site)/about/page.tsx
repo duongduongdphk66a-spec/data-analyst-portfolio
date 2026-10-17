@@ -15,8 +15,8 @@ export default function AboutPage() {
       <AboutSection />
 
       <section className="mt-8 rounded-3xl bg-white dark:bg-slate-900 p-8 sm:p-10 border border-slate-200 dark:border-slate-800 shadow-sm">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-2">
-          <Terminal className="w-4 h-4" />
+        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#074553] dark:text-[#9BE7FA] mb-2">
+          <Terminal className="w-4 h-4 text-[#FFD14C]" />
           <span>
             {isVi
               ? "Phương pháp luận Kỹ thuật Đi kèm"

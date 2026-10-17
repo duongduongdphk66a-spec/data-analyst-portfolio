@@ -25,7 +25,8 @@ import {
 } from "lucide-react";
 
 /* ============================================================================
- * PROJECT-THEMED SVG ILLUSTRATIONS (Blue / Indigo Palette)
+ * OFFICIAL 4-COLOR PALETTE SVG ILLUSTRATIONS
+ * (#9BE7FA Primary Cyan | #C8EEF7 Ice Light | #FFE485 Butter Gold | #FFD14C Amber Gold)
  * ============================================================================ */
 
 function CollectIllustration({ className = "w-16 h-16" }: { className?: string }) {
@@ -37,22 +38,24 @@ function CollectIllustration({ className = "w-16 h-16" }: { className?: string }
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
-      <rect x="10" y="10" width="22" height="22" rx="5" fill="#93C5FD" />
+      {/* Checklist boxes in #9BE7FA & #C8EEF7 */}
+      <rect x="10" y="10" width="22" height="22" rx="5" fill="#9BE7FA" />
       <path
         d="M15.5 21L19.5 25L26.5 17"
-        stroke="#1E3A8A"
-        strokeWidth="2.8"
+        stroke="#074553"
+        strokeWidth="3"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <rect x="10" y="39" width="22" height="22" rx="5" fill="#DBEAFE" />
-      <rect x="10" y="68" width="22" height="22" rx="5" fill="#93C5FD" />
+      <rect x="10" y="39" width="22" height="22" rx="5" fill="#C8EEF7" />
+      <rect x="10" y="68" width="22" height="22" rx="5" fill="#9BE7FA" />
 
+      {/* Pencil in #FFD14C & #FFE485 */}
       <g transform="rotate(42 62 48)">
-        <rect x="52" y="14" width="18" height="58" rx="3" fill="#2563EB" />
-        <rect x="52" y="6" width="18" height="10" rx="4" fill="#93C5FD" />
-        <polygon points="52,72 70,72 61,88" fill="#DBEAFE" />
-        <polygon points="58,82 64,82 61,88" fill="#1D4ED8" />
+        <rect x="52" y="14" width="18" height="58" rx="3" fill="#FFD14C" />
+        <rect x="52" y="6" width="18" height="10" rx="4" fill="#FFE485" />
+        <polygon points="52,72 70,72 61,88" fill="#C8EEF7" />
+        <polygon points="58,82 64,82 61,88" fill="#074553" />
       </g>
     </svg>
   );
@@ -67,21 +70,26 @@ function ProcessIllustration({ className = "w-16 h-16" }: { className?: string }
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
+      {/* Gear in #9BE7FA */}
       <path
         d="M54 8H66L68 15.5C70.5 16.4 72.8 17.8 74.7 19.6L82 17L88 27.4L82.2 32.8C82.7 35.1 82.7 37.5 82.2 39.8L88 45.2L82 55.6L74.7 53C72.8 54.8 70.5 56.2 68 57.1L66 64.6H54L52 57.1C49.5 56.2 47.2 54.8 45.3 53L38 55.6L32 45.2L37.8 39.8C37.3 37.5 37.3 35.1 37.8 32.8L32 27.4L38 17L45.3 19.6C47.2 17.8 49.5 16.4 52 15.5L54 8Z"
-        fill="#A5B4FC"
+        fill="#9BE7FA"
       />
-      <circle cx="60" cy="36.3" r="8.5" fill="#4F46E5" />
+      <circle cx="60" cy="36.3" r="8.5" fill="#074553" />
+
+      {/* Hierarchy Connectors in #C8EEF7 */}
       <path
         d="M60 65V75M60 75H26V82M60 75V82M60 75H94V82"
-        stroke="#C7D2FE"
+        stroke="#C8EEF7"
         strokeWidth="4"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <rect x="12" y="80" width="28" height="12" rx="3.5" fill="#818CF8" />
-      <rect x="46" y="80" width="28" height="12" rx="3.5" fill="#6366F1" />
-      <rect x="80" y="80" width="28" height="12" rx="3.5" fill="#818CF8" />
+
+      {/* Nodes in #FFD14C & #FFE485 */}
+      <rect x="12" y="80" width="28" height="12" rx="3.5" fill="#FFE485" />
+      <rect x="46" y="80" width="28" height="12" rx="3.5" fill="#FFD14C" />
+      <rect x="80" y="80" width="28" height="12" rx="3.5" fill="#FFE485" />
     </svg>
   );
 }
@@ -100,9 +108,15 @@ function VisualiseIllustration({ className = "w-16 h-16" }: { className?: string
         const cx = 14 + colIdx * 13;
         return Array.from({ length: height }).map((_, rowIdx) => {
           const cy = 86 - rowIdx * 10.5;
-          const isDeep = rowIdx === 0 || (colIdx >= 6 && rowIdx <= 3);
-          const isMid = !isDeep && (rowIdx <= 2 || colIdx >= 4);
-          const fill = isDeep ? "#2563EB" : isMid ? "#60A5FA" : "#BFDBFE";
+          // Harmonious dots using the 4 project colors
+          const fill =
+            rowIdx === 0
+              ? "#FFD14C"
+              : colIdx % 3 === 0
+              ? "#9BE7FA"
+              : colIdx % 3 === 1
+              ? "#FFE485"
+              : "#C8EEF7";
           return (
             <circle
               key={`${colIdx}-${rowIdx}`}
@@ -125,23 +139,24 @@ export default function AboutSection() {
   return (
     <section id="about" className="py-6 sm:py-8 space-y-12 sm:space-y-16">
       {/* =====================================================================
-       * 1. HERO "ABOUT ME" SPLIT BANNER (Project Native Slate / Blue / Indigo)
+       * 1. HERO "ABOUT ME" SPLIT BANNER (Official Project Cyan & Deep Teal Theme)
        * ===================================================================== */}
-      <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-200 dark:border-slate-800 grid grid-cols-1 lg:grid-cols-12 bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950 text-white">
+      <div className="rounded-3xl overflow-hidden shadow-xl border border-[#9BE7FA]/30 dark:border-slate-800 grid grid-cols-1 lg:grid-cols-12 bg-gradient-to-br from-[#074553] via-[#093540] to-[#0A5F70] text-white">
         {/* Left Column: Analyst Identity Card */}
-        <div className="lg:col-span-4 relative bg-slate-950/60 p-6 sm:p-8 md:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-800">
+        <div className="lg:col-span-4 relative bg-[#04242c]/75 p-6 sm:p-8 md:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/10">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-medium">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            {/* Status Pill in #9BE7FA / #FFD14C */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#9BE7FA]/15 border border-[#9BE7FA]/35 text-[#9BE7FA] text-xs font-semibold">
+              <span className="w-2 h-2 rounded-full bg-[#FFD14C] animate-pulse" />
               {isVi
                 ? "Sẵn sàng cho vị trí Data Analyst"
                 : "Available for Data Analyst Roles"}
             </div>
 
             <div className="pt-2">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 p-0.5 shadow-lg">
-                <div className="w-full h-full rounded-[14px] bg-slate-900 flex items-center justify-center">
-                  <span className="text-2xl font-extrabold tracking-wider text-white">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-[#9BE7FA] via-[#C8EEF7] to-[#FFD14C] p-0.5 shadow-lg">
+                <div className="w-full h-full rounded-[14px] bg-[#074553] flex items-center justify-center">
+                  <span className="text-2xl font-extrabold tracking-wider text-[#9BE7FA]">
                     MVH
                   </span>
                 </div>
@@ -149,14 +164,14 @@ export default function AboutSection() {
               <h2 className="mt-5 text-2xl font-bold tracking-tight text-white">
                 Mã Văn Hùng
               </h2>
-              <p className="text-sm text-blue-400 font-medium mt-1">
+              <p className="text-sm text-[#9BE7FA] font-medium mt-1">
                 Data Analyst & Quantitative Researcher
               </p>
             </div>
 
-            <div className="space-y-3 pt-4 border-t border-slate-800 text-sm text-slate-300">
+            <div className="space-y-3 pt-4 border-t border-white/10 text-sm text-slate-200">
               <div className="flex items-start gap-2.5">
-                <GraduationCap className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                <GraduationCap className="w-4 h-4 text-[#9BE7FA] shrink-0 mt-0.5" />
                 <span>
                   {isVi
                     ? "Khởi nguồn từ Nghiên cứu Khoa học (Du lịch Di sản Nhật Bản)"
@@ -164,31 +179,31 @@ export default function AboutSection() {
                 </span>
               </div>
               <div className="flex items-start gap-2.5">
-                <Database className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+                <Database className="w-4 h-4 text-[#FFE485] shrink-0 mt-0.5" />
                 <span>SQL 8-Stage Pipeline • Python (Pandas, SciPy)</span>
               </div>
               <div className="flex items-start gap-2.5">
-                <LineChart className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                <LineChart className="w-4 h-4 text-[#FFD14C] shrink-0 mt-0.5" />
                 <span>Data Storytelling • BI & Product UX Analytics</span>
               </div>
             </div>
           </div>
 
-          <div className="pt-8 mt-8 border-t border-slate-800 flex flex-wrap gap-3">
+          <div className="pt-8 mt-8 border-t border-white/10 flex flex-wrap gap-3">
             <a
               href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition shadow-sm cursor-pointer"
+              className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] font-bold text-xs transition shadow-md shadow-[#9BE7FA]/20 border border-[#9BE7FA] cursor-pointer"
             >
               <Download className="w-3.5 h-3.5" />
               {isVi ? "Tải CV (PDF)" : "Download CV"}
             </a>
             <Link
               href="/blog"
-              className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 font-medium text-xs transition border border-slate-700 cursor-pointer"
+              className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium text-xs transition border border-white/15 cursor-pointer"
             >
-              <BookOpen className="w-3.5 h-3.5 text-blue-400" />
+              <BookOpen className="w-3.5 h-3.5 text-[#9BE7FA]" />
               {isVi ? "Đọc Blog Phân tích" : "Read Analytics Blog"}
             </Link>
           </div>
@@ -196,19 +211,19 @@ export default function AboutSection() {
 
         {/* Right Column: Editorial "About Me" Introduction */}
         <div className="lg:col-span-8 p-6 sm:p-10 lg:p-14 flex flex-col justify-center">
-          <span className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-2">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#9BE7FA] mb-2">
             {isVi ? "Giới thiệu Bản thân" : "Who I Am, What I Do & Why It Matters"}
           </span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-6">
             About Me
           </h1>
 
-          <div className="space-y-4 text-base sm:text-[17px] leading-relaxed text-slate-200">
+          <div className="space-y-4 text-base sm:text-[17px] leading-relaxed text-slate-100">
             {isVi ? (
               <>
                 <p>
                   Tôi là <strong>Mã Văn Hùng</strong>, một{" "}
-                  <strong className="text-blue-400">Data Analyst</strong> trưởng thành từ nền tảng{" "}
+                  <strong className="text-[#9BE7FA]">Data Analyst</strong> trưởng thành từ nền tảng{" "}
                   <strong>nghiên cứu khoa học định lượng</strong>, luôn tâm huyết với việc đồng hành cùng các tổ chức để khai thác hiệu quả giá trị thực từ dữ liệu; từ những ý tưởng đầu tiên về việc{" "}
                   <em>cần đo lường chỉ số gì và làm sao để thu thập dữ liệu chính xác</em>, xuyên suốt quá trình làm sạch, đối soát (reconciliation), phân tích thống kê cho đến bước truyền tải các{" "}
                   <strong>insights</strong> có sức nặng.
@@ -219,7 +234,7 @@ export default function AboutSection() {
                   <strong>Interactive Dashboards</strong> — giúp đội ngũ của bạn đưa ra quyết định dựa trên bằng chứng thực nghiệm (
                   <em>evidence-driven decisions</em>).
                 </p>
-                <p className="pt-2 text-blue-300 font-medium text-sm">
+                <p className="pt-2 text-[#C8EEF7] font-medium text-sm">
                   Tôi hiện sẵn sàng cho các vị trí Data Analyst toàn thời gian, các dự án phân tích đối soát dữ liệu và nghiên cứu sản phẩm.
                 </p>
               </>
@@ -227,7 +242,7 @@ export default function AboutSection() {
               <>
                 <p>
                   I am <strong>Mã Văn Hùng</strong>, a{" "}
-                  <strong className="text-blue-400">Data Analyst</strong> with a strong foundation in{" "}
+                  <strong className="text-[#9BE7FA]">Data Analyst</strong> with a strong foundation in{" "}
                   <strong>quantitative academic research</strong>, passionate about working with organisations that want to make effective use of their data; from the first ideas around{" "}
                   <em>what you want to measure and how to capture data accurately</em>, through data preparation, reconciliation, and statistical analysis, all the way to impactful presentation of insights.
                 </p>
@@ -235,7 +250,7 @@ export default function AboutSection() {
                   I support each step of the analytical process — from <strong>8-stage SQL pipelines</strong> and{" "}
                   <strong>Python statistical modeling</strong> to interactive <strong>BI & web dashboards</strong> — enabling your organisation to make evidence-driven decisions with confidence.
                 </p>
-                <p className="pt-2 text-blue-300 font-medium text-sm">
+                <p className="pt-2 text-[#C8EEF7] font-medium text-sm">
                   I am available for full-time Data Analyst opportunities, short-term data audit consulting, and research collaborations.
                 </p>
               </>
@@ -249,7 +264,7 @@ export default function AboutSection() {
        * ===================================================================== */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 lg:p-12 border border-slate-200 dark:border-slate-800 shadow-sm space-y-8">
         <div className="max-w-3xl">
-          <span className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#074553] dark:text-[#9BE7FA]">
             {isVi ? "Quy trình & Năng lực Cốt lõi" : "End-to-End Analytical Workflow"}
           </span>
           <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
@@ -266,13 +281,13 @@ export default function AboutSection() {
 
         <div className="space-y-5">
           {/* Pillar 1: Collect */}
-          <div className="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-6 sm:p-8 border border-slate-200 dark:border-slate-800 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div className="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-6 sm:p-8 border border-slate-200 dark:border-slate-800 hover:border-[#9BE7FA]/50 transition grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div className="lg:col-span-4 flex items-center gap-5">
               <div className="shrink-0 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xs">
                 <CollectIllustration className="w-16 h-16" />
               </div>
               <div>
-                <span className="font-mono text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+                <span className="font-mono text-xs font-bold text-[#074553] dark:text-[#9BE7FA] uppercase tracking-wider">
                   01 • DATA ACQUISITION
                 </span>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -303,13 +318,13 @@ export default function AboutSection() {
           </div>
 
           {/* Pillar 2: Process */}
-          <div className="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-6 sm:p-8 border border-slate-200 dark:border-slate-800 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div className="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-6 sm:p-8 border border-slate-200 dark:border-slate-800 hover:border-[#9BE7FA]/50 transition grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div className="lg:col-span-4 flex items-center gap-5">
               <div className="shrink-0 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xs">
                 <ProcessIllustration className="w-16 h-16" />
               </div>
               <div>
-                <span className="font-mono text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">
+                <span className="font-mono text-xs font-bold text-amber-800 dark:text-[#FFD14C] uppercase tracking-wider">
                   02 • TRANSFORMATION & AUDIT
                 </span>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -337,13 +352,13 @@ export default function AboutSection() {
           </div>
 
           {/* Pillar 3: Visualise */}
-          <div className="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-6 sm:p-8 border border-slate-200 dark:border-slate-800 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div className="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-6 sm:p-8 border border-slate-200 dark:border-slate-800 hover:border-[#9BE7FA]/50 transition grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div className="lg:col-span-4 flex items-center gap-5">
               <div className="shrink-0 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xs">
                 <VisualiseIllustration className="w-16 h-16" />
               </div>
               <div>
-                <span className="font-mono text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+                <span className="font-mono text-xs font-bold text-[#074553] dark:text-[#9BE7FA] uppercase tracking-wider">
                   03 • ACTIONABLE STORYTELLING
                 </span>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -378,7 +393,7 @@ export default function AboutSection() {
        * ===================================================================== */}
       <div className="space-y-8">
         <div className="max-w-3xl">
-          <span className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#074553] dark:text-[#9BE7FA]">
             {isVi ? "Hành trình & Động lực" : "My Story & Analytical Mindset"}
           </span>
           <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
@@ -390,13 +405,13 @@ export default function AboutSection() {
 
         <div className="space-y-6">
           {/* Card 1: How did you get started */}
-          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-[#9BE7FA]/50 transition grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
             <div className="lg:col-span-5 space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-[#9BE7FA]/20 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/40 flex items-center justify-center shrink-0">
                   <Compass className="w-5 h-5" />
                 </div>
-                <span className="font-mono text-xs font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                <span className="font-mono text-xs font-bold px-3 py-1 rounded-full bg-[#C8EEF7]/40 dark:bg-slate-800 text-[#074553] dark:text-[#9BE7FA]">
                   01 / HOW I GOT STARTED
                 </span>
               </div>
@@ -412,7 +427,7 @@ export default function AboutSection() {
               <div className="pt-2">
                 <Link
                   href="/projects/proj-heritage-japan"
-                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 text-xs font-bold text-blue-600 dark:text-blue-400 transition cursor-pointer"
+                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#9BE7FA]/20 hover:bg-[#9BE7FA] text-[#074553] dark:text-[#9BE7FA] dark:hover:text-[#074553] border border-[#9BE7FA]/40 text-xs font-bold transition cursor-pointer"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>
@@ -459,13 +474,13 @@ export default function AboutSection() {
           </div>
 
           {/* Card 2: What about data interests you most */}
-          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-[#FFE485]/60 transition grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
             <div className="lg:col-span-5 space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-[#FFE485]/30 text-amber-900 dark:text-[#FFE485] border border-[#FFE485]/50 flex items-center justify-center shrink-0">
                   <Microscope className="w-5 h-5" />
                 </div>
-                <span className="font-mono text-xs font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                <span className="font-mono text-xs font-bold px-3 py-1 rounded-full bg-[#FFE485]/30 dark:bg-slate-800 text-amber-900 dark:text-[#FFE485]">
                   02 / WHAT INTERESTS ME MOST
                 </span>
               </div>
@@ -481,7 +496,7 @@ export default function AboutSection() {
               <div className="pt-2">
                 <Link
                   href="/projects/proj-kami-ely"
-                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-500 text-xs font-bold text-indigo-600 dark:text-indigo-400 transition cursor-pointer"
+                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FFE485]/20 hover:bg-[#FFE485] text-amber-950 dark:text-[#FFE485] dark:hover:text-amber-950 border border-[#FFE485]/50 text-xs font-bold transition cursor-pointer"
                 >
                   <FileSpreadsheet className="w-4 h-4" />
                   <span>
@@ -528,13 +543,13 @@ export default function AboutSection() {
           </div>
 
           {/* Card 3: Where your passions lie */}
-          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-[#FFD14C]/60 transition grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
             <div className="lg:col-span-5 space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-[#FFD14C]/20 text-amber-800 dark:text-[#FFD14C] border border-[#FFD14C]/50 flex items-center justify-center shrink-0">
                   <Flame className="w-5 h-5" />
                 </div>
-                <span className="font-mono text-xs font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                <span className="font-mono text-xs font-bold px-3 py-1 rounded-full bg-[#FFD14C]/20 dark:bg-slate-800 text-amber-900 dark:text-[#FFD14C]">
                   03 / WHERE MY PASSIONS LIE
                 </span>
               </div>
@@ -550,7 +565,7 @@ export default function AboutSection() {
               <div className="pt-2">
                 <Link
                   href="/projects/proj-library-bus"
-                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-500 text-xs font-bold text-emerald-600 dark:text-emerald-400 transition cursor-pointer"
+                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FFD14C]/20 hover:bg-[#FFD14C] text-amber-950 dark:text-[#FFD14C] dark:hover:text-slate-950 border border-[#FFD14C]/50 text-xs font-bold transition cursor-pointer"
                 >
                   <Layers className="w-4 h-4" />
                   <span>
@@ -595,12 +610,12 @@ export default function AboutSection() {
       </div>
 
       {/* =====================================================================
-       * 4. TESTIMONIALS SECTION (Project Native Theme)
+       * 4. TESTIMONIALS SECTION (Project Deep Navy Theme with #9BE7FA Accents)
        * ===================================================================== */}
-      <div className="rounded-3xl bg-slate-900 border border-slate-800 p-6 sm:p-10 lg:p-12 text-white shadow-xl space-y-8">
+      <div className="rounded-3xl bg-slate-950 dark:bg-[#0B0F17] border border-[#9BE7FA]/20 dark:border-slate-800 p-6 sm:p-10 lg:p-12 text-white shadow-xl space-y-8">
         <div className="max-w-3xl">
-          <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-blue-400">
-            <Sparkles className="w-3.5 h-3.5" />
+          <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#9BE7FA]">
+            <Sparkles className="w-3.5 h-3.5 text-[#FFD14C]" />
             {isVi
               ? "Đánh giá & Nhận xét (Testimonials)"
               : "Testimonials & Endorsements"}
@@ -624,15 +639,15 @@ export default function AboutSection() {
             return (
               <div
                 key={item.id}
-                className="rounded-2xl bg-slate-950/70 border border-slate-800 p-6 sm:p-7 flex flex-col justify-between hover:border-blue-500/40 transition"
+                className="rounded-2xl bg-slate-900/80 border border-slate-800 p-6 sm:p-7 flex flex-col justify-between hover:border-[#9BE7FA]/40 transition"
               >
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/30 text-blue-400 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-[#9BE7FA]/15 border border-[#9BE7FA]/30 text-[#9BE7FA] flex items-center justify-center">
                       <Quote className="w-5 h-5" />
                     </div>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full bg-slate-800 text-slate-300">
-                      <RoleIcon className="w-3.5 h-3.5 text-blue-400" />
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full bg-slate-800 text-slate-200">
+                      <RoleIcon className="w-3.5 h-3.5 text-[#9BE7FA]" />
                       {item.roleType === "academic"
                         ? isVi
                           ? "Nghiên cứu Khoa học"
@@ -661,7 +676,7 @@ export default function AboutSection() {
                   </div>
                   <Link
                     href={item.projectLink}
-                    className="mt-2 inline-flex items-center gap-1 text-xs font-mono text-blue-400 hover:underline"
+                    className="mt-2 inline-flex items-center gap-1 text-xs font-mono text-[#9BE7FA] hover:text-[#C8EEF7] hover:underline"
                   >
                     • {isVi ? item.contextVi : item.contextEn}
                     <ArrowUpRight className="w-3 h-3" />
@@ -679,7 +694,7 @@ export default function AboutSection() {
       <div className="rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-10 lg:p-12 border border-slate-200 dark:border-slate-800 shadow-sm space-y-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">
+            <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#074553] dark:text-[#9BE7FA]">
               <BookOpen className="w-3.5 h-3.5" />
               {isVi
                 ? "Bài viết Chia sẻ Quy trình & Phát hiện"
@@ -694,7 +709,7 @@ export default function AboutSection() {
 
           <Link
             href="/blog"
-            className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition self-start md:self-auto shadow-sm cursor-pointer"
+            className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-extrabold transition self-start md:self-auto shadow-md shadow-[#9BE7FA]/20 border border-[#9BE7FA] cursor-pointer"
           >
             {isVi ? "Xem toàn bộ Trang /blog" : "Visit Full /blog Page"}
             <ArrowRight className="w-4 h-4" />
@@ -706,19 +721,19 @@ export default function AboutSection() {
             <Link
               key={post.id}
               href="/blog"
-              className="group rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-6 flex flex-col justify-between hover:border-blue-500/50 transition cursor-pointer"
+              className="group rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-6 flex flex-col justify-between hover:border-[#9BE7FA]/60 transition cursor-pointer"
             >
               <div>
                 <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
-                  <span className="font-semibold text-blue-600 dark:text-blue-400">
+                  <span className="font-bold text-[#074553] dark:text-[#9BE7FA]">
                     {isVi ? post.categoryVi : post.categoryEn}
                   </span>
-                  <span className="inline-flex items-center gap-1">
+                  <span className="inline-flex items-center gap-1 font-mono">
                     <Clock className="w-3.5 h-3.5" />
                     {isVi ? post.readTimeVi : post.readTimeEn}
                   </span>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition leading-snug mb-2">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition leading-snug mb-2">
                   {isVi ? post.titleVi : post.titleEn}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
@@ -726,7 +741,7 @@ export default function AboutSection() {
                 </p>
               </div>
 
-              <div className="pt-4 mt-5 border-t border-slate-200/70 dark:border-slate-700/70 flex items-center justify-between text-xs font-bold text-blue-600 dark:text-blue-400">
+              <div className="pt-4 mt-5 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
                 <span>
                   {isVi ? "Đọc quy trình & SQL/Python" : "Read Process & Code"}
                 </span>
