@@ -453,7 +453,7 @@ function ThumbnailChart({ figure }: { figure: ThesisFigureItem }) {
           x={padLeft}
           y={h - 4}
           textAnchor="start"
-          className="fill-slate-500 dark:fill-slate-400 text-[9px] font-mono font-medium"
+          className="fill-slate-500 dark:fill-slate-400 text-[11px] font-mono font-medium"
         >
           &apos;{firstYear}
         </text>
@@ -462,7 +462,7 @@ function ThumbnailChart({ figure }: { figure: ThesisFigureItem }) {
           x={w / 2}
           y={h - 4}
           textAnchor="middle"
-          className="fill-indigo-600 dark:fill-indigo-400 text-[9px] font-mono font-bold"
+          className="fill-indigo-600 dark:fill-indigo-400 text-[11px] font-mono font-bold"
         >
           Đỉnh &apos;{peakItem.label.slice(-2)}: {peakItem.value.toLocaleString('vi-VN')}
         </text>
@@ -471,7 +471,7 @@ function ThumbnailChart({ figure }: { figure: ThesisFigureItem }) {
           x={w - padRight}
           y={h - 4}
           textAnchor="end"
-          className="fill-slate-500 dark:fill-slate-400 text-[9px] font-mono font-medium"
+          className="fill-slate-500 dark:fill-slate-400 text-[11px] font-mono font-medium"
         >
           &apos;{lastYear}
         </text>
@@ -493,7 +493,7 @@ function FullModalChart({
   figure: ThesisFigureItem;
   lang: 'vi' | 'en';
   hoveredIdx: number | null;
-  setHoveredIdx: (idx: number | null) => void;
+  setHoveredIdx: (_idx: number | null) => void;
 }) {
   const w = 780;
   const h = 360;
@@ -582,7 +582,7 @@ function FullModalChart({
             x={padLeft - 10}
             y={padTop - 12}
             textAnchor="start"
-            className="fill-slate-500 dark:fill-slate-400 text-[10px] font-mono font-bold uppercase tracking-wider"
+            className="fill-slate-500 dark:fill-slate-400 text-[11px] font-mono font-bold uppercase tracking-wider"
           >
             ({figure.unit[lang]})
           </text>
@@ -645,9 +645,9 @@ function FullModalChart({
                       x={x + barW / 2}
                       y={y - 5}
                       textAnchor="middle"
-                      className={`text-[9px] sm:text-[10px] font-mono font-bold ${
+                      className={`text-[11px] font-mono font-bold ${
                         d.isPeak
-                          ? 'fill-indigo-700 dark:fill-indigo-300'
+                           ? 'fill-indigo-700 dark:fill-indigo-300'
                           : d.isTrough || d.isCovid
                           ? 'fill-rose-600 dark:fill-rose-400'
                           : 'fill-slate-700 dark:fill-slate-300'
@@ -661,7 +661,7 @@ function FullModalChart({
                       x={x + barW / 2}
                       y={padTop + plotH + 16}
                       textAnchor="middle"
-                      className={`text-[10px] font-mono ${
+                      className={`text-[11px] font-mono ${
                         isHovered
                           ? 'fill-sky-600 dark:fill-sky-300 font-bold'
                           : d.isPeak
@@ -764,7 +764,7 @@ function FullModalChart({
                           x={pt.x}
                           y={pt.y - 9}
                           textAnchor="middle"
-                          className={`text-[10px] font-mono font-bold ${
+                          className={`text-[11px] font-mono font-bold ${
                             pt.isPeak
                               ? 'fill-indigo-700 dark:fill-indigo-300'
                               : pt.isTrough || pt.isCovid
@@ -780,7 +780,7 @@ function FullModalChart({
                           x={pt.x}
                           y={padTop + plotH + 16}
                           textAnchor="middle"
-                          className={`text-[10px] font-mono ${
+                          className={`text-[11px] font-mono ${
                             isHovered
                               ? 'fill-sky-600 dark:fill-sky-300 font-bold'
                               : pt.isPeak

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { ShoppingBag, Database, Bus, Landmark, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 export interface MetricCardItem {
@@ -11,6 +12,7 @@ export interface MetricCardItem {
   subtext?: string | { vi: string; en: string };
   trend?: string;
   projectBadge?: { vi: string; en: string };
+  icon?: React.ElementType;
   href?: string;
 }
 
@@ -29,7 +31,8 @@ const DEFAULT_CONTEXTUAL_METRICS: MetricCardItem[] = [
       en: '85,500 units sold • All-Time: 31.6B VND (238.4k units)'
     },
     trend: '+56,24% (28d đầu)',
-    projectBadge: { vi: '🛍️ Dự án TikTok Shop Kami Ely', en: '🛍️ Kami Ely TikTok Shop' },
+    projectBadge: { vi: 'Dự án TikTok Shop Kami Ely', en: 'Kami Ely TikTok Shop' },
+    icon: ShoppingBag,
     href: '/projects/kami-ely'
   },
   {
@@ -41,7 +44,8 @@ const DEFAULT_CONTEXTUAL_METRICS: MetricCardItem[] = [
       en: '8 SQL tables • 7,046 LIVEs • 4,417 Videos • 5,713 KOCs'
     },
     trend: '100% Ground Truth',
-    projectBadge: { vi: '💻 Phòng Thí Nghiệm SQL (/lab)', en: '💻 Interactive SQL Lab (/lab)' },
+    projectBadge: { vi: 'Phòng Thí Nghiệm SQL (/lab)', en: 'Interactive SQL Lab (/lab)' },
+    icon: Database,
     href: '/lab'
   },
   {
@@ -53,7 +57,8 @@ const DEFAULT_CONTEXTUAL_METRICS: MetricCardItem[] = [
       en: '7,080 borrows/mo • 5 routes (30 stops) • 0% race conflict'
     },
     trend: '6 Django Apps + Celery',
-    projectBadge: { vi: '🚌 Dự án Thư Viện Lưu Động', en: '🚌 Mobile Library Bus BI' },
+    projectBadge: { vi: 'Dự án Thư Viện Lưu Động', en: 'Mobile Library Bus BI' },
+    icon: Bus,
     href: '/projects/library-bus'
   },
   {
@@ -65,7 +70,8 @@ const DEFAULT_CONTEXTUAL_METRICS: MetricCardItem[] = [
       en: '1,132 National Treasures • Tourism elasticity β = +0.72 (p < 0.01)'
     },
     trend: '+24,6% dự án (DiD)',
-    projectBadge: { vi: '⛩️ Dự án Di Sản Nhật Bản', en: '⛩️ Japan Heritage Policy' },
+    projectBadge: { vi: 'Dự án Di Sản Nhật Bản', en: 'Japan Heritage Policy' },
+    icon: Landmark,
     href: '/projects/heritage-japan'
   }
 ];
@@ -90,20 +96,22 @@ export default function DashboardMetricCards({ metrics }: DashboardMetricCardsPr
           ? item.projectBadge[lang]
           : fallbackContext.projectBadge?.[lang];
         const targetHref = item.href || fallbackContext.href || '/projects';
+        const IconComponent = item.icon || fallbackContext.icon || Database;
 
         return (
           <Link
             key={item.id || idx}
             href={targetHref}
-            className="group p-5 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 hover:border-sky-500 dark:hover:border-sky-500/50 transition flex flex-col justify-between space-y-3 shadow-md hover:shadow-xl"
+            className="group p-5 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 hover:border-[#9BE7FA] dark:hover:border-[#9BE7FA]/60 transition flex flex-col justify-between space-y-3 shadow-md hover:shadow-xl cursor-pointer"
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-sky-100 text-sky-950 border border-sky-300 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30 truncate">
-                  {badgeText}
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-[#C8EEF7]/40 text-[#074553] border border-[#9BE7FA]/50 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 truncate">
+                  <IconComponent className="w-3.5 h-3.5 text-[#074553] dark:text-[#9BE7FA] shrink-0" />
+                  <span className="truncate">{badgeText}</span>
                 </span>
                 {(item.trend || fallbackContext.trend) && (
-                  <span className="text-xs font-mono font-bold text-emerald-800 dark:text-emerald-400 shrink-0">
+                  <span className="text-xs font-mono font-bold text-[#074553] dark:text-[#FFE485] shrink-0">
                     {item.trend || fallbackContext.trend}
                   </span>
                 )}
@@ -112,7 +120,7 @@ export default function DashboardMetricCards({ metrics }: DashboardMetricCardsPr
               <div className="text-xs font-bold text-slate-600 dark:text-slate-300 pt-1">
                 {resolveText(item.label)}
               </div>
-              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white tracking-tight group-hover:text-sky-600 dark:group-hover:text-sky-300 transition">
+              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white tracking-tight group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition">
                 {item.value}
               </div>
             </div>
@@ -121,8 +129,8 @@ export default function DashboardMetricCards({ metrics }: DashboardMetricCardsPr
               <span className="line-clamp-2">
                 {resolveText(item.subtext) || resolveText(fallbackContext.subtext)}
               </span>
-              <span className="text-xs font-mono font-bold text-sky-700 dark:text-sky-400 shrink-0 group-hover:translate-x-0.5 transition">
-                →
+              <span className="text-xs font-mono font-bold text-[#074553] dark:text-[#9BE7FA] shrink-0 group-hover:translate-x-0.5 transition flex items-center gap-0.5">
+                <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </div>
           </Link>

@@ -88,7 +88,7 @@ export default function KamiElyScienceCaseStudy({ onBack: _onBack, isEmbedded: _
       />
 
       {/* Executive Summary - 60-second overview */}
-      <div className="max-w-5xl">
+      <div className="w-full">
         <ExecutiveSummary
           isEn={isEn}
           readingTime={isEn ? '~3 min deep dive' : '~3 phút đọc chi tiết'}

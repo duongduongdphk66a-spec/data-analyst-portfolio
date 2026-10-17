@@ -6,6 +6,7 @@ import { DEFAULT_PROFILE, DEFAULT_PROJECTS } from '../defaultData';
 import { ProfileData, ProjectData } from '../types';
 import { KamiElyDataPayload, HeritageJapanDataPayload, LibraryBusDataPayload } from '../types/caseStudies';
 import { RowDataPacket } from 'mysql2';
+import { safeJsonParse } from './security';
 
 export async function getServerLanguage() {
   const cookieStore = await cookies();
@@ -41,7 +42,7 @@ function mapRowToProject(row: RowDataPacket): ProjectData {
     id: row.id,
     title: row.title,
     desc: row.desc_text || '',
-    tags: row.tags_json ? (typeof row.tags_json === 'string' ? JSON.parse(row.tags_json) : row.tags_json) : [],
+    tags: row.tags_json ? (typeof row.tags_json === 'string' ? safeJsonParse(row.tags_json, []) : row.tags_json) : [],
     img: row.img,
     demoUrl: row.demo_url,
     githubUrl: row.github_url,
@@ -51,8 +52,8 @@ function mapRowToProject(row: RowDataPacket): ProjectData {
     method: row.method,
     insight: row.insight,
     content: row.content,
-    metrics: row.metrics_json ? (typeof row.metrics_json === 'string' ? JSON.parse(row.metrics_json) : row.metrics_json) : [],
-    tools: row.tools_json ? (typeof row.tools_json === 'string' ? JSON.parse(row.tools_json) : row.tools_json) : [],
+    metrics: row.metrics_json ? (typeof row.metrics_json === 'string' ? safeJsonParse(row.metrics_json, []) : row.metrics_json) : [],
+    tools: row.tools_json ? (typeof row.tools_json === 'string' ? safeJsonParse(row.tools_json, []) : row.tools_json) : [],
   };
 }
 
@@ -69,17 +70,17 @@ export function mapRowToProfile(row: RowDataPacket): ProfileData {
     linkedin: row.linkedin,
     skills: row.skills_json
       ? typeof row.skills_json === 'string'
-        ? JSON.parse(row.skills_json)
+        ? safeJsonParse(row.skills_json, DEFAULT_PROFILE.skills)
         : row.skills_json
       : DEFAULT_PROFILE.skills,
     experiences: row.experiences_json
       ? typeof row.experiences_json === 'string'
-        ? JSON.parse(row.experiences_json)
+        ? safeJsonParse(row.experiences_json, DEFAULT_PROFILE.experiences)
         : row.experiences_json
       : DEFAULT_PROFILE.experiences,
     careerGoalsList: row.career_goals_json
       ? typeof row.career_goals_json === 'string'
-        ? JSON.parse(row.career_goals_json)
+        ? safeJsonParse(row.career_goals_json, DEFAULT_PROFILE.careerGoalsList)
         : row.career_goals_json
       : DEFAULT_PROFILE.careerGoalsList,
   };

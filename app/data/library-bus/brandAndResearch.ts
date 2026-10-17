@@ -196,8 +196,8 @@ export const BRAND_IDENTITY_DATA = {
   logo: {
     ideaVi: 'Logo kết hợp xe buýt và trang sách, tượng trưng cho tri thức trên cung đường số.',
     ideaEn: 'The logo fuses a transit vehicle with open pages, symbolizing knowledge soaring across digital routes.',
-    meaningVi: 'Xanh Teal uy tín và Xanh Sky năng động tạo nên vẻ đẹp hiện đại, đáng tin cậy.',
-    meaningEn: 'The harmonious union of Deep Teal integrity and Sky Blue vitality embodies modern reliability and passionate civic commitment.',
+    meaningVi: 'Tông màu ấm áp Neo-Bakery (Molasses #4E0705, Roast #BD5705, Butter #FDE971) gợi cảm giác thân thuộc như gian bếp gia đình và những trang sách mới.',
+    meaningEn: 'The warm Neo-Bakery palette (Molasses #4E0705, Roast #BD5705, Butter #FDE971) evokes the comfort of printed pages and community learning.',
     structureRatio: '6.6X × 4X (Chiều dài 6.6X và Chiều cao 4X, với X là đơn vị cơ sở chuẩn hóa)',
     safeDistance: '1.5X khi đứng độc lập và 2X khi đứng cạnh logo đối tác trường học / nhà tài trợ',
     minimumSize: '56.7px (~2cm) trên ấn phẩm in và 42.5px trên màn hình số để đảm bảo độ rõ nét',
@@ -205,15 +205,15 @@ export const BRAND_IDENTITY_DATA = {
   },
   colors: {
     primary: [
-      { nameVi: 'Deep Teal (Màu chủ đạo)', hex: '#0D7287', rgb: '13, 114, 135', roleVi: 'Nhận diện thương hiệu chính, màu của sự tin cậy, tri thức bền vững' },
-      { nameVi: 'Sky Blue Vivid (Màu công nghệ)', hex: '#9BE7FA', rgb: '155, 231, 250', roleVi: 'Màu nền bề mặt phụ trợ, thanh điều hướng và trạng thái hover tươi sáng' },
-      { nameVi: 'Gold CTA (Màu hành động)', hex: '#FFD14C', rgb: '255, 209, 76', roleVi: 'Nút bấm kêu gọi hành động (Đặt mượn, Giữ chỗ, Đăng ký)' }
+      { nameVi: 'Molasses Ink (Màu chủ đạo)', nameEn: 'Molasses Ink (Primary Brand)', hex: '#4E0705', rgb: '78, 7, 5', roleVi: 'Nhận diện thương hiệu chính, màu nâu đen espresso sâu dùng cho logo, tiêu đề và chữ chính', roleEn: 'Primary brand identity, deep espresso brown used for logo, headings and primary text' },
+      { nameVi: 'Well-browned (Màu viền & Cấu trúc)', nameEn: 'Well-browned (Structure & Accent)', hex: '#812203', rgb: '129, 34, 3', roleVi: 'Màu hạt dẻ nướng, dùng cho đường viền, phân cách cấu trúc và thanh điều hướng', roleEn: 'Toasted chestnut, structural borders and active divider states' },
+      { nameVi: 'Roast Amber (Màu hành động CTA)', nameEn: 'Roast Amber (Primary CTA)', hex: '#BD5705', rgb: '189, 87, 5', roleVi: 'Màu hổ phách caramel, điểm nhấn chính (Single Accent) cho nút bấm đặt mượn, giữ chỗ sách', roleEn: 'Warm amber caramel, single accent for primary CTAs (Hold Book, Borrow)' }
     ],
     supporting: [
-      { nameVi: 'Deep Slate Text', hex: '#1A2332', rgb: '26, 35, 50', roleVi: 'Văn bản hiển thị chính, độ tương phản cao đạt chuẩn WCAG AAA' },
-      { nameVi: 'Muted Slate Text', hex: '#4A5C72', rgb: '74, 92, 114', roleVi: 'Văn bản phụ, nhãn metadata và đường phân cách' },
-      { nameVi: 'Soft Sky Ground', hex: '#F0F9FB', rgb: '240, 249, 251', roleVi: 'Bề mặt thẻ card, khối dữ liệu phân cấp' },
-      { nameVi: 'Crisp Ground', hex: '#FAFDFE', rgb: '250, 253, 254', roleVi: 'Màu nền trang chủ, đem lại cảm giác thoáng mát' }
+      { nameVi: 'Toasty Orange (Màu trạng thái)', nameEn: 'Toasty Orange (Status)', hex: '#ED9040', rgb: '237, 144, 64', roleVi: 'Màu cam bánh mì nướng cho thanh cuộn, nhãn metadata và badge', roleEn: 'Warm toast orange for status badges and metadata tags' },
+      { nameVi: 'Greasey Honey (Màu thẻ & Hover)', nameEn: 'Greasey Honey (Card Accent)', hex: '#FFC270', rgb: '255, 194, 112', roleVi: 'Màu bơ mật ong cho viền thẻ sách và hiệu ứng hover', roleEn: 'Honey butter for book card borders and subtle hover glow' },
+      { nameVi: 'Butter Cream (Màu nổi bật)', nameEn: 'Butter Cream (Highlight)', hex: '#FDE971', rgb: '253, 233, 113', roleVi: 'Màu vàng kem pastry nhạt cho nhãn nổi bật và hero tag', roleEn: 'Pastry butter cream for featured tags and hero badges' },
+      { nameVi: 'Pure Ivory (Màu nền giấy sách)', nameEn: 'Pure Ivory (Page Background)', hex: '#FFFDF9', rgb: '255, 253, 249', roleVi: 'Màu nền trang web, đem lại cảm giác trang giấy sách ấm áp cổ điển', roleEn: 'Warm ivory background evoking classic printed book paper' }
     ]
   },
   typography: [
@@ -230,14 +230,14 @@ export const BRAND_IDENTITY_DATA = {
   ],
   uiComponents: {
     buttons: [
-      { type: 'Primary Button', default: 'Đặt Mượn Sách', hover: 'Hiệu ứng Shadow Teal', disabled: 'Màu xám nhạt không click' },
-      { type: 'Secondary Button', default: 'Xem Lộ Trình Xe', hover: 'Nền Sky Light viền Teal', disabled: 'Ẩn hiệu ứng' },
+      { type: 'Primary Button', default: 'Đặt Mượn Sách', hover: 'Nền Well-browned #812203 kèm ring vàng kem', disabled: 'Màu xám nhạt không click' },
+      { type: 'Secondary Button', default: 'Xem Lộ Trình Xe', hover: 'Nền Parchment viền Roast Amber', disabled: 'Ẩn hiệu ứng' },
       { type: 'Outline Button', default: 'Chi Tiết Trạm Dừng', hover: 'Đổi nền trắng sang viền đậm', disabled: 'Mờ nhạt' }
     ],
     textFill: {
       defaultState: 'Nhập tên sách hoặc tác giả...',
-      hoverState: 'Viền sáng #9BE7FA',
-      focusState: 'Viền xanh Teal #0D7287 kèm glow ring',
+      hoverState: 'Viền bơ mật ong #FFC270',
+      focusState: 'Viền Roast Amber #BD5705 kèm glow ring #FFC270',
       errorState: 'Viền đỏ kèm thông báo lỗi'
     },
     iconSet: ['Bus', 'BookOpen', 'Search', 'User', 'MapPin', 'Calendar', 'Bell', 'ShieldCheck', 'QrCode', 'Clock', 'Sparkles', 'Layers']
@@ -245,22 +245,22 @@ export const BRAND_IDENTITY_DATA = {
 };
 
 // ==========================================
-// Bảng màu chuẩn hóa từ Bảng 4 màu chính thức (#9BE7FA, #C8EEF7, #FFE485, #FFD14C)
+// Bảng màu chuẩn hóa hệ màu ấm Neo-Bakery Warm Paper Tokens của Web Thư Viện
 export const NEO_BAKERY_TOKENS = {
-  molasses: '#074553',         // Deep teal anchor / page ground dark (Darker shade of #9BE7FA)
-  wellBrowned: '#095869',     // Rich deep cyan hover
-  roast: '#0D7287',           // Deep cyan brand anchor / Primary CTA
-  toasty: '#9BE7FA',          // Sky blue vivid / active border
-  greasey: '#FFE485',         // Soft sunlight cream / badge background
-  butter: '#FFD14C',          // Honey gold CTA / highlight
-  bgPage: '#FAFDFE',          // Clean ice ground
-  bgPageAlt: '#F0F9FB',       // Soft sky surface
+  molasses: '#4E0705',        // Deep espresso / primary text & dark ground
+  wellBrowned: '#812203',     // Toasted chestnut / structural border & divider
+  roast: '#BD5705',           // Warm amber / primary CTA & action
+  toasty: '#ED9040',          // Toast orange / status badges & active tags
+  greasey: '#FFC270',         // Honey butter / card border & hover tint
+  butter: '#FDE971',          // Pastry cream / highlight badges & hero tag
+  bgPage: '#FFFDF9',          // Warm ivory / clean page background
+  bgPageAlt: '#FAF4EC',       // Soft warm parchment surface
   bgSurface: '#FFFFFF',       // Elevated card surface
-  bgSurfaceRaised: '#E8FAFE', // Interactive surface
-  bgSurfaceSunken: '#C8EEF7', // Input recessed surface
-  darkPage: '#0B171D',        // Deep night teal ground
-  darkSurface: '#0F262F',     // Dark card surface
-  darkSurfaceRaised: '#153A47',
+  bgSurfaceRaised: '#FAF5EF', // Interactive surface
+  bgSurfaceSunken: '#F5EBE1', // Input recessed surface
+  darkPage: '#1A0403',        // Night espresso ground
+  darkSurface: '#260B0A',     // Dark card surface
+  darkSurfaceRaised: '#3B1513',
 };
 
 // ==========================================

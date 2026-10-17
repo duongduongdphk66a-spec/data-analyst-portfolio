@@ -4,6 +4,9 @@ import {
   generateAdminToken, 
   verifyAdminToken, 
   validateAdminPassword, 
+  isPlaceholderSecret,
+  isInsecurePlaceholder,
+  isProductionAuthConfigured,
   getClientIp,
   checkLoginRateLimit, 
   recordFailedLogin, 
@@ -88,10 +91,9 @@ describe('Admin Authentication & Rate Limiting Module', () => {
       process.env.TRUST_PROXY = prev;
     });
 
-    it('should trust ONLY x-vercel-forwarded-for when TRUST_PROXY is vercel or VERCEL=1', () => {
+    it('should trust ONLY x-vercel-forwarded-for when running on Vercel (VERCEL=1)', () => {
       const prevTrust = process.env.TRUST_PROXY;
       const prevVercel = process.env.VERCEL;
-      process.env.TRUST_PROXY = 'vercel';
 
       const req = new NextRequest('http://localhost:3000/api/auth/login', {
         headers: {
@@ -100,18 +102,25 @@ describe('Admin Authentication & Rate Limiting Module', () => {
         },
       });
 
+      // Khi chạy trên hạ tầng Vercel (VERCEL=1)
+      process.env.VERCEL = '1';
+      process.env.TRUST_PROXY = 'vercel';
       expect(getClientIp(req)).toBe('198.51.100.33');
 
-      // Test automatic detection when VERCEL=1 and TRUST_PROXY not set
+      // Tự động nhận diện khi VERCEL=1 và TRUST_PROXY không đặt
       delete process.env.TRUST_PROXY;
-      process.env.VERCEL = '1';
       expect(getClientIp(req)).toBe('198.51.100.33');
+
+      // Khi KHÔNG chạy trên Vercel (VERCEL không đặt), chế độ vercel không được tin header
+      delete process.env.VERCEL;
+      process.env.TRUST_PROXY = 'vercel';
+      expect(getClientIp(req)).toBe('127.0.0.1');
 
       process.env.TRUST_PROXY = prevTrust;
       process.env.VERCEL = prevVercel;
     });
 
-    it('should use x-real-ip or x-forwarded-for when TRUST_PROXY is true (generic proxy)', () => {
+    it('should use x-real-ip or take the LAST IP in x-forwarded-for when TRUST_PROXY is true (generic proxy)', () => {
       const prev = process.env.TRUST_PROXY;
       process.env.TRUST_PROXY = 'true';
 
@@ -123,17 +132,19 @@ describe('Admin Authentication & Rate Limiting Module', () => {
       });
       expect(getClientIp(reqRealIp)).toBe('198.51.100.50');
 
+      // Kẻ tấn công chèn fake IP '203.0.113.10' ở đầu, proxy gắn real IP '198.51.100.77' ở cuối
       const reqForwarded = new NextRequest('http://localhost:3000/api/auth/login', {
         headers: {
-          'x-forwarded-for': '203.0.113.10, 10.0.0.2',
+          'x-forwarded-for': '203.0.113.10, 198.51.100.77',
         },
       });
-      expect(getClientIp(reqForwarded)).toBe('203.0.113.10');
+      // Hệ thống lấy IP cuối cùng do proxy gắn vào, vô hiệu hóa IP giả mạo
+      expect(getClientIp(reqForwarded)).toBe('198.51.100.77');
 
       process.env.TRUST_PROXY = prev;
     });
 
-    it('should ignore malformed/poisoned IPs in x-forwarded-for and find first valid IP', () => {
+    it('should ignore malformed/poisoned IPs in x-forwarded-for and pick the last valid IP', () => {
       const prevEnv = process.env.TRUST_PROXY;
       process.env.TRUST_PROXY = 'true';
       const req = new NextRequest('http://localhost:3000/api/auth/login', {
@@ -141,7 +152,7 @@ describe('Admin Authentication & Rate Limiting Module', () => {
           'x-forwarded-for': 'garbage-injection-string, 198.51.100.77, 10.0.0.2',
         },
       });
-      expect(getClientIp(req)).toBe('198.51.100.77');
+      expect(getClientIp(req)).toBe('10.0.0.2');
       process.env.TRUST_PROXY = prevEnv;
     });
 
@@ -203,6 +214,17 @@ describe('Admin Authentication & Rate Limiting Module', () => {
       expect(validateAdminPassword(null)).toBe(false);
       // @ts-expect-error test invalid types
       expect(validateAdminPassword(undefined)).toBe(false);
+    });
+
+    it('should reject default template placeholder secrets from .env.example', () => {
+      expect(isPlaceholderSecret('your_admin_password_here')).toBe(true);
+      expect(isPlaceholderSecret('your_security_verify_code_here')).toBe(true);
+      expect(isPlaceholderSecret('changeme123')).toBe(true);
+      expect(isPlaceholderSecret('my_actual_secure_password_99#')).toBe(false);
+
+      // validateAdminPassword should block placeholder credentials
+      expect(validateAdminPassword('your_admin_password_here', 'your_security_verify_code_here')).toBe(false);
+      expect(validateAdminPassword('changeme', 'valid_verify_code_1234')).toBe(false);
     });
   });
 
@@ -289,6 +311,81 @@ describe('Admin Authentication & Rate Limiting Module', () => {
       // Both valid
       process.env.ADMIN_VERIFY_CODE = '12345678'; // 8 chars (>= 8)
       expect(isProductionAuthConfigured()).toBe(true);
+    });
+  });
+
+  describe('isInsecurePlaceholder & Insecure Template Credentials Rejection', () => {
+    it('should detect all placeholder patterns as insecure', () => {
+      expect(isInsecurePlaceholder('your_admin_password_here')).toBe(true);
+      expect(isInsecurePlaceholder('your_security_verify_code_here')).toBe(true);
+      expect(isInsecurePlaceholder('your_session_secret_here')).toBe(true);
+      expect(isInsecurePlaceholder('changeme_12345')).toBe(true);
+      expect(isInsecurePlaceholder('my_example_secret')).toBe(true);
+      expect(isInsecurePlaceholder('default_pass_123')).toBe(true);
+      expect(isInsecurePlaceholder('admin1234567890')).toBe(true);
+      expect(isInsecurePlaceholder('password_for_admin')).toBe(true);
+      expect(isInsecurePlaceholder('placeholder_token')).toBe(true);
+      expect(isInsecurePlaceholder('')).toBe(true);
+      expect(isInsecurePlaceholder(null)).toBe(true);
+      expect(isInsecurePlaceholder(undefined)).toBe(true);
+
+      // Realistic secure credentials
+      expect(isInsecurePlaceholder('K@miElyProdSecret2026!')).toBe(false);
+      expect(isInsecurePlaceholder('SecureCode98765432')).toBe(false);
+    });
+
+    it('should reject placeholder credentials in isProductionAuthConfigured even when length >= 16', () => {
+      const origNodeEnv = process.env.NODE_ENV;
+      const origPwd = process.env.ADMIN_PASSWORD;
+      const origCode = process.env.ADMIN_VERIFY_CODE;
+      const origSecret = process.env.SESSION_SECRET;
+
+      (process.env as Record<string, string | undefined>).NODE_ENV = 'production';
+      process.env.ADMIN_PASSWORD = 'your_admin_password_here'; // 24 chars >= 16
+      process.env.ADMIN_VERIFY_CODE = 'your_security_verify_code_here'; // 29 chars >= 8
+      process.env.SESSION_SECRET = 'your_session_secret_here';
+
+      expect(isProductionAuthConfigured()).toBe(false);
+
+      // Set legitimate production credentials
+      process.env.ADMIN_PASSWORD = 'K@miElyProdSecret2026!';
+      process.env.ADMIN_VERIFY_CODE = 'SecureCode98765432';
+      process.env.SESSION_SECRET = 'ProdSessionKeySecret9876543210';
+
+      expect(isProductionAuthConfigured()).toBe(true);
+
+      (process.env as Record<string, string | undefined>).NODE_ENV = origNodeEnv;
+      process.env.ADMIN_PASSWORD = origPwd;
+      process.env.ADMIN_VERIFY_CODE = origCode;
+      process.env.SESSION_SECRET = origSecret;
+    });
+
+    it('should refuse login via validateAdminPassword if using placeholder values', () => {
+      const origPwd = process.env.ADMIN_PASSWORD;
+      const origCode = process.env.ADMIN_VERIFY_CODE;
+
+      process.env.ADMIN_PASSWORD = 'your_admin_password_here';
+      process.env.ADMIN_VERIFY_CODE = 'your_security_verify_code_here';
+
+      // Even if user types the matching placeholder from .env.example, login MUST fail
+      expect(validateAdminPassword('your_admin_password_here', 'your_security_verify_code_here')).toBe(false);
+
+      process.env.ADMIN_PASSWORD = origPwd;
+      process.env.ADMIN_VERIFY_CODE = origCode;
+    });
+
+    it('should refuse verification code via validateAdminPassword if verifyCode contains placeholder patterns', () => {
+      const origPwd = process.env.ADMIN_PASSWORD;
+      const origCode = process.env.ADMIN_VERIFY_CODE;
+
+      process.env.ADMIN_PASSWORD = 'LegitimateAdminPassword2026!';
+      process.env.ADMIN_VERIFY_CODE = 'your_security_verify_code_here';
+
+      // Even with legitimate password, if verifyCode is placeholder, validateAdminPassword must return false
+      expect(validateAdminPassword('LegitimateAdminPassword2026!', 'your_security_verify_code_here')).toBe(false);
+
+      process.env.ADMIN_PASSWORD = origPwd;
+      process.env.ADMIN_VERIFY_CODE = origCode;
     });
   });
 });

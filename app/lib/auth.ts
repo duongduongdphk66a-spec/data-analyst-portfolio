@@ -9,6 +9,14 @@ function isValidIp(ip: string | null | undefined): boolean {
   return Boolean(trimmed && net.isIP(trimmed) !== 0);
 }
 
+export function normalizeIp(rawIp: string | null | undefined): string | null {
+  if (!rawIp) return null;
+  const trimmed = rawIp.trim();
+  if (!trimmed || trimmed.length > 64) return null;
+  const clean = trimmed.replace(/^::ffff:/i, '');
+  return isValidIp(clean) ? clean : null;
+}
+
 /**
  * Trích xuất Client IP an toàn theo cấu hình Reverse Proxy tường minh.
  * Không tự động dò header ngoại lai để chống giả mạo IP (IP Spoofing / Proxy Header Poisoning).
@@ -16,74 +24,53 @@ function isValidIp(ip: string | null | undefined): boolean {
  * Cấu hình TRUST_PROXY:
  * - 'false' / rỗng: Chạy trực tiếp hoặc không có proxy tin cậy. Bỏ qua toàn bộ header proxy,
  *   giới hạn chung theo địa chỉ socket hoặc IP toàn cục '127.0.0.1'. Không phân tách theo User-Agent.
- * - 'vercel' (hoặc môi trường VERCEL=1): Chỉ tin x-vercel-forwarded-for do Vercel Edge kiểm soát.
+ * - 'vercel': Chỉ tin x-vercel-forwarded-for khi chạy thật trên hạ tầng Vercel (VERCEL === '1').
  * - 'cloudflare': Chỉ tin cf-connecting-ip do Cloudflare kiểm soát.
  * - 'nginx': Chỉ tin x-real-ip do Nginx gán từ $remote_addr.
- * - 'true': Chế độ proxy thông thường, chỉ tin x-real-ip rồi đến x-forwarded-for (bỏ qua cf-connecting-ip & x-vercel-forwarded-for).
+ * - 'true': Chế độ proxy thông thường, ưu tiên x-real-ip; nếu lấy x-forwarded-for thì lấy IP cuối cùng.
  */
 export function getClientIp(request: NextRequest | Request): string {
   const headers = request.headers;
-  const rawTrustProxy = (process.env.TRUST_PROXY || '').trim().toLowerCase();
+  const rawTrustProxy = (process.env.TRUST_PROXY || 'false').toLowerCase().trim();
   const isVercelEnv = process.env.VERCEL === '1';
 
-  // Xác định loại proxy được tin cậy
-  const proxyMode = rawTrustProxy || (isVercelEnv ? 'vercel' : 'false');
-
-  if (proxyMode === 'false' || !proxyMode) {
-    // Không tin bất kỳ proxy header nào.
-    // Dùng socket IP nếu có từ runtime Next.js, hoặc rơi về '127.0.0.1' (bộ đếm toàn cục)
-    const reqIp = (request as unknown as { ip?: string }).ip;
-    if (reqIp && typeof reqIp === 'string' && isValidIp(reqIp)) {
-      return reqIp.trim();
-    }
+  // 1. Chỉ tin x-vercel-forwarded-for khi thực sự chạy trên hạ tầng Vercel (VERCEL === '1')
+  if (isVercelEnv && (rawTrustProxy === 'vercel' || rawTrustProxy === 'true' || rawTrustProxy === 'false' || !rawTrustProxy)) {
+    const vercelIp = headers.get('x-vercel-forwarded-for')?.split(',')[0];
+    const normalized = normalizeIp(vercelIp);
+    if (normalized) return normalized;
     return '127.0.0.1';
   }
 
-  if (proxyMode === 'vercel') {
-    const vercelIp = headers.get('x-vercel-forwarded-for');
-    if (vercelIp) {
-      const parts = vercelIp.split(',');
-      for (const part of parts) {
-        const candidate = part.trim();
-        if (isValidIp(candidate)) return candidate;
-      }
-    }
-    return '127.0.0.1';
-  }
-
-  if (proxyMode === 'cloudflare') {
+  // 2. Chế độ Cloudflare tường minh
+  if (rawTrustProxy === 'cloudflare') {
     const cfIp = headers.get('cf-connecting-ip');
-    if (cfIp && isValidIp(cfIp)) return cfIp.trim();
+    const normalized = normalizeIp(cfIp);
+    if (normalized) return normalized;
     return '127.0.0.1';
   }
 
-  if (proxyMode === 'nginx') {
-    const realIp = headers.get('x-real-ip');
-    if (realIp && isValidIp(realIp)) return realIp.trim();
-    return '127.0.0.1';
-  }
+  // 3. Chế độ Nginx / Reverse Proxy nội bộ (TRUST_PROXY="nginx" hoặc "true" hoặc "1")
+  if (rawTrustProxy === 'nginx' || rawTrustProxy === 'true' || rawTrustProxy === '1') {
+    // Ưu tiên tuyệt đối X-Real-IP do Nginx ghi đè ($remote_addr)
+    const realIp = normalizeIp(headers.get('x-real-ip'));
+    if (realIp) return realIp;
 
-  if (proxyMode === 'true') {
-    // Proxy thông thường: Chỉ tin x-real-ip hoặc x-forwarded-for
-    // Tuyệt đối không kiểm tra cf-connecting-ip hay x-vercel-forwarded-for để tránh kẻ tấn công tiêm header giả mạo qua proxy Nginx
-    const realIp = headers.get('x-real-ip');
-    if (realIp && isValidIp(realIp)) return realIp.trim();
-
-    const forwardedFor = headers.get('x-forwarded-for');
-    if (forwardedFor) {
-      const parts = forwardedFor.split(',');
-      for (const part of parts) {
-        const candidate = part.trim();
-        if (isValidIp(candidate)) return candidate;
+    // Nếu không có X-Real-IP, lấy phần tử CUỐI CÙNG hợp lệ trong X-Forwarded-For (IP do Proxy nối thêm vào cuối)
+    const xff = headers.get('x-forwarded-for');
+    if (xff) {
+      const parts = xff
+        .split(',')
+        .map((p) => normalizeIp(p))
+        .filter((p): p is string => Boolean(p));
+      if (parts.length > 0) {
+        return parts[parts.length - 1];
       }
     }
+    return '127.0.0.1';
   }
 
-  const reqIp = (request as unknown as { ip?: string }).ip;
-  if (reqIp && typeof reqIp === 'string' && isValidIp(reqIp)) {
-    return reqIp.trim();
-  }
-
+  // 4. Mặc định (TRUST_PROXY="false"): Không tin bất kỳ header nào từ Client
   return '127.0.0.1';
 }
 
@@ -107,22 +94,64 @@ export function getSessionSigningSecret(): string {
   return crypto.createHmac('sha256', 'portfolio-session-v1').update(adminPwd).digest('hex');
 }
 
+const PLACEHOLDER_PATTERNS = [
+  /your_/i,
+  /_here/i,
+  /changeme/i,
+  /example/i,
+  /default/i,
+  /^admin123/i,
+  /^password/i,
+  /placeholder/i
+];
+
+/**
+ * Kiểm tra xem chuỗi có phải là giá trị mẫu mặc định không an toàn (placeholder) không.
+ * Từ chối tuyệt đối các chuỗi chứa: your_, _here, changeme, example, default, admin123, password, placeholder.
+ */
+export function isInsecurePlaceholder(value: string | undefined | null): boolean {
+  if (!value) return true;
+  const trimmed = value.trim();
+  if (!trimmed) return true;
+  return PLACEHOLDER_PATTERNS.some((regex) => regex.test(trimmed));
+}
+
+export const isPlaceholderSecret = isInsecurePlaceholder;
+
 export function isProductionAuthConfigured(): boolean {
   const pwd = process.env.ADMIN_PASSWORD || '';
   const verifyCode = process.env.ADMIN_VERIFY_CODE || '';
+  const sessionSecret = process.env.SESSION_SECRET || '';
   const isProd = process.env.NODE_ENV === 'production';
 
   if (isProd) {
+    if (
+      isInsecurePlaceholder(pwd) ||
+      isInsecurePlaceholder(verifyCode) ||
+      (sessionSecret && isInsecurePlaceholder(sessionSecret))
+    ) {
+      return false;
+    }
     return pwd.length >= MIN_PROD_PASSWORD_LENGTH && verifyCode.length >= MIN_PROD_VERIFY_CODE_LENGTH;
   }
-  return pwd.length >= 6;
+
+  return pwd.length >= 6 && !isInsecurePlaceholder(pwd);
 }
 
 function getAdminPassword(): string {
   const envPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET;
   const minLength = process.env.NODE_ENV === 'production' ? MIN_PROD_PASSWORD_LENGTH : 6;
   if (envPassword && envPassword.trim().length >= minLength) {
-    return envPassword.trim();
+    const trimmed = envPassword.trim();
+    if (isPlaceholderSecret(trimmed)) {
+      if (process.env.NODE_ENV === 'production') {
+        throw new Error(
+          `[CRITICAL SECURITY ERROR] ADMIN_PASSWORD cannot use default placeholder template values (contains 'your_', '_here', or 'changeme').`
+        );
+      }
+      return FALLBACK_RANDOM_SECRET;
+    }
+    return trimmed;
   }
   if (process.env.NODE_ENV === 'production') {
     throw new Error(
@@ -136,7 +165,16 @@ function getAdminVerifyCode(): string {
   const envCode = process.env.ADMIN_VERIFY_CODE;
   const minLength = process.env.NODE_ENV === 'production' ? MIN_PROD_VERIFY_CODE_LENGTH : 6;
   if (envCode && envCode.trim().length >= minLength) {
-    return envCode.trim();
+    const trimmed = envCode.trim();
+    if (isPlaceholderSecret(trimmed)) {
+      if (process.env.NODE_ENV === 'production') {
+        throw new Error(
+          `[CRITICAL SECURITY ERROR] ADMIN_VERIFY_CODE cannot use default placeholder template values (contains 'your_', '_here', or 'changeme').`
+        );
+      }
+      return FALLBACK_RANDOM_SECRET;
+    }
+    return trimmed;
   }
   if (process.env.NODE_ENV === 'production') {
     throw new Error(
@@ -335,6 +373,9 @@ export function generateAdminToken(): string {
  */
 export function validateAdminPassword(password: string, verifyCode?: string): boolean {
   if (!password || typeof password !== 'string') return false;
+  if (isPlaceholderSecret(password) || (verifyCode && isPlaceholderSecret(verifyCode))) {
+    return false;
+  }
   
   let adminPassword = '';
   let adminVerifyCode = '';

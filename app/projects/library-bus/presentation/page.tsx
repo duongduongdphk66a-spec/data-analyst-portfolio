@@ -12,11 +12,11 @@ export default function PresentationPage() {
   return (
     <div className="relative w-screen h-screen flex flex-col bg-slate-950 text-slate-100 overflow-hidden">
       {/* Top Navigation Bar */}
-      <header className="h-12 bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 flex items-center justify-between z-10 shrink-0">
+      <header className="min-h-[56px] py-2 bg-slate-900/90 backdrop-blur border-b border-[#C8EEF7]/20 px-4 flex items-center justify-between z-10 shrink-0">
         <div className="flex items-center gap-3">
           <Link
-            href="/projects/proj-library-bus"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors"
+            href="/projects/library-bus"
+            className="inline-flex items-center gap-1.5 min-h-[44px] text-xs font-semibold text-slate-300 hover:text-[#9BE7FA] px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700/80 border border-slate-700/60 hover:border-[#9BE7FA]/40 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Về Case Study</span>
@@ -30,7 +30,7 @@ export default function PresentationPage() {
           href="/library-bus/presentation.html"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#9BE7FA] hover:text-white px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 transition-colors"
+          className="inline-flex items-center gap-1.5 min-h-[44px] text-xs font-medium text-[#9BE7FA] hover:text-white px-3 py-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-[#9BE7FA]/30 hover:border-[#9BE7FA] transition-colors cursor-pointer"
         >
           <span>HTML Tĩnh Gốc</span>
           <ExternalLink className="w-3.5 h-3.5" />

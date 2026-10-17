@@ -5,25 +5,25 @@ export const DEFAULT_PROFILE: ProfileData = {
   name: "Ma Văn Hùng",
   subtitle: "Intern Data Analyst | Business Intelligence & Analytics",
   title: "Data Analyst",
-  bio: "Ma Văn Hùng là Data Analyst với nền tảng vững chắc về SQL, Python, Power BI và Excel nâng cao. Tập trung vào việc khai phá dữ liệu phân mảnh, thiết kế mô hình trực quan hóa và chuyển đổi số liệu thô thành các insight chiến lược hỗ trợ tối ưu hóa quy trình ra quyết định kinh doanh.",
-  careerGoal: "Xây dựng Hệ thống Dữ liệu Vững chắc & Trực quan hóa Insight Chiến lược",
+  bio: "Data Analyst chuyên phân tích dữ liệu kinh doanh bằng SQL, Python, Power BI và Excel. Chuyên làm sạch dữ liệu đa nguồn, thiết kế dashboard và đo lường chỉ số vận hành.",
+  careerGoal: "Thiết kế hệ thống dữ liệu và báo cáo phân tích kinh doanh",
   careerGoalsList: [
     {
       id: 'goal-1',
-      title: 'Tối ưu hóa Data Pipeline & Chuẩn hóa Dữ liệu',
-      desc: 'Thiết kế quy trình ETL/ELT sạch, làm chủ cơ sở dữ liệu quan hệ và chuẩn hóa dữ liệu đa nguồn phục vụ phân tích tự động.',
+      title: 'Xây dựng pipeline và chuẩn hóa dữ liệu',
+      desc: 'Thiết kế quy trình ETL/ELT và chuẩn hóa dữ liệu đa nguồn vào cơ sở dữ liệu quan hệ.',
       icon: 'list'
     },
     {
       id: 'goal-2',
-      title: 'Xây dựng Dashboard & Mô hình Phân tích Nâng cao',
-      desc: 'Phát triển báo cáo trực quan hóa theo thời gian thực trên Power BI/Tableau, áp dụng mô hình phân khúc và dự báo chuỗi thời gian.',
+      title: 'Phát triển dashboard trực quan',
+      desc: 'Xây dựng báo cáo tự động trên Power BI và Tableau theo dõi chỉ số hiệu suất.',
       icon: 'cloud'
     },
     {
       id: 'goal-3',
-      title: 'Data Storytelling & Tối ưu Quyết định Kinh doanh',
-      desc: 'Truyền tải các insight kỹ thuật phức tạp thành câu chuyện dữ liệu rõ ràng, hỗ trợ các nhà quản trị đưa ra quyết định tăng trưởng.',
+      title: 'Phân tích số liệu và hỗ trợ vận hành',
+      desc: 'Định lượng số liệu thực tế nhằm giải quyết bài toán tối ưu chi phí và tăng trưởng.',
       icon: 'network'
     }
   ],
@@ -48,8 +48,8 @@ export const DEFAULT_PROFILE: ProfileData = {
       type: 'education',
       location: 'Hà Nội, Việt Nam',
       description: [
-        'Chuyên sâu nghiên cứu kinh tế - xã hội Nhật Bản, phương pháp phân tích định lượng và xử lý dữ liệu nghiên cứu khoa học.',
-        'Hoàn thành xuất sắc Niên luận Nghiên cứu định lượng: "Sự phát triển của Du lịch Di sản tại Nhật Bản giai đoạn từ năm 2013 đến nay" (GVHD: TS Võ Minh Vũ).'
+        'Nghiên cứu kinh tế - xã hội Nhật Bản bằng phương pháp định lượng và thống kê dữ liệu.',
+        'Thực hiện niên luận: "Sự phát triển của Du lịch Di sản tại Nhật Bản từ 2013 đến nay" (GVHD: TS Võ Minh Vũ).'
       ]
     },
     {
@@ -60,8 +60,8 @@ export const DEFAULT_PROFILE: ProfileData = {
       type: 'work',
       location: 'Hà Nội, Việt Nam',
       description: [
-        'Thu thập, trích xuất và chuẩn hóa 6 bộ dữ liệu chuỗi thời gian 20 năm từ MLIT, JNTO, Sở Du lịch Kyoto và Nara.',
-        'Ứng dụng các mô hình trực quan hóa số liệu định lượng, phân tích tỷ trọng đóng góp GDP (7.5%), việc làm (4M+) và đánh giá 5 chính sách giải quyết quá tải du lịch.'
+        'Thu thập và làm sạch 6 bộ dữ liệu chuỗi thời gian 20 năm từ MLIT và JNTO.',
+        'Mô hình hóa số liệu đo lường mức đóng góp GDP 7,5% và việc làm cho hơn 4 triệu lao động.'
       ]
     },
     {
@@ -72,8 +72,8 @@ export const DEFAULT_PROFILE: ProfileData = {
       type: 'work',
       location: 'Hà Nội, Việt Nam',
       description: [
-        'Xây dựng các báo cáo định kỳ theo dõi GMV, tỷ lệ chuyển đổi đơn hàng và chỉ số hoàn hàng trên sàn TikTok Shop.',
-        'Phân tích ma trận hiệu quả giữa kênh tự vận hành và mạng lưới 1,000+ creator affiliates nhằm tối ưu hóa chi phí hoa hồng.'
+        'Xây dựng báo cáo theo dõi GMV, tỷ lệ chuyển đổi đơn và tỷ lệ hoàn hàng trên TikTok Shop.',
+        'Phân tích hiệu quả kênh tự vận hành so với mạng lưới hơn 1.000 creator affiliate.'
       ]
     },
     {
@@ -84,8 +84,8 @@ export const DEFAULT_PROFILE: ProfileData = {
       type: 'work',
       location: 'Hà Nội, Việt Nam',
       description: [
-        'Thiết kế mô hình cơ sở dữ liệu quan hệ 3NF và luồng xử lý bất đồng bộ, phục vụ hơn 50,000 người dùng với 500 kết nối đồng thời.',
-        'Ứng dụng Redis Cache và hàng đợi Celery giúp giảm 93.7% độ trễ truy vấn (từ 450ms xuống 28ms) và triệt tiêu 100% xung đột mượn sách.'
+        'Thiết kế mô hình cơ sở dữ liệu quan hệ 3NF chịu tải 500 yêu cầu mỗi giây.',
+        'Tích hợp Redis cache và Celery giúp giảm 93,7% độ trễ truy vấn, loại bỏ xung đột mượn sách.'
       ]
     }
   ]

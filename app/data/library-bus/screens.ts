@@ -41,7 +41,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Core Page',
     wireframeSrc: '/library-bus/screens/wf_01_trang_chu.webp',
     uiSrc: '/library-bus/screens/ui_01_trang_chu.webp',
-    uiFullSrc: '/library-bus/full_screens/full_01_trang_chu.webp'
+    uiFullSrc: '/library-bus/screens/ui_01_trang_chu.webp'
   },
   {
     id: 'screen-02',
@@ -61,7 +61,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Brand',
     wireframeSrc: '/library-bus/screens/wf_02_gioi_thieu.webp',
     uiSrc: '/library-bus/screens/ui_02_gioi_thieu.webp',
-    uiFullSrc: '/library-bus/full_screens/full_02_gioi_thieu.webp'
+    uiFullSrc: '/library-bus/screens/ui_02_gioi_thieu.webp'
   },
   {
     id: 'screen-03',
@@ -81,7 +81,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Inventory',
     wireframeSrc: '/library-bus/screens/wf_03_danh_sach_sach.webp',
     uiSrc: '/library-bus/screens/ui_03_danh_sach_sach.webp',
-    uiFullSrc: '/library-bus/full_screens/full_03_danh_sach_sach.webp'
+    uiFullSrc: '/library-bus/screens/ui_03_danh_sach_sach.webp'
   },
   {
     id: 'screen-04',
@@ -101,7 +101,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Signature UI',
     wireframeSrc: '/library-bus/screens/wf_04_chi_tiet_sach.webp',
     uiSrc: '/library-bus/screens/ui_04_chi_tiet_sach.webp',
-    uiFullSrc: '/library-bus/full_screens/full_04_chi_tiet_sach.webp'
+    uiFullSrc: '/library-bus/screens/ui_04_chi_tiet_sach.webp'
   },
   {
     id: 'screen-05',
@@ -121,7 +121,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'IoT Fleet',
     wireframeSrc: '/library-bus/screens/wf_05_danh_sach_xe_ban_do.webp',
     uiSrc: '/library-bus/screens/ui_05_danh_sach_xe_ban_do.webp',
-    uiFullSrc: '/library-bus/full_screens/full_05_danh_sach_xe_ban_do.webp'
+    uiFullSrc: '/library-bus/screens/ui_05_danh_sach_xe_ban_do.webp'
   },
   {
     id: 'screen-06',
@@ -141,7 +141,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Fleet Ops',
     wireframeSrc: '/library-bus/screens/wf_06_chi_tiet_xe_buyt.webp',
     uiSrc: '/library-bus/screens/ui_06_chi_tiet_xe_buyt.webp',
-    uiFullSrc: '/library-bus/full_screens/full_06_chi_tiet_xe_buyt.webp'
+    uiFullSrc: '/library-bus/screens/ui_06_chi_tiet_xe_buyt.webp'
   },
   {
     id: 'screen-07',
@@ -161,7 +161,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Librarian',
     wireframeSrc: '/library-bus/screens/wf_07_dashboard_quan_ly_thu_vien.webp',
     uiSrc: '/library-bus/screens/ui_07_dashboard_quan_ly_thu_vien.webp',
-    uiFullSrc: '/library-bus/full_screens/full_07_dashboard_quan_ly_thu_vien.webp'
+    uiFullSrc: '/library-bus/screens/ui_07_dashboard_quan_ly_thu_vien.webp'
   },
   {
     id: 'screen-08',
@@ -181,7 +181,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Community',
     wireframeSrc: '/library-bus/screens/wf_08_danh_sach_quyen_gop_sach.webp',
     uiSrc: '/library-bus/screens/ui_08_danh_sach_quyen_gop_sach.webp',
-    uiFullSrc: '/library-bus/full_screens/full_08_danh_sach_quyen_gop_sach.webp'
+    uiFullSrc: '/library-bus/screens/ui_08_danh_sach_quyen_gop_sach.webp'
   },
   {
     id: 'screen-09',
@@ -201,7 +201,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Transaction',
     wireframeSrc: '/library-bus/screens/wf_09_tao_phieu_muon_sach.webp',
     uiSrc: '/library-bus/screens/ui_09_tao_phieu_muon_sach.webp',
-    uiFullSrc: '/library-bus/full_screens/full_09_tao_phieu_muon_sach.webp'
+    uiFullSrc: '/library-bus/screens/ui_09_tao_phieu_muon_sach.webp'
   },
   {
     id: 'screen-10',
@@ -221,7 +221,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'ACID Lock',
     wireframeSrc: '/library-bus/screens/wf_10_tao_dat_truoc_sach.webp',
     uiSrc: '/library-bus/screens/ui_10_tao_dat_truoc_sach.webp',
-    uiFullSrc: '/library-bus/full_screens/full_10_tao_dat_truoc_sach.webp'
+    uiFullSrc: '/library-bus/screens/ui_10_tao_dat_truoc_sach.webp'
   },
   {
     id: 'screen-11',
@@ -241,7 +241,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Circulation',
     wireframeSrc: '/library-bus/screens/wf_11_dashboard_giao_dich.webp',
     uiSrc: '/library-bus/screens/ui_11_dashboard_giao_dich.webp',
-    uiFullSrc: '/library-bus/full_screens/full_11_dashboard_giao_dich.webp'
+    uiFullSrc: '/library-bus/screens/ui_11_dashboard_giao_dich.webp'
   },
   {
     id: 'screen-12',
@@ -261,7 +261,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Gamification',
     wireframeSrc: '/library-bus/screens/wf_12_dashboard_nguoi_dung.webp',
     uiSrc: '/library-bus/screens/ui_12_dashboard_nguoi_dung.webp',
-    uiFullSrc: '/library-bus/full_screens/full_12_dashboard_nguoi_dung.webp'
+    uiFullSrc: '/library-bus/screens/ui_12_dashboard_nguoi_dung.webp'
   },
   {
     id: 'screen-13',
@@ -281,7 +281,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Security',
     wireframeSrc: '/library-bus/screens/wf_13_dang_nhap.webp',
     uiSrc: '/library-bus/screens/ui_13_dang_nhap.webp',
-    uiFullSrc: '/library-bus/full_screens/full_13_dang_nhap.webp'
+    uiFullSrc: '/library-bus/screens/ui_13_dang_nhap.webp'
   },
   {
     id: 'screen-14',
@@ -301,7 +301,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Onboarding',
     wireframeSrc: '/library-bus/screens/wf_14_dang_ky.webp',
     uiSrc: '/library-bus/screens/ui_14_dang_ky.webp',
-    uiFullSrc: '/library-bus/full_screens/full_14_dang_ky.webp'
+    uiFullSrc: '/library-bus/screens/ui_14_dang_ky.webp'
   },
   {
     id: 'screen-15',
@@ -321,7 +321,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Editorial',
     wireframeSrc: '/library-bus/screens/wf_15_blog_trang_chu.webp',
     uiSrc: '/library-bus/screens/ui_15_blog_trang_chu.webp',
-    uiFullSrc: '/library-bus/full_screens/full_15_blog_trang_chu.webp'
+    uiFullSrc: '/library-bus/screens/ui_15_blog_trang_chu.webp'
   },
   {
     id: 'screen-16',
@@ -341,7 +341,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Longform',
     wireframeSrc: '/library-bus/screens/wf_16_blog_chi_tiet_bai_viet.webp',
     uiSrc: '/library-bus/screens/ui_16_blog_chi_tiet_bai_viet.webp',
-    uiFullSrc: '/library-bus/full_screens/full_16_blog_chi_tiet_bai_viet.webp'
+    uiFullSrc: '/library-bus/screens/ui_16_blog_chi_tiet_bai_viet.webp'
   },
   {
     id: 'screen-17',
@@ -361,7 +361,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Telemetry',
     wireframeSrc: '/library-bus/screens/wf_17_thong_bao.webp',
     uiSrc: '/library-bus/screens/ui_17_thong_bao.webp',
-    uiFullSrc: '/library-bus/full_screens/full_17_thong_bao.webp'
+    uiFullSrc: '/library-bus/screens/ui_17_thong_bao.webp'
   },
   {
     id: 'screen-18',
@@ -381,7 +381,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Data Analytics',
     wireframeSrc: '/library-bus/screens/wf_18_analytics_dashboard.webp',
     uiSrc: '/library-bus/screens/ui_18_analytics_dashboard.webp',
-    uiFullSrc: '/library-bus/full_screens/full_18_analytics_dashboard.webp'
+    uiFullSrc: '/library-bus/screens/ui_18_analytics_dashboard.webp'
   },
   {
     id: 'screen-19',
@@ -401,7 +401,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Support',
     wireframeSrc: '/library-bus/screens/wf_19_faq.webp',
     uiSrc: '/library-bus/screens/ui_19_faq.webp',
-    uiFullSrc: '/library-bus/full_screens/full_19_faq.webp'
+    uiFullSrc: '/library-bus/screens/ui_19_faq.webp'
   },
   {
     id: 'screen-20',
@@ -421,7 +421,7 @@ export const LIBRARY_BUS_20_SCREENS: LibraryBusScreenItem[] = [
     badge: 'Community',
     wireframeSrc: '/library-bus/screens/wf_20_lien_he.webp',
     uiSrc: '/library-bus/screens/ui_20_lien_he.webp',
-    uiFullSrc: '/library-bus/full_screens/full_20_lien_he.webp'
+    uiFullSrc: '/library-bus/screens/ui_20_lien_he.webp'
   }
 ];
 

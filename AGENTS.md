@@ -31,3 +31,21 @@ When generating, editing, or reviewing prose in this repository (documentation, 
 
 5. **Preserve Integrity**:
    - Keep all factual data, metrics, code blocks, URLs, schema fields, and technical names exact and unmodified.
+
+## UI/UX Pro Max & Visual Standards
+
+When implementing or refining interfaces, follow `ui-ux-pro-max` guidelines and the official 4-color palette:
+
+1. **4-Color Palette Foundation**:
+   - Primary Cyan: `#9BE7FA` (hero accents, primary actions, active tabs)
+   - Ice Light Tint: `#C8EEF7` (card borders, badge backgrounds, surface tint)
+   - Soft Butter Gold: `#FFE485` (soft KPI highlights, secondary badges)
+   - Amber Gold: `#FFD14C` (status indicators, spinners, key focal callouts)
+
+2. **UI/UX Pro Max Checklist**:
+   - Strictly SVG icons (Lucide React), never raw emojis as UI icons.
+   - Clickable targets meet 44×44px minimum touch size with `cursor-pointer`.
+   - Text contrast maintains 4.5:1 minimum (WCAG AA).
+   - Smooth 150-300ms transitions with easing.
+   - Responsive layouts without horizontal scrolling (375px to 1440px).
+

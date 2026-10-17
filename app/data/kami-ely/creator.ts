@@ -363,7 +363,7 @@ export const creator180dTelemetry = {
   videoSales: { gmv: '872,2 Triệu đ', shareGmv: '15.04%', units: '5.2k SP', shareUnits: '13.24%' },
   showcaseSales: { gmv: '0 đ', shareGmv: '0%', units: '0 SP', shareUnits: '0%' },
 
-  // 14-point bi-weekly trend matching FastMoss telemetry curve in Screenshots 080501 - 080640
+  // 14-point bi-weekly trend matching telemetry curve in Screenshots 080501 - 080640
   weeklyTrajectory: [
     { period: '09/03', liveGmv: 4.5, videoGmv: 0.8, totalGmv: 5.3, units: 35, views: 8200 },
     { period: '23/03', liveGmv: 42.0, videoGmv: 12.0, totalGmv: 54.0, units: 360, views: 75000 },

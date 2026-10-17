@@ -28,13 +28,6 @@ export function LibraryBusHero({
     <header className="py-16 md:py-24 border-b border-slate-200/80 dark:border-slate-800">
       <div className="page-container space-y-8">
         <div className="max-w-4xl space-y-5">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="editorial-kicker">
-              {isEn ? 'SYSTEM GUIDELINES · ARENA MULTIMEDIA FORMAT' : 'QUY CHUẨN THIẾT KẾ & BÁO CÁO PHÂN TÍCH HỆ THỐNG'}
-            </span>
-            <span className="text-xs font-mono text-slate-400 dark:text-slate-500">• DJANGO & REDIS TELEMETRY</span>
-          </div>
-          
           <h1 className="editorial-section-title text-3xl sm:text-5xl font-black leading-tight tracking-tight text-slate-950 dark:text-white">
             {isEn ? 'Library Bus System:' : 'Tủ Sách Lưu Động (Library Bus):'} <br />
             <span className="text-[#0D7287] dark:text-[#9BE7FA]">
@@ -44,8 +37,8 @@ export function LibraryBusHero({
           
           <p className="editorial-lead text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl dark:text-slate-300">
             {isEn 
-              ? 'Complete 3-Chapter System Guidelines adapted from Arena Multimedia. Features UX Research, UI Components, Website Design, interactive architecture graph and pessimistic locking telemetry.'
-              : 'Trình bày theo 3 chương: Chương 01 Nghiên cứu UX; Chương 02 UI Components; Chương 03 Thiết kế 8 màn hình Website, trình diễn kiến trúc Django và cơ chế khóa bi quan.'}
+              ? 'The mobile library web platform provides core functionalities including real-time catalog and inventory lookup across bus fleets, advance book reservations and borrowing at 48 GPS stops, live route tracking, reader profile management, and automated due-date notifications.'
+              : 'Hệ thống web thư viện lưu động cung cấp các chức năng: tra cứu danh mục và tình trạng tồn kho sách thời gian thực theo từng trạm xe, đặt trước và mượn trả sách tại 48 điểm dừng GPS, theo dõi lộ trình di chuyển của đội xe buýt, cùng cổng thông tin quản lý hồ sơ độc giả, lịch sử mượn và thông báo nhắc hẹn tự động.'}
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">

@@ -3,6 +3,7 @@ import { RowDataPacket } from 'mysql2';
 import fs from 'fs';
 import { DEFAULT_PROFILE, DEFAULT_PROJECTS } from '../defaultData';
 import { translations } from '../data/translations';
+import { safeJsonParse } from './security';
 import {
   shopOverviewKPIs,
   creatorProfile,
@@ -18,6 +19,47 @@ import {
 let pool: Pool | null = null;
 let _isInitialized = false;
 let rateLimitTableReady = false;
+
+// ==========================================
+// Database Circuit Breaker
+// Ngăn chặn nghẽn I/O khi MySQL rớt mạng hoặc host không phản hồi
+// ==========================================
+let dbDownUntil = 0;
+const NET_ERR = /ECONNREFUSED|ETIMEDOUT|ENOTFOUND|EHOSTUNREACH|ENETUNREACH|EAI_AGAIN/;
+
+export function resetDbCircuitBreaker(): void {
+  dbDownUntil = 0;
+}
+
+export function isDbCircuitBroken(): boolean {
+  return Date.now() < dbDownUntil;
+}
+
+function guardPool(p: Pool): Pool {
+  const guarded = new Set(['query', 'execute', 'getConnection']);
+  return new Proxy(p, {
+    get(target, prop) {
+      const val = Reflect.get(target, prop, target) as unknown;
+      if (typeof val !== 'function') return val;
+      const fn = val as (..._a: unknown[]) => Promise<unknown>;
+      if (!guarded.has(String(prop))) return fn.bind(target);
+      return async (...args: unknown[]) => {
+        if (Date.now() < dbDownUntil) {
+          throw new Error('MySQL tạm thời không khả dụng (Circuit Breaker đang kích hoạt)');
+        }
+        try {
+          return await fn.apply(target, args);
+        } catch (err) {
+          const msg = err instanceof Error ? `${(err as { code?: string }).code ?? ''} ${err.message}` : String(err);
+          if (NET_ERR.test(msg)) {
+            dbDownUntil = Date.now() + 30000;
+          }
+          throw err;
+        }
+      };
+    },
+  });
+}
 
 function getSslCaConfig(): string | undefined {
   const rawCa = process.env.MYSQL_SSL_CA;
@@ -70,7 +112,7 @@ export function buildMysqlPoolConfig(databaseUrl?: string): PoolOptions {
       10
     );
     const connectTimeout = parseInt(
-      process.env.MYSQL_CONNECT_TIMEOUT || process.env.DB_CONNECT_TIMEOUT || '5000',
+      process.env.MYSQL_CONNECT_TIMEOUT || process.env.DB_CONNECT_TIMEOUT || '1000',
       10
     );
 
@@ -101,7 +143,7 @@ export function buildMysqlPoolConfig(databaseUrl?: string): PoolOptions {
     10
   );
   const connectTimeout = parseInt(
-    process.env.MYSQL_CONNECT_TIMEOUT || process.env.DB_CONNECT_TIMEOUT || '5000',
+    process.env.MYSQL_CONNECT_TIMEOUT || process.env.DB_CONNECT_TIMEOUT || '1000',
     10
   );
 
@@ -158,7 +200,7 @@ export function getDbPool(): Pool | null {
   try {
     const databaseUrl = process.env.DATABASE_URL;
     const config = buildMysqlPoolConfig(databaseUrl);
-    pool = mysql.createPool(config);
+    pool = guardPool(mysql.createPool(config));
     return pool;
   } catch (err) {
     console.warn('[MySQL] Could not initialize connection pool:', err instanceof Error ? err.message : String(err));
@@ -171,6 +213,7 @@ export function getDbPool(): Pool | null {
  */
 export async function testDbConnection(): Promise<{ connected: boolean; message: string }> {
   try {
+    resetDbCircuitBreaker();
     const p = getDbPool();
     if (!p) {
       return { connected: false, message: 'MySQL Pool is not available.' };
@@ -887,7 +930,7 @@ export async function getDbCache<T>(key: string): Promise<T | null> {
       p.query('DELETE FROM portfolio_cache WHERE cache_key = ?', [key]).catch(() => {});
       return null;
     }
-    return JSON.parse(r.data_json) as T;
+    return safeJsonParse<T>(r.data_json, null as any);
   } catch {
     return null;
   }
@@ -1050,7 +1093,7 @@ export async function getDbTikTokOverview() {
       let creator: any = creatorProfile;
       for (const r of rows) {
         if (r.entity_type === 'shop') {
-          shop = r.metrics_json ? JSON.parse(r.metrics_json) : {
+          shop = r.metrics_json ? safeJsonParse(r.metrics_json, shopOverviewKPIs) : {
             totalGmvAllTime: r.total_gmv_all_time,
             totalUnitsAllTime: r.total_units_all_time,
             activeSkus: Number(r.active_skus),
@@ -1072,7 +1115,7 @@ export async function getDbTikTokOverview() {
             period180dGmv: r.period_180d_gmv,
           };
         } else if (r.entity_type === 'creator') {
-          creator = r.metrics_json ? JSON.parse(r.metrics_json) : {
+          creator = r.metrics_json ? safeJsonParse(r.metrics_json, creatorProfile) : {
             name: r.entity_name,
             totalGmv: r.total_gmv_all_time,
             totalUnitsSold: r.total_units_all_time,
@@ -1148,8 +1191,8 @@ export async function getDbTikTokDataScopes() {
         periodEn: String(r.period_en || ''),
         totalGmv: String(r.total_gmv || ''),
         totalUnits: String(r.total_units || ''),
-        keyHighlights: r.key_highlights_json ? JSON.parse(r.key_highlights_json) : [],
-        screenshotIds: r.screenshot_ids_json ? JSON.parse(r.screenshot_ids_json) : [],
+        keyHighlights: r.key_highlights_json ? safeJsonParse(r.key_highlights_json, []) : [],
+        screenshotIds: r.screenshot_ids_json ? safeJsonParse(r.screenshot_ids_json, []) : [],
       }));
     }
     return dataScopesList;

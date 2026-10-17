@@ -24,8 +24,8 @@ export default function ScienceHypothesisSection({ isEn, handleExport }: Science
         </h2>
         <p className="editorial-lead text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-4xl">
           {isEn
-            ? 'A senior analyst does not blindly parrot dashboard KPIs. We audited FastMoss’s reported claim that "Video GPM is 4.5x higher than Live", and uncovered critical metric denominator mismatches.'
-            : 'Nhà phân tích dữ liệu chuyên nghiệp không bao giờ sao chép thụ động các con số trên dashboard. Chúng tôi kiểm chứng lại nhận định của FastMoss về việc &quot;GPM Video gấp 4.5 lần Live&quot; và phát hiện lỗi không đồng nhất mẫu số đo lường.'}
+            ? 'A senior analyst does not blindly parrot dashboard KPIs. We audited the reported claim that "Video GPM is 4.5x higher than Live", and uncovered critical metric denominator mismatches.'
+            : 'Nhà phân tích dữ liệu chuyên nghiệp không bao giờ sao chép thụ động các con số trên dashboard. Chúng tôi kiểm chứng lại nhận định về việc &quot;GPM Video gấp 4.5 lần Live&quot; và phát hiện lỗi không đồng nhất mẫu số đo lường.'}
         </p>
       </div>
 
@@ -43,8 +43,8 @@ export default function ScienceHypothesisSection({ isEn, handleExport }: Science
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
             {isEn 
-              ? 'FastMoss reported 28-day snapshot shows Video earning 135k VND per 1k views vs Live 30k VND, leading to premature recommendations to shift all budget to Video.' 
-              : 'Thẻ FastMoss 28 ngày báo GPM Video 135k so với Live 30k. Người làm dữ liệu non tay sẽ lập tức đề xuất: &quot;Cắt giảm giờ Live, dồn toàn bộ nguồn lực sang làm Video&quot;.'}
+              ? 'Reported 28-day snapshot shows Video earning 135k VND per 1k views vs Live 30k VND, leading to premature recommendations to shift all budget to Video.' 
+              : 'Thẻ báo cáo 28 ngày ghi nhận GPM Video 135k so với Live 30k. Người làm dữ liệu non tay sẽ lập tức đề xuất: &quot;Cắt giảm giờ Live, dồn toàn bộ nguồn lực sang làm Video&quot;.'}
           </p>
         </div>
 

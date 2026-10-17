@@ -12,13 +12,13 @@ export default function ArchitecturePage() {
   return (
     <div className="relative w-screen h-screen flex flex-col bg-slate-950 text-slate-100 overflow-hidden">
       {/* Top Navigation Bar */}
-      <header className="h-12 bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 flex items-center justify-between z-10 shrink-0">
+      <header className="h-14 bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 flex items-center justify-between z-10 shrink-0">
         <div className="flex items-center gap-3">
           <Link
-            href="/projects/proj-library-bus"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors"
+            href="/projects/library-bus"
+            className="min-h-[44px] inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-[#9BE7FA] px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700/80 transition-colors border border-slate-700 hover:border-[#9BE7FA]/50 cursor-pointer"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
+            <ArrowLeft className="w-3.5 h-3.5 text-[#9BE7FA]" />
             <span>Về Case Study</span>
           </Link>
           <span className="text-slate-600">|</span>
@@ -30,7 +30,7 @@ export default function ArchitecturePage() {
           href="/library-bus/architecture-graph.html"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#9BE7FA] hover:text-white px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 transition-colors"
+          className="min-h-[44px] inline-flex items-center gap-1.5 text-xs font-semibold text-[#074553] bg-[#9BE7FA] hover:bg-[#C8EEF7] px-3.5 py-2 rounded-xl transition-all cursor-pointer shadow-xs border border-[#9BE7FA]"
         >
           <span>HTML Tĩnh Gốc</span>
           <ExternalLink className="w-3.5 h-3.5" />

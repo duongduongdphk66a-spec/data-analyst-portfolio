@@ -144,6 +144,18 @@ describe('Security Utility Module', () => {
       });
       expect(getClientIp(req)).toBe('203.0.113.50');
     });
+
+    it('extracts the last appended IP in x-forwarded-for when TRUST_PROXY=true to neutralize spoofed prepended IPs', async () => {
+      const { getClientIp } = await import('../app/lib/auth');
+      process.env.TRUST_PROXY = 'true';
+      const req = new Request('http://localhost/api/auth/login', {
+        headers: {
+          'x-forwarded-for': '203.0.113.195, 198.51.100.50',
+        },
+      });
+      // Attacker pre-pended 203.0.113.195, proxy appended 198.51.100.50
+      expect(getClientIp(req)).toBe('198.51.100.50');
+    });
   });
 });
 

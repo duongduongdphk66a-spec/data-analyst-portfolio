@@ -51,10 +51,10 @@ export default function KamiElyDataScopeMatrix({
 
 
   return (
-    <section id="data-scope-matrix" className="w-full rounded-2xl border border-slate-200 bg-white p-5 sm:p-8 shadow-xl dark:border-slate-800/80 dark:bg-slate-950/90 dark:shadow-2xl space-y-6">
+    <section id="data-scope-matrix" className="w-full min-w-0 max-w-full overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-950/90 p-4 sm:p-6 shadow-xl dark:shadow-2xl space-y-6">
       {/* HEADER & DATA INTEGRITY BADGES */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-5">
-        <div className="space-y-1.5">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5 min-w-0">
+        <div className="space-y-1.5 min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-nowrap whitespace-nowrap overflow-x-auto scrollbar-none">
             <span className="px-2.5 py-1 text-[11px] font-mono font-bold uppercase tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/30 rounded-md shrink-0">
               {lang === 'vi' ? 'Kiểm Toán & Đồng Bộ Hóa Dữ Liệu (SSOT)' : 'Data Governance & Reconciliation (SSOT)'}
@@ -76,7 +76,7 @@ export default function KamiElyDataScopeMatrix({
         </div>
 
         {/* QUICK SUMMARY PILLS */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 shrink-0">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 w-full xl:w-auto min-w-0">
           <div className="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800">
             <div className="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">
               {lang === 'vi' ? 'GMV Toàn Shop (180d)' : 'Shop GMV (180d)'}

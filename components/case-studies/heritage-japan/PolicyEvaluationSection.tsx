@@ -28,15 +28,11 @@ export function PolicyEvaluationSection({
 }: PolicyEvaluationSectionProps = {}) {
   const { language } = useLanguage();
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
-  const [selectedPillarId, setSelectedPillarId] = useState<string>('policy-1');
   const [showCounterfactual, setShowCounterfactual] = useState<boolean>(true);
-
-  const activePillar = POLICY_EVALUATION_MATRIX.find((p) => p.id === selectedPillarId) || POLICY_EVALUATION_MATRIX[0];
 
   // Slice data for counterfactual view (2003 - 2019 pre-covid to cleanly evaluate the policy shock)
   const sourceData = touristsData && touristsData.length > 0 ? touristsData : defaultTouristsData;
   const preCovidData = sourceData.filter((d: any) => Number(d.year) >= 2003 && Number(d.year) <= 2019);
-
 
   return (
     <section id="danh-gia-hieu-qua" className="py-16 md:py-24 bg-white border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
@@ -173,83 +169,69 @@ export function PolicyEvaluationSection({
           </div>
         </div>
 
-        {/* 4 Pillars Policy Evaluation Scorecard */}
-        <div className="space-y-4">
+        {/* 4 Pillars Policy Evaluation Scorecard - Displayed Vertically */}
+        <div className="space-y-6">
           <h4 className="text-base sm:text-lg font-black text-slate-950 dark:text-white flex items-center gap-2">
             <Target className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
             <span>{isEn ? 'Comprehensive 4 Policy Scorecards' : 'Đánh Giá Toàn Diện 4 Chính Sách (Policy Scorecards)'}</span>
           </h4>
 
-          {/* Pillar Selector Tabs */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-            {POLICY_EVALUATION_MATRIX.map((item) => {
-              const isSelected = item.id === selectedPillarId;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setSelectedPillarId(item.id)}
-                  className={`p-3 rounded-xl text-left transition-all border cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#0D7287] text-white border-[#0D7287] shadow-sm dark:bg-[#9BE7FA] dark:text-slate-950 dark:border-[#9BE7FA]'
-                      : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-850 dark:text-slate-200 dark:border-slate-800'
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-1 mb-1">
-                    <span className="text-xs font-mono font-bold uppercase opacity-80">
+          {/* All 4 Policy Cards Stacked Vertically */}
+          <div className="space-y-4">
+            {POLICY_EVALUATION_MATRIX.map((item) => (
+              <div 
+                key={item.id}
+                className="p-6 rounded-2xl bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 shadow-xs space-y-4"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-md bg-[#0D7287]/10 text-[#0D7287] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA]">
                       {item.id.replace('policy-', '0')}
                     </span>
-                    <span className="text-xs font-black">
-                      {'★'.repeat(item.impactScore)}
-                    </span>
+                    <h5 className="text-base sm:text-lg font-black text-slate-950 dark:text-white">
+                      {isEn ? item.pillarEn : item.pillarVi}
+                    </h5>
                   </div>
-                  <p className="text-xs font-extrabold line-clamp-1">
-                    {isEn ? item.pillarEn : item.pillarVi}
-                  </p>
-                </button>
-              );
-            })}
-          </div>
+                  <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800 w-fit">
+                    <span className="text-amber-500 font-black tracking-widest">{'★'.repeat(item.impactScore)}</span>
+                    <span className="text-slate-300 dark:text-slate-700">|</span>
+                    <span>{isEn ? 'Execution Impact:' : 'Hiệu quả thực thi:'}</span>
+                    <span className="font-mono font-black">{item.impactScore}/5 {isEn ? 'Points' : 'Điểm'}</span>
+                  </div>
+                </div>
 
-          {/* Selected Pillar Detailed Scorecard Card */}
-          <div className="p-6 rounded-2xl bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 shadow-xs">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-4 border-b border-slate-200 dark:border-slate-800">
-              <h5 className="text-base sm:text-lg font-black text-slate-950 dark:text-white">
-                {isEn ? activePillar.pillarEn : activePillar.pillarVi}
-              </h5>
-              <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800 w-fit">
-                <span>Hiệu quả thực thi:</span>
-                <span className="font-mono font-black">{activePillar.impactScore}/5 Điểm</span>
-              </div>
-            </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                  <div className="space-y-2 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+                    <span className="text-xs uppercase font-bold text-slate-500 block">
+                      {isEn ? 'Specific Policy Actions' : 'Biện pháp triển khai cụ thể'}
+                    </span>
+                    <p className="text-slate-800 dark:text-slate-200 leading-relaxed font-medium">
+                      {isEn ? item.actionEn : item.actionVi}
+                    </p>
+                  </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
-              <div className="space-y-2 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
-                <span className="text-xs uppercase font-bold text-slate-500 block">Biện pháp triển khai cụ thể</span>
-                <p className="text-slate-800 dark:text-slate-200 leading-relaxed font-medium">
-                  {isEn ? activePillar.actionEn : activePillar.actionVi}
-                </p>
-              </div>
+                  <div className="space-y-2 p-3.5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/60">
+                    <span className="text-xs uppercase font-bold text-emerald-700 dark:text-emerald-400 block flex items-center gap-1">
+                      <Check className="w-3.5 h-3.5" />
+                      <span>{isEn ? 'Quantifiable Evidence' : 'Bằng chứng định lượng đo lường được'}</span>
+                    </span>
+                    <p className="text-slate-800 dark:text-slate-200 leading-relaxed">
+                      {isEn ? item.quantEvidenceEn : item.quantEvidenceVi}
+                    </p>
+                  </div>
 
-              <div className="space-y-2 p-3.5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/60">
-                <span className="text-xs uppercase font-bold text-emerald-700 dark:text-emerald-400 block flex items-center gap-1">
-                  <Check className="w-3.5 h-3.5" />
-                  <span>Bằng chứng định lượng đo lường được</span>
-                </span>
-                <p className="text-slate-800 dark:text-slate-200 leading-relaxed">
-                  {isEn ? activePillar.quantEvidenceEn : activePillar.quantEvidenceVi}
-                </p>
+                  <div className="space-y-2 p-3.5 rounded-xl bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/60">
+                    <span className="text-xs uppercase font-bold text-rose-700 dark:text-rose-400 block flex items-center gap-1">
+                      <AlertCircle className="w-3.5 h-3.5" />
+                      <span>{isEn ? 'Negative Externalities & Unintended Costs' : 'Ngoại ứng tiêu cực & Chi phí ngoài dự kiến'}</span>
+                    </span>
+                    <p className="text-slate-800 dark:text-slate-200 leading-relaxed">
+                      {isEn ? item.unintendedCostEn : item.unintendedCostVi}
+                    </p>
+                  </div>
+                </div>
               </div>
-
-              <div className="space-y-2 p-3.5 rounded-xl bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/60">
-                <span className="text-xs uppercase font-bold text-rose-700 dark:text-rose-400 block flex items-center gap-1">
-                  <AlertCircle className="w-3.5 h-3.5" />
-                  <span>Ngoại ứng tiêu cực & Chi phí ngoài dự kiến</span>
-                </span>
-                <p className="text-slate-800 dark:text-slate-200 leading-relaxed">
-                  {isEn ? activePillar.unintendedCostEn : activePillar.unintendedCostVi}
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

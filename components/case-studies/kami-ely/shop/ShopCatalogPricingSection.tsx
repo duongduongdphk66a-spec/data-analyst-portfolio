@@ -19,7 +19,7 @@ export interface ShopCatalogPricingSectionProps {
 export default function ShopCatalogPricingSection({
   isEn: propIsEn,
   copyDeepLink: _copyDeepLink,
-  openProofScreenshot,
+  openProofScreenshot: _openProofScreenshot,
   shopCategoryData: _shopCategoryData,
   categoryMetric: _categoryMetric,
   setCategoryMetric: _setCategoryMetric,
@@ -251,27 +251,6 @@ export default function ShopCatalogPricingSection({
             ))}
           </div>
 
-          {/* SWEET SPOT PRICE TIER BAR */}
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800 space-y-3">
-            <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-              <span className="font-bold text-slate-900 dark:text-white">
-                {lang === 'vi'
-                  ? 'Phân Bổ Phân Khúc Giá (Sweet Spot 100.000đ – 200.000đ chiếm 67,37% GMV; Nhóm >75.000đ chiếm 98,9% GMV)'
-                  : 'Price Tier Distribution (100k–200k VND Sweet Spot drives 67.37% GMV; >75k VND drives 98.9% GMV)'}
-              </span>
-              <span className="font-mono text-sky-700 dark:text-sky-400 font-bold">AOV Cơ Sở: 128.600 đ → AOV Khuyến Mãi: 150.991 đ</span>
-            </div>
-            <div className="w-full h-3 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden flex">
-              <div className="bg-amber-400 h-full" style={{ width: '20.8%' }} title="< 100k VNĐ: 20,80%" />
-              <div className="bg-sky-500 h-full" style={{ width: '67.37%' }} title="100k - 200k VNĐ: 67,37%" />
-              <div className="bg-emerald-500 h-full" style={{ width: '11.83%' }} title="> 200k VNĐ: 11,83%" />
-            </div>
-            <div className="flex flex-wrap justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
-              <span>🟡 &lt; 100k VNĐ: 20,80% GMV (1,28 Tỉ đ • 9.898 SP)</span>
-              <span className="text-sky-700 dark:text-sky-300 font-bold">🔵 100k – 200k VNĐ (Vùng giá vàng): 67,37% GMV (4,13 Tỉ đ • 27.276 SP)</span>
-              <span>🟢 200k – 300k VNĐ: 11,83% GMV (726,07 Tr đ • 3.054 SP)</span>
-            </div>
-          </div>
 
           {/* HERO SKU SELF-RELIANCE TABLE */}
           <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">

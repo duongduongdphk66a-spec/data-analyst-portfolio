@@ -189,9 +189,9 @@ export default function AdminPage() {
         <div className="flex items-center px-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 gap-2 overflow-x-auto shrink-0 pt-2">
           <button
             onClick={() => setActiveTab('profile')}
-            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-extrabold rounded-t-xl transition-all cursor-pointer border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-extrabold rounded-t-xl transition-all cursor-pointer border-b-2 whitespace-nowrap ${
               activeTab === 'profile'
-                ? 'border-[#0D7287] text-[#0D7287] dark:border-[#9BE7FA] dark:text-[#9BE7FA] bg-[#C4EEF9]/20 dark:bg-slate-800/60'
+                ? 'border-[#074553] text-[#074553] dark:border-[#9BE7FA] dark:text-[#9BE7FA] bg-[#C8EEF7]/30 dark:bg-slate-800/60'
                 : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
@@ -201,9 +201,9 @@ export default function AdminPage() {
 
           <button
             onClick={() => setActiveTab('texts')}
-            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-extrabold rounded-t-xl transition-all cursor-pointer border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-extrabold rounded-t-xl transition-all cursor-pointer border-b-2 whitespace-nowrap ${
               activeTab === 'texts'
-                ? 'border-[#0D7287] text-[#0D7287] dark:border-[#9BE7FA] dark:text-[#9BE7FA] bg-[#C4EEF9]/20 dark:bg-slate-800/60'
+                ? 'border-[#074553] text-[#074553] dark:border-[#9BE7FA] dark:text-[#9BE7FA] bg-[#C8EEF7]/30 dark:bg-slate-800/60'
                 : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
@@ -213,9 +213,9 @@ export default function AdminPage() {
 
           <button
             onClick={() => setActiveTab('projects')}
-            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-extrabold rounded-t-xl transition-all cursor-pointer border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-extrabold rounded-t-xl transition-all cursor-pointer border-b-2 whitespace-nowrap ${
               activeTab === 'projects'
-                ? 'border-[#0D7287] text-[#0D7287] dark:border-[#9BE7FA] dark:text-[#9BE7FA] bg-[#C4EEF9]/20 dark:bg-slate-800/60'
+                ? 'border-[#074553] text-[#074553] dark:border-[#9BE7FA] dark:text-[#9BE7FA] bg-[#C8EEF7]/30 dark:bg-slate-800/60'
                 : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
@@ -225,9 +225,9 @@ export default function AdminPage() {
 
           <button
             onClick={() => setActiveTab('database')}
-            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-extrabold rounded-t-xl transition-all cursor-pointer border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-extrabold rounded-t-xl transition-all cursor-pointer border-b-2 whitespace-nowrap ${
               activeTab === 'database'
-                ? 'border-[#0D7287] text-[#0D7287] dark:border-[#9BE7FA] dark:text-[#9BE7FA] bg-[#C4EEF9]/20 dark:bg-slate-800/60'
+                ? 'border-[#074553] text-[#074553] dark:border-[#9BE7FA] dark:text-[#9BE7FA] bg-[#C8EEF7]/30 dark:bg-slate-800/60'
                 : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >

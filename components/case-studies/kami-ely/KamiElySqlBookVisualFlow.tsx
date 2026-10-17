@@ -596,20 +596,10 @@ FROM dim_creators_90d;`
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-3xl">
             {lang === 'vi'
-              ? 'Mô hình hóa toàn bộ 8 chương phương pháp luận từ sách SQL for Data Analysis bằng biểu đồ thanh tỉ lệ, ảnh chụp FastMoss thực tế và truy vấn SQL có thể mở rộng.'
-              : 'End-to-end operationalization of all 8 chapters from SQL for Data Analysis via proportional bar charts, real FastMoss captures, and executable SQL snippets.'}
+              ? 'Mô hình hóa toàn bộ 8 chương phương pháp luận từ sách SQL for Data Analysis bằng biểu đồ thanh tỉ lệ, ảnh chụp thực tế và truy vấn SQL có thể mở rộng.'
+              : 'End-to-end operationalization of all 8 chapters from SQL for Data Analysis via proportional bar charts, real telemetry captures, and executable SQL snippets.'}
           </p>
         </div>
-
-        <button
-          type="button"
-          onClick={() => setShowSql((prev) => !prev)}
-          className="self-start lg:self-auto px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-emerald-800 border border-emerald-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-emerald-300 dark:border-emerald-500/30 text-xs font-mono font-bold transition cursor-pointer shrink-0"
-        >
-          💻 {showSql
-            ? (isEn ? 'Hide SQL Query' : 'Ẩn Truy Vấn SQL')
-            : (isEn ? 'View Stage SQL Query' : 'Xem Truy Vấn SQL Của Giai Đoạn Này')}
-        </button>
       </div>
 
       {/* 8-STAGE STEPPER PILLS */}
@@ -642,7 +632,16 @@ FROM dim_creators_90d;`
         {/* LEFT 7 COLS: KPIs + VISUAL BAR CHART */}
         <div className="lg:col-span-7 rounded-2xl bg-slate-50 border border-slate-200 p-5 flex flex-col justify-between space-y-5 dark:bg-slate-900/70 dark:border-slate-800">
           <div className="space-y-3">
-            <div className="text-xs font-mono text-sky-700 dark:text-sky-400 font-bold uppercase">{current.chapter[lang]}</div>
+            <div className="flex items-center justify-between">
+              <div className="text-xs font-mono text-sky-700 dark:text-sky-400 font-bold uppercase">{current.chapter[lang]}</div>
+              <button
+                type="button"
+                onClick={() => setShowSql((prev) => !prev)}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+              >
+                {showSql ? (isEn ? 'Hide SQL' : 'Ẩn SQL') : (isEn ? 'View SQL' : 'Xem SQL')}
+              </button>
+            </div>
             <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white leading-snug">{current.title[lang]}</h3>
 
             {/* 3 COMPACT KPI PILLS */}

@@ -1,9 +1,6 @@
 import React from 'react';
 import HeroSection from '@/components/site/HeroSection';
-import DashboardSection from '@/components/site/DashboardSection';
 import ProjectsSection from '@/components/site/ProjectsSection';
-import AboutSection from '@/components/site/AboutSection';
-import CVSection from '@/components/site/CVSection';
 import { getServerLanguage, getServerPortfolioData } from '../lib/serverData';
 
 export async function generateMetadata() {
@@ -23,15 +20,8 @@ export default function HomePage() {
       {/* 1. KHỐI MỞ ĐẦU & ĐIỂM NHẤN TƯƠNG TÁC 3 DỰ ÁN */}
       <HeroSection />
 
-      {/* 2. BỐN THẺ KPI NGỮ CẢNH & MA TRẬN ĐỐI SÁNH DỰ ÁN */}
-      <DashboardSection />
-
-      {/* 3. DANH MỤC CASE STUDIES CHI TIẾT */}
+      {/* 2. MA TRẬN ĐỐI SÁNH & DANH MỤC 3 DỰ ÁN THỰC CHIẾN */}
       <ProjectsSection />
-
-      {/* 4. KỸ NĂNG PHÂN TÍCH & HỒ SƠ NĂNG LỰC (CV) */}
-      <AboutSection />
-      <CVSection />
     </div>
   );
 }

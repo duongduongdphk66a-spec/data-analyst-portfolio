@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import Link from 'next/link';
+import React, { useMemo } from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { usePortfolioData } from '@/app/context/PortfolioDataContext';
 import ProjectCardItem, { type ProjectCardData } from '@/components/site/projects/ProjectCardItem';
@@ -60,8 +59,6 @@ export default function ProjectsSection({ projects: propsProjects }: ProjectsSec
   const { projects: contextProjects } = usePortfolioData();
   const projects = propsProjects || contextProjects;
 
-  const [activeFilter, setActiveFilter] = useState<'all' | 'kami-ely' | 'library-bus' | 'heritage-japan'>('all');
-
   const mergedProjects: ProjectCardData[] = useMemo(() => {
     if (!projects || projects.length === 0) return FALLBACK_FLAGSHIP_PROJECTS;
     // Đảm bảo luôn giữ đủ 3 dự án Flagship với thứ tự chuẩn
@@ -78,80 +75,32 @@ export default function ProjectsSection({ projects: propsProjects }: ProjectsSec
     return Array.from(byId.values());
   }, [projects]);
 
-  const displayedProjects = useMemo(() => {
-    if (activeFilter === 'all') return mergedProjects;
-    return mergedProjects.filter((p) => p.id === activeFilter);
-  }, [mergedProjects, activeFilter]);
-
   return (
     <section id="projects" aria-label="Flagship Case Studies" className="w-full space-y-6">
-      {/* HEADER & QUICK FILTER */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
-        <div className="space-y-1">
-          <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold uppercase bg-sky-100 text-sky-950 border border-sky-300 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30">
-            {lang === 'vi' ? 'DANH MỤC BÁO CÁO PHÂN TÍCH CHUYÊN SÂU' : 'DEEP-DIVE ANALYTICS CASE STUDIES'}
-          </span>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white pt-1">
-            {lang === 'vi'
-              ? '3 Dự Án Thực Chiến Có Dữ Liệu Kiểm Chứng & Mô Hình Tương Tác'
-              : '3 Empirical Case Studies with Auditable Data & Interactive Simulators'}
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-            {lang === 'vi'
-              ? 'Mỗi dự án đều tích hợp sẵn bộ biểu đồ trực quan, công cụ mô phỏng What-If và chế độ Đọc lướt 3 phút cho Nhà tuyển dụng.'
-              : 'Each case study features interactive charts, What-If simulators, and a 3-Minute Executive Scan mode for recruiters.'}
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-1.5">
-          {[
-            { id: 'all', label: { vi: 'Tất cả (3)', en: 'All (3)' } },
-            { id: 'kami-ely', label: { vi: '🛍️ Kami Ely SQL', en: '🛍️ Kami Ely SQL' } },
-            { id: 'library-bus', label: { vi: '🚌 Library Bus BI', en: '🚌 Library Bus BI' } },
-            { id: 'heritage-japan', label: { vi: '⛩️ Di sản Nhật Bản', en: '⛩️ Japan Heritage' } }
-          ].map((btn) => (
-            <button
-              key={btn.id}
-              type="button"
-              onClick={() => setActiveFilter(btn.id as typeof activeFilter)}
-              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition border ${
-                activeFilter === btn.id
-                  ? 'bg-sky-600 text-white border-sky-600 shadow'
-                  : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-800 hover:border-sky-500'
-              }`}
-            >
-              {btn.label[lang]}
-            </button>
-          ))}
-        </div>
+      {/* HEADER: MA TRẬN & DANH MỤC ĐỐI SÁNH DỰ ÁN */}
+      <div className="border-b border-slate-200 dark:border-slate-800 pb-4 space-y-2">
+        <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold uppercase bg-[#9BE7FA]/20 text-[#074553] border border-[#9BE7FA]/60 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700">
+          {lang === 'vi'
+            ? 'MA TRẬN NĂNG LỰC & 3 DỰ ÁN THỰC CHIẾN'
+            : 'CROSS-PROJECT MATRIX & 3 FLAGSHIP CASE STUDIES'}
+        </span>
+        <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white pt-1">
+          {lang === 'vi'
+            ? 'Đối Chiếu Quy Mô Dữ Liệu, Phát Hiện Cốt Lõi & Tác Động Kinh Doanh'
+            : 'Comparing Dataset Scale, Core Findings & Quantified Business Impact'}
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-4xl leading-relaxed">
+          {lang === 'vi'
+            ? '3 dự án thực chiến đại diện 3 lĩnh vực trọng tâm (E-Commerce SQL, Product BI & Kinh tế lượng). Mỗi dự án đều tích hợp bộ số liệu kiểm chứng, giải mã nghịch lý thực tế và mô hình tương tác What-If.'
+            : '3 empirical case studies across 3 core domains (E-Commerce SQL, Product BI & Econometrics) with auditable data, counter-intuitive findings, and interactive What-If simulators.'}
+        </p>
       </div>
 
       {/* GRID 3 THẺ CASE STUDIES */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {displayedProjects.map((project, idx) => (
+        {mergedProjects.map((project, idx) => (
           <ProjectCardItem key={project.id} project={project} index={idx} />
         ))}
-      </div>
-
-      {/* BANNER ĐIỀU HƯỚNG SANG PHÒNG THÍ NGHIỆM SQL (/LAB) */}
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="space-y-1">
-          <div className="text-xs font-mono font-bold text-emerald-800 dark:text-emerald-400 uppercase">
-            💡 {lang === 'vi' ? 'Kiểm chứng trực tiếp bằng truy vấn SQL' : 'Verify Directly with Live SQL Queries'}
-          </div>
-          <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-            {lang === 'vi'
-              ? 'Muốn tự tay chạy câu lệnh Window Functions, Cohort Retention hoặc Pareto KOC trên 18.778 bản ghi thực tế?'
-              : 'Want to run Window Functions, Cohort Retention, or Pareto KOC queries across 18,778 empirical rows yourself?'}
-          </p>
-        </div>
-        <Link
-          href="/lab"
-          className="min-h-[40px] px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-mono font-bold transition shrink-0 flex items-center justify-center gap-2 shadow"
-        >
-          <span>💻</span>
-          <span>{lang === 'vi' ? 'Mở Phòng Thí Nghiệm SQL (/lab) →' : 'Open Interactive SQL Lab (/lab) →'}</span>
-        </Link>
       </div>
     </section>
   );

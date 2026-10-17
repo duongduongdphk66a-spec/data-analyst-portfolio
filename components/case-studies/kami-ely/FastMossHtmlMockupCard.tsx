@@ -27,7 +27,7 @@ export default function FastMossHtmlMockupCard({
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
-                <span className="text-[11px] font-bold text-sky-700 dark:text-sky-400">FASTMOSS • SHOP ID: 7494498...</span>
+                <span className="text-[11px] font-bold text-sky-700 dark:text-sky-400">TELEMETRY • SHOP ID: 7494498...</span>
               </div>
               <span className="text-xs px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-bold">
                 RANK #259 CATEGORY
@@ -506,17 +506,6 @@ export default function FastMossHtmlMockupCard({
     <div
       className={`rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-950 flex flex-col justify-between space-y-3 ${className}`}
     >
-      {/* CARD TOP META */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-slate-100 text-sky-700 border border-slate-200 dark:bg-slate-900 dark:text-sky-400 dark:border-slate-800">
-            📊 HTML TELEMETRY #{screenshotId}
-          </span>
-          <span className="text-xs text-emerald-600 dark:text-emerald-400 font-mono hidden sm:inline">
-            ✓ Ground Truth
-          </span>
-        </div>
-      </div>
 
       {/* DYNAMIC HTML TELEMETRY CARD */}
       <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-950/90 dark:border-slate-800/80 transition">

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { Clock, Zap, Target, ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 export interface ProjectCardData {
@@ -49,26 +50,26 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
       en: 'CASE STUDY #1 • E-COMMERCE SQL & BI'
     },
     badgeStyle:
-      'bg-sky-100 text-sky-950 border-sky-300 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30',
+      'bg-[#C8EEF7]/40 text-[#074553] border-[#9BE7FA]/60 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700',
     readTimeTag: {
-      vi: '⏱️ Tóm tắt 30s • Đọc sâu 3 phút',
-      en: '⏱️ 30s Pitch • 3-Min Scan'
+      vi: 'Tóm tắt 30s • Đọc sâu 3 phút',
+      en: '30s Pitch • 3-Min Scan'
     },
     oneLinePitch: {
       vi: 'Kiểm toán 18.778 bản ghi SQL (8 bảng CSV + Seller Center) của gian hàng thời trang 31,6 Tỉ VNĐ để tìm lời giải cho cú rơi doanh số mùa vụ và sự quá tải của đội ngũ Livestream.',
       en: 'Audited 18,778 SQL records (8 CSVs + Seller Center) for a 31.6B VND fashion brand to solve seasonal revenue decay and livestream host burnout.'
     },
     paradoxHookTitle: {
-      vi: '⚡ Nghịch lý Dữ liệu Phát hiện (Tại sao làm nhiều hơn lại thu ít hơn?):',
-      en: '⚡ Counter-Intuitive Discovery (Why working harder yielded less):'
+      vi: 'Nghịch lý Dữ liệu Phát hiện (Tại sao làm nhiều hơn lại thu ít hơn?):',
+      en: 'Counter-Intuitive Discovery (Why working harder yielded less):'
     },
     paradoxHookBody: {
       vi: 'Đội ngũ đứng LIVE ~7,5h/ngày nhưng chỉ thu 30,2k đ/1.000 views — thấp hơn 4,5 lần so với Video ngắn (135,2k đ). Ngày spam kỷ lục 106 phiên LIVE (09/04) chỉ đạt 79,4 Tr đ, thua xa ngày phát 45 phiên chọn lọc (25/06) đạt 196,1 Tr đ (hiệu suất gấp 5,8 lần)!',
       en: 'Hosts streamed ~7.5h/day for just 30.2k VND/1k views — 4.5x lower than Short Video (135.2k). A record 106 LIVEs on Apr 09 yielded only 79.4M VND, whereas 45 focused LIVEs on Jun 25 generated 196.1M VND (5.8x higher efficiency)!'
     },
     roiHighlight: {
-      vi: '🎯 Tác động: Đẩy tốc độ LIVE tăng 3,16x (1,81M → 5,73M đ/giờ) & Mở khóa +1,18 Tỉ VNĐ/tháng',
-      en: '🎯 Impact: Lifted LIVE velocity 3.16x (1.81M → 5.73M/hr) & Unlocked +1.18B VND/mo'
+      vi: 'Tác động: Đẩy tốc độ LIVE tăng 3,16x (1,81M → 5,73M đ/giờ) & Mở khóa +1,18 Tỉ VNĐ/tháng',
+      en: 'Impact: Lifted LIVE velocity 3.16x (1.81M → 5.73M/hr) & Unlocked +1.18B VND/mo'
     },
     kpis: [
       { label: { vi: 'GMV 180d / All-Time', en: '180d / All-Time GMV' }, value: '12,74 Tỉ / 31,6 Tỉ' },
@@ -80,28 +81,24 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
         label: { vi: 'Kênh Chính Chủ @kamielyhn (90d)', en: 'Self-Operated @kamielyhn (90d)' },
         textValue: '49,31% GMV (3,03 Tỉ)',
         pct: 49.31,
-        color: 'bg-sky-500'
+        color: 'bg-[#9BE7FA]'
       },
       {
         label: { vi: '5.712 KOCs Ngoài (Top 1% = 91,5%)', en: '5,712 External KOCs (Top 1% = 91.5%)' },
         textValue: '27,84% GMV (1,71 Tỉ)',
         pct: 27.84,
-        color: 'bg-emerald-500'
+        color: 'bg-[#FFE485]'
       },
       {
         label: { vi: 'Kệ Hàng (1,17M views • CVR 0,25%)', en: 'Product Card (1.17M views • 0.25% CVR)' },
         textValue: '22,85% GMV (1,40 Tỉ)',
         pct: 22.85,
-        color: 'bg-amber-500'
+        color: 'bg-[#FFD14C]'
       }
     ],
     curiosityCta: {
-      vi: '🔍 Xem cách giải mã Nghịch lý 4,5x & Mô hình +1,18 Tỉ/th',
-      en: '🔍 See How I Solved the 4.5x Paradox & +1.18B Model'
-    },
-    secondaryAction: {
-      label: { vi: '💻 Chạy SQL (/lab)', en: '💻 Run SQL (/lab)' },
-      href: '/lab'
+      vi: 'Xem cách giải mã Nghịch lý 4,5x & Mô hình +1,18 Tỉ/th',
+      en: 'See How I Solved the 4.5x Paradox & +1.18B Model'
     }
   },
   'library-bus': {
@@ -110,26 +107,26 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
       en: 'CASE STUDY #2 • PRODUCT BI & FULL-STACK'
     },
     badgeStyle:
-      'bg-emerald-100 text-emerald-950 border-emerald-300 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30',
+      'bg-[#C8EEF7]/40 text-[#074553] border-[#9BE7FA]/60 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700',
     readTimeTag: {
-      vi: '⏱️ Tóm tắt 30s • Có Sơ đồ 30 Nodes',
-      en: '⏱️ 30s Pitch • 30-Node Graph'
+      vi: 'Tóm tắt 30s • Có Sơ đồ 30 Nodes',
+      en: '30s Pitch • 30-Node Graph'
     },
     oneLinePitch: {
       vi: 'Xây dựng nền tảng Quản trị & Phân tích Dữ liệu Thư viện Lưu động (6 Django Apps + Celery + 10 Dashboards) điều phối 7.080 lượt mượn/tháng qua 5 tuyến xe buýt.',
       en: 'Built a Full-Stack Mobile Library & Product BI platform (6 Django Apps + Celery + 10 Dashboards) orchestrating 7,080 monthly borrows across 5 bus routes.'
     },
     paradoxHookTitle: {
-      vi: '⚡ Bài toán Hóc búa (Chống xung đột tồn kho di động):',
-      en: '⚡ The Core Engineering & Analytics Bottleneck:'
+      vi: 'Bài toán Hóc búa (Chống xung đột tồn kho di động):',
+      en: 'The Core Engineering & Analytics Bottleneck:'
     },
     paradoxHookBody: {
       vi: 'Khi nhiều độc giả ở các trạm xe buýt khác nhau cùng bấm đặt giữ chỗ cuốn sách cuối cùng tại cùng một mili-giây, hệ thống thông thường sẽ bị xuất khống tồn kho (Race Condition) và lệch cơ cấu sách giữa các điểm đỗ.',
       en: 'When multiple readers across different bus stops reserve the last available book copy at the exact same millisecond, naive systems suffer inventory double-booking (Race Condition) and stockouts.'
     },
     roiHighlight: {
-      vi: '🎯 Tác động: 0% Trùng đơn (Race Lock) • 92,0% Hoàn tất đặt trước (+34%) • Trễ hạn <4,8%',
-      en: '🎯 Impact: 0% Booking Conflict • 92.0% Reservation Fill (+34%) • Overdue <4.8%'
+      vi: 'Tác động: 0% Trùng đơn (Race Lock) • 92,0% Hoàn tất đặt trước (+34%) • Trễ hạn <4,8%',
+      en: 'Impact: 0% Booking Conflict • 92.0% Reservation Fill (+34%) • Overdue <4.8%'
     },
     kpis: [
       { label: { vi: 'Lưu Lượng Mượn', en: 'Monthly Volume' }, value: '7.080 Lượt/th' },
@@ -141,29 +138,29 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
         label: { vi: 'Tỷ lệ nhận sách đặt giữ chỗ theo trạm', en: 'Stop-Based Reservation Fulfillment' },
         textValue: '92,0% (+34% YoY)',
         pct: 92,
-        color: 'bg-emerald-500'
+        color: 'bg-[#9BE7FA]'
       },
       {
         label: { vi: 'Độ phủ Celery nhắc hạn tự động', en: 'Celery Auto-Reminder Coverage' },
         textValue: '85,0% (Trễ <4,8%)',
         pct: 85,
-        color: 'bg-sky-500'
+        color: 'bg-[#C8EEF7]'
       },
       {
         label: { vi: 'Chuyển đổi Tra cứu → Xem chi tiết sách', en: 'Catalog → Book Detail CVR' },
         textValue: '62,0% (7.688 độc giả)',
         pct: 62,
-        color: 'bg-indigo-500'
+        color: 'bg-[#FFD14C]'
       }
     ],
     curiosityCta: {
-      vi: '🔍 Xem Kiến trúc 6 Django Apps & Mô phỏng Đội xe',
-      en: '🔍 Inspect 6-App Architecture & Fleet Simulator'
+      vi: 'Xem Kiến trúc 6 Django Apps & Mô phỏng Đội xe',
+      en: 'Inspect 6-App Architecture & Fleet Simulator'
     },
     secondaryAction: {
-      label: { vi: '🕸️ Sơ đồ 30 Nodes ↗', en: '🕸️ 30-Node Graph ↗' },
-      href: '/library-bus/architecture-graph.html',
-      external: true
+      label: { vi: 'Sơ đồ 30 Nodes', en: '30-Node Graph' },
+      href: '/projects/library-bus/architecture',
+      external: false
     }
   },
   'heritage-japan': {
@@ -172,26 +169,26 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
       en: 'CASE STUDY #3 • ECONOMETRICS & POLICY'
     },
     badgeStyle:
-      'bg-amber-100 text-amber-950 border-amber-300 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30',
+      'bg-[#FFE485]/30 text-amber-950 border-[#FFD14C]/50 dark:bg-slate-800 dark:text-[#FFE485] dark:border-slate-700',
     readTimeTag: {
-      vi: '⏱️ Tóm tắt 30s • Mô hình OLS & DiD',
-      en: '⏱️ 30s Pitch • OLS & DiD Models'
+      vi: 'Tóm tắt 30s • Mô hình OLS & DiD',
+      en: '30s Pitch • OLS & DiD Models'
     },
     oneLinePitch: {
       vi: 'Kiểm định kinh tế lượng trên 14.509 di sản văn hóa cấp quốc gia tại Nhật Bản (2015–2025) để đo lường tác động kinh tế du lịch và hiệu quả của Luật Bảo tồn sửa đổi năm 2019.',
       en: 'Econometric evaluation of 14,509 national cultural properties in Japan (2015–2025) measuring tourism elasticity and the impact of the 2019 Law Reform.'
     },
     paradoxHookTitle: {
-      vi: '⚡ Nghịch lý Không gian & Ngân sách (Cực quá tải vs. Cực thiếu vốn):',
-      en: '⚡ The Spatial & Fiscal Paradox (Overtourism vs. Underfunding):'
+      vi: 'Nghịch lý Không gian & Ngân sách (Cực quá tải vs. Cực thiếu vốn):',
+      en: 'The Spatial & Fiscal Paradox (Overtourism vs. Underfunding):'
     },
     paradoxHookBody: {
       vi: '41,8% Quốc bảo tập trung đặc tại vùng Kansai (Gini = 0,64) đẩy chỉ số quá tải du lịch tại Kyoto lên mức báo động 92/100; trong khi các tỉnh địa phương thiếu vốn phát triển vì 68% ngân sách quốc gia bị chôn vào trùng tu thụ động.',
       en: '41.8% of National Treasures cluster in Kansai (Gini = 0.64), pushing Kyoto overtourism to 92/100, while regional prefectures starve for growth capital as 68% of ACA budget is locked in passive repairs.'
     },
     roiHighlight: {
-      vi: '🎯 Tác động: Hồi quy R² = 0,84 (β = +0,72) • DiD tăng +24,6% dự án • Giảm tải Kyoto 92 → 54/100',
-      en: '🎯 Impact: OLS R² = 0.84 (β = +0.72) • DiD +24.6% Projects • Kyoto Load Cut 92 → 54/100'
+      vi: 'Tác động: Hồi quy R² = 0,84 (β = +0,72) • DiD tăng +24,6% dự án • Giảm tải Kyoto 92 → 54/100',
+      en: 'Impact: OLS R² = 0.84 (β = +0.72) • DiD +24.6% Projects • Kyoto Load Cut 92 → 54/100'
     },
     kpis: [
       { label: { vi: 'Quy Mô Di Sản', en: 'Heritage Scale' }, value: '1.132 Quốc bảo' },
@@ -203,27 +200,27 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
         label: { vi: 'Mức độ giải thích doanh thu du lịch (R²)', en: 'Tourism Revenue Explained (R²)' },
         textValue: '84,0% (β = +0,72)',
         pct: 84,
-        color: 'bg-amber-500'
+        color: 'bg-[#FFD14C]'
       },
       {
         label: { vi: 'Tỷ trọng ngân sách trùng tu cơ bản (ACA)', en: 'ACA Basic Repair Budget Share' },
         textValue: '68,0% (141,2 Tỉ ¥)',
         pct: 68,
-        color: 'bg-sky-500'
+        color: 'bg-[#9BE7FA]'
       },
       {
         label: { vi: 'Tỷ trọng Quốc bảo tập trung tại Kansai', en: 'Kansai National Treasure Concentration' },
         textValue: '41,8% (Gini = 0,64)',
         pct: 41.8,
-        color: 'bg-rose-500'
+        color: 'bg-[#FFE485]'
       }
     ],
     curiosityCta: {
-      vi: '🔍 Xem Kiểm định Hồi quy & Simulator Giãn khách',
-      en: '🔍 Explore Regression Proofs & Policy Simulator'
+      vi: 'Xem Kiểm định Hồi quy & Simulator Giãn khách',
+      en: 'Explore Regression Proofs & Policy Simulator'
     },
     secondaryAction: {
-      label: { vi: '🎛️ Simulator Chính sách', en: '🎛️ Policy Simulator' },
+      label: { vi: 'Simulator Chính sách', en: 'Policy Simulator' },
       href: '/projects/heritage-japan#policy-simulator'
     }
   }
@@ -244,22 +241,23 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
   const techList = project.tech || project.tags || ['SQL', 'Python', 'Power BI', 'Next.js'];
 
   return (
-    <article className="group rounded-3xl border border-slate-200 dark:border-slate-800/90 bg-white dark:bg-slate-950/95 hover:border-sky-500 dark:hover:border-sky-500/60 transition-all duration-300 shadow-lg hover:shadow-2xl flex flex-col justify-between p-5 sm:p-6 space-y-4">
+    <article className="group rounded-3xl border border-slate-200 dark:border-slate-800/90 bg-white dark:bg-slate-950/95 hover:border-[#9BE7FA] dark:hover:border-[#9BE7FA]/60 transition-all duration-300 shadow-lg hover:shadow-2xl flex flex-col justify-between p-5 sm:p-6 space-y-4">
       <div className="space-y-4">
         {/* DÒNG 1: BADGE LĨNH VỰC & THỜI GIAN ĐỌC 30 GIÂY */}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <span className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold border ${pitch.badgeStyle}`}>
             {pitch.domainBadge[lang]}
           </span>
-          <span className="text-xs font-mono font-semibold text-slate-600 dark:text-slate-400">
-            {pitch.readTimeTag[lang]}
+          <span className="text-xs font-mono font-semibold text-slate-600 dark:text-slate-400 inline-flex items-center gap-1">
+            <Clock className="w-3 h-3 text-slate-400 shrink-0" />
+            <span>{pitch.readTimeTag[lang]}</span>
           </span>
         </div>
 
         {/* DÒNG 2: TIÊU ĐỀ & CÂU ĐỊNH VỊ 5 GIÂY */}
         <div className="space-y-1.5">
           <Link href={`/projects/${project.id}`} className="block">
-            <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 transition leading-snug">
+            <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition leading-snug">
               {resolveText(project.title, project.titleEn)}
             </h3>
           </Link>
@@ -286,9 +284,10 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
         </div>
 
         {/* DÒNG 4: HỘP "NGHỊCH LÝ GÂY TÒ MÒ" (THE 15-SECOND PARADOX HOOK) */}
-        <div className="p-3.5 rounded-2xl bg-amber-50/90 dark:bg-amber-950/25 border border-amber-300 dark:border-amber-500/35 space-y-1.5">
-          <div className="text-xs font-mono font-extrabold text-amber-950 dark:text-amber-300">
-            {pitch.paradoxHookTitle[lang]}
+        <div className="p-3.5 rounded-2xl bg-[#FFE485]/15 dark:bg-[#FFD14C]/10 border border-[#FFE485]/60 dark:border-[#FFD14C]/30 space-y-1.5">
+          <div className="text-xs font-mono font-extrabold text-amber-950 dark:text-[#FFE485] flex items-center gap-1.5">
+            <Zap className="w-3.5 h-3.5 text-[#FFD14C] shrink-0" />
+            <span>{pitch.paradoxHookTitle[lang]}</span>
           </div>
           <p className="text-xs text-slate-800 dark:text-slate-200 leading-relaxed">
             {pitch.paradoxHookBody[lang]}
@@ -303,7 +302,7 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
                 <span className="font-semibold text-slate-700 dark:text-slate-300 truncate">
                   {bar.label[lang]}
                 </span>
-                <span className="font-mono font-bold text-slate-900 dark:text-sky-300 shrink-0 ml-2">
+                <span className="font-mono font-bold text-slate-900 dark:text-[#9BE7FA] shrink-0 ml-2">
                   {bar.textValue}
                 </span>
               </div>
@@ -318,8 +317,9 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
         </div>
 
         {/* DÒNG 6: KẾT QUẢ ĐỊNH LƯỢNG (ROI BANNER) */}
-        <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-300 dark:border-emerald-500/30 text-xs font-bold text-emerald-950 dark:text-emerald-200 leading-relaxed">
-          {pitch.roiHighlight[lang]}
+        <div className="p-3 rounded-xl bg-[#C8EEF7]/30 dark:bg-slate-900 border border-[#9BE7FA]/50 dark:border-slate-800 text-xs font-bold text-[#074553] dark:text-[#FFE485] leading-relaxed flex items-center gap-1.5">
+          <Target className="w-4 h-4 text-[#074553] dark:text-[#9BE7FA] shrink-0" />
+          <span>{pitch.roiHighlight[lang]}</span>
         </div>
       </div>
 
@@ -339,10 +339,10 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <Link
             href={`/projects/${project.id}`}
-            className="min-h-[42px] flex-1 px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md hover:shadow-lg text-center"
+            className="min-h-[44px] flex-1 px-4 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm border border-[#9BE7FA] text-center cursor-pointer"
           >
             <span>{pitch.curiosityCta[lang]}</span>
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
+            <ArrowUpRight className="w-4 h-4 text-[#074553] shrink-0" />
           </Link>
 
           {pitch.secondaryAction &&
@@ -351,14 +351,14 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
                 href={pitch.secondaryAction.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-[42px] px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 text-xs font-mono font-bold transition flex items-center justify-center shrink-0"
+                className="min-h-[44px] px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 hover:border-[#9BE7FA] text-xs font-mono font-bold transition flex items-center justify-center shrink-0 cursor-pointer"
               >
                 {pitch.secondaryAction.label[lang]}
               </a>
             ) : (
               <Link
                 href={pitch.secondaryAction.href}
-                className="min-h-[42px] px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 text-xs font-mono font-bold transition flex items-center justify-center shrink-0"
+                className="min-h-[44px] px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 hover:border-[#9BE7FA] text-xs font-mono font-bold transition flex items-center justify-center shrink-0 cursor-pointer"
               >
                 {pitch.secondaryAction.label[lang]}
               </Link>

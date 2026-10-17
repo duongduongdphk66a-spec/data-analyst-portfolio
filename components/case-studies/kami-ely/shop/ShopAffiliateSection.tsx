@@ -46,27 +46,66 @@ export default function ShopAffiliateSection({
         onCopy={copyDeepLink} 
       />
 
-      {/* In-House Satellite vs True External Affiliate Callout Banner */}
+      {/* Co-Operated Channel Analysis: Girl Style (@girlstyle.vn) */}
       <div className="p-6 rounded-3xl bg-gradient-to-r from-indigo-50 via-white to-sky-50 border-2 border-indigo-200 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 dark:border-indigo-800 shadow-sm space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-600 text-white text-xs font-black uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>{isEn ? 'DE-BIASING AFFILIATE DATA · IN-HOUSE SATELLITE DISCOVERY' : 'PHÁT HIỆN ĐẶC QUYỀN · BÓC TÁCH KÊNH VỆ TINH NỘI BỘ'}</span>
+            <span>{isEn ? 'CO-OPERATED CHANNEL ANALYSIS' : 'PHÂN TÍCH KÊNH ĐỒNG VẬN HÀNH'}</span>
           </div>
           <span className="text-xs text-slate-500 font-mono font-bold">1 Team · 2 Kênh Live Song Song</span>
         </div>
 
-        <div className="space-y-2 max-w-4xl">
+        <div className="space-y-3">
           <h3 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
             {isEn 
-              ? 'Girl Style (@girlstyle.vn) is an In-House Satellite Channel, Not an External Affiliate!'
-              : 'Girl Style (@girlstyle.vn) Là Kênh Vệ Tinh Trực Thuộc Shop, Không Phải Affiliate Ngoài!'}
+              ? 'Co-Operated Channel Analysis: The Strategic Role of Girl Style (@girlstyle.vn)'
+              : 'Phân Tích Kênh Đồng Vận Hành: Vai Trò Trụ Cột Của Girl Style (@girlstyle.vn)'}
           </h3>
           <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
             {isEn
-              ? 'On FastMoss dashboards, Girl Style is classified as an affiliate with 42.9% of affiliate GMV (732.8M VND in 90d, 1.26B VND in Live 180d). However, operational audit confirms it is operated by the shop’s internal team. True external affiliates generate only 982M VND in Live (10.6% share), with 94.9% of 5,712 registered KOCs being completely dormant (0 orders).'
-              : 'Báo cáo FastMoss gắn nhãn Girl Style là affiliate (chiếm 42,9% GMV creator 90N và 56,1% GMV Live affiliate 180N). Nhưng thực tế vận hành xác nhận Girl Style thuộc shop và do cùng 1 team in-house livestream. Khi bóc tách, mạng lưới affiliate ngoài thực thụ chỉ tạo 982 triệu VNĐ Live (10,6%), với 94,9% trong 5.712 KOC đăng ký hoàn toàn không ra đơn!'}
+              ? 'Public dashboards classify Girl Style (@girlstyle.vn) as a creator affiliate with 42.9% of 90-day creator GMV and 1.26B VND Live revenue in 180 days. However, operational audit confirms it is an internal co-operated channel managed directly by the shop’s in-house livestream team.'
+              : 'Báo cáo bên ngoài phân loại Girl Style (@girlstyle.vn) là creator affiliate (chiếm 42,9% GMV creator 90 ngày và 1,26 Tỉ VNĐ doanh số Live 180 ngày). Tuy nhiên, thực tế vận hành xác nhận đây là kênh vệ tinh đồng vận hành do chính đội ngũ in-house của shop trực tiếp điều phối và phát sóng song song.'}
           </p>
+
+          {/* 3 Comparative Analysis & Role Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+            <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-slate-950/70 border border-indigo-200/80 dark:border-indigo-900/50 space-y-2 shadow-2xs">
+              <div className="font-black text-indigo-950 dark:text-indigo-300 text-xs flex items-center gap-1.5 uppercase tracking-wide">
+                <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0" />
+                {isEn ? 'Vs. Self-Operated (@kamielyhn)' : 'So Với Kênh Tự Vận Hành (@kamielyhn)'}
+              </div>
+              <p className="text-[12px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                {isEn
+                  ? 'The official channel (@kamielyhn) drives 7.02B VND Live (55.16% of shop GMV) with ~7.5h/day stream time. Girl Style contributes 1.26B VND Live (9.86% GMV), directly sharing host workload, running parallel prime-time slots, and capturing cross-audience traffic.'
+                  : 'Kênh chính chủ @kamielyhn gánh 7,02 Tỉ VNĐ Live (55,16% tổng GMV shop) với tần suất phát sóng ~7,5 giờ/ngày. Girl Style đóng góp 1,26 Tỉ VNĐ Live (9,86% tổng GMV), trực tiếp chia lửa thời lượng live, chạy song song khung giờ vàng và giảm tải áp lực thể lực cho host chính.'}
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-slate-950/70 border border-amber-200/80 dark:border-amber-900/50 space-y-2 shadow-2xs">
+              <div className="font-black text-amber-950 dark:text-amber-300 text-xs flex items-center gap-1.5 uppercase tracking-wide">
+                <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+                {isEn ? 'Vs. External Affiliates (5,712 KOCs)' : 'So Với Các Affiliate Ngoài Khác'}
+              </div>
+              <p className="text-[12px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                {isEn
+                  ? 'All 5,712 external KOCs combined generated only 982.4M VND Live (10.61% of live GMV) across 6,321 sessions (averaging just 155k VND/session), with 94.89% dormant (0 orders). Girl Style alone generated more live revenue than the entire external affiliate network combined (1.26B vs 982.4M VND).'
+                  : 'Toàn bộ 5.712 KOC ngoài cộng lại chỉ tạo ra 982,4 Triệu VNĐ Live (10,61% doanh số live) qua 6.321 phiên (bình quân chỉ 155.000 VNĐ/phiên), với 94,89% ngủ đông (0 đơn). Doanh số riêng của Girl Style vượt toàn bộ mạng lưới affiliate ngoài cộng lại (1,26 Tỉ vs 982,4 Tr đ).'}
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-slate-950/70 border border-emerald-200/80 dark:border-emerald-900/50 space-y-2 shadow-2xs">
+              <div className="font-black text-emerald-950 dark:text-emerald-300 text-xs flex items-center gap-1.5 uppercase tracking-wide">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                {isEn ? 'Affirming Strategic Role' : 'Khẳng Định Vai Trò Của Girl Style'}
+              </div>
+              <p className="text-[12px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                {isEn
+                  ? 'Together with the main channel, Girl Style anchors 8.28B VND in Live (89.39% of total shop live sales, 65.02% of total shop GMV). It serves as the vital second revenue pillar, hedges against platform policy risk, and ensures complete commercial independence from external KOCs.'
+                  : 'Cùng kênh chính chủ tạo nên 8,28 Tỉ VNĐ Live (chiếm 89,39% livestream toàn shop, 65,02% tổng GMV shop). Girl Style là trụ cột doanh thu thứ hai, phòng vệ rủi ro thuật toán tài khoản chính và bảo đảm quyền tự chủ tuyệt đối trước biến động mạng lưới KOC ngoài.'}
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* 6 Stat Badges: Format Disparity & Pareto Concentration */}
@@ -166,7 +205,7 @@ export default function ShopAffiliateSection({
         </div>
       </div>
 
-      {/* KOC Category Distribution (FastMoss Screenshots 073657, 073705, 073713) */}
+      {/* KOC Category Distribution (Screenshots 073657, 073705, 073713) */}
       <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/60 shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-b border-slate-100 pb-3 dark:border-slate-800">
           <div className="space-y-0.5">
@@ -175,7 +214,7 @@ export default function ShopAffiliateSection({
               {isEn ? 'Affiliate Network Industry Breakdown' : 'Cơ Cấu Ngành Hàng Của Mạng Lưới KOC Affiliate'}
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              {isEn ? 'Telemetry from FastMoss Screenshots 073657, 073705 & 073713' : 'Dữ liệu trích xuất từ chuỗi ảnh FastMoss #073657, #073705 & #073713'}
+              {isEn ? 'Telemetry from Screenshots 073657, 073705 & 073713' : 'Dữ liệu trích xuất từ chuỗi ảnh viễn trắc #073657, #073705 & #073713'}
             </p>
           </div>
           <div className="flex bg-[#C8EEF7]/40 rounded-xl p-1 dark:bg-slate-800 shrink-0">

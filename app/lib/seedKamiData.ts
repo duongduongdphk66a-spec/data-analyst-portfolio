@@ -664,7 +664,7 @@ export const dataScopesList = [
     totalGmv: '12,7 Tỷ đ',
     totalUnits: '85.5k SP',
     keyHighlightsJson: JSON.stringify([
-      'Bao phủ 8 bảng CSV nguồn chính thức từ FastMoss & TikTok Shop',
+      'Bao phủ 8 bảng CSV nguồn chính thức từ TikTok Shop',
       'Đỉnh mùa vụ tuần 15/06 đạt 1,058 Tỷ đ / tuần với 6.363 sản phẩm',
       'Creator @kamielyhn livestream 470 phiên đóng góp 7,02 Tỷ đ (55.3% GMV shop)',
     ]),

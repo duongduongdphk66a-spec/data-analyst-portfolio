@@ -21,8 +21,8 @@ export interface HeritageJapanNavProps {
 export default function HeritageJapanNav({
   activeSection = 'visual-suite',
   onSelectSection,
-  isExecutiveScanMode = false,
-  onToggleExecutiveScanMode,
+  isExecutiveScanMode: _isExecutiveScanMode = false,
+  onToggleExecutiveScanMode: _onToggleExecutiveScanMode,
   onBack
 }: HeritageJapanNavProps) {
   const { language } = useLanguage();

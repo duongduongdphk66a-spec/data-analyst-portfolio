@@ -126,7 +126,8 @@ async function main() {
 
   const results = {
     typecheck: runCommand('npx tsc --noEmit', 'TypeScript Typecheck (tsc)'),
-    tests: runCommand('npx vitest run', 'Unit & Security Test Suite (vitest)'),
+    lint: runCommand('npm run lint -- --max-warnings=0', 'ESLint Code Quality (0 warnings)'),
+    tests: runCommand('npm test', 'Unit & Security Test Suite (78 tests)'),
     typography: checkSmallTypography(),
     csp: checkCspHeaders(),
     antiSpoofing: checkAntiIpSpoofing()
@@ -134,6 +135,7 @@ async function main() {
 
   const allPassed =
     results.typecheck.success &&
+    results.lint.success &&
     results.tests.success &&
     results.csp &&
     results.antiSpoofing;
@@ -142,10 +144,11 @@ async function main() {
   console.log(`${COLORS.bold}📋 AUDIT SUMMARY RESULT${COLORS.reset}`);
   console.log(`${COLORS.cyan}====================================================${COLORS.reset}`);
   console.log(`1. TypeScript Compilation (tsc):    ${results.typecheck.success ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
-  console.log(`2. Unit & Security Tests (72 tests): ${results.tests.success ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
-  console.log(`3. Typography Standard (text-xs+):  ${results.typography ? COLORS.green + 'PASSED (0 small font classes)' : COLORS.yellow + 'WARNING'}${COLORS.reset}`);
-  console.log(`4. CSP Nonce & Security Headers:    ${results.csp ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
-  console.log(`5. Anti-IP Spoofing (getClientIp):  ${results.antiSpoofing ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
+  console.log(`2. ESLint Code Quality (0 warning): ${results.lint.success ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
+  console.log(`3. Unit & Security Tests (78 tests): ${results.tests.success ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
+  console.log(`4. Typography Standard (text-xs+):  ${results.typography ? COLORS.green + 'PASSED (0 small font classes)' : COLORS.yellow + 'WARNING'}${COLORS.reset}`);
+  console.log(`5. CSP Nonce & Security Headers:    ${results.csp ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
+  console.log(`6. Anti-IP Spoofing (getClientIp):  ${results.antiSpoofing ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
 
   if (allPassed) {
     console.log(`\n${COLORS.green}${COLORS.bold}✨ 100% PRODUCTION READY (Executive Standard 10/10)${COLORS.reset}\n`);

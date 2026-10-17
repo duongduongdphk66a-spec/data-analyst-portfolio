@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { ShoppingBag, Bus, Landmark, Calendar, Bookmark, ArrowRight, FileText, Terminal } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 type ExperienceCategory = 'all' | 'ecommerce' | 'product_bi' | 'econometrics';
@@ -50,8 +51,8 @@ export default function ExperiencePage() {
         'bg-sky-100 text-sky-950 border-sky-300 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30',
       headlineMetric: '12,74 Tỉ VNĐ (180d) • 85.500 SP • 18.778 Dòng SQL',
       summary: {
-        vi: 'Thiết kế kho dữ liệu Star Schema và đối soát chéo 8 tệp dữ liệu thực nghiệm (FastMoss, TikTok Seller Center, Live Workbench) để giải bài toán suy giảm hiệu suất theo mùa vụ và tối ưu hóa ROI đa kênh.',
-        en: 'Designed a Star Schema warehouse and cross-reconciled 8 empirical datasets (FastMoss, Seller Center, Live Workbench) to resolve seasonal performance decay and optimize multi-channel ROI.'
+        vi: 'Thiết kế kho dữ liệu Star Schema và đối soát chéo 8 tệp dữ liệu thực nghiệm (TikTok Seller Center, Live Workbench) để giải bài toán suy giảm hiệu suất theo mùa vụ và tối ưu hóa ROI đa kênh.',
+        en: 'Designed a Star Schema warehouse and cross-reconciled 8 empirical datasets (Seller Center, Live Workbench) to resolve seasonal performance decay and optimize multi-channel ROI.'
       },
       starBreakdown: {
         situation: {
@@ -215,43 +216,47 @@ export default function ExperiencePage() {
               href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-[42px] px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm font-bold transition shadow-md flex items-center gap-2"
+              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#074553] hover:bg-[#05333d] dark:bg-[#9BE7FA] dark:hover:bg-[#82e2f8] text-white dark:text-slate-950 text-xs sm:text-sm font-bold transition shadow-md flex items-center gap-2 cursor-pointer"
             >
-              <span>📄</span>
+              <FileText className="w-4 h-4" />
               <span>{lang === 'vi' ? 'Tải CV Đầy Đủ (PDF)' : 'Download Full CV (PDF)'}</span>
             </a>
             <Link
               href="/lab"
-              className="min-h-[42px] px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-emerald-300 dark:border-emerald-500/30 text-xs sm:text-sm font-mono font-bold transition flex items-center gap-2"
+              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-emerald-300 dark:border-emerald-500/30 text-xs sm:text-sm font-mono font-bold transition flex items-center gap-2 cursor-pointer"
             >
-              <span>💻</span>
+              <Terminal className="w-4 h-4" />
               <span>{lang === 'vi' ? 'Kiểm tra SQL (/lab)' : 'Verify SQL (/lab)'}</span>
             </Link>
           </div>
         </div>
 
-        {/* FILTER TABS */}
+        {/* FILTER TABS (CHUẨN MIN-H 44PX THEO UI/UX PRO MAX) */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap gap-2">
             {[
-              { key: 'all', label: { vi: 'Tất cả Lĩnh vực (3)', en: 'All Domains (3)' } },
-              { key: 'ecommerce', label: { vi: '🛍️ E-Commerce SQL & BI', en: '🛍️ E-Commerce SQL & BI' } },
-              { key: 'product_bi', label: { vi: '🚌 Product Analytics & Django', en: '🚌 Product BI & Django' } },
-              { key: 'econometrics', label: { vi: '⛩️ Kinh tế lượng & Chính sách', en: '⛩️ Econometrics & Policy' } }
-            ].map((tab) => (
-              <button
-                key={tab.key}
-                type="button"
-                onClick={() => setSelectedCategory(tab.key as ExperienceCategory)}
-                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition border ${
-                  selectedCategory === tab.key
-                    ? 'bg-sky-600 text-white border-sky-600 shadow'
-                    : 'bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-800 hover:border-sky-500'
-                }`}
-              >
-                {tab.label[lang]}
-              </button>
-            ))}
+              { key: 'all', label: { vi: 'Tất cả Lĩnh vực (3)', en: 'All Domains (3)' }, icon: null },
+              { key: 'ecommerce', label: { vi: 'E-Commerce SQL & BI', en: 'E-Commerce SQL & BI' }, icon: ShoppingBag },
+              { key: 'product_bi', label: { vi: 'Product BI & Django', en: 'Product BI & Django' }, icon: Bus },
+              { key: 'econometrics', label: { vi: 'Kinh tế lượng & Chính sách', en: 'Econometrics & Policy' }, icon: Landmark }
+            ].map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setSelectedCategory(tab.key as ExperienceCategory)}
+                  className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition border cursor-pointer inline-flex items-center gap-1.5 ${
+                    selectedCategory === tab.key
+                      ? 'bg-[#9BE7FA] text-[#074553] border-[#9BE7FA] shadow-xs'
+                      : 'bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-800 hover:border-[#9BE7FA]'
+                  }`}
+                >
+                  {Icon && <Icon className="w-3.5 h-3.5 shrink-0" />}
+                  <span>{tab.label[lang]}</span>
+                </button>
+              );
+            })}
           </div>
 
           <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
@@ -276,20 +281,22 @@ export default function ExperiencePage() {
                   <span className={`px-2.5 py-1 rounded-md text-xs font-mono font-bold border ${item.badgeStyle}`}>
                     {item.badge}
                   </span>
-                  <span className="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
-                    🗓️ {item.period}
+                  <span className="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400 inline-flex items-center gap-1">
+                    <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    <span>{item.period}</span>
                   </span>
                 </div>
                 <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white pt-1">
                   {item.role[lang]}
                 </h2>
-                <div className="text-xs sm:text-sm font-semibold text-sky-700 dark:text-sky-400">
+                <div className="text-xs sm:text-sm font-semibold text-[#074553] dark:text-[#9BE7FA]">
                   {item.organization[lang]}
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-500/30 text-xs font-mono font-bold text-emerald-950 dark:text-emerald-300 self-start lg:self-auto">
-                📌 {item.headlineMetric}
+              <div className="p-3 rounded-xl bg-[#C8EEF7]/30 dark:bg-slate-800/80 border border-[#9BE7FA]/50 dark:border-slate-700 text-xs font-mono font-bold text-[#074553] dark:text-[#FFE485] self-start lg:self-auto inline-flex items-center gap-1.5">
+                <Bookmark className="w-3.5 h-3.5 text-[#FFD14C] shrink-0" />
+                <span>{item.headlineMetric}</span>
               </div>
             </div>
 
@@ -359,10 +366,10 @@ export default function ExperiencePage() {
 
               <Link
                 href={item.caseStudyHref}
-                className="min-h-[38px] px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-mono font-bold transition inline-flex items-center justify-center gap-1.5 shrink-0 shadow"
+                className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#074553] hover:bg-[#05333d] dark:bg-[#9BE7FA] dark:hover:bg-[#82e2f8] text-white dark:text-slate-950 text-xs font-mono font-bold transition inline-flex items-center justify-center gap-2 shrink-0 shadow-xs cursor-pointer"
               >
                 <span>{lang === 'vi' ? 'Mở Báo Cáo Case Study Đầy Đủ' : 'Open Full Case Study'}</span>
-                <span>→</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </article>

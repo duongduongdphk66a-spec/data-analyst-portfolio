@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { Terminal, Briefcase, AlertTriangle, CheckCircle2, Play } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 export default function AboutPage() {
@@ -94,34 +95,34 @@ ORDER BY date_id;`
           <div className="space-y-2 max-w-3xl">
             <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase bg-emerald-100 text-emerald-950 border border-emerald-300 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30">
               {lang === 'vi'
-                ? 'HỒ SƠ CHUYÊN MÔN & TRIẾT LÝ KIỂM TOÁN DỮ LIỆU'
-                : 'ANALYST PROFILE & DATA AUDITING PHILOSOPHY'}
+                ? 'HỒ SƠ CHUYÊN MÔN & ĐỐI SOÁT DỮ LIỆU'
+                : 'ANALYST PROFILE & DATA RECONCILIATION'}
             </span>
             <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight pt-1">
               {lang === 'vi'
-                ? 'Mã Văn Hùng — Không Chỉ Vẽ Biểu Đồ, Tôi Kiểm Toán Sự Thật Đằng Sau Con Số'
-                : 'Ma Van Hung — Beyond Charts, I Audit the Ground Truth Behind Numbers'}
+                ? 'Mã Văn Hùng — Kiểm Toán Dữ Liệu & Phân Tích Số Liệu Thực Tế'
+                : 'Ma Van Hung — Data Auditing & Empirical Analytics'}
             </h1>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               {lang === 'vi'
-                ? 'Trong thực tế vận hành E-Commerce và Product BI, các bảng tổng hợp tự động thường chứa sai lệch do đếm lặp danh mục (Multi-category Double Counting), lệch khung thời gian (90d vs. 180d vs. All-Time) hoặc trộn lẫn doanh thu đặt hàng (Gross) với doanh thu thực nhận (Net). Giá trị cốt lõi của tôi là làm sạch các mâu thuẫn đó bằng SQL và thống kê trước khi đưa ra quyết định.'
-                : 'In real-world E-Commerce and Product BI, automated dashboards often suffer from multi-category double counting, mismatched time horizons (90d vs. 180d vs. All-Time), or mixed Gross vs. Net revenue. My core value lies in resolving these discrepancies via SQL and statistics before driving business decisions.'}
+                ? 'Bảng điều khiển tự động thường gặp lỗi đếm lặp danh mục, lệch khung thời gian hoặc lẫn lộn doanh thu gộp và thực nhận. Tôi sử dụng SQL và kiểm định thống kê để đối soát dữ liệu và hỗ trợ ra quyết định.'
+                : 'Automated dashboards often suffer from category double-counting, mismatched timeframes, or mixed gross and net revenue. I use SQL and statistical tests to reconcile records and support business decisions.'}
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2.5 shrink-0">
             <Link
               href="/lab"
-              className="min-h-[42px] px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm font-mono font-bold transition shadow-md flex items-center gap-2"
+              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#074553] hover:bg-[#05333d] dark:bg-[#9BE7FA] dark:hover:bg-[#82e2f8] text-white dark:text-slate-950 text-xs sm:text-sm font-mono font-bold transition shadow-md flex items-center gap-2 cursor-pointer"
             >
-              <span>💻</span>
+              <Terminal className="w-4 h-4" />
               <span>{lang === 'vi' ? 'Mở Phòng Thí Nghiệm SQL (/lab)' : 'Open SQL Lab (/lab)'}</span>
             </Link>
             <Link
               href="/experience"
-              className="min-h-[42px] px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 text-xs sm:text-sm font-semibold transition flex items-center gap-2"
+              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 text-xs sm:text-sm font-semibold transition flex items-center gap-2 cursor-pointer"
             >
-              <span>💼</span>
+              <Briefcase className="w-4 h-4" />
               <span>{lang === 'vi' ? 'Xem Kinh Nghiệm STAR' : 'View STAR Experience'}</span>
             </Link>
           </div>
@@ -183,13 +184,13 @@ ORDER BY date_id;`
           <div>
             <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold uppercase bg-amber-100 text-amber-950 border border-amber-300 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30">
               {lang === 'vi'
-                ? 'BẰNG CHỨNG TƯ DUY KIỂM TOÁN DỮ LIỆU (DATA RECONCILIATION SHOWCASE)'
-                : 'DATA RECONCILIATION & ANOMALY DETECTION SHOWCASE'}
+                ? 'ĐỐI SOÁT DỮ LIỆU & KIỂM ĐỊNH THỐNG KÊ (DATA RECONCILIATION)'
+                : 'DATA RECONCILIATION & ANOMALY DETECTION'}
             </span>
             <h2 className="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-1.5">
               {lang === 'vi'
-                ? '3 Tình Huống Phát Hiện & Xử Lý Mâu Thuẫn Số Liệu Thực Tế Bằng SQL'
-                : '3 Real-World Data Discrepancies Resolved via SQL Auditing'}
+                ? '3 Tình Huống Đối Soát Dữ Liệu Thực Tế Bằng SQL'
+                : '3 Real-World Data Discrepancies Resolved via SQL'}
             </h2>
           </div>
 
@@ -203,10 +204,10 @@ ORDER BY date_id;`
                 key={btn.id}
                 type="button"
                 onClick={() => setSelectedAuditCase(btn.id as typeof selectedAuditCase)}
-                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition border ${
+                className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition border cursor-pointer ${
                   selectedAuditCase === btn.id
-                    ? 'bg-sky-600 text-white border-sky-600 shadow'
-                    : 'bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-800 hover:border-sky-500'
+                    ? 'bg-[#9BE7FA] text-[#074553] border-[#9BE7FA] shadow-xs'
+                    : 'bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-800 hover:border-[#9BE7FA]'
                 }`}
               >
                 {btn.label[lang]}
@@ -217,7 +218,7 @@ ORDER BY date_id;`
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           <div className="lg:col-span-7 space-y-4">
-            <div className="text-xs font-mono font-bold text-sky-700 dark:text-sky-400">
+            <div className="text-xs font-mono font-bold text-[#074553] dark:text-[#9BE7FA]">
               {activeAudit.badge}
             </div>
             <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white">
@@ -225,8 +226,9 @@ ORDER BY date_id;`
             </h3>
 
             <div className="p-4 rounded-2xl bg-rose-50/70 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-500/30 space-y-1">
-              <div className="text-xs font-mono font-bold text-rose-900 dark:text-rose-300 uppercase">
-                ⚠️ Biểu hiện Mâu thuẫn trên Giao diện Nguồn:
+              <div className="text-xs font-mono font-bold text-rose-900 dark:text-rose-300 uppercase flex items-center gap-1.5">
+                <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
+                <span>Biểu hiện Mâu thuẫn trên Giao diện Nguồn:</span>
               </div>
               <p className="text-xs text-slate-800 dark:text-slate-300 leading-relaxed">
                 {activeAudit.problem[lang]}
@@ -234,8 +236,9 @@ ORDER BY date_id;`
             </div>
 
             <div className="p-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-500/30 space-y-1">
-              <div className="text-xs font-mono font-bold text-emerald-900 dark:text-emerald-300 uppercase">
-                ✓ Giải mã & Chuẩn hóa bằng Kiểm toán File CSV Gốc:
+              <div className="text-xs font-mono font-bold text-emerald-900 dark:text-emerald-300 uppercase flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <span>Giải mã & Chuẩn hóa bằng Kiểm toán File CSV Gốc:</span>
               </div>
               <p className="text-xs text-slate-800 dark:text-slate-200 leading-relaxed">
                 {activeAudit.sqlResolution[lang]}
@@ -246,7 +249,7 @@ ORDER BY date_id;`
           <div className="lg:col-span-5 rounded-2xl bg-slate-900 border border-slate-800 p-4 sm:p-5 flex flex-col justify-between space-y-4">
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs font-mono text-slate-400 border-b border-slate-800 pb-2">
-                <span className="text-emerald-400 font-bold">SQL Verification Query</span>
+                <span className="text-[#9BE7FA] font-bold">SQL Verification Query</span>
                 <span>18.778 Rows Warehouse</span>
               </div>
               <pre className="text-xs font-mono text-sky-200 overflow-x-auto leading-relaxed whitespace-pre-wrap">
@@ -260,9 +263,10 @@ ORDER BY date_id;`
               </span>
               <Link
                 href="/lab"
-                className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-mono font-bold transition inline-flex items-center gap-1.5"
+                className="min-h-[44px] px-4 py-2 rounded-xl bg-[#074553] hover:bg-[#05333d] dark:bg-[#9BE7FA] dark:hover:bg-[#82e2f8] text-white dark:text-slate-950 text-xs font-mono font-bold transition inline-flex items-center gap-2 cursor-pointer shadow-xs"
               >
-                <span>▶ Chạy trong /lab</span>
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>{lang === 'vi' ? 'Chạy trong /lab' : 'Run in /lab'}</span>
               </Link>
             </div>
           </div>

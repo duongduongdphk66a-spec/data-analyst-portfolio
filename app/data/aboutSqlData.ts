@@ -134,8 +134,8 @@ export const SQL_SCENARIOS = [
     xAxisKey: 'name',
     dataKey: 'gmv',
     unit: 'Tỷ đ',
-    insight: 'Bóc tách 3 tầng thời gian độc lập: 31.6 Tỷ đ là doanh thu trọn đời shop (từ 2023), 12.74 Tỷ đ là chu kỳ 180 ngày (09/03–04/09/2026), và 4.73 Tỷ đ là lát cắt 90 ngày của mạng lưới Creator. Tuyệt đối không cộng gộp các con số thuộc 3 khung thời gian khác nhau.',
-    insightEn: 'Cross-horizon telemetry reconciliation: 31.6B is all-time lifetime shop GMV, 12.74B belongs to the 180-day cycle, and 4.73B represents the 90-day Creator slice. Disparate temporal windows must never be aggregated.',
+    insight: 'Dữ liệu gồm 3 khung thời gian độc lập: 31,6 tỷ đồng toàn shop (từ 2023), 12,74 tỷ đồng trong 180 ngày và 4,73 tỷ đồng trong 90 ngày Creator. Ba mốc này không được cộng gộp.',
+    insightEn: 'Data spans 3 independent timeframes: 31.6B all-time shop GMV, 12.74B in 180 days, and 4.73B in 90 days for Creators. These separate intervals cannot be summed.',
   },
   {
     id: 'audit-gross-vs-net-live',
@@ -215,8 +215,8 @@ export const SQL_SCENARIOS = [
     xAxisKey: 'name',
     dataKey: 'gmv',
     unit: 'Tr đ',
-    insight: 'Creator LIVE cá nhân (@kamielyhn) gánh 63.04% tổng GMV (4,665 tỷ) với CVR 3.82% — cao gấp 2.8 lần Video ngắn. Tuy nhiên, sự phụ thuộc >60% vào một kênh độc nhất tiềm ẩn rủi ro đứt gãy dòng tiền nghiêm trọng khi host gặp sự cố lịch phát sóng.',
-    insightEn: 'Self-operated Creator LIVE (@kamielyhn) drives 63.04% of total GMV (4.665B VND) with 3.82% CVR — 2.8x higher than short video. However, >60% reliance on a single human channel poses severe business continuity risks.',
+    insight: 'Kênh LIVE chính chủ (@kamielyhn) đạt 4,665 tỷ đồng (63,04% GMV) với CVR 3,82%, cao gấp 2,8 lần video ngắn. Doanh thu phụ thuộc lớn vào một host phát sóng duy nhất.',
+    insightEn: 'The primary LIVE channel (@kamielyhn) generated 4.665B VND (63.04% GMV) with 3.82% CVR, 2.8x higher than short videos. Revenue relies heavily on a single broadcast host.',
   },
   {
     id: 'kami-video-ads',
@@ -254,8 +254,8 @@ export const SQL_SCENARIOS = [
     xAxisKey: 'name',
     dataKey: 'gmvPerHour',
     unit: 'Tr đ/giờ',
-    insight: 'Nghịch lý Marathon Live: Các phiên live thâu đêm kéo dài trên 8 tiếng (14–18h) mang lại GMV gộp cao nhưng hiệu suất GMV/giờ sụt giảm tới 74.9% (từ 5.78M/giờ xuống 1.45M/giờ). Tối ưu hóa thời lượng dưới 4h kết hợp kích hoạt Ads giờ vàng mang lại ROI vốn cao gấp 3.9 lần.',
-    insightEn: 'The Marathon Live Paradox: Overnight endurance sessions (>8h) deliver higher gross revenue but suffer a 74.9% collapse in hourly GMV efficiency (from 5.78M/h down to 1.45M/h). Capping sessions at <4h paired with golden-hour ad boosts delivers 3.9x higher capital efficiency.',
+    insight: 'Phiên live trên 8 tiếng có GMV gộp cao nhưng doanh thu mỗi giờ giảm 74,9% (từ 5,78M xuống 1,45M đồng/giờ). Giới hạn thời lượng dưới 4 tiếng mang lại hiệu quả chi phí cao hơn.',
+    insightEn: 'Livestreams exceeding 8 hours show higher gross GMV but a 74.9% drop in hourly revenue (5.78M to 1.45M VND/h). Capping broadcasts under 4 hours yields better capital efficiency.',
   },
   {
     id: 'kami-affiliate-pareto',
@@ -274,8 +274,8 @@ export const SQL_SCENARIOS = [
     xAxisKey: 'name',
     dataKey: 'gmv',
     unit: 'Tr đ',
-    insight: 'Nguyên lý Pareto cực đoan: 1 KOC duy nhất (@girlstyle.vn, 3.2k followers) tạo ra 79.65% GMV affiliate của shop. 94.92% (5.423/5.713 KOCs) rơi vào trạng thái ngủ đông không phát sinh đơn. Cần chuyển từ tuyển KOC đại trà sang cơ chế thưởng bậc thang theo doanh số.',
-    insightEn: 'Extreme Pareto distribution: A single micro-KOC (@girlstyle.vn, 3.2k followers) accounts for 79.65% of all affiliate GMV. 94.92% (5,423/5,713 KOCs) remain completely dormant. Tiered performance bonuses are essential to re-engage the dormant base.',
+    insight: 'Một KOC duy nhất (@girlstyle.vn, 3,2k followers) tạo ra 79,65% GMV affiliate của shop. Có 94,92% KOC (5.423 người) không phát sinh đơn trong 90 ngày.',
+    insightEn: 'A single KOC (@girlstyle.vn, 3.2k followers) accounts for 79.65% of all affiliate GMV. 94.92% of affiliates (5,423 creators) generated no orders during the 90-day period.',
   },
   {
     id: 'japan-tourism',

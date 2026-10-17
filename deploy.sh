@@ -1,36 +1,47 @@
 #!/usr/bin/env bash
-# ============================================================================
-# FILE: deploy.sh (CÓ HEALTHCHECK, KHÔNG BỎ QUA LOCKFILE & COPY ĐỦ STANDALONE)
-# ============================================================================
+# ==============================================================================
+# FILE: deploy.sh (CHẶN TRIỂN KHAI NẾU THIẾU .ENV HOẶC DÙNG MẬT KHẨU MẪU)
+# ==============================================================================
 set -euo pipefail
 
+echo "🚀 Bắt đầu quy trình triển khai Data Analyst Portfolio..."
+
+# 1. Kiểm tra bắt buộc file .env phải tồn tại (TUYỆT ĐỐI KHÔNG cp .env.example .env)
 if [ ! -f .env ]; then
-  echo "⚠️ Chưa có file .env! Tự động khởi tạo từ .env.example..."
-  cp .env.example .env
+  echo "❌ LỖI BẢO MẬT: Không tìm thấy tệp .env!"
+  echo "👉 Hãy tạo tệp .env từ .env.example và thay thế toàn bộ mật khẩu/mã xác nhận trước khi chạy deploy.sh."
+  exit 1
 fi
 
-echo "🚀 [1/5] Cài đặt dependencies nghiêm ngặt từ package-lock.json..."
-npm ci --include=dev
+# 2. Chặn đứng nếu .env vẫn còn chứa các chuỗi mẫu từ .env.example
+if grep -Eqi "(your_admin_password_here|your_security_verify_code_here|your_session_secret_here|your_.*_here|changeme)" .env; then
+  echo "❌ LỖI BẢO MẬT: Tệp .env vẫn đang chứa giá trị mẫu (your_..._here / changeme)!"
+  echo "👉 Vui lòng đặt ADMIN_PASSWORD (>=16 ký tự), ADMIN_VERIFY_CODE (>=8 ký tự) và SESSION_SECRET độc lập trong .env."
+  exit 1
+fi
 
-echo "🔍 [2/5] Kiểm tra TypeScript & Build Production..."
+echo "📦 Cài đặt dependencies từ package-lock.json..."
+npm ci
+
+echo "🔍 Kiểm tra TypeScript, ESLint (0 warnings) & Unit Tests..."
 npx tsc --noEmit
+npm run lint -- --max-warnings=0
+npm test
+
+echo "🏗️ Build ứng dụng Next.js Standalone..."
 npm run build
 
-echo "📦 [3/5] Đồng bộ public/, static/ và data/kami/ vào .next/standalone/..."
+echo "📂 Đồng bộ tài nguyên tĩnh vào .next/standalone..."
 cp -r public .next/standalone/public
 cp -r .next/static .next/standalone/.next/static
 mkdir -p .next/standalone/data
 [ -d data/kami ] && cp -r data/kami .next/standalone/data/kami || true
+cp .env .next/standalone/.env
 
-echo "🔄 [4/5] Khởi động lại PM2 với --env-file=.env..."
+echo "🔄 Khởi động / Reload PM2..."
 pm2 startOrReload ecosystem.config.js --update-env
 
-echo "🩺 [5/5] Kiểm tra Healthcheck sau khi khởi động..."
+echo "⏳ Kiểm tra Healthcheck..."
 sleep 3
-HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/api/profile || echo "000")
-if [ "$HTTP_STATUS" != "200" ]; then
-  echo "❌ Healthcheck thất bại (HTTP $HTTP_STATUS)! Vui lòng kiểm tra: pm2 logs data-analyst-portfolio"
-  exit 1
-fi
-echo "✅ Triển khai thành công (HTTP 200 OK)!"
-
+curl -fsS http://127.0.0.1:3000/api/auth/verify > /dev/null
+echo "✅ Triển khai hoàn tất và vượt qua kiểm tra bảo mật!"

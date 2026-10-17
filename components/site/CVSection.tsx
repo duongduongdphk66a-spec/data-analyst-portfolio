@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { FileText, Briefcase, Mail } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { usePortfolioData } from '@/app/context/PortfolioDataContext';
 
@@ -85,9 +86,9 @@ export default function CVSection({ experiences: _experiences, name: _name, titl
               href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-[42px] px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm font-bold transition shadow-lg shadow-sky-500/20 flex items-center gap-2"
+              className="min-h-[44px] px-5 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs sm:text-sm font-extrabold transition shadow-md shadow-[#9BE7FA]/20 flex items-center gap-2 border border-[#9BE7FA] cursor-pointer"
             >
-              <span>📄</span>
+              <FileText className="w-4 h-4 text-[#074553] shrink-0" />
               <span>
                 {lang === 'vi' ? 'Mở / Tải CV Đầy Đủ (PDF)' : 'Open / Download Full CV (PDF)'}
               </span>
@@ -95,9 +96,9 @@ export default function CVSection({ experiences: _experiences, name: _name, titl
 
             <Link
               href="/experience"
-              className="min-h-[42px] px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 text-xs sm:text-sm font-semibold transition flex items-center gap-2"
+              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 text-xs sm:text-sm font-semibold transition flex items-center gap-2 cursor-pointer"
             >
-              <span>💼</span>
+              <Briefcase className="w-4 h-4 text-slate-600 dark:text-slate-300 shrink-0" />
               <span>{lang === 'vi' ? 'Kinh Nghiệm (/experience)' : 'Experience Timeline'}</span>
             </Link>
           </div>
@@ -110,13 +111,13 @@ export default function CVSection({ experiences: _experiences, name: _name, titl
               key={idx}
               className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-3 shadow-sm"
             >
-              <h3 className="text-sm font-extrabold font-mono text-sky-800 dark:text-sky-400 border-b border-slate-200 dark:border-slate-800 pb-2">
+              <h3 className="text-sm font-extrabold font-mono text-[#074553] dark:text-[#9BE7FA] border-b border-slate-200 dark:border-slate-800 pb-2">
                 {block.category[lang]}
               </h3>
               <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                 {block.items.map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
-                    <span className="text-emerald-600 dark:text-emerald-400 font-bold shrink-0">•</span>
+                    <span className="text-[#FFD14C] font-bold shrink-0">•</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -128,12 +129,13 @@ export default function CVSection({ experiences: _experiences, name: _name, titl
         {/* BOTTOM BAR: QUICK CONTACT & DIRECT LINKS */}
         <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
           <div className="flex flex-wrap items-center gap-3 text-slate-700 dark:text-slate-300">
-            <span className="font-mono font-bold text-slate-900 dark:text-white">
-              📬 {lang === 'vi' ? 'Liên hệ trực tiếp:' : 'Direct Contact:'}
+            <span className="font-mono font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+              <Mail className="w-4 h-4 text-[#074553] dark:text-[#9BE7FA] shrink-0" />
+              <span>{lang === 'vi' ? 'Liên hệ trực tiếp:' : 'Direct Contact:'}</span>
             </span>
             <a
               href={`mailto:${email}`}
-              className="font-mono font-semibold text-sky-700 dark:text-sky-400 hover:underline"
+              className="font-mono font-semibold text-[#074553] dark:text-[#9BE7FA] hover:underline"
             >
               {email}
             </a>
@@ -144,14 +146,6 @@ export default function CVSection({ experiences: _experiences, name: _name, titl
                 : 'Available for technical interviews and live SQL / Python / BI assessments.'}
             </span>
           </div>
-
-          <Link
-            href="/lab"
-            className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold transition inline-flex items-center justify-center gap-1.5 shrink-0"
-          >
-            <span>💻</span>
-            <span>{lang === 'vi' ? 'Kiểm tra kỹ năng SQL tại /lab →' : 'Verify SQL Skills at /lab →'}</span>
-          </Link>
         </div>
       </div>
     </section>

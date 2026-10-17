@@ -156,6 +156,71 @@ export function sanitizeTextInput(text: unknown, maxLength = 10000, fallback = '
   return text.trim().slice(0, maxLength);
 }
 
+function isValidIp(ip: string): boolean {
+  if (!ip) return false;
+  // IPv4 check: 4 octets 0-255
+  if (/^(\d{1,3}\.){3}\d{1,3}$/.test(ip)) {
+    return ip.split('.').every((part) => {
+      const n = Number(part);
+      return n >= 0 && n <= 255;
+    });
+  }
+  // IPv6 check
+  if (/^[0-9a-fA-F:]+$/.test(ip) && ip.includes(':')) {
+    return true;
+  }
+  return false;
+}
+
+export function normalizeIp(rawIp: string | null | undefined): string | null {
+  if (!rawIp) return null;
+  const trimmed = rawIp.trim();
+  if (!trimmed || trimmed.length > 64) return null;
+  const clean = trimmed.replace(/^::ffff:/i, '');
+  return isValidIp(clean) ? clean : null;
+}
+
+export function getClientIp(request: { headers: { get: (_name: string) => string | null } }): string {
+  const headers = request.headers;
+  const rawMode = (process.env.TRUST_PROXY || 'false').toLowerCase().trim();
+
+  // 1. Chỉ tin x-vercel-forwarded-for khi thực sự chạy trên hạ tầng Vercel (VERCEL === '1')
+  if (process.env.VERCEL === '1' && (rawMode === 'vercel' || rawMode === 'true' || rawMode === 'false' || !rawMode)) {
+    const vercelIp = headers.get('x-vercel-forwarded-for')?.split(',')[0];
+    return normalizeIp(vercelIp) || '127.0.0.1';
+  }
+
+  // 2. Chế độ Cloudflare tường minh
+  if (rawMode === 'cloudflare') {
+    const cfIp = headers.get('cf-connecting-ip');
+    return normalizeIp(cfIp) || '127.0.0.1';
+  }
+
+  // 3. Chế độ Nginx / Reverse Proxy nội bộ (TRUST_PROXY="nginx" hoặc "true" hoặc "1")
+  if (rawMode === 'nginx' || rawMode === 'true' || rawMode === '1') {
+    // Ưu tiên tuyệt đối X-Real-IP do Nginx ghi đè ($remote_addr)
+    const realIp = normalizeIp(headers.get('x-real-ip'));
+    if (realIp) return realIp;
+
+    // Nếu không có X-Real-IP, lấy phần tử CUỐI CÙNG trong X-Forwarded-For (IP do Proxy nối thêm)
+    const xff = headers.get('x-forwarded-for');
+    if (xff) {
+      const parts = xff
+        .split(',')
+        .map((p) => normalizeIp(p))
+        .filter((p): p is string => Boolean(p));
+      if (parts.length > 0) {
+        return parts[parts.length - 1];
+      }
+    }
+    return '127.0.0.1';
+  }
+
+  // 4. Mặc định (TRUST_PROXY="false"): Không tin bất kỳ header nào từ Client
+  return '127.0.0.1';
+}
+
+
 
 
 

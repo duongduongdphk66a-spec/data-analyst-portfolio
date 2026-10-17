@@ -42,7 +42,7 @@ export default function KamiElyShopTab({
   isEn: propIsEn,
   copyDeepLink = () => {},
   handleExportChart = () => {},
-  openProofScreenshot = () => {},
+  openProofScreenshot: _openProofScreenshot = () => {},
   renderDataScopeMatrix = () => null,
   handleTabChange = () => {},
   channelData: propChannelData,

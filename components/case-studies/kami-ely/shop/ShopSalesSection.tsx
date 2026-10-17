@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Download, Tag, Video, AlertTriangle } from 'lucide-react';
+import { Download, Tag, Video, AlertTriangle, Zap } from 'lucide-react';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
   PieChart as RechartsPieChart, Pie, Cell
@@ -170,16 +170,16 @@ export default function ShopSalesSection({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Marketing Promotions & Discount Efficiency */}
         <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-white to-amber-50/40 border border-amber-200/80 dark:from-slate-900 dark:to-amber-950/20 dark:border-amber-900/60 shadow-xs space-y-4">
-          <div className="flex items-center justify-between border-b border-amber-100 dark:border-slate-800 pb-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-amber-100 dark:border-slate-800 pb-3">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-300">
                 <Tag className="w-4 h-4" />
               </div>
               <div>
                 <h4 className="font-black text-sm text-slate-950 dark:text-white">
-                  {isEn ? 'Marketing & Promotion Tools Efficiency' : 'Hiệu Quả Công Cụ Khuyến Mãi (Promotions)'}
+                  {isEn ? 'Marketing & Promotion Tools Efficiency' : 'Hiệu Quả Công Cụ Khuyến Mãi (Promotions Engine)'}
                 </h4>
-                <p className="text-[11px] text-slate-500">TikTok Shop Seller Center 28 Ngày</p>
+                <p className="text-[11px] text-slate-500">TikTok Shop Seller Center 28 Ngày • Đối soát chiết khấu thực tế</p>
               </div>
             </div>
             <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
@@ -187,38 +187,120 @@ export default function ShopSalesSection({
             </span>
           </div>
 
-          <div className="grid grid-cols-3 gap-2.5 text-center">
+          {/* 4 KPI Cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
             <div className="p-2.5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80">
-              <div className="text-xs text-slate-400 font-bold uppercase">{isEn ? 'Promo GMV' : 'GMV Khuyến Mãi'}</div>
+              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{isEn ? 'Promo GMV' : 'GMV Khuyến Mãi'}</div>
               <div className="text-base font-black text-slate-900 dark:text-white mt-0.5">{sellerCenterShopData.marketingPromotions.promoGmvValue}</div>
-              <div className="text-xs text-emerald-600 font-bold">{sellerCenterShopData.marketingPromotions.promoGmvContributionPct}% tổng GMV</div>
+              <div className="text-[10px] text-emerald-600 font-bold">{sellerCenterShopData.marketingPromotions.promoGmvContributionPct}% tổng GMV</div>
             </div>
             <div className="p-2.5 rounded-xl bg-rose-50/80 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60">
-              <div className="text-xs text-rose-500 font-bold uppercase">{isEn ? 'Discount Cost' : 'Chi Phí Giảm Giá'}</div>
+              <div className="text-[10px] text-rose-500 font-bold uppercase tracking-wider">{isEn ? 'Discount Cost' : 'Chi Phí Giảm Giá'}</div>
               <div className="text-base font-black text-rose-600 dark:text-rose-400 mt-0.5">{sellerCenterShopData.marketingPromotions.discountCostValue}</div>
-              <div className="text-xs text-rose-500 font-bold">50,45% doanh số KM</div>
+              <div className="text-[10px] text-rose-500 font-bold">50,45% doanh số KM</div>
+            </div>
+            <div className="p-2.5 rounded-xl bg-sky-50/80 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-900/60">
+              <div className="text-[10px] text-sky-600 dark:text-sky-300 font-bold uppercase tracking-wider">{isEn ? 'Promo AOV' : 'AOV Khuyến Mãi'}</div>
+              <div className="text-base font-black text-[#0D7287] dark:text-[#9BE7FA] mt-0.5">{sellerCenterShopData.marketingPromotions.promoAov.toLocaleString()} đ</div>
+              <div className="text-[10px] text-emerald-600 font-bold">+{sellerCenterShopData.marketingPromotions.aovUpliftPct}% vs AOV gốc</div>
             </div>
             <div className="p-2.5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80">
-              <div className="text-xs text-slate-400 font-bold uppercase">{isEn ? 'Promo AOV' : 'AOV Khuyến Mãi'}</div>
-              <div className="text-base font-black text-[#0D7287] dark:text-[#9BE7FA] mt-0.5">{sellerCenterShopData.marketingPromotions.promoAov.toLocaleString()} đ</div>
-              <div className="text-xs text-emerald-600 font-bold">+{sellerCenterShopData.marketingPromotions.aovUpliftPct}% vs AOV gốc</div>
+              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{isEn ? 'Discount / Order' : 'Chi Phí / Đơn KM'}</div>
+              <div className="text-base font-black text-amber-700 dark:text-amber-400 mt-0.5">~76.100 đ</div>
+              <div className="text-[10px] text-slate-500 font-medium">Bào mòn biên lợi nhuận</div>
             </div>
           </div>
 
-          <div className="p-3 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-amber-200/60 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 leading-relaxed space-y-1.5">
-            <div className="flex items-center gap-1.5 font-bold text-amber-900 dark:text-amber-200">
-              <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
-              <span>Chẩn đoán cơ cấu voucher & giảm giá:</span>
+          {/* Breakdown 3 Promotion Tools */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-slate-100">
+              <span>{isEn ? 'Promotion Tool Allocation & Efficiency' : 'Phân Bổ & Hiệu Quả Từng Công Cụ Giảm Giá'}</span>
+              <span className="text-[11px] font-mono text-slate-500">Ngân sách: 62,2 Tr đ</span>
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-400">
-              {isEn ? sellerCenterShopData.marketingPromotions.insights.en : sellerCenterShopData.marketingPromotions.insights.vi}
-            </p>
+            <div className="space-y-2 text-xs">
+              <div className="p-2.5 rounded-xl bg-white/90 dark:bg-slate-900/90 border border-amber-200/60 dark:border-slate-800 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white">
+                    <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+                    <span>{isEn ? '1. Fixed Product Discount (28 Days)' : '1. Giảm Giá Cố Định Sản Phẩm (28 Ngày)'}</span>
+                  </div>
+                  <span className="font-mono font-bold text-rose-600 dark:text-rose-400">96,35% ngân sách (~59,9 Tr đ)</span>
+                </div>
+                <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {isEn
+                    ? 'Applied continuously for 28 days (e.g., 141M VND seasonal clearance). Passive markdown with zero buyer urgency, leading to severe profit margin erosion.'
+                    : 'Cài đặt giảm giá kéo dài suốt 28 ngày (tiêu biểu: chiến dịch xả kho 141 Tr đ). Giảm giá bị động, khách tự tìm đến vẫn nhận chiết khấu, gây lãng phí biên độ giá cao nhất.'}
+                </p>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-white/90 dark:bg-slate-900/90 border border-amber-200/60 dark:border-slate-800 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white">
+                    <span className="w-2 h-2 rounded-full bg-sky-500 shrink-0" />
+                    <span>{isEn ? '2. LIVE Session Flash Sale' : '2. Flash Sale Phiên LIVE'}</span>
+                  </div>
+                  <span className="font-mono font-bold text-sky-700 dark:text-sky-400">19,65% GMV KM (24,2 Tr đ)</span>
+                </div>
+                <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {isEn
+                    ? '15-30m countdown deals pinned by hosts. Strong urgency and high conversion, but only consumes 3.45% of discount budget.'
+                    : 'Ghim deal 15–30 phút kèm đồng hồ đếm ngược khi host chốt đơn. Tạo FOMO mạnh và tỷ lệ chuyển đổi cao nhất, nhưng ngân sách chiết khấu mới chiếm 3,45%.'}
+                </p>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-white/90 dark:bg-slate-900/90 border border-amber-200/60 dark:border-slate-800 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                    <span>{isEn ? '3. Shopping Tab Flash & Add-on Deals' : '3. Flash Sale Kệ Hàng & Deal Mua Kèm'}</span>
+                  </div>
+                  <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">0,20% GMV KM (246k đ)</span>
+                </div>
+                <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {isEn
+                    ? 'Barely utilized despite 1.17M product card viewers. Highest untapped potential for AOV bundles (Bikini + Mesh Top).'
+                    : 'Gần như chưa khai thác dù thẻ sản phẩm đón 1,17 triệu lượt xem. Đây là dư địa lớn nhất để bán kèm nâng AOV mà không phá giá niêm yết.'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Budget Share Progress Bar */}
+          <div className="space-y-1.5">
+            <div className="flex justify-between text-[11px] font-mono text-slate-500">
+              <span>Cơ cấu phân bổ ngân sách giảm giá:</span>
+              <span>Cố định (96,35%) • LIVE (3,45%) • Kệ (0,20%)</span>
+            </div>
+            <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden flex">
+              <div className="bg-rose-500 h-full" style={{ width: '96.35%' }} title="Giảm giá cố định: 96,35%" />
+              <div className="bg-sky-500 h-full" style={{ width: '3.45%' }} title="Flash Sale LIVE: 3,45%" />
+              <div className="bg-emerald-500 h-full" style={{ width: '0.20%' }} title="Flash Sale Kệ hàng: 0,20%" />
+            </div>
+          </div>
+
+          {/* Actionable Strategy Box */}
+          <div className="p-3.5 rounded-xl bg-amber-500/10 dark:bg-slate-900/80 border border-amber-200 dark:border-amber-900/40 text-xs space-y-2">
+            <div className="flex items-center gap-1.5 font-bold text-amber-950 dark:text-amber-200 text-xs">
+              <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+              <span>{isEn ? 'Action Plan: Restructure Discount Margin from 50.45% to 32%' : 'Lộ Trình Tái Cấu Trúc: Hạ Tỷ Lệ Chiết Khấu Từ 50,45% Về 30%–35%'}</span>
+            </div>
+            <ul className="text-[11px] text-slate-700 dark:text-slate-300 space-y-1 list-disc list-inside">
+              <li>
+                <strong>Cắt giảm Giảm giá cố định:</strong> Thu hẹp từ 96,35% xuống dưới 30%, thay bằng Flash Sale ngắn 2 tiếng vào khung 20h–22h.
+              </li>
+              <li>
+                <strong>Tăng tỷ trọng Flash Sale LIVE lên 40%:</strong> Ghim đồng hồ đếm ngược 15 phút theo mã sản phẩm đang được thử form.
+              </li>
+              <li>
+                <strong>Kích hoạt Deal Mua Kèm (Add-on Deal):</strong> Mua Bikini giảm 50% Phụ kiện/Áo lưới để giữ AOV mức 150.991 đ mà giảm áp lực giảm giá trực diện.
+              </li>
+            </ul>
           </div>
         </div>
 
         {/* Right: Shoppable Video Ads Leverage Breakdown */}
         <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-white to-sky-50/40 border border-sky-200/80 dark:from-slate-900 dark:to-sky-950/20 dark:border-sky-900/60 shadow-xs space-y-4">
-          <div className="flex items-center justify-between border-b border-sky-100 dark:border-slate-800 pb-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-sky-100 dark:border-slate-800 pb-3">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-xl bg-sky-500/10 text-sky-700 dark:text-sky-300">
                 <Video className="w-4 h-4" />
@@ -227,7 +309,7 @@ export default function ShopSalesSection({
                 <h4 className="font-black text-sm text-slate-950 dark:text-white">
                   {isEn ? 'Shoppable Video Ads Leverage Audit' : 'Đối Soát Đòn Bẩy Ads Trên 4.417 Shoppable Videos'}
                 </h4>
-                <p className="text-[11px] text-slate-500">Đối soát toàn bộ 4.417 dòng CSV Shoppable Videos</p>
+                <p className="text-[11px] text-slate-500">Đối soát 4.417 dòng CSV Shoppable Videos • Chu kỳ 180 ngày</p>
               </div>
             </div>
             <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
@@ -235,59 +317,106 @@ export default function ShopSalesSection({
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 text-xs">
-            {/* Paid Ads Box */}
-            <div className="p-3.5 rounded-2xl bg-sky-50/80 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/80 space-y-2">
-              <div className="flex items-center justify-between font-bold text-sky-950 dark:text-sky-200">
-                <span>Quảng Cáo (Ads = YES)</span>
-                <span className="text-xs px-2 py-0.5 rounded-md bg-sky-200/60 dark:bg-sky-900 text-sky-800 dark:text-sky-200 font-mono">
-                  {sellerCenterShopData.shoppableVideoAdsBreakdown.paidAds.videoSharePct}% video
-                </span>
-              </div>
-              <div className="space-y-1 text-[11px]">
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Số lượng video:</span>
-                  <b className="text-slate-900 dark:text-slate-100">{sellerCenterShopData.shoppableVideoAdsBreakdown.paidAds.videoCount.toLocaleString()} video</b>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Sản phẩm bán:</span>
-                  <b className="text-slate-900 dark:text-slate-100">{sellerCenterShopData.shoppableVideoAdsBreakdown.paidAds.unitsSold.toLocaleString()} SP ({sellerCenterShopData.shoppableVideoAdsBreakdown.paidAds.unitsSharePct}%)</b>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Doanh thu GMV:</span>
-                  <b className="text-[#0D7287] dark:text-[#9BE7FA]">2,05 Tỷ ₫ ({sellerCenterShopData.shoppableVideoAdsBreakdown.paidAds.gmvSharePct}%)</b>
-                </div>
-              </div>
+          {/* Scale Summary Bar */}
+          <div className="grid grid-cols-3 gap-2 text-center text-xs">
+            <div className="p-2 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80">
+              <div className="text-[10px] text-slate-400 font-bold uppercase">Tổng Video Gắn Giỏ</div>
+              <div className="text-base font-black text-slate-900 dark:text-white font-mono mt-0.5">4.417 clip</div>
+              <div className="text-[10px] text-slate-500">Toàn bộ kho dữ liệu</div>
             </div>
-
-            {/* Organic Box */}
-            <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
-              <div className="flex items-center justify-between font-bold text-slate-700 dark:text-slate-300">
-                <span>Tự Nhiên (Ads = NO)</span>
-                <span className="text-xs px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono">
-                  {sellerCenterShopData.shoppableVideoAdsBreakdown.organic.videoSharePct}% video
-                </span>
-              </div>
-              <div className="space-y-1 text-[11px]">
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Số lượng video:</span>
-                  <b className="text-slate-900 dark:text-slate-100">{sellerCenterShopData.shoppableVideoAdsBreakdown.organic.videoCount.toLocaleString()} video</b>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Sản phẩm bán:</span>
-                  <b className="text-slate-900 dark:text-slate-100">{sellerCenterShopData.shoppableVideoAdsBreakdown.organic.unitsSold.toLocaleString()} SP ({sellerCenterShopData.shoppableVideoAdsBreakdown.organic.unitsSharePct}%)</b>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Doanh thu GMV:</span>
-                  <b className="text-slate-700 dark:text-slate-300">115 Tr ₫ ({sellerCenterShopData.shoppableVideoAdsBreakdown.organic.gmvSharePct}%)</b>
-                </div>
-              </div>
+            <div className="p-2 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80">
+              <div className="text-[10px] text-slate-400 font-bold uppercase">Tổng Sản Phẩm Bán</div>
+              <div className="text-base font-black text-slate-900 dark:text-white font-mono mt-0.5">13.083 SP</div>
+              <div className="text-[10px] text-slate-500">Quy mô tiêu thụ 90d</div>
+            </div>
+            <div className="p-2 rounded-xl bg-sky-50/80 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-900/60">
+              <div className="text-[10px] text-sky-600 dark:text-sky-300 font-bold uppercase">Tổng Doanh Thu Video</div>
+              <div className="text-base font-black text-[#0D7287] dark:text-[#9BE7FA] font-mono mt-0.5">2,17 Tỉ đ</div>
+              <div className="text-[10px] text-emerald-600 font-bold">2.170.840.326 đ</div>
             </div>
           </div>
 
-          <div className="p-3 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-sky-200/60 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-            <span className="font-bold text-[#0D7287] dark:text-[#9BE7FA]">Sự thật dữ liệu: </span>
-            Chỉ số GPM <strong>135,2k đ / 1k views</strong> của video (gấp 4.5x LIVE) thực chất là kết quả của việc dồn ngân sách Paid Ads vào các clip bán chạy nhất, chứ không phải do video organic tự lan truyền tự nhiên.
+          {/* Deep-Dive Comparative Table */}
+          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="bg-slate-50 dark:bg-slate-900/95 text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-800 font-mono text-[11px] uppercase">
+                  <th className="p-2.5">Chỉ tiêu đối soát</th>
+                  <th className="p-2.5 text-sky-700 dark:text-sky-300">Quảng Cáo (Ads = YES)</th>
+                  <th className="p-2.5 text-slate-600 dark:text-slate-400">Tự Nhiên (Ads = NO)</th>
+                  <th className="p-2.5 text-right">Đòn bẩy</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-slate-700 dark:text-slate-200 font-mono text-[11px]">
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
+                  <td className="p-2.5 font-sans font-medium text-slate-900 dark:text-slate-100">Số lượng video</td>
+                  <td className="p-2.5 font-bold text-sky-700 dark:text-sky-300">3.482 video (78,83%)</td>
+                  <td className="p-2.5 text-slate-500">935 video (21,17%)</td>
+                  <td className="p-2.5 text-right font-bold text-slate-900 dark:text-white">3,7x</td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
+                  <td className="p-2.5 font-sans font-medium text-slate-900 dark:text-slate-100">Sản phẩm tiêu thụ</td>
+                  <td className="p-2.5 font-bold text-sky-700 dark:text-sky-300">12.398 SP (94,76%)</td>
+                  <td className="p-2.5 text-slate-500">685 SP (5,24%)</td>
+                  <td className="p-2.5 text-right font-bold text-emerald-600">18,1x</td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
+                  <td className="p-2.5 font-sans font-medium text-slate-900 dark:text-slate-100">Doanh thu GMV</td>
+                  <td className="p-2.5 font-bold text-[#0D7287] dark:text-[#9BE7FA]">2,05 Tỉ đ (94,70%)</td>
+                  <td className="p-2.5 text-slate-500">115 Tr đ (5,30%)</td>
+                  <td className="p-2.5 text-right font-bold text-emerald-600">17,9x</td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
+                  <td className="p-2.5 font-sans font-medium text-slate-900 dark:text-slate-100">GMV TB / video</td>
+                  <td className="p-2.5 font-bold text-slate-900 dark:text-white">590.395 đ / clip</td>
+                  <td className="p-2.5 text-slate-500">123.082 đ / clip</td>
+                  <td className="p-2.5 text-right font-bold text-sky-600">4,8x</td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
+                  <td className="p-2.5 font-sans font-medium text-slate-900 dark:text-slate-100">Sản lượng TB / video</td>
+                  <td className="p-2.5 font-bold text-slate-900 dark:text-white">3,56 SP / clip</td>
+                  <td className="p-2.5 text-slate-500">0,73 SP / clip</td>
+                  <td className="p-2.5 text-right font-bold text-sky-600">4,9x</td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition">
+                  <td className="p-2.5 font-sans font-medium text-slate-900 dark:text-slate-100">Đơn giá TB / sản phẩm</td>
+                  <td className="p-2.5 text-slate-700 dark:text-slate-300">165.813 đ</td>
+                  <td className="p-2.5 text-slate-700 dark:text-slate-300">168.002 đ</td>
+                  <td className="p-2.5 text-right text-slate-400">Sweet Spot</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Video GMV Share Progress Bar */}
+          <div className="space-y-1.5">
+            <div className="flex justify-between text-[11px] font-mono text-slate-500">
+              <span>Tỷ trọng doanh thu GMV:</span>
+              <span>Paid Ads: 94,70% • Organic: 5,30%</span>
+            </div>
+            <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden flex">
+              <div className="bg-sky-500 h-full" style={{ width: '94.7%' }} title="Paid Ads: 94,70%" />
+              <div className="bg-slate-400 h-full" style={{ width: '5.3%' }} title="Organic: 5,30%" />
+            </div>
+          </div>
+
+          {/* Root-cause Diagnostic & Actionable Recommendations */}
+          <div className="p-3.5 rounded-xl bg-sky-500/10 dark:bg-slate-900/80 border border-sky-200 dark:border-sky-900/40 text-xs space-y-2">
+            <div className="flex items-center gap-1.5 font-bold text-sky-950 dark:text-sky-200 text-xs">
+              <Zap className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" />
+              <span>{isEn ? 'Diagnostic & Organic Recovery Plan' : 'Chẩn Đoán Nghịch Lý GPM & Lộ Trình Phục Hồi Kênh Organic'}</span>
+            </div>
+            <ul className="text-[11px] text-slate-700 dark:text-slate-300 space-y-1 list-disc list-inside">
+              <li>
+                <strong>Bản chất GPM 135,2k đ / 1k views:</strong> GPM video cao gấp 4,5x LIVE không phải do video tự viral, mà do Paid Ads dồn ngân sách vào các clip chuyển đổi tốt nhất.
+              </li>
+              <li>
+                <strong>Khắc phục 308 video chưa gắn giỏ hàng:</strong> Kênh chính chủ đang bỏ phí 308 video không có link sản phẩm, làm mất toàn bộ dòng GMV tự nhiên từ đề xuất TikTok.
+              </li>
+              <li>
+                <strong>Chuyển dịch khung giờ đăng:</strong> 62% clip organic đăng vào buổi sáng (08:00–12:00) ít người mua sắm; cần dời lịch sang khung giờ vàng 12:00–13:00 và 20:00–22:00.
+              </li>
+            </ul>
           </div>
         </div>
       </div>

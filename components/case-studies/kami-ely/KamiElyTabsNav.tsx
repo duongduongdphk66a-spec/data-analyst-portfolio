@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
-import { ArrowLeft, Camera } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 export type KamiElyTabKey = 'shop' | 'creator' | 'science';
 
@@ -41,7 +41,7 @@ export default function KamiElyTabsNav({
   handleBack,
   isEmbedded,
   isEn: propIsEn,
-  onOpenProofModal,
+  onOpenProofModal: _onOpenProofModal,
   currentNavItems,
   activeSection,
   scrollProgress: _scrollProgress = 0,
@@ -91,33 +91,33 @@ export default function KamiElyTabsNav({
   }[] = [
     {
       id: 'shop',
-      title: { vi: '1. Phân Hệ Toàn Gian Hàng (Shop-Wide)', en: '1. Shop-Wide Analytics' },
+      title: { vi: '1. Phân Hệ Toàn Gian Hàng', en: '1. Shop-Wide Analytics' },
       subtitle: {
-        vi: 'Chu kỳ 180d (12,74 Tỉ) • Kệ hàng (1,17M views) • 5.712 KOCs',
-        en: '180d Cycle (12.74B) • Product Cards (1.17M views) • 5,712 KOCs'
+        vi: 'Chu kỳ 180d (12,74 Tỉ) • Kệ hàng (1,17M views)',
+        en: '180d Cycle (12.74B) • Product Cards (1.17M views)'
       },
       badge: '12,74 Tỉ • 85,5k SP',
-      activeClass: 'bg-sky-50 text-sky-950 border-sky-400 ring-1 ring-sky-300 shadow-sm dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/50 dark:shadow-sky-950/50'
+      activeClass: 'bg-sky-50 text-sky-950 border-sky-400 ring-2 ring-sky-300/50 shadow-sm dark:bg-sky-500/20 dark:text-sky-200 dark:border-sky-500/60'
     },
     {
       id: 'creator',
-      title: { vi: '2. Phân Hệ Kênh Chính Chủ (@kamielyhn)', en: '2. Official Channel (@kamielyhn)' },
+      title: { vi: '2. Phân Hệ Kênh Chính Chủ', en: '2. Official Channel (@kamielyhn)' },
       subtitle: {
-        vi: '470–475 Phiên LIVE • Nghịch lý GPM 4,5x • A/B Testing Live Ads',
-        en: '470–475 LIVEs • 4.5x GPM Paradox • Live Ads A/B Testing'
+        vi: '470+ LIVEs • Nghịch lý GPM 4,5x • A/B Ads',
+        en: '470+ LIVEs • 4.5x GPM Paradox • Live Ads A/B'
       },
-      badge: '49,3% GMV • 4,5x GPM',
-      activeClass: 'bg-emerald-50 text-emerald-950 border-emerald-400 ring-1 ring-emerald-300 shadow-sm dark:bg-emerald-500/20 dark:text-emerald-300 dark:border-emerald-500/50 dark:shadow-emerald-950/50'
+      badge: '49,3% GMV • 4,5x',
+      activeClass: 'bg-emerald-50 text-emerald-950 border-emerald-400 ring-2 ring-emerald-300/50 shadow-sm dark:bg-emerald-500/20 dark:text-emerald-200 dark:border-emerald-500/60'
     },
     {
       id: 'science',
-      title: { vi: '3. Thống Kê Ứng Dụng & Mô Phỏng ROI', en: '3. Applied Statistics & ROI Simulator' },
+      title: { vi: '3. Thống Kê & Mô Phỏng ROI', en: '3. Statistics & ROI Simulator' },
       subtitle: {
-        vi: 'Kiểm định Giả thuyết • Tương quan • What-If Optimizer',
-        en: 'Hypothesis Testing • Correlation • What-If Optimizer'
+        vi: 'Kiểm định Giả thuyết • What-If Optimizer',
+        en: 'Hypothesis Testing • What-If Optimizer'
       },
       badge: 'Jupyter • Simulator',
-      activeClass: 'bg-pink-50 text-pink-950 border-pink-400 ring-1 ring-pink-300 shadow-sm dark:bg-pink-500/20 dark:text-pink-300 dark:border-pink-500/50 dark:shadow-pink-950/50'
+      activeClass: 'bg-pink-50 text-pink-950 border-pink-400 ring-2 ring-pink-300/50 shadow-sm dark:bg-pink-500/20 dark:text-pink-200 dark:border-pink-500/60'
     }
   ];
 
@@ -127,83 +127,87 @@ export default function KamiElyTabsNav({
         aria-label="Kami Ely Case Study Navigation"
         className={`sticky top-2 z-30 w-full border border-slate-200/90 bg-white/95 dark:border-slate-800/90 dark:bg-slate-950/95 backdrop-blur-md transition-all duration-300 ease-out ${
           isScrolledPast
-            ? 'p-2 sm:p-2.5 rounded-2xl shadow-md space-y-1.5'
+            ? 'p-2 sm:p-2.5 rounded-2xl shadow-md space-y-2'
             : 'p-3 sm:p-4 rounded-3xl shadow-lg space-y-3'
         }`}
       >
-        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2.5">
-          {/* OPTIONAL BACK BUTTON & EMBEDDED NOTICE */}
-          {handleBack && !isEmbedded && (
+        {/* OPTIONAL BACK BUTTON */}
+        {handleBack && !isEmbedded && (
+          <div className="pb-1 border-b border-slate-100 dark:border-slate-800/60">
             <button
               type="button"
               onClick={handleBack}
-              className={`hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-bold text-slate-700 hover:text-slate-950 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-800 dark:text-slate-300 dark:hover:text-white transition cursor-pointer shrink-0 ${
-                isScrolledPast ? 'px-2.5 py-1.5' : 'px-3 py-2.5'
-              }`}
+              className="min-h-[38px] px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-bold text-slate-700 hover:text-slate-950 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-800 dark:text-slate-300 dark:hover:text-white transition cursor-pointer flex items-center gap-1.5"
               title={lang === 'vi' ? 'Quay lại danh mục dự án' : 'Back to projects'}
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>{lang === 'vi' ? 'Dự án' : 'Projects'}</span>
             </button>
-          )}
+          </div>
+        )}
 
-          {/* 3 DEEP-DIVE TABS */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 flex-1">
-            {mainTabs.map((tab) => {
-              const isSelected = activeTab === tab.id && !isExecActive;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => {
-                    if (isExecActive && toggleExec) {
-                      toggleExec();
-                    }
-                    handleSelectTab(tab.id);
-                  }}
-                  title={tab.subtitle[lang]}
-                  className={`border text-left transition-all cursor-pointer ${
-                    isScrolledPast
-                      ? `px-3 py-1.5 sm:py-2 rounded-xl flex items-center justify-between gap-2 ${
-                          isSelected
-                            ? `${tab.activeClass} shadow-xs`
-                            : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:bg-slate-900/60 dark:border-slate-800/80 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-slate-200'
-                        }`
-                      : `p-3.5 sm:p-4 rounded-2xl flex flex-col justify-between space-y-1.5 ${
-                          isSelected
-                            ? `${tab.activeClass} shadow-md`
-                            : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:bg-slate-900/60 dark:border-slate-800/80 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-slate-200'
-                        }`
-                  }`}
-                >
-                  {isScrolledPast ? (
-                    <>
-                      <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">
+        {/* 3 DEEP-DIVE TABS (100% WIDTH GRID) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 w-full">
+          {mainTabs.map((tab) => {
+            const isSelected = activeTab === tab.id && !isExecActive;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => {
+                  if (isExecActive && toggleExec) {
+                    toggleExec();
+                  }
+                  handleSelectTab(tab.id);
+                  const targetId = tab.id === 'shop' ? 'sec-shop' : tab.id === 'creator' ? 'sec-creator' : 'sec-science';
+                  const el = document.getElementById(targetId);
+                  if (el) {
+                    const y = el.getBoundingClientRect().top + window.scrollY - 90;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                  }
+                }}
+                title={tab.subtitle[lang]}
+                className={`border text-left transition-all cursor-pointer ${
+                  isScrolledPast
+                    ? `px-3.5 py-2 rounded-xl flex items-center justify-between gap-2 ${
+                        isSelected
+                          ? `${tab.activeClass} shadow-xs`
+                          : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:bg-slate-900/60 dark:border-slate-800/80 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-slate-200'
+                      }`
+                    : `p-3.5 sm:p-4 rounded-2xl flex flex-col justify-between space-y-1.5 ${
+                        isSelected
+                          ? `${tab.activeClass} shadow-md`
+                          : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:bg-slate-900/60 dark:border-slate-800/80 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-slate-200'
+                      }`
+                }`}
+              >
+                {isScrolledPast ? (
+                  <>
+                    <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">
+                      {tab.title[lang]}
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-white text-slate-700 border border-slate-200 dark:bg-slate-950/80 dark:text-slate-300 dark:border-slate-800 shrink-0">
+                      {tab.badge}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">
                         {tab.title[lang]}
                       </span>
-                      <span className="px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-white text-slate-700 border border-slate-200 dark:bg-slate-950/80 dark:text-slate-300 dark:border-slate-800 shrink-0">
+                      <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-white text-slate-800 border border-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-700 shadow-2xs shrink-0 whitespace-nowrap">
                         {tab.badge}
                       </span>
-                    </>
-                  ) : (
-                    <>
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">
-                          {tab.title[lang]}
-                        </span>
-                        <span className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-white text-slate-800 border border-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-700 shadow-2xs shrink-0">
-                          {tab.badge}
-                        </span>
-                      </div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400 font-sans line-clamp-1">
-                        {tab.subtitle[lang]}
-                      </div>
-                    </>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+                    </div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400 font-sans line-clamp-1">
+                      {tab.subtitle[lang]}
+                    </div>
+                  </>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* CHAPTER SUBNAV PILLS (Visible in full explorer mode when currentNavItems are available) */}

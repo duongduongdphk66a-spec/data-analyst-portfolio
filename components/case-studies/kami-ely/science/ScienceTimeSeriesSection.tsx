@@ -10,8 +10,8 @@ import { KAMI_MATH_STATS } from '@/app/data/kamiElyData';
 
 interface ScienceTimeSeriesSectionProps {
   isEn: boolean;
-  tsPanelFocus: 'all' | 'trend' | 'seasonal' | 'residual';
-  setTsPanelFocus: (_v: 'all' | 'trend' | 'seasonal' | 'residual') => void;
+  tsPanelFocus?: 'all' | 'trend' | 'seasonal' | 'residual';
+  setTsPanelFocus?: (_v: 'all' | 'trend' | 'seasonal' | 'residual') => void;
   handleExport: (_id: string, _name: string) => void;
   timeSeriesData?: any[];
   isLiveDb?: boolean;
@@ -19,8 +19,6 @@ interface ScienceTimeSeriesSectionProps {
 
 export default function ScienceTimeSeriesSection({
   isEn,
-  tsPanelFocus,
-  setTsPanelFocus,
   handleExport,
   timeSeriesData,
   isLiveDb
@@ -92,90 +90,64 @@ export default function ScienceTimeSeriesSection({
               {isEn ? 'Visualizing Original Revenue, Trend Line, Weekly Cycle, and Event Spikes' : 'Trực quan hóa Doanh thu thực tế, Đường xu hướng, Chu kỳ tuần hoàn và Xung lực sale'}
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            {[
-              { id: 'all', label: isEn ? 'ALL' : 'Tất cả' },
-              { id: 'trend', label: isEn ? 'TREND' : 'Xu hướng' },
-              { id: 'seasonal', label: isEn ? 'SEASON' : 'Mùa vụ' },
-              { id: 'residual', label: isEn ? 'EVENT' : 'Đột biến' }
-            ].map((btn) => (
-              <button
-                key={btn.id}
-                onClick={() => setTsPanelFocus(btn.id as any)}
-                className={`rounded-lg px-3 py-1.5 text-xs transition cursor-pointer active:scale-[0.97] ${
-                  tsPanelFocus === btn.id
-                    ? 'bg-[#9BE7FA] text-slate-950 font-bold border border-[#9BE7FA] shadow-xs dark:bg-[#9BE7FA] dark:text-slate-950'
-                    : 'bg-[#C8EEF7]/30 text-slate-700 hover:bg-[#C8EEF7]/60 border border-[#C8EEF7] dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'
-                }`}
-              >
-                {btn.label}
-              </button>
-            ))}
-            <button
-              onClick={() => handleExport('chart-decomp-4panel', 'TimeSeries_Breakdown_KamiEly')}
-              className="btn-secondary-editorial py-1.5 px-3 text-xs flex items-center gap-1.5 cursor-pointer"
-            >
-              <Download className="h-3.5 w-3.5" />
-              <span>{isEn ? 'Export PNG' : 'Xuất'}</span>
-            </button>
-          </div>
+          <button
+            onClick={() => handleExport('chart-decomp-4panel', 'TimeSeries_Breakdown_KamiEly')}
+            className="btn-secondary-editorial py-1.5 px-3 text-xs flex items-center gap-1.5 cursor-pointer self-start sm:self-auto"
+          >
+            <Download className="h-3.5 w-3.5" />
+            <span>{isEn ? 'Export PNG' : 'Xuất'}</span>
+          </button>
         </div>
 
         <div className="space-y-6">
           {/* Panel 1: Original */}
-          {(tsPanelFocus === 'all' || tsPanelFocus === 'trend') && (
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">1. Doanh thu Thực tế & Đường Xu hướng Dài hạn</span>
-              <div className="h-44 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
-                    <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 10 }} unit="M" />
-                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
-                    <Line type="monotone" dataKey="original" stroke="#074553" strokeWidth={1.5} dot={false} name="Doanh thu thực tế (M)" />
-                    <Line type="monotone" dataKey="trend" stroke="#FFD14C" strokeWidth={2.5} dot={false} name="Xu hướng dài hạn" />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
+          <div className="space-y-2">
+            <span className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">1. Doanh thu Thực tế & Đường Xu hướng Dài hạn</span>
+            <div className="h-44 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
+                  <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
+                  <YAxis tick={{ fontSize: 10 }} unit="M" />
+                  <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
+                  <Line type="monotone" dataKey="original" stroke="#074553" strokeWidth={1.5} dot={false} name="Doanh thu thực tế (M)" />
+                  <Line type="monotone" dataKey="trend" stroke="#FFD14C" strokeWidth={2.5} dot={false} name="Xu hướng dài hạn" />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
-          )}
+          </div>
 
           {/* Panel 2: Seasonal */}
-          {(tsPanelFocus === 'all' || tsPanelFocus === 'seasonal') && (
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">2. Chu kỳ Biến động Tuần hoàn (Seasonality)</span>
-              <div className="h-36 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
-                    <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 10 }} unit="M" />
-                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
-                    <Area type="monotone" dataKey="seasonal" stroke="#0D7287" fill="#9BE7FA" fillOpacity={0.4} name="Biến động tuần hoàn (M)" />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
+          <div className="space-y-2">
+            <span className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">2. Chu kỳ Biến động Tuần hoàn (Seasonality)</span>
+            <div className="h-36 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
+                  <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
+                  <YAxis tick={{ fontSize: 10 }} unit="M" />
+                  <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
+                  <Area type="monotone" dataKey="seasonal" stroke="#0D7287" fill="#9BE7FA" fillOpacity={0.4} name="Biến động tuần hoàn (M)" />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
-          )}
+          </div>
 
           {/* Panel 3: Residual */}
-          {(tsPanelFocus === 'all' || tsPanelFocus === 'residual') && (
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">3. Tác động Ngẫu nhiên & Đợt Sale (Residual)</span>
-              <div className="h-36 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
-                    <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
-                    <YAxis tick={{ fontSize: 10 }} unit="M" />
-                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
-                    <Bar dataKey="residual" fill="#9BE7FA" name="Tác động đột biến (M)" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+          <div className="space-y-2">
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-300">3. Tác động Ngẫu nhiên & Đợt Sale (Residual)</span>
+            <div className="h-36 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
+                  <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
+                  <YAxis tick={{ fontSize: 10 }} unit="M" />
+                  <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
+                  <Bar dataKey="residual" fill="#9BE7FA" name="Tác động đột biến (M)" />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
-          )}
+          </div>
         </div>
 
         <div className="rounded-xl border border-[#9BE7FA] bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 p-4 text-xs text-slate-800 dark:text-slate-200">

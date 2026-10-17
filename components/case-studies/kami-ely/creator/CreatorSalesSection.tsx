@@ -87,7 +87,7 @@ export default function CreatorSalesSection({
             <div>
               <h3 className="text-base font-black text-slate-950 dark:text-white flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
-                {isEn ? 'Comprehensive 180-Day Creator Metrics (FastMoss Telemetry)' : 'Tổng Hợp Chỉ Số Kênh 180 Ngày Gần Nhất (FastMoss Telemetry)'}
+                {isEn ? 'Comprehensive 180-Day Creator Metrics (Telemetry)' : 'Tổng Hợp Chỉ Số Kênh 180 Ngày Gần Nhất (Telemetry)'}
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 {isEn ? 'Timeframe: 2024/03/09 - 2024/09/04 · Consolidated from 13 Bi-weekly Telemetry Points' : 'Thời gian: 09/03/2024 - 04/09/2024 · Trích xuất từ 13 điểm viễn trắc 2 tuần liên tục'}
@@ -210,7 +210,7 @@ export default function CreatorSalesSection({
                 {isEn ? '180-Day Bi-Weekly GMV Trajectory & Peak Analysis' : 'Quỹ Đạo Doanh Số GMV 180 Ngày (Chu Kỳ 2 Tuần) & Phân Tích Đỉnh Cao'}
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                {isEn ? 'Data plotted from 14 sequential FastMoss bi-weekly captures (Screenshots 080501 - 080640)' : 'Dữ liệu được vẽ từ 14 mốc chụp viễn trắc FastMoss liên tục (Ảnh 080501 - 080640)'}
+                {isEn ? 'Data plotted from 14 sequential bi-weekly captures (Screenshots 080501 - 080640)' : 'Dữ liệu được vẽ từ 14 mốc chụp viễn trắc liên tục (Ảnh 080501 - 080640)'}
               </p>
             </div>
             <span className="px-3 py-1 rounded-full bg-[#FFFDF5] text-slate-900 text-xs font-bold border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C]">
@@ -251,7 +251,7 @@ export default function CreatorSalesSection({
                 {isEn ? 'Category Commercial Capacity & Dominance' : 'Năng Lực Bán Hàng Theo Ngành Hàng (Category Capacity)'}
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                {isEn ? 'FastMoss Screenshot 081026 (GMV) & 081041 (Units)' : 'Trích xuất từ ảnh FastMoss #081026 (Doanh số) và #081041 (Sản lượng)'}
+                {isEn ? 'Screenshot 081026 (GMV) & 081041 (Units)' : 'Trích xuất từ ảnh #081026 (Doanh số) và #081041 (Sản lượng)'}
               </p>
             </div>
             <div className="flex items-center gap-2">

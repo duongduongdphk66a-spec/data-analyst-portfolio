@@ -69,23 +69,23 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
             <Link href="/" aria-label="Trang chủ MVH">MVH</Link>
           </div>
           <div className="flex items-center gap-1">
-            {/* Quick search (Ctrl+K) trigger button on mobile (min-h-[40px] min-w-[40px]) */}
+            {/* Quick search (Ctrl+K) trigger button on mobile (min-h-[44px] min-w-[44px]) */}
             <button
               type="button"
               onClick={() => setIsCommandPaletteOpen(true)}
               aria-label="Tìm kiếm nhanh (Ctrl+K)"
-              className="min-h-[40px] min-w-[40px] flex items-center justify-center p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
-              <Search className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+              <Search className="w-4 h-4 text-[#074553] dark:text-[#9BE7FA]" />
             </button>
 
-            {/* Quick download CV button on mobile (min-h-[40px] min-w-[40px]) */}
+            {/* Quick download CV button on mobile (min-h-[44px] min-w-[44px]) */}
             <a
               href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Tải CV"
-              className="min-h-[40px] min-w-[40px] flex items-center justify-center p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
               <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             </a>
@@ -93,7 +93,7 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
             <button
               onClick={toggleTheme}
               aria-label="Toggle theme"
-              className="min-h-[40px] min-w-[40px] flex items-center justify-center p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
             >
               {resolvedTheme === 'dark' ? <Sun className="w-4 h-4 text-[#FFD14C]" /> : <Moon className="w-4 h-4 text-slate-700" />}
             </button>
@@ -102,7 +102,7 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
         </header>
 
         {/* Main Content */}
-        <main id="main-content" ref={mainRef} className="flex-1 min-w-0 bg-ground relative dark:bg-[#0B0F17] transition-colors duration-200 mb-16 md:mb-0 pb-safe">
+        <main id="main-content" ref={mainRef} className="flex-1 min-w-0 max-w-full overflow-x-hidden bg-ground relative dark:bg-[#0B0F17] transition-colors duration-200 mb-16 md:mb-0 pb-safe focus:outline-none">
           {children}
         </main>
 

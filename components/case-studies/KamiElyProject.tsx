@@ -1,13 +1,12 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 // Khối Điều hành & Bộ Biểu đồ Trực quan Cấp cao
 import KamiElyHero from '@/components/case-studies/kami-ely/KamiElyHero';
 import KamiElyTabsNav, { KamiElyTabKey } from '@/components/case-studies/kami-ely/KamiElyTabsNav';
 import KamiElyVisualChartsSuite from '@/components/case-studies/kami-ely/KamiElyVisualChartsSuite';
-import KamiElySqlBookVisualFlow from '@/components/case-studies/kami-ely/KamiElySqlBookVisualFlow';
 import KamiElyExecutiveStory from '@/components/case-studies/kami-ely/KamiElyExecutiveStory';
 import KamiElyDataScopeMatrix from '@/components/case-studies/kami-ely/KamiElyDataScopeMatrix';
 import KamiElySqlLabWorkbench from '@/components/case-studies/kami-ely/KamiElySqlLabWorkbench';
@@ -17,6 +16,8 @@ import KamiElyShopTab from '@/components/case-studies/kami-ely/shop/KamiElyShopT
 import KamiElyCreatorTab from '@/components/case-studies/kami-ely/creator/KamiElyCreatorTab';
 import KamiElyScienceCaseStudy from '@/components/case-studies/kami-ely/science/KamiElyScienceCaseStudy';
 import ScienceOptimizerSection from '@/components/case-studies/kami-ely/science/ScienceOptimizerSection';
+import KamiElyProofModal from '@/components/case-studies/kami-ely/KamiElyProofModal';
+import CaseStudyFooter from './shared/CaseStudyFooter';
 
 export interface KamiElyProjectProps {
   onBack?: () => void;
@@ -38,56 +39,68 @@ export default function KamiElyProject({
   // Chế độ "Đọc lướt 3 phút cho HR" (Chỉ hiện Biểu đồ + Hình ảnh + Simulator, ẩn bảng chữ dài)
   const [isExecutiveScanMode, setIsExecutiveScanMode] = useState<boolean>(false);
 
-  // Bật/tắt hiển thị Khung 8 Giai đoạn SQL for Data Analysis
-  const [showSqlBookPipeline, setShowSqlBookPipeline] = useState<boolean>(true);
 
-  // Cuộn mượt về đầu vùng nội dung khi đổi giữa 3 Tab lớn
+  // Quản lý Modal Xem Bằng Chứng Dữ Liệu Gốc Telemetry
+  const [isProofModalOpen, setIsProofModalOpen] = useState(false);
+  const [initialScreenshotId, setInitialScreenshotId] = useState<string | undefined>(undefined);
+
+  const handleOpenProofModal = useCallback((id?: string) => {
+    setInitialScreenshotId(id);
+    setIsProofModalOpen(true);
+  }, []);
+
+  // Cuộn mượt về đầu vùng nội dung tương ứng khi chọn giữa 3 Phân hệ
   const handleSelectMainTab = useCallback((tab: KamiElyTabKey) => {
     setActiveTab(tab);
-    const contentEl = document.getElementById('kami-ely-active-tab-content');
-    if (contentEl && typeof window !== 'undefined') {
-      const yOffset = -95;
-      const y = contentEl.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+    if (isExecutiveScanMode) {
+      setIsExecutiveScanMode(false);
     }
-  }, []);
+    setTimeout(() => {
+      const targetId = tab === 'shop' ? 'sec-shop' : tab === 'creator' ? 'sec-creator' : 'sec-science';
+      const el = document.getElementById(targetId);
+      if (el && typeof window !== 'undefined') {
+        const yOffset = -90;
+        const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }, 40);
+  }, [isExecutiveScanMode]);
+
+  // ScrollSpy theo dõi vị trí cuộn để cập nhật tab tương ứng
+  useEffect(() => {
+    if (isExecutiveScanMode) return;
+    const sectionIds: { id: string; key: KamiElyTabKey }[] = [
+      { id: 'sec-shop', key: 'shop' },
+      { id: 'sec-creator', key: 'creator' },
+      { id: 'sec-science', key: 'science' },
+    ];
+
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + 140;
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sectionIds[i].id);
+        if (el && el.offsetTop <= scrollPos) {
+          setActiveTab(sectionIds[i].key);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isExecutiveScanMode]);
 
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
       {/* 1. HERO BENTO GRID: Định vị All-Time (31,6 Tỉ) • 180 Ngày (12,74 Tỉ) • 90 Ngày (6,14 Tỉ) */}
-      <KamiElyHero />
+      <KamiElyHero
+        onOpenProofModal={handleOpenProofModal}
+        onJumpToStory={() => setIsExecutiveScanMode(true)}
+      />
 
       {/* 2. BỘ 6 BIỂU ĐỒ TƯƠNG TÁC & DẢI 6 ẢNH CHỤP MÀN HÌNH THẬT (VISUAL-FIRST SUITE) */}
       <KamiElyVisualChartsSuite />
 
-      {/* 3. LỘ TRÌNH 8 GIAI ĐOẠN "SQL FOR DATA ANALYSIS" BẰNG BIỂU ĐỒ & ẢNH BẰNG CHỨNG */}
-      <div className="space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2 px-1">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-mono uppercase tracking-wider text-slate-700 dark:text-slate-300 font-bold">
-              {lang === 'vi'
-                ? 'Khung Phân Tích Chuẩn: SQL for Data Analysis (Chương 1 → Chương 9)'
-                : 'Standard Framework: SQL for Data Analysis (Ch. 1 → Ch. 9)'}
-            </span>
-          </div>
-          <button
-            type="button"
-            onClick={() => setShowSqlBookPipeline((prev) => !prev)}
-            className="text-xs font-mono text-sky-700 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 underline cursor-pointer"
-          >
-            {showSqlBookPipeline
-              ? lang === 'vi'
-                ? 'Thu gọn khung 8 giai đoạn ▲'
-                : 'Collapse 8-Stage Pipeline ▲'
-              : lang === 'vi'
-              ? 'Mở khung 8 giai đoạn SQL ▼'
-              : 'Expand 8-Stage Pipeline ▼'}
-          </button>
-        </div>
-
-        {showSqlBookPipeline && <KamiElySqlBookVisualFlow />}
-      </div>
 
       {/* 4. THANH ĐIỀU HƯỚNG CỐ ĐỊNH 3 PHÂN HỆ & NÚT CHẾ ĐỘ ĐỌC LƯỚT 3 PHÚT CHO HR */}
       <KamiElyTabsNav
@@ -95,6 +108,7 @@ export default function KamiElyProject({
         onTabChange={handleSelectMainTab}
         isExecutiveScanMode={isExecutiveScanMode}
         onToggleExecutiveScanMode={() => setIsExecutiveScanMode((prev) => !prev)}
+        onOpenProofModal={() => handleOpenProofModal()}
       />
 
       {/* 5. NỘI DUNG HIỂN THỊ THEO CHẾ ĐỘ (3-MIN SCAN MODE VS. FULL 3-TAB DEEP DIVE) */}
@@ -102,32 +116,52 @@ export default function KamiElyProject({
         <div className="space-y-8 animate-fadeIn">
           <ScienceOptimizerSection />
           <KamiElyExecutiveStory />
-          <KamiElyDataScopeMatrix />
+          <KamiElyDataScopeMatrix onOpenProofModal={handleOpenProofModal} />
           <KamiElySqlLabWorkbench />
         </div>
       ) : (
-        <div className="space-y-8">
-          {/* Nội dung chuyên sâu của từng Tab */}
-          <div id="kami-ely-active-tab-content" className="pt-1 space-y-8">
-            {activeTab === 'shop' && (
-              <KamiElyShopTab
-                handleTabChange={handleSelectMainTab}
-              />
-            )}
-            {activeTab === 'creator' && (
-              <KamiElyCreatorTab
-                handleTabChange={handleSelectMainTab}
-              />
-            )}
-            {activeTab === 'science' && <KamiElyScienceCaseStudy />}
-          </div>
+        <div className="space-y-16">
+          {/* 1. PHÂN HỆ TOÀN GIAN HÀNG */}
+          <section id="sec-shop" className="scroll-mt-28 space-y-8">
+            <KamiElyShopTab handleTabChange={handleSelectMainTab} />
+          </section>
+
+          {/* 2. PHÂN HỆ KÊNH CHÍNH CHỦ */}
+          <section id="sec-creator" className="scroll-mt-28 space-y-8 pt-10 border-t border-slate-200 dark:border-slate-800">
+            <KamiElyCreatorTab handleTabChange={handleSelectMainTab} />
+          </section>
+
+          {/* 3. THỐNG KÊ & MÔ PHỎNG ROI */}
+          <section id="sec-science" className="scroll-mt-28 space-y-8 pt-10 border-t border-slate-200 dark:border-slate-800">
+            <KamiElyScienceCaseStudy />
+          </section>
 
           {/* Ma trận Kiểm toán 8 Bảng gốc & Phòng thí nghiệm SQL đặt gọn ở cuối trang */}
-          <KamiElyDataScopeMatrix />
+          <KamiElyDataScopeMatrix onOpenProofModal={handleOpenProofModal} />
           <KamiElySqlLabWorkbench />
           <KamiElyExecutiveStory />
         </div>
       )}
+
+      {/* FOOTER ĐIỀU HƯỚNG */}
+      <CaseStudyFooter
+        isEn={lang === 'en'}
+        currentProjectId="proj-kami-ely"
+        attribution={{
+          datasetVi: 'Dữ liệu E-Commerce Analytics, TikTok Seller Center & Live Workbench',
+          datasetEn: 'E-Commerce Analytics, TikTok Seller Center & Live Workbench Telemetry',
+          scopeVi: '180 ngày (09/03/2026 – 04/09/2026), 8 tập dữ liệu và 18.778 bản ghi đối soát SSOT',
+          scopeEn: '180-day window (Mar 09 – Sep 04, 2026), 8 raw datasets, 18,778 audited rows SSOT',
+        }}
+      />
+
+      {/* MODAL XEM 22 BẰNG CHỨNG DỮ LIỆU GỐC TELEMETRY */}
+      <KamiElyProofModal
+        isOpen={isProofModalOpen}
+        onClose={() => setIsProofModalOpen(false)}
+        initialScreenshotId={initialScreenshotId}
+        isEn={lang === 'en'}
+      />
     </div>
   );
 }

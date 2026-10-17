@@ -1,5 +1,5 @@
 /**
- * Kami Ely FastMoss Telemetry Proof & Screenshots Manifest
+ * Kami Ely Telemetry Proof & Screenshots Manifest
  */
 export interface DataScopeItem {
   id: string;
@@ -192,7 +192,7 @@ export const KAMI_DATA_SCOPES: DataScopeItem[] = [
   }
 ];
 
-// Full Manifest of 36 FastMoss Screenshots for Proof Gallery & Verification Modal
+// Full Manifest of 36 Telemetry Screenshots for Proof Gallery & Verification Modal
 export interface FastMossScreenshotItem {
   id: string;
   filename: string;

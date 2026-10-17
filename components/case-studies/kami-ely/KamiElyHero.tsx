@@ -14,13 +14,13 @@ export interface KamiElyHeroProps {
 }
 
 export default function KamiElyHero({ 
-  onOpenProofModal, 
+  onOpenProofModal: _onOpenProofModal, 
   onJumpToSection: _onJumpToSection,
   isEn: propIsEn,
   activeTab: _activeTab,
   isExecutiveMode: _isExecutiveMode = false,
   onToggleExecutiveMode: _onToggleExecutiveMode,
-  onJumpToStory
+  onJumpToStory: _onJumpToStory
 }: KamiElyHeroProps = {}) {
   const { language } = useLanguage();
   const lang = propIsEn !== undefined ? (propIsEn ? 'en' : 'vi') : (language === 'en' ? 'en' : 'vi');
@@ -29,52 +29,52 @@ export default function KamiElyHero({
     {
       id: 'kpi-shop-180d',
       badge: { vi: 'TOÀN SHOP • 180 NGÀY', en: 'SHOP-WIDE • 180 DAYS' },
-      badgeColor: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
-      title: { vi: 'Tổng Quy Mô Doanh Thu (Net GMV)', en: 'Total Shop Net GMV (180d)' },
+      badgeColor: 'bg-sky-50 text-sky-800 border-sky-300 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30',
+      title: { vi: 'Tổng Doanh Thu & Sản Phẩm Bán (180 Ngày)', en: 'Total Net GMV & Volume Sold (180d)' },
       primaryValue: '12,74 Tỉ VNĐ',
-      exactSubValue: '12.735.128.067 đ • 85.500 SP',
+      exactSubValue: '85.500 Sản Phẩm (12.735.128.067 đ)',
       comparisonNote: {
-        vi: 'LIVE toàn sàn: 9,26 Tỉ đ (7.046 phiên) | Lũy kế All-Time: 31,6 Tỉ đ (238,4k SP)',
-        en: 'Shop LIVE: 9.26B VND (7,046 sessions) | All-Time: 31.6B VND (238.4k units)'
+        vi: 'Bình quân 70,75 Tr đ/ngày (475 SP/ngày) • LIVE chiếm 72,7% (9,26 Tỉ đ) | Lũy kế All-Time: 31,6 Tỉ đ (238,4k SP)',
+        en: 'Average 70.75M VND/day (475 units/day) • LIVE drives 72.7% (9.26B) | All-Time: 31.6B VND (238.4k units)'
       },
       accentBorder: 'hover:border-sky-500/50'
     },
     {
-      id: 'kpi-creator-pillar',
-      badge: { vi: 'KÊNH CHÍNH CHỦ • @kamielyhn', en: 'OFFICIAL CHANNEL • @kamielyhn' },
-      badgeColor: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-      title: { vi: 'Tỷ Trọng Tự Gánh & Đối Soát Gross/Net', en: 'Self-Operated Share & Gross/Net' },
-      primaryValue: '49,31% GMV (90d)',
-      exactSubValue: '3.026.026.869 đ • 20.027 SP (49,78%)',
+      id: 'kpi-dual-channel',
+      badge: { vi: 'KÊNH CHÍNH CHỦ & ĐỒNG VẬN HÀNH', en: 'OFFICIAL & SATELLITE CHANNELS' },
+      badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30',
+      title: { vi: 'Tỷ Trọng Gánh: @kamielyhn & Girl Style', en: 'Carrying Share: @kamielyhn & Girl Style' },
+      primaryValue: '65,02% GMV Shop',
+      exactSubValue: 'Kami Ely (55,16%) + Girl Style (9,86%)',
       comparisonNote: {
-        vi: '180d: 5,80 Tỉ đ Net (39,3k SP) vs. 7,89 Tỉ đ Gross CSV | All-Time: 9,2 Tỉ đ (69,9k SP)',
-        en: '180d: 5.80B Net (39.3k units) vs. 7.89B Gross CSV | All-Time: 9.2B VND (69.9k units)'
+        vi: 'Hai kênh in-house tạo 8,28 Tỉ đ LIVE (gánh 89,39% doanh số livestream sàn); affiliate ngoài thực tế chỉ chiếm 7,71% (982 Tr đ)',
+        en: 'Two in-house channels generate 8.28B VND LIVE (89.39% of all live GMV); true external affiliates only drive 7.71% (982M VND)'
       },
       accentBorder: 'hover:border-emerald-500/50'
     },
     {
       id: 'kpi-gpm-paradox',
       badge: { vi: 'NGHỊCH LÝ CHUYỂN ĐỔI • GPM 4,5X', en: 'CONVERSION PARADOX • 4.5X GPM' },
-      badgeColor: 'bg-pink-500/15 text-pink-300 border-pink-500/30',
+      badgeColor: 'bg-purple-50 text-purple-800 border-purple-300 dark:bg-purple-500/15 dark:text-purple-300 dark:border-purple-500/30',
       title: { vi: 'Hiệu Suất Video Ngắn vs. Livestream', en: 'Shoppable Video vs. LIVE GPM' },
       primaryValue: '135,2k vs. 30,2k đ',
-      exactSubValue: 'GPM Video cao gấp 4,5 lần GPM LIVE',
+      exactSubValue: 'GPM Video gấp 4,5 lần LIVE (₫/1k views)',
       comparisonNote: {
-        vi: '470–475 phiên LIVE (~7,5h/ngày) gây bào mòn sức host; 94,70% GMV Video lệ thuộc Paid Ads',
-        en: '470–475 LIVEs (~7.5h/day) cause host burnout; 94.70% of Video GMV relies on Paid Ads'
+        vi: '470–475 phiên LIVE (~7,5h/ngày) gây bào mòn sức host; 94,70% GMV Video lệ thuộc Shopping Ads (2,05 Tỉ đ)',
+        en: '470–475 LIVEs (~7.5h/day) cause host burnout; 94.70% of Video GMV relies on Shopping Ads (2.05B VND)'
       },
-      accentBorder: 'hover:border-pink-500/50'
+      accentBorder: 'hover:border-purple-500/50'
     },
     {
-      id: 'kpi-seasonality-hanoi',
-      badge: { vi: '43% KHÁCH HÀ NỘI • CHU KỲ MÙA VỤ', en: '43% HANOI AUDIENCE • SEASONALITY' },
-      badgeColor: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-      title: { vi: 'Biên Độ Đỉnh Mùa Hè vs. Đáy Thu Đông', en: 'Summer Peak vs. Late-Season Trough' },
-      primaryValue: '315,05 Tr → 5,44 Tr/ngày',
-      exactSubValue: 'Đỉnh 16/06 (1.936 SP) • Đáy 04/09 (49 SP)',
+      id: 'kpi-seasonality-june-august',
+      badge: { vi: 'CHU KỲ MÙA VỤ • BIẾN ĐỘNG DOANH THU', en: 'SEASONALITY CYCLE • SUMMER DROP' },
+      badgeColor: 'bg-amber-50 text-amber-800 border-amber-300 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30',
+      title: { vi: 'Đỉnh Tháng 6 Bán Nhiều vs. Tháng 8 Tụt Sâu', en: 'June Peak vs. August Seasonal Drop' },
+      primaryValue: '3,77 Tỉ → 645,5 Tr đ',
+      exactSubValue: 'Tháng 8 giảm -82,9% (Đỉnh 315,05 Tr/ngày → Đáy 5,44 Tr/ngày)',
       comparisonNote: {
-        vi: '73% Nữ • 60% (18–24t) • 69,31% GMV là Đồ bơi -> Cần xoay trục sang Chân váy CV11 (6.375 SP)',
-        en: '73% Female • 60% (18–24) • 69.31% Swimwear -> Pivot to CV11 A-Line Skirt (6,375 units)'
+        vi: 'Tháng 6 lập đỉnh 3,77 Tỉ đ (ngày 16/06 đạt 1.936 SP). Sang tháng 8 rơi xuống 645,5 Tr đ và ngày 04/09 chỉ còn 49 SP do miền Bắc hết mùa biển',
+        en: 'June peaked at 3.77B VND (Jun 16 hit 1,936 units). By August revenue dropped to 645.5M VND, hitting a low of 49 units on Sep 04 as beach season ended'
       },
       accentBorder: 'hover:border-amber-500/50'
     }
@@ -85,21 +85,6 @@ export default function KamiElyHero({
       {/* BACKGROUND GLOW DECORATION */}
       <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-sky-500/10 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-pink-500/10 blur-3xl" />
-
-      {/* TOP METADATA BAR */}
-      <div className="relative flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800/80 pb-5">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-sky-50 text-sky-800 border border-sky-200 dark:bg-gradient-to-r dark:from-sky-500/20 dark:to-emerald-500/20 dark:text-sky-300 dark:border-sky-500/30">
-            TikTok Shop E-Commerce Analytics
-          </span>
-          <span className="px-2.5 py-1 rounded-md text-xs font-mono text-slate-700 bg-slate-100 border border-slate-200 dark:text-slate-300 dark:bg-slate-900 dark:border-slate-800">
-            {lang === 'vi' ? 'Chu kỳ chuẩn: 09/03/2026 – 04/09/2026 (180 Ngày)' : 'Master Window: Mar 09 – Sep 04, 2026 (180d)'}
-          </span>
-          <span className="px-2.5 py-1 rounded-md text-xs font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 dark:text-emerald-400 dark:bg-emerald-950/40 dark:border-emerald-500/20">
-            {lang === 'vi' ? '8 Tập Dữ Liệu • 18.778 Bản Ghi' : '8 Datasets • 18,778 Rows'}
-          </span>
-        </div>
-      </div>
 
       {/* HERO HEADLINE & EXECUTIVE VALUE PROPOSITION */}
       <div className="relative space-y-4 max-w-5xl">
@@ -123,8 +108,8 @@ export default function KamiElyHero({
 
         <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
           {lang === 'vi'
-            ? 'Dự án phân tích toàn diện hệ sinh thái thương mại điện tử TikTok Shop kết hợp giữa dữ liệu Toàn Shop (12,74 Tỉ đ / 180 ngày; 31,6 Tỉ đ Toàn thời gian), dữ liệu Kênh Chính Chủ @kamielyhn (tự gánh 49,31% GMV 90 ngày) và Telemetry chẩn đoán nội bộ từ TikTok Seller Center & Live Workbench.'
-            : 'End-to-end TikTok Shop E-Commerce analytics combining Shop-Wide performance (12.74B VND in 180d; 31.6B VND All-Time), Official Channel @kamielyhn metrics (carrying 49.31% of 90d GMV), and internal diagnostics from TikTok Seller Center & Live Workbench.'}
+            ? 'Dự án phân tích toàn diện hệ sinh thái thương mại điện tử TikTok Shop kết hợp giữa dữ liệu Toàn Shop, dữ liệu Kênh Chính Chủ @kamielyhn và Telemetry chẩn đoán nội bộ từ TikTok Seller Center & Live Workbench.'
+            : 'End-to-end TikTok Shop E-Commerce analytics combining Shop-Wide performance, Official Channel @kamielyhn metrics, and internal diagnostics from TikTok Seller Center & Live Workbench.'}
         </p>
       </div>
 

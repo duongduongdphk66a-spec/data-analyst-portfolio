@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { usePortfolioData } from '@/app/context/PortfolioDataContext';
 
@@ -124,8 +125,8 @@ export default function AboutSection({ profile: propsProfile }: AboutSectionProp
         {
           label: { vi: 'Bằng chứng Gốc Minh bạch (Data Proof)', en: 'Verifiable Ground-Truth Evidence' },
           detail: {
-            vi: 'Tích hợp 22 ảnh chụp màn hình Telemetry gốc từ FastMoss & Seller Center, 20 giao diện thực tế của hệ thống Library Bus và 6 biểu đồ học thuật gốc của dự án Di sản Nhật Bản.',
-            en: 'Backed by 22 raw FastMoss & Seller Center telemetry screenshots, 20 full-screen Library Bus captures, and 6 academic charts for Japan Heritage.'
+            vi: 'Tích hợp 22 ảnh chụp màn hình Telemetry gốc từ TikTok Seller Center, 20 giao diện thực tế của hệ thống Library Bus và 6 biểu đồ học thuật gốc của dự án Di sản Nhật Bản.',
+            en: 'Backed by 22 raw TikTok Seller Center telemetry screenshots, 20 full-screen Library Bus captures, and 6 academic charts for Japan Heritage.'
           }
         },
         {
@@ -170,10 +171,10 @@ export default function AboutSection({ profile: propsProfile }: AboutSectionProp
 
           <Link
             href="/about"
-            className="min-h-[40px] px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-sky-300 dark:border-slate-700 text-xs font-mono font-bold transition inline-flex items-center gap-2 self-start lg:self-auto shrink-0"
+            className="min-h-[44px] px-4 py-2 rounded-xl bg-[#9BE7FA]/20 hover:bg-[#9BE7FA]/35 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/50 text-xs font-mono font-bold transition inline-flex items-center gap-2 self-start lg:self-auto shrink-0 cursor-pointer"
           >
             <span>{lang === 'vi' ? 'Xem Hồ Sơ Chi Tiết (/about)' : 'Full Profile & SQL Story (/about)'}</span>
-            <span>→</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
@@ -186,15 +187,15 @@ export default function AboutSection({ profile: propsProfile }: AboutSectionProp
                 key={pillar.key}
                 type="button"
                 onClick={() => setActivePillar(pillar.key)}
-                className={`min-h-[54px] p-3.5 rounded-2xl text-left transition border flex flex-col justify-between ${
+                className={`min-h-[56px] p-3.5 rounded-2xl text-left transition border flex flex-col justify-between cursor-pointer ${
                   isSelected
-                    ? 'bg-sky-600 text-white border-sky-600 shadow-lg'
-                    : 'bg-slate-50 dark:bg-slate-900/75 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-sky-500'
+                    ? 'bg-[#9BE7FA] text-[#074553] border-[#9BE7FA] shadow-md font-bold'
+                    : 'bg-slate-50 dark:bg-slate-900/75 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-[#9BE7FA]'
                 }`}
               >
                 <span
                   className={`text-xs font-mono font-bold uppercase ${
-                    isSelected ? 'text-sky-100' : 'text-sky-700 dark:text-sky-400'
+                    isSelected ? 'text-[#074553]' : 'text-[#074553] dark:text-[#9BE7FA]'
                   }`}
                 >
                   {pillar.badge}
@@ -210,7 +211,7 @@ export default function AboutSection({ profile: propsProfile }: AboutSectionProp
         {/* CHI TIẾT TRỤ CỘT ĐANG CHỌN */}
         <div className="rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-5 sm:p-6 space-y-5">
           <div className="space-y-1.5">
-            <div className="text-xs font-mono font-bold text-sky-700 dark:text-sky-400 uppercase">
+            <div className="text-xs font-mono font-bold text-[#074553] dark:text-[#9BE7FA] uppercase">
               {currentPillar.badge}
             </div>
             <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white">
@@ -227,8 +228,9 @@ export default function AboutSection({ profile: propsProfile }: AboutSectionProp
                 key={idx}
                 className="p-4 rounded-xl bg-white dark:bg-slate-950/90 border border-slate-200 dark:border-slate-800 space-y-1.5 shadow-sm"
               >
-                <div className="text-xs font-mono font-bold text-emerald-800 dark:text-emerald-400">
-                  ✓ {proof.label[lang]}
+                <div className="text-xs font-mono font-bold text-[#074553] dark:text-[#FFE485] flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#FFD14C] shrink-0" />
+                  <span>{proof.label[lang]}</span>
                 </div>
                 <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                   {proof.detail[lang]}

@@ -19,8 +19,7 @@ Built with Next.js 15 (App Router), React 19, Tailwind CSS 4, MySQL, and Rechart
   1. Kami Ely TikTok Shop & Affiliate Performance: E-commerce funnel, creator matrix, and peak live stream analysis.
   2. Heritage Tourism in Japan (1990–2024): Time-series modeling of 36.8M tourist inflow and regional spending divergence.
   3. Real-time Library Bus IoT / Data Pipeline: Distributed scheduling with Redis and Celery Beat.
-- **Internationalization (i18n)**: Instant switching between Vietnamese (`vi`) and English (`en`).
-- **SEO & Performance**: Pre-rendered SSG pages, dynamic `sitemap.xml`, `robots.txt`, and Schema.org JSON-LD structured data.
+- **SEO & Performance**: Dynamic SSR với Per-Request Cryptographic Nonce CSP (30 routes), dynamic `sitemap.xml`, `robots.txt`, và Schema.org JSON-LD structured data.
 
 ---
 
@@ -113,8 +112,8 @@ Phương án cho người muốn quản lý hạ tầng riêng, chạy đa tiế
    chmod +x deploy.sh
    ./deploy.sh
    ```
-   > **Lưu ý kỹ thuật**: `deploy.sh` tự động sao chép `public/` và `.next/static/` vào `.next/standalone/`, tránh lỗi 404 static assets của chế độ Next.js standalone.
-3. Cấu hình Nginx reverse proxy trỏ về `http://127.0.0.1:3000` (truyền header `proxy_set_header X-Real-IP $remote_addr;`) kèm SSL Certbot.
+   > **Lưu ý kỹ thuật**: `deploy.sh` tự động sao chép `public/` và `.next/static/` vào `.next/standalone/`, tránh lỗi 404 static assets của chế độ Next.js standalone. Cấu hình PM2 sử dụng `--env-file=.env` để nạp trực tiếp `TRUST_PROXY="nginx"` từ `.env`.
+3. Cấu hình Nginx reverse proxy trỏ về `http://127.0.0.1:3000` (bắt buộc cấu hình `proxy_set_header X-Real-IP $remote_addr;` để ghi đè `X-Real-IP`, đảm bảo cơ chế chống giả mạo IP hoạt động chính xác) kèm SSL Certbot.
 
 ---
 
@@ -153,8 +152,8 @@ Trước khi công bố portfolio ra môi trường production thực tế:
   - Content Security Policy (CSP): Cấu hình Nonce động per-request và `strict-dynamic` trong `middleware.ts`, ngoại lệ an toàn cho các sơ đồ HTML tĩnh trong `/library-bus/`.
 
 - [x] **4. Chạy lint, test và build**:
-  - `npm run lint`: Hoàn tất không có cảnh báo hoặc lỗi.
-  - `npm run test`: 100% test suites (68/68 tests) vượt qua thành công.
+  - `npm run lint`: Hoàn tất không có cảnh báo hoặc lỗi (0 warnings, 0 errors).
+  - `npm run test`: 100% test suites (78/78 tests) vượt qua thành công.
   - `npm run build`: Hoàn thành biên dịch production Next.js.
 
 - [x] **5. Kiểm thử end-to-end**:

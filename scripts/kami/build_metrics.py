@@ -4,7 +4,7 @@ Kami Ely - Single source of truth for every number shown in the portfolio case s
 Usage:
     python scripts/kami/build_metrics.py
 
-Reads raw FastMoss exports from data/kami/ and writes
+Reads raw telemetry exports from data/kami/ and writes
 app/data/kami-ely/generated/metrics.json. Each metric carries its time window
 and scope so the UI never mixes 90-day, 180-day and all-time figures.
 
@@ -47,7 +47,7 @@ GIRL_STYLE_ID = "girlstyle.vn"
 # Parsing helpers
 # ----------------------------------------------------------------------------
 def to_num(val) -> float:
-    """Parse FastMoss numbers: 185,596 ₫ | 500,2Tr ₫ | 1.0m | 12.3k | 0.22%."""
+    """Parse telemetry numbers: 185,596 ₫ | 500,2Tr ₫ | 1.0m | 12.3k | 0.22%."""
     if val is None or (isinstance(val, float) and np.isnan(val)):
         return 0.0
     if isinstance(val, (int, float, np.integer, np.floating)):
@@ -321,7 +321,7 @@ def build_channel():
             "Dữ liệu quan sát, không phải thí nghiệm ngẫu nhiên: chỉ kết luận được 'khác biệt', không kết luận nhân quả.",
         ],
         "platformReported28d": {"videoGpm": "134,8k–135,2k ₫", "liveGpm": "29,2k–30,2k ₫",
-                                "source": FILES["creators"], "note": "Số FastMoss báo, khung 28 ngày."},
+                                "source": FILES["creators"], "note": "Số báo cáo ghi nhận, khung 28 ngày."},
     }
 
     return {

@@ -125,24 +125,6 @@ export default function CommandPalette({
           }
         },
         {
-          id: 'nav-sql-lab',
-          category: { vi: 'Công Cụ & Điều Hướng', en: 'Navigation & Tools' },
-          title: {
-            vi: 'Phòng Thí Nghiệm Truy Vấn SQL Tương Tác (/lab)',
-            en: 'Interactive SQL Analytics Workbench (/lab)'
-          },
-          subtitle: {
-            vi: 'Chạy trực tiếp các câu lệnh SQL đối soát dữ liệu trên trình duyệt',
-            en: 'Execute live SQL reconciliation queries directly in the browser'
-          },
-          keywords: 'sql lab query workbench database interactive',
-          icon: '💻',
-          action: () => {
-            navigateSpa('/lab');
-            onSelectTab?.('lab');
-          }
-        },
-        {
           id: 'nav-home',
           category: { vi: 'Công Cụ & Điều Hướng', en: 'Navigation & Tools' },
           title: { vi: 'Trang Chủ Tổng Quan (Dashboard)', en: 'Home Overview Dashboard' },

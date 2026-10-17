@@ -5,7 +5,7 @@ export const notebookSnippets = [
 import numpy as np
 from scipy import stats
 
-# Ingest raw FastMoss daily telemetry
+# Ingest raw daily telemetry
 df_store = pd.read_excel('Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx')
 df_videos = pd.read_excel('[Kami Ely]_Shoppable_Videos (180 ngày) .xlsx')
 df_live = pd.read_excel('_shop LIVE (180 ngày) 1.xlsx')

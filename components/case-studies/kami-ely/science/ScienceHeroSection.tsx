@@ -11,7 +11,7 @@ interface ScienceHeroSectionProps {
 export default function ScienceHeroSection({ isEn, onOpenNotebook }: ScienceHeroSectionProps) {
   return (
     <section id="sec-hero" className="py-16 md:py-20 border-b border-slate-200/80 dark:border-slate-800 space-y-8">
-      <div className="max-w-5xl space-y-6">
+      <div className="w-full space-y-6">
         {/* Editorial Kicker */}
         <div className="flex flex-wrap items-center gap-3">
           <span className="editorial-kicker">

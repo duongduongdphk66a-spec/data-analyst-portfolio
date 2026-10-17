@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { BarChart3, FileText, Sparkles, ArrowRight, Bookmark } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { usePortfolioData } from '@/app/context/PortfolioDataContext';
 
@@ -28,9 +29,9 @@ export default function HeroSection({ profile: propsProfile }: { profile?: any }
         en: 'Uncovered 4.5x Video vs LIVE GPM Paradox (135.2k vs 30.2k) & +1.18B VND/mo ROI Uplift'
       },
       bars: [
-        { label: 'Chính chủ @kamielyhn (90d)', val: '49,31% GMV (3,03 Tỉ)', pct: 49.31, color: 'bg-sky-500' },
-        { label: 'Mạng lưới 5.712 KOCs (90d)', val: '27,84% GMV (1,71 Tỉ)', pct: 27.84, color: 'bg-emerald-500' },
-        { label: 'Thẻ Sản Phẩm / Kệ Hàng (90d)', val: '22,85% GMV (1,40 Tỉ)', pct: 22.85, color: 'bg-amber-500' }
+        { label: 'Chính chủ @kamielyhn (90d)', val: '49,31% GMV (3,03 Tỉ)', pct: 49.31, color: 'bg-[#9BE7FA]' },
+        { label: 'Mạng lưới 5.712 KOCs (90d)', val: '27,84% GMV (1,71 Tỉ)', pct: 27.84, color: 'bg-[#FFE485]' },
+        { label: 'Thẻ Sản Phẩm / Kệ Hàng (90d)', val: '22,85% GMV (1,40 Tỉ)', pct: 22.85, color: 'bg-[#FFD14C]' }
       ]
     },
     {
@@ -47,9 +48,9 @@ export default function HeroSection({ profile: propsProfile }: { profile?: any }
         en: 'Optimized 5 bus routes (30 stops), 0% race-condition booking conflict & 92% reservation fulfillment'
       },
       bars: [
-        { label: 'Tỷ lệ Hoàn tất Đặt giữ chỗ', val: '92,0% (+34% YoY)', pct: 92, color: 'bg-emerald-500' },
-        { label: 'Tỷ lệ Chuyển đổi Tra cứu → Xem sách', val: '62,0% (7.688 độc giả)', pct: 62, color: 'bg-sky-500' },
-        { label: 'Độ phủ Nhắc hạn Tự động (Celery)', val: '85,0% (Quá hạn <4,8%)', pct: 85, color: 'bg-indigo-500' }
+        { label: 'Tỷ lệ Hoàn tất Đặt giữ chỗ', val: '92,0% (+34% YoY)', pct: 92, color: 'bg-[#9BE7FA]' },
+        { label: 'Tỷ lệ Chuyển đổi Tra cứu → Xem sách', val: '62,0% (7.688 độc giả)', pct: 62, color: 'bg-[#C8EEF7]' },
+        { label: 'Độ phủ Nhắc hạn Tự động (Celery)', val: '85,0% (Quá hạn <4,8%)', pct: 85, color: 'bg-[#FFD14C]' }
       ]
     },
     {
@@ -66,9 +67,9 @@ export default function HeroSection({ profile: propsProfile }: { profile?: any }
         en: 'DiD evaluation of 2019 Law Reform (+24.6% projects) & Kyoto Overtourism dispersal simulation'
       },
       bars: [
-        { label: 'Hệ số xác định Mô hình Hồi quy (R²)', val: '84,0% (β = +0,72)', pct: 84, color: 'bg-amber-500' },
-        { label: 'Tỷ trọng Quốc bảo tại vùng Kansai', val: '41,8% (Gini = 0,64)', pct: 41.8, color: 'bg-rose-500' },
-        { label: 'Tỷ lệ Trùng tu trong Ngân sách ACA', val: '68,0% (141,2 Tỉ Yên)', pct: 68, color: 'bg-sky-500' }
+        { label: 'Hệ số xác định Mô hình Hồi quy (R²)', val: '84,0% (β = +0,72)', pct: 84, color: 'bg-[#FFD14C]' },
+        { label: 'Tỷ trọng Quốc bảo tại vùng Kansai', val: '41,8% (Gini = 0,64)', pct: 41.8, color: 'bg-[#FFE485]' },
+        { label: 'Tỷ lệ Trùng tu trong Ngân sách ACA', val: '68,0% (141,2 Tỉ Yên)', pct: 68, color: 'bg-[#9BE7FA]' }
       ]
     }
   ];
@@ -90,9 +91,9 @@ export default function HeroSection({ profile: propsProfile }: { profile?: any }
   return (
     <section className="w-full pt-2 pb-4">
       <div className="rounded-3xl border border-slate-200 dark:border-slate-800/90 bg-white dark:bg-slate-950/95 p-5 sm:p-8 shadow-xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 xl:gap-8 items-center">
           {/* CỘT TRÁI (7 CỘT): ĐỊNH VỊ CHUYÊN MÔN & HÀNH ĐỘNG NHANH */}
-          <div className="lg:col-span-7 space-y-4">
+          <div className="xl:col-span-7 space-y-4">
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-100 text-emerald-900 border border-emerald-300 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -118,7 +119,7 @@ export default function HeroSection({ profile: propsProfile }: { profile?: any }
             </div>
 
             {/* 3 CHỈ SỐ ĐỊNH ĐỊNH NĂNG LỰC NHANH */}
-            <div className="grid grid-cols-3 gap-2.5 pt-1">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
               <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
                 <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
                   {lang === 'vi' ? 'Quy mô GMV Phân tích' : 'Audited GMV Scale'}
@@ -156,53 +157,47 @@ export default function HeroSection({ profile: propsProfile }: { profile?: any }
               </div>
             </div>
 
-            {/* CỤM NÚT HÀNH ĐỘNG CHUẨN VÙNG CHẠM >= 40PX */}
+            {/* CỤM NÚT HÀNH ĐỘNG CHUẨN VÙNG CHẠM >= 44PX (UI/UX PRO MAX) */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
                 href="/projects/kami-ely"
-                className="min-h-[42px] px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm font-bold transition shadow-lg shadow-sky-500/20 flex items-center gap-2"
+                className="min-h-[44px] px-5 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs sm:text-sm font-extrabold transition shadow-md shadow-[#9BE7FA]/25 flex items-center gap-2 cursor-pointer border border-[#9BE7FA]"
               >
-                <span>📊</span>
+                <BarChart3 className="w-4 h-4 text-[#074553] shrink-0" />
                 <span>
                   {lang === 'vi' ? 'Xem Dự Án Mũi Nhọn (Kami Ely)' : 'Explore Flagship Case Study'}
                 </span>
               </Link>
 
-              <Link
-                href="/lab"
-                className="min-h-[42px] px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-emerald-300 dark:border-emerald-500/30 text-xs sm:text-sm font-mono font-bold transition flex items-center gap-2"
-              >
-                <span>💻</span>
-                <span>{lang === 'vi' ? 'Chạy Thử SQL (/lab)' : 'Interactive SQL Lab'}</span>
-              </Link>
 
               <a
                 href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-[42px] px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 text-xs sm:text-sm font-semibold transition flex items-center gap-2"
+                className="min-h-[44px] px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 text-xs sm:text-sm font-semibold transition flex items-center gap-2 cursor-pointer"
               >
-                <span>📄</span>
+                <FileText className="w-4 h-4 text-slate-600 dark:text-slate-300 shrink-0" />
                 <span>{lang === 'vi' ? 'Tải CV (PDF)' : 'Download CV (PDF)'}</span>
               </a>
             </div>
           </div>
 
           {/* CỘT PHẢI (5 CỘT): THẺ TRỰC QUAN HÓA ĐỐI SÁNH NHANH 3 DỰ ÁN */}
-          <div className="lg:col-span-5 rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 sm:p-5 space-y-4 shadow-inner">
+          <div className="xl:col-span-5 rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 sm:p-5 space-y-4 shadow-inner">
             <div className="flex items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
-              <span className="text-xs font-mono font-bold uppercase text-slate-700 dark:text-slate-300">
-                ⚡ {lang === 'vi' ? 'Điểm Nhấn 3 Dự Án Thực Chiến' : '3 Flagship Case Studies Live Preview'}
+              <span className="text-xs font-mono font-bold uppercase text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#FFD14C] shrink-0" />
+                <span>{lang === 'vi' ? 'Dự án' : 'Projects'}</span>
               </span>
-              <div className="flex gap-1">
+              <div className="flex gap-1.5">
                 {flagshipHighlights.map((item, idx) => (
                   <button
                     key={item.id}
                     type="button"
                     onClick={() => setActiveHighlightIdx(idx)}
-                    className={`min-h-[36px] px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition ${
+                    className={`min-h-[44px] min-w-[44px] px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition cursor-pointer flex items-center justify-center ${
                       activeHighlightIdx === idx
-                        ? 'bg-sky-600 text-white shadow'
+                        ? 'bg-[#9BE7FA] text-[#074553] border border-[#9BE7FA] shadow-xs'
                         : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-400 dark:hover:text-white'
                     }`}
                   >
@@ -213,14 +208,12 @@ export default function HeroSection({ profile: propsProfile }: { profile?: any }
             </div>
 
             <div className="space-y-3">
-              <div className="text-xs font-mono font-bold text-sky-700 dark:text-sky-400">
-                {currentHighlight.tag[lang]}
-              </div>
               <h2 className="text-base font-extrabold text-slate-900 dark:text-white">
                 {currentHighlight.title[lang]}
               </h2>
-              <div className="text-xs font-mono font-bold text-emerald-700 dark:text-emerald-400">
-                📌 {currentHighlight.statMain}
+              <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                <Bookmark className="w-3.5 h-3.5 text-[#FFD14C] shrink-0" />
+                <span>{currentHighlight.statMain}</span>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 {currentHighlight.statSub[lang]}
@@ -232,7 +225,7 @@ export default function HeroSection({ profile: propsProfile }: { profile?: any }
                   <div key={i} className="space-y-1">
                     <div className="flex justify-between text-xs">
                       <span className="font-semibold text-slate-700 dark:text-slate-200">{bar.label}</span>
-                      <span className="font-mono font-bold text-slate-900 dark:text-sky-300">{bar.val}</span>
+                      <span className="font-mono font-bold text-slate-900 dark:text-[#9BE7FA]">{bar.val}</span>
                     </div>
                     <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
                       <div
@@ -247,10 +240,10 @@ export default function HeroSection({ profile: propsProfile }: { profile?: any }
               <div className="pt-2 flex justify-end">
                 <Link
                   href={currentHighlight.href}
-                  className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-sky-100 hover:bg-sky-200 text-sky-900 border border-sky-300 dark:bg-sky-500/20 dark:hover:bg-sky-500/30 dark:text-sky-300 dark:border-sky-500/40 text-xs font-mono font-bold inline-flex items-center gap-1.5 transition"
+                  className="min-h-[44px] px-4 py-2 rounded-xl bg-[#9BE7FA]/20 hover:bg-[#9BE7FA]/35 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/50 text-xs font-mono font-bold inline-flex items-center gap-1.5 transition cursor-pointer"
                 >
                   <span>{lang === 'vi' ? 'Mở Báo Cáo Chi Tiết' : 'Open Full Case Study'}</span>
-                  <span>→</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>

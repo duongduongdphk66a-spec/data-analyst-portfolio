@@ -24,7 +24,7 @@ export interface KamiElyCreatorTabProps {
 export default function KamiElyCreatorTab({
   isEn: propIsEn,
   copyDeepLink = () => {},
-  openProofScreenshot = () => {},
+  openProofScreenshot: _openProofScreenshot = () => {},
   handleExportChart = () => {},
   handleTabChange = () => {},
   renderDataScopeMatrix = () => null,

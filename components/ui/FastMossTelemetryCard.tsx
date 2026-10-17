@@ -60,7 +60,7 @@ export function FastMossTelemetryCard({ item, isEn, onOpenInspect }: FastMossTel
             <div className="space-y-0.5">
               <span className="text-xs uppercase font-mono tracking-wider text-slate-400 flex items-center gap-1">
                 <Terminal className="w-2.5 h-2.5 text-[#9BE7FA]" />
-                FastMoss API v2.4
+                Telemetry API v2.4
               </span>
               <div className="text-xs font-black text-white truncate max-w-[170px]">
                 {item.keyMetric || (isShop ? 'GMV & Order Stream' : 'Creator Performance')}
@@ -152,7 +152,7 @@ export function FastMossTelemetryModal({
   if (!item) return null;
 
   const mockPayload = {
-    source: "FastMoss Enterprise TikTok Analytics API",
+    source: "Enterprise TikTok Analytics API",
     streamId: item.id,
     group: item.group,
     section: item.sectionId,
@@ -200,7 +200,7 @@ export function FastMossTelemetryModal({
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-[#9BE7FA]" />
               <span className="font-mono text-xs font-bold text-slate-200">
-                FastMoss Telemetry Node Inspector [{item.id}]
+                Telemetry Node Inspector [{item.id}]
               </span>
             </div>
           </div>
@@ -293,7 +293,7 @@ export function FastMossTelemetryModal({
                   <span className="text-xs font-mono text-slate-400 uppercase">Engine Type</span>
                   <div className="text-sm font-bold text-white flex items-center gap-2">
                     <Activity className="w-4 h-4 text-[#9BE7FA]" />
-                    FastMoss Partner REST
+                    Telemetry Partner REST
                   </div>
                   <p className="text-xs text-slate-400">Real-time TikTok crawler engine</p>
                 </div>

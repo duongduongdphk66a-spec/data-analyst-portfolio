@@ -20,9 +20,9 @@ export const translations = {
 
     // Header & Hero (Global)
     hero_badge: 'Data Analyst | Business Intelligence & Analytics',
-    hero_title_prefix: 'Chuyển hóa dữ liệu thô thành',
-    hero_title_highlight: 'Insight Chiến lược',
-    hero_subtitle: 'Khai phá giá trị từ số liệu: Xây dựng mô hình phân tích logic, trực quan hóa dashboard tương tác và hỗ trợ ra quyết định kinh doanh chuẩn xác.',
+    hero_title_prefix: 'Phân tích dữ liệu &',
+    hero_title_highlight: 'Trực quan hóa',
+    hero_subtitle: 'Phân tích dữ liệu kinh doanh bằng SQL, Python và Power BI. Thiết kế dashboard và chuẩn hóa luồng số liệu.',
     cta_view_projects: 'Khám Phá Dự Án',
     cta_view_cv: 'Tải CV PDF',
     cta_contact: 'Liên Hệ Ngay',
@@ -39,15 +39,15 @@ export const translations = {
     about_stats_accuracy: 'Độ chính xác dữ liệu',
     about_btn_expand: 'Xem thêm thông tin',
     about_btn_collapse: 'Thu gọn',
-    about_default_bio: 'Ma Văn Hùng là Data Analyst với tư duy logic và kỹ năng thực chiến vững vàng trên các công cụ SQL, Python, Power BI và Excel nâng cao. Luôn tập trung vào việc biến các luồng dữ liệu thô phức tạp thành các biểu đồ trực quan, tối ưu hóa chi phí vận hành và cung cấp insight hỗ trợ ban lãnh đạo ra quyết định chính xác.',
+    about_default_bio: 'Data Analyst chuyên phân tích dữ liệu kinh doanh bằng SQL, Python, Power BI và Excel. Chuyên làm sạch dữ liệu đa nguồn, thiết kế dashboard và đo lường chỉ số vận hành.',
 
     // Career goals translations
-    goal_1_title: 'Tối ưu hóa Data Pipeline & Chuẩn hóa Dữ liệu',
-    goal_1_desc: 'Thiết kế quy trình ETL/ELT sạch, làm chủ cơ sở dữ liệu quan hệ và chuẩn hóa dữ liệu đa nguồn phục vụ phân tích tự động.',
-    goal_2_title: 'Xây dựng Dashboard & Mô hình Phân tích Nâng cao',
-    goal_2_desc: 'Phát triển báo cáo trực quan hóa theo thời gian thực trên Power BI/Tableau, áp dụng mô hình phân khúc và dự báo chuỗi thời gian.',
-    goal_3_title: 'Data Storytelling & Tối ưu Quyết định Kinh doanh',
-    goal_3_desc: 'Truyền tải các insight kỹ thuật phức tạp thành câu chuyện dữ liệu rõ ràng, hỗ trợ các nhà quản trị đưa ra quyết định tăng trưởng.',
+    goal_1_title: 'Xây dựng pipeline và chuẩn hóa dữ liệu',
+    goal_1_desc: 'Thiết kế quy trình ETL/ELT và chuẩn hóa dữ liệu đa nguồn vào cơ sở dữ liệu quan hệ.',
+    goal_2_title: 'Phát triển dashboard trực quan',
+    goal_2_desc: 'Xây dựng báo cáo tự động trên Power BI và Tableau theo dõi chỉ số hiệu suất.',
+    goal_3_title: 'Phân tích số liệu và hỗ trợ vận hành',
+    goal_3_desc: 'Định lượng số liệu thực tế nhằm giải quyết bài toán tối ưu chi phí và tăng trưởng.',
 
     // CV & Experience Section
     cv_education_title: 'HỌC VẤN',
@@ -90,7 +90,7 @@ export const translations = {
 
     // Projects Detail - Kami Ely
     kami_badge: 'Dữ liệu 90 ngày gần nhất: 22/05 - 19/08',
-    kami_title: 'Kami Ely trên TikTok Shop: Doanh số vận hành bởi LIVE, không phải quảng cáo.',
+    kami_title: 'Kami Ely TikTok Shop: Doanh số 90 ngày đạt 7,4 tỷ đồng qua kênh LIVE.',
     kami_desc: 'Shop ngành hàng Sports & Outdoor / đồ bơi thiết kế tại Việt Nam. Báo cáo tổng hợp hiệu suất bán hàng, mạng lưới affiliate và kênh nhà sáng tạo tự vận hành từ nền tảng phân tích dữ liệu TikTok Shop.',
     kami_rank_nation: 'Hạng toàn quốc',
     kami_rank_category: 'Ngành Sports',
@@ -118,7 +118,7 @@ export const translations = {
     kami_insights_desc: 'Tổng hợp từ toàn bộ số liệu shop và kênh sáng tạo Kami Ely trong 90 ngày gần nhất.',
     kami_auto_heading: 'TỰ ĐỘNG HÓA BÁO CÁO (NODE.JS)',
     kami_auto_title: 'Xuất slide tự động với PptxGenJS',
-    kami_auto_desc: 'Thay vì copy-paste dữ liệu thủ công vào PowerPoint hàng tuần, dự án tích hợp pipeline tự động đọc file data.json đã làm sạch và sinh ra bộ 13 slide chuẩn format thương hiệu.',
+    kami_auto_desc: 'Pipeline Node.js đọc tệp data.json đã làm sạch và tự động tạo 13 slide báo cáo theo chuẩn thương hiệu.',
     kami_auto_banner_title: 'Tiết kiệm nhiều giờ làm báo cáo',
     kami_auto_banner_desc: 'Pipeline này đọc tệp JSON xuất từ Python Pandas, sau đó sinh ra toàn bộ các slide trực quan sẵn sàng trình chiếu cho ban lãnh đạo.',
     kami_auto_btn_download: 'Tải Slide Mẫu (.pptx)',
@@ -171,9 +171,9 @@ export const translations = {
 
     // Header & Hero (Global)
     hero_badge: 'Data Analyst | Business Intelligence & Analytics',
-    hero_title_prefix: 'Turning raw data into',
-    hero_title_highlight: 'Strategic Insights',
-    hero_subtitle: 'Data analytics, interactive dashboard visualization, and automated ETL pipelines driving impactful business decisions.',
+    hero_title_prefix: 'Data Analytics &',
+    hero_title_highlight: 'Visualization',
+    hero_subtitle: 'Business data analytics with SQL, Python, and Power BI. Designing dashboards and standardizing telemetry.',
     cta_view_projects: 'Explore Projects',
     cta_view_cv: 'Download Resume',
     cta_contact: 'Get in Touch',
@@ -190,15 +190,15 @@ export const translations = {
     about_stats_accuracy: 'Data Accuracy',
     about_btn_expand: 'Show More Details',
     about_btn_collapse: 'Show Less',
-    about_default_bio: 'Ma Van Hung is an analytical Data Analyst with hands-on expertise in SQL, Python, Power BI, and Advanced Excel. Specialized in transforming fragmented raw numbers into intuitive interactive visualizations, optimizing operational costs, and uncovering high-impact business insights.',
+    about_default_bio: 'Data Analyst working with SQL, Python, Power BI, and Excel. Specializing in data cleaning, KPI measurement, and dashboard development.',
 
     // Career goals translations
-    goal_1_title: 'Lead Scalable Data Infrastructure & ETL Pipelines',
-    goal_1_desc: 'Design robust ETL/ELT workflows, master relational databases, and standardize multi-source data ingestion for automated reporting.',
-    goal_2_title: 'Master Cloud BI Dashboards & Predictive Analytics',
-    goal_2_desc: 'Build real-time Power BI and Tableau dashboards, applying customer segmentation and time-series forecasting models.',
-    goal_3_title: 'Data Storytelling & Executive Decision Support',
-    goal_3_desc: 'Translate complex quantitative models into clear, actionable business narratives that drive revenue growth and risk mitigation.',
+    goal_1_title: 'Data Pipelines & Standardization',
+    goal_1_desc: 'Design clean ETL/ELT workflows and standardize multi-source data ingestion into relational databases.',
+    goal_2_title: 'Interactive Dashboard Development',
+    goal_2_desc: 'Build automated Power BI and Tableau dashboards tracking core operational metrics.',
+    goal_3_title: 'Quantitative Analysis & Decision Support',
+    goal_3_desc: 'Quantify empirical data to resolve cost optimization and operational growth challenges.',
 
     // CV & Experience Section
     cv_education_title: 'EDUCATION',
@@ -241,7 +241,7 @@ export const translations = {
 
     // Projects Detail - Kami Ely
     kami_badge: 'Latest 90-Day Dataset: May 22 - Aug 19',
-    kami_title: 'Kami Ely TikTok Shop: Revenue Driven by LIVE, Not Paid Ads.',
+    kami_title: 'Kami Ely TikTok Shop: 7.4B VND 90-day GMV via livestream operations.',
     kami_desc: 'Sports & Outdoor / designer swimwear brand in Vietnam. Comprehensive analysis of sales performance, creator affiliate networks, and self-operated livestream channels on TikTok Shop.',
     kami_rank_nation: 'National Rank',
     kami_rank_category: 'Sports & Outdoor Rank',
@@ -269,7 +269,7 @@ export const translations = {
     kami_insights_desc: 'Synthesized from all store data, self-operated creator metrics, and affiliate benchmarks over the latest 90-day period.',
     kami_auto_heading: 'REPORT AUTOMATION (NODE.JS)',
     kami_auto_title: 'Automated PowerPoint Slide Generation with PptxGenJS',
-    kami_auto_desc: 'Rather than manually copy-pasting figures into slide decks each week, this project integrates an automated Node.js pipeline using pptxgenjs. It ingests cleaned data.json output and renders 13 presentation-ready, brand-styled slides.',
+    kami_auto_desc: 'A Node.js pipeline reads cleaned data.json and generates 13 branded presentation slides.',
     kami_auto_banner_title: 'Saves 4+ Hours of Reporting Every Week',
     kami_auto_banner_desc: 'The automated pipeline reads JSON exported from Python Pandas, dynamically generating PowerPoint slides with multi-axis Bar and Line charts matching this dashboard design perfectly.',
     kami_auto_btn_download: 'Download Sample Deck (.pptx)',
