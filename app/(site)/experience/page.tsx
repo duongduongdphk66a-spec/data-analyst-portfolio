@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ShoppingBag, Bus, Landmark, Calendar, Bookmark, ArrowRight, FileText, Terminal } from 'lucide-react';
+import { ShoppingBag, Bus, Landmark, Calendar, Bookmark, ArrowRight, FileText } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 type ExperienceCategory = 'all' | 'ecommerce' | 'product_bi' | 'econometrics';
@@ -221,13 +221,6 @@ export default function ExperiencePage() {
               <FileText className="w-4 h-4" />
               <span>{lang === 'vi' ? 'Tải CV Đầy Đủ (PDF)' : 'Download Full CV (PDF)'}</span>
             </a>
-            <Link
-              href="/lab"
-              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-emerald-300 dark:border-emerald-500/30 text-xs sm:text-sm font-mono font-bold transition flex items-center gap-2 cursor-pointer"
-            >
-              <Terminal className="w-4 h-4" />
-              <span>{lang === 'vi' ? 'Kiểm tra SQL (/lab)' : 'Verify SQL (/lab)'}</span>
-            </Link>
           </div>
         </div>
 

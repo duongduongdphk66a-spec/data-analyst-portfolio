@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Terminal, Briefcase, AlertTriangle, CheckCircle2, Play } from 'lucide-react';
+import { Briefcase, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 export default function AboutPage() {
@@ -112,15 +112,8 @@ ORDER BY date_id;`
 
           <div className="flex flex-wrap gap-2.5 shrink-0">
             <Link
-              href="/lab"
-              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#074553] hover:bg-[#05333d] dark:bg-[#9BE7FA] dark:hover:bg-[#82e2f8] text-white dark:text-slate-950 text-xs sm:text-sm font-mono font-bold transition shadow-md flex items-center gap-2 cursor-pointer"
-            >
-              <Terminal className="w-4 h-4" />
-              <span>{lang === 'vi' ? 'Mở Phòng Thí Nghiệm SQL (/lab)' : 'Open SQL Lab (/lab)'}</span>
-            </Link>
-            <Link
               href="/experience"
-              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 text-xs sm:text-sm font-semibold transition flex items-center gap-2 cursor-pointer"
+              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#074553] hover:bg-[#05333d] dark:bg-[#9BE7FA] dark:hover:bg-[#82e2f8] text-white dark:text-slate-950 text-xs sm:text-sm font-semibold transition shadow-md flex items-center gap-2 cursor-pointer"
             >
               <Briefcase className="w-4 h-4" />
               <span>{lang === 'vi' ? 'Xem Kinh Nghiệm STAR' : 'View STAR Experience'}</span>
@@ -259,15 +252,11 @@ ORDER BY date_id;`
 
             <div className="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
               <span className="text-xs text-slate-400">
-                {lang === 'vi' ? 'Chạy trực tiếp trên trình duyệt:' : 'Execute live in browser:'}
+                {lang === 'vi' ? 'Tiêu chuẩn thực thi:' : 'Execution standard:'}
               </span>
-              <Link
-                href="/lab"
-                className="min-h-[44px] px-4 py-2 rounded-xl bg-[#074553] hover:bg-[#05333d] dark:bg-[#9BE7FA] dark:hover:bg-[#82e2f8] text-white dark:text-slate-950 text-xs font-mono font-bold transition inline-flex items-center gap-2 cursor-pointer shadow-xs"
-              >
-                <Play className="w-3.5 h-3.5 fill-current" />
-                <span>{lang === 'vi' ? 'Chạy trong /lab' : 'Run in /lab'}</span>
-              </Link>
+              <span className="text-xs font-mono font-bold text-emerald-400">
+                MySQL 8.0 • Star Schema
+              </span>
             </div>
           </div>
         </div>
