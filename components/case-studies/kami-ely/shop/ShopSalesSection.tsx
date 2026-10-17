@@ -190,24 +190,24 @@ export default function ShopSalesSection({
           {/* 4 KPI Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
             <div className="p-2.5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80">
-              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{isEn ? 'Promo GMV' : 'GMV Khuyến Mãi'}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">{isEn ? 'Promo GMV' : 'GMV Khuyến Mãi'}</div>
               <div className="text-base font-black text-slate-900 dark:text-white mt-0.5">{sellerCenterShopData.marketingPromotions.promoGmvValue}</div>
-              <div className="text-[10px] text-emerald-600 font-bold">{sellerCenterShopData.marketingPromotions.promoGmvContributionPct}% tổng GMV</div>
+              <div className="text-xs text-emerald-600 font-bold">{sellerCenterShopData.marketingPromotions.promoGmvContributionPct}% tổng GMV</div>
             </div>
             <div className="p-2.5 rounded-xl bg-rose-50/80 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60">
-              <div className="text-[10px] text-rose-500 font-bold uppercase tracking-wider">{isEn ? 'Discount Cost' : 'Chi Phí Giảm Giá'}</div>
+              <div className="text-xs text-rose-500 font-bold uppercase tracking-wider">{isEn ? 'Discount Cost' : 'Chi Phí Giảm Giá'}</div>
               <div className="text-base font-black text-rose-600 dark:text-rose-400 mt-0.5">{sellerCenterShopData.marketingPromotions.discountCostValue}</div>
-              <div className="text-[10px] text-rose-500 font-bold">50,45% doanh số KM</div>
+              <div className="text-xs text-rose-500 font-bold">50,45% doanh số KM</div>
             </div>
             <div className="p-2.5 rounded-xl bg-sky-50/80 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-900/60">
-              <div className="text-[10px] text-sky-600 dark:text-sky-300 font-bold uppercase tracking-wider">{isEn ? 'Promo AOV' : 'AOV Khuyến Mãi'}</div>
+              <div className="text-xs text-sky-600 dark:text-sky-300 font-bold uppercase tracking-wider">{isEn ? 'Promo AOV' : 'AOV Khuyến Mãi'}</div>
               <div className="text-base font-black text-[#0D7287] dark:text-[#9BE7FA] mt-0.5">{sellerCenterShopData.marketingPromotions.promoAov.toLocaleString()} đ</div>
-              <div className="text-[10px] text-emerald-600 font-bold">+{sellerCenterShopData.marketingPromotions.aovUpliftPct}% vs AOV gốc</div>
+              <div className="text-xs text-emerald-600 font-bold">+{sellerCenterShopData.marketingPromotions.aovUpliftPct}% vs AOV gốc</div>
             </div>
             <div className="p-2.5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80">
-              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{isEn ? 'Discount / Order' : 'Chi Phí / Đơn KM'}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">{isEn ? 'Discount / Order' : 'Chi Phí / Đơn KM'}</div>
               <div className="text-base font-black text-amber-700 dark:text-amber-400 mt-0.5">~76.100 đ</div>
-              <div className="text-[10px] text-slate-500 font-medium">Bào mòn biên lợi nhuận</div>
+              <div className="text-xs text-slate-500 font-medium">Bào mòn biên lợi nhuận</div>
             </div>
           </div>
 
@@ -320,19 +320,19 @@ export default function ShopSalesSection({
           {/* Scale Summary Bar */}
           <div className="grid grid-cols-3 gap-2 text-center text-xs">
             <div className="p-2 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80">
-              <div className="text-[10px] text-slate-400 font-bold uppercase">Tổng Video Gắn Giỏ</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase">Tổng Video Gắn Giỏ</div>
               <div className="text-base font-black text-slate-900 dark:text-white font-mono mt-0.5">4.417 clip</div>
-              <div className="text-[10px] text-slate-500">Toàn bộ kho dữ liệu</div>
+              <div className="text-xs text-slate-500">Toàn bộ kho dữ liệu</div>
             </div>
             <div className="p-2 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80">
-              <div className="text-[10px] text-slate-400 font-bold uppercase">Tổng Sản Phẩm Bán</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase">Tổng Sản Phẩm Bán</div>
               <div className="text-base font-black text-slate-900 dark:text-white font-mono mt-0.5">13.083 SP</div>
-              <div className="text-[10px] text-slate-500">Quy mô tiêu thụ 90d</div>
+              <div className="text-xs text-slate-500">Quy mô tiêu thụ 90d</div>
             </div>
             <div className="p-2 rounded-xl bg-sky-50/80 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-900/60">
-              <div className="text-[10px] text-sky-600 dark:text-sky-300 font-bold uppercase">Tổng Doanh Thu Video</div>
+              <div className="text-xs text-sky-600 dark:text-sky-300 font-bold uppercase">Tổng Doanh Thu Video</div>
               <div className="text-base font-black text-[#0D7287] dark:text-[#9BE7FA] font-mono mt-0.5">2,17 Tỉ đ</div>
-              <div className="text-[10px] text-emerald-600 font-bold">2.170.840.326 đ</div>
+              <div className="text-xs text-emerald-600 font-bold">2.170.840.326 đ</div>
             </div>
           </div>
 

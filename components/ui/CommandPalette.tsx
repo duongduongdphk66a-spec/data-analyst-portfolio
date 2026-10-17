@@ -161,6 +161,18 @@ export default function CommandPalette({
           }
         },
         {
+          id: 'nav-about',
+          category: { vi: 'Công Cụ & Điều Hướng', en: 'Navigation & Tools' },
+          title: { vi: 'Giới Thiệu & Kiểm Toán SQL (/about)', en: 'About & SQL Reconciliation Audit (/about)' },
+          subtitle: { vi: 'Hồ sơ năng lực, bằng chứng kiểm toán số liệu & phương pháp luận', en: 'Core competencies, telemetry audit proof & methodology' },
+          keywords: 'about profile skills audit reconciliation sql',
+          icon: '👤',
+          action: () => {
+            navigateSpa('/about');
+            onSelectTab?.('about');
+          }
+        },
+        {
           id: 'action-download-cv',
           category: { vi: 'Tài Liệu & Thiết Lập', en: 'Documents & Preferences' },
           title: {
