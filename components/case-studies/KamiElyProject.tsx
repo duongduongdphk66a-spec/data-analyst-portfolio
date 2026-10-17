@@ -10,6 +10,7 @@ import KamiElyVisualChartsSuite from '@/components/case-studies/kami-ely/KamiEly
 import KamiElyExecutiveStory from '@/components/case-studies/kami-ely/KamiElyExecutiveStory';
 import KamiElyDataScopeMatrix from '@/components/case-studies/kami-ely/KamiElyDataScopeMatrix';
 import KamiElySqlLabWorkbench from '@/components/case-studies/kami-ely/KamiElySqlLabWorkbench';
+import KamiElySqlPlaybook from '@/components/case-studies/kami-ely/playbook/KamiElySqlPlaybook';
 
 // 3 Phân hệ Tab Chuyên sâu (Shop • Creator • Science)
 import KamiElyShopTab from '@/components/case-studies/kami-ely/shop/KamiElyShopTab';
@@ -114,6 +115,7 @@ export default function KamiElyProject({
       {/* 5. NỘI DUNG HIỂN THỊ THEO CHẾ ĐỘ (3-MIN SCAN MODE VS. FULL 3-TAB DEEP DIVE) */}
       {isExecutiveScanMode ? (
         <div className="space-y-8 animate-fadeIn">
+          <KamiElySqlPlaybook />
           <ScienceOptimizerSection />
           <KamiElyExecutiveStory />
           <KamiElyDataScopeMatrix onOpenProofModal={handleOpenProofModal} />
@@ -135,6 +137,9 @@ export default function KamiElyProject({
           <section id="sec-science" className="scroll-mt-28 space-y-8 pt-10 border-t border-slate-200 dark:border-slate-800">
             <KamiElyScienceCaseStudy />
           </section>
+
+          {/* 4. SQL PLAYBOOK 7 GIAI ĐOẠN (BIỂU ĐỒ TRƯỚC, SQL MỞ KHI CẦN) */}
+          <KamiElySqlPlaybook />
 
           {/* Ma trận Kiểm toán 8 Bảng gốc & Phòng thí nghiệm SQL đặt gọn ở cuối trang */}
           <KamiElyDataScopeMatrix onOpenProofModal={handleOpenProofModal} />
