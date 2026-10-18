@@ -1,11 +1,10 @@
-'use client';
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Server, Lock, ExternalLink, 
   CheckCircle2, AlertTriangle, Layers, TableProperties,
   Maximize2, X, Minimize2
 } from 'lucide-react';
+import { useTheme } from '@/app/context/ThemeContext';
 import SectionHeader from '@/components/ui/SectionHeader';
 
 export interface Chapter4BackendLogicProps {
@@ -99,6 +98,8 @@ export function Chapter4BackendLogic({
   isEn = false, 
   onCopyDeepLink = () => {} 
 }: Chapter4BackendLogicProps) {
+  const { resolvedTheme } = useTheme();
+
   // Tab filter: 'both' | 'workflow' | 'dataflow'
   const [activeTab, setActiveTab] = useState<'both' | 'workflow' | 'dataflow'>('both');
   
@@ -110,6 +111,16 @@ export function Chapter4BackendLogic({
 
   // Fullscreen modal for deep inspection
   const [fullscreenChart, setFullscreenChart] = useState<typeof BACKEND_CHARTS[0] | null>(null);
+
+  // Synchronize theme changes to all embedded iframes immediately
+  useEffect(() => {
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach((ifr) => {
+      try {
+        ifr.contentWindow?.postMessage({ theme: resolvedTheme }, '*');
+      } catch (_) {}
+    });
+  }, [resolvedTheme]);
 
   const iframeHeightClass = heightMode === 'jumbo' 
     ? 'h-[750px] sm:h-[850px] lg:h-[950px]' 
@@ -350,7 +361,7 @@ export function Chapter4BackendLogic({
                   </button>
 
                   <a
-                    href={chart.externalUrl}
+                    href={`${chart.externalUrl}?theme=${resolvedTheme}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
@@ -370,10 +381,10 @@ export function Chapter4BackendLogic({
               </div>
 
               {/* Large Responsive Iframe Canvas */}
-              <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-950 shadow-inner">
+              <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-inner">
                 <iframe 
-                  src={chart.src} 
-                  className={`w-full ${iframeHeightClass} bg-slate-950 transition-all duration-300`} 
+                  src={`${chart.src}&theme=${resolvedTheme}`} 
+                  className={`w-full ${iframeHeightClass} bg-white dark:bg-slate-950 transition-all duration-300`} 
                   title={isEn ? chart.titleEn : chart.titleVi} 
                   loading="lazy"
                 />
@@ -385,30 +396,30 @@ export function Chapter4BackendLogic({
 
       {/* FULLSCREEN MODAL (WHEN USER CLICKS MAXIMIZE ON ANY CHART) */}
       {fullscreenChart && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md p-3 sm:p-6 flex flex-col justify-between animate-in fade-in duration-200">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-700 text-white">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 dark:bg-black/85 backdrop-blur-md p-3 sm:p-6 flex flex-col justify-between animate-in fade-in duration-200">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white bg-white/80 dark:bg-slate-900/80 px-4 py-2.5 rounded-2xl">
             <div className="flex items-center gap-3">
               <span className="w-3 h-3 rounded-full bg-[#FA6933] animate-pulse" />
               <h3 className="font-bold text-base sm:text-xl">
                 {isEn ? fullscreenChart.titleEn : fullscreenChart.titleVi}
               </h3>
-              <span className="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+              <span className="text-xs font-mono px-2 py-0.5 rounded bg-orange-50 dark:bg-slate-800 text-[#FA6933] dark:text-slate-300 border border-orange-200 dark:border-slate-700">
                 {fullscreenChart.badge}
               </span>
             </div>
             <div className="flex items-center gap-3">
               <a 
-                href={fullscreenChart.externalUrl} 
+                href={`${fullscreenChart.externalUrl}?theme=${resolvedTheme}`} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-xs font-bold text-sky-400 hover:underline flex items-center gap-1"
+                className="text-xs font-bold text-[#323987] dark:text-sky-400 hover:underline flex items-center gap-1"
               >
                 <span>{isEn ? 'Open Raw File' : 'Mở file gốc'}</span>
                 <ExternalLink className="w-4 h-4" />
               </a>
               <button
                 onClick={() => setFullscreenChart(null)}
-                className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white cursor-pointer transition"
+                className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white cursor-pointer transition"
                 title={isEn ? 'Close fullscreen' : 'Đóng toàn màn hình (Esc)'}
               >
                 <X className="w-5 h-5" />
@@ -416,19 +427,19 @@ export function Chapter4BackendLogic({
             </div>
           </div>
 
-          <div className="flex-1 my-3 rounded-2xl overflow-hidden border border-slate-800 bg-slate-950">
+          <div className="flex-1 my-3 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
             <iframe 
-              src={fullscreenChart.src} 
-              className="w-full h-full bg-slate-950" 
+              src={`${fullscreenChart.src}&theme=${resolvedTheme}`} 
+              className="w-full h-full bg-white dark:bg-slate-950" 
               title={isEn ? fullscreenChart.titleEn : fullscreenChart.titleVi} 
             />
           </div>
 
-          <div className="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-800">
+          <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-400 pt-2 border-t border-slate-200 dark:border-slate-800">
             <span>Library Bus Interactive Flow Visualizer</span>
             <button 
               onClick={() => setFullscreenChart(null)} 
-              className="hover:text-white font-semibold cursor-pointer"
+              className="hover:text-slate-900 dark:hover:text-white font-semibold cursor-pointer"
             >
               Thu nhỏ trở lại trang
             </button>

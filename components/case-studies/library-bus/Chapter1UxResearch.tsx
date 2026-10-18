@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Compass, Users, BarChart3, MapPin, BookOpen, 
   FileText, Bell, GitBranch, ArrowRight, CheckCircle2, 
   ExternalLink, Layers, Workflow
 } from 'lucide-react';
+import { useTheme } from '@/app/context/ThemeContext';
 import SectionHeader from '@/components/ui/SectionHeader';
 
 export interface Chapter1UxResearchProps {
@@ -18,6 +19,17 @@ export function Chapter1UxResearch({
   onCopyDeepLink = () => {} 
 }: Chapter1UxResearchProps) {
   const [activeEmbedTab, setActiveEmbedTab] = useState<'visual' | 'architecture' | 'flow'>('visual');
+  const { resolvedTheme } = useTheme();
+
+  // Synchronize theme changes to all embedded iframes immediately
+  useEffect(() => {
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach((ifr) => {
+      try {
+        ifr.contentWindow?.postMessage({ theme: resolvedTheme }, '*');
+      } catch (_) {}
+    });
+  }, [resolvedTheme]);
 
   return (
     <section id="chapter-1-ux" className="space-y-8 scroll-mt-36">
@@ -331,18 +343,18 @@ export function Chapter1UxResearch({
           <div className="space-y-2">
             <div className="flex justify-end">
               <a 
-                href="/library-bus/system-architecture.html" 
+                href={`/library-bus/system-architecture.html?theme=${resolvedTheme}`} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-xs font-semibold text-[#323987] dark:text-[#9BE7FA] flex items-center gap-1 hover:underline"
+                className="text-xs font-semibold text-[#323987] dark:text-[#9BE7FA] flex items-center gap-1 hover:underline cursor-pointer"
               >
                 <span>{isEn ? 'Open in new tab' : 'Mở toàn màn hình'}</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
             <iframe 
-              src="/library-bus/system-architecture.html?embed=1" 
-              className="w-full h-[750px] lg:h-[850px] rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950 transition-all duration-300" 
+              src={`/library-bus/system-architecture.html?embed=1&theme=${resolvedTheme}`} 
+              className="w-full h-[750px] lg:h-[850px] rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 transition-all duration-300" 
               title="Library Bus System Architecture Diagram" 
             />
           </div>
@@ -350,18 +362,18 @@ export function Chapter1UxResearch({
           <div className="space-y-2">
             <div className="flex justify-end">
               <a 
-                href="/library-bus/borrowing-workflow.html" 
+                href={`/library-bus/borrowing-workflow.html?theme=${resolvedTheme}`} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-xs font-semibold text-[#323987] dark:text-[#9BE7FA] flex items-center gap-1 hover:underline"
+                className="text-xs font-semibold text-[#323987] dark:text-[#9BE7FA] flex items-center gap-1 hover:underline cursor-pointer"
               >
                 <span>{isEn ? 'Open in new tab' : 'Mở toàn màn hình'}</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
             <iframe 
-              src="/library-bus/borrowing-workflow.html?embed=1" 
-              className="w-full h-[750px] lg:h-[850px] rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950 transition-all duration-300" 
+              src={`/library-bus/borrowing-workflow.html?embed=1&theme=${resolvedTheme}`} 
+              className="w-full h-[750px] lg:h-[850px] rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 transition-all duration-300" 
               title="Library Bus Borrowing Workflow Diagram" 
             />
           </div>

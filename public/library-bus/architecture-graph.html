@@ -1,11 +1,39 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sơ Đồ Kiến Trúc Hệ Thống — Tủ Sách Lưu Động</title>
+  <script>
+    (function () {
+      try {
+        var theme = null;
+        try {
+          var param = new URLSearchParams(window.location.search).get('theme');
+          if (param === 'light' || param === 'dark') theme = param;
+        } catch (_) {}
+        if (!theme) {
+          try { theme = localStorage.getItem('portfolio_theme') || localStorage.getItem('archify-theme'); } catch (_) {}
+        }
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+
+        window.addEventListener('message', function (e) {
+          if (e.data && (e.data.theme === 'light' || e.data.theme === 'dark')) {
+            document.documentElement.setAttribute('data-theme', e.data.theme);
+            if (typeof window.applyTheme === 'function') {
+              window.applyTheme(e.data.theme);
+            }
+          }
+        });
+      } catch (_) {}
+    })();
+  </script>
   <style>
-    :root {
+    :root,
+    [data-theme="dark"] {
       --bg: #170706;
       --card-bg: #240C0B;
       --card-border: #4E0705;
@@ -13,6 +41,15 @@
       --accent-hover: #FFC270;
       --text: #FFFDF9;
       --text-muted: #D1BDB7;
+    }
+    [data-theme="light"] {
+      --bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #D3D3D3;
+      --accent: #FA6933;
+      --accent-hover: #323987;
+      --text: #2D2F34;
+      --text-muted: #64748b;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -23,6 +60,7 @@
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
+      transition: background 0.2s, color 0.2s;
     }
     header {
       background: var(--card-bg);
@@ -260,6 +298,82 @@
       color: var(--text-muted);
       pointer-events: none;
     }
+
+    /* Light Mode Overrides */
+    [data-theme="light"] #canvas-container {
+      background: #ffffff !important;
+    }
+    [data-theme="light"] header {
+      background: #ffffff;
+      border-bottom: 1px solid #D3D3D3;
+    }
+    [data-theme="light"] .brand h1 {
+      color: #323987;
+    }
+    [data-theme="light"] .badge {
+      background: rgba(250, 105, 51, 0.1);
+      color: #FA6933;
+      border-color: rgba(250, 105, 51, 0.3);
+    }
+    [data-theme="light"] .search-box {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      color: #2D2F34;
+    }
+    [data-theme="light"] .btn {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      color: #2D2F34;
+    }
+    [data-theme="light"] .btn:hover {
+      background: #e2e8f0;
+      border-color: var(--accent);
+    }
+    [data-theme="light"] #sidebar {
+      background: #ffffff;
+      border-left: 1px solid #D3D3D3;
+    }
+    [data-theme="light"] .panel-title {
+      border-bottom-color: #E2E8F0;
+    }
+    [data-theme="light"] .legend-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #2D2F34;
+    }
+    [data-theme="light"] .legend-item:hover, [data-theme="light"] .legend-item.active {
+      background: #e2e8f0;
+      border-color: var(--accent);
+    }
+    [data-theme="light"] .node-detail {
+      background: #ffffff;
+      border-color: #D3D3D3;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+    [data-theme="light"] .node-detail h3 {
+      color: #323987;
+    }
+    [data-theme="light"] .node-type-badge {
+      color: #FA6933;
+      background: rgba(250, 105, 51, 0.12);
+      border-color: rgba(250, 105, 51, 0.25);
+    }
+    [data-theme="light"] .conn-list li {
+      background: #f8fafc;
+      border-color: #e2e8f0;
+      color: #2D2F34;
+    }
+    [data-theme="light"] .conn-list li:hover {
+      background: #eef2f6;
+      border-color: var(--accent);
+      color: #323987;
+    }
+    [data-theme="light"] .hint-dock {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #D3D3D3;
+      color: #64748b;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
   </style>
 </head>
 <body>
@@ -307,6 +421,22 @@
     const rawNodes = [{"id": "app:core", "name": "core (Shared App)", "type": "app", "group": "core", "desc": "Nền tảng hạ tầng dùng chung: AuditMixin, TimestampedModel, SoftDelete, BaseQuerySet, custom error handlers"}, {"id": "model:AuditMixin", "name": "AuditMixin", "type": "model", "group": "core", "desc": "Theo dõi người tạo (created_by), người cập nhật (updated_by) và mốc thời gian"}, {"id": "model:TimestampedModel", "name": "TimestampedModel", "type": "model", "group": "core", "desc": "Tự động quản lý trường created_at và updated_at cho mọi bảng CSDL"}, {"id": "model:SoftDeleteModel", "name": "SoftDeleteModel", "type": "model", "group": "core", "desc": "Xóa mềm an toàn qua trường is_deleted và SoftDeleteManager lọc bản ghi"}, {"id": "app:users", "name": "users (Auth & Identity)", "type": "app", "group": "users", "desc": "Quản lý độc giả, phân quyền, xác thực Argon2, thẻ hội viên VIP, lịch sử đăng nhập"}, {"id": "model:Profile", "name": "Profile (Độc giả / VIP)", "type": "model", "group": "users", "desc": "Hồ sơ người dùng mở rộng: lưu cấp bậc thẻ, điểm thưởng, avatar, sđt, hạn mức mượn"}, {"id": "model:UserRole", "name": "UserRole (Phân quyền)", "type": "model", "group": "users", "desc": "Định nghĩa vai trò người dùng: Reader, Librarian, Driver, Admin"}, {"id": "model:LoginHistory", "name": "LoginHistory", "type": "model", "group": "users", "desc": "Ghi vết lịch sử IP, User-Agent phát hiện hành vi truy cập lạ"}, {"id": "model:UserPreference", "name": "UserPreference", "type": "model", "group": "users", "desc": "Cài đặt sở thích đọc sách, thông báo và cấu hình giao diện"}, {"id": "app:inventory", "name": "inventory (Fleet & Catalog)", "type": "app", "group": "inventory", "desc": "Quản lý đội xe buýt lưu động, trạm dừng định vị GPS, kho sách giấy & đọc PDF"}, {"id": "model:LibraryBus", "name": "LibraryBus (Xe buýt lưu động)", "type": "model", "group": "inventory", "desc": "Thông tin biển số, tải trọng, tài xế phụ trách, sức chứa kệ sách trên xe"}, {"id": "model:BusRoute", "name": "BusRoute (Lộ trình & Trạm GPS)", "type": "model", "group": "inventory", "desc": "Tọa độ GPS các trạm dừng tại trường học, khu dân cư và lịch trình tuần"}, {"id": "model:Category", "name": "Category (Thể loại)", "type": "model", "group": "inventory", "desc": "Danh mục phân loại sách đa tầng (Văn học, Kỹ năng, Khoa học...)"}, {"id": "model:Book", "name": "Book (Kho Sách & PDF)", "type": "model", "group": "inventory", "desc": "Đầu sách giấy trên xe & sách điện tử PDF viewer, ISBN, tác giả, trạng thái"}, {"id": "model:BookDonation", "name": "BookDonation (Quyên góp)", "type": "model", "group": "inventory", "desc": "Tiếp nhận và thẩm định sách được cộng đồng quyên góp cho thư viện"}, {"id": "app:transactions", "name": "transactions (Borrow & Queue)", "type": "app", "group": "transactions", "desc": "Nghiệp vụ mượn trả sách, đặt trước hàng đợi FIFO, cơ chế khóa bi quan, nộp phạt"}, {"id": "model:BorrowRecord", "name": "BorrowRecord (Phiếu mượn)", "type": "model", "group": "transactions", "desc": "Bản ghi mượn sách, ngày mượn, ngày hẹn trả, theo dõi quá hạn"}, {"id": "model:BookReservation", "name": "BookReservation (Hàng đợi FIFO)", "type": "model", "group": "transactions", "desc": "Hàng đợi tự động khi sách hết, kích hoạt ngay khi sách được trả về kho"}, {"id": "model:FinePayment", "name": "FinePayment (Tiền phạt trễ)", "type": "model", "group": "transactions", "desc": "Tính toán và xử lý nộp tiền phạt khi trả sách quá hạn"}, {"id": "model:ShippingRequest", "name": "ShippingRequest (Giao tận nơi)", "type": "model", "group": "transactions", "desc": "Dịch vụ chuyển phát sách tận nhà cho độc giả hội viên VIP"}, {"id": "service:TransLock", "name": "select_for_update (Lock)", "type": "service", "group": "transactions", "desc": "Cơ chế khóa hàng CSDL chống race-condition tuyệt đối khi nhiều người mượn cùng lúc"}, {"id": "app:analytics", "name": "analytics (Stats & AI)", "type": "app", "group": "analytics", "desc": "Thống kê thói quen đọc sách, bảng vàng độc giả, gợi ý sách thông minh bằng Gemini AI"}, {"id": "model:UserReadingStats", "name": "UserReadingStats", "type": "model", "group": "analytics", "desc": "Tổng hợp số trang sách đã đọc, số lượng sách mượn theo từng tháng"}, {"id": "model:BusAnalytics", "name": "BusAnalytics", "type": "model", "group": "analytics", "desc": "Đo lường hiệu suất điểm dừng, mật độ bạn đọc theo tuyến đường"}, {"id": "service:GeminiAI", "name": "Google Gemini AI (Recommender)", "type": "service", "group": "analytics", "desc": "Trích xuất tóm tắt sách, nhận diện bìa tự động và thuật toán gợi ý cá nhân hóa"}, {"id": "app:notifications", "name": "notifications (In-app & Mail)", "type": "app", "group": "notifications", "desc": "Thông báo đa kênh: In-app badge và email thông báo xe buýt tới trạm, nhắc hẹn trả"}, {"id": "model:UserNotification", "name": "UserNotification", "type": "model", "group": "notifications", "desc": "Bản ghi thông báo gửi tới độc giả (chưa đọc / đã đọc)"}, {"id": "app:blog", "name": "blog (Community & News)", "type": "app", "group": "blog", "desc": "Cổng thông tin văn hóa đọc, bài review sách, sự kiện xe buýt, bản tin email"}, {"id": "model:Post", "name": "Post (Bài viết)", "type": "model", "group": "blog", "desc": "Tin tức, bài giới thiệu sách hay, thông báo lịch trình tuần"}, {"id": "model:Comment", "name": "Comment & Rating", "type": "model", "group": "blog", "desc": "Bình luận trao đổi và chấm điểm bài viết từ cộng đồng"}, {"id": "infra:Docker", "name": "Docker Compose (5 Services)", "type": "infra", "group": "infra", "desc": "Điều phối dịch vụ: web, db, redis, celery_worker, celery_beat"}, {"id": "infra:MySQL", "name": "MySQL 8.0 Primary DB", "type": "infra", "group": "infra", "desc": "Hệ quản trị CSDL quan hệ chính xác thực dữ liệu chuẩn 3NF"}, {"id": "infra:Redis", "name": "Redis 7 Cache & Broker", "type": "infra", "group": "infra", "desc": "Bộ nhớ đệm tốc độ cao và broker hàng đợi cho Celery"}, {"id": "infra:Celery", "name": "Celery & Beat (Tasks)", "type": "infra", "group": "infra", "desc": "Xử lý ngầm gửi mail, phân tích AI và cron job quét quá hạn nửa đêm"}, {"id": "ui:NeoBakery", "name": "Neo-Bakery & GSAP 60FPS", "type": "ui", "group": "ui", "desc": "Bảng mã màu 6 tông Molasses-Butter, hoạt cảnh mượt mà 60 FPS, 3D Micro-tilt"}];
     const rawEdges = [{"source": "app:core", "target": "model:AuditMixin"}, {"source": "app:core", "target": "model:TimestampedModel"}, {"source": "app:core", "target": "model:SoftDeleteModel"}, {"source": "app:users", "target": "model:Profile"}, {"source": "app:users", "target": "model:UserRole"}, {"source": "app:users", "target": "model:LoginHistory"}, {"source": "app:users", "target": "model:UserPreference"}, {"source": "model:TimestampedModel", "target": "model:Profile"}, {"source": "app:inventory", "target": "model:LibraryBus"}, {"source": "app:inventory", "target": "model:BusRoute"}, {"source": "app:inventory", "target": "model:Category"}, {"source": "app:inventory", "target": "model:Book"}, {"source": "app:inventory", "target": "model:BookDonation"}, {"source": "model:LibraryBus", "target": "model:BusRoute"}, {"source": "model:LibraryBus", "target": "model:Book"}, {"source": "model:Category", "target": "model:Book"}, {"source": "model:SoftDeleteModel", "target": "model:Book"}, {"source": "app:transactions", "target": "model:BorrowRecord"}, {"source": "app:transactions", "target": "model:BookReservation"}, {"source": "app:transactions", "target": "model:FinePayment"}, {"source": "app:transactions", "target": "model:ShippingRequest"}, {"source": "app:transactions", "target": "service:TransLock"}, {"source": "model:Profile", "target": "model:BorrowRecord"}, {"source": "model:Book", "target": "model:BorrowRecord"}, {"source": "model:Book", "target": "model:BookReservation"}, {"source": "model:BorrowRecord", "target": "model:FinePayment"}, {"source": "model:BorrowRecord", "target": "model:ShippingRequest"}, {"source": "service:TransLock", "target": "model:BorrowRecord"}, {"source": "app:analytics", "target": "model:UserReadingStats"}, {"source": "app:analytics", "target": "model:BusAnalytics"}, {"source": "app:analytics", "target": "service:GeminiAI"}, {"source": "model:Profile", "target": "model:UserReadingStats"}, {"source": "service:GeminiAI", "target": "model:Book"}, {"source": "app:notifications", "target": "model:UserNotification"}, {"source": "model:Profile", "target": "model:UserNotification"}, {"source": "model:BorrowRecord", "target": "model:UserNotification"}, {"source": "app:blog", "target": "model:Post"}, {"source": "app:blog", "target": "model:Comment"}, {"source": "model:Profile", "target": "model:Comment"}, {"source": "model:Post", "target": "model:Comment"}, {"source": "infra:Docker", "target": "infra:MySQL"}, {"source": "infra:Docker", "target": "infra:Redis"}, {"source": "infra:Docker", "target": "infra:Celery"}, {"source": "infra:Celery", "target": "app:transactions"}, {"source": "infra:Celery", "target": "app:notifications"}, {"source": "infra:Celery", "target": "app:analytics"}, {"source": "ui:NeoBakery", "target": "app:inventory"}, {"source": "ui:NeoBakery", "target": "app:blog"}];
     const groupColors = {"core": {"bg": "#3f1e1d", "border": "#ED9040", "text": "#FDE971"}, "users": {"bg": "#1e293b", "border": "#60a5fa", "text": "#ffffff"}, "inventory": {"bg": "#14532d", "border": "#4ade80", "text": "#ffffff"}, "transactions": {"bg": "#7c2d12", "border": "#fb923c", "text": "#ffffff"}, "analytics": {"bg": "#4c1d95", "border": "#c084fc", "text": "#ffffff"}, "notifications": {"bg": "#0f766e", "border": "#2dd4bf", "text": "#ffffff"}, "blog": {"bg": "#831843", "border": "#f472b6", "text": "#ffffff"}, "infra": {"bg": "#1f2937", "border": "#9ca3af", "text": "#ffffff"}, "ui": {"bg": "#78350f", "border": "#f59e0b", "text": "#ffffff"}};
+
+    const groupColorsLight = {
+      "core": {"bg": "#FFF4EE", "border": "#FA6933", "text": "#FA6933"},
+      "users": {"bg": "#EBF3FF", "border": "#323987", "text": "#323987"},
+      "inventory": {"bg": "#E6F7F9", "border": "#0D7287", "text": "#0D7287"},
+      "transactions": {"bg": "#FFF0EB", "border": "#FA6933", "text": "#C04210"},
+      "analytics": {"bg": "#E5F8FC", "border": "#0D7287", "text": "#0D7287"},
+      "notifications": {"bg": "#FFFBEA", "border": "#FFD14C", "text": "#B45309"},
+      "blog": {"bg": "#FEFCE8", "border": "#d97706", "text": "#854D0E"},
+      "infra": {"bg": "#F1F5F9", "border": "#64748B", "text": "#334155"},
+      "ui": {"bg": "#E0F7FA", "border": "#0D7287", "text": "#075985"}
+    };
+
+    function isLightTheme() {
+      return document.documentElement.getAttribute('data-theme') === 'light';
+    }
 
     const canvas = document.getElementById('graph-canvas');
     const ctx = canvas.getContext('2d');
@@ -370,13 +500,24 @@
     const legendContainer = document.getElementById('legend-list');
     let activeFilterGroup = null;
 
-    groups.forEach(g => {
-      const item = document.createElement('div');
-      item.className = 'legend-item';
-      item.innerHTML = `<span class="legend-color" style="background:${groupColors[g].bg}; border:1px solid ${groupColors[g].border}"></span><span>${g}</span>`;
-      item.onclick = () => filterByGroup(g, item);
-      legendContainer.appendChild(item);
-    });
+    function renderLegend() {
+      legendContainer.innerHTML = '';
+      const isLight = isLightTheme();
+      const palette = isLight ? groupColorsLight : groupColors;
+      groups.forEach(g => {
+        const item = document.createElement('div');
+        item.className = 'legend-item' + (activeFilterGroup === g ? ' active' : '');
+        item.innerHTML = `<span class="legend-color" style="background:${palette[g].bg}; border:1px solid ${palette[g].border}"></span><span>${g}</span>`;
+        item.onclick = () => filterByGroup(g, item);
+        legendContainer.appendChild(item);
+      });
+    }
+    renderLegend();
+
+    window.applyTheme = function() {
+      renderLegend();
+      draw();
+    };
 
     function filterByGroup(group, el) {
       if (activeFilterGroup === group) {
@@ -466,6 +607,9 @@
     function draw() {
       ctx.clearRect(0, 0, width, height);
 
+      const isLight = isLightTheme();
+      const currentPalette = isLight ? groupColorsLight : groupColors;
+
       ctx.save();
       // Center coordinates
       ctx.translate(width / 2 + camera.x, height / 2 + camera.y);
@@ -487,13 +631,13 @@
         ctx.lineTo(b.x, b.y);
 
         if (isRelated) {
-          ctx.strokeStyle = '#FDE971';
+          ctx.strokeStyle = isLight ? '#FA6933' : '#FDE971';
           ctx.lineWidth = 2.5;
         } else if (isDimmed) {
-          ctx.strokeStyle = 'rgba(237, 144, 64, 0.08)';
+          ctx.strokeStyle = isLight ? 'rgba(13, 114, 135, 0.08)' : 'rgba(237, 144, 64, 0.08)';
           ctx.lineWidth = 1;
         } else {
-          ctx.strokeStyle = 'rgba(237, 144, 64, 0.35)';
+          ctx.strokeStyle = isLight ? 'rgba(13, 114, 135, 0.35)' : 'rgba(237, 144, 64, 0.35)';
           ctx.lineWidth = 1.4;
         }
         ctx.stroke();
@@ -508,7 +652,7 @@
         ctx.moveTo(arrowX, arrowY);
         ctx.lineTo(arrowX - 8 * Math.cos(angle - Math.PI / 6), arrowY - 8 * Math.sin(angle - Math.PI / 6));
         ctx.lineTo(arrowX - 8 * Math.cos(angle + Math.PI / 6), arrowY - 8 * Math.sin(angle + Math.PI / 6));
-        ctx.fillStyle = isRelated ? '#FDE971' : (isDimmed ? 'rgba(237, 144, 64, 0.15)' : 'rgba(237, 144, 64, 0.5)');
+        ctx.fillStyle = isRelated ? (isLight ? '#FA6933' : '#FDE971') : (isDimmed ? (isLight ? 'rgba(13, 114, 135, 0.12)' : 'rgba(237, 144, 64, 0.15)') : (isLight ? 'rgba(13, 114, 135, 0.55)' : 'rgba(237, 144, 64, 0.5)'));
         ctx.fill();
       }
 
@@ -526,7 +670,9 @@
         if (isSelected || isHover) {
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.radius + 8, 0, Math.PI * 2);
-          ctx.fillStyle = isSelected ? 'rgba(253, 233, 113, 0.35)' : 'rgba(237, 144, 64, 0.3)';
+          ctx.fillStyle = isSelected 
+            ? (isLight ? 'rgba(250, 105, 51, 0.25)' : 'rgba(253, 233, 113, 0.35)') 
+            : (isLight ? 'rgba(155, 231, 250, 0.45)' : 'rgba(237, 144, 64, 0.3)');
           ctx.fill();
         }
 
@@ -539,16 +685,19 @@
           ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
         }
 
-        ctx.fillStyle = isSelected ? '#BD5705' : n.color.bg;
+        const nodeStyle = currentPalette[n.group] || (isLight ? { bg: '#ffffff', border: '#cbd5e1' } : { bg: '#333', border: '#666' });
+
+        ctx.fillStyle = isSelected ? (isLight ? '#FFE485' : '#BD5705') : nodeStyle.bg;
         ctx.fill();
 
         ctx.lineWidth = isSelected ? 3 : 2;
-        ctx.strokeStyle = isSelected ? '#FDE971' : (isHover ? '#FFC270' : n.color.border);
+        ctx.strokeStyle = isSelected 
+          ? (isLight ? '#FA6933' : '#FDE971') 
+          : (isHover ? (isLight ? '#0D7287' : '#FFC270') : nodeStyle.border);
         ctx.stroke();
 
         // Node Label
         ctx.font = `${n.type === 'app' ? 'bold 12px' : '11px'} -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
-        ctx.fillStyle = '#FFFDF9';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
@@ -558,11 +707,18 @@
         const textMetrics = ctx.measureText(n.name);
         const padX = 6;
         const padY = 3;
-        ctx.fillStyle = 'rgba(23, 7, 6, 0.85)';
+        ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.95)' : 'rgba(23, 7, 6, 0.85)';
         ctx.roundRect(n.x - textMetrics.width / 2 - padX, labelY - 8 - padY, textMetrics.width + padX * 2, 16 + padY * 2, 4);
         ctx.fill();
+        if (isLight) {
+          ctx.strokeStyle = '#D3D3D3';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
 
-        ctx.fillStyle = isSelected ? '#FDE971' : (isHover ? '#FFC270' : '#FFFFFF');
+        ctx.fillStyle = isSelected 
+          ? (isLight ? '#0D7287' : '#FDE971') 
+          : (isHover ? (isLight ? '#FA6933' : '#FFC270') : (isLight ? '#2D2F34' : '#FFFFFF'));
         ctx.fillText(n.name, n.x, labelY);
 
         ctx.restore();
