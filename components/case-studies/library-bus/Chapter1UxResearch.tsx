@@ -342,7 +342,7 @@ export function Chapter1UxResearch({
             </div>
             <iframe 
               src="/library-bus/system-architecture.html?embed=1" 
-              className="w-full h-[520px] rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950" 
+              className="w-full h-[750px] lg:h-[850px] rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950 transition-all duration-300" 
               title="Library Bus System Architecture Diagram" 
             />
           </div>
@@ -361,7 +361,7 @@ export function Chapter1UxResearch({
             </div>
             <iframe 
               src="/library-bus/borrowing-workflow.html?embed=1" 
-              className="w-full h-[520px] rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950" 
+              className="w-full h-[750px] lg:h-[850px] rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950 transition-all duration-300" 
               title="Library Bus Borrowing Workflow Diagram" 
             />
           </div>
