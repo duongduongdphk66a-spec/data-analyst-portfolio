@@ -14,12 +14,113 @@ export interface Chapter1UxResearchProps {
   onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
 }
 
+interface SitemapRootItem {
+  name: string;
+  nameEn: string;
+  screenId: string;
+}
+
+const SITEMAP_ROOT: SitemapRootItem[] = [
+  { name: 'Trang chủ', nameEn: 'Home', screenId: 'screen-01' },
+  { name: 'Kho sách & PDF', nameEn: 'Book Catalog & PDF', screenId: 'screen-03' },
+  { name: 'Tuyến Xe & Bản đồ', nameEn: 'Bus Route & Map', screenId: 'screen-05' },
+  { name: 'Mượn / Đặt trước', nameEn: 'Borrow / Reserve', screenId: 'screen-09' },
+  { name: 'Cộng đồng (Blog)', nameEn: 'Community & Blog', screenId: 'screen-11' },
+  { name: 'Tài khoản & Analytics', nameEn: 'Account & Analytics', screenId: 'screen-17' },
+];
+
+interface SitemapDetailChild {
+  label: string;
+  labelEn: string;
+  screenId: string;
+  sub?: string[];
+}
+
+interface SitemapDetailGroup {
+  parent: string;
+  parentEn: string;
+  screenId: string;
+  children: SitemapDetailChild[];
+}
+
+const SITEMAP_DETAILS: SitemapDetailGroup[] = [
+  {
+    parent: 'Trang chủ',
+    parentEn: 'Home',
+    screenId: 'screen-01',
+    children: [
+      { label: 'Tìm kiếm', labelEn: 'Search', screenId: 'screen-02', sub: ['Theo tên sách / ISBN', 'Theo tuyến xe buýt'] },
+      { label: 'Chiến dịch & Quyên góp sách', labelEn: 'Campaigns & Book Donation', screenId: 'screen-01' },
+      { label: 'Sách đề xuất phổ biến', labelEn: 'Featured Books', screenId: 'screen-04' },
+      { label: 'Thông tin liên hệ & FAQ', labelEn: 'Contact & FAQ', screenId: 'screen-01' },
+    ],
+  },
+  {
+    parent: 'Kho sách & PDF',
+    parentEn: 'Book Catalog & PDF',
+    screenId: 'screen-03',
+    children: [
+      { label: 'Danh mục đa cấp', labelEn: 'Multi-level Catalog', screenId: 'screen-03', sub: ['Lọc thể loại', 'Năm xuất bản'] },
+      { label: 'Chi tiết sách & Metadata', labelEn: 'Book Detail', screenId: 'screen-04' },
+      { label: 'Trình đọc PDF trực tuyến', labelEn: 'Online PDF Reader', screenId: 'screen-03' },
+    ],
+  },
+  {
+    parent: 'Tuyến Xe & Bản đồ',
+    parentEn: 'Bus Route & Map',
+    screenId: 'screen-05',
+    children: [
+      { label: 'Bản đồ lộ trình xe lưu động', labelEn: 'Route Map', screenId: 'screen-05' },
+      { label: 'Chi tiết xe & Tồn kho trên xe', labelEn: 'Bus Stock Detail', screenId: 'screen-06' },
+      { label: 'Lịch dừng trạm theo khung giờ', labelEn: 'Stop Schedule', screenId: 'screen-05' },
+    ],
+  },
+  {
+    parent: 'Mượn / Đặt trước',
+    parentEn: 'Borrow / Reserve',
+    screenId: 'screen-09',
+    children: [
+      { label: 'Tạo phiếu mượn', labelEn: 'Borrow Order', screenId: 'screen-09', sub: ['Kiểm tra tồn kho', 'Chọn trạm nhận'] },
+      { label: 'Đặt trước giữ chỗ (Reservation)', labelEn: 'Reservation', screenId: 'screen-09' },
+      { label: 'Thao tác mượn/trả hàng loạt', labelEn: 'Batch Borrow/Return', screenId: 'screen-10' },
+    ],
+  },
+  {
+    parent: 'Cộng đồng (Blog)',
+    parentEn: 'Community & Blog',
+    screenId: 'screen-11',
+    children: [
+      { label: 'Bài viết & Review sách', labelEn: 'Articles & Reviews', screenId: 'screen-11' },
+      { label: 'Bình luận phân luồng (Thread)', labelEn: 'Threaded Comments', screenId: 'screen-12' },
+      { label: 'Đăng ký nhận bản tin (Newsletter)', labelEn: 'Newsletter Signup', screenId: 'screen-11' },
+    ],
+  },
+  {
+    parent: 'Tài khoản & Analytics',
+    parentEn: 'Account & Analytics',
+    screenId: 'screen-17',
+    children: [
+      { label: 'Hồ sơ & Hạng thẻ', labelEn: 'Profile & Card Tier', screenId: 'screen-17', sub: ['Sở thích đọc', 'Lịch sử mượn'] },
+      { label: 'Thông báo nhắc hạn / Quá hạn', labelEn: 'Due Date Alerts', screenId: 'screen-17' },
+      { label: 'Dashboard & Bảng xếp hạng', labelEn: 'Dashboard & Leaderboard', screenId: 'screen-18' },
+    ],
+  },
+];
+
 export function Chapter1UxResearch({ 
   isEn = false, 
   onCopyDeepLink = () => {} 
 }: Chapter1UxResearchProps) {
   const [activeEmbedTab, setActiveEmbedTab] = useState<'visual' | 'architecture' | 'flow'>('visual');
   const { resolvedTheme } = useTheme();
+
+  const handleSitemapNodeClick = (screenId: string) => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('select-library-bus-screen', { detail: { screenId } })
+      );
+    }
+  };
 
   // Synchronize theme changes to all embedded iframes immediately
   useEffect(() => {
@@ -209,69 +310,134 @@ export function Chapter1UxResearch({
 
         {activeEmbedTab === 'visual' ? (
           <div className="space-y-8">
-            {/* A. SƠ ĐỒ PHÂN CẤP SITEMAP (TREE DIAGRAM) */}
+            {/* A. SƠ ĐỒ CÂY VUÔNG GÓC SITEMAP & SITEMAP DETAIL (2 CỘT CHUẨN ĐỒ HỌA) */}
             <div className="space-y-4">
-              <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#323987] dark:text-[#9BE7FA] flex items-center gap-2">
-                <Layers className="w-4 h-4" />
-                <span>{isEn ? 'A. Sitemap Hierarchy Tree' : 'A. Sơ đồ phân cấp Sitemap'}</span>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#323987] dark:text-[#9BE7FA] flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-[#FA6933]" />
+                  <span>{isEn ? 'A. Orthogonal Sitemap & Detailed Hierarchy' : 'A. Sơ đồ cây vuông góc Sitemap & Sitemap Detail'}</span>
+                </div>
+                <span className="text-xs font-mono px-3 py-1 rounded-full bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/30">
+                  {isEn ? 'Click any branch to jump to Wireframe vs UI' : 'Nhấp vào nhánh để mở màn hình Wireframe vs UI'}
+                </span>
               </div>
 
-              {/* Tree Grid Layout */}
-              <div className="p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-4">
-                {/* Root Hub */}
-                <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-[#323987] text-white font-bold text-sm shadow-xs">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FA6933] animate-pulse" />
-                  <span>🚌 Library Bus Root</span>
-                </div>
+              {/* Bố cục 2 cột: SITEMAP & SITEMAP DETAIL */}
+              <div className="p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  {/* CỘT TRÁI (4 CỘT): SITEMAP TỔNG QUAN NỐI VUÔNG GÓC TỪ NÚT GỐC */}
+                  <div className="lg:col-span-4 space-y-3">
+                    <div className="border-b border-slate-100 dark:border-slate-800 pb-2">
+                      <h3 className="text-lg font-black tracking-tight text-slate-900 dark:text-white">
+                        SITEMAP
+                      </h3>
+                      <p className="text-xs text-slate-500 font-mono">
+                        {isEn ? '/High-Level Information Architecture/' : '/Sơ đồ trang web tổng quan/'}
+                      </p>
+                    </div>
 
-                {/* Branch Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 pt-2">
-                  <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
-                    <span className="block text-xs font-bold text-[#FA6933]">01. Trang chủ</span>
-                    <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
-                      <li>• Tìm kiếm nhanh</li>
-                      <li>• Sách nổi bật</li>
-                    </ul>
+                    <div className="pt-2 flex items-center overflow-x-auto pb-2">
+                      {/* Nút gốc xanh tím đậm #323987 */}
+                      <button
+                        type="button"
+                        onClick={() => handleSitemapNodeClick('screen-01')}
+                        className="px-4 py-2.5 rounded-xl bg-[#323987] hover:bg-[#252b69] text-white font-extrabold text-xs sm:text-sm shadow-md shrink-0 transition-transform active:scale-95 cursor-pointer flex items-center gap-2"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-[#FA6933] animate-pulse" />
+                        <span>Library Bus</span>
+                      </button>
+
+                      {/* Đoạn nối ngang */}
+                      <div className="w-4 sm:w-6 border-t-2 border-slate-600 dark:border-slate-400 shrink-0" />
+
+                      {/* Trục dọc nối 6 nhánh vuông góc */}
+                      <div className="border-l-2 border-slate-600 dark:border-slate-400 py-2 space-y-3 shrink-0">
+                        {SITEMAP_ROOT.map((item, idx) => (
+                          <div key={item.name} className="flex items-center">
+                            {/* Nét ngang vuông góc */}
+                            <div className="w-4 sm:w-6 border-t-2 border-slate-600 dark:border-slate-400 shrink-0" />
+                            <button
+                              type="button"
+                              onClick={() => handleSitemapNodeClick(item.screenId)}
+                              title={isEn ? `Open Screen: ${item.nameEn}` : `Mở màn hình: ${item.name}`}
+                              className="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-[#9BE7FA] hover:bg-[#C8EEF7]/30 dark:hover:bg-[#9BE7FA]/10 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all text-left shadow-2xs hover:shadow-xs cursor-pointer flex items-center gap-1.5"
+                            >
+                              <span className="font-mono text-[10px] text-slate-400">0{idx + 1}.</span>
+                              <span>{isEn ? item.nameEn : item.name}</span>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
-                    <span className="block text-xs font-bold text-[#323987] dark:text-[#9BE7FA]">02. Kho sách & PDF</span>
-                    <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
-                      <li>• Lọc đa cấp</li>
-                      <li>• Đọc PDF / Quyên góp</li>
-                    </ul>
-                  </div>
+                  {/* CỘT PHẢI (8 CỘT): SITEMAP DETAIL CÂY PHÂN CẤP ĐA TẦNG */}
+                  <div className="lg:col-span-8 space-y-3">
+                    <div className="border-b border-slate-100 dark:border-slate-800 pb-2">
+                      <h3 className="text-lg font-black tracking-tight text-slate-900 dark:text-white">
+                        SITEMAP DETAIL
+                      </h3>
+                      <p className="text-xs text-slate-500 font-mono">
+                        {isEn ? '/Multi-Tier Granular Hierarchy/' : '/Sơ đồ phân cấp đa tầng chi tiết/'}
+                      </p>
+                    </div>
 
-                  <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
-                    <span className="block text-xs font-bold text-indigo-600 dark:text-indigo-400">03. Tuyến Xe & Bản đồ</span>
-                    <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
-                      <li>• Lịch trình GPS</li>
-                      <li>• Tồn kho theo xe</li>
-                    </ul>
-                  </div>
+                    <div className="pt-2 grid grid-cols-1 md:grid-cols-2 gap-5 text-xs">
+                      {SITEMAP_DETAILS.map((group) => (
+                        <div
+                          key={group.parent}
+                          className="p-3.5 rounded-2xl bg-slate-50/70 dark:bg-slate-950/50 border border-slate-200/80 dark:border-slate-800 space-y-2"
+                        >
+                          {/* Nhóm cha */}
+                          <div className="flex items-center">
+                            <button
+                              type="button"
+                              onClick={() => handleSitemapNodeClick(group.screenId)}
+                              className="px-2.5 py-1 rounded-md border border-[#323987]/40 dark:border-[#9BE7FA]/40 bg-[#323987]/10 dark:bg-[#9BE7FA]/10 text-[#323987] dark:text-[#9BE7FA] font-extrabold hover:bg-[#323987] hover:text-white transition-all cursor-pointer text-left shrink-0 text-xs"
+                            >
+                              {isEn ? group.parentEn : group.parent}
+                            </button>
+                            <div className="w-3 border-t-2 border-slate-400 dark:border-slate-600 shrink-0" />
+                            <span className="text-[10px] font-mono text-slate-400 pl-1">
+                              {group.children.length} {isEn ? 'nodes' : 'nhánh'}
+                            </span>
+                          </div>
 
-                  <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
-                    <span className="block text-xs font-bold text-emerald-600 dark:text-emerald-400">04. Mượn / Đặt trước</span>
-                    <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
-                      <li>• Tạo phiếu mượn</li>
-                      <li>• Đặt trước giữ chỗ</li>
-                    </ul>
-                  </div>
+                          {/* Cây vuông góc các nhánh con */}
+                          <div className="ml-3 border-l-2 border-slate-400 dark:border-slate-600 pl-2 py-1 space-y-2">
+                            {group.children.map((child) => (
+                              <div key={child.label} className="space-y-1">
+                                <div className="flex items-center">
+                                  <div className="w-3 border-t-2 border-slate-400 dark:border-slate-600 shrink-0" />
+                                  <button
+                                    type="button"
+                                    onClick={() => handleSitemapNodeClick(child.screenId)}
+                                    className="px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:border-[#FA6933] hover:text-[#FA6933] text-[11px] font-medium transition-all text-left shadow-2xs cursor-pointer inline-flex items-center gap-1"
+                                  >
+                                    <span>•</span>
+                                    <span>{isEn ? child.labelEn : child.label}</span>
+                                  </button>
+                                </div>
 
-                  <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
-                    <span className="block text-xs font-bold text-amber-600 dark:text-amber-400">05. Cộng đồng (Blog)</span>
-                    <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
-                      <li>• Tin tức & CLB</li>
-                      <li>• Sự kiện đọc sách</li>
-                    </ul>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
-                    <span className="block text-xs font-bold text-slate-800 dark:text-slate-200">06. Tài khoản & Stats</span>
-                    <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
-                      <li>• Dashboard cá nhân</li>
-                      <li>• Thông báo hạn trả</li>
-                    </ul>
+                                {/* Nhánh con cấp 3 (nếu có) */}
+                                {child.sub && child.sub.length > 0 && (
+                                  <div className="ml-5 border-l-2 border-dashed border-slate-300 dark:border-slate-700 pl-2 py-0.5 space-y-1">
+                                    {child.sub.map((subItem) => (
+                                      <div key={subItem} className="flex items-center">
+                                        <div className="w-2.5 border-t border-slate-300 dark:border-slate-700 shrink-0" />
+                                        <span className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800/80 text-[10px] text-slate-600 dark:text-slate-400 font-mono">
+                                          {subItem}
+                                        </span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

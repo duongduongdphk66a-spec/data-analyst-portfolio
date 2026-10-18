@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Server, Lock, ExternalLink, 
   CheckCircle2, AlertTriangle, Layers, TableProperties,
-  Maximize2, X, Minimize2
+  Maximize2, X, Activity, Zap, ShieldCheck, GitCommit
 } from 'lucide-react';
 import { useTheme } from '@/app/context/ThemeContext';
 import SectionHeader from '@/components/ui/SectionHeader';
@@ -11,6 +13,129 @@ export interface Chapter4BackendLogicProps {
   isEn?: boolean;
   onCopyDeepLink?: (_sectionId: string, _title?: string) => void;
 }
+
+export interface FlowEdge {
+  id: string;
+  source: string;
+  target: string;
+  routeVi: string;
+  routeEn: string;
+  techVi: string;
+  techEn: string;
+  descVi: string;
+  descEn: string;
+  concurrencyVi: string;
+  concurrencyEn: string;
+  mathFormula?: string;
+  selector?: string;
+}
+
+export const FLOW_EDGES: Record<'workflow' | 'dataflow', FlowEdge[]> = {
+  workflow: [
+    {
+      id: 'E1',
+      source: 'Client',
+      target: 'BorrowService',
+      routeVi: 'Độc giả (Client) ➔ BorrowService (Django View)',
+      routeEn: 'Reader (Client) ➔ BorrowService (Django View)',
+      techVi: 'with transaction.atomic()',
+      techEn: 'with transaction.atomic()',
+      descVi: 'Khởi tạo giao dịch ACID cho yêu cầu mượn sách; mọi lỗi phát sinh phía sau sẽ tự động ROLLBACK toàn bộ, bảo toàn tính toàn vẹn dữ liệu.',
+      descEn: 'Initializes an ACID database transaction for the borrow request; any exception triggers an automatic ROLLBACK to preserve database integrity.',
+      concurrencyVi: 'Giao dịch nguyên tử; tự động rollback khi gặp exception hoặc gián đoạn kết nối.',
+      concurrencyEn: 'Atomic transaction; automatic rollback on exceptions or network disconnects.',
+      selector: 'path[data-edge-from="request_borrow"], path[data-edge-from="search"]',
+    },
+    {
+      id: 'E2',
+      source: 'BorrowService',
+      target: 'InventoryDB',
+      routeVi: 'BorrowService ➔ PostgreSQL (Book Row Lock)',
+      routeEn: 'BorrowService ➔ PostgreSQL (Book Row Lock)',
+      techVi: 'Book.objects.select_for_update(nowait=False)',
+      techEn: 'Book.objects.select_for_update(nowait=False)',
+      descVi: 'Khóa cứng dòng dữ liệu cuốn sách (Row-level Lock) trong DB, chặn các luồng mượn trùng lặp cùng lúc (chống Race Condition tuyệt đối).',
+      descEn: 'Applies row-level lock on the book record in PostgreSQL, forcing concurrent requests to wait in queue to eliminate race conditions.',
+      concurrencyVi: 'Row-level Lock (Pessimistic Locking) trong PostgreSQL cho tới khi COMMIT.',
+      concurrencyEn: 'Pessimistic row-level lock in PostgreSQL retained until transaction COMMIT.',
+      selector: 'path[data-edge-to="lock_create"], path[data-edge-from="check_stock"][data-edge-to="lock_create"]',
+    },
+    {
+      id: 'E3',
+      source: 'InventoryDB',
+      target: 'ReservationQueue',
+      routeVi: 'Kiểm tra tồn kho ➔ Hàng đợi Đặt trước (Fallback)',
+      routeEn: 'Inventory Check ➔ Reservation Queue (Fallback)',
+      techVi: 'available_copies == 0 (Fallback)',
+      techEn: 'available_copies == 0 (Fallback)',
+      descVi: 'Đường rẽ nhánh khi tồn kho bằng 0: tự động chuyển yêu cầu sang hàng đợi Đặt trước (reservation_create) và gửi thông báo khi có sách trả.',
+      descEn: 'Branch path when available inventory equals 0: auto-reroutes request to reservation queue (reservation_create) and notifies upon book return.',
+      concurrencyVi: 'Fallback an toàn không gây tranh chấp kho; chuyển giao sang hàng đợi reservation.',
+      concurrencyEn: 'Contention-free fallback; safely delegates request to reservation queue.',
+      selector: 'path[data-edge-to="reserve_queue"]',
+    },
+    {
+      id: 'E4',
+      source: 'BorrowService',
+      target: 'CeleryBroker',
+      routeVi: 'BorrowService ➔ Redis / Celery Worker',
+      routeEn: 'BorrowService ➔ Redis / Celery Worker',
+      techVi: '@shared_task.delay(borrow_id=order.id)',
+      techEn: '@shared_task.delay(borrow_id=order.id)',
+      descVi: 'Sau khi COMMIT giảm tồn kho -1, đẩy sự kiện bất đồng bộ sang Redis để gửi email xác nhận & lịch nhắc trả (due_reminder.txt) mà không chặn HTTP.',
+      descEn: 'Post-commit non-blocking dispatch: queues async tasks to Redis for email receipts and overdue reminders without stalling user HTTP responses.',
+      concurrencyVi: 'Xử lý bất đồng bộ (Non-blocking I/O) qua Redis Broker & Celery Worker.',
+      concurrencyEn: 'Non-blocking asynchronous execution via Redis Broker and Celery Workers.',
+      selector: 'path[data-edge-to="analytics_task"], path[data-edge-from="bus_handover"]',
+    },
+  ],
+  dataflow: [
+    {
+      id: 'D1',
+      source: 'UserEvents',
+      target: 'CeleryWorker',
+      routeVi: 'Giao dịch / Đọc PDF ➔ Event Collector (Celery)',
+      routeEn: 'User Events (Borrow/PDF) ➔ Event Collector (Celery)',
+      techVi: 'analytics/tasks.py (Signals & Celery Tasks)',
+      techEn: 'analytics/tasks.py (Signals & Celery Tasks)',
+      descVi: 'Thu thập luồng sự kiện mượn sách, đọc PDF, đánh giá sao và đẩy ngầm vào Worker mà không làm chậm phản hồi HTTP của người dùng.',
+      descEn: 'Captures stream events (borrows, PDF dwell time, star ratings) and queues into background workers with zero impact on HTTP latency.',
+      concurrencyVi: 'Hàng đợi ngầm Redis; tốc độ nạp sự kiện cao độc lập với thời gian tính toán.',
+      concurrencyEn: 'Redis background queue; high ingestion rate isolated from calculation latency.',
+      selector: 'path[data-edge-from="borrow_ops"], path[data-edge-from="user_clicks"], path[data-edge-id="borrow-event"]',
+    },
+    {
+      id: 'D2',
+      source: 'CeleryWorker',
+      target: 'BayesianEngine',
+      routeVi: 'Celery Worker ➔ Bayesian Ranking Engine',
+      routeEn: 'Celery Worker ➔ Bayesian Ranking Engine',
+      techVi: 'W = (v / (v + m)) * R + (m / (v + m)) * C',
+      techEn: 'W = (v / (v + m)) * R + (m / (v + m)) * C',
+      mathFormula: 'W = \\frac{v}{v+m}R + \\frac{m}{v+m}C',
+      descVi: 'Đường tính toán lại bảng xếp hạng sách (leaderboard.html) bằng trọng số Bayes để triệt tiêu sai lệch khi sách mới có ít lượt đánh giá so với sách lâu năm.',
+      descEn: 'Recalculates book leaderboard rankings with Bayesian weighting to eliminate small-sample bias between newly introduced books and old classics.',
+      concurrencyVi: 'Chạy nền định kỳ theo batch hoặc khi chạm ngưỡng rating mới; lưu cache Redis.',
+      concurrencyEn: 'Computed in background batch or rating threshold trigger; cached in Redis.',
+      selector: 'path[data-edge-id="stats-persist"], path[data-edge-from="celery_analytics"][data-edge-to="stats_tables"]',
+    },
+    {
+      id: 'D3',
+      source: 'CeleryWorker',
+      target: 'CosineRecommender',
+      routeVi: 'Hồ sơ Độc giả ➔ Cosine Similarity Recommender',
+      routeEn: 'User Profile ➔ Cosine Similarity Recommender',
+      techVi: 'cos(θ) = (u · b) / (||u|| * ||b||)',
+      techEn: 'cos(θ) = (u · b) / (||u|| * ||b||)',
+      mathFormula: '\\cos(\\theta) = \\frac{\\mathbf{u}\\cdot\\mathbf{b}}{\\|\\mathbf{u}\\|_2 \\|\\mathbf{b}\\|_2}',
+      descVi: 'Đường đối chiếu vector sở thích độc giả (interests.html) với kho sách để xuất danh sách gợi ý cá nhân hóa (recommendations.html) tức thì trên Dashboard.',
+      descEn: 'Matches user preference embeddings against book vectors to generate personalized recommendation feeds on the reader dashboard.',
+      concurrencyVi: 'Đối chiếu vector bất đồng bộ; ghi đè recommendation cache với TTL 24h.',
+      concurrencyEn: 'Asynchronous vector similarity matrix match; caches recommendation feed with 24h TTL.',
+      selector: 'path[data-edge-id="cache-ai-feed"], path[data-edge-from="cache_layer"]',
+    },
+  ],
+};
 
 const BACKEND_CHARTS = [
   {
@@ -22,7 +147,7 @@ const BACKEND_CHARTS = [
     externalUrl: '/library-bus/borrowing-workflow.html',
     metrics: ['Row-level Locking', 'Auto Reservation', 'Zero Overselling'],
     descVi: 'Quy trình giải quyết tranh chấp tài nguyên khi nhiều độc giả mượn cùng lúc cuốn sách cuối cùng trên xe.',
-    descEn: 'Concurrency control workflow when multiple readers attempt to borrow the last available book copy.'
+    descEn: 'Concurrency control workflow when multiple readers attempt to borrow the last available book copy.',
   },
   {
     id: 'dataflow',
@@ -33,7 +158,7 @@ const BACKEND_CHARTS = [
     externalUrl: '/library-bus/analytics-dataflow.html',
     metrics: ['Async Email/Notify', 'Bayesian Rating', 'Real-time Dashboard'],
     descVi: 'Đường ống xử lý dữ liệu ngầm không gây nghẽn HTTP, tổng hợp báo cáo và tính toán gợi ý cá nhân hóa.',
-    descEn: 'Non-blocking asynchronous data pipeline computing user recommendations and analytics dashboards.'
+    descEn: 'Non-blocking asynchronous data pipeline computing user recommendations and analytics dashboards.',
   },
 ];
 
@@ -112,6 +237,14 @@ export function Chapter4BackendLogic({
   // Fullscreen modal for deep inspection
   const [fullscreenChart, setFullscreenChart] = useState<typeof BACKEND_CHARTS[0] | null>(null);
 
+  // Active Flow Inspector Edge selections
+  const [selectedWorkflowEdge, setSelectedWorkflowEdge] = useState<FlowEdge>(FLOW_EDGES.workflow[0]);
+  const [selectedDataflowEdge, setSelectedDataflowEdge] = useState<FlowEdge>(FLOW_EDGES.dataflow[0]);
+
+  // Iframe references
+  const wfIframeRef = useRef<HTMLIFrameElement>(null);
+  const dfIframeRef = useRef<HTMLIFrameElement>(null);
+
   // Synchronize theme changes to all embedded iframes immediately
   useEffect(() => {
     const iframes = document.querySelectorAll('iframe');
@@ -121,6 +254,117 @@ export function Chapter4BackendLogic({
       } catch (_) {}
     });
   }, [resolvedTheme]);
+
+  // Highlight specific path in iframe
+  const highlightEdgeInIframe = (
+    iframe: HTMLIFrameElement | null,
+    edge: FlowEdge,
+    type: 'workflow' | 'dataflow'
+  ) => {
+    try {
+      const doc = iframe?.contentDocument;
+      if (!doc) return;
+
+      const highlightColor = type === 'workflow' ? '#FA6933' : '#323987';
+      const glowColor = type === 'workflow' ? 'rgba(250, 105, 51, 0.9)' : 'rgba(155, 231, 250, 0.9)';
+
+      // Reset all edges
+      const allPaths = doc.querySelectorAll('path[data-animate="edge"], path[data-edge-from]');
+      allPaths.forEach((p) => {
+        const el = p as HTMLElement;
+        el.style.stroke = '';
+        el.style.strokeWidth = '';
+        el.style.filter = '';
+        el.style.opacity = '0.55';
+      });
+
+      // Highlight target edges
+      const targetPaths = edge.selector ? doc.querySelectorAll(edge.selector) : [];
+      if (targetPaths.length > 0) {
+        targetPaths.forEach((p) => {
+          const el = p as HTMLElement;
+          el.style.stroke = highlightColor;
+          el.style.strokeWidth = '3.5px';
+          el.style.filter = `drop-shadow(0 0 8px ${glowColor})`;
+          el.style.opacity = '1';
+        });
+      } else {
+        // Fallback: highlight paths with edge index
+        allPaths.forEach((p, idx) => {
+          if (idx === 0) {
+            const el = p as HTMLElement;
+            el.style.stroke = highlightColor;
+            el.style.strokeWidth = '3px';
+            el.style.opacity = '1';
+          }
+        });
+      }
+    } catch (_) {
+      // Safe fallback when iframe cross-origin restrictions apply
+    }
+  };
+
+  // Attach event listeners to nodes & edges inside iframe
+  const attachIframeInspector = (
+    iframe: HTMLIFrameElement | null,
+    type: 'workflow' | 'dataflow'
+  ) => {
+    try {
+      const doc = iframe?.contentDocument;
+      if (!doc) return;
+
+      const interactiveElements = doc.querySelectorAll(
+        'path[data-animate="edge"], path[data-edge-from], g[role="button"], g[data-node-id], .node, .edge'
+      );
+
+      interactiveElements.forEach((el, idx) => {
+        const htmlEl = el as HTMLElement;
+        htmlEl.style.cursor = 'pointer';
+
+        htmlEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const edgeList = FLOW_EDGES[type];
+
+          const edgeFrom = htmlEl.getAttribute('data-edge-from') || htmlEl.getAttribute('data-node-id') || '';
+          const edgeTo = htmlEl.getAttribute('data-edge-to') || '';
+          const combined = `${edgeFrom} ${edgeTo}`.toLowerCase();
+
+          let matched = edgeList.find(edge => 
+            combined.includes(edge.source.toLowerCase()) || 
+            combined.includes(edge.target.toLowerCase())
+          );
+
+          if (!matched) {
+            matched = edgeList[idx % edgeList.length];
+          }
+
+          if (type === 'workflow') {
+            setSelectedWorkflowEdge(matched);
+            highlightEdgeInIframe(iframe, matched, 'workflow');
+          } else {
+            setSelectedDataflowEdge(matched);
+            highlightEdgeInIframe(iframe, matched, 'dataflow');
+          }
+        });
+      });
+
+      // Initial edge highlight
+      const initialEdge = type === 'workflow' ? FLOW_EDGES.workflow[0] : FLOW_EDGES.dataflow[0];
+      highlightEdgeInIframe(iframe, initialEdge, type);
+    } catch (_) {
+      // Graceful fallback
+    }
+  };
+
+  const handleSelectWorkflowEdge = (edge: FlowEdge) => {
+    setSelectedWorkflowEdge(edge);
+    highlightEdgeInIframe(wfIframeRef.current, edge, 'workflow');
+  };
+
+  const handleSelectDataflowEdge = (edge: FlowEdge) => {
+    setSelectedDataflowEdge(edge);
+    highlightEdgeInIframe(dfIframeRef.current, edge, 'dataflow');
+  };
 
   const iframeHeightClass = heightMode === 'fit'
     ? 'h-[480px] sm:h-[540px] lg:h-[620px] max-h-[68vh]'
@@ -135,9 +379,9 @@ export function Chapter4BackendLogic({
         variant="chapter"
         id="sec-backend"
         chapter="CHAPTER 04"
-        subtitle={isEn ? 'Django ORM, row-level locking, Celery asynchronous queue & analytics dataflow' : 'Django ORM, khóa dòng dữ liệu, hàng đợi bất đồng bộ Celery & luồng phân tích'}
+        subtitle={isEn ? 'Django ORM, row-level locking, Celery asynchronous queue & interactive flow inspector' : 'Django ORM, khóa dòng dữ liệu, hàng đợi bất đồng bộ Celery & bộ kiểm tra luồng tương tác'}
         badge="04"
-        title={isEn ? '04. Backend Logic & Interactive Flows' : '04. Backend Logic & Biểu Đồ Tương Tác'}
+        title={isEn ? '04. Backend Logic & Interactive Flow Inspector' : '04. Backend Logic & Bộ Kiểm Tra Luồng Tương Tác'}
         onCopy={onCopyDeepLink}
       />
 
@@ -230,16 +474,16 @@ export function Chapter4BackendLogic({
         </div>
       </div>
 
-      {/* 2 BIỂU ĐỒ TƯƠNG TÁC CÓ SẴN (IFRAME EMBEDS) */}
-      <div className="space-y-5">
+      {/* 2 BIỂU ĐỒ TƯƠNG TÁC + EDGE INSPECTOR (GIẢI THÍCH ĐƯỜNG NỐI KHI CLICK) */}
+      <div className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs">
           <div className="space-y-1">
             <h3 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <Layers className="w-5 h-5 text-[#323987] dark:text-[#9BE7FA]" />
-              <span>{isEn ? '2 Interactive Flow Diagrams (Expanded View)' : '2 Biểu Đồ Luồng Tương Tác (Khổ Lớn Toàn Cảnh)'}</span>
+              <span>{isEn ? '2 Interactive Flow Diagrams & Edge Inspector' : '2 Biểu Đồ Luồng & Bộ Giải Thích Đường Nối (Edge Inspector)'}</span>
             </h3>
             <p className="text-xs sm:text-sm text-slate-500">
-              {isEn ? 'Full-size embedded SVG diagrams for borrowing workflow and analytics dataflow' : 'Trực quan hóa kích thước lớn chi tiết từng node, luồng xử lý và quan hệ dữ liệu'}
+              {isEn ? 'Click on SVG nodes/edges or chip buttons to inspect underlying backend transactions and concurrency locks' : 'Nhấp trực tiếp vào đường nối trên sơ đồ hoặc chọn thẻ bên dưới để xem giải thích kỹ thuật chi tiết'}
             </p>
           </div>
 
@@ -347,26 +591,29 @@ export function Chapter4BackendLogic({
 
         {/* Display Container: Stacked (1 column full width) by default for maximum visibility */}
         <div className={`grid gap-8 ${activeTab === 'both' && layoutMode === 'grid' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
-          {BACKEND_CHARTS.filter(c => activeTab === 'both' || c.id === activeTab).map((chart) => (
-            <div key={chart.id} className="p-6 sm:p-7 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-md space-y-4">
+          {/* ========================================================
+              CHART 1: BORROWING WORKFLOW & RACE CONDITION PREVENTION
+              ======================================================== */}
+          {(activeTab === 'both' || activeTab === 'workflow') && (
+            <div className="p-6 sm:p-7 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-md space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3.5">
                 <div>
-                  <h4 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white">
-                    {isEn ? chart.titleEn : chart.titleVi}
+                  <h4 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FA6933]" />
+                    <span>{isEn ? BACKEND_CHARTS[0].titleEn : BACKEND_CHARTS[0].titleVi}</span>
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-                    {isEn ? chart.descEn : chart.descVi}
+                    {isEn ? BACKEND_CHARTS[0].descEn : BACKEND_CHARTS[0].descVi}
                   </p>
                 </div>
                 
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-mono text-[#FA6933] font-bold px-2.5 py-1 rounded-xl bg-orange-50 dark:bg-orange-950/40 border border-orange-200 dark:border-orange-900">
-                    {chart.badge}
+                    {BACKEND_CHARTS[0].badge}
                   </span>
                   
-                  {/* Fullscreen Button */}
                   <button
-                    onClick={() => setFullscreenChart(chart)}
+                    onClick={() => setFullscreenChart(BACKEND_CHARTS[0])}
                     className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
                     title={isEn ? 'Expand Fullscreen Modal' : 'Phóng to toàn cảnh (Modal)'}
                   >
@@ -374,7 +621,7 @@ export function Chapter4BackendLogic({
                   </button>
 
                   <a
-                    href={`${chart.externalUrl}?theme=${resolvedTheme}`}
+                    href={`${BACKEND_CHARTS[0].externalUrl}?theme=${resolvedTheme}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
@@ -385,25 +632,233 @@ export function Chapter4BackendLogic({
                 </div>
               </div>
 
+              {/* Metric tags */}
               <div className="flex flex-wrap gap-2">
-                {chart.metrics.map((m) => (
+                {BACKEND_CHARTS[0].metrics.map((m) => (
                   <span key={m} className="px-3 py-1 rounded-xl text-xs font-semibold bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200">
                     {m}
                   </span>
                 ))}
               </div>
 
-              {/* Large Responsive Iframe Canvas */}
+              {/* Responsive Iframe Canvas */}
               <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-inner">
                 <iframe 
-                  src={`${chart.src}&theme=${resolvedTheme}`} 
+                  ref={wfIframeRef}
+                  src={`${BACKEND_CHARTS[0].src}&theme=${resolvedTheme}`} 
+                  onLoad={() => attachIframeInspector(wfIframeRef.current, 'workflow')}
                   className={`w-full ${iframeHeightClass} bg-white dark:bg-slate-950 transition-all duration-300`} 
-                  title={isEn ? chart.titleEn : chart.titleVi} 
+                  title={isEn ? BACKEND_CHARTS[0].titleEn : BACKEND_CHARTS[0].titleVi} 
                   loading="lazy"
                 />
               </div>
+
+              {/* EDGE INSPECTOR FOR 4.1 */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 dark:border-slate-800 pb-2">
+                  <div className="flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-[#FA6933]" />
+                    <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                      {isEn ? 'Edge Inspector: Select Active Flow Path' : 'Bộ kiểm tra đường nối: Chọn luồng xử lý trên biểu đồ'}
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#FA6933] font-semibold">
+                    {isEn ? 'Interactive DOM Synced' : 'Đồng bộ sự kiện DOM'}
+                  </span>
+                </div>
+
+                {/* Edge selector chip buttons */}
+                <div className="flex flex-wrap gap-2">
+                  {FLOW_EDGES.workflow.map((edge) => {
+                    const isSelected = selectedWorkflowEdge.id === edge.id;
+                    return (
+                      <button
+                        key={edge.id}
+                        type="button"
+                        onClick={() => handleSelectWorkflowEdge(edge)}
+                        className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer flex items-center gap-2 ${
+                          isSelected
+                            ? 'bg-[#FA6933] text-white border-[#FA6933] shadow-sm ring-2 ring-[#FA6933]/30 scale-[1.01]'
+                            : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-[#FA6933]'
+                        }`}
+                      >
+                        <span className={`px-1.5 py-0.5 rounded font-mono text-[10px] font-bold ${
+                          isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-700 text-[#FA6933]'
+                        }`}>
+                          {edge.id}
+                        </span>
+                        <span>{edge.source} ➔ {edge.target}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Selected Edge Detail Card */}
+                <div className="p-4 rounded-xl border-l-4 border-[#FA6933] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs space-y-2.5 shadow-2xs">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-bold px-2 py-0.5 rounded bg-orange-100 dark:bg-orange-950/60 text-[#FA6933] border border-orange-200 dark:border-orange-800">
+                        {selectedWorkflowEdge.id}
+                      </span>
+                      <b className="text-slate-900 dark:text-white text-xs sm:text-sm">
+                        {isEn ? selectedWorkflowEdge.routeEn : selectedWorkflowEdge.routeVi}
+                      </b>
+                    </div>
+                    <code className="font-mono font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#FA6933] text-[11px] border border-slate-200 dark:border-slate-700">
+                      {isEn ? selectedWorkflowEdge.techEn : selectedWorkflowEdge.techVi}
+                    </code>
+                  </div>
+
+                  <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
+                    {isEn ? selectedWorkflowEdge.descEn : selectedWorkflowEdge.descVi}
+                  </p>
+
+                  <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-start gap-2 text-slate-600 dark:text-slate-400">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <span><b>{isEn ? 'Concurrency Mechanism:' : 'Cơ chế an toàn luồng:'}</b> {isEn ? selectedWorkflowEdge.concurrencyEn : selectedWorkflowEdge.concurrencyVi}</span>
+                  </div>
+                </div>
+              </div>
             </div>
-          ))}
+          )}
+
+          {/* ========================================================
+              CHART 2: ANALYTICS DATAFLOW & ASYNCHRONOUS CELERY QUEUE
+              ======================================================== */}
+          {(activeTab === 'both' || activeTab === 'dataflow') && (
+            <div className="p-6 sm:p-7 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-md space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3.5">
+                <div>
+                  <h4 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#323987] dark:bg-[#9BE7FA]" />
+                    <span>{isEn ? BACKEND_CHARTS[1].titleEn : BACKEND_CHARTS[1].titleVi}</span>
+                  </h4>
+                  <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+                    {isEn ? BACKEND_CHARTS[1].descEn : BACKEND_CHARTS[1].descVi}
+                  </p>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono text-[#323987] dark:text-[#9BE7FA] font-bold px-2.5 py-1 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-900">
+                    {BACKEND_CHARTS[1].badge}
+                  </span>
+                  
+                  <button
+                    onClick={() => setFullscreenChart(BACKEND_CHARTS[1])}
+                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
+                    title={isEn ? 'Expand Fullscreen Modal' : 'Phóng to toàn cảnh (Modal)'}
+                  >
+                    <Maximize2 className="w-4 h-4 text-[#323987] dark:text-[#9BE7FA]" />
+                  </button>
+
+                  <a
+                    href={`${BACKEND_CHARTS[1].externalUrl}?theme=${resolvedTheme}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
+                    title={isEn ? 'Open in new window' : 'Mở tab mới'}
+                  >
+                    <ExternalLink className="w-4 h-4 text-[#FA6933]" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Metric tags */}
+              <div className="flex flex-wrap gap-2">
+                {BACKEND_CHARTS[1].metrics.map((m) => (
+                  <span key={m} className="px-3 py-1 rounded-xl text-xs font-semibold bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200">
+                    {m}
+                  </span>
+                ))}
+              </div>
+
+              {/* Responsive Iframe Canvas */}
+              <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-inner">
+                <iframe 
+                  ref={dfIframeRef}
+                  src={`${BACKEND_CHARTS[1].src}&theme=${resolvedTheme}`} 
+                  onLoad={() => attachIframeInspector(dfIframeRef.current, 'dataflow')}
+                  className={`w-full ${iframeHeightClass} bg-white dark:bg-slate-950 transition-all duration-300`} 
+                  title={isEn ? BACKEND_CHARTS[1].titleEn : BACKEND_CHARTS[1].titleVi} 
+                  loading="lazy"
+                />
+              </div>
+
+              {/* EDGE INSPECTOR FOR 4.2 */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 dark:border-slate-800 pb-2">
+                  <div className="flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-[#323987] dark:text-[#9BE7FA]" />
+                    <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                      {isEn ? 'Edge Inspector: Select Active Flow Path' : 'Bộ kiểm tra đường nối: Chọn luồng phân tích trên biểu đồ'}
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#323987] dark:text-[#9BE7FA] font-semibold">
+                    {isEn ? 'Interactive DOM Synced' : 'Đồng bộ sự kiện DOM'}
+                  </span>
+                </div>
+
+                {/* Edge selector chip buttons */}
+                <div className="flex flex-wrap gap-2">
+                  {FLOW_EDGES.dataflow.map((edge) => {
+                    const isSelected = selectedDataflowEdge.id === edge.id;
+                    return (
+                      <button
+                        key={edge.id}
+                        type="button"
+                        onClick={() => handleSelectDataflowEdge(edge)}
+                        className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer flex items-center gap-2 ${
+                          isSelected
+                            ? 'bg-[#323987] text-white border-[#323987] shadow-sm ring-2 ring-[#323987]/30 scale-[1.01]'
+                            : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-[#323987]'
+                        }`}
+                      >
+                        <span className={`px-1.5 py-0.5 rounded font-mono text-[10px] font-bold ${
+                          isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-700 text-[#323987] dark:text-[#9BE7FA]'
+                        }`}>
+                          {edge.id}
+                        </span>
+                        <span>{edge.source} ➔ {edge.target}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Selected Edge Detail Card */}
+                <div className="p-4 rounded-xl border-l-4 border-[#323987] dark:border-[#9BE7FA] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs space-y-2.5 shadow-2xs">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-bold px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950/60 text-[#323987] dark:text-[#9BE7FA] border border-indigo-200 dark:border-indigo-800">
+                        {selectedDataflowEdge.id}
+                      </span>
+                      <b className="text-slate-900 dark:text-white text-xs sm:text-sm">
+                        {isEn ? selectedDataflowEdge.routeEn : selectedDataflowEdge.routeVi}
+                      </b>
+                    </div>
+                    <code className="font-mono font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#323987] dark:text-[#9BE7FA] text-[11px] border border-slate-200 dark:border-slate-700">
+                      {isEn ? selectedDataflowEdge.techEn : selectedDataflowEdge.techVi}
+                    </code>
+                  </div>
+
+                  {selectedDataflowEdge.mathFormula && (
+                    <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/80 font-mono text-xs text-indigo-700 dark:text-sky-300 border border-slate-200 dark:border-slate-700">
+                      <span className="font-sans font-bold text-slate-500 mr-2 text-[11px]">Công thức toán:</span>
+                      <code>{selectedDataflowEdge.techVi}</code>
+                    </div>
+                  )}
+
+                  <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
+                    {isEn ? selectedDataflowEdge.descEn : selectedDataflowEdge.descVi}
+                  </p>
+
+                  <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-start gap-2 text-slate-600 dark:text-slate-400">
+                    <Zap className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                    <span><b>{isEn ? 'Async / Concurrency Model:' : 'Mô hình xử lý bất đồng bộ:'}</b> {isEn ? selectedDataflowEdge.concurrencyEn : selectedDataflowEdge.concurrencyVi}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -459,6 +914,83 @@ export function Chapter4BackendLogic({
           </div>
         </div>
       )}
+
+      {/* DANH MỤC ĐƯỜNG NỐI & GIẢI THÍCH LUỒNG XỬ LÝ (EDGE INSPECTOR SUMMARY TABLE) */}
+      <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+          <div className="space-y-1">
+            <h3 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <GitCommit className="w-5 h-5 text-[#FA6933]" />
+              <span>{isEn ? 'Edge Inspector Catalog & Flow Explanations' : 'Danh Mục Đường Nối & Giải Thích Luồng Xử Lý (Edge Inspector)'}</span>
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-500">
+              {isEn ? 'Comprehensive mapping of edges, backend triggers, locking mechanisms and async workers' : 'Bảng tổng hợp đối chiếu toàn bộ các đường nối, cơ chế kích hoạt backend và giải thích luồng xử lý'}
+            </p>
+          </div>
+          <span className="text-xs font-mono px-3 py-1.5 rounded-xl bg-orange-50 dark:bg-slate-800 text-[#FA6933] font-bold border border-orange-200 dark:border-slate-700">
+            7 Core Flows
+          </span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs sm:text-sm">
+            <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold uppercase text-xs">
+              <tr>
+                <th className="p-3.5 w-1/5">{isEn ? 'Diagram & Code' : 'Biểu đồ & Mã đường nối'}</th>
+                <th className="p-3.5 w-1/4">{isEn ? 'Backend Trigger' : 'Cơ chế Backend kích hoạt'}</th>
+                <th className="p-3.5">{isEn ? 'Flow Explanation When Rendered' : 'Giải thích luồng xử lý khi đường nối hiện ra'}</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              {/* 4.1 Luồng Mượn/Trả */}
+              {FLOW_EDGES.workflow.map((edge) => (
+                <tr key={edge.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="p-3.5 align-top">
+                    <span className="font-bold text-[#FA6933] block text-xs">4.1 Luồng Mượn/Trả</span>
+                    <span className="font-mono font-bold text-slate-900 dark:text-white text-xs block mt-0.5">
+                      [{edge.id}] {edge.source} ➔ {edge.target}
+                    </span>
+                  </td>
+                  <td className="p-3.5 align-top">
+                    <code className="font-mono text-xs px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 block">
+                      {isEn ? edge.techEn : edge.techVi}
+                    </code>
+                    <span className="text-[11px] text-slate-500 block mt-1">
+                      {isEn ? edge.concurrencyEn : edge.concurrencyVi}
+                    </span>
+                  </td>
+                  <td className="p-3.5 align-top text-slate-600 dark:text-slate-300 leading-relaxed">
+                    {isEn ? edge.descEn : edge.descVi}
+                  </td>
+                </tr>
+              ))}
+
+              {/* 4.2 Luồng Phân tích */}
+              {FLOW_EDGES.dataflow.map((edge) => (
+                <tr key={edge.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                  <td className="p-3.5 align-top">
+                    <span className="font-bold text-[#323987] dark:text-[#9BE7FA] block text-xs">4.2 Luồng Phân tích</span>
+                    <span className="font-mono font-bold text-slate-900 dark:text-white text-xs block mt-0.5">
+                      [{edge.id}] {edge.source} ➔ {edge.target}
+                    </span>
+                  </td>
+                  <td className="p-3.5 align-top">
+                    <code className="font-mono text-xs px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 block">
+                      {isEn ? edge.techEn : edge.techVi}
+                    </code>
+                    <span className="text-[11px] text-slate-500 block mt-1">
+                      {isEn ? edge.concurrencyEn : edge.concurrencyVi}
+                    </span>
+                  </td>
+                  <td className="p-3.5 align-top text-slate-600 dark:text-slate-300 leading-relaxed">
+                    {isEn ? edge.descEn : edge.descVi}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       {/* BẢNG ĐẶC TẢ KỸ THUẬT PYTHON / DJANGO CỐT LÕI */}
       <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-4">

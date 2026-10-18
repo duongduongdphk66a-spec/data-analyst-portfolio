@@ -52,6 +52,25 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
   const comparisonTopRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
+  // Listen to external selection from Sitemap tree
+  useEffect(() => {
+    const handleCustomScreenSelect = (e: Event) => {
+      const customEvt = e as CustomEvent<string | { screenId: string }>;
+      const targetId = typeof customEvt.detail === 'string' ? customEvt.detail : customEvt.detail?.screenId;
+      if (!targetId) return;
+      setActiveScreenId(targetId);
+      const targetEl = comparisonTopRef.current || document.getElementById('visual-comparison');
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    window.addEventListener('select-library-bus-screen', handleCustomScreenSelect);
+    return () => {
+      window.removeEventListener('select-library-bus-screen', handleCustomScreenSelect);
+    };
+  }, []);
+
   const currentScreens = deviceMode === 'desktop' ? LIBRARY_BUS_20_SCREENS : LIBRARY_BUS_MOBILE_SCREENS;
   const selectedScreen = currentScreens.find(s => s.id === activeScreenId) || currentScreens[0];
   const selectedIndex = currentScreens.findIndex(s => s.id === activeScreenId);
