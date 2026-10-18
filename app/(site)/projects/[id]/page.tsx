@@ -106,11 +106,12 @@ export default async function ProjectDetailPage({
 
   let initialCaseStudyData: any = null;
   try {
-    if (id === 'proj-kami-ely') {
+    const normalizedId = id.startsWith('proj-') ? id : `proj-${id}`;
+    if (normalizedId === 'proj-kami-ely') {
       initialCaseStudyData = await getKamiElyDataWithFallback();
-    } else if (id === 'proj-heritage-japan') {
+    } else if (normalizedId === 'proj-heritage-japan') {
       initialCaseStudyData = await getHeritageJapanDataWithFallback();
-    } else if (id === 'proj-library-bus') {
+    } else if (normalizedId === 'proj-library-bus') {
       initialCaseStudyData = await getLibraryBusDataWithFallback();
     }
   } catch (err) {

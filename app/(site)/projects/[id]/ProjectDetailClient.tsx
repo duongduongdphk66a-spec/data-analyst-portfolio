@@ -28,8 +28,11 @@ const LibraryBusProject = dynamic(() => import('@/components/case-studies/Librar
 
 const CASE_STUDY_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'proj-kami-ely': KamiElyProject,
+  'kami-ely': KamiElyProject,
   'proj-heritage-japan': HeritageJapanProject,
+  'heritage-japan': HeritageJapanProject,
   'proj-library-bus': LibraryBusProject,
+  'library-bus': LibraryBusProject,
 };
 
 export default function ProjectDetailClient({ 

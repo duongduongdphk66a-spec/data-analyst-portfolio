@@ -1,255 +1,449 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { BarChart3, FileText, Sparkles, ArrowRight, Bookmark } from 'lucide-react';
+import { 
+  Database, 
+  Terminal, 
+  BarChart3, 
+  PieChart, 
+  TrendingUp, 
+  FileText, 
+  ArrowRight, 
+  ArrowUpRight, 
+  Globe, 
+  Briefcase, 
+  Clock, 
+  User, 
+  BookOpen, 
+  ShoppingBag, 
+  Layout, 
+  Landmark 
+} from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { usePortfolioData } from '@/app/context/PortfolioDataContext';
 
+type Lang = 'vi' | 'en';
+
+interface SkillItem {
+  name: string;
+  desc: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+interface OutcomeItem {
+  metric: string;
+  detail: string;
+}
+
+interface TeaserItem {
+  tag: string;
+  question: string;
+  cta: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+interface NavLinkItem {
+  title: string;
+  desc: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+interface ContentType {
+  badge: string;
+  greeting: string;
+  name: string;
+  role: string;
+  headline: string;
+  summary: string;
+  skillsLabel: string;
+  skills: SkillItem[];
+  outcomes: OutcomeItem[];
+  curiosityTitle: string;
+  curiositySubtitle: string;
+  teasers: TeaserItem[];
+  navExploreTitle: string;
+  navLinks: NavLinkItem[];
+  primaryBtn: string;
+  secondaryBtn: string;
+}
+
+const CONTENT: Record<Lang, ContentType> = {
+  vi: {
+    badge: 'Sẵn sàng cho các bài toán dữ liệu thực chiến',
+    greeting: 'Xin chào, tôi là',
+    name: 'Mã Văn Hùng',
+    role: 'Data Analyst — Định hướng Giải quyết Bài toán Kinh doanh',
+    headline: 'Biến dữ liệu phức tạp thành tăng trưởng doanh thu & hiệu suất vận hành.',
+    summary:
+      'Doanh nghiệp không thiếu dữ liệu, họ thiếu những quyết định có cơ sở. Kết hợp tư duy phân tích sắc bén với công cụ hiện đại, tôi giúp các đội ngũ chuyển hóa hàng triệu dòng dữ liệu thô thành hành động chiến lược đo lường được bằng con số thực tế.',
+    skillsLabel: 'Công cụ & Chuyên môn cốt lõi',
+    skills: [
+      { name: 'SQL', desc: 'Cohort, Funnel, Tối ưu hóa truy vấn & ETL', icon: Database },
+      { name: 'Python', desc: 'EDA, Kiểm định giả thuyết & Dự báo chuỗi thời gian', icon: Terminal },
+      { name: 'Power BI', desc: 'Data Modeling (DAX) & Executive Dashboard', icon: BarChart3 },
+      { name: 'Tableau', desc: 'Visual Storytelling & Phân tích tương tác', icon: PieChart },
+      { name: 'Business Intelligence', desc: 'Tư duy Minto Pyramid & Tối ưu KPI', icon: TrendingUp },
+    ],
+    outcomes: [
+      {
+        metric: 'Tối ưu Doanh thu',
+        detail: 'Bóc tách hành vi khách hàng, ma trận SKU và hiệu quả kênh bán để tìm đòn bẩy tăng trưởng.',
+      },
+      {
+        metric: 'Minh bạch Vận hành',
+        detail: 'Tự động hóa luồng báo cáo, đối soát dữ liệu (Reconciliation) và phát hiện bất thường (Anomaly Detection).',
+      },
+      {
+        metric: 'Quyết định Dựa trên Bằng chứng',
+        detail: 'Thay thế cảm tính bằng kiểm định thống kê và cấu trúc kể chuyện dữ liệu (Minto Pyramid).',
+      },
+    ],
+    curiosityTitle: 'Đằng sau những con số là câu chuyện gì?',
+    curiositySubtitle:
+      'Đừng chỉ nghe tôi nói về kỹ năng. Hãy xem cách tôi giải quyết từng bài toán thực tế bên dưới:',
+    teasers: [
+      {
+        tag: 'E-Commerce & TikTok Shop Analytics',
+        question: 'Làm thế nào để tối ưu hóa danh mục SKU, phân tích Affiliate/Creator và kiểm định thống kê doanh số trên TikTok Shop?',
+        cta: 'Khám phá Case Study Kami Ely',
+        href: '/projects/kami-ely',
+        icon: ShoppingBag,
+      },
+      {
+        tag: 'Product Analytics & System Architecture',
+        question: 'Từ nghiên cứu UX đến thiết kế luồng dữ liệu và Dashboard quản trị vận hành hệ thống xe buýt thư viện diễn ra như thế nào?',
+        cta: 'Xem kiến trúc dự án Library Bus',
+        href: '/projects/library-bus',
+        icon: Layout,
+      },
+      {
+        tag: 'Data Audit & Policy Evaluation',
+        question: 'Dữ liệu định lượng tiết lộ điều gì về hiệu quả chính sách bảo tồn di sản tại Nhật Bản?',
+        cta: 'Đọc phân tích Heritage Japan',
+        href: '/projects/heritage-japan',
+        icon: Landmark,
+      },
+    ],
+    navExploreTitle: 'Khám phá thêm về hành trình của tôi',
+    navLinks: [
+      {
+        title: 'Tất cả Dự án (Projects)',
+        desc: 'Trải nghiệm trực tiếp SQL Lab, biểu đồ tương tác và các phân tích chuyên sâu.',
+        href: '/projects',
+        icon: Briefcase,
+      },
+      {
+        title: 'Kinh nghiệm (Experience)',
+        desc: 'Quá trình làm việc và những giá trị thực tế tôi đã đóng góp.',
+        href: '/experience',
+        icon: Clock,
+      },
+      {
+        title: 'Về tôi (About)',
+        desc: 'Triết lý phân tích dữ liệu, bộ kỹ năng chi tiết và câu chuyện cá nhân.',
+        href: '/about',
+        icon: User,
+      },
+      {
+        title: 'Góc chia sẻ (Blog)',
+        desc: 'Ghi chép chuyên môn về SQL, Python, BI và tư duy giải quyết vấn đề.',
+        href: '/blog',
+        icon: BookOpen,
+      },
+    ],
+    primaryBtn: 'Xem các Case Study thực chiến',
+    secondaryBtn: 'Tải CV (PDF)',
+  },
+  en: {
+    badge: 'Ready for High-Impact Data Challenges',
+    greeting: "Hi, I'm",
+    name: 'Ma Van Hung',
+    role: 'Outcome-Driven Data Analyst',
+    headline: 'Turning raw, fragmented data into revenue growth & operational clarity.',
+    summary:
+      "Businesses don't suffer from a lack of data—they suffer from a lack of actionable answers. By combining analytical rigor with modern BI tools, I bridge the gap between complex datasets and measurable business outcomes.",
+    skillsLabel: 'Core Tech Stack & Expertise',
+    skills: [
+      { name: 'SQL', desc: 'Cohort, Funnel, Query Optimization & ETL', icon: Database },
+      { name: 'Python', desc: 'EDA, Hypothesis Testing & Time Series', icon: Terminal },
+      { name: 'Power BI', desc: 'DAX Data Modeling & Executive Dashboards', icon: BarChart3 },
+      { name: 'Tableau', desc: 'Visual Storytelling & Interactive Analytics', icon: PieChart },
+      { name: 'Business Intelligence', desc: 'Minto Pyramid Narrative & KPI Strategy', icon: TrendingUp },
+    ],
+    outcomes: [
+      {
+        metric: 'Revenue Optimization',
+        detail: 'Uncovering SKU matrices, creator performance, and conversion bottlenecks to unlock growth.',
+      },
+      {
+        metric: 'Operational Clarity',
+        detail: 'Automating reporting pipelines, data reconciliation, and real-time anomaly detection.',
+      },
+      {
+        metric: 'Evidence-Based Decisions',
+        detail: 'Replacing guesswork with applied statistics and structured executive storytelling.',
+      },
+    ],
+    curiosityTitle: 'Curious how these skills translate into real impact?',
+    curiositySubtitle:
+      "Don't just take my word for it. Dive into the live case studies and interactive workbenches:",
+    teasers: [
+      {
+        tag: 'E-Commerce & TikTok Shop Analytics',
+        question: 'How do you reconcile creator telemetry, optimize SKU pricing, and run applied statistics on TikTok Shop data?',
+        cta: 'Explore Kami Ely Case Study',
+        href: '/projects/kami-ely',
+        icon: ShoppingBag,
+      },
+      {
+        tag: 'Product Analytics & System Architecture',
+        question: 'How do UX research, backend dataflows, and management dashboards come together in a mobile library ecosystem?',
+        cta: 'Inspect Library Bus Architecture',
+        href: '/projects/library-bus',
+        icon: Layout,
+      },
+      {
+        tag: 'Data Audit & Policy Evaluation',
+        question: 'What does a rigorous data audit reveal about heritage preservation policies in Japan?',
+        cta: 'Read Heritage Japan Study',
+        href: '/projects/heritage-japan',
+        icon: Landmark,
+      },
+    ],
+    navExploreTitle: 'Continue Exploring',
+    navLinks: [
+      {
+        title: 'Projects & SQL Lab',
+        desc: 'Interact with live SQL workbenches, charts, and end-to-end case studies.',
+        href: '/projects',
+        icon: Briefcase,
+      },
+      {
+        title: 'Experience',
+        desc: 'My professional timeline and measurable contributions.',
+        href: '/experience',
+        icon: Clock,
+      },
+      {
+        title: 'About Me',
+        desc: 'My analytical philosophy, background, and technical depth.',
+        href: '/about',
+        icon: User,
+      },
+      {
+        title: 'Blog & Insights',
+        desc: 'Deep dives into SQL patterns, Python workflows, and business thinking.',
+        href: '/blog',
+        icon: BookOpen,
+      },
+    ],
+    primaryBtn: 'Explore Live Case Studies',
+    secondaryBtn: 'Download CV (PDF)',
+  },
+};
+
 export default function HeroSection({ profile: propsProfile }: { profile?: any } = {}) {
-  const { language } = useLanguage();
-  const lang = language === 'en' ? 'en' : 'vi';
+  const { language, toggleLanguage } = useLanguage();
+  const lang: Lang = language === 'en' ? 'en' : 'vi';
   const { profile: contextProfile } = usePortfolioData();
   const profile = propsProfile || contextProfile;
 
-  const [activeHighlightIdx, setActiveHighlightIdx] = useState<number>(0);
+  const t = CONTENT[lang];
 
-  const flagshipHighlights = [
-    {
-      id: 'kami-ely',
-      href: '/projects/kami-ely',
-      tag: { vi: 'CASE STUDY #1 • E-COMMERCE SQL & BI', en: 'CASE STUDY #1 • E-COMMERCE SQL & BI' },
-      title: {
-        vi: 'TikTok Shop Kami Ely (@kamielyhn) — 12,74 Tỉ VNĐ (180d)',
-        en: 'TikTok Shop Kami Ely (@kamielyhn) — 12.74B VND (180d)'
-      },
-      statMain: '31,6 Tỉ VNĐ All-Time • 18.778 Dòng SQL',
-      statSub: {
-        vi: 'Phát hiện Nghịch lý GPM Video gấp 4,5x LIVE (135,2k vs 30,2k) & Mở khóa +1,18 Tỉ đ/tháng',
-        en: 'Uncovered 4.5x Video vs LIVE GPM Paradox (135.2k vs 30.2k) & +1.18B VND/mo ROI Uplift'
-      },
-      bars: [
-        { label: 'Chính chủ @kamielyhn (90d)', val: '49,31% GMV (3,03 Tỉ)', pct: 49.31, color: 'bg-[#9BE7FA]' },
-        { label: 'Mạng lưới 5.712 KOCs (90d)', val: '27,84% GMV (1,71 Tỉ)', pct: 27.84, color: 'bg-[#FFE485]' },
-        { label: 'Thẻ Sản Phẩm / Kệ Hàng (90d)', val: '22,85% GMV (1,40 Tỉ)', pct: 22.85, color: 'bg-[#FFD14C]' }
-      ]
-    },
-    {
-      id: 'library-bus',
-      href: '/projects/library-bus',
-      tag: { vi: 'CASE STUDY #2 • UX/UI DESIGN SYSTEM & RESEARCH', en: 'CASE STUDY #2 • UX/UI DESIGN SYSTEM & RESEARCH' },
-      title: {
-        vi: 'Library Bus: Thiết Kế UX/UI Website Thư Viện Lưu Động',
-        en: 'Library Bus: UX/UI Design for a Mobile Library Website'
-      },
-      statMain: '20 Cặp Màn Hình Wireframe & UI • Design System',
-      statSub: {
-        vi: 'Nghiên cứu UX, sitemap, nhận diện thương hiệu 6 tông màu, hệ thống lưới 12 cột và 20 màn hình desktop kèm bản mobile',
-        en: 'UX research, sitemap, 6-tone design system, 12-column grid, and 20 desktop screens plus mobile versions'
-      },
-      bars: [
-        { label: 'Màn hình Desktop (Wireframe + UI)', val: '20 Màn hình', pct: 100, color: 'bg-[#9BE7FA]' },
-        { label: 'Bản Mobile Đồng bộ (Một cột)', val: '20 Màn hình', pct: 100, color: 'bg-[#C8EEF7]' },
-        { label: 'Bảng màu Neo-Bakery & Phông chữ', val: '6 Tông • Lora + Outfit', pct: 100, color: 'bg-[#FFD14C]' }
-      ]
-    },
-    {
-      id: 'heritage-japan',
-      href: '/projects/heritage-japan',
-      tag: { vi: 'CASE STUDY #3 • KINH TẾ LƯỢNG & CHÍNH SÁCH', en: 'CASE STUDY #3 • ECONOMETRICS & POLICY' },
-      title: {
-        vi: 'Di Sản Văn Hóa & Kinh Tế Du Lịch Nhật Bản (2015–2025)',
-        en: 'Japan Cultural Heritage & Tourism Economics (2015–2025)'
-      },
-      statMain: '1.132 Quốc Bảo • R² = 0,84 (p < 0,01)',
-      statSub: {
-        vi: 'Mô hình DiD đánh giá Luật Bảo tồn sửa đổi 2019 (+24,6% dự án) & Giải pháp giãn khách Kyoto',
-        en: 'DiD evaluation of 2019 Law Reform (+24.6% projects) & Kyoto Overtourism dispersal simulation'
-      },
-      bars: [
-        { label: 'Hệ số xác định Mô hình Hồi quy (R²)', val: '84,0% (β = +0,72)', pct: 84, color: 'bg-[#FFD14C]' },
-        { label: 'Tỷ trọng Quốc bảo tại vùng Kansai', val: '41,8% (Gini = 0,64)', pct: 41.8, color: 'bg-[#FFE485]' },
-        { label: 'Tỷ lệ Trùng tu trong Ngân sách ACA', val: '68,0% (141,2 Tỉ Yên)', pct: 68, color: 'bg-[#9BE7FA]' }
-      ]
-    }
-  ];
-
-  const currentHighlight = flagshipHighlights[activeHighlightIdx];
-
-  const displayName =
-    profile?.name?.[lang] ||
-    (typeof profile?.name === 'string' ? profile.name : null) ||
-    (lang === 'vi' ? 'Mã Văn Hùng' : 'Ma Van Hung');
-
-  const displayRole =
-    profile?.title?.[lang] ||
-    (typeof profile?.title === 'string' ? profile.title : null) ||
-    (lang === 'vi'
-      ? 'Chuyên Viên Phân Tích Dữ Liệu (E-Commerce, Product BI & Econometrics)'
-      : 'Data Analyst (E-Commerce, Product BI & Econometrics)');
+  const resolvedName =
+    typeof profile?.name === 'string' && profile.name.trim()
+      ? profile.name
+      : t.name;
 
   return (
-    <section className="w-full pt-2 pb-4">
-      <div className="rounded-3xl border border-slate-200 dark:border-slate-800/90 bg-white dark:bg-slate-950/95 p-5 sm:p-8 shadow-xl">
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 xl:gap-8 items-center">
-          {/* CỘT TRÁI (7 CỘT): ĐỊNH VỊ CHUYÊN MÔN & HÀNH ĐỘNG NHANH */}
-          <div className="xl:col-span-7 space-y-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-100 text-emerald-900 border border-emerald-300 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                {lang === 'vi' ? 'Sẵn sàng nhận việc • Hà Nội / Remote' : 'Available for Hire • Hanoi / Remote'}
-              </span>
-              <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-slate-100 text-slate-800 border border-slate-300 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800">
-                SQL • Python • Power BI • Next.js
-              </span>
-            </div>
+    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-8 md:py-14 space-y-16 md:space-y-20">
+      
+      {/* Top Bar: Live Status Badge & Language Toggle */}
+      <div className="flex flex-wrap justify-between items-center gap-3">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 border border-[#9BE7FA]/40 text-[#074553] dark:text-[#9BE7FA] text-xs font-semibold">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span>{t.badge}</span>
+        </div>
+        
+        <button
+          type="button"
+          onClick={toggleLanguage}
+          aria-label={lang === 'vi' ? 'Chuyển sang tiếng Anh' : 'Switch to Vietnamese'}
+          className="min-h-[44px] px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 transition-all flex items-center gap-2 cursor-pointer shadow-xs"
+        >
+          <Globe className="w-3.5 h-3.5 text-[#074553] dark:text-[#9BE7FA]" />
+          <span>{lang === 'vi' ? 'EN / VI' : 'VI / EN'}</span>
+        </button>
+      </div>
 
-            <div className="space-y-2">
-              <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
-                {displayName} —{' '}
-                <span className="bg-gradient-to-r from-sky-600 via-emerald-600 to-indigo-600 dark:from-sky-400 dark:via-emerald-300 dark:to-indigo-400 bg-clip-text text-transparent">
-                  {displayRole}
-                </span>
-              </h1>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
-                {lang === 'vi'
-                  ? 'Chuyển hóa dữ liệu thô đa nguồn thành quyết định tăng trưởng doanh thu có thể kiểm chứng: Từ kiểm toán 18.778 bản ghi SQL cho gian hàng TikTok Shop 31,6 Tỉ VNĐ, xây dựng hệ thống BI cho Thư viện Lưu động, đến mô hình kinh tế lượng đánh giá chính sách công.'
-                  : 'Transforming multi-source raw telemetry into verifiable revenue decisions: From auditing 18,778 SQL records for a 31.6B VND TikTok Shop and architecting a Mobile Library BI platform, to econometric policy evaluation.'}
-              </p>
-            </div>
+      {/* 1. HERO SECTION: Who I Am & Business Outcomes Statement */}
+      <section className="space-y-6">
+        <div className="space-y-2.5">
+          <p className="text-xs sm:text-sm uppercase tracking-widest text-[#074553] dark:text-[#9BE7FA] font-bold">
+            {t.greeting} <span className="text-slate-900 dark:text-white font-extrabold">{resolvedName}</span> — {t.role}
+          </p>
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+            {t.headline}
+          </h1>
+        </div>
 
-            {/* 3 CHỈ SỐ ĐỊNH ĐỊNH NĂNG LỰC NHANH */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
-                <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
-                  {lang === 'vi' ? 'Quy mô GMV Phân tích' : 'Audited GMV Scale'}
-                </div>
-                <div className="text-base sm:text-xl font-extrabold font-mono text-slate-900 dark:text-white mt-0.5">
-                  31,6 Tỉ đ
-                </div>
-                <div className="text-xs font-mono text-emerald-700 dark:text-emerald-400">
-                  12,74 Tỉ (180 ngày)
-                </div>
-              </div>
+        <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
+          {t.summary}
+        </p>
 
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
-                <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
-                  {lang === 'vi' ? 'Kho Dữ liệu SQL' : 'SQL Warehouse'}
-                </div>
-                <div className="text-base sm:text-xl font-extrabold font-mono text-slate-900 dark:text-white mt-0.5">
-                  18.778 Dòng
-                </div>
-                <div className="text-xs font-mono text-sky-700 dark:text-sky-400">
-                  8 Bảng • 3 Case Studies
-                </div>
-              </div>
+        {/* Primary CTAs with 44px Touch Targets */}
+        <div className="flex flex-wrap items-center gap-3.5 pt-2">
+          <Link
+            href="/projects"
+            className="min-h-[44px] px-6 py-3 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] font-extrabold text-sm shadow-md shadow-[#9BE7FA]/20 transition-all flex items-center gap-2 cursor-pointer border border-[#9BE7FA]"
+          >
+            <span>{t.primaryBtn}</span>
+            <ArrowRight className="w-4 h-4 shrink-0" />
+          </Link>
 
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
-                <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
-                  {lang === 'vi' ? 'Tác động Mô phỏng' : 'Simulated Uplift'}
-                </div>
-                <div className="text-base sm:text-xl font-extrabold font-mono text-slate-900 dark:text-white mt-0.5">
-                  +1,18 Tỉ/th
-                </div>
-                <div className="text-xs font-mono text-amber-700 dark:text-amber-400">
-                  What-If ROI Models
-                </div>
-              </div>
-            </div>
+          <a
+            href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="min-h-[44px] px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer"
+          >
+            <FileText className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
+            <span>{t.secondaryBtn}</span>
+          </a>
+        </div>
+      </section>
 
-            {/* CỤM NÚT HÀNH ĐỘNG CHUẨN VÙNG CHẠM >= 44PX (UI/UX PRO MAX) */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Link
-                href="/projects/kami-ely"
-                className="min-h-[44px] px-5 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs sm:text-sm font-extrabold transition shadow-md shadow-[#9BE7FA]/25 flex items-center gap-2 cursor-pointer border border-[#9BE7FA]"
+      {/* 2. CORE TECH STACK: SQL, Python, Power BI, Tableau, Business Intelligence */}
+      <section className="space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          {t.skillsLabel}
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+          {t.skills.map((skill) => {
+            const Icon = skill.icon;
+            return (
+              <div
+                key={skill.name}
+                className="p-4 rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800/80 hover:border-[#9BE7FA]/60 hover:shadow-md transition-all flex flex-col justify-between"
               >
-                <BarChart3 className="w-4 h-4 text-[#074553] shrink-0" />
-                <span>
-                  {lang === 'vi' ? 'Xem Dự Án Mũi Nhọn (Kami Ely)' : 'Explore Flagship Case Study'}
-                </span>
-              </Link>
-
-
-              <a
-                href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-[44px] px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 text-xs sm:text-sm font-semibold transition flex items-center gap-2 cursor-pointer"
-              >
-                <FileText className="w-4 h-4 text-slate-600 dark:text-slate-300 shrink-0" />
-                <span>{lang === 'vi' ? 'Tải CV (PDF)' : 'Download CV (PDF)'}</span>
-              </a>
-            </div>
-          </div>
-
-          {/* CỘT PHẢI (5 CỘT): THẺ TRỰC QUAN HÓA ĐỐI SÁNH NHANH 3 DỰ ÁN */}
-          <div className="xl:col-span-5 rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 sm:p-5 space-y-4 shadow-inner">
-            <div className="flex items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
-              <span className="text-xs font-mono font-bold uppercase text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#FFD14C] shrink-0" />
-                <span>{lang === 'vi' ? 'Dự án' : 'Projects'}</span>
-              </span>
-              <div className="flex gap-1.5">
-                {flagshipHighlights.map((item, idx) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => setActiveHighlightIdx(idx)}
-                    className={`min-h-[44px] min-w-[44px] px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition cursor-pointer flex items-center justify-center ${
-                      activeHighlightIdx === idx
-                        ? 'bg-[#9BE7FA] text-[#074553] border border-[#9BE7FA] shadow-xs'
-                        : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-400 dark:hover:text-white'
-                    }`}
-                  >
-                    #{idx + 1}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <h2 className="text-base font-extrabold text-slate-900 dark:text-white">
-                {currentHighlight.title[lang]}
-              </h2>
-              <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                <Bookmark className="w-3.5 h-3.5 text-[#FFD14C] shrink-0" />
-                <span>{currentHighlight.statMain}</span>
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                {currentHighlight.statSub[lang]}
-              </p>
-
-              {/* ĐỒ THỊ THANH NGANG TRỰC QUAN */}
-              <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-slate-800">
-                {currentHighlight.bars.map((bar, i) => (
-                  <div key={i} className="space-y-1">
-                    <div className="flex justify-between text-xs">
-                      <span className="font-semibold text-slate-700 dark:text-slate-200">{bar.label}</span>
-                      <span className="font-mono font-bold text-slate-900 dark:text-[#9BE7FA]">{bar.val}</span>
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                      <div
-                        className={`h-full rounded-full ${bar.color} transition-all duration-500`}
-                        style={{ width: `${Math.min(100, bar.pct)}%` }}
-                      />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="p-1.5 rounded-lg bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 text-[#074553] dark:text-[#9BE7FA]">
+                      <Icon className="w-4 h-4 shrink-0" />
+                    </span>
+                    <div className="font-bold text-slate-900 dark:text-[#9BE7FA] text-base">
+                      {skill.name}
                     </div>
                   </div>
-                ))}
+                  <div className="text-xs text-slate-600 dark:text-slate-400 mt-2.5 leading-snug">
+                    {skill.desc}
+                  </div>
+                </div>
               </div>
-
-              <div className="pt-2 flex justify-end">
-                <Link
-                  href={currentHighlight.href}
-                  className="min-h-[44px] px-4 py-2 rounded-xl bg-[#9BE7FA]/20 hover:bg-[#9BE7FA]/35 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/50 text-xs font-mono font-bold inline-flex items-center gap-1.5 transition cursor-pointer"
-                >
-                  <span>{lang === 'vi' ? 'Mở Báo Cáo Chi Tiết' : 'Open Full Case Study'}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* 3. BUSINESS OUTCOMES PILLARS */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {t.outcomes.map((item, idx) => (
+          <div
+            key={idx}
+            className="p-6 rounded-2xl bg-white dark:bg-gradient-to-b dark:from-slate-900 dark:to-slate-900/40 border border-slate-200 dark:border-slate-800/90 shadow-xs hover:border-[#9BE7FA]/40 transition-all"
+          >
+            <div className="text-xs font-mono font-bold text-[#074553] dark:text-[#9BE7FA] mb-2.5">
+              0{idx + 1} {'//'} OUTCOME
+            </div>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+              {item.metric}
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              {item.detail}
+            </p>
+          </div>
+        ))}
+      </section>
+
+      {/* 4. CURIOSITY HOOKS: Case Study Teasers (Open Loops) */}
+      <section className="space-y-6 pt-6 border-t border-slate-200 dark:border-slate-800/80">
+        <div className="space-y-2">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+            {t.curiosityTitle}
+          </h2>
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
+            {t.curiositySubtitle}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {t.teasers.map((teaser, idx) => {
+            const TeaserIcon = teaser.icon;
+            return (
+              <Link
+                key={idx}
+                href={teaser.href}
+                className="group p-6 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-[#9BE7FA]/60 dark:hover:border-[#9BE7FA]/60 hover:bg-slate-50/70 dark:hover:bg-slate-900 transition-all flex flex-col justify-between shadow-xs hover:shadow-md cursor-pointer"
+              >
+                <div className="space-y-3.5">
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA] bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/10 border border-[#9BE7FA]/30 px-2.5 py-1 rounded-md">
+                    <TeaserIcon className="w-3.5 h-3.5 shrink-0" />
+                    <span>{teaser.tag}</span>
+                  </span>
+                  <p className="text-sm sm:text-base font-medium text-slate-800 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white transition-colors leading-relaxed">
+                    “{teaser.question}”
+                  </p>
+                </div>
+                <div className="pt-6 text-xs font-bold text-[#074553] dark:text-[#9BE7FA] flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
+                  <span>{teaser.cta}</span>
+                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* 5. EXPLORE OTHER PAGES: Navigation Hooks */}
+      <section className="space-y-4 pt-6 border-t border-slate-200 dark:border-slate-800/80">
+        <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+          {t.navExploreTitle}
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {t.navLinks.map((nav) => {
+            const NavIcon = nav.icon;
+            return (
+              <Link
+                key={nav.href}
+                href={nav.href}
+                className="group p-5 rounded-2xl bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900/80 transition-all flex items-start justify-between gap-4 shadow-xs cursor-pointer"
+              >
+                <div className="flex items-start gap-3.5">
+                  <span className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-[#074553] dark:text-[#9BE7FA] shrink-0 mt-0.5">
+                    <NavIcon className="w-4 h-4" />
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition-colors">
+                      {nav.title}
+                    </h3>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                      {nav.desc}
+                    </p>
+                  </div>
+                </div>
+                <span className="text-slate-400 group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform shrink-0 pt-0.5">
+                  <ArrowUpRight className="w-4 h-4" />
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+    </div>
   );
 }
+

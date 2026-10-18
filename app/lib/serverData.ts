@@ -172,7 +172,8 @@ export async function getProjectByIdWithFallback(id: string): Promise<ProjectDat
     const msg = err instanceof Error ? err.message : String(err);
     console.warn(`[ServerData] MySQL unavailable, fallback for project ${id} (${msg})`);
   }
-  const fallback = DEFAULT_PROJECTS.find((p) => p.id === id);
+  const normalizedId = id.startsWith('proj-') ? id : `proj-${id}`;
+  const fallback = DEFAULT_PROJECTS.find((p) => p.id === id || p.id === normalizedId);
   if (fallback) {
     setApiCacheAsync(cacheKey, fallback, 15000).catch(() => {});
   }

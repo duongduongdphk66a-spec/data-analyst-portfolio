@@ -1,27 +1,26 @@
 import React from 'react';
 import HeroSection from '@/components/site/HeroSection';
-import ProjectsSection from '@/components/site/ProjectsSection';
 import { getServerLanguage, getServerPortfolioData } from '../lib/serverData';
 
 export async function generateMetadata() {
   const { language } = await getServerLanguage();
   const { profile } = await getServerPortfolioData();
+  const isEn = language === 'en';
   return {
-    title: `${profile.name || 'Ma Văn Hùng'} | ${language === 'en' ? 'Home' : 'Trang Chủ'}`,
-    description: language === 'en'
-      ? 'Portfolio of Ma Văn Hùng — Evidence-driven Data Analyst. Interactive case studies, live data visualizations, SQL, Python, Power BI.'
-      : 'Portfolio Ma Văn Hùng — Data Analyst chuyên SQL, Python, Power BI. Case studies tương tác, trực quan hóa dữ liệu trực tiếp.',
+    title: isEn
+      ? `${profile?.name || 'Ma Van Hung'} — Outcome-Driven Data Analyst`
+      : `${profile?.name || 'Mã Văn Hùng'} — Data Analyst | Định hướng Giải quyết Bài toán Kinh doanh`,
+    description: isEn
+      ? 'Ma Van Hung — Outcome-Driven Data Analyst. Turning raw, fragmented data into revenue growth and operational clarity with SQL, Python, Power BI, and Tableau.'
+      : 'Mã Văn Hùng — Data Analyst định hướng giải quyết bài toán kinh doanh. Biến dữ liệu phức tạp thành tăng trưởng doanh thu và hiệu suất vận hành với SQL, Python, Power BI, Tableau.',
   };
 }
 
 export default function HomePage() {
   return (
-    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-8 lg:space-y-10">
-      {/* 1. KHỐI MỞ ĐẦU & ĐIỂM NHẤN TƯƠNG TÁC 3 DỰ ÁN */}
+    <main className="w-full">
       <HeroSection />
-
-      {/* 2. MA TRẬN ĐỐI SÁNH & DANH MỤC 3 DỰ ÁN THỰC CHIẾN */}
-      <ProjectsSection />
-    </div>
+    </main>
   );
 }
+
