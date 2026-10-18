@@ -13,6 +13,7 @@ import Chapter1UxResearch from './library-bus/Chapter1UxResearch';
 import Chapter2BrandIdentity from './library-bus/Chapter2BrandIdentity';
 import Chapter3GridAndWireframe from './library-bus/Chapter3GridAndWireframe';
 import Chapter3DeckEmbed from './library-bus/Chapter3DeckEmbed';
+import Chapter4BackendLogic from './library-bus/Chapter4BackendLogic';
 import CaseStudyFooter from './shared/CaseStudyFooter';
 
 // Dynamic import for the 20-Screen Master Visual Comparison (1.5k lines)
@@ -104,6 +105,14 @@ export default function LibraryBusProject({
             <LibraryBusVisualComparison isEn={isEn} />
           </div>
           <Chapter3DeckEmbed
+            isEn={isEn}
+            onCopyDeepLink={handleCopyDeepLink}
+          />
+        </div>
+
+        {/* CHAPTER 04: BACKEND LOGIC & INTERACTIVE FLOWS */}
+        <div id="chapter-4-backend">
+          <Chapter4BackendLogic
             isEn={isEn}
             onCopyDeepLink={handleCopyDeepLink}
           />

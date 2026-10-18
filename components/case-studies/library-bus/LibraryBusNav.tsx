@@ -33,7 +33,8 @@ export default function LibraryBusNav({
     { id: 'chapter-1-ux', label: { vi: '01. Giới thiệu & Nghiên cứu', en: '01. Introduction & Research' } },
     { id: 'chapter-2-brand', label: { vi: '02. Logo & Thành phần UI', en: '02. Logo & UI Components' } },
     { id: 'chapter-3-design', label: { vi: '03. Thiết kế Website', en: '03. Website Design' } },
-    { id: 'visual-comparison', label: { vi: '3.3 Wireframe & UI 20 màn hình', en: '3.3 Wireframe & UI: 20 Screens' } }
+    { id: 'visual-comparison', label: { vi: '3.3 Wireframe & UI', en: '3.3 Wireframe & UI' } },
+    { id: 'chapter-4-backend', label: { vi: '04. Backend Logic', en: '04. Backend Logic' } }
   ];
 
   const handleScrollTo = (id: string) => {
