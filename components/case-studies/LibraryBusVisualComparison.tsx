@@ -52,22 +52,43 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
   const comparisonTopRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
+  // State for highlight pulse when jumping from Sitemap
+  const [highlightPulse, setHighlightPulse] = useState(false);
+  const pulseTimerRef = useRef<NodeJS.Timeout | null>(null);
+
   // Listen to external selection from Sitemap tree
   useEffect(() => {
     const handleCustomScreenSelect = (e: Event) => {
       const customEvt = e as CustomEvent<string | { screenId: string }>;
-      const targetId = typeof customEvt.detail === 'string' ? customEvt.detail : customEvt.detail?.screenId;
-      if (!targetId) return;
-      setActiveScreenId(targetId);
+      const rawId = typeof customEvt.detail === 'string' ? customEvt.detail : customEvt.detail?.screenId;
+      if (!rawId) return;
+
+      // Normalize target screen id: "01", "1", "#01", "screen-01" -> "screen-01"
+      let cleanId = rawId.trim().replace(/^#/, '');
+      if (/^\d{1,2}$/.test(cleanId)) {
+        cleanId = `screen-${cleanId.padStart(2, '0')}`;
+      }
+
+      setDeviceMode('desktop');
+      setModuleFilter('all');
+      setActiveScreenId(cleanId);
+      setHighlightPulse(true);
+
       const targetEl = comparisonTopRef.current || document.getElementById('visual-comparison');
       if (targetEl) {
         targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
+
+      if (pulseTimerRef.current) clearTimeout(pulseTimerRef.current);
+      pulseTimerRef.current = setTimeout(() => {
+        setHighlightPulse(false);
+      }, 1600);
     };
 
     window.addEventListener('select-library-bus-screen', handleCustomScreenSelect);
     return () => {
       window.removeEventListener('select-library-bus-screen', handleCustomScreenSelect);
+      if (pulseTimerRef.current) clearTimeout(pulseTimerRef.current);
     };
   }, []);
 
@@ -334,8 +355,27 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
         {/* Smooth scroll anchor for screen switching */}
         <div ref={comparisonTopRef} className="scroll-mt-36" />
 
+        {/* Active Jump Confirmation Banner from Sitemap */}
+        {highlightPulse && (
+          <div className="p-3.5 rounded-2xl bg-gradient-to-r from-[#FA6933] via-orange-500 to-[#FFD14C] text-white font-bold text-xs sm:text-sm flex flex-wrap items-center justify-between gap-2 shadow-lg shadow-orange-500/25 animate-in fade-in slide-in-from-top-3 duration-300">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 animate-spin text-[#FFE485]" />
+              <span>
+                {isEn ? 'Activated from Sitemap:' : 'Đã kích hoạt từ Sitemap:'} <b>#{selectedScreen.index.toString().padStart(2, '0')} {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</b>
+              </span>
+            </div>
+            <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-xs">
+              12 Columns | Wireframe vs UI
+            </span>
+          </div>
+        )}
+
         {/* Compact Active Screen Metadata Strip */}
-        <div className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-[#C8EEF7]/40 via-white to-[#F0F9FB] border border-[#9BE7FA]/50 shadow-xs flex flex-wrap items-center justify-between gap-3 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:border-slate-700 text-xs sm:text-sm">
+        <div className={`px-4 py-2.5 rounded-2xl bg-gradient-to-r from-[#C8EEF7]/40 via-white to-[#F0F9FB] border shadow-xs flex flex-wrap items-center justify-between gap-3 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:border-slate-700 text-xs sm:text-sm transition-all duration-500 ${
+          highlightPulse
+            ? 'border-[#FA6933] ring-4 ring-[#FA6933]/30 shadow-md'
+            : 'border-[#9BE7FA]/50'
+        }`}>
           <div className="flex flex-wrap items-center gap-2.5">
             <span className="px-2.5 py-1 rounded-md bg-[#0D7287] text-white font-mono text-xs sm:text-sm font-black">
               Màn #{selectedScreen.index.toString().padStart(2, '0')}
@@ -362,7 +402,9 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
         </div>
 
         {/* THE MASTERPIECE SPREAD: WIREFRAME (LEFT) VS UI DESIGN (RIGHT) */}
-        <div className="grid lg:grid-cols-2 gap-5 items-start">
+        <div className={`grid lg:grid-cols-2 gap-5 items-start p-2 rounded-3xl transition-all duration-500 ${
+          highlightPulse ? 'ring-4 ring-[#FA6933] ring-offset-4 ring-offset-white dark:ring-offset-slate-900 shadow-2xl shadow-orange-500/20' : ''
+        }`}>
           {/* LEFT COLUMN: WIREFRAME */}
           <div className="space-y-3">
             {/* Header: Exact clean typography as sample image */}

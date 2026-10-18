@@ -25,15 +25,21 @@ const SITEMAP_ROOT: SitemapRootItem[] = [
   { name: 'Kho sách & PDF', nameEn: 'Book Catalog & PDF', screenId: 'screen-03' },
   { name: 'Tuyến Xe & Bản đồ', nameEn: 'Bus Route & Map', screenId: 'screen-05' },
   { name: 'Mượn / Đặt trước', nameEn: 'Borrow / Reserve', screenId: 'screen-09' },
-  { name: 'Cộng đồng (Blog)', nameEn: 'Community & Blog', screenId: 'screen-11' },
-  { name: 'Tài khoản & Analytics', nameEn: 'Account & Analytics', screenId: 'screen-17' },
+  { name: 'Cộng đồng (Blog)', nameEn: 'Community (Blog)', screenId: 'screen-15' },
+  { name: 'Tài khoản & Analytics', nameEn: 'Account & Analytics', screenId: 'screen-18' },
 ];
+
+interface SitemapSubItem {
+  label: string;
+  labelEn: string;
+  screenId: string;
+}
 
 interface SitemapDetailChild {
   label: string;
   labelEn: string;
   screenId: string;
-  sub?: string[];
+  sub?: SitemapSubItem[];
 }
 
 interface SitemapDetailGroup {
@@ -49,10 +55,19 @@ const SITEMAP_DETAILS: SitemapDetailGroup[] = [
     parentEn: 'Home',
     screenId: 'screen-01',
     children: [
-      { label: 'Tìm kiếm', labelEn: 'Search', screenId: 'screen-02', sub: ['Theo tên sách / ISBN', 'Theo tuyến xe buýt'] },
-      { label: 'Chiến dịch & Quyên góp sách', labelEn: 'Campaigns & Book Donation', screenId: 'screen-01' },
-      { label: 'Sách đề xuất phổ biến', labelEn: 'Featured Books', screenId: 'screen-04' },
-      { label: 'Thông tin liên hệ & FAQ', labelEn: 'Contact & FAQ', screenId: 'screen-01' },
+      {
+        label: 'Tìm kiếm',
+        labelEn: 'Search',
+        screenId: 'screen-01',
+        sub: [
+          { label: 'Kho sách', labelEn: 'Book Catalog', screenId: 'screen-03' },
+          { label: 'Tuyến xe buýt', labelEn: 'Bus Routes', screenId: 'screen-05' },
+        ],
+      },
+      { label: 'Giới thiệu dự án', labelEn: 'About Project', screenId: 'screen-02' },
+      { label: 'Quyên góp sách', labelEn: 'Book Donation', screenId: 'screen-08' },
+      { label: 'Hỏi đáp (FAQ)', labelEn: 'FAQ', screenId: 'screen-19' },
+      { label: 'Thông tin liên hệ', labelEn: 'Contact Us', screenId: 'screen-20' },
     ],
   },
   {
@@ -60,9 +75,16 @@ const SITEMAP_DETAILS: SitemapDetailGroup[] = [
     parentEn: 'Book Catalog & PDF',
     screenId: 'screen-03',
     children: [
-      { label: 'Danh mục đa cấp', labelEn: 'Multi-level Catalog', screenId: 'screen-03', sub: ['Lọc thể loại', 'Năm xuất bản'] },
-      { label: 'Chi tiết sách & Metadata', labelEn: 'Book Detail', screenId: 'screen-04' },
-      { label: 'Trình đọc PDF trực tuyến', labelEn: 'Online PDF Reader', screenId: 'screen-03' },
+      {
+        label: 'Danh mục sách đa cấp',
+        labelEn: 'Multi-level Catalog',
+        screenId: 'screen-03',
+        sub: [
+          { label: 'Chi tiết & Đọc PDF', labelEn: 'Detail & Read PDF', screenId: 'screen-04' },
+          { label: 'Đánh giá sao', labelEn: 'Star Rating', screenId: 'screen-04' },
+        ],
+      },
+      { label: 'Quản trị kho sách', labelEn: 'Library Admin Inventory', screenId: 'screen-07' },
     ],
   },
   {
@@ -70,9 +92,16 @@ const SITEMAP_DETAILS: SitemapDetailGroup[] = [
     parentEn: 'Bus Route & Map',
     screenId: 'screen-05',
     children: [
-      { label: 'Bản đồ lộ trình xe lưu động', labelEn: 'Route Map', screenId: 'screen-05' },
-      { label: 'Chi tiết xe & Tồn kho trên xe', labelEn: 'Bus Stock Detail', screenId: 'screen-06' },
-      { label: 'Lịch dừng trạm theo khung giờ', labelEn: 'Stop Schedule', screenId: 'screen-05' },
+      { label: 'Bản đồ lộ trình GPS', labelEn: 'GPS Route Map', screenId: 'screen-05' },
+      {
+        label: 'Chi tiết xe buýt',
+        labelEn: 'Bus Fleet Detail',
+        screenId: 'screen-06',
+        sub: [
+          { label: 'Tồn kho trên xe', labelEn: 'Stock on Bus', screenId: 'screen-06' },
+          { label: 'Lịch trạm dừng', labelEn: 'Stop Schedule', screenId: 'screen-05' },
+        ],
+      },
     ],
   },
   {
@@ -80,29 +109,45 @@ const SITEMAP_DETAILS: SitemapDetailGroup[] = [
     parentEn: 'Borrow / Reserve',
     screenId: 'screen-09',
     children: [
-      { label: 'Tạo phiếu mượn', labelEn: 'Borrow Order', screenId: 'screen-09', sub: ['Kiểm tra tồn kho', 'Chọn trạm nhận'] },
-      { label: 'Đặt trước giữ chỗ (Reservation)', labelEn: 'Reservation', screenId: 'screen-09' },
-      { label: 'Thao tác mượn/trả hàng loạt', labelEn: 'Batch Borrow/Return', screenId: 'screen-10' },
+      { label: 'Tạo phiếu mượn sách', labelEn: 'Create Borrow Order', screenId: 'screen-09' },
+      { label: 'Đặt trước giữ chỗ', labelEn: 'Hold Reservation', screenId: 'screen-10' },
+      { label: 'Dashboard Giao dịch', labelEn: 'Transactions Dashboard', screenId: 'screen-11' },
     ],
   },
   {
     parent: 'Cộng đồng (Blog)',
-    parentEn: 'Community & Blog',
-    screenId: 'screen-11',
+    parentEn: 'Community (Blog)',
+    screenId: 'screen-15',
     children: [
-      { label: 'Bài viết & Review sách', labelEn: 'Articles & Reviews', screenId: 'screen-11' },
-      { label: 'Bình luận phân luồng (Thread)', labelEn: 'Threaded Comments', screenId: 'screen-12' },
-      { label: 'Đăng ký nhận bản tin (Newsletter)', labelEn: 'Newsletter Signup', screenId: 'screen-11' },
+      { label: 'Trang chủ Blog', labelEn: 'Blog Home', screenId: 'screen-15' },
+      {
+        label: 'Chi tiết bài viết',
+        labelEn: 'Article Detail',
+        screenId: 'screen-16',
+        sub: [
+          { label: 'Review sách', labelEn: 'Book Review', screenId: 'screen-16' },
+          { label: 'Bình luận Thread', labelEn: 'Threaded Comments', screenId: 'screen-16' },
+        ],
+      },
     ],
   },
   {
     parent: 'Tài khoản & Analytics',
     parentEn: 'Account & Analytics',
-    screenId: 'screen-17',
+    screenId: 'screen-12',
     children: [
-      { label: 'Hồ sơ & Hạng thẻ', labelEn: 'Profile & Card Tier', screenId: 'screen-17', sub: ['Sở thích đọc', 'Lịch sử mượn'] },
-      { label: 'Thông báo nhắc hạn / Quá hạn', labelEn: 'Due Date Alerts', screenId: 'screen-17' },
-      { label: 'Dashboard & Bảng xếp hạng', labelEn: 'Dashboard & Leaderboard', screenId: 'screen-18' },
+      {
+        label: 'Xác thực tài khoản',
+        labelEn: 'Authentication',
+        screenId: 'screen-13',
+        sub: [
+          { label: 'Đăng nhập', labelEn: 'Login', screenId: 'screen-13' },
+          { label: 'Đăng ký', labelEn: 'Register', screenId: 'screen-14' },
+        ],
+      },
+      { label: 'Dashboard Độc giả', labelEn: 'Reader Profile Dashboard', screenId: 'screen-12' },
+      { label: 'Thông báo hạn trả', labelEn: 'Due Date Notifications', screenId: 'screen-17' },
+      { label: 'Analytics Dashboard', labelEn: 'Analytics Dashboard', screenId: 'screen-18' },
     ],
   },
 ];
@@ -323,7 +368,15 @@ export function Chapter1UxResearch({
               </div>
 
               {/* Bố cục 2 cột: SITEMAP & SITEMAP DETAIL */}
-              <div className="p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
+              <div className="p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-2xl bg-orange-500/10 border border-[#FA6933]/30 text-xs text-[#FA6933] font-semibold">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#FA6933] animate-pulse" />
+                    <span>{isEn ? 'Click any box on Sitemap to scroll and open corresponding Wireframe & UI in Section 03' : 'Ấn vào bất kỳ ô nào trên Sitemap để cuộn xuống và mở ngay Wireframe & UI tương ứng ở Phần 03'}</span>
+                  </div>
+                  <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400">20/20 Screens Desktop</span>
+                </div>
+
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                   {/* CỘT TRÁI (4 CỘT): SITEMAP TỔNG QUAN NỐI VUÔNG GÓC TỪ NÚT GỐC */}
                   <div className="lg:col-span-4 space-y-3">
@@ -360,10 +413,15 @@ export function Chapter1UxResearch({
                               type="button"
                               onClick={() => handleSitemapNodeClick(item.screenId)}
                               title={isEn ? `Open Screen: ${item.nameEn}` : `Mở màn hình: ${item.name}`}
-                              className="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-[#9BE7FA] hover:bg-[#C8EEF7]/30 dark:hover:bg-[#9BE7FA]/10 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all text-left shadow-2xs hover:shadow-xs cursor-pointer flex items-center gap-1.5"
+                              className="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-[#FA6933] hover:text-[#FA6933] text-slate-800 dark:text-slate-200 text-xs font-bold transition-all text-left shadow-2xs hover:shadow-xs cursor-pointer flex items-center justify-between gap-2"
                             >
-                              <span className="font-mono text-[10px] text-slate-400">0{idx + 1}.</span>
-                              <span>{isEn ? item.nameEn : item.name}</span>
+                              <div className="flex items-center gap-1.5">
+                                <span className="font-mono text-[10px] text-slate-400">0{idx + 1}.</span>
+                                <span>{isEn ? item.nameEn : item.name}</span>
+                              </div>
+                              <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-200/80 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-semibold">
+                                #{item.screenId.replace('screen-', '')}
+                              </span>
                             </button>
                           </div>
                         ))}
@@ -393,9 +451,10 @@ export function Chapter1UxResearch({
                             <button
                               type="button"
                               onClick={() => handleSitemapNodeClick(group.screenId)}
-                              className="px-2.5 py-1 rounded-md border border-[#323987]/40 dark:border-[#9BE7FA]/40 bg-[#323987]/10 dark:bg-[#9BE7FA]/10 text-[#323987] dark:text-[#9BE7FA] font-extrabold hover:bg-[#323987] hover:text-white transition-all cursor-pointer text-left shrink-0 text-xs"
+                              className="px-2.5 py-1 rounded-md border border-[#323987]/40 dark:border-[#9BE7FA]/40 bg-[#323987]/10 dark:bg-[#9BE7FA]/10 text-[#323987] dark:text-[#9BE7FA] font-extrabold hover:bg-[#323987] hover:text-white transition-all cursor-pointer text-left shrink-0 text-xs flex items-center gap-1.5"
                             >
-                              {isEn ? group.parentEn : group.parent}
+                              <span>{isEn ? group.parentEn : group.parent}</span>
+                              <span className="opacity-70 text-[10px] font-mono font-bold">#{group.screenId.replace('screen-', '')}</span>
                             </button>
                             <div className="w-3 border-t-2 border-slate-400 dark:border-slate-600 shrink-0" />
                             <span className="text-[10px] font-mono text-slate-400 pl-1">
@@ -412,10 +471,13 @@ export function Chapter1UxResearch({
                                   <button
                                     type="button"
                                     onClick={() => handleSitemapNodeClick(child.screenId)}
-                                    className="px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:border-[#FA6933] hover:text-[#FA6933] text-[11px] font-medium transition-all text-left shadow-2xs cursor-pointer inline-flex items-center gap-1"
+                                    className="px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:border-[#FA6933] hover:text-[#FA6933] text-[11px] font-medium transition-all text-left shadow-2xs cursor-pointer inline-flex items-center gap-1.5"
                                   >
                                     <span>•</span>
                                     <span>{isEn ? child.labelEn : child.label}</span>
+                                    <span className="font-mono text-[9px] px-1 py-0.2 rounded bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 font-bold">
+                                      #{child.screenId.replace('screen-', '')}
+                                    </span>
                                   </button>
                                 </div>
 
@@ -423,11 +485,16 @@ export function Chapter1UxResearch({
                                 {child.sub && child.sub.length > 0 && (
                                   <div className="ml-5 border-l-2 border-dashed border-slate-300 dark:border-slate-700 pl-2 py-0.5 space-y-1">
                                     {child.sub.map((subItem) => (
-                                      <div key={subItem} className="flex items-center">
+                                      <div key={subItem.label} className="flex items-center">
                                         <div className="w-2.5 border-t border-slate-300 dark:border-slate-700 shrink-0" />
-                                        <span className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800/80 text-[10px] text-slate-600 dark:text-slate-400 font-mono">
-                                          {subItem}
-                                        </span>
+                                        <button
+                                          type="button"
+                                          onClick={() => handleSitemapNodeClick(subItem.screenId)}
+                                          className="px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[10px] text-slate-600 dark:text-slate-300 font-medium hover:border-[#FA6933] hover:text-[#FA6933] hover:bg-orange-50 dark:hover:bg-orange-950/30 transition-all cursor-pointer flex items-center gap-1"
+                                        >
+                                          <span>{isEn ? subItem.labelEn : subItem.label}</span>
+                                          <span className="font-mono text-[9px] text-[#FA6933] font-bold">#{subItem.screenId.replace('screen-', '')}</span>
+                                        </button>
                                       </div>
                                     ))}
                                   </div>
