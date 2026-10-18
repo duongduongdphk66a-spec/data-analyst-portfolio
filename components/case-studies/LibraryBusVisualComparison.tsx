@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { 
-  Maximize2, Sparkles, CheckCircle2, FileCode2,
-  ChevronLeft, ChevronRight, Columns2,
+  Maximize2, Sparkles, FileCode2,
+  ChevronLeft, ChevronRight, Columns2, LayoutGrid,
   Smartphone, Monitor, Download, ZoomIn, ZoomOut, X
 } from 'lucide-react';
 import { LIBRARY_BUS_20_SCREENS, LIBRARY_BUS_MOBILE_SCREENS } from '@/app/data/libraryBusData';
@@ -15,26 +15,86 @@ export interface VisualComparisonProps {
   onOpenZoom?: (_imgUrl: string) => void;
 }
 
+export interface ScreenPairItem {
+  id: string;
+  num: number;
+  nameVi: string;
+  nameEn: string;
+  slug: string;
+  mobId: string;
+  desktop: {
+    wf: string;
+    ui: string;
+  };
+  mobile: {
+    wf: string;
+    ui: string;
+  };
+}
+
+export const SCREENS_20_PAIRS: ScreenPairItem[] = [
+  { id: "01", num: 1, nameVi: "Trang chủ", nameEn: "Homepage", slug: "01_trang_chu", mobId: "01" },
+  { id: "02", num: 2, nameVi: "Giới thiệu", nameEn: "About Us", slug: "02_gioi_thieu", mobId: "02" },
+  { id: "03", num: 3, nameVi: "Danh sách sách", nameEn: "Book Catalog", slug: "03_danh_sach_sach", mobId: "03" },
+  { id: "04", num: 4, nameVi: "Chi tiết sách", nameEn: "Book Detail", slug: "04_chi_tiet_sach", mobId: "04" },
+  { id: "05", num: 5, nameVi: "Bản đồ & Tuyến xe", nameEn: "Bus Route & Map", slug: "05_danh_sach_xe_ban_do", mobId: "05" },
+  { id: "06", num: 6, nameVi: "Chi tiết xe buýt", nameEn: "Bus Fleet Detail", slug: "06_chi_tiet_xe_buyt", mobId: "06" },
+  { id: "07", num: 7, nameVi: "Quản lý thư viện", nameEn: "Library Admin", slug: "07_dashboard_quan_ly_thu_vien", mobId: "07" },
+  { id: "08", num: 8, nameVi: "Quyên góp sách", nameEn: "Book Donation", slug: "08_danh_sach_quyen_gop_sach", mobId: "08" },
+  { id: "09", num: 9, nameVi: "Tạo phiếu mượn", nameEn: "Borrow Order", slug: "09_tao_phieu_muon_sach", mobId: "09" },
+  { id: "10", num: 10, nameVi: "Đặt trước sách", nameEn: "Hold Reservation", slug: "10_tao_dat_truoc_sach", mobId: "10" },
+  { id: "11", num: 11, nameVi: "Dashboard Giao dịch", nameEn: "Transactions Dashboard", slug: "11_dashboard_giao_dich", mobId: "11" },
+  { id: "12", num: 12, nameVi: "Dashboard Độc giả", nameEn: "Reader Profile", slug: "12_dashboard_nguoi_dung", mobId: "12" },
+  { id: "13", num: 13, nameVi: "Đăng nhập", nameEn: "Login", slug: "13_dang_nhap", mobId: "13" },
+  { id: "14", num: 14, nameVi: "Đăng ký", nameEn: "Register", slug: "14_dang_ky", mobId: "14" },
+  { id: "15", num: 15, nameVi: "Blog Cộng đồng", nameEn: "Community Blog", slug: "15_blog_trang_chu", mobId: "15" },
+  { id: "16", num: 16, nameVi: "Chi tiết bài Blog", nameEn: "Article Detail", slug: "16_blog_chi_tiet_bai_viet", mobId: "16" },
+  { id: "17", num: 17, nameVi: "Thông báo", nameEn: "Notifications", slug: "17_thong_bao", mobId: "17" },
+  { id: "18", num: 18, nameVi: "Analytics Dashboard", nameEn: "Analytics Dashboard", slug: "18_analytics_dashboard", mobId: "18" },
+  { id: "19", num: 19, nameVi: "Hỏi đáp (FAQ)", nameEn: "FAQ", slug: "19_faq", mobId: "19" },
+  { id: "20", num: 20, nameVi: "Liên hệ", nameEn: "Contact Us", slug: "20_lien_he", mobId: "20" },
+].map((s) => ({
+  ...s,
+  desktop: {
+    wf: `/library-bus/screens/wf_${s.slug}.webp`,
+    ui: `/library-bus/screens/ui_${s.slug}.webp`,
+  },
+  mobile: {
+    wf: `/library-bus/mobile_screens/wf_mob_${s.mobId}.webp`,
+    ui: `/library-bus/mobile_screens/ui_mob_${s.mobId}.webp`,
+  },
+}));
+
 export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom }: VisualComparisonProps = {}) {
   const { language } = useLanguage();
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
-  // Device mode: 'desktop' (20 screens) | 'mobile' (20 screens)
-  const [deviceMode, setDeviceMode] = useState<'desktop' | 'mobile'>('desktop');
 
-  // Active Screen ID in 1-to-1 Side-by-Side mode
+  // 1. Platform Tab: 'desktop' (20 screens) <-> 'mobile' (20 screens)
+  const [platformTab, setPlatformTab] = useState<'desktop' | 'mobile'>('desktop');
+
+  // 2. View Mode: 'continuous' (Dàn trang nối tiếp toàn bộ 20 cặp) vs 'single' (Đối chiếu chi tiết 1 cặp)
+  const [viewLayout, setViewLayout] = useState<'continuous' | 'single'>('continuous');
+
+  // 3. Highlighted screen ID when jumped from Sitemap (e.g. "01", "09")
+  const [highlightedScreenId, setHighlightedScreenId] = useState<string>('01');
+  const [highlightPulse, setHighlightPulse] = useState<boolean>(false);
+  const pulseTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 4. Single 1-to-1 Mode active screen
   const [activeScreenId, setActiveScreenId] = useState<string>('screen-01');
-
-  // Filter for Module
   const [moduleFilter, setModuleFilter] = useState<string>('all');
+  const [viewFitMode, setViewFitMode] = useState<'fit' | 'full'>('fit');
 
-  // Lightbox modal state (fallback when onOpenZoom is not provided)
+  // 5. Lightbox modal state
   const [lightboxImg, setLightboxImg] = useState<{
     src: string;
     title: string;
     subtitle: string;
   } | null>(null);
-
   const [zoomLevel, setZoomLevel] = useState<number>(1);
+
+  const comparisonTopRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const handleOpenLightbox = (src: string, title: string, subtitle: string) => {
     if (onOpenZoom) {
@@ -45,38 +105,27 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
     }
   };
 
-  // View fit mode: 'fit' (vừa vặn màn hình máy tính - không cần cuộn) | 'full' (kích thước đầy đủ - cuộn chi tiết)
-  const [viewFitMode, setViewFitMode] = useState<'fit' | 'full'>('fit');
-
-  // Refs for auto-scrolling to top of comparison card and carousel centering
-  const comparisonTopRef = useRef<HTMLDivElement>(null);
-  const carouselRef = useRef<HTMLDivElement>(null);
-
-  // State for highlight pulse when jumping from Sitemap
-  const [highlightPulse, setHighlightPulse] = useState(false);
-  const pulseTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Listen to external selection from Sitemap tree
+  // Listen to external jump selection from Sitemap tree
   useEffect(() => {
     const handleCustomScreenSelect = (e: Event) => {
       const customEvt = e as CustomEvent<string | { screenId: string }>;
       const rawId = typeof customEvt.detail === 'string' ? customEvt.detail : customEvt.detail?.screenId;
       if (!rawId) return;
 
-      // Normalize target screen id: "01", "1", "#01", "screen-01" -> "screen-01"
-      let cleanId = rawId.trim().replace(/^#/, '');
-      if (/^\d{1,2}$/.test(cleanId)) {
-        cleanId = `screen-${cleanId.padStart(2, '0')}`;
+      // Extract numeric id: "01", "1", "screen-01" -> "01"
+      let cleanNum = rawId.trim().replace(/^#/, '').replace(/^screen-/, '').replace(/^mob_/, '');
+      if (/^\d{1,2}$/.test(cleanNum)) {
+        cleanNum = cleanNum.padStart(2, '0');
       }
 
-      setDeviceMode('desktop');
-      setModuleFilter('all');
-      setActiveScreenId(cleanId);
+      setHighlightedScreenId(cleanNum);
+      setActiveScreenId(`screen-${cleanNum}`);
       setHighlightPulse(true);
 
-      const targetEl = comparisonTopRef.current || document.getElementById('visual-comparison');
+      // Smooth scroll to the target screen element
+      const targetEl = document.getElementById(`screen-${cleanNum}`) || comparisonTopRef.current;
       if (targetEl) {
-        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
 
       if (pulseTimerRef.current) clearTimeout(pulseTimerRef.current);
@@ -92,32 +141,13 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
     };
   }, []);
 
-  const currentScreens = deviceMode === 'desktop' ? LIBRARY_BUS_20_SCREENS : LIBRARY_BUS_MOBILE_SCREENS;
+  // Keyboard navigation for single 1-to-1 mode
+  const currentScreens = platformTab === 'desktop' ? LIBRARY_BUS_20_SCREENS : LIBRARY_BUS_MOBILE_SCREENS;
   const selectedScreen = currentScreens.find(s => s.id === activeScreenId) || currentScreens[0];
   const selectedIndex = currentScreens.findIndex(s => s.id === activeScreenId);
 
-  const handleDeviceModeChange = (mode: 'desktop' | 'mobile') => {
-    setDeviceMode(mode);
-    setModuleFilter('all');
-    setActiveScreenId(mode === 'desktop' ? 'screen-01' : 'mob_01');
-  };
-
-  const handleSelectScreen = (id: string) => {
-    setActiveScreenId(id);
-  };
-
-  const handlePrevScreen = () => {
-    const prevIdx = selectedIndex > 0 ? selectedIndex - 1 : currentScreens.length - 1;
-    setActiveScreenId(currentScreens[prevIdx].id);
-  };
-
-  const handleNextScreen = () => {
-    const nextIdx = selectedIndex < currentScreens.length - 1 ? selectedIndex + 1 : 0;
-    setActiveScreenId(currentScreens[nextIdx].id);
-  };
-
-  // Keyboard navigation: ArrowLeft / ArrowRight to switch screens quickly
   useEffect(() => {
+    if (viewLayout !== 'single') return;
     const handleKeyDown = (e: KeyboardEvent) => {
       const activeTag = (document.activeElement?.tagName || '').toUpperCase();
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag)) return;
@@ -135,11 +165,11 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedIndex, currentScreens]);
+  }, [viewLayout, selectedIndex, currentScreens]);
 
   // Auto-scroll the screen carousel to keep the active screen in view
   useEffect(() => {
-    if (carouselRef.current) {
+    if (viewLayout === 'single' && carouselRef.current) {
       const activeBtn = carouselRef.current.querySelector(`[data-screen-id="${activeScreenId}"]`) as HTMLElement;
       if (activeBtn) {
         const container = carouselRef.current;
@@ -150,423 +180,411 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
         });
       }
     }
-  }, [activeScreenId]);
-
-  const filteredScreens = moduleFilter === 'all' 
-    ? currentScreens 
-    : currentScreens.filter(s => s.module === moduleFilter);
-
-  const desktopFilters = [
-    { id: 'all', label: isEn ? 'All (20)' : 'Tất cả (20)' },
-    { id: 'public', label: isEn ? 'Public & Reader (8)' : 'Khách vãng lai & Độc giả (8)' },
-    { id: 'transactions', label: isEn ? 'Lending (4)' : 'Lưu thông & Mượn trả (4)' },
-    { id: 'users', label: isEn ? 'Account & Pass (4)' : 'Tài khoản & Hội viên (4)' },
-    { id: 'admin', label: isEn ? 'Admin & Analytics (2)' : 'Quản trị & Phân tích (2)' },
-    { id: 'blog', label: isEn ? 'Community News (2)' : 'Cộng đồng & Tin tức (2)' },
-  ];
-
-  const mobileFilters = [
-    { id: 'all', label: isEn ? 'All Mobile (20)' : 'Tất cả Mobile (20)' },
-    { id: 'public', label: isEn ? 'Public & Reader (8)' : 'Khách vãng lai & Độc giả (8)' },
-    { id: 'transactions', label: isEn ? 'Lending (4)' : 'Lưu thông & Mượn trả (4)' },
-    { id: 'users', label: isEn ? 'Account & Pass (4)' : 'Tài khoản & Hội viên (4)' },
-    { id: 'admin', label: isEn ? 'Admin & Analytics (2)' : 'Quản trị & Phân tích (2)' },
-    { id: 'blog', label: isEn ? 'Community News (2)' : 'Cộng đồng & Tin tức (2)' },
-  ];
-
-  const activeModuleFilters = deviceMode === 'desktop' ? desktopFilters : mobileFilters;
+  }, [viewLayout, activeScreenId]);
 
   return (
-    <div className="space-y-6">
-      {/* Device Mode Switcher (Desktop vs Mobile) */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-3xl bg-gradient-to-r from-[#F0F9FB] via-white to-[#FAFDFE] border border-[#0D7287]/20 shadow-xs dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:border-slate-700">
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA]">
-            {isEn ? 'Device Viewport:' : 'Chế độ hiển thị:'}
-          </span>
-          <div className="flex items-center p-1 rounded-2xl bg-white border border-slate-200 shadow-2xs dark:bg-slate-950 dark:border-slate-800">
-            <button
-              onClick={() => handleDeviceModeChange('desktop')}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer min-h-[38px] ${
-                deviceMode === 'desktop'
-                  ? 'bg-[#0D7287] text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-              }`}
-            >
-              <Monitor className="w-4 h-4" />
-              <span>{isEn ? 'Desktop (20 Screens)' : 'Desktop (20 màn hình)'}</span>
-            </button>
-            <button
-              onClick={() => handleDeviceModeChange('mobile')}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer min-h-[38px] ${
-                deviceMode === 'mobile'
-                  ? 'bg-[#FFD14C] text-slate-950 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-              }`}
-            >
-              <Smartphone className="w-4 h-4" />
-              <span>{isEn ? 'Mobile (20 Screens Matched)' : 'Mobile (20 màn hình chuẩn)'}</span>
-            </button>
+    <div id="visual-comparison" className="space-y-6 scroll-mt-24">
+      {/* 03. TOP CONTROL STRIP: 2 TABS DESKTOP (20) <-> MOBILE (20) & LAYOUT SWITCHER */}
+      <div className="flex flex-wrap items-center justify-between gap-4 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-[#F0F9FB] via-white to-[#FAFDFE] border border-[#0D7287]/20 shadow-xs dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:border-slate-700">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FA6933] animate-pulse" />
+            <h3 className="text-base sm:text-lg font-black tracking-tight text-slate-900 dark:text-white uppercase">
+              {isEn ? '03. Visual Design (20 Screen Pairs)' : '03. Thiết Kế Trực Quan (20 Cặp Giao Diện)'}
+            </h3>
           </div>
+          <p className="text-xs sm:text-sm text-slate-500 font-medium">
+            {platformTab === 'desktop'
+              ? (isEn ? 'Desktop Layout: 12 Columns | Width: 78px | Gutter: 24px' : 'Lưới Desktop: 12 Cột | Chiều rộng: 78px | Khoảng cách: 24px')
+              : (isEn ? 'Mobile Layout: 4 Columns | Margin: 16px | Gutter: 16px' : 'Lưới Mobile: 4 Cột | Lề biên: 16px | Khoảng cách: 16px')}
+          </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-3">
+          {/* 2 Tabs: Desktop (20) <-> Mobile (20) */}
+          <div className="inline-flex rounded-2xl border border-slate-200 dark:border-slate-700 p-1 bg-white dark:bg-slate-950 shadow-2xs">
+            <button
+              type="button"
+              onClick={() => setPlatformTab('desktop')}
+              className={`min-h-[44px] px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                platformTab === 'desktop'
+                  ? 'bg-[#323987] text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              <Monitor className="w-4 h-4 text-[#9BE7FA]" />
+              <span>Desktop (20)</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setPlatformTab('mobile')}
+              className={`min-h-[44px] px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                platformTab === 'mobile'
+                  ? 'bg-[#FA6933] text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              <Smartphone className="w-4 h-4 text-[#FFE485]" />
+              <span>Mobile (20)</span>
+            </button>
+          </div>
+
+          {/* Layout Mode Toggle: Continuous feed (20 pairs) vs Single 1-to-1 */}
+          <div className="inline-flex rounded-2xl border border-slate-200 dark:border-slate-700 p-1 bg-white dark:bg-slate-950 shadow-2xs">
+            <button
+              type="button"
+              onClick={() => setViewLayout('continuous')}
+              className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                viewLayout === 'continuous'
+                  ? 'bg-[#0D7287] text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+              title={isEn ? 'Continuous Layout (All 20 Pairs)' : 'Dàn trang nối tiếp (Toàn bộ 20 cặp)'}
+            >
+              <LayoutGrid className="w-4 h-4" />
+              <span className="hidden sm:inline">{isEn ? 'All 20 Pairs' : '20 Cặp nối tiếp'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewLayout('single')}
+              className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                viewLayout === 'single'
+                  ? 'bg-[#0D7287] text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+              title={isEn ? '1-to-1 Deep Inspection' : 'Đối chiếu từng cặp mẫu (Chi tiết)'}
+            >
+              <Columns2 className="w-4 h-4" />
+              <span className="hidden sm:inline">{isEn ? '1-to-1 Deep' : 'Chi tiết 1-1'}</span>
+            </button>
+          </div>
+
+          {/* Raw Spec Link */}
           <a
-            href={deviceMode === 'desktop' ? '/library-bus/website.html' : '/library-bus/website-mobile.html'}
+            href={platformTab === 'desktop' ? '/library-bus/website.html' : '/library-bus/website-mobile.html'}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs sm:text-sm font-bold transition-all shadow-xs flex items-center gap-2 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300 cursor-pointer min-h-[38px]"
-            title={deviceMode === 'desktop' ? 'Mở tài liệu thiết kế Desktop HTML' : 'Mở tài liệu thiết kế Mobile HTML'}
+            className="min-h-[44px] px-3.5 py-2 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs sm:text-sm font-bold transition-all shadow-xs flex items-center gap-2 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300 cursor-pointer"
+            title={platformTab === 'desktop' ? 'Mở tài liệu HTML Desktop' : 'Mở tài liệu HTML Mobile'}
           >
             <FileCode2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-            <span>{deviceMode === 'desktop' ? (isEn ? 'Desktop Spec (HTML)' : 'Tài liệu Desktop (HTML)') : (isEn ? 'Mobile Spec (HTML)' : 'Tài liệu Mobile (HTML)')}</span>
+            <span className="hidden md:inline">{platformTab === 'desktop' ? 'HTML Spec' : 'Mobile Spec'}</span>
           </a>
         </div>
       </div>
 
-      {/* Navigation Mode Tabs: Chỉ giữ 'Đối Chiếu Từng Cặp Template (Mẫu Chuẩn)' */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200 dark:border-slate-800">
-        <div className="flex flex-wrap gap-2">
-          <div className="px-5 py-2.5 rounded-2xl text-sm sm:text-base font-bold flex items-center gap-2.5 bg-[#0D7287] text-white shadow-md">
-            <Columns2 className="w-5 h-5" />
-            <span>{isEn ? '1-to-1 Template Pairs (Left Wireframe, Right UI)' : 'Đối Chiếu Từng Cặp Template (Mẫu Chuẩn)'}</span>
+      {/* Smooth scroll anchor */}
+      <div ref={comparisonTopRef} className="scroll-mt-32" />
+
+      {/* Active Jump Confirmation Banner from Sitemap */}
+      {highlightPulse && (
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-[#FA6933] via-orange-500 to-[#FFD14C] text-white font-bold text-xs sm:text-sm flex flex-wrap items-center justify-between gap-2 shadow-lg shadow-orange-500/25 animate-in fade-in slide-in-from-top-3 duration-300">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 animate-spin text-[#FFE485]" />
+            <span>
+              {isEn ? 'Jumped from Sitemap:' : 'Đã cuộn tới giao diện từ Sitemap:'} <b>#{highlightedScreenId} {SCREENS_20_PAIRS.find(s => s.id === highlightedScreenId)?.nameVi}</b>
+            </span>
           </div>
+          <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-xs">
+            {platformTab === 'desktop' ? 'Desktop Grid 12 Columns' : 'Mobile Grid 4 Columns'}
+          </span>
         </div>
+      )}
 
-        <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 font-mono">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span>{currentScreens.length} Wireframes + {currentScreens.length} UI designs</span>
-        </div>
-      </div>
+      {/* ===================================================================
+          LAYOUT A: CONTINUOUS 20-SCREEN FEED (DÀN TRANG NỐI TIẾP TOÀN BỘ 20 CẶP)
+          =================================================================== */}
+      {viewLayout === 'continuous' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-8 items-start">
+          {SCREENS_20_PAIRS.map((s) => {
+            const isHighlighted = highlightedScreenId === s.id;
+            const currentPair = platformTab === 'desktop' ? s.desktop : s.mobile;
 
-      {/* 1-to-1 TEMPLATE PAIRS (WIREFRAME LEFT, UI DESIGN RIGHT) */}
-      <div className="space-y-4 animate-in fade-in duration-300">
-        {/* Top Control Bar: Compact non-sticky layout */}
-        <div className="p-3 sm:p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2 dark:bg-slate-900 dark:border-slate-800">
-          {/* Module Filter Pills & Prev/Next & View Mode in a single slim line */}
-          <div className="flex items-center justify-between gap-2.5 pb-2 border-b border-slate-100 dark:border-slate-800 overflow-x-auto scrollbar-none">
-            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none shrink">
-              {activeModuleFilters.map((m) => (
-                <button
-                  key={m.id}
-                  onClick={() => setModuleFilter(m.id)}
-                  className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap shrink-0 transition-all cursor-pointer ${
-                    moduleFilter === m.id
-                      ? 'bg-[#0D7287] text-white shadow-xs'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
-                  }`}
-                >
-                  {m.label}
-                </button>
-              ))}
-            </div>
-
-            {/* View Fit Mode Toggle & Prev / Next controls */}
-            <div className="flex items-center gap-2 shrink-0 ml-auto whitespace-nowrap">
-              <button
-                onClick={() => setViewFitMode(prev => prev === 'fit' ? 'full' : 'fit')}
-                className={`px-3 py-1.5 rounded-xl border text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0 ${
-                  viewFitMode === 'fit'
-                    ? 'bg-[#0D7287] text-white border-[#0D7287]'
-                    : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'
+            return (
+              <div
+                key={s.id}
+                id={`screen-${s.id}`}
+                className={`space-y-3.5 p-4 sm:p-5 rounded-3xl transition-all duration-500 scroll-mt-28 ${
+                  isHighlighted
+                    ? 'ring-4 ring-[#FA6933] bg-orange-500/5 shadow-xl scale-[1.01]'
+                    : 'border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs hover:shadow-md'
                 }`}
-                title={viewFitMode === 'fit' ? 'Chuyển sang kích thước gốc đầy đủ' : 'Chuyển sang chế độ vừa vặn màn hình'}
               >
-                <span>{viewFitMode === 'fit' ? 'Vừa vặn' : 'Kích thước gốc'}</span>
-              </button>
-
-              <button
-                onClick={handlePrevScreen}
-                className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 text-xs sm:text-sm font-bold transition-all flex items-center gap-1 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 cursor-pointer"
-                title="Phím tắt: Mũi tên trái (←)"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                <span>Trước</span>
-              </button>
-
-              <button
-                onClick={handleNextScreen}
-                className="px-3 py-1.5 rounded-xl bg-[#0D7287] hover:bg-[#0A5A6B] text-white text-xs sm:text-sm font-bold transition-all flex items-center gap-1 cursor-pointer shadow-xs"
-                title="Phím tắt: Mũi tên phải (→)"
-              >
-                <span>Tiếp</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Quick 5 Key Screens Bar */}
-          <div className="flex flex-wrap items-center gap-2 pt-1 pb-1 border-b border-slate-100 dark:border-slate-800">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 mr-1">
-              {isEn ? 'Key Screens:' : '5 Màn hình tiêu điểm:'}
-            </span>
-            {[
-              { id: deviceMode === 'desktop' ? 'screen-01' : 'mob_01', num: '01', nameVi: 'Trang chủ', nameEn: 'Home' },
-              { id: deviceMode === 'desktop' ? 'screen-04' : 'mob_04', num: '04', nameVi: 'Chi tiết sách', nameEn: 'Book Detail' },
-              { id: deviceMode === 'desktop' ? 'screen-05' : 'mob_05', num: '05', nameVi: 'Bản đồ Xe', nameEn: 'Bus Map' },
-              { id: deviceMode === 'desktop' ? 'screen-09' : 'mob_09', num: '09', nameVi: 'Phiếu mượn', nameEn: 'Borrow Slip' },
-              { id: deviceMode === 'desktop' ? 'screen-18' : 'mob_18', num: '18', nameVi: 'Analytics', nameEn: 'Analytics' }
-            ].map((s) => {
-              const isActive = activeScreenId === s.id;
-              return (
-                <button
-                  key={s.id}
-                  onClick={() => handleSelectScreen(s.id)}
-                  className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                    isActive
-                      ? 'bg-[#323987] text-white shadow-xs'
-                      : 'bg-[#C8EEF7]/50 text-[#0D7287] hover:bg-[#C8EEF7] dark:bg-slate-800 dark:text-slate-300'
-                  }`}
-                >
-                  <span className="font-mono">{s.num}.</span>
-                  <span>{isEn ? s.nameEn : s.nameVi}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Full Screen Carousel with Auto-centering */}
-          <div ref={carouselRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
-            {filteredScreens.map((screen) => {
-              const isActive = screen.id === activeScreenId;
-              return (
-                <button
-                  key={screen.id}
-                  data-screen-id={screen.id}
-                  onClick={() => handleSelectScreen(screen.id)}
-                  className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
-                    isActive
-                      ? 'bg-[#0D7287] text-white shadow-xs border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]'
-                      : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 dark:bg-slate-950 dark:text-slate-300 dark:border-slate-800'
-                  }`}
-                >
-                  <span className={`w-5 h-5 rounded flex items-center justify-center font-mono text-xs font-black ${
-                    isActive ? 'bg-[#FFD14C] text-slate-950 font-black' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
-                  }`}>
-                    {screen.index}
+                {/* Screen Card Header */}
+                <div className="flex justify-between items-center pb-2.5 border-b border-slate-100 dark:border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-lg bg-[#323987] text-white flex items-center justify-center font-mono font-bold text-xs">
+                      {s.num}
+                    </span>
+                    <h3 className="text-sm sm:text-base font-bold tracking-tight text-slate-900 dark:text-white">
+                      {isEn ? s.nameEn : s.nameVi}
+                    </h3>
+                  </div>
+                  <span className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA]">
+                    {platformTab === 'desktop' ? `Web #${s.id}` : `Mob #${s.mobId}`}
                   </span>
-                  <span>{isEn ? screen.titleEn : screen.titleVi}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+                </div>
 
-        {/* Smooth scroll anchor for screen switching */}
-        <div ref={comparisonTopRef} className="scroll-mt-36" />
+                {/* 2 Columns: Left Wireframe, Right UI Design */}
+                <div className="grid grid-cols-2 gap-3.5 items-start">
+                  {/* Left: Wireframe */}
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
+                      <span>Wireframe</span>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenLightbox(
+                          currentPair.wf,
+                          `${s.num}. ${s.nameVi} - Wireframe`,
+                          platformTab === 'desktop' ? 'Cấu trúc khung xám lưới 12 cột' : 'Bố cục dọc Mobile 4 cột'
+                        )}
+                        className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer"
+                        title="Phóng to"
+                      >
+                        <Maximize2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <div 
+                      className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-950 cursor-zoom-in group relative"
+                      onClick={() => handleOpenLightbox(
+                        currentPair.wf,
+                        `${s.num}. ${s.nameVi} - Wireframe`,
+                        platformTab === 'desktop' ? 'Cấu trúc khung xám lưới 12 cột' : 'Bố cục dọc Mobile 4 cột'
+                      )}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={currentPair.wf}
+                        alt={`Wireframe ${s.nameVi} (${platformTab})`}
+                        loading="lazy"
+                        className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                      />
+                    </div>
+                  </div>
 
-        {/* Active Jump Confirmation Banner from Sitemap */}
-        {highlightPulse && (
-          <div className="p-3.5 rounded-2xl bg-gradient-to-r from-[#FA6933] via-orange-500 to-[#FFD14C] text-white font-bold text-xs sm:text-sm flex flex-wrap items-center justify-between gap-2 shadow-lg shadow-orange-500/25 animate-in fade-in slide-in-from-top-3 duration-300">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 animate-spin text-[#FFE485]" />
-              <span>
-                {isEn ? 'Activated from Sitemap:' : 'Đã kích hoạt từ Sitemap:'} <b>#{selectedScreen.index.toString().padStart(2, '0')} {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</b>
-              </span>
-            </div>
-            <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-xs">
-              12 Columns | Wireframe vs UI
-            </span>
-          </div>
-        )}
-
-        {/* Compact Active Screen Metadata Strip */}
-        <div className={`px-4 py-2.5 rounded-2xl bg-gradient-to-r from-[#C8EEF7]/40 via-white to-[#F0F9FB] border shadow-xs flex flex-wrap items-center justify-between gap-3 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:border-slate-700 text-xs sm:text-sm transition-all duration-500 ${
-          highlightPulse
-            ? 'border-[#FA6933] ring-4 ring-[#FA6933]/30 shadow-md'
-            : 'border-[#9BE7FA]/50'
-        }`}>
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="px-2.5 py-1 rounded-md bg-[#0D7287] text-white font-mono text-xs sm:text-sm font-black">
-              Màn #{selectedScreen.index.toString().padStart(2, '0')}
-            </span>
-            <h3 className="font-sans font-black text-base sm:text-lg text-[#0D7287] dark:text-[#9BE7FA]">
-              {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}
-            </h3>
-            <span className="px-2 py-0.5 rounded-md bg-[#C8EEF7]/50 text-[#0D7287] border border-[#9BE7FA]/40 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
-              {selectedScreen.moduleNameVi}
-            </span>
-            <span className="font-mono text-slate-500 hidden sm:inline">
-              {isEn ? 'Route:' : 'Đường dẫn:'} <code className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">{selectedScreen.routePath}</code>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2.5 shrink-0">
-            <span className="hidden lg:inline text-stone-600 dark:text-slate-300 max-w-md truncate">
-              {isEn ? selectedScreen.descEn : selectedScreen.descVi}
-            </span>
-            <span className="px-2.5 py-0.5 rounded bg-white border border-stone-200 text-stone-700 font-bold dark:bg-slate-800 dark:border-slate-700 dark:text-stone-300">
-              Quyền: {selectedScreen.role}
-            </span>
-          </div>
-        </div>
-
-        {/* THE MASTERPIECE SPREAD: WIREFRAME (LEFT) VS UI DESIGN (RIGHT) */}
-        <div className={`grid lg:grid-cols-2 gap-5 items-start p-2 rounded-3xl transition-all duration-500 ${
-          highlightPulse ? 'ring-4 ring-[#FA6933] ring-offset-4 ring-offset-white dark:ring-offset-slate-900 shadow-2xl shadow-orange-500/20' : ''
-        }`}>
-          {/* LEFT COLUMN: WIREFRAME */}
-          <div className="space-y-3">
-            {/* Header: Exact clean typography as sample image */}
-            <div className="flex justify-between items-center pb-2.5 min-h-[58px] border-b-2 border-slate-300 dark:border-slate-700">
-              <div className="min-w-0">
-                <h3 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-200 tracking-tight flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-slate-400 shrink-0 inline-block" />
-                  <span>3.2 Wireframe — {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
-                </h3>
-                <p className="text-xs text-slate-500 truncate mt-0.5">Khung xám chuẩn cấu trúc, phân bổ lưới 12 cột</p>
+                  {/* Right: UI Design */}
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between items-center text-xs font-semibold text-[#FA6933]">
+                      <span>UI design</span>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenLightbox(
+                          currentPair.ui,
+                          `${s.num}. ${s.nameVi} - UI Design`,
+                          platformTab === 'desktop' ? 'Giao diện màu hoàn chỉnh Desktop' : 'Giao diện màu hoàn chỉnh Mobile'
+                        )}
+                        className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer"
+                        title="Phóng to"
+                      >
+                        <Maximize2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <div 
+                      className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-950 shadow-2xs cursor-zoom-in group relative"
+                      onClick={() => handleOpenLightbox(
+                        currentPair.ui,
+                        `${s.num}. ${s.nameVi} - UI Design`,
+                        platformTab === 'desktop' ? 'Giao diện màu hoàn chỉnh Desktop' : 'Giao diện màu hoàn chỉnh Mobile'
+                      )}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={currentPair.ui}
+                        alt={`UI design ${s.nameVi} (${platformTab})`}
+                        loading="lazy"
+                        className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-2 shrink-0 ml-2">
+            );
+          })}
+        </div>
+      ) : (
+        /* ===================================================================
+           LAYOUT B: 1-TO-1 DEEP INSPECTION MODE WITH FULL CAROUSEL & SPECS
+           =================================================================== */
+        <div className="space-y-4 animate-in fade-in duration-300">
+          {/* Module Filter Pills & Prev/Next */}
+          <div className="p-3 sm:p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2 dark:bg-slate-900 dark:border-slate-800">
+            <div className="flex items-center justify-between gap-2.5 pb-2 border-b border-slate-100 dark:border-slate-800 overflow-x-auto scrollbar-none">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-slate-500 uppercase">{isEn ? 'Filter:' : 'Lọc phân hệ:'}</span>
+                {['all', 'public', 'transactions', 'users', 'admin', 'blog'].map((mod) => (
+                  <button
+                    key={mod}
+                    type="button"
+                    onClick={() => setModuleFilter(mod)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                      moduleFilter === mod
+                        ? 'bg-[#0D7287] text-white shadow-xs'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
+                    }`}
+                  >
+                    {mod.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+
+              {/* View Fit & Prev/Next */}
+              <div className="flex items-center gap-2 shrink-0 ml-auto whitespace-nowrap">
                 <button
+                  type="button"
+                  onClick={() => setViewFitMode(prev => prev === 'fit' ? 'full' : 'fit')}
+                  className="px-3 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer bg-white text-slate-700 border-slate-200 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700"
+                >
+                  <span>{viewFitMode === 'fit' ? 'Vừa vặn' : 'Kích thước gốc'}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const prevIdx = selectedIndex > 0 ? selectedIndex - 1 : currentScreens.length - 1;
+                    setActiveScreenId(currentScreens[prevIdx].id);
+                  }}
+                  className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 text-xs font-bold transition-all flex items-center gap-1 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 cursor-pointer"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span>Trước</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextIdx = selectedIndex < currentScreens.length - 1 ? selectedIndex + 1 : 0;
+                    setActiveScreenId(currentScreens[nextIdx].id);
+                  }}
+                  className="px-3 py-1.5 rounded-xl bg-[#0D7287] hover:bg-[#0A5A6B] text-white text-xs font-bold transition-all flex items-center gap-1 cursor-pointer shadow-xs"
+                >
+                  <span>Tiếp</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Carousel Thumbnails */}
+            <div ref={carouselRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
+              {currentScreens
+                .filter(s => moduleFilter === 'all' || s.module === moduleFilter)
+                .map((screen) => {
+                  const isActive = screen.id === activeScreenId;
+                  return (
+                    <button
+                      key={screen.id}
+                      type="button"
+                      data-screen-id={screen.id}
+                      onClick={() => setActiveScreenId(screen.id)}
+                      className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
+                        isActive
+                          ? 'bg-[#0D7287] text-white shadow-xs border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]'
+                          : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 dark:bg-slate-950 dark:text-slate-300 dark:border-slate-800'
+                      }`}
+                    >
+                      <span className={`w-5 h-5 rounded flex items-center justify-center font-mono text-xs font-black ${
+                        isActive ? 'bg-[#FFD14C] text-slate-950 font-black' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+                      }`}>
+                        {screen.index}
+                      </span>
+                      <span>{isEn ? screen.titleEn : screen.titleVi}</span>
+                    </button>
+                  );
+                })}
+            </div>
+          </div>
+
+          {/* Master 1-to-1 Spread */}
+          <div className="grid lg:grid-cols-2 gap-5 items-start">
+            {/* Wireframe */}
+            <div className="space-y-3">
+              <div className="flex justify-between items-center pb-2.5 min-h-[52px] border-b-2 border-slate-300 dark:border-slate-700">
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-400" />
+                    <span>3.2 Wireframe — {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
+                  </h3>
+                  <p className="text-xs text-slate-500">Khung xám chuẩn cấu trúc giao diện</p>
+                </div>
+                <button
+                  type="button"
                   onClick={() => handleOpenLightbox(
                     selectedScreen.wireframeSrc,
                     `${selectedScreen.titleVi} - Wireframe`,
-                    'Cấu trúc khung xám lưới 12 cột'
+                    'Khung xám chuẩn bố cục'
                   )}
                   className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors cursor-pointer"
-                  title="Phóng to Wireframe"
                 >
-                  <Maximize2 className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                  <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                 </button>
-                <a
-                  href={selectedScreen.wireframeSrc}
-                  download={`wf_${selectedScreen.id}.png`}
-                  className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors cursor-pointer"
-                  title="Tải ảnh Wireframe"
-                >
-                  <Download className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
-                </a>
               </div>
-            </div>
 
-            {/* Wireframe Canvas Card */}
-            <div className="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 dark:border-slate-800 group relative">
               <div 
-                className={`rounded-2xl overflow-hidden border border-slate-200 bg-white flex justify-center p-3 cursor-zoom-in dark:bg-slate-950 dark:border-slate-800 transition-all ${
-                  viewFitMode === 'fit' 
-                    ? 'h-[58vh] max-h-[520px] min-h-[360px] items-center' 
-                    : 'min-h-[420px] items-start'
-                }`}
+                className="p-5 rounded-3xl bg-ground border border-stone-200 dark:bg-slate-900 dark:border-slate-800 shadow-md cursor-zoom-in"
                 onClick={() => handleOpenLightbox(
                   selectedScreen.wireframeSrc,
                   `${selectedScreen.titleVi} - Wireframe`,
-                  'Cấu trúc khung xám lưới 12 cột'
+                  'Khung xám chuẩn bố cục'
                 )}
               >
-                <Image 
-                  src={selectedScreen.wireframeSrc} 
-                  alt={`${selectedScreen.titleVi} Wireframe`}
-                  width={1200}
-                  height={800}
-                  className={`${viewFitMode === 'fit' ? 'h-full max-h-full' : 'max-h-[750px]'} w-auto max-w-full object-contain rounded transition-transform duration-300 group-hover:scale-[1.01]`} 
-                />
-              </div>
-
-              <div className="mt-3.5 pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs sm:text-sm text-slate-500 font-mono">
-                <span>Khung xám: Grayscale wireframe</span>
-                <span className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">Lưới 12 cột quy chuẩn</span>
-              </div>
-            </div>
-
-            {/* Wireframe Specs List */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-slate-500" />
-                Cấu trúc thành phần Wireframe:
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {selectedScreen.wireframeElements.map((elem, idx) => (
-                  <span key={idx} className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-medium dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300">
-                    • {elem}
-                  </span>
-                ))}
+                <div className={`rounded-2xl overflow-hidden border border-stone-200 bg-stone-100 dark:bg-slate-950 dark:border-slate-800 flex justify-center p-3 ${
+                  viewFitMode === 'fit' ? 'h-[58vh] max-h-[520px] items-center' : 'min-h-[420px] items-start'
+                }`}>
+                  <Image 
+                    src={selectedScreen.wireframeSrc} 
+                    alt={`${selectedScreen.titleVi} Wireframe`} 
+                    width={1200}
+                    height={800}
+                    className="h-full max-h-full w-auto max-w-full object-contain rounded"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* RIGHT COLUMN: UI DESIGN */}
-          <div className="space-y-3">
-            {/* Header: Exact clean typography as sample image */}
-            <div className="flex justify-between items-center pb-2.5 min-h-[58px] border-b-2 border-[#FA6933]">
-              <div className="min-w-0">
-                <h3 className="text-lg sm:text-xl font-bold text-[#FA6933] tracking-tight flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FA6933] shrink-0 inline-block" />
-                  <span>3.3 UI Design — {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
-                </h3>
-                <p className="text-xs text-slate-500 truncate mt-0.5">Giao diện thành phẩm hoàn chỉnh, bảng màu thương hiệu</p>
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0 ml-2">
+            {/* UI Design */}
+            <div className="space-y-3">
+              <div className="flex justify-between items-center pb-2.5 min-h-[52px] border-b-2 border-slate-300 dark:border-slate-700">
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FA6933]" />
+                    <span className="text-[#FA6933]">3.3 UI Design — {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
+                  </h3>
+                  <p className="text-xs text-slate-500">Giao diện hoàn chỉnh màu sắc thương hiệu</p>
+                </div>
                 <button
+                  type="button"
                   onClick={() => handleOpenLightbox(
                     selectedScreen.uiSrc,
                     `${selectedScreen.titleVi} - UI Design`,
-                    'Giao diện hoàn chỉnh, bảng màu 6 tông'
+                    'Giao diện hoàn chỉnh'
                   )}
-                  className="p-2.5 rounded-xl bg-[#C8EEF7]/30 hover:bg-[#FFE485]/40 text-[#0D7287] border border-[#9BE7FA]/40 transition-colors dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 cursor-pointer"
-                  title="Phóng to UI Design"
+                  className="p-2.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#FA6933] border border-orange-200 dark:bg-slate-800 dark:border-slate-700 transition cursor-pointer"
                 >
-                  <Maximize2 className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                  <Maximize2 className="w-4 h-4" />
                 </button>
-                <a
-                  href={selectedScreen.uiSrc}
-                  download={`ui_${selectedScreen.id}.png`}
-                  className="p-2.5 rounded-xl bg-[#C8EEF7]/30 hover:bg-[#FFE485]/40 text-[#0D7287] border border-[#9BE7FA]/40 transition-colors dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 cursor-pointer"
-                  title="Tải ảnh UI Design"
-                >
-                  <Download className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
-                </a>
               </div>
-            </div>
 
-            {/* UI Design Canvas Card */}
-            <div className="p-5 sm:p-6 rounded-3xl bg-ground border border-[#9BE7FA]/40 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 dark:border-[#9BE7FA]/30 group relative">
               <div 
-                className={`rounded-2xl overflow-hidden border border-[#9BE7FA]/30 bg-[#F0F9FB] flex justify-center p-3 cursor-zoom-in dark:bg-slate-950 dark:border-slate-800 transition-all ${
-                  viewFitMode === 'fit' 
-                    ? 'h-[58vh] max-h-[520px] min-h-[360px] items-center' 
-                    : 'min-h-[420px] items-start'
-                }`}
+                className="p-5 rounded-3xl bg-ground border border-[#9BE7FA]/40 dark:bg-slate-900 dark:border-[#9BE7FA]/30 shadow-md cursor-zoom-in"
                 onClick={() => handleOpenLightbox(
                   selectedScreen.uiSrc,
                   `${selectedScreen.titleVi} - UI Design`,
-                  'Giao diện hoàn chỉnh, bảng màu 6 tông'
+                  'Giao diện hoàn chỉnh'
                 )}
               >
-                <Image 
-                  src={selectedScreen.uiSrc} 
-                  alt={`${selectedScreen.titleVi} UI Design`} 
-                  width={1200}
-                  height={800}
-                  className={`${viewFitMode === 'fit' ? 'h-full max-h-full' : 'max-h-[750px]'} w-auto max-w-full object-contain rounded transition-transform duration-300 group-hover:scale-[1.01]`} 
-                />
-              </div>
-
-              <div className="mt-3.5 pt-3 border-t border-[#9BE7FA]/20 dark:border-slate-800 flex justify-between items-center text-xs sm:text-sm text-slate-500 font-mono">
-                <span>Hệ màu: #9BE7FA, #C8EEF7, #FFE485, #FFD14C</span>
-                <span className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">
-                  Bản trình bày chuẩn hồ sơ
-                </span>
-              </div>
-            </div>
-
-            {/* UI Features Specs List */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#C8EEF7]/20 border border-[#9BE7FA]/40 space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2 font-sans">
-                <Sparkles className="w-4 h-4 text-[#FFD14C]" />
-                Điểm nhấn thiết kế giao diện (UI Highlights):
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {selectedScreen.uiFeatures.map((feat, idx) => (
-                  <span key={idx} className="px-3 py-1.5 rounded-xl bg-white border border-[#9BE7FA]/40 text-[#0D7287] text-xs sm:text-sm font-bold shadow-2xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
-                    ✓ {feat}
-                  </span>
-                ))}
+                <div className={`rounded-2xl overflow-hidden border border-[#9BE7FA]/30 bg-[#F0F9FB] dark:bg-slate-950 dark:border-slate-800 flex justify-center p-3 ${
+                  viewFitMode === 'fit' ? 'h-[58vh] max-h-[520px] items-center' : 'min-h-[420px] items-start'
+                }`}>
+                  <Image 
+                    src={selectedScreen.uiSrc} 
+                    alt={`${selectedScreen.titleVi} UI Design`} 
+                    width={1200}
+                    height={800}
+                    className="h-full max-h-full w-auto max-w-full object-contain rounded"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Internal Fallback Lightbox Modal */}
       {lightboxImg && (
@@ -587,8 +605,9 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
 
               <div className="flex items-center gap-2">
                 <button
+                  type="button"
                   onClick={() => setZoomLevel(prev => Math.max(0.5, prev - 0.25))}
-                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
                   title="Thu nhỏ"
                 >
                   <ZoomOut className="w-4 h-4" />
@@ -597,24 +616,26 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                   {Math.round(zoomLevel * 100)}%
                 </span>
                 <button
+                  type="button"
                   onClick={() => setZoomLevel(prev => Math.min(3, prev + 0.25))}
-                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
                   title="Phóng to"
                 >
                   <ZoomIn className="w-4 h-4" />
                 </button>
                 <a
                   href={lightboxImg.src}
-                  download="library_bus_image.png"
-                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+                  download="screen-preview.webp"
+                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
                   title="Tải ảnh gốc"
                 >
                   <Download className="w-4 h-4" />
                 </a>
                 <button
+                  type="button"
                   onClick={() => setLightboxImg(null)}
-                  className="p-2 rounded-xl bg-rose-500/20 text-rose-300 hover:bg-rose-500 hover:text-white transition-colors ml-2"
-                  title="Đóng"
+                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
+                  title="Đóng modal"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -622,15 +643,18 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
             </div>
 
             {/* Modal Image Viewport */}
-            <div className="flex-1 overflow-auto p-4 flex items-center justify-center bg-slate-950/50">
-              <Image 
-                src={lightboxImg.src} 
-                alt={lightboxImg.title} 
-                width={1600}
-                height={1200}
-                style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'center' }}
-                className="max-h-[80vh] w-auto object-contain transition-transform duration-200 select-none shadow-xl"
-              />
+            <div className="flex-1 overflow-auto p-4 flex items-center justify-center bg-black/50 min-h-[350px]">
+              <div 
+                style={{ transform: `scale(${zoomLevel})`, transition: 'transform 0.2s ease-out' }}
+                className="max-w-full max-h-full flex items-center justify-center"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={lightboxImg.src}
+                  alt={lightboxImg.title}
+                  className="max-h-[80vh] w-auto object-contain rounded-xl shadow-2xl"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -638,5 +662,3 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
     </div>
   );
 }
-
-export { LibraryBusVisualComparison };
