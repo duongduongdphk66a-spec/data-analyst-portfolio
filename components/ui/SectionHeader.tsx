@@ -70,22 +70,22 @@ export function SectionHeader({
 
   if (variant === 'chapter') {
     return (
-      <div className={`flex items-start sm:items-center justify-between gap-4 pb-4 mb-6 border-b border-slate-200/80 dark:border-slate-800 ${className}`}>
-        <div className="space-y-1.5">
-          <div className="flex flex-wrap items-center gap-2">
+      <div className={`flex items-start sm:items-center justify-between gap-4 pb-4 mb-8 border-b border-slate-200/80 dark:border-slate-800 ${className}`}>
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-2.5">
             {chapter && (
-              <span className="px-2 py-0.5 bg-brand-blue-vivid text-slate-950 rounded-md text-[11px] font-mono font-bold tracking-wide shrink-0">
+              <span className="px-2.5 py-1 bg-brand-blue-vivid text-slate-950 rounded-lg text-xs sm:text-sm font-mono font-bold tracking-wider shrink-0 shadow-xs">
                 {chapter}
               </span>
             )}
             {subtitle && (
-              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+              <span className="text-sm sm:text-base font-semibold text-slate-500 dark:text-slate-400">
                 {subtitle}
               </span>
             )}
           </div>
-          <h2 className="editorial-section-title text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white flex items-center gap-2">
-            {badge && <span className="text-brand-teal dark:text-[#9BE7FA] font-mono text-xl">{badge}</span>}
+          <h2 className="editorial-section-title text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-950 dark:text-white flex items-center gap-3">
+            {badge && <span className="text-brand-teal dark:text-[#9BE7FA] font-mono text-xl sm:text-2xl">{badge}</span>}
             <span>{title}</span>
           </h2>
         </div>

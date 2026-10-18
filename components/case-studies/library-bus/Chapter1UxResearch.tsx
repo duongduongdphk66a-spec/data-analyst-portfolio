@@ -37,40 +37,40 @@ export function Chapter1UxResearch({
 
         <div className="grid md:grid-cols-3 gap-6">
           {/* Lý do phát triển */}
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md transition-all space-y-3 dark:bg-slate-900 dark:border-slate-800">
-            <div className="w-10 h-10 rounded-2xl bg-[#C8EEF7]/50 text-[#0D7287] flex items-center justify-center font-black">
-              <Compass className="w-5 h-5" />
+          <div className="p-6 sm:p-7 rounded-3xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md transition-all space-y-3.5 dark:bg-slate-900 dark:border-slate-800">
+            <div className="w-11 h-11 rounded-2xl bg-[#C8EEF7]/50 text-[#0D7287] flex items-center justify-center font-black">
+              <Compass className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-black text-slate-900 dark:text-white">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
               {isEn ? ABOUT_US_DATA.reason.titleEn : ABOUT_US_DATA.reason.titleVi}
             </h3>
-            <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed dark:text-slate-300">
               {isEn ? ABOUT_US_DATA.reason.descEn : ABOUT_US_DATA.reason.descVi}
             </p>
           </div>
 
           {/* Sứ mệnh */}
-          <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/80 shadow-xs hover:shadow-md transition-all space-y-3 dark:bg-slate-900 dark:border-slate-800">
-            <div className="w-10 h-10 rounded-2xl bg-[#9BE7FA]/40 text-[#0D7287] flex items-center justify-center font-black">
-              <Target className="w-5 h-5" />
+          <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#9BE7FA]/80 shadow-xs hover:shadow-md transition-all space-y-3.5 dark:bg-slate-900 dark:border-slate-800">
+            <div className="w-11 h-11 rounded-2xl bg-[#9BE7FA]/40 text-[#0D7287] flex items-center justify-center font-black">
+              <Target className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-black text-slate-900 dark:text-white">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
               {isEn ? ABOUT_US_DATA.scope.titleEn : ABOUT_US_DATA.scope.titleVi}
             </h3>
-            <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed dark:text-slate-300">
               {isEn ? ABOUT_US_DATA.scope.descEn : ABOUT_US_DATA.scope.descVi}
             </p>
           </div>
 
           {/* Ý nghĩa tên thương hiệu */}
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md transition-all space-y-3 dark:bg-slate-900 dark:border-slate-800">
-            <div className="w-10 h-10 rounded-2xl bg-[#FFD14C]/30 text-slate-900 flex items-center justify-center font-black">
-              <Sparkles className="w-5 h-5 text-[#0D7287]" />
+          <div className="p-6 sm:p-7 rounded-3xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md transition-all space-y-3.5 dark:bg-slate-900 dark:border-slate-800">
+            <div className="w-11 h-11 rounded-2xl bg-[#FFD14C]/30 text-slate-900 flex items-center justify-center font-black">
+              <Sparkles className="w-6 h-6 text-[#0D7287]" />
             </div>
-            <h3 className="text-base font-black text-slate-900 dark:text-white">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
               {isEn ? ABOUT_US_DATA.brandMeaning.titleEn : ABOUT_US_DATA.brandMeaning.titleVi}
             </h3>
-            <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed dark:text-slate-300">
               {isEn ? ABOUT_US_DATA.brandMeaning.descEn : ABOUT_US_DATA.brandMeaning.descVi}
             </p>
           </div>
@@ -91,55 +91,55 @@ export function Chapter1UxResearch({
 
         {/* Part A: Market Research */}
         <div className="space-y-4">
-          <h3 className="text-sm font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
-            <BarChart2 className="w-4 h-4" />
+          <h3 className="text-sm sm:text-base font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
+            <BarChart2 className="w-5 h-5" />
             <span>{isEn ? '1.2.1 Market Research' : '1.2.1 Nghiên cứu thị trường'}</span>
           </h3>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
-              <h4 className="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#0D7287]" />
+            <div className="p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
+              <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#0D7287]" />
                 {isEn ? UX_RESEARCH_DATA.marketResearch.marketId.titleEn : UX_RESEARCH_DATA.marketResearch.marketId.titleVi}
               </h4>
-              <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed dark:text-slate-300">
                 {isEn ? UX_RESEARCH_DATA.marketResearch.marketId.descEn : UX_RESEARCH_DATA.marketResearch.marketId.descVi}
               </p>
             </div>
-            <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
-              <h4 className="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#FFD14C]" />
+            <div className="p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
+              <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FFD14C]" />
                 {isEn ? UX_RESEARCH_DATA.marketResearch.currentTrends.titleEn : UX_RESEARCH_DATA.marketResearch.currentTrends.titleVi}
               </h4>
-              <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed dark:text-slate-300">
                 {isEn ? UX_RESEARCH_DATA.marketResearch.currentTrends.descEn : UX_RESEARCH_DATA.marketResearch.currentTrends.descVi}
               </p>
             </div>
           </div>
-          <p className="text-xs italic text-slate-700 leading-relaxed dark:text-slate-300">
+          <p className="text-sm sm:text-base italic font-medium text-slate-700 leading-relaxed dark:text-slate-300 pt-1">
             {isEn ? UX_RESEARCH_DATA.marketResearch.conclusionEn : UX_RESEARCH_DATA.marketResearch.conclusionVi}
           </p>
-          <p className="text-[11px] italic text-slate-500 dark:text-slate-400">
+          <p className="text-xs sm:text-sm italic text-slate-500 dark:text-slate-400">
             {isEn ? UX_RESEARCH_DATA.marketResearch.noteEn : UX_RESEARCH_DATA.marketResearch.noteVi}
           </p>
         </div>
 
         {/* Part B: Customer Target (3 user groups) */}
         <div className="space-y-4">
-          <h3 className="text-sm font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
-            <Users className="w-4 h-4" />
+          <h3 className="text-sm sm:text-base font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
+            <Users className="w-5 h-5" />
             <span>{isEn ? '1.2.2 Customer Target (3 User Groups)' : '1.2.2 Khách hàng mục tiêu (3 nhóm người dùng)'}</span>
           </h3>
 
           <div className="grid md:grid-cols-3 gap-6">
             {UX_RESEARCH_DATA.customerGroups.map((group) => (
-              <div key={group.id} className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
+              <div key={group.id} className="p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-3.5 dark:bg-slate-900 dark:border-slate-800">
                 <div className="flex items-center gap-3">
-                  <span className="w-9 h-9 rounded-2xl bg-[#C8EEF7]/50 text-[#0D7287] flex items-center justify-center text-sm font-black">
+                  <span className="w-10 h-10 rounded-2xl bg-[#C8EEF7]/50 text-[#0D7287] flex items-center justify-center text-base font-black">
                     {group.id}
                   </span>
-                  <h4 className="text-base font-black text-slate-900 dark:text-white">{isEn ? group.nameEn : group.nameVi}</h4>
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">{isEn ? group.nameEn : group.nameVi}</h4>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
+                <p className="text-sm sm:text-base text-slate-600 leading-relaxed dark:text-slate-300">
                   {isEn ? group.descEn : group.descVi}
                 </p>
               </div>
@@ -149,22 +149,22 @@ export function Chapter1UxResearch({
 
         {/* Part C: Website References (Benchmarking) */}
         <div className="space-y-4">
-          <h3 className="text-sm font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
-            <Layout className="w-4 h-4" />
+          <h3 className="text-sm sm:text-base font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
+            <Layout className="w-5 h-5" />
             <span>{isEn ? '1.2.3 Website References' : '1.2.3 Website tham khảo (Website References)'}</span>
           </h3>
           <div className="grid md:grid-cols-3 gap-6">
             {UX_RESEARCH_DATA.websiteReferences.map((ref, idx) => (
-              <div key={idx} className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-3 dark:bg-slate-900 dark:border-slate-800">
-                <h4 className="text-sm font-black text-slate-900 dark:text-white flex items-center justify-between gap-2">
+              <div key={idx} className="p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-3.5 dark:bg-slate-900 dark:border-slate-800">
+                <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center justify-between gap-2">
                   <span>{isEn ? ref.nameEn : ref.nameVi}</span>
-                  <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 shrink-0 dark:bg-slate-800 dark:text-slate-300">Ref 0{idx+1}</span>
+                  <span className="text-xs sm:text-sm font-mono px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 shrink-0 dark:bg-slate-800 dark:text-slate-300">Ref 0{idx+1}</span>
                 </h4>
-                <div className="space-y-2 text-xs">
-                  <p className="text-slate-600 dark:text-slate-400">{isEn ? ref.descEn : ref.descVi}</p>
-                  <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
+                <div className="space-y-3 text-sm sm:text-base">
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{isEn ? ref.descEn : ref.descVi}</p>
+                  <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800">
                     <b className="text-[#0D7287] dark:text-[#9BE7FA]">{isEn ? 'Applied to:' : 'Áp dụng cho:'}</b>
-                    <p className="text-slate-600 mt-0.5 dark:text-slate-400">{isEn ? ref.appliedEn : ref.appliedVi}</p>
+                    <p className="text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">{isEn ? ref.appliedEn : ref.appliedVi}</p>
                   </div>
                 </div>
               </div>
@@ -174,23 +174,23 @@ export function Chapter1UxResearch({
 
         {/* Part D: Website Core Functions */}
         <div className="space-y-4">
-          <h3 className="text-sm font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
-            <CheckSquare className="w-4 h-4" />
+          <h3 className="text-sm sm:text-base font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
+            <CheckSquare className="w-5 h-5" />
             <span>{isEn ? '1.2.4 Website Functions' : '1.2.4 Chức năng của Website (Website\'s Function)'}</span>
           </h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {UX_RESEARCH_DATA.functions.map((func) => (
-              <div key={func.id} className="p-5 rounded-3xl bg-white border border-slate-200 shadow-xs hover:border-[#9BE7FA] transition-all space-y-2 dark:bg-slate-900 dark:border-slate-800">
+              <div key={func.id} className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs hover:border-[#9BE7FA] transition-all space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
                 <div className="flex justify-between items-center">
-                  <span className="w-7 h-7 rounded-xl bg-[#0D7287] text-white flex items-center justify-center text-xs font-black">
+                  <span className="w-8 h-8 rounded-xl bg-[#0D7287] text-white flex items-center justify-center text-sm font-black">
                     {func.id}
                   </span>
-                  <span className="text-xs font-mono text-slate-400">{isEn ? 'Function' : 'Chức năng'}</span>
+                  <span className="text-xs sm:text-sm font-mono text-slate-400">{isEn ? 'Function' : 'Chức năng'}</span>
                 </div>
-                <h4 className="text-sm font-black text-slate-900 dark:text-white">
+                <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                   {isEn ? func.nameEn : func.nameVi}
                 </h4>
-                <p className="text-xs text-slate-600 dark:text-slate-400">
+                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEn ? func.descEn : func.descVi}
                 </p>
               </div>
@@ -199,18 +199,18 @@ export function Chapter1UxResearch({
         </div>
 
         {/* Part E: Sitemap */}
-        <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-4 dark:bg-slate-900 dark:border-slate-800">
-          <h3 className="text-sm font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
-            <GitBranch className="w-4 h-4" />
+        <div className="p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-4 dark:bg-slate-900 dark:border-slate-800">
+          <h3 className="text-sm sm:text-base font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
+            <GitBranch className="w-5 h-5" />
             <span>{isEn ? '1.2.5 Sitemap' : '1.2.5 Sơ đồ trang web (Sitemap)'}</span>
           </h3>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-xs">
-            <span className="px-4 py-2.5 rounded-xl bg-[#0D7287] text-white font-black text-sm self-start">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <span className="px-4 py-2.5 rounded-xl bg-[#0D7287] text-white font-bold text-sm sm:text-base self-start shadow-xs">
               {UX_RESEARCH_DATA.sitemapRoot}
             </span>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2.5">
               {UX_RESEARCH_DATA.sitemapTop.map((node, i) => (
-                <span key={i} className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 font-bold text-slate-800 dark:bg-slate-800 dark:border-slate-700 dark:text-white">
+                <span key={i} className="px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 font-bold text-sm sm:text-base text-slate-800 dark:bg-slate-800 dark:border-slate-700 dark:text-white">
                   {isEn ? node.en : node.vi}
                 </span>
               ))}
@@ -220,20 +220,20 @@ export function Chapter1UxResearch({
 
         {/* Part F: Sitemap detail */}
         <div className="space-y-4">
-          <h3 className="text-sm font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
-            <ChevronRight className="w-4 h-4" />
+          <h3 className="text-sm sm:text-base font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
+            <ChevronRight className="w-5 h-5" />
             <span>{isEn ? '1.2.6 Sitemap Detail' : '1.2.6 Sơ đồ trang web chi tiết (Sitemap Detail)'}</span>
           </h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {UX_RESEARCH_DATA.sitemap.map((node, i) => (
-              <div key={i} className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800 space-y-2">
-                <div className="font-black text-slate-900 flex items-center gap-1.5 dark:text-white">
-                  <ChevronRight className="w-3.5 h-3.5 text-[#0D7287]" />
+              <div key={i} className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800 space-y-3">
+                <div className="text-base font-bold text-slate-900 flex items-center gap-2 dark:text-white">
+                  <ChevronRight className="w-4 h-4 text-[#0D7287]" />
                   <span>{isEn ? node.parentEn : node.parentVi}</span>
                 </div>
-                <div className="flex flex-wrap gap-1.5 pl-5">
+                <div className="flex flex-wrap gap-2 pl-6">
                   {(isEn ? node.childrenEn : node.childrenVi).map((c, cIdx) => (
-                    <span key={cIdx} className="px-2 py-0.5 rounded-md bg-slate-50 border border-slate-200 text-[11px] text-slate-600 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300">
+                    <span key={cIdx} className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-xs sm:text-sm font-medium text-slate-700 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
                       {c}
                     </span>
                   ))}
@@ -244,32 +244,32 @@ export function Chapter1UxResearch({
         </div>
 
         {/* Part G: User flow */}
-        <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-4 dark:bg-slate-900 dark:border-slate-800">
-          <h3 className="text-sm font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
-            <MousePointer className="w-4 h-4" />
+        <div className="p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-4 dark:bg-slate-900 dark:border-slate-800">
+          <h3 className="text-sm sm:text-base font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
+            <MousePointer className="w-5 h-5" />
             <span>{isEn ? `1.2.7 User Flow: ${UX_RESEARCH_DATA.userFlowTitleEn}` : `1.2.7 Sơ đồ luồng người dùng (User Flow): ${UX_RESEARCH_DATA.userFlowTitleVi}`}</span>
           </h3>
-          <div className="p-4 rounded-2xl bg-[#F0F9FB] border border-[#D2EDF6] dark:bg-slate-950 dark:border-slate-800 space-y-3 overflow-x-auto">
-            <div className="flex items-center gap-2 text-[11px] text-slate-500 font-bold mb-2">
-              <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">{isEn ? 'Start / End' : 'Bắt đầu/Kết thúc'}</span>
-              <span className="px-2 py-0.5 rounded-lg bg-amber-100 text-amber-800">{isEn ? 'Decision point' : 'Điểm quyết định'}</span>
-              <span className="px-2 py-0.5 rounded-lg bg-sky-100 text-sky-800">{isEn ? 'Action' : 'Hoạt động'}</span>
+          <div className="p-5 rounded-2xl bg-[#F0F9FB] border border-[#D2EDF6] dark:bg-slate-950 dark:border-slate-800 space-y-4 overflow-x-auto">
+            <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-500 font-bold mb-2">
+              <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">{isEn ? 'Start / End' : 'Bắt đầu/Kết thúc'}</span>
+              <span className="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800">{isEn ? 'Decision point' : 'Điểm quyết định'}</span>
+              <span className="px-2.5 py-1 rounded-lg bg-sky-100 text-sky-800">{isEn ? 'Action' : 'Hoạt động'}</span>
             </div>
-            <div className="space-y-2 min-w-[500px]">
+            <div className="space-y-3 min-w-[550px]">
               {UX_RESEARCH_DATA.userFlowSteps.map((step, idx) => (
-                <div key={idx} className="flex items-center gap-3">
-                  <span className="text-[11px] font-mono text-slate-400 w-6 shrink-0">0{idx+1}</span>
-                  <div className={`px-3 py-1.5 text-xs font-bold shrink-0 flex items-center gap-2 ${
+                <div key={idx} className="flex items-center gap-3.5">
+                  <span className="text-xs sm:text-sm font-mono text-slate-400 w-7 shrink-0">0{idx+1}</span>
+                  <div className={`px-3.5 py-2 text-xs sm:text-sm font-bold shrink-0 flex items-center gap-2 ${
                     step.type === 'start' || step.type === 'end'
                       ? 'rounded-full bg-emerald-600 text-white shadow-xs'
                       : step.type === 'decision'
-                      ? 'rounded-xl bg-[#FFD14C] text-slate-950 border border-amber-300'
+                      ? 'rounded-xl bg-[#FFD14C] text-slate-950 border border-amber-300 shadow-xs'
                       : 'rounded-xl bg-white border border-slate-200 text-slate-800 shadow-xs dark:bg-slate-800 dark:text-white dark:border-slate-700'
                   }`}>
                     <span>{isEn ? step.labelEn : step.labelVi}</span>
                   </div>
                   <span className="text-slate-400">→</span>
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400">{isEn ? step.descEn : step.descVi}</span>
+                  <span className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium">{isEn ? step.descEn : step.descVi}</span>
                 </div>
               ))}
             </div>

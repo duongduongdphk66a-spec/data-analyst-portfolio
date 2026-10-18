@@ -139,15 +139,15 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
   return (
     <div className="space-y-6">
       {/* Device Mode Switcher (Desktop vs Mobile) */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-3xl bg-gradient-to-r from-[#F0F9FB] via-white to-[#FAFDFE] border border-[#0D7287]/20 shadow-xs dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:border-slate-700">
-        <div className="flex flex-wrap items-center gap-2.5">
-          <span className="text-xs font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA]">
+      <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-3xl bg-gradient-to-r from-[#F0F9FB] via-white to-[#FAFDFE] border border-[#0D7287]/20 shadow-xs dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:border-slate-700">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA]">
             {isEn ? 'Device Viewport:' : 'Chế độ hiển thị:'}
           </span>
           <div className="flex items-center p-1 rounded-2xl bg-white border border-slate-200 shadow-2xs dark:bg-slate-950 dark:border-slate-800">
             <button
               onClick={() => handleDeviceModeChange('desktop')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer min-h-[38px] ${
                 deviceMode === 'desktop'
                   ? 'bg-[#0D7287] text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
@@ -158,7 +158,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
             </button>
             <button
               onClick={() => handleDeviceModeChange('mobile')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer min-h-[38px] ${
                 deviceMode === 'mobile'
                   ? 'bg-[#FFD14C] text-slate-950 shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
@@ -175,10 +175,10 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
             href={deviceMode === 'desktop' ? '/library-bus/website.html' : '/library-bus/website-mobile.html'}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300 cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs sm:text-sm font-bold transition-all shadow-xs flex items-center gap-2 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300 cursor-pointer min-h-[38px]"
             title={deviceMode === 'desktop' ? 'Mở tài liệu thiết kế Desktop HTML' : 'Mở tài liệu thiết kế Mobile HTML'}
           >
-            <FileCode2 className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+            <FileCode2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
             <span>{deviceMode === 'desktop' ? (isEn ? 'Desktop Spec (HTML)' : 'Tài liệu Desktop (HTML)') : (isEn ? 'Mobile Spec (HTML)' : 'Tài liệu Mobile (HTML)')}</span>
           </a>
         </div>
@@ -187,32 +187,32 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
       {/* Navigation Mode Tabs: Chỉ giữ 'Đối Chiếu Từng Cặp Template (Mẫu Chuẩn)' */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-200 dark:border-slate-800">
         <div className="flex flex-wrap gap-2">
-          <div className="px-4 py-2 rounded-2xl text-xs sm:text-sm font-black flex items-center gap-2 bg-[#0D7287] text-white shadow-md">
-            <Columns2 className="w-4 h-4" />
+          <div className="px-5 py-2.5 rounded-2xl text-sm sm:text-base font-bold flex items-center gap-2.5 bg-[#0D7287] text-white shadow-md">
+            <Columns2 className="w-5 h-5" />
             <span>{isEn ? '1-to-1 Template Pairs (Left Wireframe, Right UI)' : 'Đối Chiếu Từng Cặp Template (Mẫu Chuẩn)'}</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-xs text-slate-500 font-mono">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 font-mono">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
           <span>{currentScreens.length} Wireframes + {currentScreens.length} UI designs</span>
         </div>
       </div>
 
       {/* 1-to-1 TEMPLATE PAIRS (WIREFRAME LEFT, UI DESIGN RIGHT) */}
-      <div className="space-y-3 animate-in fade-in duration-300">
+      <div className="space-y-4 animate-in fade-in duration-300">
         {/* Top Control Bar: Compact non-sticky layout */}
-        <div className="p-2 sm:p-2.5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1.5 dark:bg-slate-900 dark:border-slate-800">
+        <div className="p-3 sm:p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2 dark:bg-slate-900 dark:border-slate-800">
           {/* Module Filter Pills & Prev/Next & View Mode in a single slim line */}
-          <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-slate-100 dark:border-slate-800 overflow-x-auto scrollbar-none">
-            <div className="flex items-center gap-1 overflow-x-auto scrollbar-none shrink">
+          <div className="flex items-center justify-between gap-2.5 pb-2 border-b border-slate-100 dark:border-slate-800 overflow-x-auto scrollbar-none">
+            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none shrink">
               {activeModuleFilters.map((m) => (
                 <button
                   key={m.id}
                   onClick={() => setModuleFilter(m.id)}
-                  className={`px-2.5 py-0.5 rounded-lg text-[11px] font-bold whitespace-nowrap shrink-0 transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap shrink-0 transition-all cursor-pointer ${
                     moduleFilter === m.id
-                      ? 'bg-[#0D7287] text-white shadow-2xs'
+                      ? 'bg-[#0D7287] text-white shadow-xs'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
                   }`}
                 >
@@ -222,10 +222,10 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
             </div>
 
             {/* View Fit Mode Toggle & Prev / Next controls */}
-            <div className="flex items-center gap-1.5 shrink-0 ml-auto whitespace-nowrap">
+            <div className="flex items-center gap-2 shrink-0 ml-auto whitespace-nowrap">
               <button
                 onClick={() => setViewFitMode(prev => prev === 'fit' ? 'full' : 'fit')}
-                className={`px-2 py-0.5 rounded-lg border text-[11px] font-bold transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                className={`px-3 py-1.5 rounded-xl border text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0 ${
                   viewFitMode === 'fit'
                     ? 'bg-[#0D7287] text-white border-[#0D7287]'
                     : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'
@@ -237,26 +237,26 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
 
               <button
                 onClick={handlePrevScreen}
-                className="px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 text-[11px] font-bold transition-all flex items-center gap-0.5 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 cursor-pointer"
+                className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 text-xs sm:text-sm font-bold transition-all flex items-center gap-1 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 cursor-pointer"
                 title="Phím tắt: Mũi tên trái (←)"
               >
-                <ChevronLeft className="w-3.5 h-3.5" />
+                <ChevronLeft className="w-4 h-4" />
                 <span>Trước</span>
               </button>
 
               <button
                 onClick={handleNextScreen}
-                className="px-2 py-0.5 rounded-lg bg-[#0D7287] hover:bg-[#0A5A6B] text-white text-[11px] font-bold transition-all flex items-center gap-0.5 cursor-pointer shadow-2xs"
+                className="px-3 py-1.5 rounded-xl bg-[#0D7287] hover:bg-[#0A5A6B] text-white text-xs sm:text-sm font-bold transition-all flex items-center gap-1 cursor-pointer shadow-xs"
                 title="Phím tắt: Mũi tên phải (→)"
               >
                 <span>Tiếp</span>
-                <ChevronRight className="w-3.5 h-3.5" />
+                <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
 
           {/* Quick 20/34-Screen Carousel / Selector Pills with Auto-centering */}
-          <div ref={carouselRef} className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-thin">
+          <div ref={carouselRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
             {filteredScreens.map((screen) => {
               const isActive = screen.id === activeScreenId;
               return (
@@ -264,13 +264,13 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                   key={screen.id}
                   data-screen-id={screen.id}
                   onClick={() => handleSelectScreen(screen.id)}
-                  className={`px-2 py-1 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all shrink-0 cursor-pointer flex items-center gap-1 ${
+                  className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
                     isActive
-                      ? 'bg-[#0D7287] text-white shadow-2xs border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]'
+                      ? 'bg-[#0D7287] text-white shadow-xs border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]'
                       : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 dark:bg-slate-950 dark:text-slate-300 dark:border-slate-800'
                   }`}
                 >
-                  <span className={`w-4 h-4 rounded flex items-center justify-center font-mono text-xs font-black ${
+                  <span className={`w-5 h-5 rounded flex items-center justify-center font-mono text-xs font-black ${
                     isActive ? 'bg-[#FFD14C] text-slate-950 font-black' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
                   }`}>
                     {screen.index}
@@ -286,44 +286,44 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
         <div ref={comparisonTopRef} className="scroll-mt-36" />
 
         {/* Compact Active Screen Metadata Strip */}
-        <div className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#C8EEF7]/40 via-white to-[#F0F9FB] border border-[#9BE7FA]/50 shadow-2xs flex flex-wrap items-center justify-between gap-2 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:border-slate-700 text-xs">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="px-2 py-0.5 rounded-md bg-[#0D7287] text-white font-mono text-[11px] font-black">
+        <div className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-[#C8EEF7]/40 via-white to-[#F0F9FB] border border-[#9BE7FA]/50 shadow-xs flex flex-wrap items-center justify-between gap-3 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:border-slate-700 text-xs sm:text-sm">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="px-2.5 py-1 rounded-md bg-[#0D7287] text-white font-mono text-xs sm:text-sm font-black">
               Màn #{selectedScreen.index.toString().padStart(2, '0')}
             </span>
-            <h3 className="font-sans font-black text-sm text-[#0D7287] dark:text-[#9BE7FA]">
+            <h3 className="font-sans font-black text-base sm:text-lg text-[#0D7287] dark:text-[#9BE7FA]">
               {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}
             </h3>
-            <span className="px-1.5 py-0.5 rounded-bg-[#C8EEF7]/50 text-[#0D7287] border border-[#9BE7FA]/40 text-xs font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
+            <span className="px-2 py-0.5 rounded-md bg-[#C8EEF7]/50 text-[#0D7287] border border-[#9BE7FA]/40 font-bold dark:bg-slate-800 dark:text-[#9BE7FA]">
               {selectedScreen.moduleNameVi}
             </span>
-            <span className="text-xs font-mono text-slate-500 hidden sm:inline">
+            <span className="font-mono text-slate-500 hidden sm:inline">
               {isEn ? 'Route:' : 'Đường dẫn:'} <code className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">{selectedScreen.routePath}</code>
             </span>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0 text-[11px]">
-            <span className="hidden lg:inline text-stone-500 max-w-md truncate">
+          <div className="flex items-center gap-2.5 shrink-0">
+            <span className="hidden lg:inline text-stone-600 dark:text-slate-300 max-w-md truncate">
               {isEn ? selectedScreen.descEn : selectedScreen.descVi}
             </span>
-            <span className="px-2 py-0.5 rounded bg-white border border-stone-200 text-stone-700 font-bold dark:bg-slate-800 dark:border-slate-700 dark:text-stone-300">
+            <span className="px-2.5 py-0.5 rounded bg-white border border-stone-200 text-stone-700 font-bold dark:bg-slate-800 dark:border-slate-700 dark:text-stone-300">
               Quyền: {selectedScreen.role}
             </span>
           </div>
         </div>
 
         {/* THE MASTERPIECE SPREAD: WIREFRAME (LEFT) VS UI DESIGN (RIGHT) */}
-        <div className="grid lg:grid-cols-2 gap-4 items-start">
+        <div className="grid lg:grid-cols-2 gap-5 items-start">
           {/* LEFT COLUMN: WIREFRAME */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             {/* Header: Exact clean typography as sample image */}
-            <div className="flex justify-between items-center pb-2 min-h-[54px] border-b-2 border-slate-300 dark:border-slate-700">
+            <div className="flex justify-between items-center pb-2.5 min-h-[58px] border-b-2 border-slate-300 dark:border-slate-700">
               <div className="min-w-0">
-                <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight dark:text-white flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-slate-400 shrink-0 inline-block" />
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight dark:text-white flex items-center gap-2.5">
+                  <span className="w-3 h-3 rounded-full bg-slate-400 shrink-0 inline-block" />
                   <span>Wireframe</span>
                 </h3>
-                <p className="text-[11px] text-slate-500 truncate">Khung xám chuẩn cấu trúc, phân bổ lưới 12 cột</p>
+                <p className="text-xs sm:text-sm text-slate-500 truncate mt-0.5">Khung xám chuẩn cấu trúc, phân bổ lưới 12 cột</p>
               </div>
               <div className="flex items-center gap-2 shrink-0 ml-2">
                 <button
@@ -332,24 +332,24 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                     `${selectedScreen.titleVi} - Wireframe`,
                     'Cấu trúc khung xám lưới 12 cột'
                   )}
-                  className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors cursor-pointer"
+                  className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors cursor-pointer"
                   title="Phóng to Wireframe"
                 >
-                  <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                  <Maximize2 className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
                 </button>
                 <a
                   href={selectedScreen.wireframeSrc}
                   download={`wf_${selectedScreen.id}.png`}
-                  className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors cursor-pointer"
+                  className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors cursor-pointer"
                   title="Tải ảnh Wireframe"
                 >
-                  <Download className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                  <Download className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
                 </a>
               </div>
             </div>
 
             {/* Wireframe Canvas Card */}
-            <div className="p-4 sm:p-6 rounded-3xl bg-white border border-slate-200 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 dark:border-slate-800 group relative">
+            <div className="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 dark:border-slate-800 group relative">
               <div 
                 className={`rounded-2xl overflow-hidden border border-slate-200 bg-white flex justify-center p-3 cursor-zoom-in dark:bg-slate-950 dark:border-slate-800 transition-all ${
                   viewFitMode === 'fit' 
@@ -371,21 +371,21 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                 />
               </div>
 
-              <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-[11px] text-slate-500 font-mono">
+              <div className="mt-3.5 pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs sm:text-sm text-slate-500 font-mono">
                 <span>Khung xám: Grayscale wireframe</span>
                 <span className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">Lưới 12 cột quy chuẩn</span>
               </div>
             </div>
 
             {/* Wireframe Specs List */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-slate-500" />
+            <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
+              <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-slate-500" />
                 Cấu trúc thành phần Wireframe:
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {selectedScreen.wireframeElements.map((elem, idx) => (
-                  <span key={idx} className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-medium dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300">
+                  <span key={idx} className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-medium dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300">
                     • {elem}
                   </span>
                 ))}
@@ -394,15 +394,15 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
           </div>
 
           {/* RIGHT COLUMN: UI DESIGN */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             {/* Header: Exact clean typography as sample image */}
-            <div className="flex justify-between items-center pb-2 min-h-[54px] border-b-2 border-[#0D7287] dark:border-[#9BE7FA]">
+            <div className="flex justify-between items-center pb-2.5 min-h-[58px] border-b-2 border-[#0D7287] dark:border-[#9BE7FA]">
               <div className="min-w-0">
-                <h3 className="text-lg sm:text-xl font-black text-[#0D7287] dark:text-[#9BE7FA] tracking-tight flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FFD14C] shrink-0 inline-block" />
+                <h3 className="text-xl sm:text-2xl font-black text-[#0D7287] dark:text-[#9BE7FA] tracking-tight flex items-center gap-2.5">
+                  <span className="w-3 h-3 rounded-full bg-[#FFD14C] shrink-0 inline-block" />
                   <span>UI design</span>
                 </h3>
-                <p className="text-[11px] text-slate-500 truncate">Giao diện thành phẩm hoàn chỉnh, bảng màu 6 tông</p>
+                <p className="text-xs sm:text-sm text-slate-500 truncate mt-0.5">Giao diện thành phẩm hoàn chỉnh, bảng màu 6 tông</p>
               </div>
 
               <div className="flex items-center gap-2 shrink-0 ml-2">
@@ -412,24 +412,24 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                     `${selectedScreen.titleVi} - UI Design`,
                     'Giao diện hoàn chỉnh, bảng màu 6 tông'
                   )}
-                  className="p-2 rounded-xl bg-[#C8EEF7]/30 hover:bg-[#FFE485]/40 text-[#0D7287] border border-[#9BE7FA]/40 transition-colors dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 cursor-pointer"
+                  className="p-2.5 rounded-xl bg-[#C8EEF7]/30 hover:bg-[#FFE485]/40 text-[#0D7287] border border-[#9BE7FA]/40 transition-colors dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 cursor-pointer"
                   title="Phóng to UI Design"
                 >
-                  <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                  <Maximize2 className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
                 </button>
                 <a
                   href={selectedScreen.uiSrc}
                   download={`ui_${selectedScreen.id}.png`}
-                  className="p-2 rounded-xl bg-[#C8EEF7]/30 hover:bg-[#FFE485]/40 text-[#0D7287] border border-[#9BE7FA]/40 transition-colors dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 cursor-pointer"
+                  className="p-2.5 rounded-xl bg-[#C8EEF7]/30 hover:bg-[#FFE485]/40 text-[#0D7287] border border-[#9BE7FA]/40 transition-colors dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 cursor-pointer"
                   title="Tải ảnh UI Design"
                 >
-                  <Download className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                  <Download className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
                 </a>
               </div>
             </div>
 
             {/* UI Design Canvas Card */}
-            <div className="p-4 sm:p-6 rounded-3xl bg-ground border border-[#9BE7FA]/40 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 dark:border-[#9BE7FA]/30 group relative">
+            <div className="p-5 sm:p-6 rounded-3xl bg-ground border border-[#9BE7FA]/40 shadow-md hover:shadow-lg transition-all dark:bg-slate-900 dark:border-[#9BE7FA]/30 group relative">
               <div 
                 className={`rounded-2xl overflow-hidden border border-[#9BE7FA]/30 bg-[#F0F9FB] flex justify-center p-3 cursor-zoom-in dark:bg-slate-950 dark:border-slate-800 transition-all ${
                   viewFitMode === 'fit' 
@@ -451,7 +451,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                 />
               </div>
 
-              <div className="mt-3 pt-3 border-t border-[#9BE7FA]/20 dark:border-slate-800 flex justify-between items-center text-[11px] text-slate-500 font-mono">
+              <div className="mt-3.5 pt-3 border-t border-[#9BE7FA]/20 dark:border-slate-800 flex justify-between items-center text-xs sm:text-sm text-slate-500 font-mono">
                 <span>Hệ màu: #9BE7FA, #C8EEF7, #FFE485, #FFD14C</span>
                 <span className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">
                   Bản trình bày chuẩn hồ sơ
@@ -460,14 +460,14 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
             </div>
 
             {/* UI Features Specs List */}
-            <div className="p-4 rounded-2xl bg-[#C8EEF7]/20 border border-[#9BE7FA]/40 space-y-2 dark:bg-slate-900 dark:border-slate-800">
-              <div className="text-xs font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5 font-sans">
-                <Sparkles className="w-3.5 h-3.5 text-[#FFD14C]" />
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#C8EEF7]/20 border border-[#9BE7FA]/40 space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
+              <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2 font-sans">
+                <Sparkles className="w-4 h-4 text-[#FFD14C]" />
                 Điểm nhấn thiết kế giao diện (UI Highlights):
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {selectedScreen.uiFeatures.map((feat, idx) => (
-                  <span key={idx} className="px-2.5 py-1 rounded-lg bg-white border border-[#9BE7FA]/40 text-[#0D7287] text-xs font-bold shadow-2xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
+                  <span key={idx} className="px-3 py-1.5 rounded-xl bg-white border border-[#9BE7FA]/40 text-[#0D7287] text-xs sm:text-sm font-bold shadow-2xs dark:bg-slate-800 dark:border-slate-700 dark:text-[#9BE7FA]">
                     ✓ {feat}
                   </span>
                 ))}

@@ -51,15 +51,15 @@ export default function LibraryBusNav({
       className="sticky top-3 z-30 w-full rounded-2xl border border-slate-200/90 bg-white/95 dark:border-slate-800/90 dark:bg-slate-950/90 backdrop-blur-md p-1.5 sm:p-2 shadow-lg"
     >
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2.5">
-        <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-0.5">
+        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1">
           {onBack && (
             <button
               type="button"
               onClick={onBack}
-              className="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 hover:text-slate-950 hover:bg-slate-200 dark:bg-slate-900/80 dark:text-slate-300 dark:border-slate-800 dark:hover:text-white dark:hover:bg-slate-800 transition flex items-center gap-1.5 shrink-0 cursor-pointer mr-0.5"
+              className="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 text-slate-700 border border-slate-200 hover:text-slate-950 hover:bg-slate-200 dark:bg-slate-900/80 dark:text-slate-300 dark:border-slate-800 dark:hover:text-white dark:hover:bg-slate-800 transition flex items-center gap-2 shrink-0 cursor-pointer mr-1 min-h-[40px]"
               title={lang === 'vi' ? 'Quay lại Portfolio' : 'Back to Portfolio'}
             >
-              <ArrowLeft className="w-3.5 h-3.5" />
+              <ArrowLeft className="w-4 h-4" />
               <span className="hidden sm:inline">{lang === 'vi' ? 'Quay lại' : 'Back'}</span>
             </button>
           )}
@@ -71,9 +71,9 @@ export default function LibraryBusNav({
                 key={sec.id}
                 type="button"
                 onClick={() => handleScrollTo(sec.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition border cursor-pointer shrink-0 ${
+                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition border cursor-pointer shrink-0 min-h-[40px] flex items-center ${
                   isActive
-                    ? 'bg-sky-50 text-sky-900 border-sky-400 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/50'
+                    ? 'bg-sky-50 text-sky-900 border-sky-400 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/50 shadow-xs'
                     : 'bg-slate-100 text-slate-600 border-slate-200 hover:text-slate-950 hover:bg-slate-200 dark:bg-slate-900/60 dark:text-slate-400 dark:border-slate-800 dark:hover:text-white dark:hover:bg-slate-900'
                 }`}
               >
