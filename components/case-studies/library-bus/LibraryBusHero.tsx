@@ -35,8 +35,8 @@ export function LibraryBusHero({
           
           <p className="editorial-lead text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed max-w-4xl dark:text-slate-300">
             {isEn
-              ? 'A UX/UI design project for the website of a mobile library service. Readers search for books, see the buses on a map and reserve in advance. Librarians create borrow slips and follow dashboards. Books, buses and users shown in the interface are sample data.'
-              : 'Dự án thiết kế UX/UI cho website của dịch vụ xe thư viện lưu động. Người đọc tra cứu sách, xem xe trên bản đồ và đặt mượn trước. Thủ thư tạo phiếu mượn và theo dõi dashboard. Sách, xe và người dùng trong giao diện là dữ liệu mẫu.'}
+              ? 'UX/UI website design for mobile library service: book search, real-time bus tracking and automated borrowing.'
+              : 'Thiết kế website xe thư viện lưu động: tra cứu đầu sách, định vị lịch trình xe và quy trình mượn tự động.'}
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">

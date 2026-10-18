@@ -255,7 +255,37 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
             </div>
           </div>
 
-          {/* Quick 20/34-Screen Carousel / Selector Pills with Auto-centering */}
+          {/* Quick 5 Key Screens Bar */}
+          <div className="flex flex-wrap items-center gap-2 pt-1 pb-1 border-b border-slate-100 dark:border-slate-800">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 mr-1">
+              {isEn ? 'Key Screens:' : '5 Màn hình tiêu điểm:'}
+            </span>
+            {[
+              { id: deviceMode === 'desktop' ? 'screen-01' : 'mob_01', num: '01', nameVi: 'Trang chủ', nameEn: 'Home' },
+              { id: deviceMode === 'desktop' ? 'screen-04' : 'mob_04', num: '04', nameVi: 'Chi tiết sách', nameEn: 'Book Detail' },
+              { id: deviceMode === 'desktop' ? 'screen-05' : 'mob_05', num: '05', nameVi: 'Bản đồ Xe', nameEn: 'Bus Map' },
+              { id: deviceMode === 'desktop' ? 'screen-09' : 'mob_09', num: '09', nameVi: 'Phiếu mượn', nameEn: 'Borrow Slip' },
+              { id: deviceMode === 'desktop' ? 'screen-18' : 'mob_18', num: '18', nameVi: 'Analytics', nameEn: 'Analytics' }
+            ].map((s) => {
+              const isActive = activeScreenId === s.id;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => handleSelectScreen(s.id)}
+                  className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                    isActive
+                      ? 'bg-[#323987] text-white shadow-xs'
+                      : 'bg-[#C8EEF7]/50 text-[#0D7287] hover:bg-[#C8EEF7] dark:bg-slate-800 dark:text-slate-300'
+                  }`}
+                >
+                  <span className="font-mono">{s.num}.</span>
+                  <span>{isEn ? s.nameEn : s.nameVi}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Full Screen Carousel with Auto-centering */}
           <div ref={carouselRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
             {filteredScreens.map((screen) => {
               const isActive = screen.id === activeScreenId;
@@ -319,11 +349,11 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
             {/* Header: Exact clean typography as sample image */}
             <div className="flex justify-between items-center pb-2.5 min-h-[58px] border-b-2 border-slate-300 dark:border-slate-700">
               <div className="min-w-0">
-                <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight dark:text-white flex items-center gap-2.5">
-                  <span className="w-3 h-3 rounded-full bg-slate-400 shrink-0 inline-block" />
-                  <span>Wireframe</span>
+                <h3 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-200 tracking-tight flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-slate-400 shrink-0 inline-block" />
+                  <span>3.2 Wireframe — {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-500 truncate mt-0.5">Khung xám chuẩn cấu trúc, phân bổ lưới 12 cột</p>
+                <p className="text-xs text-slate-500 truncate mt-0.5">Khung xám chuẩn cấu trúc, phân bổ lưới 12 cột</p>
               </div>
               <div className="flex items-center gap-2 shrink-0 ml-2">
                 <button
@@ -396,13 +426,13 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
           {/* RIGHT COLUMN: UI DESIGN */}
           <div className="space-y-3">
             {/* Header: Exact clean typography as sample image */}
-            <div className="flex justify-between items-center pb-2.5 min-h-[58px] border-b-2 border-[#0D7287] dark:border-[#9BE7FA]">
+            <div className="flex justify-between items-center pb-2.5 min-h-[58px] border-b-2 border-[#FA6933]">
               <div className="min-w-0">
-                <h3 className="text-xl sm:text-2xl font-black text-[#0D7287] dark:text-[#9BE7FA] tracking-tight flex items-center gap-2.5">
-                  <span className="w-3 h-3 rounded-full bg-[#FFD14C] shrink-0 inline-block" />
-                  <span>UI design</span>
+                <h3 className="text-lg sm:text-xl font-bold text-[#FA6933] tracking-tight flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#FA6933] shrink-0 inline-block" />
+                  <span>3.3 UI Design — {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-500 truncate mt-0.5">Giao diện thành phẩm hoàn chỉnh, bảng màu 6 tông</p>
+                <p className="text-xs text-slate-500 truncate mt-0.5">Giao diện thành phẩm hoàn chỉnh, bảng màu thương hiệu</p>
               </div>
 
               <div className="flex items-center gap-2 shrink-0 ml-2">
