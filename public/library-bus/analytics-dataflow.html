@@ -582,22 +582,22 @@
     <!-- Main Diagram Surface -->
     <div class="diagram-container" id="diagram-container">
       <div class="diagram-wrapper" id="diagram-wrapper">
-<svg viewBox="0 0 1080 760" role="img" lang="en" aria-labelledby="archify-diagram-title archify-diagram-description" data-animation="trace" data-preset="classic" data-quality-profile="showcase">
+<svg viewBox="0 0 1260 620" role="img" lang="en" aria-labelledby="archify-diagram-title archify-diagram-description" data-animation="trace" data-preset="classic" data-quality-profile="showcase">
         <title id="archify-diagram-title">Luồng Dữ Liệu Phân Tích &amp; Gợi Ý Sách Thông Minh (Analytics Dataflow)</title>
         <desc id="archify-diagram-description">Thu thập sự kiện mượn trả, tổng hợp điểm uy tín đọc giả, định vị xe và gợi ý qua Gemini 1.5</desc>
         <!-- Definitions -->
         <defs>
-          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-            <polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+          <marker id="arrowhead" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+            <polygon points="0 0, 12 4, 0 8" class="m-default" />
           </marker>
-          <marker id="arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-            <polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+          <marker id="arrowhead-emphasis" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+            <polygon points="0 0, 12 4, 0 8" class="m-emphasis" />
           </marker>
-          <marker id="arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-            <polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+          <marker id="arrowhead-security" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+            <polygon points="0 0, 12 4, 0 8" class="m-security" />
           </marker>
-          <marker id="arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-            <polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+          <marker id="arrowhead-dashed" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+            <polygon points="0 0, 12 4, 0 8" class="m-dashed" />
           </marker>
           <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
             <path d="M 40 0 L 0 0 0 40" class="c-grid" stroke-width="0.5"/>
@@ -607,284 +607,320 @@
         <!-- Background Grid -->
         <rect width="100%" height="100%" fill="url(#grid)" />
 
-        <!-- Data Stages -->
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="stage" data-composition-frame-id="0" x="16" y="46" width="168" height="640" rx="10" class="c-lane" stroke-width="1"/>
-        <text x="100" y="68" class="t-dim" font-size="12.5" font-weight="700" text-anchor="middle">01 / Nguồn Dữ Liệu</text>
+        <!-- 5 Landscape Data Stage Columns (216px width each, 30px gap) -->
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="stage" data-composition-frame-id="0" x="30" y="48" width="216" height="512" rx="12" class="c-lane" stroke-width="1"/>
+        <text x="138" y="72" class="t-dim" font-size="13" font-weight="700" text-anchor="middle">01 / Nguồn Dữ Liệu</text>
 
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="stage" data-composition-frame-id="1" x="231" y="46" width="168" height="640" rx="10" class="c-lane" stroke-width="1"/>
-        <text x="315" y="68" class="t-dim" font-size="12.5" font-weight="700" text-anchor="middle">02 / Hàng Đợi &amp; Đệm</text>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="stage" data-composition-frame-id="1" x="276" y="48" width="216" height="512" rx="12" class="c-lane" stroke-width="1"/>
+        <text x="384" y="72" class="t-dim" font-size="13" font-weight="700" text-anchor="middle">02 / Hàng Đợi &amp; Đệm</text>
 
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="stage" data-composition-frame-id="2" x="446" y="46" width="168" height="640" rx="10" class="c-lane" stroke-width="1"/>
-        <text x="530" y="68" class="t-dim" font-size="12.5" font-weight="700" text-anchor="middle">03 / Xử Lý Bất Đồng Bộ</text>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="stage" data-composition-frame-id="2" x="522" y="48" width="216" height="512" rx="12" class="c-lane" stroke-width="1"/>
+        <text x="630" y="72" class="t-dim" font-size="13" font-weight="700" text-anchor="middle">03 / Xử Lý Bất Đồng Bộ</text>
 
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="stage" data-composition-frame-id="3" x="661" y="46" width="168" height="640" rx="10" class="c-lane" stroke-width="1"/>
-        <text x="745" y="68" class="t-dim" font-size="12.5" font-weight="700" text-anchor="middle">04 / Kho Lưu Trữ</text>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="stage" data-composition-frame-id="3" x="768" y="48" width="216" height="512" rx="12" class="c-lane" stroke-width="1"/>
+        <text x="876" y="72" class="t-dim" font-size="13" font-weight="700" text-anchor="middle">04 / Kho Lưu Trữ</text>
 
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="stage" data-composition-frame-id="4" x="876" y="46" width="168" height="640" rx="10" class="c-lane" stroke-width="1"/>
-        <text x="960" y="68" class="t-dim" font-size="12.5" font-weight="700" text-anchor="middle">05 / Phục Vụ Độc Giả &amp; BI</text>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="stage" data-composition-frame-id="4" x="1014" y="48" width="216" height="512" rx="12" class="c-lane" stroke-width="1"/>
+        <text x="1122" y="72" class="t-dim" font-size="13" font-weight="700" text-anchor="middle">05 / Phục Vụ Độc Giả &amp; BI</text>
 
-        <!-- Flow paths -->
-        <path data-edge-from="borrow_ops" data-edge-to="redis_broker" data-edge-label="sự kiện mượn" data-edge-key="0" data-edge-id="borrow-event" data-composition-points="156,157;207.5,157;207.5,264;259,264" d="M 156 157 L 207.5 157 L 207.5 264 L 259 264" class="a-emphasis" data-animate="edge" style="--step:0" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="bus_telemetry" data-edge-to="redis_broker" data-edge-label="tọa độ trạm" data-edge-key="1" data-edge-id="telemetry-event" data-composition-points="156,385;207.5,385;207.5,278;259,278" d="M 156 385 L 207.5 385 L 207.5 278 L 259 278" class="a-default" data-animate="edge" style="--step:1" stroke-width="1.4" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="user_clicks" data-edge-to="cache_layer" data-edge-label="thói quen đọc" data-edge-key="2" data-edge-id="clickstream-event" data-composition-points="156,613;207.5,613;207.5,499;259,499" d="M 156 613 L 207.5 613 L 207.5 499 L 259 499" class="a-default" data-animate="edge" style="--step:2" stroke-width="1.4" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="redis_broker" data-edge-to="celery_analytics" data-edge-label="dequeue" data-edge-key="3" data-edge-id="queue-consume" data-composition-points="371,271;474,271" d="M 371 271 L 474 271" class="a-emphasis" data-animate="edge" style="--step:3" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="cache_layer" data-edge-to="gemini_pipeline" data-edge-label="ngữ cảnh đọc" data-edge-key="4" data-edge-id="cache-ai-feed" data-composition-points="371,499;474,499" d="M 371 499 L 474 499" class="a-default" data-animate="edge" style="--step:4" stroke-width="1.4" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="celery_analytics" data-edge-to="stats_tables" data-edge-label="tính điểm" data-edge-key="5" data-edge-id="stats-persist" data-composition-points="586,264;637.5,264;637.5,157;689,157" d="M 586 264 L 637.5 264 L 637.5 157 L 689 157" class="a-emphasis" data-animate="edge" style="--step:5" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="celery_analytics" data-edge-to="daily_archive" data-edge-label="chốt sổ ngày" data-edge-key="6" data-edge-id="archive-persist" data-composition-points="586,278;637.5,278;637.5,385;689,385" d="M 586 278 L 637.5 278 L 637.5 385 L 689 385" class="a-dashed" data-animate="edge" style="--step:6" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
-        <path data-edge-from="gemini_pipeline" data-edge-to="vector_recs" data-edge-label="gợi ý mới" data-edge-key="7" data-edge-id="recs-persist" data-composition-points="586,499;637.5,499;637.5,613;689,613" d="M 586 499 L 637.5 499 L 637.5 613 L 689 613" class="a-emphasis" data-animate="edge" style="--step:7" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="stats_tables" data-edge-to="librarian_dash" data-edge-label="truy vấn BI" data-edge-key="8" data-edge-id="bi-query" data-composition-points="801,157;904,157" d="M 801 157 L 904 157" class="a-emphasis" data-animate="edge" style="--step:8" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="daily_archive" data-edge-to="scheduled_reports" data-edge-label="xuất báo cáo" data-edge-key="9" data-edge-id="digest-export" data-composition-points="801,385;904,385" d="M 801 385 L 904 385" class="a-default" data-animate="edge" style="--step:9" stroke-width="1.4" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="vector_recs" data-edge-to="reader_app" data-edge-label="hiển thị gợi ý" data-edge-key="10" data-edge-id="feed-serve" data-composition-points="801,613;904,613" d="M 801 613 L 904 613" class="a-emphasis" data-animate="edge" style="--step:10" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <!-- Connecting Edge Paths -->
+        <!-- 0: borrow_ops -> redis_broker -->
+        <path data-edge-from="borrow_ops" data-edge-to="redis_broker" data-edge-label="sự kiện mượn" data-edge-key="0" data-edge-id="borrow-event" d="M 219 132 L 260 132 L 260 220 L 301 220" class="a-emphasis" data-animate="edge" style="--step:0" stroke-width="2" marker-end="url(#arrowhead-emphasis)"/>
 
-        <!-- Nodes -->
+        <!-- 1: bus_telemetry -> redis_broker -->
+        <path data-edge-from="bus_telemetry" data-edge-to="redis_broker" data-edge-label="tọa độ trạm" data-edge-key="1" data-edge-id="telemetry-event" d="M 219 292 L 260 292 L 260 242 L 301 242" class="a-default" data-animate="edge" style="--step:1" stroke-width="1.6" marker-end="url(#arrowhead)"/>
+
+        <!-- 2: user_clicks -> cache_layer -->
+        <path data-edge-from="user_clicks" data-edge-to="cache_layer" data-edge-label="thói quen đọc" data-edge-key="2" data-edge-id="clickstream-event" d="M 219 452 L 301 452" class="a-default" data-animate="edge" style="--step:2" stroke-width="1.6" marker-end="url(#arrowhead)"/>
+
+        <!-- 3: redis_broker -> celery_analytics -->
+        <path data-edge-from="redis_broker" data-edge-to="celery_analytics" data-edge-label="dequeue" data-edge-key="3" data-edge-id="queue-consume" d="M 465 232 L 547 232" class="a-emphasis" data-animate="edge" style="--step:3" stroke-width="2" marker-end="url(#arrowhead-emphasis)"/>
+
+        <!-- 4: cache_layer -> gemini_pipeline -->
+        <path data-edge-from="cache_layer" data-edge-to="gemini_pipeline" data-edge-label="ngữ cảnh đọc" data-edge-key="4" data-edge-id="cache-ai-feed" d="M 465 452 L 547 452" class="a-default" data-animate="edge" style="--step:4" stroke-width="1.6" marker-end="url(#arrowhead)"/>
+
+        <!-- 5: celery_analytics -> stats_tables -->
+        <path data-edge-from="celery_analytics" data-edge-to="stats_tables" data-edge-label="tính điểm" data-edge-key="5" data-edge-id="stats-persist" d="M 711 220 L 753 220 L 753 132 L 793 132" class="a-emphasis" data-animate="edge" style="--step:5" stroke-width="2" marker-end="url(#arrowhead-emphasis)"/>
+
+        <!-- 6: celery_analytics -> daily_archive -->
+        <path data-edge-from="celery_analytics" data-edge-to="daily_archive" data-edge-label="chốt sổ ngày" data-edge-key="6" data-edge-id="archive-persist" d="M 711 242 L 753 242 L 753 292 L 793 292" class="a-dashed" data-animate="edge" style="--step:6" stroke-width="1.6" marker-end="url(#arrowhead-dashed)"/>
+
+        <!-- 7: gemini_pipeline -> vector_recs -->
+        <path data-edge-from="gemini_pipeline" data-edge-to="vector_recs" data-edge-label="gợi ý mới" data-edge-key="7" data-edge-id="recs-persist" d="M 711 452 L 793 452" class="a-emphasis" data-animate="edge" style="--step:7" stroke-width="2" marker-end="url(#arrowhead-emphasis)"/>
+
+        <!-- 8: stats_tables -> librarian_dash -->
+        <path data-edge-from="stats_tables" data-edge-to="librarian_dash" data-edge-label="truy vấn BI" data-edge-key="8" data-edge-id="bi-query" d="M 957 132 L 1039 132" class="a-emphasis" data-animate="edge" style="--step:8" stroke-width="2" marker-end="url(#arrowhead-emphasis)"/>
+
+        <!-- 9: daily_archive -> scheduled_reports -->
+        <path data-edge-from="daily_archive" data-edge-to="scheduled_reports" data-edge-label="xuất báo cáo" data-edge-key="9" data-edge-id="digest-export" d="M 957 292 L 1039 292" class="a-default" data-animate="edge" style="--step:9" stroke-width="1.6" marker-end="url(#arrowhead)"/>
+
+        <!-- 10: vector_recs -> reader_app -->
+        <path data-edge-from="vector_recs" data-edge-to="reader_app" data-edge-label="hiển thị gợi ý" data-edge-key="10" data-edge-id="feed-serve" d="M 957 452 L 1039 452" class="a-emphasis" data-animate="edge" style="--step:10" stroke-width="2" marker-end="url(#arrowhead-emphasis)"/>
+
+        <!-- Nodes with 162px width and 14px bold typography -->
+        <!-- Stage 0 Nodes -->
         <g id="node-borrow_ops" data-node-id="borrow_ops" data-node-label="Phiếu Mượn Trả" tabindex="0" role="button" aria-label="Focus Phiếu Mượn Trả, giao dịch mượn, 01 / Nguồn Dữ Liệu" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="giao dịch mượn" data-node-tag="Transactional" data-node-context="01 / Nguồn Dữ Liệu">
           <title>Phiếu Mượn Trả · giao dịch mượn · 01 / Nguồn Dữ Liệu · Transactional</title>
-          <rect x="37" y="128" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="37" y="128" width="126" height="58" rx="6" class="c-frontend" data-animate="node" style="--step:0" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(50 134) scale(0.6875)">
+          <rect x="57" y="100" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="57" y="100" width="162" height="64" rx="8" class="c-frontend" data-animate="node" style="--step:0" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(66 108) scale(0.85)">
             <rect x="2" y="3" width="12" height="10" rx="2"/>
             <path d="M2 6.5h12"/>
             <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
             <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="100" y="149" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">Phiếu Mượn Trả</text>
-          <text data-detail="context" x="100" y="165" class="t-muted" font-size="9.5" text-anchor="middle">giao dịch mượn</text>
-        <text data-detail="fine" x="100" y="175" class="t-frontend" font-size="9.5" text-anchor="middle">Transactional</text>
+          <text data-node-label="" data-detail-anchor="" x="138" y="123" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">Phiếu Mượn Trả</text>
+          <text data-detail="context" x="138" y="141" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">giao dịch mượn</text>
+          <text data-detail="fine" x="138" y="154" class="t-frontend" font-size="10" font-weight="700" text-anchor="middle">Transactional</text>
         </g>
 
         <g id="node-bus_telemetry" data-node-id="bus_telemetry" data-node-label="GPS Xe Buýt" tabindex="0" role="button" aria-label="Focus GPS Xe Buýt, lộ trình &amp; trạm, 01 / Nguồn Dữ Liệu" aria-pressed="false" data-node-kind="cloud" data-node-sublabel="lộ trình &amp; trạm" data-node-tag="Fleet Telemetry" data-node-context="01 / Nguồn Dữ Liệu">
           <title>GPS Xe Buýt · lộ trình &amp; trạm · 01 / Nguồn Dữ Liệu · Fleet Telemetry</title>
-          <rect x="37" y="356" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="37" y="356" width="126" height="58" rx="6" class="c-cloud" data-animate="node" style="--step:1" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="cloud" class="semantic-sigil s-cloud" transform="translate(50 362) scale(0.6875)">
+          <rect x="57" y="260" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="57" y="260" width="162" height="64" rx="8" class="c-cloud" data-animate="node" style="--step:1" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="cloud" class="semantic-sigil s-cloud" transform="translate(66 268) scale(0.85)">
             <path d="M4.3 12.5h7.3a2.4 2.4 0 0 0 .2-4.8 4 4 0 0 0-7.5-1.3A3.1 3.1 0 0 0 4.3 12.5Z"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="100" y="377" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">GPS Xe Buýt</text>
-          <text data-detail="context" x="100" y="393" class="t-muted" font-size="9.5" text-anchor="middle">lộ trình &amp; trạm</text>
-        <text data-detail="fine" x="100" y="403" class="t-cloud" font-size="9.5" text-anchor="middle">Fleet Telemetry</text>
+          <text data-node-label="" data-detail-anchor="" x="138" y="283" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">GPS Xe Buýt</text>
+          <text data-detail="context" x="138" y="301" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">lộ trình &amp; trạm</text>
+          <text data-detail="fine" x="138" y="314" class="t-cloud" font-size="10" font-weight="700" text-anchor="middle">Fleet Telemetry</text>
         </g>
 
         <g id="node-user_clicks" data-node-id="user_clicks" data-node-label="Hành Vi Bạn Đọc" tabindex="0" role="button" aria-label="Focus Hành Vi Bạn Đọc, tìm kiếm sách, 01 / Nguồn Dữ Liệu" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="tìm kiếm sách" data-node-tag="Interaction" data-node-context="01 / Nguồn Dữ Liệu">
           <title>Hành Vi Bạn Đọc · tìm kiếm sách · 01 / Nguồn Dữ Liệu · Interaction</title>
-          <rect x="37" y="584" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="37" y="584" width="126" height="58" rx="6" class="c-frontend" data-animate="node" style="--step:2" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(50 590) scale(0.6875)">
+          <rect x="57" y="420" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="57" y="420" width="162" height="64" rx="8" class="c-frontend" data-animate="node" style="--step:2" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(66 428) scale(0.85)">
             <rect x="2" y="3" width="12" height="10" rx="2"/>
             <path d="M2 6.5h12"/>
             <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
             <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="100" y="605" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">Hành Vi Bạn Đọc</text>
-          <text data-detail="context" x="100" y="621" class="t-muted" font-size="9.5" text-anchor="middle">tìm kiếm sách</text>
-        <text data-detail="fine" x="100" y="631" class="t-frontend" font-size="9.5" text-anchor="middle">Interaction</text>
+          <text data-node-label="" data-detail-anchor="" x="138" y="443" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">Hành Vi Bạn Đọc</text>
+          <text data-detail="context" x="138" y="461" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">tìm kiếm sách</text>
+          <text data-detail="fine" x="138" y="474" class="t-frontend" font-size="10" font-weight="700" text-anchor="middle">Interaction</text>
         </g>
 
+        <!-- Stage 1 Nodes -->
         <g id="node-redis_broker" data-node-id="redis_broker" data-node-label="Redis Broker" tabindex="0" role="button" aria-label="Focus Redis Broker, hàng đợi DB0, 02 / Hàng Đợi &amp; Đệm" aria-pressed="false" data-node-kind="messagebus" data-node-sublabel="hàng đợi DB0" data-node-tag="Task Queue" data-node-context="02 / Hàng Đợi &amp; Đệm">
           <title>Redis Broker · hàng đợi DB0 · 02 / Hàng Đợi &amp; Đệm · Task Queue</title>
-          <rect x="252" y="242" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="252" y="242" width="126" height="58" rx="6" class="c-messagebus" data-animate="node" style="--step:1" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="messagebus" class="semantic-sigil s-messagebus" transform="translate(265 248) scale(0.6875)">
+          <rect x="303" y="200" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="303" y="200" width="162" height="64" rx="8" class="c-messagebus" data-animate="node" style="--step:1" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="messagebus" class="semantic-sigil s-messagebus" transform="translate(312 208) scale(0.85)">
             <path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11"/>
             <circle cx="5" cy="4.5" r="1" class="sigil-fill"/>
             <circle cx="10.5" cy="8" r="1" class="sigil-fill"/>
             <circle cx="7" cy="11.5" r="1" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="315" y="263" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">Redis Broker</text>
-          <text data-detail="context" x="315" y="279" class="t-muted" font-size="9.5" text-anchor="middle">hàng đợi DB0</text>
-        <text data-detail="fine" x="315" y="289" class="t-messagebus" font-size="9.5" text-anchor="middle">Task Queue</text>
+          <text data-node-label="" data-detail-anchor="" x="384" y="223" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">Redis Broker</text>
+          <text data-detail="context" x="384" y="241" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">hàng đợi DB0</text>
+          <text data-detail="fine" x="384" y="254" class="t-messagebus" font-size="10" font-weight="700" text-anchor="middle">Task Queue</text>
         </g>
 
         <g id="node-cache_layer" data-node-id="cache_layer" data-node-label="Redis Cache" tabindex="0" role="button" aria-label="Focus Redis Cache, bộ đệm DB1, 02 / Hàng Đợi &amp; Đệm" aria-pressed="false" data-node-kind="database" data-node-sublabel="bộ đệm DB1" data-node-tag="In-Memory" data-node-context="02 / Hàng Đợi &amp; Đệm">
           <title>Redis Cache · bộ đệm DB1 · 02 / Hàng Đợi &amp; Đệm · In-Memory</title>
-          <rect x="252" y="470" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="252" y="470" width="126" height="58" rx="6" class="c-database" data-animate="node" style="--step:3" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(265 476) scale(0.6875)">
+          <rect x="303" y="420" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="303" y="420" width="162" height="64" rx="8" class="c-database" data-animate="node" style="--step:3" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(312 428) scale(0.85)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="315" y="491" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">Redis Cache</text>
-          <text data-detail="context" x="315" y="507" class="t-muted" font-size="9.5" text-anchor="middle">bộ đệm DB1</text>
-        <text data-detail="fine" x="315" y="517" class="t-database" font-size="9.5" text-anchor="middle">In-Memory</text>
+          <text data-node-label="" data-detail-anchor="" x="384" y="443" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">Redis Cache</text>
+          <text data-detail="context" x="384" y="461" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">bộ đệm DB1</text>
+          <text data-detail="fine" x="384" y="474" class="t-database" font-size="10" font-weight="700" text-anchor="middle">In-Memory</text>
         </g>
 
+        <!-- Stage 2 Nodes -->
         <g id="node-celery_analytics" data-node-id="celery_analytics" data-node-label="Celery Worker" tabindex="0" role="button" aria-label="Focus Celery Worker, update task, 03 / Xử Lý Bất Đồng Bộ" aria-pressed="false" data-node-kind="backend" data-node-sublabel="update task" data-node-tag="Async Worker" data-node-context="03 / Xử Lý Bất Đồng Bộ">
           <title>Celery Worker · update task · 03 / Xử Lý Bất Đồng Bộ · Async Worker</title>
-          <rect x="467" y="242" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="467" y="242" width="126" height="58" rx="6" class="c-backend" data-animate="node" style="--step:4" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(480 248) scale(0.6875)">
+          <rect x="549" y="200" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="549" y="200" width="162" height="64" rx="8" class="c-backend" data-animate="node" style="--step:4" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(558 208) scale(0.85)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="530" y="263" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">Celery Worker</text>
-          <text data-detail="context" x="530" y="279" class="t-muted" font-size="9.5" text-anchor="middle">update task</text>
-        <text data-detail="fine" x="530" y="289" class="t-backend" font-size="9.5" text-anchor="middle">Async Worker</text>
+          <text data-node-label="" data-detail-anchor="" x="630" y="223" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">Celery Worker</text>
+          <text data-detail="context" x="630" y="241" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">update task</text>
+          <text data-detail="fine" x="630" y="254" class="t-backend" font-size="10" font-weight="700" text-anchor="middle">Async Worker</text>
         </g>
 
         <g id="node-gemini_pipeline" data-node-id="gemini_pipeline" data-node-label="Gemini AI Flash" tabindex="0" role="button" aria-label="Focus Gemini AI Flash, gợi ý tác phẩm, 03 / Xử Lý Bất Đồng Bộ" aria-pressed="false" data-node-kind="backend" data-node-sublabel="gợi ý tác phẩm" data-node-tag="GenAI Model" data-node-context="03 / Xử Lý Bất Đồng Bộ">
           <title>Gemini AI Flash · gợi ý tác phẩm · 03 / Xử Lý Bất Đồng Bộ · GenAI Model</title>
-          <rect x="467" y="470" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="467" y="470" width="126" height="58" rx="6" class="c-backend" data-animate="node" style="--step:5" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(480 476) scale(0.6875)">
+          <rect x="549" y="420" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="549" y="420" width="162" height="64" rx="8" class="c-backend" data-animate="node" style="--step:5" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(558 428) scale(0.85)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="530" y="491" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">Gemini AI Flash</text>
-          <text data-detail="context" x="530" y="507" class="t-muted" font-size="9.5" text-anchor="middle">gợi ý tác phẩm</text>
-        <text data-detail="fine" x="530" y="517" class="t-backend" font-size="9.5" text-anchor="middle">GenAI Model</text>
+          <text data-node-label="" data-detail-anchor="" x="630" y="443" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">Gemini AI Flash</text>
+          <text data-detail="context" x="630" y="461" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">gợi ý tác phẩm</text>
+          <text data-detail="fine" x="630" y="474" class="t-backend" font-size="10" font-weight="700" text-anchor="middle">GenAI Model</text>
         </g>
 
+        <!-- Stage 3 Nodes -->
         <g id="node-stats_tables" data-node-id="stats_tables" data-node-label="MySQL Analytics" tabindex="0" role="button" aria-label="Focus MySQL Analytics, thống kê đọc, 04 / Kho Lưu Trữ" aria-pressed="false" data-node-kind="database" data-node-sublabel="thống kê đọc" data-node-tag="Aggregated" data-node-context="04 / Kho Lưu Trữ">
           <title>MySQL Analytics · thống kê đọc · 04 / Kho Lưu Trữ · Aggregated</title>
-          <rect x="682" y="128" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="682" y="128" width="126" height="58" rx="6" class="c-database" data-animate="node" style="--step:6" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(695 134) scale(0.6875)">
+          <rect x="795" y="100" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="795" y="100" width="162" height="64" rx="8" class="c-database" data-animate="node" style="--step:6" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(804 108) scale(0.85)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="745" y="149" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">MySQL Analytics</text>
-          <text data-detail="context" x="745" y="165" class="t-muted" font-size="9.5" text-anchor="middle">thống kê đọc</text>
-        <text data-detail="fine" x="745" y="175" class="t-database" font-size="9.5" text-anchor="middle">Aggregated</text>
+          <text data-node-label="" data-detail-anchor="" x="876" y="123" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">MySQL Analytics</text>
+          <text data-detail="context" x="876" y="141" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">thống kê đọc</text>
+          <text data-detail="fine" x="876" y="154" class="t-database" font-size="10" font-weight="700" text-anchor="middle">Aggregated</text>
         </g>
 
         <g id="node-daily_archive" data-node-id="daily_archive" data-node-label="Kho Lịch Sử" tabindex="0" role="button" aria-label="Focus Kho Lịch Sử, nhật ký ngày, 04 / Kho Lưu Trữ" aria-pressed="false" data-node-kind="database" data-node-sublabel="nhật ký ngày" data-node-tag="Archive" data-node-context="04 / Kho Lưu Trữ">
           <title>Kho Lịch Sử · nhật ký ngày · 04 / Kho Lưu Trữ · Archive</title>
-          <rect x="682" y="356" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="682" y="356" width="126" height="58" rx="6" class="c-database" data-animate="node" style="--step:7" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(695 362) scale(0.6875)">
+          <rect x="795" y="260" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="795" y="260" width="162" height="64" rx="8" class="c-database" data-animate="node" style="--step:7" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(804 268) scale(0.85)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="745" y="377" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">Kho Lịch Sử</text>
-          <text data-detail="context" x="745" y="393" class="t-muted" font-size="9.5" text-anchor="middle">nhật ký ngày</text>
-        <text data-detail="fine" x="745" y="403" class="t-database" font-size="9.5" text-anchor="middle">Archive</text>
+          <text data-node-label="" data-detail-anchor="" x="876" y="283" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">Kho Lịch Sử</text>
+          <text data-detail="context" x="876" y="301" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">nhật ký ngày</text>
+          <text data-detail="fine" x="876" y="314" class="t-database" font-size="10" font-weight="700" text-anchor="middle">Archive</text>
         </g>
 
         <g id="node-vector_recs" data-node-id="vector_recs" data-node-label="Bảng Gợi Ý AI" tabindex="0" role="button" aria-label="Focus Bảng Gợi Ý AI, danh mục đề xuất, 04 / Kho Lưu Trữ" aria-pressed="false" data-node-kind="database" data-node-sublabel="danh mục đề xuất" data-node-tag="Ranked" data-node-context="04 / Kho Lưu Trữ">
           <title>Bảng Gợi Ý AI · danh mục đề xuất · 04 / Kho Lưu Trữ · Ranked</title>
-          <rect x="682" y="584" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="682" y="584" width="126" height="58" rx="6" class="c-database" data-animate="node" style="--step:8" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(695 590) scale(0.6875)">
+          <rect x="795" y="420" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="795" y="420" width="162" height="64" rx="8" class="c-database" data-animate="node" style="--step:8" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(804 428) scale(0.85)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="745" y="605" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">Bảng Gợi Ý AI</text>
-          <text data-detail="context" x="745" y="621" class="t-muted" font-size="9.5" text-anchor="middle">danh mục đề xuất</text>
-        <text data-detail="fine" x="745" y="631" class="t-database" font-size="9.5" text-anchor="middle">Ranked</text>
+          <text data-node-label="" data-detail-anchor="" x="876" y="443" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">Bảng Gợi Ý AI</text>
+          <text data-detail="context" x="876" y="461" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">danh mục đề xuất</text>
+          <text data-detail="fine" x="876" y="474" class="t-database" font-size="10" font-weight="700" text-anchor="middle">Ranked</text>
         </g>
 
+        <!-- Stage 4 Nodes -->
         <g id="node-librarian_dash" data-node-id="librarian_dash" data-node-label="Dashboard Quản Trị" tabindex="0" role="button" aria-label="Focus Dashboard Quản Trị, hiệu suất tuyến, 05 / Phục Vụ Độc Giả &amp; BI" aria-pressed="false" data-node-kind="backend" data-node-sublabel="hiệu suất tuyến" data-node-tag="Admin BI" data-node-context="05 / Phục Vụ Độc Giả &amp; BI">
           <title>Dashboard Quản Trị · hiệu suất tuyến · 05 / Phục Vụ Độc Giả &amp; BI · Admin BI</title>
-          <rect x="897" y="128" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="897" y="128" width="126" height="58" rx="6" class="c-backend" data-animate="node" style="--step:9" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(910 134) scale(0.6875)">
+          <rect x="1041" y="100" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="1041" y="100" width="162" height="64" rx="8" class="c-backend" data-animate="node" style="--step:9" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(1050 108) scale(0.85)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="960" y="149" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">Dashboard Quản Trị</text>
-          <text data-detail="context" x="960" y="165" class="t-muted" font-size="9.5" text-anchor="middle">hiệu suất tuyến</text>
-        <text data-detail="fine" x="960" y="175" class="t-backend" font-size="9.5" text-anchor="middle">Admin BI</text>
+          <text data-node-label="" data-detail-anchor="" x="1122" y="123" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">Dashboard Quản Trị</text>
+          <text data-detail="context" x="1122" y="141" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">hiệu suất tuyến</text>
+          <text data-detail="fine" x="1122" y="154" class="t-backend" font-size="10" font-weight="700" text-anchor="middle">Admin BI</text>
         </g>
 
         <g id="node-scheduled_reports" data-node-id="scheduled_reports" data-node-label="Báo Cáo Tự Động" tabindex="0" role="button" aria-label="Focus Báo Cáo Tự Động, email định kỳ, 05 / Phục Vụ Độc Giả &amp; BI" aria-pressed="false" data-node-kind="security" data-node-sublabel="email định kỳ" data-node-tag="SMTP / PDF" data-node-context="05 / Phục Vụ Độc Giả &amp; BI">
           <title>Báo Cáo Tự Động · email định kỳ · 05 / Phục Vụ Độc Giả &amp; BI · SMTP / PDF</title>
-          <rect x="897" y="356" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="897" y="356" width="126" height="58" rx="6" class="c-security" data-animate="node" style="--step:10" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="security" class="semantic-sigil s-security" transform="translate(910 362) scale(0.6875)">
+          <rect x="1041" y="260" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="1041" y="260" width="162" height="64" rx="8" class="c-security" data-animate="node" style="--step:10" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="security" class="semantic-sigil s-security" transform="translate(1050 268) scale(0.85)">
             <path d="M8 2.2 13 4v3.5c0 3.1-1.8 5.4-5 6.5-3.2-1.1-5-3.4-5-6.5V4Z"/>
             <path d="m5.8 8 1.5 1.5 3-3"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="960" y="377" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">Báo Cáo Tự Động</text>
-          <text data-detail="context" x="960" y="393" class="t-muted" font-size="9.5" text-anchor="middle">email định kỳ</text>
-        <text data-detail="fine" x="960" y="403" class="t-security" font-size="9.5" text-anchor="middle">SMTP / PDF</text>
+          <text data-node-label="" data-detail-anchor="" x="1122" y="283" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">Báo Cáo Tự Động</text>
+          <text data-detail="context" x="1122" y="301" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">email định kỳ</text>
+          <text data-detail="fine" x="1122" y="314" class="t-security" font-size="10" font-weight="700" text-anchor="middle">SMTP / PDF</text>
         </g>
 
         <g id="node-reader_app" data-node-id="reader_app" data-node-label="Cổng Bạn Đọc" tabindex="0" role="button" aria-label="Focus Cổng Bạn Đọc, điểm uy tín, 05 / Phục Vụ Độc Giả &amp; BI" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="điểm uy tín" data-node-tag="Gamification" data-node-context="05 / Phục Vụ Độc Giả &amp; BI">
           <title>Cổng Bạn Đọc · điểm uy tín · 05 / Phục Vụ Độc Giả &amp; BI · Gamification</title>
-          <rect x="897" y="584" width="126" height="58" rx="6" class="c-mask"/>
-          <rect x="897" y="584" width="126" height="58" rx="6" class="c-frontend" data-animate="node" style="--step:11" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(910 590) scale(0.6875)">
+          <rect x="1041" y="420" width="162" height="64" rx="8" class="c-mask"/>
+          <rect x="1041" y="420" width="162" height="64" rx="8" class="c-frontend" data-animate="node" style="--step:11" stroke-width="1.8"/>
+          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(1050 428) scale(0.85)">
             <rect x="2" y="3" width="12" height="10" rx="2"/>
             <path d="M2 6.5h12"/>
             <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
             <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="960" y="605" class="t-primary" font-size="13" font-weight="700" text-anchor="middle">Cổng Bạn Đọc</text>
-          <text data-detail="context" x="960" y="621" class="t-muted" font-size="9.5" text-anchor="middle">điểm uy tín</text>
-        <text data-detail="fine" x="960" y="631" class="t-frontend" font-size="9.5" text-anchor="middle">Gamification</text>
+          <text data-node-label="" data-detail-anchor="" x="1122" y="443" class="t-primary" font-size="14" font-weight="700" text-anchor="middle">Cổng Bạn Đọc</text>
+          <text data-detail="context" x="1122" y="461" class="t-muted" font-size="11" font-weight="500" text-anchor="middle">điểm uy tín</text>
+          <text data-detail="fine" x="1122" y="474" class="t-frontend" font-size="10" font-weight="700" text-anchor="middle">Gamification</text>
         </g>
 
-        <!-- Flow labels -->
+        <!-- Flow labels with high-contrast masks -->
         <g data-detail="context" data-edge-from="borrow_ops" data-edge-to="redis_broker" data-edge-label="sự kiện mượn" data-edge-key="0" data-edge-id="borrow-event">
-          <rect x="172.1" y="189.5" width="70.8" height="27" rx="4" class="c-mask"/>
-          <text x="207.5" y="200.5" class="t-backend" font-size="10.5" font-weight="600" text-anchor="middle">sự kiện mượn</text>
-        <text data-detail="fine" x="207.5" y="211.5" class="t-dim" font-size="9.5" text-anchor="middle">transaction</text>
+          <rect x="216" y="165" width="88" height="28" rx="5" class="c-mask"/>
+          <text x="260" y="177" class="t-backend" font-size="11" font-weight="700" text-anchor="middle">sự kiện mượn</text>
+          <text data-detail="fine" x="260" y="189" class="t-dim" font-size="9.5" font-weight="600" text-anchor="middle">transaction</text>
         </g>
+
         <g data-detail="context" data-edge-from="bus_telemetry" data-edge-to="redis_broker" data-edge-label="tọa độ trạm" data-edge-key="1" data-edge-id="telemetry-event">
-          <rect x="174.55" y="310.5" width="65.9" height="27" rx="4" class="c-mask"/>
-          <text x="207.5" y="321.5" class="t-muted" font-size="10.5" font-weight="600" text-anchor="middle">tọa độ trạm</text>
-        <text data-detail="fine" x="207.5" y="332.5" class="t-dim" font-size="9.5" text-anchor="middle">gps</text>
+          <rect x="219" y="258" width="82" height="28" rx="5" class="c-mask"/>
+          <text x="260" y="270" class="t-muted" font-size="11" font-weight="700" text-anchor="middle">tọa độ trạm</text>
+          <text data-detail="fine" x="260" y="282" class="t-dim" font-size="9.5" font-weight="600" text-anchor="middle">gps</text>
         </g>
+
         <g data-detail="context" data-edge-from="user_clicks" data-edge-to="cache_layer" data-edge-label="thói quen đọc" data-edge-key="2" data-edge-id="clickstream-event">
-          <rect x="169.65" y="535" width="75.7" height="27" rx="4" class="c-mask"/>
-          <text x="207.5" y="546" class="t-muted" font-size="10.5" font-weight="600" text-anchor="middle">thói quen đọc</text>
-        <text data-detail="fine" x="207.5" y="557" class="t-dim" font-size="9.5" text-anchor="middle">logs</text>
+          <rect x="217" y="438" width="86" height="28" rx="5" class="c-mask"/>
+          <text x="260" y="450" class="t-muted" font-size="11" font-weight="700" text-anchor="middle">thói quen đọc</text>
+          <text data-detail="fine" x="260" y="462" class="t-dim" font-size="9.5" font-weight="600" text-anchor="middle">logs</text>
         </g>
+
         <g data-detail="context" data-edge-from="redis_broker" data-edge-to="celery_analytics" data-edge-label="dequeue" data-edge-key="3" data-edge-id="queue-consume">
-          <rect x="399.35" y="250" width="46.3" height="27" rx="4" class="c-mask"/>
-          <text x="422.5" y="261" class="t-backend" font-size="10.5" font-weight="600" text-anchor="middle">dequeue</text>
-        <text data-detail="fine" x="422.5" y="272" class="t-dim" font-size="9.5" text-anchor="middle">celery</text>
+          <rect x="477" y="218" width="60" height="28" rx="5" class="c-mask"/>
+          <text x="507" y="230" class="t-backend" font-size="11" font-weight="700" text-anchor="middle">dequeue</text>
+          <text data-detail="fine" x="507" y="242" class="t-dim" font-size="9.5" font-weight="600" text-anchor="middle">celery</text>
         </g>
+
         <g data-detail="context" data-edge-from="cache_layer" data-edge-to="gemini_pipeline" data-edge-label="ngữ cảnh đọc" data-edge-key="4" data-edge-id="cache-ai-feed">
-          <rect x="387.1" y="478" width="70.8" height="27" rx="4" class="c-mask"/>
-          <text x="422.5" y="489" class="t-muted" font-size="10.5" font-weight="600" text-anchor="middle">ngữ cảnh đọc</text>
-        <text data-detail="fine" x="422.5" y="500" class="t-dim" font-size="9.5" text-anchor="middle">prompt</text>
+          <rect x="465" y="438" width="84" height="28" rx="5" class="c-mask"/>
+          <text x="507" y="450" class="t-muted" font-size="11" font-weight="700" text-anchor="middle">ngữ cảnh đọc</text>
+          <text data-detail="fine" x="507" y="462" class="t-dim" font-size="9.5" font-weight="600" text-anchor="middle">prompt</text>
         </g>
+
         <g data-detail="context" data-edge-from="celery_analytics" data-edge-to="stats_tables" data-edge-label="tính điểm" data-edge-key="5" data-edge-id="stats-persist">
-          <rect x="609.45" y="189.5" width="56.1" height="27" rx="4" class="c-mask"/>
-          <text x="637.5" y="200.5" class="t-backend" font-size="10.5" font-weight="600" text-anchor="middle">tính điểm</text>
-        <text data-detail="fine" x="637.5" y="211.5" class="t-dim" font-size="9.5" text-anchor="middle">metrics</text>
+          <rect x="720" y="165" width="66" height="28" rx="5" class="c-mask"/>
+          <text x="753" y="177" class="t-backend" font-size="11" font-weight="700" text-anchor="middle">tính điểm</text>
+          <text data-detail="fine" x="753" y="189" class="t-dim" font-size="9.5" font-weight="600" text-anchor="middle">metrics</text>
         </g>
+
         <g data-detail="context" data-edge-from="celery_analytics" data-edge-to="daily_archive" data-edge-label="chốt sổ ngày" data-edge-key="6" data-edge-id="archive-persist">
-          <rect x="602.1" y="310.5" width="70.8" height="27" rx="4" class="c-mask"/>
-          <text x="637.5" y="321.5" class="t-messagebus" font-size="10.5" font-weight="600" text-anchor="middle">chốt sổ ngày</text>
-        <text data-detail="fine" x="637.5" y="332.5" class="t-dim" font-size="9.5" text-anchor="middle">history</text>
+          <rect x="713" y="258" width="80" height="28" rx="5" class="c-mask"/>
+          <text x="753" y="270" class="t-messagebus" font-size="11" font-weight="700" text-anchor="middle">chốt sổ ngày</text>
+          <text data-detail="fine" x="753" y="282" class="t-dim" font-size="9.5" font-weight="600" text-anchor="middle">history</text>
         </g>
+
         <g data-detail="context" data-edge-from="gemini_pipeline" data-edge-to="vector_recs" data-edge-label="gợi ý mới" data-edge-key="7" data-edge-id="recs-persist">
-          <rect x="609.45" y="535" width="56.1" height="27" rx="4" class="c-mask"/>
-          <text x="637.5" y="546" class="t-backend" font-size="10.5" font-weight="600" text-anchor="middle">gợi ý mới</text>
-        <text data-detail="fine" x="637.5" y="557" class="t-dim" font-size="9.5" text-anchor="middle">ai output</text>
+          <rect x="720" y="438" width="66" height="28" rx="5" class="c-mask"/>
+          <text x="753" y="450" class="t-backend" font-size="11" font-weight="700" text-anchor="middle">gợi ý mới</text>
+          <text data-detail="fine" x="753" y="462" class="t-dim" font-size="9.5" font-weight="600" text-anchor="middle">ai output</text>
         </g>
+
         <g data-detail="context" data-edge-from="stats_tables" data-edge-to="librarian_dash" data-edge-label="truy vấn BI" data-edge-key="8" data-edge-id="bi-query">
-          <rect x="819.55" y="136" width="65.9" height="27" rx="4" class="c-mask"/>
-          <text x="852.5" y="147" class="t-backend" font-size="10.5" font-weight="600" text-anchor="middle">truy vấn BI</text>
-        <text data-detail="fine" x="852.5" y="158" class="t-dim" font-size="9.5" text-anchor="middle">reporting</text>
+          <rect x="965" y="118" width="74" height="28" rx="5" class="c-mask"/>
+          <text x="1002" y="130" class="t-backend" font-size="11" font-weight="700" text-anchor="middle">truy vấn BI</text>
+          <text data-detail="fine" x="1002" y="142" class="t-dim" font-size="9.5" font-weight="600" text-anchor="middle">reporting</text>
         </g>
+
         <g data-detail="context" data-edge-from="daily_archive" data-edge-to="scheduled_reports" data-edge-label="xuất báo cáo" data-edge-key="9" data-edge-id="digest-export">
-          <rect x="817.1" y="364" width="70.8" height="27" rx="4" class="c-mask"/>
-          <text x="852.5" y="375" class="t-muted" font-size="10.5" font-weight="600" text-anchor="middle">xuất báo cáo</text>
-        <text data-detail="fine" x="852.5" y="386" class="t-dim" font-size="9.5" text-anchor="middle">digest</text>
+          <rect x="962" y="278" width="80" height="28" rx="5" class="c-mask"/>
+          <text x="1002" y="290" class="t-muted" font-size="11" font-weight="700" text-anchor="middle">xuất báo cáo</text>
+          <text data-detail="fine" x="1002" y="302" class="t-dim" font-size="9.5" font-weight="600" text-anchor="middle">digest</text>
         </g>
+
         <g data-detail="context" data-edge-from="vector_recs" data-edge-to="reader_app" data-edge-label="hiển thị gợi ý" data-edge-key="10" data-edge-id="feed-serve">
-          <rect x="812.2" y="592" width="80.6" height="27" rx="4" class="c-mask"/>
-          <text x="852.5" y="603" class="t-backend" font-size="10.5" font-weight="600" text-anchor="middle">hiển thị gợi ý</text>
-        <text data-detail="fine" x="852.5" y="614" class="t-dim" font-size="9.5" text-anchor="middle">personalized</text>
+          <rect x="957" y="438" width="90" height="28" rx="5" class="c-mask"/>
+          <text x="1002" y="450" class="t-backend" font-size="11" font-weight="700" text-anchor="middle">hiển thị gợi ý</text>
+          <text data-detail="fine" x="1002" y="462" class="t-dim" font-size="9.5" font-weight="600" text-anchor="middle">personalized</text>
         </g>
 
         <!-- Legend -->
         <g data-legend="" data-legend-bridge="">
-          <text x="40" y="704" class="t-primary" font-size="12" font-weight="650">Legend</text>
-          <g data-legend-semantic-kind="emphasis" data-legend-x="40" data-legend-baseline="724" data-legend-width="103">
-            <path d="M 40 721 L 74 721" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-            <text x="83" y="724" class="t-muted" font-size="10" font-weight="500">primary data</text>
+          <text x="35" y="594" class="t-primary" font-size="13" font-weight="700">Legend:</text>
+          <g data-legend-semantic-kind="emphasis" data-legend-x="115" data-legend-baseline="594">
+            <path d="M 115 590 L 150 590" class="a-emphasis" stroke-width="2" marker-end="url(#arrowhead-emphasis)"/>
+            <text x="160" y="594" class="t-muted" font-size="11.5" font-weight="600">Primary Data Flow</text>
           </g>
-          <g data-legend-semantic-kind="dashed" data-legend-x="165" data-legend-baseline="724" data-legend-width="98">
-            <path d="M 165 721 L 199 721" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
-            <text x="208" y="724" class="t-muted" font-size="10" font-weight="500">async batch</text>
+          <g data-legend-semantic-kind="dashed" data-legend-x="330" data-legend-baseline="594">
+            <path d="M 330 590 L 365 590" class="a-dashed" stroke-width="1.6" marker-end="url(#arrowhead-dashed)"/>
+            <text x="375" y="594" class="t-muted" font-size="11.5" font-weight="600">Async Batch Queue</text>
           </g>
-          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="data store" data-legend-x="285" data-legend-baseline="724" data-legend-width="93">
-            <rect x="285" y="716" width="14" height="9" rx="2" class="c-database" stroke-width="1"/>
-            <text x="307" y="724" class="t-muted" font-size="10" font-weight="500">data store</text>
+          <g data-legend-semantic-kind="database" data-legend-x="545" data-legend-baseline="594">
+            <rect x="545" y="583" width="18" height="12" rx="3" class="c-database" stroke-width="1.2"/>
+            <text x="572" y="594" class="t-muted" font-size="11.5" font-weight="600">Data Store &amp; Cache</text>
           </g>
-          <g data-legend-semantic-kind="default" data-legend-x="400" data-legend-baseline="724" data-legend-width="88">
-            <path d="M 400 721 L 434 721" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
-            <text x="443" y="724" class="t-muted" font-size="10" font-weight="500">data flow</text>
+          <g data-legend-semantic-kind="default" data-legend-x="755" data-legend-baseline="594">
+            <path d="M 755 590 L 790 590" class="a-default" stroke-width="1.6" marker-end="url(#arrowhead)"/>
+            <text x="800" y="594" class="t-muted" font-size="11.5" font-weight="600">Telemetry / Event Stream</text>
           </g>
         </g>
       </svg>
