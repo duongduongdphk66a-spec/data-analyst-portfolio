@@ -27,12 +27,12 @@ const PROJECT_MAP = {
   },
   'proj-heritage-japan': {
     nextId: 'proj-library-bus',
-    nextTitleVi: 'Kiến Trúc Hệ Thống & Đo Lường Tủ Sách Lưu Động',
-    nextTitleEn: 'Library Bus Distributed Architecture & Concurrency Telemetry',
-    nextDescVi: 'Thiết kế 3NF, giảm 93.7% độ trễ với Redis Cache và xử lý đồng thời 500 CCU không race-condition.',
-    nextDescEn: '3NF schema, 93.7% latency reduction with Redis caching, and 500 CCU concurrency validation.',
-    categoryVi: 'Database Architecture & Concurrency',
-    categoryEn: 'Database Architecture & Concurrency',
+    nextTitleVi: 'Library Bus: Thiết kế UX/UI Website Thư Viện Lưu Động',
+    nextTitleEn: 'Library Bus: UX/UI Design for a Mobile Library Website',
+    nextDescVi: 'Nghiên cứu, logo và thành phần giao diện, lưới, wireframe và UI design cho 20 màn hình.',
+    nextDescEn: 'Research, logo and UI components, grid, wireframes and UI design for 20 screens.',
+    categoryVi: 'UX/UI Design',
+    categoryEn: 'UX/UI Design',
   },
   'proj-library-bus': {
     nextId: 'proj-kami-ely',

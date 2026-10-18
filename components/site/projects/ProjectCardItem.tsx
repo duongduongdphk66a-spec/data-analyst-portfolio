@@ -103,63 +103,63 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
   },
   'library-bus': {
     domainBadge: {
-      vi: 'CASE STUDY #2 • PRODUCT BI & FULL-STACK',
-      en: 'CASE STUDY #2 • PRODUCT BI & FULL-STACK'
+      vi: 'CASE STUDY #2 • UX/UI DESIGN SYSTEM & RESEARCH',
+      en: 'CASE STUDY #2 • UX/UI DESIGN SYSTEM & RESEARCH'
     },
     badgeStyle:
       'bg-[#C8EEF7]/40 text-[#074553] border-[#9BE7FA]/60 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700',
     readTimeTag: {
-      vi: 'Tóm tắt 30s • Có Sơ đồ 30 Nodes',
-      en: '30s Pitch • 30-Node Graph'
+      vi: '3 Chương • 20 Cặp Màn Hình',
+      en: '3 Chapters • 20 Screen Pairs'
     },
     oneLinePitch: {
-      vi: 'Xây dựng nền tảng Quản trị & Phân tích Dữ liệu Thư viện Lưu động (6 Django Apps + Celery + 10 Dashboards) điều phối 7.080 lượt mượn/tháng qua 5 tuyến xe buýt.',
-      en: 'Built a Full-Stack Mobile Library & Product BI platform (6 Django Apps + Celery + 10 Dashboards) orchestrating 7,080 monthly borrows across 5 bus routes.'
+      vi: 'Thiết kế hệ thống UX/UI toàn diện cho website dịch vụ xe thư viện lưu động: nghiên cứu thị trường, nhận diện thương hiệu, hệ thống lưới 12 cột và 20 màn hình desktop kèm bản mobile.',
+      en: 'Designed an end-to-end UX/UI system for a mobile library service website: market research, brand identity, 12-column grid, and 20 desktop screens plus mobile.'
     },
     paradoxHookTitle: {
-      vi: 'Bài toán Hóc búa (Chống xung đột tồn kho di động):',
-      en: 'The Core Engineering & Analytics Bottleneck:'
+      vi: 'Rào cản tiếp cận tri thức truyền thống:',
+      en: 'The Core Accessibility Challenge:'
     },
     paradoxHookBody: {
-      vi: 'Khi nhiều độc giả ở các trạm xe buýt khác nhau cùng bấm đặt giữ chỗ cuốn sách cuối cùng tại cùng một mili-giây, hệ thống thông thường sẽ bị xuất khống tồn kho (Race Condition) và lệch cơ cấu sách giữa các điểm đỗ.',
-      en: 'When multiple readers across different bus stops reserve the last available book copy at the exact same millisecond, naive systems suffer inventory double-booking (Race Condition) and stockouts.'
+      vi: 'Thư viện cố định khó tiếp cận người ở xa hoặc ít thời gian. Website xe thư viện lưu động giải quyết bài toán tra cứu sách theo vị trí xe, theo dõi lộ trình và đặt mượn trước khi xe đến trạm dừng.',
+      en: 'Fixed libraries remain inaccessible for distant or busy patrons. The mobile bus library website solves book discovery by vehicle location, route tracking, and pre-arrival reservations.'
     },
     roiHighlight: {
-      vi: 'Tác động: 0% Trùng đơn (Race Lock) • 92,0% Hoàn tất đặt trước (+34%) • Trễ hạn <4,8%',
-      en: 'Impact: 0% Booking Conflict • 92.0% Reservation Fill (+34%) • Overdue <4.8%'
+      vi: 'Quy chuẩn: 20 Cặp Wireframe/UI • Lưới 12 Cột • Bảng màu 6 Tông (Neo-Bakery) • Typography Lora + Outfit',
+      en: 'Standard: 20 Wireframe/UI Pairs • 12-Column Grid • 6-Tone Neo-Bakery Palette • Lora + Outfit Typography'
     },
     kpis: [
-      { label: { vi: 'Lưu Lượng Mượn', en: 'Monthly Volume' }, value: '7.080 Lượt/th' },
-      { label: { vi: 'Kiến Trúc Hệ Thống', en: 'System Scale' }, value: '6 Apps • 10 BI Views' },
-      { label: { vi: 'Hoàn Tất Đặt Trước', en: 'Reservation Fill' }, value: '92,0% (0% Lỗi)' }
+      { label: { vi: 'Màn Hình Desktop', en: 'Desktop Screens' }, value: '20 Màn hình' },
+      { label: { vi: 'Bản Mobile Đồng Bộ', en: 'Mobile Versions' }, value: '20 Bản mobile' },
+      { label: { vi: 'Bảng Màu & Phông', en: 'Color & Typography' }, value: '6 Tông • 2 Phông' }
     ],
     miniBars: [
       {
-        label: { vi: 'Tỷ lệ nhận sách đặt giữ chỗ theo trạm', en: 'Stop-Based Reservation Fulfillment' },
-        textValue: '92,0% (+34% YoY)',
-        pct: 92,
+        label: { vi: 'Màn hình Desktop đối chiếu Wireframe vs UI', en: 'Desktop Wireframe vs UI Comparison' },
+        textValue: '20 Màn hình',
+        pct: 100,
         color: 'bg-[#9BE7FA]'
       },
       {
-        label: { vi: 'Độ phủ Celery nhắc hạn tự động', en: 'Celery Auto-Reminder Coverage' },
-        textValue: '85,0% (Trễ <4,8%)',
-        pct: 85,
+        label: { vi: 'Bản Mobile bố cục một cột đồng bộ', en: 'Mobile Single-Column Layouts' },
+        textValue: '20 Bản mobile',
+        pct: 100,
         color: 'bg-[#C8EEF7]'
       },
       {
-        label: { vi: 'Chuyển đổi Tra cứu → Xem chi tiết sách', en: 'Catalog → Book Detail CVR' },
-        textValue: '62,0% (7.688 độc giả)',
-        pct: 62,
+        label: { vi: 'Bảng màu Neo-Bakery & Cặp phông Lora/Outfit', en: 'Neo-Bakery Palette & Font Pairing' },
+        textValue: '6 Tông màu • 2 Phông',
+        pct: 100,
         color: 'bg-[#FFD14C]'
       }
     ],
     curiosityCta: {
-      vi: 'Xem Kiến trúc 6 Django Apps & Mô phỏng Đội xe',
-      en: 'Inspect 6-App Architecture & Fleet Simulator'
+      vi: 'Khám phá Đối chiếu 20 Màn hình Wireframe vs UI',
+      en: 'Explore 20-Screen Wireframe vs UI Comparison'
     },
     secondaryAction: {
-      label: { vi: 'Sơ đồ 30 Nodes', en: '30-Node Graph' },
-      href: '/projects/library-bus/architecture',
+      label: { vi: 'Bản Trình Chiếu (30 Slide)', en: 'Presentation Deck (30 Slides)' },
+      href: '/projects/library-bus/presentation',
       external: false
     }
   },

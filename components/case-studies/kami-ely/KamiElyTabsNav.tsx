@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { ArrowLeft } from 'lucide-react';
 
-export type KamiElyTabKey = 'shop' | 'creator' | 'science';
+export type KamiElyTabKey = 'commercial' | 'science' | 'sql' | 'shop' | 'creator';
 
 export interface NavItemDef {
   id: string;
@@ -34,7 +34,7 @@ export interface KamiElyTabsNavProps {
 }
 
 export default function KamiElyTabsNav({
-  activeTab = 'shop',
+  activeTab = 'commercial',
   onTabChange,
   setActiveTab,
   handleTabChange,
@@ -90,36 +90,43 @@ export default function KamiElyTabsNav({
     activeClass: string;
   }[] = [
     {
-      id: 'shop',
-      title: { vi: '1. Phân Hệ Toàn Gian Hàng', en: '1. Shop-Wide Analytics' },
+      id: 'commercial',
+      title: { vi: '1. Hiệu Suất Thương Mại & Nội Dung', en: '1. Commercial & Content' },
       subtitle: {
-        vi: 'Chu kỳ 180d (12,74 Tỉ) • Kệ hàng (1,17M views)',
-        en: '180d Cycle (12.74B) • Product Cards (1.17M views)'
+        vi: 'Hợp nhất Shop & Creator • 10 Biểu đồ • Phễu 4 bước',
+        en: 'Unified Shop & Creator • 10 Charts • 4-Step Funnel'
       },
-      badge: '12,74 Tỉ • 85,5k SP',
+      badge: '10 Biểu đồ • Phễu 4 Bước',
       activeClass: 'bg-sky-50 text-sky-950 border-sky-400 ring-2 ring-sky-300/50 shadow-sm dark:bg-sky-500/20 dark:text-sky-200 dark:border-sky-500/60'
     },
     {
-      id: 'creator',
-      title: { vi: '2. Phân Hệ Kênh Chính Chủ', en: '2. Official Channel (@kamielyhn)' },
+      id: 'science',
+      title: { vi: '2. Thống Kê Kiểm Định & Tối Ưu Hóa', en: '2. Statistics & Optimization' },
       subtitle: {
-        vi: '470+ LIVEs • Nghịch lý GPM 4,5x • A/B Ads',
-        en: '470+ LIVEs • 4.5x GPM Paradox • Live Ads A/B'
+        vi: 'EDA & Tương quan • Kiểm định Giả thuyết • Mô phỏng What-If',
+        en: 'EDA & Correlation • Hypothesis Testing • What-If Simulator'
       },
-      badge: '49,3% GMV • 4,5x',
+      badge: '6 Biểu đồ • p < 0.05',
       activeClass: 'bg-emerald-50 text-emerald-950 border-emerald-400 ring-2 ring-emerald-300/50 shadow-sm dark:bg-emerald-500/20 dark:text-emerald-200 dark:border-emerald-500/60'
     },
     {
-      id: 'science',
-      title: { vi: '3. Thống Kê & Mô Phỏng ROI', en: '3. Statistics & ROI Simulator' },
+      id: 'sql',
+      title: { vi: '3. Kỹ Thuật Dữ Liệu & Phòng Lab SQL', en: '3. Data Engineering & SQL' },
       subtitle: {
-        vi: 'Kiểm định Giả thuyết • What-If Optimizer',
-        en: 'Hypothesis Testing • What-If Optimizer'
+        vi: 'ETL Pipeline • Cohort Retain • Phễu SQL • Lab tương tác',
+        en: 'ETL Pipeline • Cohort Retention • SQL Funnels • Interactive Lab'
       },
-      badge: 'Jupyter • Simulator',
-      activeClass: 'bg-pink-50 text-pink-950 border-pink-400 ring-2 ring-pink-300/50 shadow-sm dark:bg-pink-500/20 dark:text-pink-200 dark:border-pink-500/60'
+      badge: '4 Biểu đồ • SQL Lab',
+      activeClass: 'bg-amber-50 text-amber-950 border-amber-400 ring-2 ring-amber-300/50 shadow-sm dark:bg-amber-500/20 dark:text-amber-200 dark:border-amber-500/60'
     }
   ];
+
+  const isTabActive = (tabId: KamiElyTabKey) => {
+    if (activeTab === tabId) return true;
+    if (tabId === 'commercial' && (activeTab === 'shop' || activeTab === 'creator')) return true;
+    return false;
+  };
+
 
   return (
     <div ref={wrapperRef} className="w-full">
@@ -149,7 +156,7 @@ export default function KamiElyTabsNav({
         {/* 3 DEEP-DIVE TABS (100% WIDTH GRID) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 w-full">
           {mainTabs.map((tab) => {
-            const isSelected = activeTab === tab.id && !isExecActive;
+            const isSelected = isTabActive(tab.id) && !isExecActive;
             return (
               <button
                 key={tab.id}
@@ -159,7 +166,7 @@ export default function KamiElyTabsNav({
                     toggleExec();
                   }
                   handleSelectTab(tab.id);
-                  const targetId = tab.id === 'shop' ? 'sec-shop' : tab.id === 'creator' ? 'sec-creator' : 'sec-science';
+                  const targetId = tab.id === 'commercial' ? 'sec-commercial' : tab.id === 'science' ? 'sec-science' : 'sec-sql';
                   const el = document.getElementById(targetId);
                   if (el) {
                     const y = el.getBoundingClientRect().top + window.scrollY - 90;

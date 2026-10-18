@@ -37,20 +37,20 @@ export default function HeroSection({ profile: propsProfile }: { profile?: any }
     {
       id: 'library-bus',
       href: '/projects/library-bus',
-      tag: { vi: 'CASE STUDY #2 • PRODUCT ANALYTICS & BI', en: 'CASE STUDY #2 • PRODUCT ANALYTICS & BI' },
+      tag: { vi: 'CASE STUDY #2 • UX/UI DESIGN SYSTEM & RESEARCH', en: 'CASE STUDY #2 • UX/UI DESIGN SYSTEM & RESEARCH' },
       title: {
-        vi: 'Hệ Sinh Thái Thư Viện Lưu Động (Library Bus Full-Stack)',
-        en: 'Mobile Library Bus Ecosystem (Full-Stack & Product BI)'
+        vi: 'Library Bus: Thiết Kế UX/UI Website Thư Viện Lưu Động',
+        en: 'Library Bus: UX/UI Design for a Mobile Library Website'
       },
-      statMain: '7.080 Lượt Mượn/Tháng • 6 Django Apps',
+      statMain: '20 Cặp Màn Hình Wireframe & UI • Design System',
       statSub: {
-        vi: 'Tối ưu hóa 5 tuyến xe (30 điểm đỗ), khóa chống xung đột 0% trùng đơn & 92% hoàn tất đặt trước',
-        en: 'Optimized 5 bus routes (30 stops), 0% race-condition booking conflict & 92% reservation fulfillment'
+        vi: 'Nghiên cứu UX, sitemap, nhận diện thương hiệu 6 tông màu, hệ thống lưới 12 cột và 20 màn hình desktop kèm bản mobile',
+        en: 'UX research, sitemap, 6-tone design system, 12-column grid, and 20 desktop screens plus mobile versions'
       },
       bars: [
-        { label: 'Tỷ lệ Hoàn tất Đặt giữ chỗ', val: '92,0% (+34% YoY)', pct: 92, color: 'bg-[#9BE7FA]' },
-        { label: 'Tỷ lệ Chuyển đổi Tra cứu → Xem sách', val: '62,0% (7.688 độc giả)', pct: 62, color: 'bg-[#C8EEF7]' },
-        { label: 'Độ phủ Nhắc hạn Tự động (Celery)', val: '85,0% (Quá hạn <4,8%)', pct: 85, color: 'bg-[#FFD14C]' }
+        { label: 'Màn hình Desktop (Wireframe + UI)', val: '20 Màn hình', pct: 100, color: 'bg-[#9BE7FA]' },
+        { label: 'Bản Mobile Đồng bộ (Một cột)', val: '20 Màn hình', pct: 100, color: 'bg-[#C8EEF7]' },
+        { label: 'Bảng màu Neo-Bakery & Phông chữ', val: '6 Tông • Lora + Outfit', pct: 100, color: 'bg-[#FFD14C]' }
       ]
     },
     {

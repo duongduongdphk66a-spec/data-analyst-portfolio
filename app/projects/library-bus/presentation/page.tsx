@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Library Bus - 30-Slide Presentation Deck | Ma Văn Hùng',
-  description: 'Full 30-slide project presentation deck detailing domain research, system architecture, database optimization and UI design.',
+  title: 'Library Bus - UX/UI Design Guidelines Deck | Ma Văn Hùng',
+  description: '30-slide UX/UI deck in three chapters: introduction and research, logo and UI components, and website design with wireframe and UI pairs for 20 screens.',
 };
 
 export default function PresentationPage() {
@@ -23,7 +23,7 @@ export default function PresentationPage() {
           </Link>
           <span className="text-slate-600">|</span>
           <h1 className="text-xs sm:text-sm font-bold text-white tracking-wide">
-            30-Slide Presentation Deck (Research, Architecture & Data Spec)
+            UX/UI Design Guidelines Deck (30 Slides)
           </h1>
         </div>
         <a
@@ -41,7 +41,7 @@ export default function PresentationPage() {
       <main className="flex-1 w-full h-full bg-slate-950">
         <iframe
           src="/library-bus/presentation.html"
-          title="Library Bus 30-Slide Presentation"
+          title="Library Bus UX/UI Design Guidelines Deck"
           className="w-full h-full border-0"
         />
       </main>

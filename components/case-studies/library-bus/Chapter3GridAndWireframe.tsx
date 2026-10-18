@@ -19,14 +19,14 @@ export function Chapter3GridAndWireframe({
   const { language } = useLanguage();
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   return (
-    <section id="sec-grid-wireframe" className="space-y-6 scroll-mt-36">
+    <section id="chapter-3-design" className="space-y-6 scroll-mt-36">
       <SectionHeader
         variant="chapter"
         id="sec-grid-wireframe"
         chapter="CHAPTER 03"
         subtitle={isEn ? WEBSITE_DESIGN_DATA.titleEn : WEBSITE_DESIGN_DATA.titleVi}
         badge="3.1 & 3.2"
-        title={isEn ? 'Grid System (12 Columns) & Wireframe Principles' : 'Hệ Thống Lưới 12 Cột & Quy Chuẩn Wireframe'}
+        title={isEn ? 'Grid System & Wireframe' : 'Hệ Thống Lưới & Khung Wireframe'}
         onCopy={onCopyDeepLink}
       />
 
@@ -35,61 +35,69 @@ export function Chapter3GridAndWireframe({
         <div className="lg:col-span-5 p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-4 dark:bg-slate-900 dark:border-slate-800">
           <h3 className="text-sm font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
             <Grid className="w-4 h-4" />
-            <span>3.1 Hệ thống lưới Desktop 12 Columns</span>
+            <span>{isEn ? '3.1 Grid System (Desktop)' : '3.1 Hệ thống lưới (Grid System)'}</span>
           </h3>
           <p className="text-xs text-slate-600 dark:text-slate-400">
-            Quy chuẩn theo tiêu chuẩn trình bày chuyên nghiệp từ tài liệu mẫu với 12 cột linh hoạt đảm bảo tính cân đối trên mọi độ phân giải.
+            {isEn
+              ? 'Desktop pages use a 12-column grid. Content sits in the middle of the page and blocks are split by columns.'
+              : 'Trang desktop dùng lưới 12 cột. Nội dung đặt giữa trang và các khối chia theo cột.'}
           </p>
           <div className="space-y-2 text-xs">
             <div className="flex justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800">
-              <span className="text-slate-600 dark:text-slate-400">Columns (Số lượng cột):</span>
-              <b className="font-mono text-slate-900 dark:text-white">12</b>
+              <span className="text-slate-600 dark:text-slate-400">{isEn ? 'Desktop columns:' : 'Desktop (số cột):'}</span>
+              <b className="font-mono text-slate-900 dark:text-white">{WEBSITE_DESIGN_DATA.gridSystem.count}</b>
             </div>
-            <div className="flex justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800">
-              <span className="text-slate-600 dark:text-slate-400">Margin (Lề hai bên):</span>
-              <b className="font-mono text-slate-900 dark:text-white">{WEBSITE_DESIGN_DATA.gridSystem.margin}</b>
-            </div>
-            <div className="flex justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800">
-              <span className="text-slate-600 dark:text-slate-400">Width (Độ rộng cột):</span>
-              <b className="font-mono text-slate-900 dark:text-white">{WEBSITE_DESIGN_DATA.gridSystem.width}</b>
-            </div>
-            <div className="flex justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800">
-              <span className="text-slate-600 dark:text-slate-400">Gutter (Khoảng cách giữa các cột):</span>
-              <b className="font-mono text-slate-900 dark:text-white">{WEBSITE_DESIGN_DATA.gridSystem.gutter}</b>
+            <div className="flex justify-between gap-3 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800">
+              <span className="text-slate-600 dark:text-slate-400">Mobile:</span>
+              <b className="text-right text-slate-900 dark:text-white">{isEn ? WEBSITE_DESIGN_DATA.gridSystem.mobileEn : WEBSITE_DESIGN_DATA.gridSystem.mobileVi}</b>
             </div>
           </div>
         </div>
 
-        {/* 12-Column Visual Simulation */}
+        {/* 12-Column Visual + wireframe elements */}
         <div className="lg:col-span-7 p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-4 dark:bg-slate-900 dark:border-slate-800 flex flex-col justify-between">
           <h3 className="text-sm font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
             <Layout className="w-4 h-4" />
-            <span>Mô phỏng trực quan lưới 12 cột trên màn hình</span>
+            <span>{isEn ? '3.2 12-Column Grid & Wireframe Elements' : '3.2 Lưới 12 cột & thành phần wireframe'}</span>
           </h3>
-          
+
           <div className="p-4 rounded-2xl bg-[#F0F9FB] border border-[#D2EDF6] dark:bg-slate-950 dark:border-slate-800">
-            <div className="grid grid-cols-12 gap-2 h-36">
+            <div className="grid grid-cols-12 gap-2 h-28">
               {Array.from({ length: 12 }).map((_, i) => (
-                <div 
-                  key={i} 
-                  className="bg-[#9BE7FA]/40 border border-[#0D7287]/30 rounded-lg flex flex-col justify-between items-center py-2 text-xs font-mono text-[#0D7287] dark:text-[#9BE7FA]"
+                <div
+                  key={i}
+                  className="bg-[#9BE7FA]/40 border border-[#0D7287]/30 rounded-lg flex flex-col justify-center items-center text-xs font-mono text-[#0D7287] dark:text-[#9BE7FA]"
                 >
-                  <span>Col</span>
-                  <span className="font-bold">{i+1}</span>
-                  <span className="text-xs opacity-70">78px</span>
+                  <span className="font-bold">{i + 1}</span>
                 </div>
               ))}
             </div>
-            <div className="flex justify-between text-xs font-mono text-slate-500 mt-3 pt-2 border-t border-slate-200 dark:border-slate-800">
-              <span>Margin: 360px</span>
-              <span>Gutter: 24px</span>
-              <span>Container Max-Width: 1280px</span>
-            </div>
           </div>
 
-          <p className="text-[11px] text-slate-500 dark:text-slate-400">
-            3.2 Wireframe tập trung phân tầng thông tin, giúp hành trình tra cứu và mượn sách không bị xao nhãng.
-          </p>
+          <div className="grid grid-cols-3 gap-3 text-[11px] text-slate-600 dark:text-slate-400">
+            <div className="space-y-1.5">
+              <div className="font-bold text-slate-800 dark:text-slate-200">{isEn ? 'Image frame' : 'Khung ảnh'}</div>
+              <div className="h-14 rounded-md bg-slate-200 relative overflow-hidden dark:bg-slate-700">
+                <svg viewBox="0 0 100 56" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+                  <line x1="0" y1="0" x2="100" y2="56" stroke="#94A3B8" />
+                  <line x1="100" y1="0" x2="0" y2="56" stroke="#94A3B8" />
+                </svg>
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <div className="font-bold text-slate-800 dark:text-slate-200">{isEn ? 'Text frame' : 'Khung chữ'}</div>
+              <div className="space-y-1.5 pt-1">
+                <div className="h-2.5 w-2/3 rounded bg-slate-400" />
+                <div className="h-2 rounded bg-slate-300" />
+                <div className="h-2 rounded bg-slate-300" />
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <div className="font-bold text-slate-800 dark:text-slate-200">{isEn ? 'Button' : 'Nút bấm'}</div>
+              <div className="h-6 w-24 rounded-full bg-slate-400" />
+              <div className="h-6 w-24 rounded-full border-2 border-slate-400" />
+            </div>
+          </div>
         </div>
       </div>
     </section>

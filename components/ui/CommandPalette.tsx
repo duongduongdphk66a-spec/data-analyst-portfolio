@@ -110,14 +110,14 @@ export default function CommandPalette({
           id: 'case-library-bus',
           category: { vi: 'Dự Án Mũi Nhọn (Case Studies)', en: 'Featured Case Studies' },
           title: {
-            vi: 'Hệ Sinh Thái Thư Viện Lưu Động (Library Bus UX & BI)',
-            en: 'Mobile Library Bus Ecosystem (UX Research & BI)'
+            vi: 'Library Bus: Thiết kế UX/UI Website Thư Viện Lưu Động',
+            en: 'Library Bus: UX/UI Design for a Mobile Library Website'
           },
           subtitle: {
-            vi: 'Kiến trúc dữ liệu, Thiết kế hệ thống & Dashboard vận hành',
-            en: 'Data architecture, System design & Operations dashboard'
+            vi: 'Nghiên cứu UX, sitemap, wireframe và UI design cho 20 màn hình desktop kèm bản mobile',
+            en: 'UX research, sitemap, wireframes and UI design for 20 desktop screens plus mobile'
           },
-          keywords: 'library bus ux research dashboard architecture',
+          keywords: 'library bus ux ui design wireframe sitemap responsive',
           icon: '🚌',
           action: () => {
             navigateSpa('/projects/proj-library-bus');

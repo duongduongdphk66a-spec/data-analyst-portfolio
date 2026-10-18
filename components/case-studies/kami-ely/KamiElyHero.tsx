@@ -91,25 +91,27 @@ export default function KamiElyHero({
         <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white leading-[1.15]">
           {lang === 'vi' ? (
             <>
-              Kiểm Toán Đa Chiều & Tối Ưu Hóa Chuyển Đổi Gian Hàng{' '}
+              Phân Tích Toàn Diện TikTok Shop & Creator{' '}
               <span className="bg-gradient-to-r from-sky-600 via-teal-600 to-pink-600 dark:from-sky-400 dark:via-emerald-300 dark:to-pink-400 bg-clip-text text-transparent">
                 Kami Ely (@kamielyhn)
               </span>
+              : Từ Vận Hành Thương Mại Đến Tối Ưu Hóa Thống Kê
             </>
           ) : (
             <>
-              Multi-Tier Data Audit & Conversion Optimization for{' '}
+              Comprehensive TikTok Shop & Creator Analysis for{' '}
               <span className="bg-gradient-to-r from-sky-600 via-teal-600 to-pink-600 dark:from-sky-400 dark:via-emerald-300 dark:to-pink-400 bg-clip-text text-transparent">
                 Kami Ely (@kamielyhn)
               </span>
+              : From Commercial Operations to Statistical Optimization
             </>
           )}
         </h1>
 
         <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
           {lang === 'vi'
-            ? 'Dự án phân tích toàn diện hệ sinh thái thương mại điện tử TikTok Shop kết hợp giữa dữ liệu Toàn Shop, dữ liệu Kênh Chính Chủ @kamielyhn và Telemetry chẩn đoán nội bộ từ TikTok Seller Center & Live Workbench.'
-            : 'End-to-end TikTok Shop E-Commerce analytics combining Shop-Wide performance, Official Channel @kamielyhn metrics, and internal diagnostics from TikTok Seller Center & Live Workbench.'}
+            ? 'Đánh giá hiệu suất tạo doanh thu (GMV), hành vi chuyển đổi nội dung (Video vs. Livestream) và cấu trúc danh mục sản phẩm (SKU) của thương hiệu Kami Ely trên TikTok Shop để tìm ra đòn bẩy tăng trưởng bền vững.'
+            : 'Evaluate GMV generation, content conversion behavior (Video vs. Livestream), and product SKU architecture for the Kami Ely brand on TikTok Shop to unlock sustainable growth levers.'}
         </p>
       </div>
 

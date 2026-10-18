@@ -86,49 +86,49 @@ export default function ExperiencePage() {
     {
       id: 'exp-library-bus',
       category: 'product_bi',
-      period: '2025 – 2026',
+      period: '2023 – 2024',
       role: {
-        vi: 'Kỹ Sư Phân Tích Sản Phẩm & Hệ Thống BI (Product Analytics & Full-Stack Developer)',
-        en: 'Product Analytics & Full-Stack BI Developer'
+        vi: 'Thiết Kế Trải Nghiệm Người Dùng & Hệ Thống Giao Diện (UX/UI Designer)',
+        en: 'UX/UI & Design System Designer'
       },
       organization: {
-        vi: 'Hệ Sinh Thái Thư Viện Lưu Động Thông Minh (Library Bus Project)',
-        en: 'Smart Mobile Library Bus Ecosystem (Django & Product BI)'
+        vi: 'Dự Án Website Xe Thư Viện Lưu Động (Library Bus)',
+        en: 'Mobile Library Bus Website Project'
       },
-      badge: 'PRODUCT BI & BACKEND ARCHITECTURE',
+      badge: 'UX/UI DESIGN SYSTEM & USER RESEARCH',
       badgeStyle:
-        'bg-emerald-100 text-emerald-950 border-emerald-300 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30',
-      headlineMetric: '7.080 Lượt Mượn/Tháng • 6 Django Apps • 92,0% Hoàn Tất Đặt Trước',
+        'bg-[#9BE7FA]/20 text-[#074553] border-[#9BE7FA]/60 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30',
+      headlineMetric: '20 Cặp Màn Hình Desktop & Mobile • Design System 6 Tông Màu',
       summary: {
-        vi: 'Thiết kế và triển khai hệ thống quản trị thư viện lưu động toàn diện gồm 6 phân hệ Django, hàng đợi bất đồng bộ Celery/Redis và 10 bảng điều khiển phân tích hành vi độc giả.',
-        en: 'Architected and deployed an end-to-end mobile library platform featuring 6 Django apps, Celery/Redis async workers, and 10 reader behavior analytics dashboards.'
+        vi: 'Thiết kế hệ thống trải nghiệm người dùng và giao diện toàn diện cho website dịch vụ xe thư viện lưu động: nghiên cứu thị trường, xây dựng sitemap, chuẩn hóa logo & UI components, và hoàn thiện 20 cặp màn hình Wireframe/UI.',
+        en: 'Designed an end-to-end UX/UI system for a mobile library service website: market research, sitemap and user flows, logo & UI component guidelines, and 20 wireframe/UI screen pairs.'
       },
       starBreakdown: {
         situation: {
-          vi: 'Mô hình xe buýt thư viện lưu động gặp bài toán lệch tồn kho giữa các điểm đỗ, tỷ lệ độc giả quên trả sách quá hạn cao và lỗi trùng đơn (Race Condition) khi nhiều người đặt giữ chỗ cuốn sách cuối cùng.',
-          en: 'Mobile library buses faced stock imbalances across stops, high overdue return rates, and race-condition double bookings when multiple readers reserved the last copy simultaneously.'
+          vi: 'Thư viện cố định gặp rào cản tiếp cận đối với độc giả ở xa hoặc bận rộn. Dịch vụ thư viện xe buýt lưu động cần một website giúp người đọc tra cứu sách theo thời gian thực, xem vị trí xe buýt và đặt mượn trước khi xe đến điểm dừng.',
+          en: 'Fixed libraries face geographical and scheduling barriers for distant patrons. A mobile bus library needed a website allowing readers to find available books, track bus stops, and place holds prior to bus arrival.'
         },
         action: {
-          vi: '1) Xây dựng cơ chế khóa giao dịch mức cơ sở dữ liệu (kiểm chứng bằng test_race_condition.py); 2) Thiết kế 10 màn hình Analytics theo dõi vòng quay sách theo từng tuyến xe; 3) Tự động hóa nhắc hạn qua Celery.',
-          en: '1) Implemented database-level transaction locking (verified via test_race_condition.py); 2) Built 10 Analytics views tracking book turnover per bus route; 3) Automated due reminders via Celery.'
+          vi: '1) Phân tích hành vi người dùng, lập sitemap chi tiết và luồng người dùng (user flow); 2) Xây dựng nhận diện thương hiệu, bộ typography (Lora & Outfit) và bảng màu 6 tông; 3) Thiết kế hệ thống lưới 12 cột, bộ thành phần UI đồng bộ và wireframe/UI cho 20 màn hình desktop kèm bản mobile.',
+          en: '1) Analyzed reader journeys, structured detailed sitemaps and user flows; 2) Developed brand identity, typography pairings (Lora & Outfit), and 6-tone color palette; 3) Designed 12-column grid system, UI component library, and 20 wireframe/UI screen pairs for desktop and mobile.'
         },
         result: {
-          vi: 'Đạt 0% lỗi xung đột đặt sách, nâng tỷ lệ hoàn tất nhận sách đặt trước lên 92,0% (+34%), duy trì hệ số vòng quay 3,6x trên 5 tuyến xe (30 điểm đỗ) và giảm tỷ lệ trễ hạn xuống dưới 4,8%.',
-          en: 'Achieved 0% booking conflict, lifted reservation pickup completion to 92.0% (+34%), sustained a 3.6x turnover rate across 5 routes (30 stops), and reduced overdue returns below 4.8%.'
+          vi: 'Hoàn thiện bộ website guidelines 30 slide gồm 3 chương chuẩn hóa, 20 cặp wireframe đối chiếu trực quan với UI design độ chi tiết cao, bảo đảm tính nhất quán và khả năng chuyển đổi thiết kế sang code.',
+          en: 'Delivered a 30-slide website guidelines deck across 3 chapters, 20 wireframe-to-UI comparative screens, ensuring design consistency and clean engineering handoff.'
         }
       },
       deliverables: [
-        { label: { vi: 'Kiến Trúc Phần Mềm', en: 'System Architecture' }, value: '6 Django Apps • 30 Nodes' },
-        { label: { vi: 'Giao Diện Phân Tích', en: 'Analytics Views' }, value: '10 Dashboards • 55+ Templates' },
-        { label: { vi: 'Kiểm Thử Đồng Thời', en: 'Concurrency Audit' }, value: '0% Race-Condition Conflict' },
-        { label: { vi: 'Vòng Quay Tồn Kho', en: 'Inventory Turnover' }, value: '3,6x – 4,2x / Tháng' }
+        { label: { vi: 'Màn Hình Thiết Kế', en: 'Design Screens' }, value: '20 Desktop + 20 Mobile' },
+        { label: { vi: 'Hệ Thống Thiết Kế', en: 'Design System' }, value: 'Lưới 12 Cột • 6 Tông Màu' },
+        { label: { vi: 'Tài Liệu Bàn Giao', en: 'Guidelines Deck' }, value: 'Website Guidelines (30 Slide)' },
+        { label: { vi: 'Phông Chữ Chuẩn Hóa', en: 'Typeface Pairing' }, value: 'Lora + Outfit' }
       ],
       skills: [
-        'Python (Django)',
-        'Celery & Redis',
-        'Product Conversion Funnel',
-        'Concurrency Locking',
-        'UX/UI System Design'
+        'UX Research & Sitemap',
+        'Wireframing & Prototyping',
+        'Design System & Tokens',
+        'Typography & Color Theory',
+        'Responsive UI Design'
       ],
       caseStudyHref: '/projects/library-bus'
     },

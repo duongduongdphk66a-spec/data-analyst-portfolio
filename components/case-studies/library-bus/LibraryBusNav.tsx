@@ -20,7 +20,7 @@ export interface LibraryBusNavProps {
 }
 
 export default function LibraryBusNav({
-  activeSection = 'visual-suite',
+  activeSection = 'chapter-1-ux',
   onSelectSection,
   isExecutiveScanMode: _isExecutiveScanMode = false,
   onToggleExecutiveScanMode: _onToggleExecutiveScanMode,
@@ -30,11 +30,10 @@ export default function LibraryBusNav({
   const lang = language === 'en' ? 'en' : 'vi';
 
   const sections = [
-    { id: 'visual-suite', label: { vi: '📊 Biểu đồ & Mô phỏng Đội xe', en: '📊 Charts & Fleet Simulator' } },
-    { id: 'executive-story', label: { vi: '1. Tóm tắt Điều hành', en: '1. Executive Story' } },
-    { id: 'chapter-1-ux', label: { vi: '2. Nghiên cứu Độc giả & UX', en: '2. Reader & UX Research' } },
-    { id: 'chapter-3-arch', label: { vi: '3. Kiến trúc 6 Django Apps', en: '3. 6-App Django Architecture' } },
-    { id: 'visual-comparison', label: { vi: '4. Đối sánh Giao diện & Luồng', en: '4. UI & Workflow Comparison' } }
+    { id: 'chapter-1-ux', label: { vi: '01. Giới thiệu & Nghiên cứu', en: '01. Introduction & Research' } },
+    { id: 'chapter-2-brand', label: { vi: '02. Logo & Thành phần UI', en: '02. Logo & UI Components' } },
+    { id: 'chapter-3-design', label: { vi: '03. Thiết kế Website', en: '03. Website Design' } },
+    { id: 'visual-comparison', label: { vi: '3.3 Wireframe & UI 20 màn hình', en: '3.3 Wireframe & UI: 20 Screens' } }
   ];
 
   const handleScrollTo = (id: string) => {

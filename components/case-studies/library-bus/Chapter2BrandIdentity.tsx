@@ -3,7 +3,7 @@
 import React from 'react';
 import { 
   Bus, Type, Palette, MousePointer, Grid, BookOpen, 
-  Search, MapPin, Calendar, QrCode 
+  Search, MapPin, Calendar, Clock, Bell, User, Star, BarChart3, Plus, Check, PanelTop 
 } from 'lucide-react';
 import { BRAND_IDENTITY_DATA } from '@/app/data/libraryBusData';
 import SectionHeader from '@/components/ui/SectionHeader';
@@ -31,7 +31,7 @@ export function Chapter2BrandIdentity({
           chapter="CHAPTER 02"
           subtitle={isEn ? BRAND_IDENTITY_DATA.titleEn : BRAND_IDENTITY_DATA.titleVi}
           badge="2.1"
-          title={isEn ? 'Logo Idea, Grid Structure & Safe Distance' : 'Hệ Thống Logo, Tỉ Lệ Lưới 6.6X & Khoảng Cách An Toàn'}
+          title={isEn ? 'Logo Idea, Meaning, Structure & Safe Distance' : 'Logo: Ý Tưởng, Ý Nghĩa, Cấu Trúc & Khoảng Cách An Toàn'}
           onCopy={onCopyDeepLink}
         />
 
@@ -43,13 +43,13 @@ export function Chapter2BrandIdentity({
                 2.1.1 Logo Idea & Meaning
               </span>
               <h3 className="text-lg font-black text-slate-900 dark:text-white">
-                Biểu Tượng Cánh Chim Tri Thức & Xe Bus Lưu Động
+                {isEn ? 'Bus Icon + Brand Name' : 'Biểu Tượng Xe Bus + Tên Thương Hiệu'}
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
-                {BRAND_IDENTITY_DATA.logo.ideaVi}
+                {isEn ? BRAND_IDENTITY_DATA.logo.ideaEn : BRAND_IDENTITY_DATA.logo.ideaVi}
               </p>
               <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
-                {BRAND_IDENTITY_DATA.logo.meaningVi}
+                {isEn ? BRAND_IDENTITY_DATA.logo.meaningEn : BRAND_IDENTITY_DATA.logo.meaningVi}
               </p>
             </div>
 
@@ -59,8 +59,8 @@ export function Chapter2BrandIdentity({
                 <Bus className="w-10 h-10 text-[#FFC270]" />
               </div>
               <div className="text-center">
-                <div className="text-lg font-black tracking-tight text-slate-900 dark:text-white">LIBRARY BUS</div>
-                <div className="text-xs uppercase font-mono tracking-widest text-[#BD5705] dark:text-[#FFC270]">Transit Wisdom · Tri Thức Lưu Động</div>
+                <div className="text-2xl font-bold tracking-tight text-[#4E0705] dark:text-white" style={{ fontFamily: "'Lora', Georgia, serif" }}>Library Bus</div>
+                <div className="text-xs font-mono text-slate-500 dark:text-slate-400">{isEn ? 'Brand name + bus icon' : 'Tên thương hiệu + biểu tượng xe buýt'}</div>
               </div>
             </div>
           </div>
@@ -68,36 +68,35 @@ export function Chapter2BrandIdentity({
           {/* Specifications: Structure Ratio, Safe Distance, Min Size */}
           <div className="lg:col-span-6 p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-4 dark:bg-slate-900 dark:border-slate-800">
             <span className="text-xs font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA]">
-              2.1.2 Quy chuẩn kích thước & Khoảng cách an toàn
+              {isEn ? '2.1.2 Structure, Safe Distance & Minimum Size' : '2.1.2 Cấu trúc, khoảng cách an toàn & kích thước tối thiểu'}
             </span>
 
             <div className="space-y-3 text-xs">
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 dark:bg-slate-800 dark:border-slate-700 space-y-1">
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-slate-900 dark:text-white">Tỉ lệ cấu trúc logo:</span>
-                  <span className="font-mono font-black text-[#0D7287] dark:text-[#9BE7FA]">6.6X × 4X</span>
+                  <span className="font-bold text-slate-900 dark:text-white">{isEn ? 'Logo structure:' : 'Cấu trúc logo:'}</span>
+                  <span className="font-mono font-black text-[#0D7287] dark:text-[#9BE7FA]">X = {isEn ? 'icon height' : 'chiều cao biểu tượng'}</span>
                 </div>
-                <p className="text-slate-500 text-[11px]">{BRAND_IDENTITY_DATA.logo.structureRatio}</p>
+                <p className="text-slate-500 text-[11px]">{isEn ? BRAND_IDENTITY_DATA.logo.structureEn : BRAND_IDENTITY_DATA.logo.structureVi}</p>
               </div>
 
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 dark:bg-slate-800 dark:border-slate-700 space-y-1">
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-slate-900 dark:text-white">Khoảng cách an toàn (Safe Distance):</span>
-                  <span className="font-mono font-black text-emerald-600">1.5X & 2X</span>
+                  <span className="font-bold text-slate-900 dark:text-white">{isEn ? 'Safe distance:' : 'Khoảng cách an toàn (Safe Distance):'}</span>
+                  <span className="font-mono font-black text-emerald-600">1X</span>
                 </div>
-                <p className="text-slate-500 text-[11px]">{BRAND_IDENTITY_DATA.logo.safeDistance}</p>
+                <p className="text-slate-500 text-[11px]">{isEn ? BRAND_IDENTITY_DATA.logo.safeDistanceEn : BRAND_IDENTITY_DATA.logo.safeDistanceVi}</p>
               </div>
 
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 dark:bg-slate-800 dark:border-slate-700 space-y-1">
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-slate-900 dark:text-white">Kích thước hiển thị tối thiểu:</span>
-                  <span className="font-mono font-black text-amber-600">56.7px / 42.5px</span>
+                  <span className="font-bold text-slate-900 dark:text-white">{isEn ? 'Minimum size:' : 'Kích thước tối thiểu:'}</span>
                 </div>
-                <p className="text-slate-500 text-[11px]">{BRAND_IDENTITY_DATA.logo.minimumSize}</p>
+                <p className="text-slate-500 text-[11px]">{isEn ? BRAND_IDENTITY_DATA.logo.minimumSizeEn : BRAND_IDENTITY_DATA.logo.minimumSizeVi}</p>
               </div>
 
               <div className="p-4 rounded-2xl bg-[#FAF4EC] border border-[#FFC270]/60 text-xs text-slate-700 dark:bg-slate-800/80 dark:text-slate-300">
-                <b>Phông chữ tiêu chuẩn:</b> {BRAND_IDENTITY_DATA.logo.fontName}
+                <b>{isEn ? 'Typefaces:' : 'Phông chữ:'}</b> {BRAND_IDENTITY_DATA.logo.fontName}
               </div>
             </div>
           </div>
@@ -120,13 +119,13 @@ export function Chapter2BrandIdentity({
         <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-4 dark:bg-slate-900 dark:border-slate-800">
           <h3 className="text-sm font-black uppercase tracking-wider text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
             <Type className="w-4 h-4" />
-            <span>{isEn ? '2.2.1 Typography System (Outfit & Inter)' : '2.2.1 Hệ thống kiểu chữ (Typography Hierarchy)'}</span>
+            <span>{isEn ? '2.2.1 Typography (Lora & Outfit)' : '2.2.1 Hệ thống kiểu chữ (Typography: Lora & Outfit)'}</span>
           </h3>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-[#F0F9FB] text-slate-800 font-bold uppercase border-b border-[#D2EDF6] dark:bg-slate-800 dark:text-slate-300">
                 <tr>
-                  <th className="p-3">Thẻ Phân Cấp</th>
+                  <th className="p-3">{isEn ? 'Name / Tags' : 'Thẻ Phân Cấp'}</th>
                   <th className="p-3">Font Size</th>
                   <th className="p-3">Letter Spacing</th>
                   <th className="p-3">Minh Họa Hiển Thị</th>
@@ -153,9 +152,9 @@ export function Chapter2BrandIdentity({
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
             <h3 className="text-sm font-black uppercase tracking-wider text-[#BD5705] dark:text-[#FFC270] flex items-center gap-2">
               <Palette className="w-4 h-4" />
-              <span>{isEn ? '2.2.2 Library Bus Color System (Neo-Bakery Warm Paper Tokens)' : '2.2.2 Bảng màu chuẩn giao diện Website Thư Viện (Neo-Bakery Warm Paper Tokens)'}</span>
+              <span>{isEn ? '2.2.2 Library Bus Color System' : '2.2.2 Bảng màu giao diện website (Color)'}</span>
             </h3>
-            <span className="text-[11px] font-mono text-slate-500">tokens.css · 6 tông màu chuẩn nhận diện</span>
+            <span className="text-[11px] font-mono text-slate-500">{isEn ? '6 tones' : '6 tông màu'}</span>
           </div>
 
           {/* Primary Colors */}
@@ -183,7 +182,7 @@ export function Chapter2BrandIdentity({
           {/* Supporting & Neutral Colors */}
           <div className="space-y-2">
             <div className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-              {isEn ? 'Supporting & Neutral Tokens (Surface & Badges)' : 'Màu bổ trợ & Giao diện (Supporting & Neutral Tokens)'}
+              {isEn ? 'Supporting Colors' : 'Màu bổ trợ (Supporting Colors)'}
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {BRAND_IDENTITY_DATA.colors.supporting.map((col, idx) => (
@@ -209,7 +208,7 @@ export function Chapter2BrandIdentity({
           <div className="lg:col-span-6 p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-4 dark:bg-slate-900 dark:border-slate-800">
             <h3 className="text-sm font-black uppercase tracking-wider text-[#BD5705] dark:text-[#FFC270] flex items-center gap-2">
               <MousePointer className="w-4 h-4" />
-              <span>2.2.3 Trạng thái nút bấm (Button States)</span>
+              <span>{isEn ? '2.2.3 Button States' : '2.2.3 Trạng thái nút bấm (Button)'}</span>
             </h3>
             <div className="space-y-4">
               <div className="p-4 rounded-2xl bg-[#FAF5EF]/60 dark:bg-slate-800 space-y-2 border border-slate-100 dark:border-slate-700">
@@ -245,7 +244,7 @@ export function Chapter2BrandIdentity({
           <div className="lg:col-span-6 p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-4 dark:bg-slate-900 dark:border-slate-800">
             <h3 className="text-sm font-black uppercase tracking-wider text-[#BD5705] dark:text-[#FFC270] flex items-center gap-2">
               <Grid className="w-4 h-4" />
-              <span>2.2.4 Ô nhập liệu (Text Fill) & Bộ Icon 24px</span>
+              <span>{isEn ? '2.2.4 Text Fill & Icon (24 px)' : '2.2.4 Ô nhập liệu (Text Fill) & Bộ Icon 24px'}</span>
             </h3>
             
             <div className="space-y-3">
@@ -253,7 +252,7 @@ export function Chapter2BrandIdentity({
                 <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400">Default Input State:</label>
                 <input 
                   type="text" 
-                  placeholder="Nhập tên sách, tác giả hoặc chủ đề tra cứu..."
+                  placeholder="Tìm sách hoặc tác giả"
                   readOnly
                   className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 focus:outline-none focus:border-[#BD5705] focus:ring-2 focus:ring-[#FFC270] dark:bg-slate-800 dark:border-slate-700 dark:text-white"
                 />
@@ -261,16 +260,62 @@ export function Chapter2BrandIdentity({
 
               {/* Standard 24px Icons */}
               <div className="pt-2">
-                <div className="text-[11px] font-bold text-slate-600 mb-2 dark:text-slate-400">Bộ 12 Icon chuẩn kích thước 24×24px:</div>
+                <div className="text-[11px] font-bold text-slate-600 mb-2 dark:text-slate-400">{isEn ? '12 icons, 24×24 px, single-line style:' : 'Bộ 12 icon nét đơn, kích thước 24×24px:'}</div>
                 <div className="grid grid-cols-6 gap-2 text-center text-[#BD5705] dark:text-[#FFC270]">
                   <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><Bus className="w-5 h-5" /></div>
                   <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><BookOpen className="w-5 h-5" /></div>
-                  <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><Search className="w-5 h-5" /></div>
+                  <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><Clock className="w-5 h-5" /></div>
+                  <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><Bell className="w-5 h-5" /></div>
+                  <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><User className="w-5 h-5" /></div>
                   <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><MapPin className="w-5 h-5" /></div>
+                  <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><Search className="w-5 h-5" /></div>
+                  <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><Star className="w-5 h-5" /></div>
                   <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><Calendar className="w-5 h-5" /></div>
-                  <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><QrCode className="w-5 h-5" /></div>
+                  <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><BarChart3 className="w-5 h-5" /></div>
+                  <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><Plus className="w-5 h-5" /></div>
+                  <div className="p-2.5 rounded-xl bg-slate-50 flex items-center justify-center dark:bg-slate-800"><Check className="w-5 h-5" /></div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 2.2.5 Header & Navigation */}
+        <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-4 dark:bg-slate-900 dark:border-slate-800">
+          <h3 className="text-sm font-black uppercase tracking-wider text-[#BD5705] dark:text-[#FFC270] flex items-center gap-2">
+            <PanelTop className="w-4 h-4" />
+            <span>{isEn ? '2.2.5 Header & Navigation' : '2.2.5 Đầu trang & điều hướng (Header)'}</span>
+          </h3>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3 rounded-2xl bg-[#FFFDF9] border border-[#FFC270]/60 dark:bg-slate-800 dark:border-slate-700">
+            <div className="flex items-center gap-2">
+              <span className="w-7 h-7 rounded-lg bg-[#BD5705] text-white flex items-center justify-center"><Bus className="w-4 h-4" /></span>
+              <span className="text-lg font-bold text-[#4E0705] dark:text-white" style={{ fontFamily: "'Lora', Georgia, serif" }}>Library Bus</span>
+            </div>
+            <div className="flex flex-wrap gap-x-5 gap-y-1 text-xs text-[#4E0705] flex-1 justify-center dark:text-slate-300">
+              <span>{isEn ? 'About' : 'Giới thiệu'}</span>
+              <span>{isEn ? 'Search books' : 'Tra cứu sách'}</span>
+              <span>{isEn ? 'News' : 'Tin tức'}</span>
+              <span>{isEn ? 'Bus map' : 'Bản đồ xe'}</span>
+              <span className="font-bold text-[#BD5705]">{isEn ? 'Library management' : 'Quản lý thư viện'}</span>
+            </div>
+            <div className="flex items-center gap-3 text-xs text-[#4E0705] dark:text-slate-300">
+              <Bell className="w-4 h-4" />
+              <span className="w-5 h-5 rounded-full bg-[#BD5705]" />
+              <span>admin</span>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4 text-xs text-slate-600 dark:text-slate-400">
+            <div className="p-4 rounded-2xl bg-[#FAF5EF]/60 border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
+              <b className="text-slate-900 dark:text-white">Header: </b>
+              {isEn
+                ? 'Logo on the left and menu items in the middle. The Library management item is orange to separate it from the public items. The notification bell and avatar sit on the right.'
+                : 'Logo ở bên trái, các mục menu ở giữa. Mục Quản lý thư viện dùng màu cam để tách khỏi các mục công khai. Chuông thông báo và avatar nằm bên phải.'}
+            </div>
+            <div className="p-4 rounded-2xl bg-[#FAF5EF]/60 border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
+              <b className="text-slate-900 dark:text-white">{isEn ? 'Management navigation: ' : 'Điều hướng khu quản lý: '}</b>
+              {isEn
+                ? 'A dark brown sidebar on the left with an orange active item, and a breadcrumb above the content so users know where they are.'
+                : 'Thanh bên trái nền nâu đậm, mục đang mở có nền cam. Phía trên nội dung có breadcrumb để người dùng biết mình đang ở đâu.'}
             </div>
           </div>
         </div>

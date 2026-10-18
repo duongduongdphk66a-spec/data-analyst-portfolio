@@ -4,6 +4,381 @@
  * Supervisor: Dr. Vo Minh Vu
  */
 
+export interface TimeSeriesPoint {
+  year: string;
+  value: number;
+  note?: string;
+}
+
+export interface DualSeriesPoint {
+  year: string;
+  kyoto: number;
+  nara: number;
+}
+
+export interface CaseStudyMatrixItem {
+  site: string;
+  prefecture: string;
+  type: string;
+  pressureMetric: string;
+  coreIssue: string;
+  intervention: string;
+  status: string;
+}
+
+export interface ThesisLimitationItem {
+  id: string;
+  category: string;
+  severity: 'Cao' | 'Trung bình' | 'Đã hiệu đính';
+  flawInThesis: string;
+  portfolioFix: string;
+}
+
+export const HERITAGE_JAPAN_DATA = {
+  meta: {
+    title: 'Phân tích Tăng trưởng & Sức chứa Du lịch Di sản Nhật Bản (2013–2023)',
+    subtitle:
+      'Đánh giá hiệu lực kinh tế của Chương trình Quốc gia Du lịch (06/2013) và bài toán quá tải (Overtourism) tại các Di sản Thế giới UNESCO.',
+    author: 'Ma Văn Hùng',
+    advisor: 'TS. Võ Minh Vũ',
+    institution: 'Khoa Đông Phương học, Trường ĐH KHXH&NV - ĐHQGHN',
+    wordCountTarget: '< 850 chữ',
+    chartCount: 12,
+  },
+
+  kpis: [
+    {
+      label: 'Đỉnh khách quốc tế (2019)',
+      value: '31,9M',
+      delta: '+206,7% vs 2013 (10,4M)',
+      desc: 'Tăng gấp ~3,8 lần so với mức nền 6–8 triệu lượt trước năm 2013.',
+    },
+    {
+      label: 'Chi tiêu khách quốc tế (2019)',
+      value: '4,81 nghìn tỷ ¥',
+      delta: 'Tăng 3,41x vs 2013 (1,41T ¥)',
+      desc: 'Chiếm 11,5% tổng doanh thu toàn ngành du lịch Nhật Bản (41,94T ¥).',
+    },
+    {
+      label: 'Đóng góp kinh tế vĩ mô (2019)',
+      value: '7,5% GDP',
+      delta: '375,4 tỷ USD (Hạng 3 Thế giới)',
+      desc: 'Tăng từ 2,2% GDP (2000), vượt Đức (344,8 tỷ USD), tạo >4 triệu việc làm (6,9%).',
+    },
+    {
+      label: 'Tỷ lệ quá tải cực đại',
+      value: '3.000 : 1',
+      delta: '1,8M khách / 600 cư dân',
+      desc: 'Ghi nhận tại làng cổ Shirakawa-go & Gokayama, gây áp lực rác thải & hạ tầng.',
+    },
+  ],
+
+  policyPillars: [
+    {
+      year: '1950 & 2004',
+      name: 'Luật Bảo vệ Di sản Văn hóa (Sửa đổi 2004)',
+      focus: 'Bảo tồn lõi & Vùng đệm cảnh quan',
+      highlights: [
+        'Phân cấp Di sản văn hóa trọng yếu & Quốc bảo; kiểm soát nghiêm ngặt việc trùng tu.',
+        'Bổ sung chế độ bảo tồn "Cảnh quan văn hóa" (2004) & Quần thể kiến trúc truyền thống.',
+      ],
+    },
+    {
+      year: '2006 – 2008',
+      name: 'Luật Du lịch Quốc gia & Sách trắng 2008',
+      focus: 'Định hướng Du lịch Bền vững',
+      highlights: [
+        'Thành lập Cơ quan Du lịch Nhật Bản (2008) & ban hành Luật Quy hoạch thị trấn lịch sử (>100 khu cổ kính).',
+        'Đặt 2 mục tiêu: Tăng trưởng xanh thay thế công nghiệp nặng & cân bằng lợi ích kinh tế - xã hội.',
+      ],
+    },
+    {
+      year: '06/2013',
+      name: 'Chương trình Hành động Quốc gia Du lịch',
+      focus: 'Kích cầu Inbound & Thương hiệu Nhật Bản',
+      highlights: [
+        'Miễn/nới lỏng visa cho Đông Nam Á (Thái Lan, Malaysia, Việt Nam, Philippines, Indonesia).',
+        'Chiến lược Bầu trời mở (Open Skies), miễn thuế tiêu dùng (Tax-free), đa ngôn ngữ, thanh toán quốc tế & MICE.',
+      ],
+    },
+  ],
+
+  // Chart 1: Biểu đồ 3.1 - Khách quốc tế đến Nhật Bản (2003 - 2022, Triệu người)
+  japanVisitors: [
+    { year: '2003', value: 5.2 },
+    { year: '2004', value: 6.1 },
+    { year: '2005', value: 6.7 },
+    { year: '2006', value: 7.3 },
+    { year: '2007', value: 8.3 },
+    { year: '2008', value: 8.4 },
+    { year: '2009', value: 6.8 },
+    { year: '2010', value: 8.6 },
+    { year: '2011', value: 6.2, note: 'Động đất sóng thần Tohoku' },
+    { year: '2012', value: 8.4 },
+    { year: '2013', value: 10.4, note: 'Mốc kích cầu 06/2013' },
+    { year: '2014', value: 13.4 },
+    { year: '2015', value: 19.7 },
+    { year: '2016', value: 24.0 },
+    { year: '2017', value: 28.7 },
+    { year: '2018', value: 31.2 },
+    { year: '2019', value: 31.9, note: 'Đỉnh lịch sử trước dịch' },
+    { year: '2020', value: 4.1, note: 'Đại dịch COVID-19' },
+    { year: '2021', value: 0.2 },
+    { year: '2022', value: 3.4 },
+  ] as TimeSeriesPoint[],
+
+  // Chart 2: Biểu đồ 3.4 - Chi tiêu khách quốc tế tại Nhật (2010 - 2021, Nghìn tỷ Yên)
+  japanSpending: [
+    { year: '2010', value: 1.15 },
+    { year: '2011', value: 0.81 },
+    { year: '2012', value: 1.08 },
+    { year: '2013', value: 1.41 },
+    { year: '2014', value: 2.02 },
+    { year: '2015', value: 3.48 },
+    { year: '2016', value: 3.75 },
+    { year: '2017', value: 4.41 },
+    { year: '2018', value: 4.50 },
+    { year: '2019', value: 4.81 },
+    { year: '2020', value: 0.70 },
+    { year: '2021', value: 0.10 },
+  ] as TimeSeriesPoint[],
+
+  // Chart 3: Chỉ số hóa tốc độ tăng trưởng khách quốc tế (2013 = 100)
+  indexedGrowth2013To2019: [
+    { year: '2013', japan: 100, kyoto: 100, nara: 100 },
+    { year: '2014', japan: 128.8, kyoto: 133.5, nara: 144.8 },
+    { year: '2015', japan: 189.4, kyoto: 216.4, nara: 224.1 },
+    { year: '2016', japan: 230.8, kyoto: 373.8, nara: 362.3 },
+    { year: '2017', japan: 276.0, kyoto: 376.9, nara: 457.5 },
+    { year: '2018', japan: 300.0, kyoto: 417.5, nara: 609.4 },
+    { year: '2019', japan: 306.7, kyoto: 533.0, nara: 762.8 },
+  ],
+
+  // Chart 4: Quy mô thị trường toàn cầu & vị thế Nhật Bản
+  globalBenchmarks: [
+    { label: 'Mỹ & Top dẫn đầu (Tham chiếu)', value: 556.96, unit: 'Tỷ USD (Thị trường Di sản 2021)' },
+    { label: 'Dự báo Du lịch Di sản Toàn cầu (2030)', value: 778.07, unit: 'Tỷ USD (CAGR 3,8%/năm)' },
+    { label: 'Quy mô Du lịch Nhật Bản (2019 - Hạng 3 TG)', value: 375.4, unit: 'Tỷ USD (41,94 nghìn tỷ Yên)' },
+    { label: 'Quy mô Du lịch Đức (2019 - Hạng 4 TG)', value: 344.8, unit: 'Tỷ USD' },
+  ],
+
+  // Chart 5: Biểu đồ 3.2 - Khách quốc tế đến Kyoto (2008 - 2023, Nghìn người)
+  kyotoVisitors: [
+    { year: '2008', value: 926.8 },
+    { year: '2009', value: 937.2 },
+    { year: '2010', value: 783.8 },
+    { year: '2011', value: 983.9 },
+    { year: '2012', value: 515.4 },
+    { year: '2013', value: 844.9 },
+    { year: '2014', value: 1127.9 },
+    { year: '2015', value: 1828.6 },
+    { year: '2016', value: 3158.6 },
+    { year: '2017', value: 3184.8 },
+    { year: '2018', value: 3527.8 },
+    { year: '2019', value: 4503.3 },
+    { year: '2020', value: 3799.0 },
+    { year: '2021', value: 448.8 },
+    { year: '2022', value: 54.4 },
+    { year: '2023', value: 576.1 },
+  ] as TimeSeriesPoint[],
+
+  // Chart 6: Biểu đồ 3.3 - Khách quốc tế đến Cố đô Nara (2009 - 2020, Nghìn người)
+  naraVisitors: [
+    { year: '2009', value: 407 },
+    { year: '2010', value: 629 },
+    { year: '2011', value: 174 },
+    { year: '2012', value: 267 },
+    { year: '2013', value: 435 },
+    { year: '2014', value: 630 },
+    { year: '2015', value: 975 },
+    { year: '2016', value: 1576 },
+    { year: '2017', value: 1990 },
+    { year: '2018', value: 2651 },
+    { year: '2019', value: 3318 },
+    { year: '2020', value: 28.9 },
+  ] as TimeSeriesPoint[],
+
+  // Chart 7: Biểu đồ 3.5 & 3.6 - Chi tiêu du lịch tại Kyoto & Nara (Tỷ Yên)
+  kyotoSpending: [
+    { year: '2008', value: 649.1 },
+    { year: '2009', value: 655.9 },
+    { year: '2010', value: 608.1 },
+    { year: '2011', value: 648.8 },
+    { year: '2014', value: 699.4 },
+    { year: '2015', value: 761.7 },
+    { year: '2016', value: 970.1 },
+    { year: '2017', value: 1085.5 },
+    { year: '2018', value: 1126.4 },
+    { year: '2019', value: 1308.1 },
+    { year: '2020', value: 1236.2 },
+  ] as TimeSeriesPoint[],
+
+  naraSpending: [
+    { year: '2013', value: 872.6 },
+    { year: '2014', value: 892.4 },
+    { year: '2015', value: 994.6 },
+    { year: '2016', value: 1035.9 },
+    { year: '2017', value: 1128.6 },
+    { year: '2018', value: 1208.0 },
+    { year: '2019', value: 1147.2 },
+    { year: '2020', value: 402.2 },
+    { year: '2021', value: 428.0 },
+    { year: '2022', value: 598.0 },
+  ] as TimeSeriesPoint[],
+
+  // Chart 8: Cơ cấu khách Nội địa vs Quốc tế năm 2017 (Triệu lượt)
+  visitorMix2017: [
+    { site: 'Cố đô Kyoto', domestic: 53.62, international: 3.53, intlShare: 6.2 },
+    { site: 'Cố đô Nara', domestic: 16.31, international: 1.99, intlShare: 10.9 },
+    { site: 'Núi Phú Sĩ (Fuji)', domestic: 6.40, international: 2.00, intlShare: 23.8 },
+  ],
+
+  // Chart 9: Độ lệch Cung - Cầu lưu trú tại Kyoto (2014 vs 2019)
+  kyotoSupplyDemandMismatch: {
+    visitors2014: 1.13, // Triệu khách quốc tế
+    visitors2019: 4.50, // Triệu khách quốc tế (+299%)
+    rooms2014: 30.0, // Nghìn phòng (<30.000)
+    rooms2019: 53.0, // Nghìn phòng (+76.7%)
+  },
+
+  // Chart 10: Tác động kinh tế đa chiều tại Kyoto & Toàn quốc (2019)
+  economicShareComparison: [
+    { metric: 'Đóng góp GDP Nhật Bản (2000)', share: 2.2 },
+    { metric: 'Đóng góp GDP Nhật Bản (2019)', share: 7.5 },
+    { metric: 'Tỷ trọng việc làm toàn quốc (2019 - >4M việc)', share: 6.9 },
+    { metric: 'Đóng góp GDP TP. Kyoto (2014)', share: 7.0 },
+    { metric: 'Đóng góp GDP TP. Kyoto (2019)', share: 12.0 },
+    { metric: 'Đóng góp Thuế TP. Kyoto (39 tỷ Yên)', share: 12.8 },
+    { metric: 'Đóng góp Lao động TP. Kyoto (153.000 người)', share: 12.4 },
+  ],
+
+  // Chart 11: Cường độ quá tải tại các điểm di sản nhạy cảm (2019)
+  overtourismHotspots: [
+    { site: 'Núi Phú Sĩ (2019 vs 2012: gấp 2,2x)', visitorsMillion: 5.06, benchmarkMillion: 2.3 },
+    { site: 'Đảo Miyajima - Đền Itsukushima (2019)', visitorsMillion: 4.60, benchmarkMillion: 2.0 },
+    { site: 'Cố đô Kyoto - Khách quốc tế (2019)', visitorsMillion: 4.50, benchmarkMillion: 1.13 },
+    { site: 'Cố đô Nara - Khách quốc tế (2019)', visitorsMillion: 3.32, benchmarkMillion: 0.63 },
+    { site: 'Làng cổ Shirakawa-go (Chỉ có 600 cư dân)', visitorsMillion: 1.80, benchmarkMillion: 0.5 },
+  ],
+
+  // Chart 12: Ma trận điểm áp lực vs. mức độ can thiệp chính sách (Thang 100)
+  sustainabilityScores: [
+    { site: 'Cố đô Kyoto', crowdingPressure: 95, commercialization: 90, ecoWasteRisk: 85, policyResponse: 92 },
+    { site: 'Cố đô Nara', crowdingPressure: 80, commercialization: 78, ecoWasteRisk: 88, policyResponse: 82 },
+    { site: 'Núi Phú Sĩ', crowdingPressure: 88, commercialization: 75, ecoWasteRisk: 82, policyResponse: 86 },
+    { site: 'Làng Shirakawa-go', crowdingPressure: 98, commercialization: 65, ecoWasteRisk: 78, policyResponse: 88 },
+    { site: 'Đền Itsukushima', crowdingPressure: 84, commercialization: 70, ecoWasteRisk: 75, policyResponse: 85 },
+  ],
+
+  // Ma trận 5 Case Studies ở Chương 3.2
+  caseStudies: [
+    {
+      site: 'Cố đô Kyoto',
+      prefecture: 'Phủ Kyoto',
+      type: 'Di sản Văn hóa (1994)',
+      pressureMetric: '4,5M khách quốc tế (2019) | Thiếu lưu trú (53k phòng)',
+      coreIssue:
+        'Tắc nghẽn xe buýt tại Gion và Kinkakuji; du khách thuê chung cư dân sinh gây ồn; rác thải tại Arashiyama.',
+      intervention:
+        'Lắp camera trực tiếp báo tắc nghẽn thời gian thực; phân tán khách ra 6 vùng ven; mở khách sạn cao cấp (Park Hyatt, Aman).',
+      status: 'Đang vận hành hiệu quả',
+    },
+    {
+      site: 'Cố đô Nara',
+      prefecture: 'Tỉnh Nara',
+      type: 'Di sản Văn hóa (1998)',
+      pressureMetric: '3,318M khách quốc tế (2019) | Doanh thu giảm năm 2019',
+      coreIssue:
+        'Thiếu khách sạn lưu trú qua đêm; rác nhựa do du khách cho hươu ăn gây hại đàn hươu và nông nghiệp.',
+      intervention:
+        'Trợ cấp vị trí xây cơ sở lưu trú; mở JW Marriott, Fufu Nara; cho phép cải tạo tài sản văn hóa làm nơi lưu trú.',
+      status: 'Đang mở rộng lưu trú',
+    },
+    {
+      site: 'Núi Phú Sĩ (Fuji)',
+      prefecture: 'Yamanashi & Shizuoka',
+      type: 'Di sản Văn hóa (2013)',
+      pressureMetric: '5,06M khách (2019, gấp 2,2 lần năm 2012)',
+      coreIssue:
+        'Quá tải leo núi theo mùa, rủi ro an toàn và xả rác trên các cung đường mòn.',
+      intervention:
+        'Lập Quỹ hợp tác bảo tồn (2014); mở Trung tâm Di sản Thế giới leo núi ảo VR (2017); đề xuất đường sắt leo núi.',
+      status: 'Quỹ và Trung tâm VR vận hành tốt; Đường sắt đang thảo luận',
+    },
+    {
+      site: 'Làng cổ Shirakawa-go & Gokayama',
+      prefecture: 'Gifu & Toyama',
+      type: 'Di sản Văn hóa (1995)',
+      pressureMetric: '1,8M khách/năm trên 600 dân bản địa (3.000:1)',
+      coreIssue:
+        'Vượt sức chứa hạ tầng dịp Lễ hội ánh sáng mùa đông; tiếng ồn và rác thải ảnh hưởng sinh hoạt cộng đồng.',
+      intervention:
+        'Bắt buộc đặt chỗ trước 100% đêm thắp sáng, tăng giá vé, giới hạn bãi đỗ xe và lối lên đài quan sát.',
+      status: 'Đã kiểm soát tốt mùa cao điểm',
+    },
+    {
+      site: 'Đền Itsukushima (Đảo Miyajima)',
+      prefecture: 'Hiroshima',
+      type: 'Di sản Văn hóa (1996)',
+      pressureMetric: '4,6M lượt khách lên đảo (2019)',
+      coreIssue:
+        'Lượng khách lớn gây áp lực lên công trình tôn giáo cổ và môi trường biển đảo.',
+      intervention:
+        'Thu thuế du khách lên đảo (100 Yên/người) để tạo quỹ tài chính trực tiếp cho bảo tồn di sản.',
+      status: 'Đã áp dụng thu phí bảo tồn',
+    },
+  ] as CaseStudyMatrixItem[],
+
+  // Phần thừa nhận thiếu sót của bài niên luận gốc
+  thesisLimitations: [
+    {
+      id: 'LIM-01',
+      category: 'Độ lệch biến đại diện (Proxy Metric Bias)',
+      severity: 'Cao',
+      flawInThesis:
+        'Thống kê Nhật Bản không tách riêng mã ngành du lịch di sản. Niên luận dùng tổng khách quốc tế và số liệu Kyoto, Nara làm proxy.',
+      portfolioFix:
+        'Minh bạch giả định proxy; bổ sung cơ cấu khách quốc tế/nội địa (2017) để bóc tách tỷ trọng thực tế.',
+    },
+    {
+      id: 'LIM-02',
+      category: 'Phạm vi khảo sát hẹp so với tên đề tài',
+      severity: 'Cao',
+      flawInThesis:
+        'Đề tài khảo sát 25 di sản UNESCO nhưng chuỗi dữ liệu định lượng Chương 3.1 chỉ tập trung vào Kyoto và Nara.',
+      portfolioFix:
+        'Mở rộng số liệu điểm nóng sang Núi Phú Sĩ (5,06M khách), Itsukushima (4,6M) và Shirakawa-go (1,8M).',
+    },
+    {
+      id: 'LIM-03',
+      category: 'Chưa kiểm định quan hệ nhân quả',
+      severity: 'Trung bình',
+      flawInThesis:
+        'Niên luận quy tăng trưởng sau 2013 cho chính sách, chưa bóc tách tác động của tỷ giá Yên thấp (Abenomics) và vé máy bay giá rẻ.',
+      portfolioFix:
+        'Bổ sung biểu đồ chỉ số hóa (2013 = 100) so sánh Kyoto/Nara với cả nước để chứng minh sức hút riêng của di sản.',
+    },
+    {
+      id: 'LIM-04',
+      category: 'Sai sót chế bản và mốc thời gian',
+      severity: 'Đã hiệu đính',
+      flawInThesis:
+        'Mục 3.1.2 ghi nhầm chi tiêu đạt 4,81 nghìn tỷ Yên năm 2020 (thực tế là 2019; năm 2020 giảm còn 0,7 nghìn tỷ do COVID-19).',
+      portfolioFix:
+        'Hiệu đính chính xác mốc đỉnh 2019 trên toàn bộ biểu đồ, thẻ KPI và tài liệu hiển thị.',
+    },
+    {
+      id: 'LIM-05',
+      category: 'Độ chuẩn hóa nguồn tài liệu',
+      severity: 'Trung bình',
+      flawInThesis:
+        'Niên luận sử dụng 4 liên kết Wikipedia ([13], [14], [16], [19]) thay vì toàn bộ nguồn thống kê gốc.',
+      portfolioFix:
+        'Lọc bỏ nguồn Wikipedia; chuẩn hóa 100% dữ liệu theo UNWTO, OECD, JNTO/MLIT và số liệu thống kê cấp tỉnh.',
+    },
+  ] as ThesisLimitationItem[],
+};
+
 export interface ThesisMetadata {
   titleVi: string;
   titleEn: string;

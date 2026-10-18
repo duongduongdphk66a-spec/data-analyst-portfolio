@@ -22,14 +22,14 @@ const FALLBACK_FLAGSHIP_PROJECTS: ProjectCardData[] = [
   {
     id: 'library-bus',
     title: {
-      vi: 'Hệ Sinh Thái Thư Viện Lưu Động Thông Minh (Library Bus Full-Stack & BI)',
-      en: 'Smart Mobile Library Bus Ecosystem (Full-Stack Django & Product Analytics)'
+      vi: 'Library Bus: Thiết kế UX/UI Website Thư Viện Lưu Động',
+      en: 'Library Bus: UX/UI Design for a Mobile Library Website'
     },
     description: {
-      vi: 'Thiết kế kiến trúc 6 phân hệ Django + Celery + Redis với 10 màn hình Analytics chuyên biệt. Tối ưu lộ trình 5 tuyến xe buýt (30 điểm đỗ, 7.080 lượt mượn/tháng), kiểm soát khóa giao dịch chống trùng đơn (Race Condition) và tự động hóa nhắc hạn.',
-      en: 'Architected a 6-app Django + Celery + Redis platform with 10 dedicated Analytics views. Optimized 5 mobile bus routes (30 stops, 7,080 borrows/mo) with concurrency locking and automated overdue reminders.'
+      vi: 'Nghiên cứu, logo và thành phần giao diện, hệ thống lưới, wireframe và UI design cho 20 màn hình desktop kèm bản mobile của website xe thư viện lưu động.',
+      en: 'Research, logo and UI components, grid system, wireframes and UI design for 20 desktop screens plus mobile versions of a mobile library website.'
     },
-    tech: ['Python (Django)', 'Celery & Redis', 'Product Funnel BI', 'UX/UI System Design'],
+    tech: ['UX Research', 'Wireframe', 'Design System', 'UI Design'],
     featured: true
   },
   {

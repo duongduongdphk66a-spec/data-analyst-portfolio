@@ -119,18 +119,18 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
   const desktopFilters = [
     { id: 'all', label: isEn ? 'All (20)' : 'Tất cả (20)' },
     { id: 'public', label: isEn ? 'Public & Reader (8)' : 'Khách vãng lai & Độc giả (8)' },
-    { id: 'transactions', label: isEn ? 'Circulation (4)' : 'Lưu thông & Mượn trả (4)' },
+    { id: 'transactions', label: isEn ? 'Lending (4)' : 'Lưu thông & Mượn trả (4)' },
     { id: 'users', label: isEn ? 'Account & Pass (4)' : 'Tài khoản & Hội viên (4)' },
-    { id: 'admin', label: isEn ? 'Admin & Telemetry (2)' : 'Quản trị & Phân tích (2)' },
+    { id: 'admin', label: isEn ? 'Admin & Analytics (2)' : 'Quản trị & Phân tích (2)' },
     { id: 'blog', label: isEn ? 'Community News (2)' : 'Cộng đồng & Tin tức (2)' },
   ];
 
   const mobileFilters = [
     { id: 'all', label: isEn ? 'All Mobile (20)' : 'Tất cả Mobile (20)' },
     { id: 'public', label: isEn ? 'Public & Reader (8)' : 'Khách vãng lai & Độc giả (8)' },
-    { id: 'transactions', label: isEn ? 'Circulation (4)' : 'Lưu thông & Mượn trả (4)' },
+    { id: 'transactions', label: isEn ? 'Lending (4)' : 'Lưu thông & Mượn trả (4)' },
     { id: 'users', label: isEn ? 'Account & Pass (4)' : 'Tài khoản & Hội viên (4)' },
-    { id: 'admin', label: isEn ? 'Admin & Telemetry (2)' : 'Quản trị & Phân tích (2)' },
+    { id: 'admin', label: isEn ? 'Admin & Analytics (2)' : 'Quản trị & Phân tích (2)' },
     { id: 'blog', label: isEn ? 'Community News (2)' : 'Cộng đồng & Tin tức (2)' },
   ];
 
@@ -195,7 +195,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
 
         <div className="flex items-center gap-2 text-xs text-slate-500 font-mono">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span>{currentScreens.length} Wireframes + {currentScreens.length} UI Templates Synced</span>
+          <span>{currentScreens.length} Wireframes + {currentScreens.length} UI designs</span>
         </div>
       </div>
 
@@ -298,7 +298,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
               {selectedScreen.moduleNameVi}
             </span>
             <span className="text-xs font-mono text-slate-500 hidden sm:inline">
-              Django: <code className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">{selectedScreen.templatePath}</code>
+              {isEn ? 'Route:' : 'Đường dẫn:'} <code className="text-[#0D7287] font-bold dark:text-[#9BE7FA]">{selectedScreen.routePath}</code>
             </span>
           </div>
 
@@ -402,7 +402,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                   <span className="w-2.5 h-2.5 rounded-full bg-[#FFD14C] shrink-0 inline-block" />
                   <span>UI design</span>
                 </h3>
-                <p className="text-[11px] text-slate-500 truncate">Giao diện thành phẩm hoàn chỉnh, hệ màu 4-Tone</p>
+                <p className="text-[11px] text-slate-500 truncate">Giao diện thành phẩm hoàn chỉnh, bảng màu 6 tông</p>
               </div>
 
               <div className="flex items-center gap-2 shrink-0 ml-2">
@@ -410,7 +410,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                   onClick={() => handleOpenLightbox(
                     selectedScreen.uiSrc,
                     `${selectedScreen.titleVi} - UI Design`,
-                    'Giao diện hoàn chỉnh Bảng màu 4-Tone'
+                    'Giao diện hoàn chỉnh, bảng màu 6 tông'
                   )}
                   className="p-2 rounded-xl bg-[#C8EEF7]/30 hover:bg-[#FFE485]/40 text-[#0D7287] border border-[#9BE7FA]/40 transition-colors dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 cursor-pointer"
                   title="Phóng to UI Design"
@@ -439,7 +439,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                 onClick={() => handleOpenLightbox(
                   selectedScreen.uiSrc,
                   `${selectedScreen.titleVi} - UI Design`,
-                  'Giao diện hoàn chỉnh Bảng màu 4-Tone'
+                  'Giao diện hoàn chỉnh, bảng màu 6 tông'
                 )}
               >
                 <Image 

@@ -45,9 +45,9 @@ const PROJECT_METADATA: Record<string, { title: string; desc: string; keywords?:
     keywords: ['Time Series', 'Heritage Tourism', 'Japan JNTO', 'Data Modeling', 'Data Storytelling', 'Python'],
   },
   'proj-library-bus': {
-    title: 'Library Bus System: Database Architecture & Optimization | Ma Văn Hùng',
-    desc: 'Thiết kế kiến trúc CSDL quan hệ, Redis cache, Celery workers cho hệ thống thư viện lưu động 50,000+ người dùng. Giảm 93.7% latency, 0% xung đột dữ liệu.',
-    keywords: ['PostgreSQL', 'Redis', 'Celery', 'Database Architecture', 'System Optimization', 'ACID'],
+    title: 'Library Bus: UX/UI Design for a Mobile Library Website | Ma Văn Hùng',
+    desc: 'Dự án thiết kế UX/UI cho website xe thư viện lưu động: nghiên cứu, logo và thành phần giao diện, hệ thống lưới, wireframe và UI design cho 20 màn hình desktop kèm bản mobile.',
+    keywords: ['UX/UI Design', 'Wireframe', 'Design System', 'Website Design', 'Responsive'],
   },
 };
 

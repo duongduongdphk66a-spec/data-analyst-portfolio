@@ -1,11 +1,6 @@
 /**
  * Library Bus Brand Identity, Neo-Bakery Tokens & UX Research
  */
-/**
- * Library Bus Management System - Design Guidelines, Architecture & Telemetry Data
- * Structured following "Thiết kế chưa có tên.pdf" (Website Guidelines by Dương Dương)
- * Adapted to Personal Portfolio Palette (#0D7287, #9BE7FA, #C8EEF7, #FFD14C)
- */
 
 export const PORTFOLIO_PALETTE = {
   teal: '#0D7287',         // Deep Teal Anchor
@@ -32,27 +27,27 @@ export const NEO_BAKERY = PORTFOLIO_PALETTE;
 export const ABOUT_US_DATA = {
   chapter: '01',
   subChapter: '1.1',
-  titleVi: 'VỀ CHÚNG TÔI',
+  titleVi: 'VỀ DỰ ÁN',
   titleEn: 'ABOUT US',
-  subtitleVi: '/Về chúng tôi/',
-  subtitleEn: '/About Us/',
+  subtitleVi: '/Về dự án/',
+  subtitleEn: '/About the project/',
   reason: {
     titleVi: 'Lý do phát triển',
     titleEn: 'Reason for Development',
-    descVi: 'Library Bus xóa bỏ rào cản địa lý, đưa sách hay đến tận khu dân cư và trường học.',
-    descEn: 'Library Bus bridges the gap by bringing quality books directly to suburban neighborhoods and school gates.'
+    descVi: 'Thư viện thường gắn với một địa điểm cố định, nên người ở xa hoặc ít thời gian khó đến mượn sách. Library Bus là website cho dịch vụ xe thư viện lưu động: người đọc tra cứu sách, xem xe đang ở đâu và đặt mượn trước. Thủ thư xử lý việc mượn trả tại từng điểm dừng.',
+    descEn: 'A library usually sits in one fixed place, so readers who live far away or have little time find it hard to borrow books. Library Bus is the website for a mobile library service: readers search for books, see where each bus is and reserve in advance, and librarians handle borrowing and returns at each stop.'
   },
-  mission: {
-    titleVi: 'Sứ mệnh',
-    titleEn: 'Mission',
-    descVi: 'Bình đẳng hóa tri thức qua công nghệ GPS và mượn trực tuyến, nuôi dưỡng tình yêu đọc sách.',
-    descEn: 'Democratize reading through GPS tracking and online reservations, fostering sustainable habits across all generations.'
+  scope: {
+    titleVi: 'Phạm vi dự án',
+    titleEn: 'Project Scope',
+    descVi: 'Dự án chỉ gồm phần thiết kế UX/UI: nghiên cứu, hệ thống thiết kế, wireframe và giao diện cho 20 màn hình desktop, kèm bản mobile. Sách, xe, tuyến và người dùng trong giao diện là dữ liệu mẫu để minh họa bố cục.',
+    descEn: 'The project covers UX/UI design only: research, design system, wireframes and interfaces for 20 desktop screens plus mobile versions. Books, buses, routes and users shown in the interface are sample data used to illustrate layouts.'
   },
   brandMeaning: {
     titleVi: 'Ý nghĩa tên thương hiệu',
     titleEn: 'Brand Name Meaning',
-    descVi: '"Library Bus" kết hợp tri thức (Library) và sự chuyển động (Bus), mang thư viện đến mọi người.',
-    descEn: '"Library Bus" blends static wisdom with dynamic movement. Knowledge no longer waits; it travels to the people.'
+    descVi: 'Library là thư viện và tri thức, Bus là sự di chuyển. Tên Library Bus nói rằng thư viện đến với người đọc.',
+    descEn: 'Library stands for books and knowledge, Bus stands for movement. The name says that the library comes to the reader.'
   }
 };
 
@@ -61,124 +56,117 @@ export const UX_RESEARCH_DATA = {
   subChapter: '1.2',
   titleVi: 'NGHIÊN CỨU TRẢI NGHIỆM NGƯỜI DÙNG',
   titleEn: 'UX RESEARCH',
-  subtitleVi: '/Nghiên cứu thị trường & Người dùng/',
-  subtitleEn: '/Market Research & User Insights/',
+  subtitleVi: '/Thị trường, khách hàng và cấu trúc website/',
+  subtitleEn: '/Market, customers and website structure/',
   marketResearch: {
     marketId: {
       titleVi: 'Xác định thị trường',
       titleEn: 'Market Identification',
-      descVi: 'Xu hướng O2O tăng cao. Độc giả thích tra cứu online nhưng vẫn chuộng sách giấy và giao lưu cộng đồng.',
-      descEn: 'O2O ecosystem is growing. Readers want quick digital discovery combined with physical books in communal settings.'
+      descVi: 'Người đọc muốn tìm sách nhanh qua mạng, nhưng vẫn thích sách giấy và việc nhận sách trực tiếp. Một dịch vụ mượn sách lưu động cần cho họ biết ba điều: sách nào còn, xe đang ở đâu và bao giờ xe đến.',
+      descEn: 'Readers want to find books quickly online, yet still prefer printed books and picking them up in person. A mobile lending service has to tell them three things: which books are available, where the bus is and when it arrives.'
     },
     currentTrends: {
       titleVi: 'Xu hướng hiện tại',
       titleEn: 'Current Trends',
-      descVi: 'Số hóa kho trực tuyến, đặt sách không chạm và Gamification (chuỗi đọc) để tăng tương tác.',
-      descEn: 'Real-time IoT inventory, contactless reservations, and gamified reading streaks dramatically heighten user engagement.'
+      descVi: 'Tra cứu mục lục thư viện qua website, đặt trước sách và nhận tại điểm hẹn, thông báo nhắc hạn trả, cùng nội dung cộng đồng như tin tức và blog để người đọc quay lại.',
+      descEn: 'Library catalogs searched through websites, books reserved ahead and collected at a meeting point, reminders before due dates, and community content such as news and blog posts that bring readers back.'
+    },
+    conclusionVi: '=> Giao diện đặt phần tìm sách, xem xe và đặt trước ở vị trí dễ thấy, và dùng được trên điện thoại.',
+    conclusionEn: '=> The interface puts book search, bus lookup and reservation where they are easy to see, and works on a phone.',
+    noteVi: 'Phần nghiên cứu này là định hướng cho thiết kế, chưa dựa trên khảo sát hay số liệu thực địa.',
+    noteEn: 'This research section guides the design. It is not based on a survey or field data.'
+  },
+  customerGroups: [
+    {
+      id: '1',
+      nameVi: 'Độc giả và khách vãng lai',
+      nameEn: 'Readers and Visitors',
+      descVi: 'Người tìm sách, xem lịch xe và đặt trước. Hội viên có thêm hồ sơ, danh sách sách đang mượn và thông báo. Khách vãng lai xem giới thiệu, blog, FAQ và liên hệ trước khi đăng ký.',
+      descEn: 'People who search for books, check bus schedules and reserve. Members also get a profile, a list of borrowed books and notifications. Visitors read the about page, blog, FAQ and contact page before signing up.'
+    },
+    {
+      id: '2',
+      nameVi: 'Thủ thư tại điểm dừng',
+      nameEn: 'Librarians at Stops',
+      descVi: 'Người tạo phiếu mượn, xử lý đặt trước và nhận sách quyên góp. Cần màn hình quản lý rõ ràng, ít bước, đọc được nhanh khi đang phục vụ người đọc.',
+      descEn: 'People who create borrow slips, handle reservations and receive donated books. They need clear management screens with few steps that can be read quickly while serving readers.'
+    },
+    {
+      id: '3',
+      nameVi: 'Quản lý và ban dự án',
+      nameEn: 'Managers and Project Board',
+      descVi: 'Người theo dõi tình hình kho sách, giao dịch và hoạt động của các xe qua các dashboard và trang analytics.',
+      descEn: 'People who follow the book stock, transactions and bus activity through the dashboards and analytics page.'
     }
-  },
-  customerTarget: {
-    demographics: [
-      { labelVi: 'Độ tuổi', labelEn: 'Age Group', value: '6 - 45 tuổi' },
-      { labelVi: 'Giới tính', labelEn: 'Gender', value: 'Mọi giới tính (55% Nữ, 45% Nam)' },
-      { labelVi: 'Nghề nghiệp', labelEn: 'Occupation', value: 'Học sinh, Sinh viên, Phụ huynh, Hưu trí' },
-      { labelVi: 'Khu vực', labelEn: 'Geography', value: 'Trường học, khu đô thị ngoại ô, điểm dừng bus' },
-    ],
-    personas: [
-      {
-        name: 'Nguyễn Minh Trí',
-        roleVi: 'Học sinh THPT (16 tuổi)',
-        roleEn: 'High School Student (16 y/o)',
-        avatar: '🎓',
-        needsVi: 'Cần sách ôn luyện và tiểu thuyết. Tan trường muộn nên không kịp tới thư viện thành phố.',
-        needsEn: 'Needs exam prep and novels. Finishes school late and cannot travel to central libraries.',
-        painPointVi: 'Sợ sách bị mượn hết trước khi đến; cần biết chính xác lịch xe dừng ở cổng trường.',
-        painPointEn: 'Worries the desired book is already borrowed; wants exact stop timings at the school gate.'
-      },
-      {
-        name: 'Trần Thị Mai Lan',
-        roleVi: 'Phụ huynh bận rộn (34 tuổi)',
-        roleEn: 'Working Mother (34 y/o)',
-        avatar: '👩‍💼',
-        needsVi: 'Muốn rèn thói quen đọc sách cho con thay vì dùng đồ điện tử. Thích không gian ngoài trời.',
-        needsEn: 'Wants to instill reading habits in her 8 y/o child instead of screens. Loves outdoor weekend reading events.',
-        painPointVi: 'Thời gian eo hẹp; cần ứng dụng đặt sách nhanh để lấy ngay khi đón con tan học.',
-        painPointEn: 'Extremely limited free time; needs quick mobile reservation to pick up books right when picking up kids.'
-      },
-      {
-        name: 'Bác Lê Văn Hưng',
-        roleVi: 'Cán bộ hưu trí (68 tuổi)',
-        roleEn: 'Retired Teacher (68 y/o)',
-        avatar: '👴',
-        needsVi: 'Thích đọc báo, sách lịch sử. Coi trạm dừng thư viện là nơi giao lưu kết bạn tuổi già.',
-        needsEn: 'Enjoys morning news, history books and memoirs. Considers the mobile bus stop a heartwarming social hub.',
-        painPointVi: 'Gặp khó khăn với giao diện phức tạp; cần sự trợ giúp trực tiếp từ thủ thư.',
-        painPointEn: 'Struggles with complex app navigations; values warm, direct face-to-face assistance from librarians.'
-      }
-    ]
-  },
+  ],
   websiteReferences: [
     {
-      name: 'Thư viện Quốc gia Số',
-      prosVi: 'Kho tài liệu số hóa khổng lồ, danh mục học thuật chuẩn DDC.',
-      consVi: 'Giao diện truyền thống, thiếu định vị thực địa và thiếu tính năng giữ chỗ trạm di động.',
-      takeawayVi: 'Học hỏi quy chuẩn phân loại danh mục sách quốc tế, hiện đại hóa giao diện phẳng trực quan.'
+      nameVi: 'Danh mục tra cứu thư viện (OPAC)',
+      nameEn: 'Library Catalog (OPAC)',
+      descVi: 'Cách tìm, lọc và hiển thị trạng thái của từng cuốn sách.',
+      descEn: 'How books are searched, filtered and shown with their status.',
+      appliedVi: 'Màn hình danh sách sách và chi tiết sách.',
+      appliedEn: 'Book catalog and book detail screens.'
     },
     {
-      name: 'Mô hình Bookmobile Quốc tế',
-      prosVi: 'Tính lưu động cao, gắn kết trực tiếp với các trường học và khu dân cư.',
-      consVi: 'Quản lý lịch trình thủ công, độc giả không xem được vị trí xe thời gian thực.',
-      takeawayVi: 'Tích hợp định vị GPS trực tiếp (Live Fleet Telemetry) và đồng bộ kho O(1) qua Redis.'
+      nameVi: 'Ứng dụng mượn sách trực tuyến',
+      nameEn: 'Online Lending Apps',
+      descVi: 'Luồng đặt trước và theo dõi sách đang mượn trên điện thoại.',
+      descEn: 'The reservation flow and tracking of borrowed books on a phone.',
+      appliedVi: 'Màn hình đặt trước, dashboard người dùng và thông báo.',
+      appliedEn: 'Reservation, user dashboard and notification screens.'
     },
     {
-      name: 'Nền tảng Libby / OverDrive',
-      prosVi: 'Trải nghiệm mượn sách mượt mà, hệ thống giữ chỗ (Hold Queues) tối ưu.',
-      consVi: 'Chủ yếu phục vụ E-book, không hỗ trợ điều phối xe thực tế.',
-      takeawayVi: 'Kế thừa luồng giữ chỗ tự động và bổ sung thông báo Celery nhắc hẹn qua Email/SMS.'
+      nameVi: 'Mô hình xe thư viện (bookmobile)',
+      nameEn: 'Bookmobile Model',
+      descVi: 'Xe đi theo lịch và dừng tại các điểm cố định.',
+      descEn: 'Buses follow a schedule and stop at fixed points.',
+      appliedVi: 'Màn hình danh sách xe trên bản đồ và chi tiết xe.',
+      appliedEn: 'Bus map list and bus detail screens.'
     }
   ],
   functions: [
-    { id: '1', nameVi: 'Tra Cứu Mục Lục Động O(1)', nameEn: 'Dynamic O(1) Catalog Discovery', descVi: 'Tìm kiếm theo tên sách, tác giả, thể loại với bộ nhớ đệm Redis sub-30ms.' },
-    { id: '2', nameVi: 'Định Vị Xe GPS Theo Thời Gian Thực', nameEn: 'Live GPS Fleet Tracking', descVi: 'Theo dõi 12 đầu xe và 48 trạm dừng, hiển thị lộ trình sắp đến từng phút.' },
-    { id: '3', nameVi: 'Khóa Bi Quan Đặt Giữ Chỗ Trạm', nameEn: 'Pessimistic Hold Queues', descVi: 'select_for_update() khóa cứng bản ghi tại DB, cam kết 0% Race Condition.' },
-    { id: '4', nameVi: 'Thẻ Độc Giả Số & Gamification', nameEn: 'Digital Reader Pass & Streaks', descVi: 'Thẻ thành viên mã QR, tích điểm uy tín, duy trì chuỗi ngày đọc và thăng hạng.' },
-    { id: '5', nameVi: 'Nhắc Hẹn Tự Động Qua Celery', nameEn: 'Automated Celery Reminders', descVi: 'Gửi thông báo đẩy và email nhắc hẹn trả sách trước 2 ngày, tự động tính hạn.' },
-    { id: '6', nameVi: 'Cổng Quản Trị Dispatcher Cho Thủ Thư', nameEn: 'Librarian Fleet Dispatch Portal', descVi: 'Màn hình kiểm kê tồn kho, xuất nhập sách thực địa và quản lý độc giả mượn trả.' }
+    { id: '1', nameVi: 'Tra cứu sách', nameEn: 'Book Search', descVi: 'Danh sách sách và trang chi tiết từng cuốn.', descEn: 'A book list and a detail page for each book.' },
+    { id: '2', nameVi: 'Xem xe trên bản đồ', nameEn: 'Bus Map', descVi: 'Danh sách xe trên bản đồ và trang chi tiết từng xe.', descEn: 'A map of the buses and a detail page for each bus.' },
+    { id: '3', nameVi: 'Mượn và đặt trước', nameEn: 'Borrow and Reserve', descVi: 'Tạo phiếu mượn tại điểm dừng và đặt trước sách trực tuyến.', descEn: 'Borrow slips created at a stop and online reservations.' },
+    { id: '4', nameVi: 'Tài khoản và thông báo', nameEn: 'Account and Notifications', descVi: 'Đăng nhập, đăng ký, dashboard người dùng và trung tâm thông báo.', descEn: 'Login, registration, user dashboard and a notification center.' },
+    { id: '5', nameVi: 'Quản lý thư viện', nameEn: 'Library Management', descVi: 'Dashboard quản lý, giao dịch, quyên góp sách và analytics.', descEn: 'Management dashboard, transactions, book donations and analytics.' },
+    { id: '6', nameVi: 'Blog, FAQ và liên hệ', nameEn: 'Blog, FAQ and Contact', descVi: 'Tin tức, câu hỏi thường gặp và biểu mẫu liên hệ.', descEn: 'News, frequently asked questions and a contact form.' }
+  ],
+  sitemapRoot: 'Library Bus',
+  sitemapTop: [
+    { vi: 'Trang chủ', en: 'Home' },
+    { vi: 'Giới thiệu', en: 'About' },
+    { vi: 'Sách', en: 'Books' },
+    { vi: 'Xe buýt', en: 'Buses' },
+    { vi: 'Mượn trả và quyên góp', en: 'Lending and Donations' },
+    { vi: 'Tài khoản', en: 'Account' },
+    { vi: 'Blog', en: 'Blog' },
+    { vi: 'Quản lý', en: 'Management' },
+    { vi: 'Hỗ trợ', en: 'Support' }
   ],
   sitemap: [
-    {
-      parentVi: 'Trang chủ (Home)',
-      childrenVi: ['Hero xe thư viện', 'Bản đồ lộ trình trạm', 'Sách mới nổi bật', 'Bảng tin hoạt động']
-    },
-    {
-      parentVi: 'Kho sách & Tra cứu',
-      childrenVi: ['Mục lục phân loại', 'Bộ lọc xe buýt & trạm', 'Chi tiết cuốn sách', 'Đặt giữ chỗ trước']
-    },
-    {
-      parentVi: 'Lộ trình & Trạm dừng',
-      childrenVi: ['Danh sách 48 trạm GPS', 'Lịch trình theo ngày', 'Bản đồ vị trí xe live', 'Đăng ký trạm mới']
-    },
-    {
-      parentVi: 'Hồ sơ & Thẻ độc giả',
-      childrenVi: ['Thẻ thư viện QR', 'Lịch sử mượn & trả', 'Chuỗi ngày đọc (Streak)', 'Hạng thành viên']
-    },
-    {
-      parentVi: 'Cộng đồng & Tin tức',
-      childrenVi: ['Review sách hay', 'Sự kiện giao lưu cuối tuần', 'Quyên góp sách', 'Chính sách mượn']
-    }
+    { parentVi: 'Trang chủ', parentEn: 'Home', childrenVi: ['Hero và lối vào chính', 'Sách mới cập nhật', 'Góc nhìn và tin tức'], childrenEn: ['Hero and main entry points', 'Newly added books', 'News and perspectives'] },
+    { parentVi: 'Giới thiệu', parentEn: 'About', childrenVi: ['Khởi nguồn ý tưởng', 'Mục tiêu dành cho khách hàng'], childrenEn: ['Origin of the idea', 'Goals for customers'] },
+    { parentVi: 'Sách', parentEn: 'Books', childrenVi: ['Danh sách sách', 'Chi tiết sách'], childrenEn: ['Book list', 'Book detail'] },
+    { parentVi: 'Xe buýt', parentEn: 'Buses', childrenVi: ['Danh sách xe (bản đồ)', 'Chi tiết xe buýt'], childrenEn: ['Bus list (map)', 'Bus detail'] },
+    { parentVi: 'Mượn trả và quyên góp', parentEn: 'Lending and Donations', childrenVi: ['Tạo phiếu mượn sách', 'Tạo đặt trước sách', 'Danh sách quyên góp', 'Dashboard giao dịch'], childrenEn: ['Create a borrow slip', 'Create a reservation', 'Donation list', 'Transactions dashboard'] },
+    { parentVi: 'Tài khoản', parentEn: 'Account', childrenVi: ['Đăng nhập', 'Đăng ký', 'Dashboard người dùng', 'Thông báo'], childrenEn: ['Login', 'Registration', 'User dashboard', 'Notifications'] },
+    { parentVi: 'Blog', parentEn: 'Blog', childrenVi: ['Trang chủ blog', 'Chi tiết bài viết'], childrenEn: ['Blog home', 'Article detail'] },
+    { parentVi: 'Quản lý', parentEn: 'Management', childrenVi: ['Dashboard quản lý thư viện', 'Analytics dashboard'], childrenEn: ['Library management dashboard', 'Analytics dashboard'] },
+    { parentVi: 'Hỗ trợ', parentEn: 'Support', childrenVi: ['FAQ', 'Liên hệ'], childrenEn: ['FAQ', 'Contact'] }
   ],
+  userFlowTitleVi: 'Luồng người dùng: tìm sách và đặt mượn',
+  userFlowTitleEn: 'User flow: find a book and reserve it',
   userFlowSteps: [
-    { id: 'start', labelVi: 'Trang chủ', type: 'start', descVi: 'Độc giả truy cập cổng Library Bus' },
-    { id: 'search_decision', labelVi: 'Đã biết sách cần tìm?', type: 'decision', descVi: 'Lựa chọn tìm kiếm theo tên hoặc duyệt danh mục' },
-    { id: 'enter_keyword', labelVi: 'Nhập từ khóa tra cứu', type: 'action', descVi: 'Tìm nhanh qua bộ nhớ đệm Redis' },
-    { id: 'browse_catalog', labelVi: 'Khám phá theo thể loại', type: 'action', descVi: 'Duyệt theo chủ đề và trạm xe gần nhất' },
-    { id: 'book_detail', labelVi: 'Xem chi tiết sách', type: 'action', descVi: 'Kiểm tra tình trạng còn sách trên các xe' },
-    { id: 'choose_station', labelVi: 'Chọn trạm nhận sách', type: 'action', descVi: 'Lựa chọn trạm đón tiện lợi nhất' },
-    { id: 'auth_decision', labelVi: 'Đã có tài khoản?', type: 'decision', descVi: 'Kiểm tra trạng thái đăng nhập độc giả' },
-    { id: 'login', labelVi: 'Đăng nhập thẻ độc giả', type: 'action', descVi: 'Xác thực nhanh qua mã thẻ hoặc SĐT' },
-    { id: 'register', labelVi: 'Đăng ký nhanh', type: 'action', descVi: 'Khai báo thông tin nhận sách' },
-    { id: 'confirm_hold', labelVi: 'Xác nhận giữ chỗ (Lock)', type: 'action', descVi: 'Khóa bi quan select_for_update' },
-    { id: 'success', labelVi: 'Đặt mượn thành công & Mã QR', type: 'end', descVi: 'Nhận vé QR và thông báo lịch xe đến' }
+    { id: 'start', type: 'start', labelVi: 'Trang chủ', labelEn: 'Home', descVi: 'Người đọc vào website', descEn: 'The reader opens the website' },
+    { id: 'know_decision', type: 'decision', labelVi: 'Biết sách cần tìm?', labelEn: 'Knows the book?', descVi: 'Có: đi tới tìm kiếm. Không: xem sách mới và tin tức rồi vào danh sách sách', descEn: 'Yes: go to search. No: browse new books and news, then open the book list' },
+    { id: 'search', type: 'action', labelVi: 'Tìm kiếm sách', labelEn: 'Search for a book', descVi: 'Nhập từ khóa và lọc theo danh mục', descEn: 'Enter a keyword and filter by category' },
+    { id: 'list', type: 'action', labelVi: 'Danh sách sách', labelEn: 'Book list', descVi: 'Chọn một cuốn sách', descEn: 'Pick a book' },
+    { id: 'detail', type: 'action', labelVi: 'Chi tiết sách', labelEn: 'Book detail', descVi: 'Xem thông tin sách và nút đăng ký mượn', descEn: 'Read the book details and the borrow button' },
+    { id: 'auth_decision', type: 'decision', labelVi: 'Đã đăng nhập?', labelEn: 'Signed in?', descVi: 'Chưa: đăng nhập hoặc đăng ký rồi quay lại bước đặt', descEn: 'No: sign in or register, then return to the reservation step' },
+    { id: 'reserve', type: 'action', labelVi: 'Đặt trước hoặc tạo phiếu mượn', labelEn: 'Reserve or create a borrow slip', descVi: 'Điền thông tin và xác nhận', descEn: 'Fill in the details and confirm' },
+    { id: 'done', type: 'end', labelVi: 'Hoàn tất', labelEn: 'Done', descVi: 'Người đọc nhận xác nhận và thông báo', descEn: 'The reader receives a confirmation and a notification' }
   ]
 };
 
@@ -189,58 +177,56 @@ export const UX_RESEARCH_DATA = {
 export const BRAND_IDENTITY_DATA = {
   chapter: '02',
   subChapter: '2.1 & 2.2',
-  titleVi: 'HỆ THỐNG NHẬN DIỆN & THÀNH PHẦN GIAO DIỆN',
+  titleVi: 'LOGO VÀ THÀNH PHẦN GIAO DIỆN',
   titleEn: 'LOGO AND UI COMPONENTS',
-  subtitleVi: '/Nhận diện thương hiệu & Thư viện thành phần/',
-  subtitleEn: '/Brand Guidelines & Component Library/',
+  subtitleVi: '/Logo và thành phần giao diện/',
+  subtitleEn: '/Logo and UI components/',
   logo: {
-    ideaVi: 'Logo kết hợp xe buýt và trang sách, tượng trưng cho tri thức trên cung đường số.',
-    ideaEn: 'The logo fuses a transit vehicle with open pages, symbolizing knowledge soaring across digital routes.',
-    meaningVi: 'Tông màu ấm áp Neo-Bakery (Molasses #4E0705, Roast #BD5705, Butter #FDE971) gợi cảm giác thân thuộc như gian bếp gia đình và những trang sách mới.',
-    meaningEn: 'The warm Neo-Bakery palette (Molasses #4E0705, Roast #BD5705, Butter #FDE971) evokes the comfort of printed pages and community learning.',
-    structureRatio: '6.6X × 4X (Chiều dài 6.6X và Chiều cao 4X, với X là đơn vị cơ sở chuẩn hóa)',
-    safeDistance: '1.5X khi đứng độc lập và 2X khi đứng cạnh logo đối tác trường học / nhà tài trợ',
-    minimumSize: '56.7px (~2cm) trên ấn phẩm in và 42.5px trên màn hình số để đảm bảo độ rõ nét',
-    fontName: 'Outfit & Inter (Tối ưu cho màn hình số Responsive)'
+    ideaVi: 'Logo ghép tên thương hiệu với biểu tượng xe buýt, hình ảnh gắn với dịch vụ chính là thư viện lưu động. Tên viết bằng font Lora đậm, biểu tượng nằm trong khối màu cam.',
+    ideaEn: 'The logo pairs the brand name with a bus icon, the image tied to the main service: a mobile library. The name is set in bold Lora and the icon sits in an orange block.',
+    meaningVi: 'Font có chân gợi sách in và thư viện. Biểu tượng xe buýt gợi sự di chuyển. Màu nâu đậm và cam lấy từ bảng màu của giao diện, tạo cảm giác ấm và gần gũi.',
+    meaningEn: 'The serif font recalls printed books and libraries. The bus icon suggests movement. The dark brown and orange come from the interface palette and feel warm and familiar.',
+    structureVi: 'Biểu tượng nằm bên trái, tên Library Bus bên phải, hai phần canh giữa theo chiều dọc. Đơn vị X bằng chiều cao của biểu tượng.',
+    structureEn: 'The icon sits on the left and the name Library Bus on the right, both centered vertically. The unit X equals the height of the icon.',
+    safeDistanceVi: 'Chừa tối thiểu 1X xung quanh logo. Không đặt chữ, ảnh hoặc họa tiết khác vào vùng này.',
+    safeDistanceEn: 'Keep at least 1X of empty space around the logo. Do not place text, images or patterns in this area.',
+    minimumSizeVi: 'Không thu nhỏ đến mức chân chữ và nét của biểu tượng bị mất.',
+    minimumSizeEn: 'Do not shrink the logo until the serifs and the icon strokes disappear.',
+    fontName: 'Lora (logo và tiêu đề), Outfit (nội dung và nút bấm)'
   },
   colors: {
     primary: [
-      { nameVi: 'Molasses Ink (Màu chủ đạo)', nameEn: 'Molasses Ink (Primary Brand)', hex: '#4E0705', rgb: '78, 7, 5', roleVi: 'Nhận diện thương hiệu chính, màu nâu đen espresso sâu dùng cho logo, tiêu đề và chữ chính', roleEn: 'Primary brand identity, deep espresso brown used for logo, headings and primary text' },
-      { nameVi: 'Well-browned (Màu viền & Cấu trúc)', nameEn: 'Well-browned (Structure & Accent)', hex: '#812203', rgb: '129, 34, 3', roleVi: 'Màu hạt dẻ nướng, dùng cho đường viền, phân cách cấu trúc và thanh điều hướng', roleEn: 'Toasted chestnut, structural borders and active divider states' },
-      { nameVi: 'Roast Amber (Màu hành động CTA)', nameEn: 'Roast Amber (Primary CTA)', hex: '#BD5705', rgb: '189, 87, 5', roleVi: 'Màu hổ phách caramel, điểm nhấn chính (Single Accent) cho nút bấm đặt mượn, giữ chỗ sách', roleEn: 'Warm amber caramel, single accent for primary CTAs (Hold Book, Borrow)' }
+      { nameVi: 'Molasses Ink', nameEn: 'Molasses Ink', hex: '#4E0705', rgb: '78, 7, 5', roleVi: 'Chữ chính và các khối nền đậm.', roleEn: 'Main text and dark background blocks.' },
+      { nameVi: 'Well-browned', nameEn: 'Well-browned', hex: '#812203', rgb: '129, 34, 3', roleVi: 'Viền, tiêu đề phụ và trạng thái nhấn.', roleEn: 'Borders, secondary headings and emphasis states.' },
+      { nameVi: 'Roast Amber', nameEn: 'Roast Amber', hex: '#BD5705', rgb: '189, 87, 5', roleVi: 'Nút chính và điểm nhấn chính.', roleEn: 'Primary buttons and the main accent.' }
     ],
     supporting: [
-      { nameVi: 'Toasty Orange (Màu trạng thái)', nameEn: 'Toasty Orange (Status)', hex: '#ED9040', rgb: '237, 144, 64', roleVi: 'Màu cam bánh mì nướng cho thanh cuộn, nhãn metadata và badge', roleEn: 'Warm toast orange for status badges and metadata tags' },
-      { nameVi: 'Greasey Honey (Màu thẻ & Hover)', nameEn: 'Greasey Honey (Card Accent)', hex: '#FFC270', rgb: '255, 194, 112', roleVi: 'Màu bơ mật ong cho viền thẻ sách và hiệu ứng hover', roleEn: 'Honey butter for book card borders and subtle hover glow' },
-      { nameVi: 'Butter Cream (Màu nổi bật)', nameEn: 'Butter Cream (Highlight)', hex: '#FDE971', rgb: '253, 233, 113', roleVi: 'Màu vàng kem pastry nhạt cho nhãn nổi bật và hero tag', roleEn: 'Pastry butter cream for featured tags and hero badges' },
-      { nameVi: 'Pure Ivory (Màu nền giấy sách)', nameEn: 'Pure Ivory (Page Background)', hex: '#FFFDF9', rgb: '255, 253, 249', roleVi: 'Màu nền trang web, đem lại cảm giác trang giấy sách ấm áp cổ điển', roleEn: 'Warm ivory background evoking classic printed book paper' }
+      { nameVi: 'Toasty Orange', nameEn: 'Toasty Orange', hex: '#ED9040', rgb: '237, 144, 64', roleVi: 'Huy hiệu và điểm nhấn phụ.', roleEn: 'Badges and secondary accents.' },
+      { nameVi: 'Greasey Honey', nameEn: 'Greasey Honey', hex: '#FFC270', rgb: '255, 194, 112', roleVi: 'Viền thẻ và trạng thái hover.', roleEn: 'Card borders and hover states.' },
+      { nameVi: 'Butter Cream', nameEn: 'Butter Cream', hex: '#FDE971', rgb: '253, 233, 113', roleVi: 'Điểm nhấn nhẹ.', roleEn: 'Light accents.' },
+      { nameVi: 'Pure Ivory', nameEn: 'Pure Ivory', hex: '#FFFDF9', rgb: '255, 253, 249', roleVi: 'Nền trang.', roleEn: 'Page background.' }
     ]
   },
   typography: [
-    { tag: 'HEADING 1', size: '72 pt', letterSpacing: '-1.5', example: 'Thư Viện Lưu Động', roleVi: 'Tiêu đề Hero & Trang chính' },
-    { tag: 'HEADING 2', size: '58 pt', letterSpacing: '-0.5', example: 'Mục Lục Sách Động', roleVi: 'Tiêu đề phân hệ chính' },
-    { tag: 'HEADING 3', size: '46 pt', letterSpacing: '0', example: 'Lộ Trình Xe Bus GPS', roleVi: 'Tiêu đề khối chức năng' },
-    { tag: 'HEADING 4', size: '33 pt', letterSpacing: '0.25', example: 'Thông Tin Mượn Trả', roleVi: 'Tiêu đề card & modal' },
-    { tag: 'Subtitle 1', size: '15 pt', letterSpacing: '0.15', example: 'Hệ sinh thái tri thức cho mọi nhà', roleVi: 'Phụ đề giới thiệu' },
-    { tag: 'Subtitle 2', size: '13 pt', letterSpacing: '0.1', example: 'Cập nhật 5 phút trước', roleVi: 'Nhãn thời gian & trạng thái' },
-    { tag: 'Body 1', size: '16 pt', letterSpacing: '0.1', example: 'Độc giả có thể tra cứu và giữ chỗ sách trực tuyến...', roleVi: 'Nội dung văn bản chuẩn' },
-    { tag: 'Body 2', size: '14 pt', letterSpacing: '0.25', example: 'Áp dụng khóa bi quan cấp cơ sở dữ liệu...', roleVi: 'Ghi chú kỹ thuật' },
-    { tag: 'BUTTON', size: '14 pt', letterSpacing: '1.25', example: 'ĐẶT MƯỢN NGAY', roleVi: 'Nút bấm kêu gọi' },
-    { tag: 'Caption', size: '12 pt', letterSpacing: '0.4', example: 'Bản quyền © 2026 Library Bus System', roleVi: 'Chú thích chân trang' }
+    { tag: 'HEADING 1', size: '36 pt', letterSpacing: '-1,0', example: 'Thư Viện Lưu Động', roleVi: 'Tiêu đề trang chính' },
+    { tag: 'HEADING 2', size: '28 pt', letterSpacing: '-0,5', example: 'Sách Mới Cập Nhật', roleVi: 'Tiêu đề khu vực' },
+    { tag: 'HEADING 3', size: '20 pt', letterSpacing: '0', example: 'Chi Tiết Xe Buýt', roleVi: 'Tiêu đề khối nội dung' },
+    { tag: 'HEADING 4', size: '16 pt', letterSpacing: '0,2', example: 'Thông Tin Mượn Trả', roleVi: 'Tiêu đề thẻ và hộp thoại' },
+    { tag: 'BODY 1', size: '14 pt', letterSpacing: '0,1', example: 'Tra cứu sách và đặt trước trực tuyến', roleVi: 'Nội dung chính' },
+    { tag: 'BODY 2 / CAPTION', size: '12 pt', letterSpacing: '0,2', example: 'Cập nhật hôm nay', roleVi: 'Thông tin phụ, chú thích' },
+    { tag: 'BUTTON', size: '13 pt', letterSpacing: '0,5', example: 'ĐẶT MƯỢN SÁCH', roleVi: 'Chữ trên nút bấm' }
   ],
   uiComponents: {
     buttons: [
-      { type: 'Primary Button', default: 'Đặt Mượn Sách', hover: 'Nền Well-browned #812203 kèm ring vàng kem', disabled: 'Màu xám nhạt không click' },
-      { type: 'Secondary Button', default: 'Xem Lộ Trình Xe', hover: 'Nền Parchment viền Roast Amber', disabled: 'Ẩn hiệu ứng' },
-      { type: 'Outline Button', default: 'Chi Tiết Trạm Dừng', hover: 'Đổi nền trắng sang viền đậm', disabled: 'Mờ nhạt' }
+      { type: 'Primary Button', default: 'Nền Roast Amber #BD5705, chữ trắng', hover: 'Nền Well-browned #812203', disabled: 'Nền nhạt, chữ xám' },
+      { type: 'Secondary Button', default: 'Viền Molasses #4E0705, nền sáng', hover: 'Viền và chữ Roast Amber', disabled: 'Viền và chữ nhạt' },
+      { type: 'Text Button', default: 'Chữ Well-browned', hover: 'Chữ Roast Amber, gạch chân', disabled: 'Chữ nhạt' }
     ],
     textFill: {
-      defaultState: 'Nhập tên sách hoặc tác giả...',
-      hoverState: 'Viền bơ mật ong #FFC270',
-      focusState: 'Viền Roast Amber #BD5705 kèm glow ring #FFC270',
-      errorState: 'Viền đỏ kèm thông báo lỗi'
+      defaultState: 'Viền nhạt, chữ gợi ý màu xám',
+      focusState: 'Viền Roast Amber #BD5705 kèm vòng sáng nhẹ'
     },
-    iconSet: ['Bus', 'BookOpen', 'Search', 'User', 'MapPin', 'Calendar', 'Bell', 'ShieldCheck', 'QrCode', 'Clock', 'Sparkles', 'Layers']
+    iconSet: ['BookOpen', 'Bus', 'Clock', 'Bell', 'User', 'MapPin', 'Search', 'Star', 'Calendar', 'BarChart3', 'Plus', 'Check']
   }
 };
 
@@ -263,6 +249,3 @@ export const NEO_BAKERY_TOKENS = {
   darkSurfaceRaised: '#3B1513',
 };
 
-// ==========================================
-// 03 WEBSITE DESIGN (Toàn bộ 20 Màn hình Hệ thống)
-// ==========================================

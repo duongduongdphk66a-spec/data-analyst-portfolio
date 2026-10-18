@@ -78,14 +78,14 @@ export const DEFAULT_PROFILE: ProfileData = {
     },
     {
       id: 'exp-work-3',
-      role: 'Library Bus: Tối ưu Hóa Cơ Sở Dữ Liệu & Vận Hành Logistics',
-      company: 'Dự án Hệ thống Thư viện Lưu động',
+      role: 'Library Bus: Thiết kế UX/UI Website Thư Viện Lưu Động',
+      company: 'Dự án Website Xe Thư Viện Lưu Động',
       period: '2023 - 2024',
       type: 'work',
       location: 'Hà Nội, Việt Nam',
       description: [
-        'Thiết kế mô hình cơ sở dữ liệu quan hệ 3NF chịu tải 500 yêu cầu mỗi giây.',
-        'Tích hợp Redis cache và Celery giúp giảm 93,7% độ trễ truy vấn, loại bỏ xung đột mượn sách.'
+        'Nghiên cứu nhu cầu độc giả, xây dựng sitemap và luồng người dùng cho dịch vụ xe thư viện lưu động.',
+        'Thiết kế hệ thống lưới 12 cột, bộ thành phần giao diện và wireframe/UI cho 20 màn hình desktop kèm bản mobile.'
       ]
     }
   ]
@@ -140,28 +140,28 @@ export const DEFAULT_PROJECTS: ProjectData[] = [
   },
   {
     id: 'proj-library-bus',
-    title: 'Library Bus Management System: Tối ưu Vận hành Logistics & Luồng Dữ liệu',
-    titleEn: 'Library Bus Management System: Logistics & Architecture',
-    desc: 'Thiết kế cơ sở dữ liệu quan hệ và luồng xử lý bất đồng bộ cho thư viện xe buýt. Hệ thống phục vụ hơn 50.000 bạn đọc với khả năng chịu tải 500 yêu cầu mỗi giây.',
-    descEn: 'Architected a relational database and asynchronous pipeline for a multi-stop mobile library. The platform supports 50,000 active patrons with 500 concurrent requests per second.',
-    tags: ['Database Architecture', 'MySQL', 'Redis', 'Celery', 'Django'],
+    title: 'Library Bus: Thiết kế UX/UI Website Thư Viện Lưu Động',
+    titleEn: 'Library Bus: UX/UI Design for a Mobile Library Website',
+    desc: 'Dự án thiết kế UX/UI cho website xe thư viện lưu động: nghiên cứu, logo và thành phần giao diện, hệ thống lưới, wireframe và UI design cho 20 màn hình desktop kèm bản mobile.',
+    descEn: 'A UX/UI design project for a mobile library website: research, logo and UI components, grid system, wireframes and UI design for 20 desktop screens plus mobile versions.',
+    tags: ['UX/UI Design', 'Wireframe', 'Design System', 'Responsive'],
     img: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&auto=format&fit=crop&q=80',
     demoUrl: '/library-bus/website.html',
     featured: true,
     content: libraryBusMarkdownContent,
-    problem: 'Các trạm xe buýt lưu động thường gặp lỗi lệch số lượng sách giữa các điểm dừng. Nhiều người cùng đặt mượn một cuốn sách gây ra lỗi xung đột giao dịch dữ liệu.',
-    problemEn: 'Distributed mobile buses encountered inventory discrepancies across municipal scheduled pickup stops. Simultaneous book hold requests caused database transaction race conditions and booking collisions.',
-    method: 'Chuẩn hóa bảng dữ liệu 3NF với các ràng buộc giao dịch ACID để khóa dòng an toàn. Hệ thống sử dụng Redis đệm truy vấn và dùng Celery xử lý tác vụ chạy ngầm.',
-    methodEn: 'Normalized relational schemas to 3NF and enforced strict ACID transaction row locks. Implemented Redis caching layers with Celery background workers to offload server CPU.',
-    insight: 'Độ trễ truy vấn giảm từ 450ms xuống 28ms, tương đương mức cải thiện 93,7%. Hệ thống vận hành ổn định 500 kết nối đồng thời và ngăn chặn hoàn toàn việc mượn trùng sách.',
-    insightEn: 'Query latency dropped from 450ms to 28ms, yielding a 93.7% performance improvement. The system sustained 500 concurrent connections while eliminating double-borrowing errors entirely.',
+    problem: 'Thư viện cố định khó tiếp cận với người ở xa hoặc ít thời gian. Dịch vụ xe thư viện lưu động cần một website cho người đọc biết sách nào còn, xe đang ở đâu và đặt mượn trước.',
+    problemEn: 'A fixed library is hard to reach for people who live far away or have little time. A mobile library service needs a website where readers see which books are available, where the bus is and reserve in advance.',
+    method: 'Đi theo cấu trúc hướng dẫn thiết kế website: nghiên cứu và sitemap, logo cùng bộ thành phần giao diện, rồi lưới, wireframe và UI design cho từng màn hình.',
+    methodEn: 'Followed a website guidelines structure: research and sitemap, logo with a set of UI components, then grid, wireframes and UI design for each screen.',
+    insight: 'Mỗi màn hình có cặp wireframe và UI design để đối chiếu bố cục. Dữ liệu hiển thị trong giao diện là dữ liệu mẫu.',
+    insightEn: 'Every screen has a wireframe and UI design pair to compare layouts. The data shown in the interface is sample data.',
     metrics: [
-      { label: 'Quy Mô Người Dùng Phục Vụ', labelEn: 'Active Patron Base', value: '50,000+', change: 'Active Accounts', changeEn: 'Active Accounts', isPositive: true },
-      { label: 'Độ Trễ Phản Hồi Truy Vấn', labelEn: 'Query Response Latency', value: '28ms', change: '-93.7% Latency', changeEn: '-93.7% Latency', isPositive: true },
-      { label: 'Kết Nối Đồng Thời (Concurrency)', labelEn: 'System Concurrency', value: '500 RPS', change: 'Zero Downtime', changeEn: 'Zero Downtime', isPositive: true },
-      { label: 'Tỷ Lệ Xung Đột Dữ Liệu', labelEn: 'Data Collision Rate', value: '0.0%', change: 'ACID Enforced', changeEn: 'ACID Enforced', isPositive: true }
+      { label: 'Màn Hình Desktop', labelEn: 'Desktop Screens', value: '20', change: 'Wireframe + UI', changeEn: 'Wireframe + UI', isPositive: true },
+      { label: 'Bản Mobile', labelEn: 'Mobile Versions', value: '20', change: 'Wireframe + UI', changeEn: 'Wireframe + UI', isPositive: true },
+      { label: 'Bảng Màu', labelEn: 'Color Palette', value: '6 tông', change: 'Molasses đến Butter', changeEn: 'Molasses to Butter', isPositive: true },
+      { label: 'Phông Chữ', labelEn: 'Typefaces', value: '2', change: 'Lora + Outfit', changeEn: 'Lora + Outfit', isPositive: true }
     ],
-    tools: ['MySQL', 'Django ORM', 'Redis', 'Celery', 'Docker Architecture']
+    tools: ['UX Research', 'Wireframe', 'Design System', 'UI Design']
   }
 ];
 
@@ -179,9 +179,9 @@ export const DEFAULT_DASHBOARD: DashboardData = {
     },
     {
       id: 'kpi-2',
-      title: 'Hiệu Năng Cơ Sở Dữ Liệu',
-      value: '28ms',
-      change: 'Giảm 93,7% độ trễ truy vấn — SQL Caching',
+      title: 'Dữ Liệu Chuỗi Thời Gian JNTO',
+      value: '20 Năm',
+      change: '2003 - 2022 Chuỗi số liệu Du lịch Di sản',
       isPositive: true,
       icon: 'activity'
     },
@@ -205,70 +205,63 @@ export const DEFAULT_DASHBOARD: DashboardData = {
   charts: [
     {
       id: 'chart-1',
-      title: 'Xu Hướng Doanh Thu & Lợi Nhuận Theo Tháng',
+      title: 'Xu Hướng Doanh Thu TikTok Shop Kami Ely (180 Ngày)',
       type: 'area',
-      description: 'So sánh tốc độ tăng trưởng doanh thu so với lợi nhuận ròng qua các tháng trong năm.',
+      description: 'Doanh số thực tế ghi nhận qua 6 tháng vận hành kênh E-Commerce.',
       xAxisKey: 'month',
       series: [
-        { dataKey: 'revenue', name: 'Doanh thu ($)', color: '#9BE7FA' },
-        { dataKey: 'profit', name: 'Lợi nhuận ($)', color: '#FFD14C' }
+        { dataKey: 'revenue', name: 'GMV (Triệu VNĐ)', color: '#9BE7FA' },
+        { dataKey: 'profit', name: 'Thực nhận (Triệu VNĐ)', color: '#FFD14C' }
       ],
       data: [
-        { month: 'T1', revenue: 48000, profit: 16000, orders: 1200 },
-        { month: 'T2', revenue: 52000, profit: 18500, orders: 1350 },
-        { month: 'T3', revenue: 61000, profit: 22000, orders: 1580 },
-        { month: 'T4', revenue: 58000, profit: 19800, orders: 1420 },
-        { month: 'T5', revenue: 74000, profit: 27500, orders: 1890 },
-        { month: 'T6', revenue: 82000, profit: 31000, orders: 2100 },
-        { month: 'T7', revenue: 79000, profit: 29500, orders: 1980 },
-        { month: 'T8', revenue: 93000, profit: 36000, orders: 2450 },
-        { month: 'T9', revenue: 88000, profit: 33500, orders: 2250 },
-        { month: 'T10', revenue: 104000, profit: 41000, orders: 2700 },
-        { month: 'T11', revenue: 118000, profit: 46500, orders: 3050 },
-        { month: 'T12', revenue: 132000, profit: 53000, orders: 3400 }
+        { month: 'T3', revenue: 1350, profit: 940, orders: 12200 },
+        { month: 'T4', revenue: 1920, profit: 1340, orders: 15400 },
+        { month: 'T5', revenue: 2840, profit: 1980, orders: 21900 },
+        { month: 'T6', revenue: 3450, profit: 2410, orders: 26800 },
+        { month: 'T7', revenue: 2120, profit: 1480, orders: 16400 },
+        { month: 'T8', revenue: 1055, profit: 735, orders: 8800 }
       ]
     },
     {
       id: 'chart-2',
-      title: 'Cơ Cấu Doanh Thu Theo Danh Mục Sản Phẩm',
+      title: 'Cơ Cấu Doanh Thu Theo Danh Mục Sản Phẩm (Kami Ely)',
       type: 'bar',
-      description: 'Phân bổ doanh số đóng góp từ từng ngành hàng chính.',
+      description: 'Phân bổ doanh số đóng góp từ các dòng sản phẩm thời trang thể thao.',
       xAxisKey: 'category',
       series: [
-        { dataKey: 'revenue', name: 'Doanh thu ($)', color: '#9BE7FA' }
+        { dataKey: 'revenue', name: 'Doanh thu (Triệu VNĐ)', color: '#9BE7FA' }
       ],
       data: [
-        { category: 'Enterprise Software', revenue: 340000 },
-        { category: 'Cloud Infrastructure', revenue: 260000 },
-        { category: 'Data Consulting', revenue: 145000 },
-        { category: 'AI & Automation APIs', revenue: 100200 }
+        { category: 'Áo thun thể thao', revenue: 4850 },
+        { category: 'Quần tập jogger/legging', revenue: 3920 },
+        { category: 'Set đồ tập gym & yoga', revenue: 2480 },
+        { category: 'Phụ kiện thể thao', revenue: 1485 }
       ]
     },
     {
       id: 'chart-3',
-      title: 'Tăng Trưởng Khách Hàng Theo Kênh Marketing',
+      title: 'Đóng Góp Doanh Thu Theo Kênh Phân Phối',
       type: 'line',
-      description: 'Số lượng người dùng mới được thu hút qua Organic Search, Paid Ads và Referral.',
+      description: 'Tỷ trọng GMV phân bổ giữa Kênh chính chủ, KOC Affiliate và Kệ hàng.',
       xAxisKey: 'quarter',
       series: [
-        { dataKey: 'organic', name: 'Organic Search', color: '#9BE7FA' },
-        { dataKey: 'paid', name: 'Paid Ads', color: '#FFD14C' },
-        { dataKey: 'referral', name: 'Referrals', color: '#FFE485' }
+        { dataKey: 'official', name: 'Chính chủ @kamielyhn', color: '#9BE7FA' },
+        { dataKey: 'affiliate', name: 'Creator Affiliate', color: '#FFD14C' },
+        { dataKey: 'showcase', name: 'Kệ hàng / Product Card', color: '#FFE485' }
       ],
       data: [
-        { quarter: 'Q1', organic: 3200, paid: 2800, referral: 1100 },
-        { quarter: 'Q2', organic: 4100, paid: 3400, referral: 1450 },
-        { quarter: 'Q3', organic: 5600, paid: 3900, referral: 1900 },
-        { quarter: 'Q4', organic: 7200, paid: 4500, referral: 2600 }
+        { quarter: 'Tháng 1-2', official: 1480, affiliate: 850, showcase: 690 },
+        { quarter: 'Tháng 3-4', official: 2350, affiliate: 1320, showcase: 1090 },
+        { quarter: 'Tháng 5-6', official: 3030, affiliate: 1710, showcase: 1400 }
       ]
     }
   ],
   tableData: [
-    { id: '1', date: '2024-12-01', channel: 'Direct', region: 'APAC', orders: 450, revenue: 18500, status: 'Completed' },
-    { id: '2', date: '2024-12-02', channel: 'Organic', region: 'North America', orders: 620, revenue: 25400, status: 'Completed' },
-    { id: '3', date: '2024-12-03', channel: 'Paid Ads', region: 'EMEA', orders: 380, revenue: 14900, status: 'Completed' },
-    { id: '4', date: '2024-12-04', channel: 'Referral', region: 'APAC', orders: 510, revenue: 21200, status: 'Completed' },
-    { id: '5', date: '2024-12-05', channel: 'Email Campaign', region: 'Global', orders: 490, revenue: 19800, status: 'Completed' }
+    { id: '1', date: '2024-06-16', channel: 'Chính chủ LIVE', region: 'Hà Nội', orders: 1850, revenue: 315000000, status: 'Completed' },
+    { id: '2', date: '2024-06-25', channel: 'Video gắn giỏ', region: 'Toàn quốc', orders: 1420, revenue: 192000000, status: 'Completed' },
+    { id: '3', date: '2024-07-02', channel: 'Top KOC @girlstyle', region: 'Hồ Chí Minh', orders: 980, revenue: 135000000, status: 'Completed' },
+    { id: '4', date: '2024-07-15', channel: 'Kệ hàng tự nhiên', region: 'Đà Nẵng', orders: 620, revenue: 84000000, status: 'Completed' },
+    { id: '5', date: '2024-08-01', channel: 'Creator Affiliate', region: 'Toàn quốc', orders: 890, revenue: 118000000, status: 'Completed' }
   ]
 };
 

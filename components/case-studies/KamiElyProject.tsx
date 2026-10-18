@@ -1,23 +1,24 @@
 'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
+import { ShieldCheck, ArrowRight, Activity } from 'lucide-react';
+import { MINTO_NARRATIVE } from '@/app/data/kami-ely/mintoNarrative';
 
-// Khối Điều hành & Bộ Biểu đồ Trực quan Cấp cao
+// Executive Header Components
 import KamiElyHero from '@/components/case-studies/kami-ely/KamiElyHero';
+import ExecutiveSummary from '@/components/case-studies/ExecutiveSummary';
 import KamiElyTabsNav, { KamiElyTabKey } from '@/components/case-studies/kami-ely/KamiElyTabsNav';
-import KamiElyVisualChartsSuite from '@/components/case-studies/kami-ely/KamiElyVisualChartsSuite';
-import KamiElyExecutiveStory from '@/components/case-studies/kami-ely/KamiElyExecutiveStory';
-import KamiElyDataScopeMatrix from '@/components/case-studies/kami-ely/KamiElyDataScopeMatrix';
-import KamiElySqlLabWorkbench from '@/components/case-studies/kami-ely/KamiElySqlLabWorkbench';
-import KamiElySqlPlaybook from '@/components/case-studies/kami-ely/playbook/KamiElySqlPlaybook';
 
-// 3 Phân hệ Tab Chuyên sâu (Shop • Creator • Science)
-import KamiElyShopTab from '@/components/case-studies/kami-ely/shop/KamiElyShopTab';
-import KamiElyCreatorTab from '@/components/case-studies/kami-ely/creator/KamiElyCreatorTab';
+// 3 Minto Logic Tabs
+import KamiElyCommercialTab from '@/components/case-studies/kami-ely/commercial/KamiElyCommercialTab';
 import KamiElyScienceCaseStudy from '@/components/case-studies/kami-ely/science/KamiElyScienceCaseStudy';
-import ScienceOptimizerSection from '@/components/case-studies/kami-ely/science/ScienceOptimizerSection';
+import KamiElySqlPlaybook from '@/components/case-studies/kami-ely/playbook/KamiElySqlPlaybook';
+import KamiElySqlLabWorkbench from '@/components/case-studies/kami-ely/KamiElySqlLabWorkbench';
+
+// Modals & Footer
 import KamiElyProofModal from '@/components/case-studies/kami-ely/KamiElyProofModal';
+import ScienceNotebookModal from '@/components/case-studies/kami-ely/science/ScienceNotebookModal';
 import CaseStudyFooter from './shared/CaseStudyFooter';
 
 export interface KamiElyProjectProps {
@@ -33,31 +34,39 @@ export default function KamiElyProject({
 }: KamiElyProjectProps = {}) {
   const { language } = useLanguage();
   const lang = language === 'en' ? 'en' : 'vi';
+  const isEn = lang === 'en';
+  const headerContent = MINTO_NARRATIVE.header;
 
-  // Quản lý Tab chuyên sâu ('shop' | 'creator' | 'science')
-  const [activeTab, setActiveTab] = useState<KamiElyTabKey>('shop');
+  // Quản lý 3 Tab cốt lõi theo tư duy Data Analyst (Minto Pyramid)
+  const [activeTab, setActiveTab] = useState<KamiElyTabKey>('commercial');
 
-  // Chế độ "Đọc lướt 3 phút cho HR" (Chỉ hiện Biểu đồ + Hình ảnh + Simulator, ẩn bảng chữ dài)
-  const [isExecutiveScanMode, setIsExecutiveScanMode] = useState<boolean>(false);
-
-
-  // Quản lý Modal Xem Bằng Chứng Dữ Liệu Gốc Telemetry
+  // Quản lý Modal Xem Bằng Chứng FastMoss & Đối Soát Telemetry
   const [isProofModalOpen, setIsProofModalOpen] = useState(false);
   const [initialScreenshotId, setInitialScreenshotId] = useState<string | undefined>(undefined);
+
+  // Quản lý Modal Xem Jupyter Notebook & Code Python
+  const [isNotebookModalOpen, setIsNotebookModalOpen] = useState(false);
+  const [selectedSnippetIdx, setSelectedSnippetIdx] = useState(0);
+  const [copiedCode, setCopiedCode] = useState(false);
 
   const handleOpenProofModal = useCallback((id?: string) => {
     setInitialScreenshotId(id);
     setIsProofModalOpen(true);
   }, []);
 
-  // Cuộn mượt về đầu vùng nội dung tương ứng khi chọn giữa 3 Phân hệ
-  const handleSelectMainTab = useCallback((tab: KamiElyTabKey) => {
-    setActiveTab(tab);
-    if (isExecutiveScanMode) {
-      setIsExecutiveScanMode(false);
-    }
+  const handleTabChange = useCallback((tab: KamiElyTabKey) => {
+    // Map legacy tab keys if received
+    const normalizedTab: KamiElyTabKey =
+      tab === 'shop' || tab === 'creator' ? 'commercial' : tab;
+    setActiveTab(normalizedTab);
+
     setTimeout(() => {
-      const targetId = tab === 'shop' ? 'sec-shop' : tab === 'creator' ? 'sec-creator' : 'sec-science';
+      const targetId =
+        normalizedTab === 'commercial'
+          ? 'sec-commercial'
+          : normalizedTab === 'science'
+          ? 'sec-science'
+          : 'sec-sql';
       const el = document.getElementById(targetId);
       if (el && typeof window !== 'undefined') {
         const yOffset = -90;
@@ -65,92 +74,129 @@ export default function KamiElyProject({
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
     }, 40);
-  }, [isExecutiveScanMode]);
-
-  // ScrollSpy theo dõi vị trí cuộn để cập nhật tab tương ứng
-  useEffect(() => {
-    if (isExecutiveScanMode) return;
-    const sectionIds: { id: string; key: KamiElyTabKey }[] = [
-      { id: 'sec-shop', key: 'shop' },
-      { id: 'sec-creator', key: 'creator' },
-      { id: 'sec-science', key: 'science' },
-    ];
-
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 140;
-      for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sectionIds[i].id);
-        if (el && el.offsetTop <= scrollPos) {
-          setActiveTab(sectionIds[i].key);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isExecutiveScanMode]);
+  }, []);
 
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
-      {/* 1. HERO BENTO GRID: Định vị All-Time (31,6 Tỉ) • 180 Ngày (12,74 Tỉ) • 90 Ngày (6,14 Tỉ) */}
+      {/* ==================================================================== */}
+      {/* 1. TẦNG CỐ ĐỊNH: TÓM TẮT ĐIỀU HÀNH (110 chữ | 2 Biểu đồ)            */}
+      {/* ==================================================================== */}
       <KamiElyHero
         onOpenProofModal={handleOpenProofModal}
-        onJumpToStory={() => setIsExecutiveScanMode(true)}
+        onJumpToStory={() => handleTabChange('commercial')}
       />
 
-      {/* 2. BỘ 6 BIỂU ĐỒ TƯƠNG TÁC & DẢI 6 ẢNH CHỤP MÀN HÌNH THẬT (VISUAL-FIRST SUITE) */}
-      <KamiElyVisualChartsSuite />
+      {/* Biểu đồ #1: Dải 4 thẻ KPI cốt lõi & Khối Executive Summary */}
+      <ExecutiveSummary
+        isEn={isEn}
+        readingTime={isEn ? '~3 min scan' : '~3 phút tóm tắt'}
+        problem={headerContent.context[lang]}
+        method={
+          isEn
+            ? 'Unified 8 raw relational datasets (18,778 rows), audited with SSOT rules, multivariate statistical tests, time-series decomposition, and What-If portfolio optimization.'
+            : 'Hợp nhất 8 bảng dữ liệu thô (18.778 bản ghi), làm sạch và đối soát quy tắc SSOT; kết hợp kiểm định thống kê đa biến, phân rã chuỗi thời gian và mô phỏng tối ưu hóa danh mục What-If.'
+        }
+        insight={headerContent.conclusion[lang]}
+        metrics={headerContent.kpiStrip.map((kpi) => ({
+          label: kpi.label[lang],
+          value: kpi.value,
+          change: kpi.change[lang],
+          isPositive: true
+        }))}
+        tools={[
+          'TikTok Seller Center',
+          'FastMoss Telemetry',
+          'MySQL (portfolio_db)',
+          'Python (scipy.stats & statsmodels)',
+          'SQL CTEs & Window Functions'
+        ]}
+      />
 
+      {/* Biểu đồ #2: Thanh đối soát độ chính xác dữ liệu (FastMoss Telemetry Card) */}
+      <div className="p-4 sm:p-5 rounded-3xl border border-[#9BE7FA]/80 bg-gradient-to-r from-[#C8EEF7]/30 via-white to-[#9BE7FA]/20 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-950 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="space-y-1.5 max-w-3xl">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 text-xs font-mono font-black uppercase tracking-wider">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              {headerContent.telemetry.verifiedRate}
+            </span>
+            <span className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300">
+              {headerContent.telemetry.tablesCount} · {headerContent.telemetry.rowsCount}
+            </span>
+            <span className="inline-flex items-center gap-1 text-xs font-mono text-emerald-600 dark:text-emerald-400 font-bold">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              {isEn ? 'CRYPTOGRAPHIC HASH VERIFIED' : 'MÃ BĂM ĐỐI SOÁT CHUẨN'}
+            </span>
+          </div>
 
-      {/* 4. THANH ĐIỀU HƯỚNG CỐ ĐỊNH 3 PHÂN HỆ & NÚT CHẾ ĐỘ ĐỌC LƯỚT 3 PHÚT CHO HR */}
+          <h3 className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">
+            {headerContent.telemetry.title[lang]}
+          </h3>
+
+          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            {headerContent.telemetry.description[lang]}
+          </p>
+        </div>
+
+        {/* Nút hành động mở 19 ảnh bằng chứng FastMoss */}
+        <button
+          type="button"
+          onClick={() => handleOpenProofModal()}
+          className="inline-flex min-h-[44px] items-center gap-2 px-4 py-2.5 rounded-2xl bg-white hover:bg-slate-50 border-2 border-[#9BE7FA] text-slate-900 font-bold text-xs sm:text-sm shadow-xs transition-colors shrink-0 cursor-pointer dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-white"
+        >
+          <Activity className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+          <span>{headerContent.proofCta[lang]}</span>
+          <ArrowRight className="w-4 h-4 ml-0.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+        </button>
+      </div>
+
+      {/* ==================================================================== */}
+      {/* 2. THANH ĐIỀU HƯỚNG 3 TAB LOGIC (MINTO PYRAMID)                      */}
+      {/* ==================================================================== */}
       <KamiElyTabsNav
         activeTab={activeTab}
-        onTabChange={handleSelectMainTab}
-        isExecutiveScanMode={isExecutiveScanMode}
-        onToggleExecutiveScanMode={() => setIsExecutiveScanMode((prev) => !prev)}
+        onTabChange={handleTabChange}
         onOpenProofModal={() => handleOpenProofModal()}
       />
 
-      {/* 5. NỘI DUNG HIỂN THỊ THEO CHẾ ĐỘ (3-MIN SCAN MODE VS. FULL 3-TAB DEEP DIVE) */}
-      {isExecutiveScanMode ? (
-        <div className="space-y-8 animate-fadeIn">
-          <KamiElySqlPlaybook />
-          <ScienceOptimizerSection />
-          <KamiElyExecutiveStory />
-          <KamiElyDataScopeMatrix onOpenProofModal={handleOpenProofModal} />
-          <KamiElySqlLabWorkbench />
-        </div>
-      ) : (
-        <div className="space-y-16">
-          {/* 1. PHÂN HỆ TOÀN GIAN HÀNG */}
-          <section id="sec-shop" className="scroll-mt-28 space-y-8">
-            <KamiElyShopTab handleTabChange={handleSelectMainTab} />
+      {/* ==================================================================== */}
+      {/* 3. NỘI DUNG TỪNG TAB (RENDER THEO TAB ĐỂ TRANG NGẮN GỌN & TẬP TRUNG)  */}
+      {/* ==================================================================== */}
+      <main className="w-full">
+        {/* TAB 1: HIỆU SUẤT THƯƠNG MẠI & NỘI DUNG (#3 -> #12) */}
+        {(activeTab === 'commercial' || activeTab === 'shop' || activeTab === 'creator') && (
+          <section id="sec-commercial" className="scroll-mt-28 animate-fadeIn">
+            <KamiElyCommercialTab
+              isEn={isEn}
+              handleTabChange={handleTabChange}
+              onOpenProofModal={handleOpenProofModal}
+            />
           </section>
+        )}
 
-          {/* 2. PHÂN HỆ KÊNH CHÍNH CHỦ */}
-          <section id="sec-creator" className="scroll-mt-28 space-y-8 pt-10 border-t border-slate-200 dark:border-slate-800">
-            <KamiElyCreatorTab handleTabChange={handleSelectMainTab} />
+        {/* TAB 2: THỐNG KÊ KIỂM ĐỊNH & TỐI ƯU HÓA (#13 -> #18) */}
+        {activeTab === 'science' && (
+          <section id="sec-science" className="scroll-mt-28 animate-fadeIn">
+            <KamiElyScienceCaseStudy
+              onOpenNotebook={() => setIsNotebookModalOpen(true)}
+            />
           </section>
+        )}
 
-          {/* 3. THỐNG KÊ & MÔ PHỎNG ROI */}
-          <section id="sec-science" className="scroll-mt-28 space-y-8 pt-10 border-t border-slate-200 dark:border-slate-800">
-            <KamiElyScienceCaseStudy />
+        {/* TAB 3: KỸ THUẬT DỮ LIỆU & PHÒNG LAB SQL (#19 -> #22 + SQL WORKBENCH) */}
+        {activeTab === 'sql' && (
+          <section id="sec-sql" className="scroll-mt-28 space-y-12 animate-fadeIn">
+            <KamiElySqlPlaybook compactMode />
+            <KamiElySqlLabWorkbench />
           </section>
+        )}
+      </main>
 
-          {/* 4. SQL PLAYBOOK 7 GIAI ĐOẠN (BIỂU ĐỒ TRƯỚC, SQL MỞ KHI CẦN) */}
-          <KamiElySqlPlaybook />
-
-          {/* Ma trận Kiểm toán 8 Bảng gốc & Phòng thí nghiệm SQL đặt gọn ở cuối trang */}
-          <KamiElyDataScopeMatrix onOpenProofModal={handleOpenProofModal} />
-          <KamiElySqlLabWorkbench />
-          <KamiElyExecutiveStory />
-        </div>
-      )}
-
-      {/* FOOTER ĐIỀU HƯỚNG */}
+      {/* ==================================================================== */}
+      {/* 4. FOOTER ĐIỀU HƯỚNG & GHI NHẬN DỮ LIỆU                              */}
+      {/* ==================================================================== */}
       <CaseStudyFooter
-        isEn={lang === 'en'}
+        isEn={isEn}
         currentProjectId="proj-kami-ely"
         attribution={{
           datasetVi: 'Dữ liệu E-Commerce Analytics, TikTok Seller Center & Live Workbench',
@@ -160,12 +206,28 @@ export default function KamiElyProject({
         }}
       />
 
-      {/* MODAL XEM 22 BẰNG CHỨNG DỮ LIỆU GỐC TELEMETRY */}
+      {/* ==================================================================== */}
+      {/* 5. MODALS (ẨN ẢNH CHỤP MÀN HÌNH & SOURCE CODE DÀI)                   */}
+      {/* ==================================================================== */}
       <KamiElyProofModal
         isOpen={isProofModalOpen}
         onClose={() => setIsProofModalOpen(false)}
         initialScreenshotId={initialScreenshotId}
-        isEn={lang === 'en'}
+        isEn={isEn}
+      />
+
+      <ScienceNotebookModal
+        isOpen={isNotebookModalOpen}
+        onClose={() => setIsNotebookModalOpen(false)}
+        isEn={isEn}
+        selectedSnippetIdx={selectedSnippetIdx}
+        setSelectedSnippetIdx={setSelectedSnippetIdx}
+        copiedCode={copiedCode}
+        handleCopyCode={(code: string) => {
+          navigator.clipboard.writeText(code);
+          setCopiedCode(true);
+          setTimeout(() => setCopiedCode(false), 2000);
+        }}
       />
     </div>
   );

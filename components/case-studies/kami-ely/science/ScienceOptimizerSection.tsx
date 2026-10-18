@@ -2,9 +2,11 @@
 
 import React, { useState, useMemo } from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
+import { Terminal, ArrowRight } from 'lucide-react';
 
 export interface ScienceOptimizerSectionProps {
   isEn?: boolean;
+  onOpenNotebook?: () => void;
   liveHoursReduction?: number;
   setLiveHoursReduction?: (_v: number) => void;
   videoCoverage?: number;
@@ -19,6 +21,7 @@ export interface ScienceOptimizerSectionProps {
 
 export default function ScienceOptimizerSection({
   isEn: propIsEn,
+  onOpenNotebook,
   liveHoursReduction: _propLiveReduction,
   setLiveHoursReduction: _setLiveHoursReduction,
   videoCoverage: _propVideoCoverage,
@@ -285,6 +288,21 @@ export default function ScienceOptimizerSection({
           </div>
         </div>
       </div>
+
+      {/* Action Button: Open Jupyter Notebook & Python Code Modal */}
+      {onOpenNotebook && (
+        <div className="pt-2 flex justify-end">
+          <button
+            type="button"
+            onClick={onOpenNotebook}
+            className="inline-flex min-h-[44px] items-center gap-2 px-5 py-2.5 rounded-2xl bg-[#0D7287] hover:bg-[#074553] text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer dark:bg-[#9BE7FA] dark:hover:bg-[#C8EEF7] dark:text-slate-950"
+          >
+            <Terminal className="w-4 h-4" />
+            <span>{lang === 'vi' ? 'Xem toàn bộ Jupyter Notebook & Code Python' : 'View Full Jupyter Notebook & Python Code'}</span>
+            <ArrowRight className="w-4 h-4 ml-1" />
+          </button>
+        </div>
+      )}
     </section>
   );
 }

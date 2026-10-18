@@ -9,3 +9,4 @@ export * from './reconciliation';
 export * from './screenshots';
 export * from './sqlLabPresets';
 export * from './stats';
+export * from './mintoNarrative';

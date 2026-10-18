@@ -13,14 +13,4 @@ export {
   type LibraryBusScreenItem,
 } from './screens';
 
-export {
-  LIBRARY_BUS_SYSTEM_PARADIGMS,
-  WEBSITE_DESIGN_DATA,
-  libraryBusKPIs,
-  weeklyActivityData,
-  latencyBenchmarkData,
-  busFleetData,
-  gamificationTiers,
-  realUIGallery,
-  interactiveShowcases,
-} from './architectureAndMetrics';
+export { WEBSITE_DESIGN_DATA } from './architectureAndMetrics';

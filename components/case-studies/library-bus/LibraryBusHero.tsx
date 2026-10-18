@@ -2,8 +2,6 @@
 
 import React from 'react';
 import { Eye } from 'lucide-react';
-import { libraryBusKPIs } from '@/app/data/libraryBusData';
-
 import { useLanguage } from '@/app/context/LanguageContext';
 
 export interface LibraryBusHeroProps {
@@ -31,69 +29,67 @@ export function LibraryBusHero({
           <h1 className="editorial-section-title text-3xl sm:text-5xl font-black leading-tight tracking-tight text-slate-950 dark:text-white">
             {isEn ? 'Library Bus System:' : 'Tủ Sách Lưu Động (Library Bus):'} <br />
             <span className="text-[#0D7287] dark:text-[#9BE7FA]">
-              {isEn ? 'Website Guidelines, UX Research & Production Telemetry' : 'Bộ Quy Chuẩn Thiết Kế Giao Diện, Nghiên Cứu UX & Hạ Tầng Kỹ Thuật'}
+              {isEn ? 'Website Design Guidelines: Research, Logo & UI Components, Wireframes' : 'Bộ Quy Chuẩn Thiết Kế Website: Nghiên Cứu, Logo & UI, Wireframe'}
             </span>
           </h1>
           
           <p className="editorial-lead text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl dark:text-slate-300">
-            {isEn 
-              ? 'The mobile library web platform provides core functionalities including real-time catalog and inventory lookup across bus fleets, advance book reservations and borrowing at 48 GPS stops, live route tracking, reader profile management, and automated due-date notifications.'
-              : 'Hệ thống web thư viện lưu động cung cấp các chức năng: tra cứu danh mục và tình trạng tồn kho sách thời gian thực theo từng trạm xe, đặt trước và mượn trả sách tại 48 điểm dừng GPS, theo dõi lộ trình di chuyển của đội xe buýt, cùng cổng thông tin quản lý hồ sơ độc giả, lịch sử mượn và thông báo nhắc hẹn tự động.'}
+            {isEn
+              ? 'A UX/UI design project for the website of a mobile library service. Readers search for books, see the buses on a map and reserve in advance. Librarians create borrow slips and follow dashboards. Books, buses and users shown in the interface are sample data.'
+              : 'Dự án thiết kế UX/UI cho website của dịch vụ xe thư viện lưu động. Người đọc tra cứu sách, xem xe trên bản đồ và đặt mượn trước. Thủ thư tạo phiếu mượn và theo dõi dashboard. Sách, xe và người dùng trong giao diện là dữ liệu mẫu.'}
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <a
-              href="#sec-screens"
-              onClick={(e) => onNavClick('sec-screens', e)}
+              href="#visual-comparison"
+              onClick={(e) => onNavClick('visual-comparison', e)}
               className="btn-primary flex items-center gap-2 cursor-pointer font-bold"
             >
               <Eye className="w-4 h-4" />
-              <span>{isEn ? 'View 8 UI Screens' : 'Xem 8 Màn Hình Giao Diện'}</span>
+              <span>{isEn ? 'View 20 UI Screens' : 'Xem 20 Màn Hình Giao Diện'}</span>
             </a>
             <a
-              href="/library-bus/website.html"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/projects/library-bus/presentation"
               className="btn-secondary-editorial flex items-center gap-2"
             >
               <Eye className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-              <span>{isEn ? 'View Interactive Spec (HTML)' : 'Xem Hồ Sơ Thiết Kế (HTML)'}</span>
+              <span>{isEn ? 'View Presentation Deck (30 Slides)' : 'Xem Bản Trình Chiếu (30 Slide)'}</span>
             </a>
           </div>
         </div>
 
-        {/* 10% Bento Telemetry Matrix (Scale, CCU, Latency, Concurrency) */}
+        {/* Key facts */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
           <div className="card-minimal p-4 space-y-1">
             <span className="editorial-kicker text-xs block">
-              {isEn ? 'ACTIVE FLEET' : 'ĐỘI XE LƯU ĐỘNG'}
+              {isEn ? 'DESKTOP SCREENS' : 'MÀN HÌNH DESKTOP'}
             </span>
-            <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">{libraryBusKPIs.activeBusFleet}</p>
-            <p className="text-[11px] text-slate-500">48 GPS Stops / Ha Noi</p>
+            <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">20</p>
+            <p className="text-[11px] text-slate-500">{isEn ? 'Wireframe + UI design' : 'Wireframe + UI design'}</p>
           </div>
 
           <div className="card-minimal p-4 space-y-1">
             <span className="editorial-kicker text-xs block">
-              {isEn ? 'CATALOG SCALE' : 'QUY MÔ ĐẦU SÁCH'}
+              {isEn ? 'MOBILE VERSIONS' : 'BẢN MOBILE'}
             </span>
-            <p className="font-mono text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">{libraryBusKPIs.totalCatalogBooks}</p>
-            <p className="text-[11px] text-slate-500">Physical Books Tracked</p>
+            <p className="font-mono text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">20</p>
+            <p className="text-[11px] text-slate-500">{isEn ? 'Single-column layouts' : 'Bố cục một cột'}</p>
           </div>
 
           <div className="card-minimal p-4 space-y-1">
             <span className="editorial-kicker text-xs block">
-              {isEn ? 'CONCURRENT READERS' : 'KẾT NỐI ĐỒNG THỜI'}
+              {isEn ? 'COLOR PALETTE' : 'BẢNG MÀU'}
             </span>
-            <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">500 CCU</p>
-            <p className="text-[11px] text-slate-500">50,000 Registered Readers</p>
+            <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">{isEn ? '6 tones' : '6 tông'}</p>
+            <p className="text-[11px] text-slate-500">Molasses Ink → Butter Cream</p>
           </div>
 
           <div className="card-minimal p-4 space-y-1 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA]">
             <span className="editorial-kicker text-xs block text-[#0D7287] dark:text-[#9BE7FA]">
-              {isEn ? 'REDIS LATENCY & LOCKING' : 'ĐỘ TRỄ TRUY VẤN'}
+              {isEn ? 'TYPEFACES' : 'PHÔNG CHỮ'}
             </span>
-            <p className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400">28ms (-93.7%)</p>
-            <p className="text-[11px] text-slate-500">0.0% Race Condition (Locking)</p>
+            <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">Lora + Outfit</p>
+            <p className="text-[11px] text-slate-500">{isEn ? 'Headings + body text' : 'Tiêu đề + nội dung'}</p>
           </div>
         </div>
       </div>
