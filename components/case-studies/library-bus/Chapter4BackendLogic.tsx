@@ -106,8 +106,8 @@ export function Chapter4BackendLogic({
   // Layout mode: 'stacked' (full-width for maximum clarity) | 'grid' (2 columns)
   const [layoutMode, setLayoutMode] = useState<'stacked' | 'grid'>('stacked');
   
-  // Height mode: 'standard' (750px) | 'jumbo' (950px)
-  const [heightMode, setHeightMode] = useState<'standard' | 'jumbo'>('jumbo');
+  // Height mode: 'fit' (vừa 1 màn hình) | 'standard' (750px) | 'jumbo' (900px)
+  const [heightMode, setHeightMode] = useState<'fit' | 'standard' | 'jumbo'>('fit');
 
   // Fullscreen modal for deep inspection
   const [fullscreenChart, setFullscreenChart] = useState<typeof BACKEND_CHARTS[0] | null>(null);
@@ -122,9 +122,11 @@ export function Chapter4BackendLogic({
     });
   }, [resolvedTheme]);
 
-  const iframeHeightClass = heightMode === 'jumbo' 
-    ? 'h-[750px] sm:h-[850px] lg:h-[950px]' 
-    : 'h-[620px] sm:h-[700px] lg:h-[780px]';
+  const iframeHeightClass = heightMode === 'fit'
+    ? 'h-[480px] sm:h-[540px] lg:h-[620px] max-h-[68vh]'
+    : heightMode === 'standard'
+    ? 'h-[620px] sm:h-[700px] lg:h-[750px]'
+    : 'h-[750px] sm:h-[820px] lg:h-[900px]';
 
   return (
     <section id="chapter-4-backend" className="space-y-8 scroll-mt-36">
@@ -308,25 +310,36 @@ export function Chapter4BackendLogic({
             {/* Height Size Toggle */}
             <div className="flex items-center gap-1 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800 text-xs font-bold">
               <button
+                onClick={() => setHeightMode('fit')}
+                className={`px-3 py-1.5 rounded-xl transition cursor-pointer min-h-[36px] ${
+                  heightMode === 'fit'
+                    ? 'bg-[#323987] text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                }`}
+                title={isEn ? 'Fit diagram completely in 1 screen' : 'Kích thước vừa trọn 1 màn hình'}
+              >
+                {isEn ? 'Fit Screen' : 'Vừa 1 màn hình'}
+              </button>
+              <button
                 onClick={() => setHeightMode('standard')}
                 className={`px-2.5 py-1.5 rounded-xl transition cursor-pointer min-h-[36px] ${
                   heightMode === 'standard'
-                    ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs'
+                    ? 'bg-[#323987] text-white shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                 }`}
               >
-                780px
+                750px
               </button>
               <button
                 onClick={() => setHeightMode('jumbo')}
                 className={`px-2.5 py-1.5 rounded-xl transition cursor-pointer min-h-[36px] ${
                   heightMode === 'jumbo'
-                    ? 'bg-[#FA6933] text-white shadow-2xs'
+                    ? 'bg-[#FA6933] text-white shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                 }`}
-                title="Khổ cực đại 950px"
+                title={isEn ? 'Large expanded view (900px)' : 'Khổ lớn (900px)'}
               >
-                950px (To hơn)
+                900px
               </button>
             </div>
           </div>

@@ -843,6 +843,74 @@
     html[data-share-playback="true"] .diagram-container::before {
       opacity: 0;
     }
+
+    /* ==========================================================
+       EMBED MODE: FIT ENTIRE DIAGRAM IN 1 SCREEN VIEWPORT
+       Hides duplicate chrome, cards & headers, auto-scales SVG
+       ========================================================== */
+    html[data-embed="true"] {
+      height: 100% !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+    }
+    html[data-embed="true"] body {
+      height: 100% !important;
+      width: 100% !important;
+      min-height: 0 !important;
+      max-height: 100% !important;
+      padding: 0.25rem !important;
+      margin: 0 !important;
+      overflow: hidden !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
+    }
+    html[data-embed="true"] .toolbar,
+    html[data-embed="true"] .header,
+    html[data-embed="true"] .guided-views,
+    html[data-embed="true"] .cards,
+    html[data-embed="true"] .no-print,
+    html[data-embed="true"] .diagram-nav {
+      display: none !important;
+    }
+    html[data-embed="true"] .container {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 100% !important;
+      max-height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+    html[data-embed="true"] .diagram-container {
+      width: 100% !important;
+      height: 100% !important;
+      max-height: 100% !important;
+      padding: 0.25rem !important;
+      margin: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+      border: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+      overflow: hidden !important;
+    }
+    html[data-embed="true"] .diagram-container > svg {
+      width: 100% !important;
+      height: 100% !important;
+      max-height: 100% !important;
+      max-width: 100% !important;
+      object-fit: contain !important;
+    }
     html[data-motion="still"] .guided-view-progress span,
     html[data-motion="still"] .guided-story-caption,
     html[data-motion="still"] .story-trail-flow,

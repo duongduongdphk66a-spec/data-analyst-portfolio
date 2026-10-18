@@ -354,7 +354,7 @@ export function Chapter1UxResearch({
             </div>
             <iframe 
               src={`/library-bus/system-architecture.html?embed=1&theme=${resolvedTheme}`} 
-              className="w-full h-[750px] lg:h-[850px] rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 transition-all duration-300" 
+              className="w-full h-[500px] sm:h-[580px] lg:h-[640px] max-h-[70vh] rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 transition-all duration-300" 
               title="Library Bus System Architecture Diagram" 
             />
           </div>
@@ -373,7 +373,7 @@ export function Chapter1UxResearch({
             </div>
             <iframe 
               src={`/library-bus/borrowing-workflow.html?embed=1&theme=${resolvedTheme}`} 
-              className="w-full h-[750px] lg:h-[850px] rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 transition-all duration-300" 
+              className="w-full h-[500px] sm:h-[580px] lg:h-[640px] max-h-[70vh] rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 transition-all duration-300" 
               title="Library Bus Borrowing Workflow Diagram" 
             />
           </div>
