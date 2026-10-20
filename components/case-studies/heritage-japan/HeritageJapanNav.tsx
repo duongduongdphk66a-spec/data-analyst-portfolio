@@ -29,7 +29,7 @@ export default function HeritageJapanNav({
   const lang = language === 'en' ? 'en' : 'vi';
 
   const defaultNavItems = [
-    { id: 'visual-suite', label: { vi: '📊 Biểu đồ & Mô phỏng', en: '📊 Charts & Simulator' } },
+    { id: 'visual-suite', label: { vi: 'Biểu đồ & Mô phỏng', en: 'Charts & Simulator' } },
     { id: 'executive-story', label: { vi: '1. Tóm tắt Điều hành', en: '1. Executive Story' } },
     { id: 'chapter-1', label: { vi: '2. Chương 1: Hệ thống Di sản', en: '2. Ch.1: Heritage System' } },
     { id: 'chapter-2', label: { vi: '3. Chương 2: Chính sách & Luật', en: '3. Ch.2: Policy & Law' } },
@@ -49,7 +49,7 @@ export default function HeritageJapanNav({
   return (
     <nav
       aria-label="Heritage Japan Case Study Navigation"
-      className="sticky top-3 z-30 w-full rounded-2xl border border-slate-200/90 bg-white/95 dark:border-slate-800/90 dark:bg-slate-950/90 backdrop-blur-md p-3 shadow-xl"
+      className="sticky top-3 z-30 w-full rounded-2xl border border-slate-200/90 bg-white/95 dark:border-slate-800/90 dark:bg-slate-950/90 backdrop-blur-md p-3"
     >
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-1.5">

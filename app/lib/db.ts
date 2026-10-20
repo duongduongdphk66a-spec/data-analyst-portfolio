@@ -20,10 +20,8 @@ let pool: Pool | null = null;
 let _isInitialized = false;
 let rateLimitTableReady = false;
 
-// ==========================================
 // Database Circuit Breaker
 // Ngăn chặn nghẽn I/O khi MySQL rớt mạng hoặc host không phản hồi
-// ==========================================
 let dbDownUntil = 0;
 const NET_ERR = /ECONNREFUSED|ETIMEDOUT|ENOTFOUND|EHOSTUNREACH|ENETUNREACH|EAI_AGAIN/;
 
@@ -909,9 +907,7 @@ export async function resetDbRateLimit(ip: string): Promise<boolean> {
   }
 }
 
-// ==========================================
 // Shared API Cache via MySQL (PM2 Cluster)
-// ==========================================
 
 export async function getDbCache<T>(key: string): Promise<T | null> {
   const p = getDbPool();
@@ -975,9 +971,7 @@ export async function invalidateDbCache(prefixOrKey?: string): Promise<void> {
   }
 }
 
-// ==========================================
 // TikTok Shop (Kami Ely) Query Helpers
-// ==========================================
 
 export async function getDbTikTokWeeklyTrends() {
   const p = getDbPool();
@@ -1053,9 +1047,7 @@ export async function getDbTikTokTopAffiliates() {
   }
 }
 
-// ==========================================
 // TikTok Shop (Kami Ely) 180-Day Time-Series Query
-// ==========================================
 
 export async function getDbTikTokTimeSeries() {
   const p = getDbPool();
@@ -1266,9 +1258,7 @@ export async function getDbTikTokVideos(channelType?: 'shop' | 'creator') {
   }
 }
 
-// ==========================================
 // Heritage Japan Tourism Queries
-// ==========================================
 
 export async function getDbHeritageJapanTourists() {
   const p = getDbPool();
@@ -1337,9 +1327,7 @@ export async function getDbHeritageJapanRegional() {
   }
 }
 
-// ==========================================
 // Library Bus System Queries
-// ==========================================
 
 export async function getDbLibraryBusBenchmarks() {
   const p = getDbPool();

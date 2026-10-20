@@ -15,20 +15,19 @@ export default async function Image() {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          background: 'linear-gradient(135deg, #0B0F17 0%, #0D7287 50%, #074553 100%)',
+          background: '#0B0F17',
           fontFamily: 'system-ui, sans-serif',
           position: 'relative',
           overflow: 'hidden',
         }}
       >
-        {/* Grid background */}
+        {/* Subtle border framing */}
         <div
           style={{
             position: 'absolute',
-            inset: 0,
-            backgroundSize: '40px 40px',
-            backgroundImage:
-              'linear-gradient(to right, rgba(155, 231, 250, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(155, 231, 250, 0.08) 1px, transparent 1px)',
+            inset: 20,
+            borderRadius: 24,
+            border: '1px solid rgba(155, 231, 250, 0.2)',
           }}
         />
 
@@ -38,12 +37,11 @@ export default async function Image() {
             width: 80,
             height: 80,
             borderRadius: 20,
-            background: 'linear-gradient(135deg, #0D7287, #9BE7FA)',
+            background: '#0D7287',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: 32,
-            boxShadow: '0 8px 32px rgba(155, 231, 250, 0.3)',
           }}
         >
           <span

@@ -6,7 +6,7 @@ export const renderBookDetailWireframe = (sheetNum: 1 | 2) => {
   if (sheetNum === 1) {
     return (
       <div className="space-y-3">
-        <div className="flex justify-between items-center pb-2 border-b border-slate-200">
+        <div className="flex justify-between items-center pb-2 border-slate-200">
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 rounded bg-slate-300" />
             <WireframeBar w="w-16" h="h-3" />
@@ -86,12 +86,12 @@ export const renderBookDetailWireframe = (sheetNum: 1 | 2) => {
 
   return (
     <div className="space-y-3">
-      <div className="text-center py-1 border-b border-slate-200">
+      <div className="text-center py-1 border-slate-200">
         <WireframeBar w="w-16" h="h-2.5" className="mx-auto" />
       </div>
 
       <div className="p-3 bg-slate-50 rounded-xl flex items-center gap-3 border border-slate-200">
-        <div className="w-12 h-12 rounded-full border-2 border-slate-400 flex items-center justify-center font-mono font-bold text-xs text-slate-500">
+        <div className="w-12 h-12 rounded-full border-2 border-slate-400 flex items-center justify-center tabular-nums font-bold text-xs text-slate-500">
           9.7
         </div>
         <div className="flex-1 space-y-1.5">
@@ -138,7 +138,7 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
   if (sheetNum === 1) {
     return (
       <div className="space-y-3 font-sans text-slate-800 dark:text-slate-100">
-        <div className="flex justify-between items-center pb-2 border-b border-[#9BE7FA]/40">
+        <div className="flex justify-between items-center pb-2 border-[#9BE7FA]/40">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-lg bg-[#0D7287] flex items-center justify-center text-white font-sans font-black text-xs">
               LB
@@ -168,9 +168,9 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
         </div>
 
         <div className="grid grid-cols-4 gap-2">
-          <div className="col-span-3 rounded-xl overflow-hidden shadow-xs border border-[#9BE7FA]/40 relative group bg-gradient-to-br from-[#074553] via-[#0D7287] to-[#1E293B] p-3 text-white flex flex-col justify-between h-32">
+          <div className="col-span-3 rounded-xl overflow-hidden shadow-xs border border-[#9BE7FA]/40 relative group p-3 text-white flex flex-col justify-between h-32 bg-[#074553]">
             <div className="flex justify-between items-start">
-              <span className="px-2 py-0.5 rounded bg-black/40 backdrop-blur-xs text-[#FFD14C] text-xs font-bold">
+              <span className="px-2 py-0.5 rounded bg-black/40 text-[#FFD14C] text-xs font-bold">
                 ⭐ 4.8 / 5.0
               </span>
               <BookOpen className="w-4 h-4 text-[#9BE7FA] opacity-90" />
@@ -179,19 +179,19 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
               <div className="text-[11px] font-sans font-black tracking-wide text-white">ORIGIN</div>
               <div className="text-xs font-sans text-[#FFE485]">DAN BROWN</div>
             </div>
-            <div className="flex justify-between text-xs font-mono text-[#C8EEF7] border-t border-white/20 pt-1">
+            <div className="flex justify-between text-xs tabular-nums text-[#C8EEF7] border-white/20 pt-1">
               <span>THƯ VIỆN SỐ</span>
               <span>BẢN CHUẨN</span>
             </div>
           </div>
           <div className="col-span-1 flex flex-col gap-1.5">
-            <div className="w-full h-9 rounded-lg border border-[#9BE7FA]/40 bg-gradient-to-r from-[#0D7287] to-[#49C6E5] p-1 flex items-center justify-center text-xs font-bold text-white shadow-2xs">
+            <div className="w-full h-9 rounded-lg border border-[#9BE7FA]/40 p-1 flex items-center justify-center text-xs font-bold text-white shadow-2xs bg-[#0D7287]">
               Bìa 1
             </div>
-            <div className="w-full h-9 rounded-lg border border-[#9BE7FA]/40 bg-gradient-to-r from-[#074553] to-[#0D7287] p-1 flex items-center justify-center text-xs font-bold text-[#FFD14C] shadow-2xs">
+            <div className="w-full h-9 rounded-lg border border-[#9BE7FA]/40 p-1 flex items-center justify-center text-xs font-bold text-[#FFD14C] shadow-2xs bg-[#074553]">
               Mục lục
             </div>
-            <div className="w-full h-9 rounded-lg border border-[#9BE7FA]/40 bg-gradient-to-r from-[#FFD14C] to-[#FFE485] p-1 flex items-center justify-center text-xs font-bold text-slate-950 shadow-2xs">
+            <div className="w-full h-9 rounded-lg border border-[#9BE7FA]/40 p-1 flex items-center justify-center text-xs font-bold text-slate-950 shadow-2xs bg-[#FFD14C]">
               Lời tựa
             </div>
           </div>
@@ -243,11 +243,11 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
 
   return (
     <div className="space-y-3 font-sans text-slate-800 dark:text-slate-100">
-      <div className="text-center pb-1 border-b border-[#9BE7FA]/40">
+      <div className="text-center pb-1 border-[#9BE7FA]/40">
         <h4 className="font-sans font-black text-xs text-[#0D7287] dark:text-[#9BE7FA]">Độc giả đánh giá & Bình luận</h4>
       </div>
 
-      <div className="p-3 rounded-2xl bg-gradient-to-r from-[#F0F9FB] to-[#FAFDFE] border border-[#9BE7FA]/40 flex items-center gap-3 dark:from-slate-900 dark:to-slate-800 dark:border-slate-700">
+      <div className="p-3 rounded-2xl border border-[#9BE7FA]/40 flex items-center gap-3 dark:border-slate-700 bg-[#F0F9FB]">
         <div className="w-12 h-12 rounded-full bg-[#0D7287] text-[#FFD14C] font-sans font-black text-sm flex items-center justify-center shadow-xs">
           9.7
         </div>
@@ -277,13 +277,13 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
         <div className="text-xs font-sans font-bold text-[#0D7287] dark:text-[#9BE7FA]">Sách cùng tác giả / thể loại:</div>
         <div className="grid grid-cols-4 gap-1.5">
           {[
-            { title: 'Mật Mã Da Vinci', color: 'from-[#074553] to-[#0D7287]', textColor: 'text-[#FFD14C]' },
-            { title: 'Thiên Thần & Ác Quỷ', color: 'from-[#0D7287] to-[#49C6E5]', textColor: 'text-white' },
-            { title: 'Biểu Tượng Thất Truyền', color: 'from-[#042D36] to-[#074553]', textColor: 'text-[#FFE485]' },
-            { title: 'Hỏa Ngục', color: 'from-[#0F262F] to-[#1E293B]', textColor: 'text-[#9BE7FA]' },
+            { title: 'Mật Mã Da Vinci', color: 'bg-[#074553]', textColor: 'text-[#FFD14C]' },
+            { title: 'Thiên Thần & Ác Quỷ', color: 'bg-[#0D7287]', textColor: 'text-white' },
+            { title: 'Biểu Tượng Thất Truyền', color: 'bg-[#042D36]', textColor: 'text-[#FFE485]' },
+            { title: 'Hỏa Ngục', color: 'bg-[#0F262F]', textColor: 'text-[#9BE7FA]' },
           ].map((book, idx) => (
             <div key={idx} className="p-1.5 rounded-lg border border-[#9BE7FA]/30 bg-white dark:bg-slate-800 dark:border-slate-700 text-center group cursor-pointer hover:border-[#0D7287] transition-colors">
-              <div className={`w-full h-11 rounded mb-1 bg-gradient-to-br ${book.color} flex flex-col items-center justify-center p-1 shadow-2xs`}>
+              <div className={`w-full h-11 rounded mb-1 ${book.color} flex flex-col items-center justify-center p-1 shadow-2xs`}>
                 <BookOpen className={`w-3 h-3 ${book.textColor} mb-0.5 opacity-90`} />
                 <span className={`text-xs font-black ${book.textColor} leading-none truncate max-w-full`}>DAN BROWN</span>
               </div>

@@ -17,7 +17,7 @@ export function ConclusionSection({
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   return (
     <>
-      <section id="ket-luan" className="py-16 bg-ground border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
+      <section id="ket-luan" className="py-16 bg-ground border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <SectionHeader
             variant="stacked"
@@ -35,7 +35,7 @@ export function ConclusionSection({
             {/* 4 Key Policy Lessons */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
               <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#9BE7FA] text-slate-950 font-black text-sm mb-3">01</span>
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#9BE7FA] text-slate-950 font-black text-sm mb-3">1</span>
                 <h4 className="font-black text-slate-900 text-base mb-1 dark:text-white">Chuyển dịch sang bảo tồn động</h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
                   Chuyển từ bảo tồn khép kín sang kết hợp phát huy giá trị kinh tế.
@@ -43,7 +43,7 @@ export function ConclusionSection({
               </div>
 
               <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#FFD14C] text-slate-950 font-black text-sm mb-3">02</span>
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#FFD14C] text-slate-950 font-black text-sm mb-3">2</span>
                 <h4 className="font-black text-slate-900 text-base mb-1 dark:text-white">Ứng dụng công nghệ quản trị thông minh</h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
                   Dùng camera AI, đặt vé trước và công nghệ VR để chủ động điều tiết du khách.
@@ -51,7 +51,7 @@ export function ConclusionSection({
               </div>
 
               <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#C8EEF7] text-[#0D7287] font-black text-sm mb-3">03</span>
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#C8EEF7] text-[#0D7287] font-black text-sm mb-3">3</span>
                 <h4 className="font-black text-slate-900 text-base mb-1 dark:text-white">Đa dạng hóa công cụ tài chính</h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
                   Thuế vào đảo, quỹ bảo tồn và thuế lưu trú tạo ngân sách tái đầu tư, trùng tu.
@@ -59,7 +59,7 @@ export function ConclusionSection({
               </div>
 
               <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#FFE485] text-slate-950 font-black text-sm mb-3">04</span>
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#FFE485] text-slate-950 font-black text-sm mb-3">4</span>
                 <h4 className="font-black text-slate-900 text-base mb-1 dark:text-white">Đặt cư dân bản địa làm trung tâm</h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
                   Không đánh đổi bình yên của người dân lấy tăng trưởng du lịch. Ban hành chế tài bảo vệ.

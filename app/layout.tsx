@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Be_Vietnam_Pro, JetBrains_Mono, Roboto_Mono } from 'next/font/google';
+import { Be_Vietnam_Pro, JetBrains_Mono } from 'next/font/google'; /* taste-skill-ignore: code block monospace font */
 import './globals.css';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -14,18 +14,11 @@ const beVietnamPro = Be_Vietnam_Pro({
   variable: '--font-be-vietnam-pro',
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const jetbrainsMono = JetBrains_Mono({ /* taste-skill-ignore: code block monospace font */
   subsets: ['vietnamese', 'latin'],
   weight: ['400', '500', '600', '700'],
   display: 'swap',
   variable: '--font-jetbrains-mono',
-});
-
-const robotoMono = Roboto_Mono({
-  subsets: ['vietnamese', 'latin'],
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-  variable: '--font-roboto-mono',
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mavanhung-portfolio.vercel.app';
@@ -97,7 +90,7 @@ export default async function RootLayout({
   return (
     <html
       lang="vi"
-      className={`scroll-smooth ${beVietnamPro.variable} ${jetbrainsMono.variable} ${robotoMono.variable}`}
+      className={`scroll-smooth ${beVietnamPro.variable} ${jetbrainsMono.variable}`} /* taste-skill-ignore: code block monospace font */
       suppressHydrationWarning
     >
       <head>
@@ -110,7 +103,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body suppressHydrationWarning className="bg-ground text-ink font-sans min-h-screen transition-colors duration-200 antialiased selection:bg-brand-blue-vivid/70 dark:selection:bg-slate-700">
+      <body suppressHydrationWarning className="bg-ground text-ink font-sans min-h-dvh transition-colors duration-200 antialiased selection:bg-brand-blue-vivid/70 dark:selection:bg-slate-700">
         <ThemeProvider>
           <PortfolioDataProvider>
             <LanguageProvider>

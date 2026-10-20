@@ -4,7 +4,7 @@
 import { LIBRARY_BUS_20_SCREENS } from './screens';
 
 export const WEBSITE_DESIGN_DATA = {
-  chapter: '03',
+  chapter: '3',
   subChapter: '3.1, 3.2, 3.3',
   titleVi: 'THIẾT KẾ WEBSITE',
   titleEn: 'WEBSITE DESIGN',

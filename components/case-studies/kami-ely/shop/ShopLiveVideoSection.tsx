@@ -26,10 +26,10 @@ export default function ShopLiveVideoSection({
 }: ShopLiveVideoSectionProps) {
   return (
     <>
-      {/* 1.5 LIVESTREAM */}
+      {/* 1.2.1 LIVESTREAM */}
       <section id="shop-live" className="space-y-6 scroll-mt-36">
         <SectionHeader 
-          badge="1.5" 
+          badge="1.2.1" 
           title={isEn ? "Shop Livestream Performance" : "Hiệu Quả Livestream Của Shop"} 
           id="shop-live" 
           onCopy={copyDeepLink} 
@@ -64,7 +64,7 @@ export default function ShopLiveVideoSection({
           {/* Desktop Table Layout */}
           <div className="hidden md:block overflow-x-auto rounded-2xl border border-[#9BE7FA]/60 bg-white shadow-xs dark:bg-slate-900 dark:border-slate-800">
             <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-[#C8EEF7]/30 text-slate-800 font-bold uppercase border-b border-[#9BE7FA]/40 dark:bg-slate-800/80 dark:text-slate-300 dark:border-slate-700">
+              <thead className="bg-[#C8EEF7]/30 text-slate-800 font-bold uppercase dark:bg-slate-800/80 dark:text-slate-300">
                 <tr>
                   <th className="p-3.5">Tiêu Đề Phiên LIVE</th>
                   <th className="p-3.5">Người Phát</th>
@@ -75,13 +75,13 @@ export default function ShopLiveVideoSection({
                   <th className="p-3.5">GMV Phiên</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody className="[&>tr:nth-child(even)]:bg-slate-50 dark:[&>tr:nth-child(even)]:bg-slate-800/40">
                 {topShopLiveSessions.map((l, i) => (
                   <tr key={i} className="hover:bg-[#C8EEF7]/10 transition-colors dark:hover:bg-slate-800/50">
                     <td className="p-3.5 font-bold text-slate-900 dark:text-white max-w-xs truncate">{l.title}</td>
                     <td className="p-3.5 font-bold text-[#0D7287] dark:text-[#9BE7FA]">{l.creator}</td>
                     <td className="p-3.5 text-slate-600 dark:text-slate-400">{l.startTime}</td>
-                    <td className="p-3.5 font-mono text-slate-700 dark:text-slate-300">{l.duration}</td>
+                    <td className="p-3.5 tabular-nums text-slate-700 dark:text-slate-300">{l.duration}</td>
                     <td className="p-3.5 font-bold text-slate-800 dark:text-slate-200">{l.viewers.toLocaleString()}</td>
                     <td className="p-3.5 font-bold text-slate-900 dark:text-white">{l.units.toLocaleString()} SP</td>
                     <td className="p-3.5 font-bold text-[#0D7287] dark:text-[#FFD14C]">{l.gmv} Triệu đ</td>
@@ -97,10 +97,10 @@ export default function ShopLiveVideoSection({
               <div key={i} className="p-4 rounded-2xl bg-white border border-[#9BE7FA]/60 shadow-xs space-y-2.5 dark:bg-slate-900 dark:border-slate-800">
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">{l.creator}</span>
-                  <span className="text-xs font-mono text-slate-500 dark:text-slate-400">{l.startTime} · {l.duration}</span>
+                  <span className="text-xs tabular-nums text-slate-500 dark:text-slate-400">{l.startTime} · {l.duration}</span>
                 </div>
                 <h4 className="text-sm font-black text-slate-950 dark:text-white line-clamp-2">{l.title}</h4>
-                <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-center">
+                <div className="grid grid-cols-3 gap-2 pt-2 border-slate-100 dark:border-slate-800 text-xs text-center">
                   <div className="p-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60">
                     <div className="text-xs text-slate-400">{isEn ? 'Viewers' : 'Lượt xem'}</div>
                     <div className="font-bold text-slate-800 dark:text-slate-200">{l.viewers.toLocaleString()}</div>
@@ -120,10 +120,10 @@ export default function ShopLiveVideoSection({
         </div>
       </section>
 
-      {/* 1.6 VIDEO */}
+      {/* 1.2.2 VIDEO */}
       <section id="shop-video" className="space-y-6 scroll-mt-36">
         <SectionHeader 
-          badge="1.6" 
+          badge="1.2.2" 
           title={isEn ? "Shoppable Video Analytics" : "Phân Tích Video Có Giỏ Hàng Của Shop"} 
           id="shop-video" 
           onCopy={copyDeepLink} 
@@ -158,7 +158,7 @@ export default function ShopLiveVideoSection({
           {/* Desktop Table Layout */}
           <div className="hidden md:block overflow-x-auto rounded-2xl border border-[#9BE7FA]/60 bg-white shadow-xs dark:bg-slate-900 dark:border-slate-800">
             <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-[#C8EEF7]/30 text-slate-800 font-bold uppercase border-b border-[#9BE7FA]/40 dark:bg-slate-800/80 dark:text-slate-300 dark:border-slate-700">
+              <thead className="bg-[#C8EEF7]/30 text-slate-800 font-bold uppercase dark:bg-slate-800/80 dark:text-slate-300">
                 <tr>
                   <th className="p-3.5">Tiêu Đề Video</th>
                   <th className="p-3.5">Creator Sản Xuất</th>
@@ -169,7 +169,7 @@ export default function ShopLiveVideoSection({
                   <th className="p-3.5">Chi Phí Ads</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody className="[&>tr:nth-child(even)]:bg-slate-50 dark:[&>tr:nth-child(even)]:bg-slate-800/40">
                 {topShoppableVideos.map((v, i) => (
                   <tr key={i} className="hover:bg-[#C8EEF7]/10 transition-colors dark:hover:bg-slate-800/50">
                     <td className="p-3.5 font-bold text-slate-900 dark:text-white max-w-sm truncate">{v.title}</td>
@@ -200,7 +200,7 @@ export default function ShopLiveVideoSection({
                   </span>
                 </div>
                 <h4 className="text-sm font-black text-slate-950 dark:text-white line-clamp-2">{v.title}</h4>
-                <div className="grid grid-cols-4 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-center">
+                <div className="grid grid-cols-4 gap-2 pt-2 border-slate-100 dark:border-slate-800 text-xs text-center">
                   <div className="p-1 rounded-xl bg-slate-50 dark:bg-slate-800/60">
                     <div className="text-xs text-slate-400">{isEn ? 'Views' : 'Lượt xem'}</div>
                     <div className="font-bold text-slate-800 dark:text-slate-200">{v.views}</div>
@@ -224,20 +224,20 @@ export default function ShopLiveVideoSection({
         </div>
       </section>
 
-      {/* 1.7 TÀI KHOẢN TỰ VẬN HÀNH (SELF-OPERATED ACCOUNT @kamielyhn) */}
+      {/* 1.2.3 TÀI KHOẢN TỰ VẬN HÀNH (SELF-OPERATED ACCOUNT @kamielyhn) */}
       <section id="shop-self-operated" className="space-y-6 scroll-mt-36">
         <SectionHeader 
-          badge="1.7" 
+          badge="1.2.3" 
           title={isEn ? "Self-Operated Creator Account (@kamielyhn)" : "Tài Khoản Sáng Tạo Tự Vận Hành Chính Chủ (@kamielyhn)"} 
           id="shop-self-operated" 
           onCopy={copyDeepLink} 
         />
 
         {/* Self-Operated Account Banner & KPIs */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#FFFDF5] via-white to-[#C8EEF7]/30 border border-[#FFD14C] shadow-sm dark:bg-slate-900 dark:border-slate-800 space-y-6">
+        <div className="p-6 sm:p-8 rounded-3xl border border-[#FFD14C] dark:bg-slate-900 dark:border-slate-800 space-y-6 bg-[#FFFDF5]">
           <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#0D7287] to-[#9BE7FA] flex items-center justify-center text-white text-2xl font-black shadow-md border border-[#9BE7FA]">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-2xl font-black border border-[#9BE7FA] bg-[#0D7287]">
                 KL
               </div>
               <div>
@@ -245,7 +245,7 @@ export default function ShopLiveVideoSection({
                   <h3 className="text-xl font-black text-slate-950 dark:text-white">
                     {shopSelfOperatedAccount.creatorName}
                   </h3>
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#C8EEF7] text-[#0D7287] font-mono text-xs font-bold border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#C8EEF7] text-[#0D7287] tabular-nums text-xs font-bold border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
                     {shopSelfOperatedAccount.handle}
                   </span>
                   <span className="px-2.5 py-0.5 rounded-full bg-[#FFE485] text-slate-950 text-xs font-bold border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C]">
@@ -263,7 +263,7 @@ export default function ShopLiveVideoSection({
             <div className="flex items-center gap-2">
               <button
                 onClick={() => handleTabChange('creator')}
-                className="px-4 py-2 rounded-xl bg-[#0D7287] text-white text-xs font-bold hover:bg-[#0D7287]/90 transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-[#0D7287] text-white text-xs font-bold hover:bg-[#0D7287]/90 transition shadow-xs flex items-center gap-1.5 cursor-pointer"
               >
                 <span>{isEn ? 'Deep Dive Creator Tab' : 'Khám phá sâu Tab Creator'}</span>
                 <ChevronRight className="w-4 h-4" />

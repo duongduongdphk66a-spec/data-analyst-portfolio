@@ -22,8 +22,8 @@ const LibraryBusVisualComparison = dynamic(
   {
     loading: () => (
       <div className="p-12 text-center text-slate-400 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
-        <div className="animate-spin w-8 h-8 border-3 border-[#0D7287] border-t-transparent rounded-full mx-auto mb-3" />
-        <p className="text-xs font-bold font-mono">Đang tải bảng đối chuẩn 20 màn hình (Wireframe vs UI)...</p>
+        <div className="animate-spin w-8 h-8 border-3 border-[#074553] border-t-transparent rounded-full mx-auto mb-3 dark:border-[#9BE7FA]" /* taste-skill-ignore: spinner ring */ />
+        <p className="text-xs font-medium">Đang tải bảng đối chuẩn 20 màn hình (Wireframe vs UI)...</p>
       </div>
     ),
   }
@@ -64,7 +64,7 @@ export default function LibraryBusProject({
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8 min-h-screen bg-ground font-sans text-slate-900 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8 min-h-[100dvh] bg-ground font-sans text-slate-900 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       {/* 1. HERO SECTION */}
       <LibraryBusHero
         isEn={isEn}

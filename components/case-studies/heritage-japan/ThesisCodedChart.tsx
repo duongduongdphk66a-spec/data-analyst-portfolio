@@ -378,9 +378,9 @@ function ThumbnailChart({ figure }: { figure: ThesisFigureItem }) {
             const barH = Math.max(2, (d.value / figure.yMax) * plotH);
             const y = padTop + plotH - barH;
 
-            let fillClass = 'fill-sky-500 hover:fill-sky-400 dark:fill-sky-400 dark:hover:fill-sky-300';
-            if (d.isPeak) fillClass = 'fill-indigo-600 dark:fill-indigo-400';
-            if (d.isTrough || d.isCovid) fillClass = 'fill-rose-500 dark:fill-rose-400';
+            let fillClass = 'fill-[#0D7287] hover:fill-[#095262] dark:fill-[#9BE7FA] dark:hover:fill-[#C8EEF7]';
+            if (d.isPeak) fillClass = 'fill-[#FFD14C] dark:fill-[#FFD14C]';
+            if (d.isTrough || d.isCovid) fillClass = 'fill-rose-500 hover:fill-rose-600 dark:fill-rose-400 dark:hover:fill-rose-300';
 
             return (
               <rect
@@ -428,7 +428,7 @@ function ThumbnailChart({ figure }: { figure: ThesisFigureItem }) {
                         cx={pt.x}
                         cy={pt.y}
                         r="3.5"
-                        className="fill-indigo-600 dark:fill-indigo-400 stroke-white dark:stroke-slate-900"
+                        className="fill-cyan-600 dark:fill-cyan-400 stroke-white dark:stroke-slate-900"
                         strokeWidth="1.5"
                       />
                     );
@@ -453,7 +453,7 @@ function ThumbnailChart({ figure }: { figure: ThesisFigureItem }) {
           x={padLeft}
           y={h - 4}
           textAnchor="start"
-          className="fill-slate-500 dark:fill-slate-400 text-[11px] font-mono font-medium"
+          className="fill-slate-500 dark:fill-slate-400 text-[11px] tabular-nums font-medium"
         >
           &apos;{firstYear}
         </text>
@@ -462,7 +462,7 @@ function ThumbnailChart({ figure }: { figure: ThesisFigureItem }) {
           x={w / 2}
           y={h - 4}
           textAnchor="middle"
-          className="fill-indigo-600 dark:fill-indigo-400 text-[11px] font-mono font-bold"
+          className="fill-cyan-600 dark:fill-cyan-400 text-[11px] tabular-nums font-bold"
         >
           Đỉnh &apos;{peakItem.label.slice(-2)}: {peakItem.value.toLocaleString('vi-VN')}
         </text>
@@ -471,7 +471,7 @@ function ThumbnailChart({ figure }: { figure: ThesisFigureItem }) {
           x={w - padRight}
           y={h - 4}
           textAnchor="end"
-          className="fill-slate-500 dark:fill-slate-400 text-[11px] font-mono font-medium"
+          className="fill-slate-500 dark:fill-slate-400 text-[11px] tabular-nums font-medium"
         >
           &apos;{lastYear}
         </text>
@@ -513,7 +513,7 @@ function FullModalChart({
       {/* Header Info Bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 px-1">
         <div className="flex items-center gap-2">
-          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-800">
+          <span className="px-2 py-0.5 rounded text-xs tabular-nums font-bold bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-800">
             {figure.code} • Trang {figure.pageInDoc}
           </span>
           <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
@@ -521,24 +521,24 @@ function FullModalChart({
           </span>
         </div>
 
-        <div className="flex items-center gap-3 text-xs font-mono">
+        <div className="flex items-center gap-3 text-xs tabular-nums">
           <span className="inline-flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
-            <span className="w-2.5 h-2.5 rounded-sm bg-sky-500 inline-block" />
+            <span className="w-2.5 h-2.5 rounded-sm bg-[#0D7287] dark:bg-[#9BE7FA] inline-block" />
             {lang === 'vi' ? 'Số liệu niên luận' : 'Empirical Data'}
           </span>
-          <span className="inline-flex items-center gap-1.5 text-indigo-700 dark:text-indigo-400 font-bold">
-            <span className="w-2.5 h-2.5 rounded-sm bg-indigo-600 inline-block" />
+          <span className="inline-flex items-center gap-1.5 text-[#92400E] dark:text-[#FFD14C] font-bold">
+            <span className="w-2.5 h-2.5 rounded-sm bg-[#FFD14C] inline-block" />
             {lang === 'vi' ? 'Năm đỉnh cao (Peak)' : 'Peak Year'}
           </span>
-          <span className="inline-flex items-center gap-1.5 text-rose-600 dark:text-rose-400">
-            <span className="w-2.5 h-2.5 rounded-sm bg-rose-500 inline-block" />
+          <span className="inline-flex items-center gap-1.5 text-[#B45309] dark:text-[#FFE485]">
+            <span className="w-2.5 h-2.5 rounded-sm bg-[#FFE485] inline-block" />
             {lang === 'vi' ? 'COVID-19 / Đáy' : 'COVID-19 Impact'}
           </span>
         </div>
       </div>
 
       {/* SVG Canvas */}
-      <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-2 shadow-inner">
+      <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-2">
         <svg
           viewBox={`0 0 ${w} ${h}`}
           className="w-full h-auto max-h-[50vh] overflow-visible select-none"
@@ -569,7 +569,7 @@ function FullModalChart({
                   x={padLeft - 10}
                   y={y + 3.5}
                   textAnchor="end"
-                  className="fill-slate-500 dark:fill-slate-400 text-[11px] font-mono font-medium"
+                  className="fill-slate-500 dark:fill-slate-400 text-[11px] tabular-nums font-medium"
                 >
                   {tick.toLocaleString('vi-VN')}
                 </text>
@@ -582,13 +582,12 @@ function FullModalChart({
             x={padLeft - 10}
             y={padTop - 12}
             textAnchor="start"
-            className="fill-slate-500 dark:fill-slate-400 text-[11px] font-mono font-bold uppercase tracking-wider"
+            className="fill-slate-500 dark:fill-slate-400 text-xs tabular-nums font-bold"
           >
             ({figure.unit[lang]})
           </text>
 
           {figure.type === 'bar' ? (
-            // ==================== FULL BAR CHART ====================
             <g>
               {figure.data.map((d, i) => {
                 const barW = Math.max(8, (plotW / n) * 0.68);
@@ -597,9 +596,9 @@ function FullModalChart({
                 const y = padTop + plotH - barH;
                 const isHovered = hoveredIdx === i;
 
-                let fillClass = 'fill-sky-500 hover:fill-sky-400 dark:fill-sky-400 dark:hover:fill-sky-300';
-                if (d.isPeak) fillClass = 'fill-indigo-600 dark:fill-indigo-400';
-                if (d.isTrough || d.isCovid) fillClass = 'fill-rose-500 dark:fill-rose-400';
+                let fillClass = 'fill-[#0D7287] hover:fill-[#095262] dark:fill-[#9BE7FA] dark:hover:fill-[#C8EEF7]';
+                if (d.isPeak) fillClass = 'fill-[#FFD14C] dark:fill-[#FFD14C]';
+                if (d.isTrough || d.isCovid) fillClass = 'fill-rose-500 hover:fill-rose-600 dark:fill-rose-400 dark:hover:fill-rose-300';
 
                 return (
                   <g
@@ -635,8 +634,8 @@ function FullModalChart({
                       width={barW}
                       height={barH}
                       rx={2.5}
-                      className={`${fillClass} transition-all duration-200 ${
-                        isHovered ? 'filter drop-shadow(0 2px 6px rgba(14,165,233,0.5))' : ''
+                      className={`${fillClass} transition duration-200 ${
+                        isHovered ? 'opacity-90' : ''
                       }`}
                     />
 
@@ -645,11 +644,11 @@ function FullModalChart({
                       x={x + barW / 2}
                       y={y - 5}
                       textAnchor="middle"
-                      className={`text-[11px] font-mono font-bold ${
+                      className={`text-[11px] tabular-nums font-bold ${
                         d.isPeak
-                           ? 'fill-indigo-700 dark:fill-indigo-300'
+                           ? 'fill-[#92400E] dark:fill-[#FFD14C]'
                           : d.isTrough || d.isCovid
-                          ? 'fill-rose-600 dark:fill-rose-400'
+                          ? 'fill-[#B45309] dark:fill-[#FFE485]'
                           : 'fill-slate-700 dark:fill-slate-300'
                       }`}
                     >
@@ -661,11 +660,11 @@ function FullModalChart({
                       x={x + barW / 2}
                       y={padTop + plotH + 16}
                       textAnchor="middle"
-                      className={`text-[11px] font-mono ${
+                      className={`text-[11px] tabular-nums ${
                         isHovered
                           ? 'fill-sky-600 dark:fill-sky-300 font-bold'
                           : d.isPeak
-                          ? 'fill-indigo-700 dark:fill-indigo-400 font-bold'
+                          ? 'fill-cyan-700 dark:fill-cyan-400 font-bold'
                           : 'fill-slate-600 dark:fill-slate-400'
                       }`}
                     >
@@ -676,7 +675,6 @@ function FullModalChart({
               })}
             </g>
           ) : (
-            // ==================== FULL LINE CHART ====================
             (() => {
               const points = figure.data.map((d, i) => {
                 const x = padLeft + (i / (n - 1)) * plotW;
@@ -738,9 +736,9 @@ function FullModalChart({
                             r={isHovered ? 9 : 7}
                             className={`${
                               pt.isPeak
-                                ? 'fill-indigo-500/25 dark:fill-indigo-400/25'
+                                ? 'fill-cyan-500/25 dark:fill-cyan-400/25'
                                 : 'fill-sky-500/25'
-                            } transition-all`}
+                            } transition`}
                           />
                         )}
 
@@ -751,11 +749,11 @@ function FullModalChart({
                           r={pt.isPeak ? 5 : 4}
                           className={`${
                             pt.isPeak
-                              ? 'fill-indigo-600 dark:fill-indigo-400'
+                              ? 'fill-[#FFD14C]'
                               : pt.isTrough || pt.isCovid
-                              ? 'fill-rose-500 dark:fill-rose-400'
-                              : 'fill-sky-600 dark:fill-sky-400'
-                          } stroke-white dark:stroke-slate-900 transition-all`}
+                              ? 'fill-[#FFE485]'
+                              : 'fill-[#0D7287] dark:fill-[#9BE7FA]'
+                          } stroke-white dark:stroke-slate-900 transition`}
                           strokeWidth="2"
                         />
 
@@ -764,11 +762,11 @@ function FullModalChart({
                           x={pt.x}
                           y={pt.y - 9}
                           textAnchor="middle"
-                          className={`text-[11px] font-mono font-bold ${
+                          className={`text-[11px] tabular-nums font-bold ${
                             pt.isPeak
-                              ? 'fill-indigo-700 dark:fill-indigo-300'
+                              ? 'fill-[#92400E] dark:fill-[#FFD14C]'
                               : pt.isTrough || pt.isCovid
-                              ? 'fill-rose-600 dark:fill-rose-400'
+                              ? 'fill-[#B45309] dark:fill-[#FFE485]'
                               : 'fill-slate-800 dark:fill-slate-200'
                           }`}
                         >
@@ -780,11 +778,11 @@ function FullModalChart({
                           x={pt.x}
                           y={padTop + plotH + 16}
                           textAnchor="middle"
-                          className={`text-[11px] font-mono ${
+                          className={`text-[11px] tabular-nums ${
                             isHovered
                               ? 'fill-sky-600 dark:fill-sky-300 font-bold'
                               : pt.isPeak
-                              ? 'fill-indigo-700 dark:fill-indigo-400 font-bold'
+                              ? 'fill-cyan-700 dark:fill-cyan-400 font-bold'
                               : 'fill-slate-600 dark:fill-slate-400'
                           }`}
                         >
@@ -801,24 +799,24 @@ function FullModalChart({
 
         {/* Hover Tooltip Float */}
         {activePoint && (
-          <div className="absolute top-4 right-4 bg-slate-900/95 dark:bg-slate-950/95 text-white border border-slate-700 rounded-lg p-2.5 shadow-xl text-xs space-y-1 z-10 pointer-events-none">
-            <div className="flex items-center justify-between gap-4 border-b border-slate-700 pb-1">
-              <span className="font-mono text-sky-400 font-bold">Năm {activePoint.label}</span>
-              <span className="font-mono text-emerald-400 font-bold">
+          <div className="absolute top-4 right-4 bg-slate-900/95 dark:bg-slate-950/95 text-white border border-slate-700 rounded-lg p-2.5 text-xs space-y-1 z-10 pointer-events-none">
+            <div className="flex items-center justify-between gap-4 border-slate-700 pb-1">
+              <span className="tabular-nums text-sky-400 font-bold">Năm {activePoint.label}</span>
+              <span className="tabular-nums text-[#9BE7FA] font-bold">
                 {activePoint.value.toLocaleString('vi-VN')} {figure.unit[lang]}
               </span>
             </div>
             {activePoint.event && (
-              <div className="text-amber-300 font-medium">🎯 {activePoint.event}</div>
+              <div className="text-amber-300 font-medium">{activePoint.event}</div>
             )}
             {activePoint.note && (
               <div className="text-slate-400 text-[11px]">ℹ️ {activePoint.note}</div>
             )}
             {activePoint.isPeak && (
-              <div className="text-indigo-300 font-semibold">🏆 Điểm cao nhất trong chuỗi thời gian</div>
+              <div className="text-[#FFD14C] font-semibold">Điểm cao nhất trong chuỗi thời gian</div>
             )}
             {activePoint.isCovid && (
-              <div className="text-rose-300">⚠️ Tác động phong tỏa biên giới phòng dịch COVID-19</div>
+              <div className="text-[#FFE485]">Tác động phong tỏa biên giới phòng dịch COVID-19</div>
             )}
           </div>
         )}
@@ -833,8 +831,8 @@ function FullModalChart({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-200 dark:border-slate-800">
-          <span>📚 {figure.source}</span>
+        <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] tabular-nums text-slate-500 dark:text-slate-400 pt-1 border-slate-200 dark:border-slate-800">
+          <span>{figure.source}</span>
           <span>Luận văn: Chương 3, Trang {figure.pageInDoc}</span>
         </div>
       </div>

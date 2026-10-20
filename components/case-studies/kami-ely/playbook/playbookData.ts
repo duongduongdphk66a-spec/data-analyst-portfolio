@@ -1,8 +1,6 @@
-// ============================================================================
 // FILE: components/case-studies/kami-ely/playbook/playbookData.ts
 // Dữ liệu cho SQL playbook 7 giai đoạn. Mọi số liệu lấy từ metrics.json
 // (sinh bởi scripts/kami/build_metrics.py). Không có số bịa trong file này.
-// ============================================================================
 
 import metricsJson from '@/app/data/kami-ely/generated/metrics.json';
 import { kamiReconciliationData } from '@/app/data/kami-ely/reconciliation';
@@ -199,6 +197,7 @@ export const affiliateTop10 = (() => {
     cum += c.sharePct;
     return {
       rank: `#${i + 1}`,
+      name: c.name,
       sharePct: c.sharePct,
       cumulativePct: Math.round(cum * 100) / 100,
       sessions: c.sessions,
@@ -206,11 +205,51 @@ export const affiliateTop10 = (() => {
   });
 })();
 
-export const topCreatorMonthly = m.shopLive.girlStyle.monthly.map((x) => ({
-  label: `T${Number(x.month.slice(5, 7))}`,
-  gmvM: toM(x.gmv),
-  sessions: x.sessions,
-}));
+export const affiliateTopExGirlStyle = (() => {
+  const aff = m.shopLive.affiliate;
+  const exTop1 = aff.top10.slice(1);
+  const totEx = aff.gmv - aff.top10[0].gmv;
+  let cumEx = 0;
+  return exTop1.map((c, i) => {
+    const shareEx = (c.gmv / totEx) * 100;
+    cumEx += shareEx;
+    return {
+      rank: `#${i + 1}`,
+      name: c.name,
+      sharePct: Math.round(shareEx * 100) / 100,
+      cumulativePct: Math.round(cumEx * 100) / 100,
+      sessions: c.sessions,
+    };
+  });
+})();
+
+export const topCreatorMonthly = m.shopLive.girlStyle.monthly.map((x: any) => {
+  const gmvM = toM(x.gmv);
+  const liveHours = Number(x.liveHours ?? 0);
+  const gmvPerHourM = liveHours > 0 ? Math.round((gmvM / liveHours) * 100) / 100 : 0;
+  return {
+    month: x.month,
+    label: `T${Number(x.month.slice(5, 7))}`,
+    gmvM,
+    sessions: x.sessions,
+    liveHours,
+    gmvPerHourM,
+  };
+});
+
+export const shopWideLiveMonthly = ((m.shopLive as any).monthly ?? []).map((x: any) => {
+  const gmvM = toM(x.gmv);
+  const liveHours = Number(x.liveHours ?? 0);
+  const gmvPerHourM = liveHours > 0 ? Math.round((gmvM / liveHours) * 100) / 100 : 0;
+  return {
+    month: x.month,
+    label: `T${Number(x.month.slice(5, 7))}`,
+    gmvM,
+    sessions: x.sessions,
+    liveHours,
+    gmvPerHourM,
+  };
+});
 
 export const creatorFacts = {
   registered: m.creators.registered.value,
@@ -265,6 +304,126 @@ export const funnels: Record<FunnelKey, { title: Bi; steps: FunnelStep[] }> = {
     ],
   },
 };
+
+export interface DonutSegment {
+  name: Bi;
+  value: number;
+  color: string;
+}
+
+export interface DonutFunnelItem {
+  title: Bi;
+  subtitle: Bi;
+  badge: Bi;
+  tone: 'cyan' | 'amber';
+  total: number;
+  centerVal: string;
+  centerLabel: Bi;
+  segments: DonutSegment[];
+}
+
+export const donutFunnels: Record<FunnelKey, DonutFunnelItem> = {
+  video: {
+    title: { vi: 'Phễu Video chính chủ (Sequential LEFT JOIN)', en: 'Own Video Funnel (Sequential LEFT JOIN)' },
+    subtitle: { vi: 'Tỷ lệ gắn giỏ hàng và phát sinh đơn trên 222 video chính chủ', en: 'Cart-linking & order conversion on 222 own videos' },
+    badge: { vi: '222 Video', en: '222 Videos' },
+    tone: 'cyan',
+    total: m.channel.video.videos.value,
+    centerVal: '45,5%',
+    centerLabel: { vi: 'Có đơn', en: 'With orders' },
+    segments: [
+      {
+        name: { vi: 'Có đơn hàng', en: 'With orders' },
+        value: m.channel.video.withOrders.value,
+        color: COLORS.teal,
+      },
+      {
+        name: { vi: 'Gắn giỏ chưa đơn', en: 'Shoppable, 0 orders' },
+        value: m.channel.video.shoppable.value - m.channel.video.withOrders.value,
+        color: COLORS.cyan,
+      },
+      {
+        name: { vi: 'Chưa gắn giỏ hàng', en: 'Not shoppable' },
+        value: m.channel.video.videos.value - m.channel.video.shoppable.value,
+        color: COLORS.amber,
+      },
+    ],
+  },
+  live: {
+    title: { vi: 'Phễu LIVE chính chủ (Sequential LEFT JOIN)', en: 'Own LIVE Funnel (Sequential LEFT JOIN)' },
+    subtitle: { vi: 'Tỷ lệ chuyển đổi phát sinh đơn trên 475 ca LIVE chính chủ', en: 'Order conversion rate on 475 own LIVE sessions' },
+    badge: { vi: '475 Ca LIVE', en: '475 Sessions' },
+    tone: 'cyan',
+    total: m.channel.live.sessions.value,
+    centerVal: '95,6%',
+    centerLabel: { vi: 'Có đơn', en: 'With orders' },
+    segments: [
+      {
+        name: { vi: 'Có đơn hàng', en: 'With orders' },
+        value: m.channel.live.sessionsWithOrders.value,
+        color: COLORS.teal,
+      },
+      {
+        name: { vi: 'Chưa phát sinh đơn', en: 'Zero orders' },
+        value: m.channel.live.sessions.value - m.channel.live.sessionsWithOrders.value,
+        color: COLORS.amber,
+      },
+    ],
+  },
+  sku: {
+    title: { vi: 'Phễu SKU sản phẩm (Sequential LEFT JOIN)', en: 'Product SKU Funnel (Sequential LEFT JOIN)' },
+    subtitle: { vi: 'Tỷ lệ phát sinh đơn và tập trung 80% GMV trên 331 mã SKU niêm yết', en: 'Order conversion and Pareto 80% GMV on 331 listed SKUs' },
+    badge: { vi: '331 SKU', en: '331 SKUs' },
+    tone: 'amber',
+    total: m.products.skus.value,
+    centerVal: '40,5%',
+    centerLabel: { vi: 'Có đơn', en: 'With sales' },
+    segments: [
+      {
+        name: { vi: 'Tạo 80% GMV (Top P80)', en: 'Make 80% GMV (P80)' },
+        value: m.products.skusFor80PctGmv,
+        color: COLORS.amber,
+      },
+      {
+        name: { vi: 'Có đơn thông thường', en: 'Other active SKUs' },
+        value: m.products.skusWithSales.value - m.products.skusFor80PctGmv,
+        color: COLORS.cyan,
+      },
+      {
+        name: { vi: 'Chưa phát sinh đơn', en: 'Zero orders' },
+        value: m.products.skus.value - m.products.skusWithSales.value,
+        color: '#94A3B8',
+      },
+    ],
+  },
+  creator: {
+    title: { vi: 'Phễu Mạng lưới Creator (Sequential LEFT JOIN)', en: 'Creator Network Funnel (Sequential LEFT JOIN)' },
+    subtitle: { vi: 'Tỷ lệ kích hoạt đơn và nòng cốt 80% GMV trong 5.713 Creator đăng ký', en: 'Order activation and Pareto 80% GMV in 5,713 Creators' },
+    badge: { vi: '5.713 Creator', en: '5,713 Creators' },
+    tone: 'amber',
+    total: m.creators.registered.value,
+    centerVal: '5,1%',
+    centerLabel: { vi: 'Có đơn', en: 'With orders' },
+    segments: [
+      {
+        name: { vi: 'Tạo 80% GMV (Top Creator)', en: 'Make 80% GMV (Top)' },
+        value: m.creators.creatorsFor80PctGmv,
+        color: COLORS.amber,
+      },
+      {
+        name: { vi: 'Có đơn thông thường', en: 'Other active Creators' },
+        value: m.creators.sellers.value - m.creators.creatorsFor80PctGmv,
+        color: COLORS.cyan,
+      },
+      {
+        name: { vi: 'Chưa phát sinh đơn', en: 'Zero orders' },
+        value: m.creators.registered.value - m.creators.sellers.value,
+        color: '#94A3B8',
+      },
+    ],
+  },
+};
+
 
 export const liveDuration = m.channel.live.durationBuckets.map((b) => ({
   bucket: b.bucket,

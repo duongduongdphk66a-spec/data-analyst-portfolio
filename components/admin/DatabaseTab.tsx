@@ -99,15 +99,15 @@ export default function DatabaseTab({
       const res = await fetch('/api/db');
       const data = await res.json();
       if (data.connected) {
-        setTestResult('✅ Kết nối MySQL thành công! Hệ thống đang hoạt động với cơ sở dữ liệu.');
+        setTestResult('Kết nối MySQL thành công! Hệ thống đang hoạt động với cơ sở dữ liệu.');
         showToast('Kết nối MySQL thành công!', 'success');
       } else {
-        setTestResult(`⚠️ Không thể kết nối MySQL: ${data.message || 'Kiểm tra file .env'}. Ứng dụng đang chạy ở chế độ Static Fallback.`);
+        setTestResult(`Không thể kết nối MySQL: ${data.message || 'Kiểm tra file .env'}. Ứng dụng đang chạy ở chế độ Static Fallback.`);
         showToast('Không có kết nối MySQL. Đang dùng dữ liệu bộ nhớ.', 'info');
       }
       await refreshData();
     } catch {
-      setTestResult('❌ Lỗi kiểm tra kết nối mạng.');
+      setTestResult('Lỗi kiểm tra kết nối mạng.');
     } finally {
       setIsDbTesting(false);
     }
@@ -166,9 +166,9 @@ export default function DatabaseTab({
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-150">
       {/* Connection Status Card */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div className="flex items-center justify-between border-slate-100 dark:border-slate-800 pb-3">
           <div className="flex items-center gap-3">
-            <div className={`w-3 h-3 rounded-full ${dbStatus.connected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+            <div className={`w-3 h-3 rounded-full ${dbStatus.connected ? 'bg-[#0D7287] dark:bg-[#9BE7FA] animate-pulse' : 'bg-amber-500'}`} />
             <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
               Trạng Thái Kết Nối Cơ Sở Dữ Liệu MySQL
             </h3>
@@ -176,7 +176,7 @@ export default function DatabaseTab({
           <button
             onClick={handleTestConnection}
             disabled={isDbTesting}
-            className="flex items-center gap-2 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer"
+            className="flex items-center gap-2 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isDbTesting ? 'animate-spin' : ''}`} />
             <span>Kiểm Tra Kết Nối</span>
@@ -194,7 +194,7 @@ export default function DatabaseTab({
             <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold block mb-1">
               Bảng Thông tin Cá nhân
             </span>
-            <span className="text-xl font-extrabold text-slate-900 dark:text-white font-mono">
+            <span className="text-xl font-extrabold text-slate-900 dark:text-white tabular-nums">
               {dbStatus.stats?.profileRows ?? (dbStatus.connected ? 1 : 0)} bản ghi
             </span>
             <span className="text-xs text-slate-400 block mt-1">`portfolio_profile`</span>
@@ -204,7 +204,7 @@ export default function DatabaseTab({
             <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold block mb-1">
               Bảng Đoạn Văn Bản (CMS)
             </span>
-            <span className="text-xl font-extrabold text-[#0D7287] dark:text-[#9BE7FA] font-mono">
+            <span className="text-xl font-extrabold text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
               {dbStatus.stats?.textRows ?? (dbStatus.connected ? Object.keys(translations.vi).length * 2 : 0)} bản ghi
             </span>
             <span className="text-xs text-slate-400 block mt-1">`portfolio_texts`</span>
@@ -214,7 +214,7 @@ export default function DatabaseTab({
             <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold block mb-1">
               Bảng Dự Án
             </span>
-            <span className="text-xl font-extrabold text-slate-900 dark:text-white font-mono">
+            <span className="text-xl font-extrabold text-slate-900 dark:text-white tabular-nums">
               {dbStatus.stats?.projectRows ?? projectsCount} dự án
             </span>
             <span className="text-xs text-slate-400 block mt-1">`portfolio_projects`</span>
@@ -224,7 +224,7 @@ export default function DatabaseTab({
             <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold block mb-1">
               Dữ Liệu TikTok Shop (8 bảng)
             </span>
-            <span className="text-xl font-extrabold text-amber-500 dark:text-[#FFD14C] font-mono">
+            <span className="text-xl font-extrabold text-amber-500 dark:text-[#FFD14C] tabular-nums">
               {dbStatus.stats?.tiktokRows ?? (dbStatus.connected ? 70 : 0)} bản ghi
             </span>
             <span className="text-xs text-slate-400 block mt-1">`tiktok_shop_*`</span>
@@ -243,7 +243,7 @@ export default function DatabaseTab({
           Để kết nối với máy chủ MySQL cục bộ (XAMPP, Docker MySQL) hoặc MySQL trên Cloud (Aiven, Railway, PlanetScale), hãy chỉnh sửa file <code className="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 font-mono text-[#0D7287] dark:text-[#9BE7FA]">.env</code> ở thư mục gốc dự án:
         </p>
 
-        <div className="bg-slate-900 rounded-xl p-4 text-emerald-400 font-mono text-xs overflow-x-auto space-y-1 relative">
+        <div className="bg-slate-900 rounded-xl p-4 text-[#9BE7FA] tabular-nums text-xs overflow-x-auto space-y-1 relative">
           <p># Cấu hình mật khẩu quản trị</p>
           <p className="text-cyan-300">ADMIN_PASSWORD=&quot;YOUR_STRONG_SECRET_KEY&quot;</p>
           <p className="pt-2"># Cấu hình kết nối MySQL</p>
@@ -257,16 +257,16 @@ export default function DatabaseTab({
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <button
             onClick={handleCopySchema}
-            className="flex items-center gap-1.5 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs rounded-xl transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs rounded-xl transition cursor-pointer"
           >
-            {isCopiedSql ? <CheckCheck className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+            {isCopiedSql ? <CheckCheck className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" /> : <Copy className="w-4 h-4" />}
             <span>Sao Chép Script Tạo Bảng MySQL</span>
           </button>
 
           <button
             onClick={handleInitDb}
             disabled={isInitializing}
-            className="flex items-center gap-1.5 px-4 py-2 bg-[#0D7287] hover:bg-[#095262] dark:bg-[#9BE7FA]/20 dark:hover:bg-[#9BE7FA]/30 text-white dark:text-[#9BE7FA] font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer disabled:opacity-50 border border-transparent dark:border-[#9BE7FA]/40"
+            className="flex items-center gap-1.5 px-4 py-2 bg-[#0D7287] hover:bg-[#095262] dark:bg-[#9BE7FA]/20 dark:hover:bg-[#9BE7FA]/30 text-white dark:text-[#9BE7FA] font-bold text-xs rounded-xl shadow-xs transition cursor-pointer disabled:opacity-50 border border-transparent dark:border-[#9BE7FA]/40"
           >
             <RefreshCw className={`w-4 h-4 ${isInitializing ? 'animate-spin' : ''}`} />
             <span>Khởi Tạo Bảng & Nạp Mẫu</span>
@@ -274,7 +274,7 @@ export default function DatabaseTab({
 
           <button
             onClick={() => setShowResetConfirmModal(true)}
-            className="flex items-center gap-1.5 px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/60 text-red-700 dark:text-red-300 font-bold text-xs rounded-xl transition-all cursor-pointer ml-auto"
+            className="flex items-center gap-1.5 px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/60 text-red-700 dark:text-red-300 font-bold text-xs rounded-xl transition cursor-pointer ml-auto"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Khôi Phục Dữ Liệu Gốc (Reset DB)</span>
@@ -285,7 +285,7 @@ export default function DatabaseTab({
       {/* Danger Zone: Reset Confirmation Dialog */}
       {showResetConfirmModal && (
         <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full p-6 border border-red-200 dark:border-red-800 shadow-2xl space-y-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full p-6 border border-red-200 dark:border-red-800 space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-red-100 dark:bg-red-950 text-red-600 flex items-center justify-center mx-auto">
               <RefreshCw className="w-6 h-6" />
             </div>
@@ -301,14 +301,14 @@ export default function DatabaseTab({
 
             <div className="space-y-2">
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                Vui lòng nhập <span className="font-mono text-red-600 dark:text-red-400 select-all">CONFIRM_RESET_DATABASE</span> để tiếp tục:
+                Vui lòng nhập <span className="tabular-nums text-red-600 dark:text-red-400 select-all">CONFIRM_RESET_DATABASE</span> để tiếp tục:
               </label>
               <input
                 type="text"
                 value={resetConfirmInput}
                 onChange={(e) => setResetConfirmInput(e.target.value)}
                 placeholder="CONFIRM_RESET_DATABASE"
-                className="w-full px-3.5 py-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-mono"
+                className="w-full px-3.5 py-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white tabular-nums"
               />
             </div>
 
@@ -325,7 +325,7 @@ export default function DatabaseTab({
               <button
                 onClick={handleExecuteReset}
                 disabled={resetConfirmInput !== 'CONFIRM_RESET_DATABASE' || isSaving}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl disabled:opacity-40 cursor-pointer shadow-md shadow-red-500/20"
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl disabled:opacity-40 cursor-pointer"
               >
                 Xác Nhận Khôi Phục
               </button>

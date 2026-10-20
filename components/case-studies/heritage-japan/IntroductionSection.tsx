@@ -18,7 +18,7 @@ export function IntroductionSection({
   const { language } = useLanguage();
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   return (
-    <section id="mo-dau" className="py-16 bg-ground border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
+    <section id="mo-dau" className="py-16 bg-ground border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <SectionHeader
           variant="stacked"
@@ -44,7 +44,7 @@ export function IntroductionSection({
           </div>
 
           {/* 2. Mục đích và câu hỏi nghiên cứu */}
-          <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div className="space-y-3 pt-4 border-slate-100 dark:border-slate-800">
             <h3 className="text-xl font-black text-slate-950 flex items-center gap-2 dark:text-white">
               <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#9BE7FA]/60 text-[#074553] font-black text-sm dark:bg-slate-800 dark:text-[#9BE7FA]">2</span>
               <span>{isEn ? '2. Objectives & Research Questions' : '2. Mục đích và câu hỏi nghiên cứu'}</span>
@@ -75,10 +75,10 @@ export function IntroductionSection({
           </div>
 
           {/* 3, 4, 5, 6: Nhiệm vụ, Đối tượng, Phương pháp, Bố cục */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-slate-100 dark:border-slate-800">
             <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-800 dark:border-slate-700">
               <h4 className="font-bold text-slate-900 text-sm mb-2 flex items-center gap-2 dark:text-white">
-                <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <Award className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                 <span>3. Nhiệm vụ nghiên cứu & 4. Phạm vi</span>
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
@@ -88,7 +88,7 @@ export function IntroductionSection({
 
             <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-800 dark:border-slate-700">
               <h4 className="font-bold text-slate-900 text-sm mb-2 flex items-center gap-2 dark:text-white">
-                <Layers className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                <Layers className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
                 <span>5. Phương pháp & 6. Bố cục đề tài</span>
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">

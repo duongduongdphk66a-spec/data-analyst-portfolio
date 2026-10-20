@@ -15,8 +15,8 @@ export default function ShopAnalysisNarrative({ isEn: propIsEn }: ShopAnalysisNa
   const visualActionCards = [
     {
       badge: isEn ? 'CATEGORY PIVOT • FALL/WINTER' : 'XOAY TRỤC DANH MỤC • THU ĐÔNG',
-      color: 'border-sky-500/30 bg-sky-500/10 text-sky-300',
-      barColor: 'bg-sky-400',
+      color: 'border-[#9BE7FA]/40 bg-[#C8EEF7]/40 text-[#074553] dark:text-[#9BE7FA] dark:bg-[#9BE7FA]/15 dark:border-[#9BE7FA]/30',
+      barColor: 'bg-[#0D7287] dark:bg-[#9BE7FA]',
       pct: 69.31,
       metric: isEn ? '69.31% Swimwear → Push CV11 (6,375 Units)' : '69,31% Đồ bơi → Đẩy Chân váy CV11 (6.375 SP)',
       title: {
@@ -30,8 +30,8 @@ export default function ShopAnalysisNarrative({ isEn: propIsEn }: ShopAnalysisNa
     },
     {
       badge: isEn ? 'ORGANIC SHOWCASE • 0 VND COMMISSION' : 'MỎ VÀNG KỆ HÀNG • 0Đ HOA HỒNG',
-      color: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
-      barColor: 'bg-emerald-400',
+      color: 'border-[#FFD14C]/40 bg-[#FFE485]/40 text-amber-950 dark:text-[#FFE485] dark:bg-[#FFE485]/15 dark:border-[#FFD14C]/30',
+      barColor: 'bg-[#FFE485] dark:bg-[#FFE485]',
       pct: 22.85,
       metric: isEn ? '1.17M Viewers • CVR 0.25% → 1.0% Target' : '1,17M Người xem • CVR 0,25% → Mục tiêu 1,0%',
       title: {
@@ -45,8 +45,8 @@ export default function ShopAnalysisNarrative({ isEn: propIsEn }: ShopAnalysisNa
     },
     {
       badge: isEn ? 'PROMO RESTRUCTURING • AOV 150.9K' : 'TÁI CẤU TRÚC KHUYẾN MÃI • AOV 150,9K',
-      color: 'border-amber-500/30 bg-amber-500/10 text-amber-300',
-      barColor: 'bg-amber-400',
+      color: 'border-[#9BE7FA]/40 bg-[#C8EEF7]/40 text-[#074553] dark:text-[#9BE7FA] dark:bg-[#9BE7FA]/15 dark:border-[#9BE7FA]/30',
+      barColor: 'bg-[#C8EEF7] dark:bg-[#9BE7FA]/40',
       pct: 50.45,
       metric: isEn ? 'Discount cost 62.2M / 123.3M GMV (50.45%)' : 'Chi phí giảm giá 62,2 Tr / 123,3 Tr GMV (50,45%)',
       title: {
@@ -60,8 +60,8 @@ export default function ShopAnalysisNarrative({ isEn: propIsEn }: ShopAnalysisNa
     },
     {
       badge: isEn ? 'PARETO RISK MITIGATION • 5,712 KOCS' : 'QUẢN TRỊ RỦI RO PARETO • 5.712 KOCS',
-      color: 'border-pink-500/30 bg-pink-500/10 text-pink-300',
-      barColor: 'bg-pink-400',
+      color: 'border-[#FFD14C]/40 bg-[#FFE485]/40 text-amber-950 dark:text-[#FFE485] dark:bg-[#FFE485]/15 dark:border-[#FFD14C]/30',
+      barColor: 'bg-[#FFD14C] dark:bg-[#FFD14C]',
       pct: 91.49,
       metric: isEn ? 'Top 1% (58 KOC) = 91.49% GMV • @girlstyle.vn = 42.9%' : 'Top 1% (58 KOC) = 91,49% GMV • @girlstyle.vn = 42,9%',
       title: {
@@ -76,10 +76,10 @@ export default function ShopAnalysisNarrative({ isEn: propIsEn }: ShopAnalysisNa
   ];
 
   return (
-    <section className="w-full rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 shadow-xl dark:border-slate-800/90 dark:bg-slate-950/90 space-y-5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+    <section className="w-full rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 dark:border-slate-800/90 dark:bg-slate-950/90 space-y-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-slate-200 dark:border-slate-800 pb-4">
         <div>
-          <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold uppercase bg-sky-50 text-sky-800 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30">
+          <span className="px-2.5 py-0.5 rounded text-xs tabular-nums font-bold uppercase bg-sky-50 text-sky-800 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30">
             {lang === 'vi' ? 'TÓM TẮT CHIẾN LƯỢC TOÀN SHOP (VISUAL SUMMARY)' : 'SHOP-WIDE VISUAL ACTION SUMMARY'}
           </span>
           <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white mt-1">
@@ -99,10 +99,10 @@ export default function ShopAnalysisNarrative({ isEn: propIsEn }: ShopAnalysisNa
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <span className={`px-2 py-0.5 rounded text-xs font-mono font-bold border ${item.color}`}>
+                <span className={`px-2 py-0.5 rounded text-xs tabular-nums font-bold border ${item.color}`}>
                   {item.badge}
                 </span>
-                <span className="text-xs font-mono font-bold text-slate-900 dark:text-white">{item.metric}</span>
+                <span className="text-xs tabular-nums font-bold text-slate-900 dark:text-white">{item.metric}</span>
               </div>
               <h4 className="text-sm font-bold text-slate-900 dark:text-white">{item.title[lang]}</h4>
               <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">

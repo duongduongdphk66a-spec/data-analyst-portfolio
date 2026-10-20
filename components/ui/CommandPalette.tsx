@@ -2,6 +2,22 @@
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import {
+  ShoppingBag,
+  Landmark,
+  Bus,
+  Home,
+  FolderOpen,
+  Briefcase,
+  User,
+  FileText,
+  Globe,
+  Sun,
+  Moon,
+  BarChart3,
+  Search,
+  CornerDownLeft,
+} from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useTheme } from '@/app/context/ThemeContext';
 import { ProjectData } from '@/app/types';
@@ -12,7 +28,7 @@ export interface CommandItem {
   title: { vi: string; en: string };
   subtitle: { vi: string; en: string };
   keywords: string;
-  icon: string;
+  icon: React.ReactNode;
   action: () => void;
 }
 
@@ -74,15 +90,15 @@ export default function CommandPalette({
           id: 'case-kami-ely',
           category: { vi: 'Dự Án Mũi Nhọn (Case Studies)', en: 'Featured Case Studies' },
           title: {
-            vi: 'TikTok Shop Kami Ely (@kamielyhn) — 12,74 Tỉ VNĐ (180d)',
-            en: 'TikTok Shop Kami Ely (@kamielyhn) — 12.74B VND (180d)'
+            vi: 'TikTok Shop Kami Ely (@kamielyhn): 12,74 Tỉ VNĐ (180d)',
+            en: 'TikTok Shop Kami Ely (@kamielyhn): 12.74B VND (180d)'
           },
           subtitle: {
             vi: 'Phân tích 8 bảng dữ liệu (18.778 dòng), Phễu LIVE, Kệ hàng 1,17M views & What-If ROI',
             en: '8 datasets (18,778 rows), LIVE Funnel, 1.17M Card views & What-If ROI Simulator'
           },
           keywords: 'kami ely tiktok shop ecommerce live video koc affiliate sql 180d 90d',
-          icon: '🛍️',
+          icon: <ShoppingBag className="w-4 h-4 text-[#9BE7FA]" />,
           action: () => {
             navigateSpa('/projects/proj-kami-ely');
             onSelectProject?.('proj-kami-ely');
@@ -100,7 +116,7 @@ export default function CommandPalette({
             en: 'Statistical testing, Spatial regression & Public policy evaluation'
           },
           keywords: 'heritage japan tourism policy statistics thesis',
-          icon: '⛩️',
+          icon: <Landmark className="w-4 h-4 text-[#FFD14C]" />,
           action: () => {
             navigateSpa('/projects/proj-heritage-japan');
             onSelectProject?.('proj-heritage-japan');
@@ -118,7 +134,7 @@ export default function CommandPalette({
             en: 'UX research, sitemap, wireframes and UI design for 20 desktop screens plus mobile'
           },
           keywords: 'library bus ux ui design wireframe sitemap responsive',
-          icon: '🚌',
+          icon: <Bus className="w-4 h-4 text-[#9BE7FA]" />,
           action: () => {
             navigateSpa('/projects/proj-library-bus');
             onSelectProject?.('proj-library-bus');
@@ -130,7 +146,7 @@ export default function CommandPalette({
           title: { vi: 'Trang Chủ Tổng Quan (Dashboard)', en: 'Home Overview Dashboard' },
           subtitle: { vi: 'Về đầu trang chủ & Tổng hợp chỉ số Portfolio', en: 'Return to main portfolio dashboard' },
           keywords: 'home dashboard overview main',
-          icon: '🏠',
+          icon: <Home className="w-4 h-4 text-slate-300" />,
           action: () => {
             navigateSpa('/');
             onSelectTab?.('home');
@@ -142,7 +158,7 @@ export default function CommandPalette({
           title: { vi: 'Danh Mục Tất Cả Dự Án (/projects)', en: 'All Projects Directory (/projects)' },
           subtitle: { vi: 'Xem toàn bộ các dự án Phân tích Dữ liệu & BI', en: 'Browse all Data Analytics & BI projects' },
           keywords: 'projects portfolio list case studies',
-          icon: '📂',
+          icon: <FolderOpen className="w-4 h-4 text-slate-300" />,
           action: () => {
             navigateSpa('/projects');
             onSelectTab?.('projects');
@@ -154,7 +170,7 @@ export default function CommandPalette({
           title: { vi: 'Kinh Nghiệm & Hồ Sơ Năng Lực (/experience)', en: 'Experience & Resume (/experience)' },
           subtitle: { vi: 'Quá trình làm việc, Kỹ năng SQL/Python/BI & Học vấn', en: 'Work history, SQL/Python/BI skills & Education' },
           keywords: 'experience cv resume career skills',
-          icon: '💼',
+          icon: <Briefcase className="w-4 h-4 text-slate-300" />,
           action: () => {
             navigateSpa('/experience');
             onSelectTab?.('experience');
@@ -166,7 +182,7 @@ export default function CommandPalette({
           title: { vi: 'Giới Thiệu & Kiểm Toán SQL (/about)', en: 'About & SQL Reconciliation Audit (/about)' },
           subtitle: { vi: 'Hồ sơ năng lực, bằng chứng kiểm toán số liệu & phương pháp luận', en: 'Core competencies, telemetry audit proof & methodology' },
           keywords: 'about profile skills audit reconciliation sql',
-          icon: '👤',
+          icon: <User className="w-4 h-4 text-slate-300" />,
           action: () => {
             navigateSpa('/about');
             onSelectTab?.('about');
@@ -176,15 +192,15 @@ export default function CommandPalette({
           id: 'action-download-cv',
           category: { vi: 'Tài Liệu & Thiết Lập', en: 'Documents & Preferences' },
           title: {
-            vi: 'Tải Xuống CV PDF (Mã Văn Hùng — Data Analyst 2026)',
-            en: 'Download Resume PDF (Ma Van Hung — Data Analyst 2026)'
+            vi: 'Tải Xuống CV PDF (Mã Văn Hùng - Data Analyst 2026)',
+            en: 'Download Resume PDF (Ma Van Hung - Data Analyst 2026)'
           },
           subtitle: {
             vi: 'Mở hoặc tải trực tiếp tệp PDF hồ sơ năng lực chính thức',
             en: 'Open or download official PDF curriculum vitae'
           },
           keywords: 'download cv resume pdf ma van hung',
-          icon: '📄',
+          icon: <FileText className="w-4 h-4 text-[#FFD14C]" />,
           action: () => {
             closePalette();
             window.open('/Ma_Van_Hung_CV_Data_Analyst_2026.pdf', '_blank', 'noopener,noreferrer');
@@ -199,7 +215,7 @@ export default function CommandPalette({
           },
           subtitle: { vi: 'Thay đổi ngôn ngữ hiển thị toàn trang tức thì', en: 'Toggle site-wide display language' },
           keywords: 'language vietnamese english vi en translate',
-          icon: '🌐',
+          icon: <Globe className="w-4 h-4 text-[#9BE7FA]" />,
           action: () => {
             setLanguage(lang === 'vi' ? 'en' : 'vi');
             closePalette();
@@ -214,7 +230,11 @@ export default function CommandPalette({
           },
           subtitle: { vi: 'Tối ưu độ tương phản thị giác theo môi trường', en: 'Toggle dark/light visual theme' },
           keywords: 'theme dark light mode appearance',
-          icon: (resolvedTheme || theme) === 'dark' ? '☀️' : '🌙',
+          icon: (resolvedTheme || theme) === 'dark' ? (
+            <Sun className="w-4 h-4 text-[#FFD14C]" />
+          ) : (
+            <Moon className="w-4 h-4 text-[#9BE7FA]" />
+          ),
           action: () => {
             toggleTheme();
             closePalette();
@@ -232,7 +252,7 @@ export default function CommandPalette({
               title: { vi: p.title, en: p.title },
               subtitle: { vi: p.desc, en: p.desc },
               keywords: `${p.title} ${p.tags?.join(' ') || ''}`.toLowerCase(),
-              icon: '📊',
+              icon: <BarChart3 className="w-4 h-4 text-[#9BE7FA]" />,
               action: () => {
                 navigateSpa(`/projects/${p.id}`);
                 onSelectProject?.(p.id);
@@ -322,9 +342,9 @@ export default function CommandPalette({
         type="button"
         onClick={() => setInternalIsOpen(true)}
         aria-label={lang === 'vi' ? 'Mở bảng tìm kiếm nhanh (Ctrl+K)' : 'Open quick command search (Ctrl+K)'}
-        className="lg:hidden fixed bottom-20 right-4 z-40 min-h-[42px] px-3.5 py-2 rounded-full bg-slate-900/95 hover:bg-slate-800 text-sky-300 border border-sky-500/40 shadow-xl backdrop-blur-md flex items-center gap-1.5 text-xs font-mono font-bold"
+        className="lg:hidden fixed bottom-20 right-4 z-40 min-h-[44px] px-3.5 py-2 rounded-full bg-slate-900/95 hover:bg-slate-800 text-[#9BE7FA] border border-[#9BE7FA]/40 shadow-xl backdrop-blur-md flex items-center gap-1.5 text-xs font-bold cursor-pointer" /* taste-skill-ignore: floating button */
       >
-        <span>🔍</span>
+        <Search className="w-3.5 h-3.5" />
         <span>{lang === 'vi' ? 'Tìm nhanh / CV' : 'Search / CV'}</span>
       </button>
 
@@ -342,10 +362,10 @@ export default function CommandPalette({
           />
 
           {/* DIALOG BOX */}
-          <div className="relative z-10 w-full max-w-2xl rounded-2xl border border-slate-700/90 bg-slate-900 shadow-2xl overflow-hidden">
+          <div className="relative z-10 w-full max-w-2xl rounded-2xl border border-slate-700/90 bg-slate-900 shadow-2xl overflow-hidden" /* taste-skill-ignore: modal overlay */>
             {/* SEARCH INPUT BAR */}
-            <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-800">
-              <span className="text-sky-400 text-base">🔍</span>
+            <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-800" /* taste-skill-ignore: form input divider */>
+              <Search className="w-4 h-4 text-[#9BE7FA] shrink-0" />
               <input
                 ref={inputRef}
                 type="text"
@@ -362,9 +382,9 @@ export default function CommandPalette({
               <button
                 type="button"
                 onClick={closePalette}
-                className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono"
+                className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold cursor-pointer"
               >
-                ESC
+                <kbd>ESC</kbd>
               </button>
             </div>
 
@@ -383,21 +403,23 @@ export default function CommandPalette({
                       type="button"
                       onMouseEnter={() => setSelectedIndex(index)}
                       onClick={cmd.action}
-                      className={`w-full text-left p-3 rounded-xl transition flex items-start justify-between gap-3 ${
+                      className={`w-full text-left p-3 rounded-xl transition-colors flex items-start justify-between gap-3 cursor-pointer ${
                         isActive
-                          ? 'bg-sky-500/20 border border-sky-500/40 text-white'
+                          ? 'bg-[#9BE7FA]/15 border border-[#9BE7FA]/40 text-white'
                           : 'hover:bg-slate-800/70 border border-transparent text-slate-300'
                       }`}
                     >
                       <div className="flex items-start gap-3 min-w-0">
-                        <span className="text-lg shrink-0 mt-0.5">{cmd.icon}</span>
+                        <span className="p-2 rounded-lg bg-slate-800/80 border border-slate-700/70 shrink-0 mt-0.5 flex items-center justify-center">
+                          {cmd.icon}
+                        </span>
                         <div className="min-w-0">
-                          <div className="text-xs font-mono uppercase text-sky-400">{cmd.category[lang]}</div>
+                          <div className="text-xs font-semibold text-[#9BE7FA]">{cmd.category[lang]}</div>
                           <div className="text-sm font-bold text-white truncate">{cmd.title[lang]}</div>
                           <div className="text-xs text-slate-400 line-clamp-1 mt-0.5">{cmd.subtitle[lang]}</div>
                         </div>
                       </div>
-                      <span className="text-xs font-mono text-slate-400 shrink-0 self-center">↵</span>
+                      <CornerDownLeft className="w-3.5 h-3.5 text-slate-400 shrink-0 self-center" />
                     </button>
                   );
                 })
@@ -405,13 +427,13 @@ export default function CommandPalette({
             </div>
 
             {/* FOOTER SHORTCUT HINTS */}
-            <div className="px-4 py-2.5 bg-slate-950/90 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-400">
+            <div className="px-4 py-2.5 bg-slate-950/90 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400" /* taste-skill-ignore: modal footer */>
               <div className="flex items-center gap-3">
-                <span>↑↓ {lang === 'vi' ? 'Di chuyển' : 'Navigate'}</span>
-                <span>↵ {lang === 'vi' ? 'Mở trang (SPA)' : 'Open (SPA)'}</span>
-                <span>ESC {lang === 'vi' ? 'Đóng' : 'Close'}</span>
+                <span><kbd>↑↓</kbd> {lang === 'vi' ? 'Di chuyển' : 'Navigate'}</span>
+                <span><kbd>↵</kbd> {lang === 'vi' ? 'Mở trang (SPA)' : 'Open (SPA)'}</span>
+                <span><kbd>ESC</kbd> {lang === 'vi' ? 'Đóng' : 'Close'}</span>
               </div>
-              <span className="text-emerald-400">Next.js App Router • Instant SPA Navigation</span>
+              <span className="text-emerald-400 font-medium">Next.js App Router • Instant SPA Navigation</span>
             </div>
           </div>
         </div>

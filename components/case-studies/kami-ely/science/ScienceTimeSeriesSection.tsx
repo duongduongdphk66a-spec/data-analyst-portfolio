@@ -4,7 +4,7 @@ import React from 'react';
 import { Activity, Download } from 'lucide-react';
 import { 
   LineChart, Line, AreaChart, Area, BarChart, Bar, 
-  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
+  XAxis, YAxis, CartesianGrid, Label, Tooltip, ResponsiveContainer 
 } from 'recharts';
 import { KAMI_MATH_STATS } from '@/app/data/kamiElyData';
 
@@ -26,10 +26,10 @@ export default function ScienceTimeSeriesSection({
   const chartData = timeSeriesData && timeSeriesData.length > 0 ? timeSeriesData : KAMI_MATH_STATS.timeSeries.data;
 
   return (
-    <section id="sec-timeseries" className="space-y-8 py-16 md:py-20 border-b border-slate-200/80 dark:border-slate-800">
+    <section id="sec-timeseries" className="space-y-8 py-16 md:py-20 border-slate-200/80 dark:border-slate-800">
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <span className="editorial-kicker">
+          <span className="meta-label">
             {isEn ? 'PHASE 05 · 180-DAY TIME-SERIES DECOMPOSITION' : 'PHẦN 5 · BÓC TÁCH XU HƯỚNG & TÍNH MÙA VỤ 180 NGÀY'}
           </span>
         </div>
@@ -44,13 +44,13 @@ export default function ScienceTimeSeriesSection({
       </div>
 
       {/* Signal Breakdown Framework */}
-      <div className="card-minimal p-6 space-y-4 border border-[#9BE7FA] bg-gradient-to-br from-white via-[#EAF8FC]/50 to-[#C8EEF7]/30 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
-        <div className="flex items-center justify-between border-b border-[#C8EEF7] dark:border-slate-800 pb-3 text-xs font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA]">
+      <div className="card-minimal p-6 space-y-4 border border-[#9BE7FA] bg-white">
+        <div className="flex items-center justify-between border-[#C8EEF7] dark:border-slate-800 pb-3 text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
           <span className="flex items-center gap-2">
             <Activity className="h-4 w-4 text-[#074553] dark:text-[#9BE7FA]" />
             {isEn ? '180-Day Revenue Signal Breakdown' : 'Bóc Tách 3 Thành Phần Doanh Thu 180 Ngày'}
           </span>
-          <span className="font-mono text-[11px] text-[#074553] dark:text-[#9BE7FA] bg-[#C8EEF7]/70 dark:bg-[#9BE7FA]/15 px-2.5 py-0.5 rounded-full border border-[#9BE7FA]">
+          <span className="tabular-nums text-[11px] text-[#074553] dark:text-[#9BE7FA] bg-[#C8EEF7]/70 dark:bg-[#9BE7FA]/15 px-2.5 py-0.5 rounded-full border border-[#9BE7FA]">
             Chu kỳ tuần hoàn 7 ngày
           </span>
         </div>
@@ -80,8 +80,8 @@ export default function ScienceTimeSeriesSection({
                 {isEn ? '5.1. 4-Panel Synchronized Time-Series Chart' : '5.1. Biểu đồ 4 Panel Phân Rã Tín Hiệu Doanh Thu'}
               </h3>
               {isLiveDb && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] tabular-nums font-bold bg-[#FFE485]/30 text-[#92400E] dark:bg-[#FFD14C]/15 dark:text-[#FFE485] border border-[#FFD14C]/40">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C]" />
                   {isEn ? 'MySQL Live (180 Days)' : 'MySQL Live (180 Ngày)'}
                 </span>
               )}
@@ -105,10 +105,12 @@ export default function ScienceTimeSeriesSection({
             <span className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">1. Doanh thu Thực tế & Đường Xu hướng Dài hạn</span>
             <div className="h-44 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
+                <LineChart data={chartData} margin={{ top: 20, right: 20, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
                   <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
-                  <YAxis tick={{ fontSize: 10 }} unit="M" />
+                  <YAxis tick={{ fontSize: 10 }} width={32}>
+                    <Label value="(M)" position="top" offset={10} fontSize={10} fill="#64748B" />
+                  </YAxis>
                   <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
                   <Line type="monotone" dataKey="original" stroke="#074553" strokeWidth={1.5} dot={false} name="Doanh thu thực tế (M)" />
                   <Line type="monotone" dataKey="trend" stroke="#FFD14C" strokeWidth={2.5} dot={false} name="Xu hướng dài hạn" />
@@ -122,10 +124,12 @@ export default function ScienceTimeSeriesSection({
             <span className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">2. Chu kỳ Biến động Tuần hoàn (Seasonality)</span>
             <div className="h-36 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
+                <AreaChart data={chartData} margin={{ top: 20, right: 20, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
                   <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
-                  <YAxis tick={{ fontSize: 10 }} unit="M" />
+                  <YAxis tick={{ fontSize: 10 }} width={32}>
+                    <Label value="(M)" position="top" offset={10} fontSize={10} fill="#64748B" />
+                  </YAxis>
                   <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
                   <Area type="monotone" dataKey="seasonal" stroke="#0D7287" fill="#9BE7FA" fillOpacity={0.4} name="Biến động tuần hoàn (M)" />
                 </AreaChart>
@@ -138,10 +142,12 @@ export default function ScienceTimeSeriesSection({
             <span className="text-xs font-bold text-slate-700 dark:text-slate-300">3. Tác động Ngẫu nhiên & Đợt Sale (Residual)</span>
             <div className="h-36 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
+                <BarChart data={chartData} margin={{ top: 20, right: 20, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
                   <XAxis dataKey="dateLabel" tick={{ fontSize: 10 }} />
-                  <YAxis tick={{ fontSize: 10 }} unit="M" />
+                  <YAxis tick={{ fontSize: 10 }} width={32}>
+                    <Label value="(M)" position="top" offset={10} fontSize={10} fill="#64748B" />
+                  </YAxis>
                   <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
                   <Bar dataKey="residual" fill="#9BE7FA" name="Tác động đột biến (M)" />
                 </BarChart>

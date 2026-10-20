@@ -10,10 +10,10 @@ interface ScienceHypothesisSectionProps {
 
 export default function ScienceHypothesisSection({ isEn, handleExport }: ScienceHypothesisSectionProps) {
   return (
-    <section id="sec-hypothesis" className="space-y-8 py-16 md:py-20 border-b border-slate-200/80 dark:border-slate-800">
+    <section id="sec-hypothesis" className="space-y-8 py-16 md:py-20 border-slate-200/80 dark:border-slate-800">
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <span className="editorial-kicker">
+          <span className="meta-label">
             {isEn ? 'PHASE 03 · STATISTICAL AUDIT & GPM DEBUNKING' : 'PHẦN 3 · KIỂM CHỨNG THỐNG KÊ & GIẢI MÃ NGHỊCH LÝ GPM'}
           </span>
         </div>
@@ -31,10 +31,10 @@ export default function ScienceHypothesisSection({ isEn, handleExport }: Science
 
       {/* 3.1 Đối chiếu Hai Góc Nhìn: Dashboard vẹt vs Senior Data Audit */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="card-minimal p-5 space-y-2 border border-rose-200 bg-white dark:bg-slate-900 dark:border-slate-800">
+        <div className="card-minimal p-5 space-y-2 border border-[#FFE485]/60 bg-white dark:bg-slate-900 dark:border-slate-800">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-rose-500" />
-            <span className="editorial-kicker text-[11px] block text-rose-600 dark:text-rose-400">
+            <AlertTriangle className="w-4 h-4 text-[#B45309] dark:text-[#FFE485]" />
+            <span className="meta-label text-[11px] block text-[#92400E] dark:text-[#FFE485]">
               {isEn ? 'Dashboard Naive Interpretation' : 'Góc Nhìn Cạn Cợt Của Dashboard'}
             </span>
           </div>
@@ -48,10 +48,10 @@ export default function ScienceHypothesisSection({ isEn, handleExport }: Science
           </p>
         </div>
 
-        <div className="card-minimal p-5 space-y-2 border-2 border-[#9BE7FA] bg-gradient-to-br from-[#EAF8FC] to-[#C8EEF7]/30 dark:from-slate-900 dark:to-slate-950">
+        <div className="card-minimal p-5 space-y-2 border-2 border-[#9BE7FA] bg-[#EAF8FC]">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-[#074553] dark:text-[#9BE7FA]" />
-            <span className="editorial-kicker text-[11px] block text-[#074553] dark:text-[#9BE7FA]">
+            <span className="meta-label text-[11px] block text-[#074553] dark:text-[#9BE7FA]">
               {isEn ? 'Senior Empirical Audit Finding' : 'Kết Luận Sau Khi Kiểm Chứng Dữ Liệu Thực Tế'}
             </span>
           </div>
@@ -68,12 +68,12 @@ export default function ScienceHypothesisSection({ isEn, handleExport }: Science
 
       {/* Statistical Test Summary Box */}
       <div className="card-minimal p-6 space-y-4 border border-[#9BE7FA]">
-        <div className="flex items-center justify-between border-b border-[#C8EEF7] dark:border-slate-800 pb-3 text-xs font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA]">
+        <div className="flex items-center justify-between border-[#C8EEF7] dark:border-slate-800 pb-3 text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
           <span className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-[#074553] dark:text-[#9BE7FA]" />
             {isEn ? 'Statistical Non-Parametric Test (Mann-Whitney U)' : 'Kiểm Định Phi Tham Số Mann-Whitney U & Dữ Liệu Phân Phối Lệch'}
           </span>
-          <span className="font-mono text-[11px] text-[#074553] dark:text-[#9BE7FA] bg-[#C8EEF7]/80 dark:bg-[#9BE7FA]/20 px-2.5 py-0.5 rounded-full border border-[#9BE7FA]">
+          <span className="tabular-nums text-[11px] text-[#074553] dark:text-[#9BE7FA] bg-[#C8EEF7]/80 dark:bg-[#9BE7FA]/20 px-2.5 py-0.5 rounded-full border border-[#9BE7FA]">
             Dữ liệu gốc 180 Ngày
           </span>
         </div>
@@ -81,22 +81,22 @@ export default function ScienceHypothesisSection({ isEn, handleExport }: Science
         <div className="grid grid-cols-2 gap-4 pt-1 text-xs sm:grid-cols-4">
           <div className="space-y-1">
             <span className="text-slate-500 font-medium">Mẫu Shoppable Video:</span>
-            <p className="font-mono text-base font-bold text-[#074553] dark:text-[#9BE7FA]">139 Video (có giỏ)</p>
+            <p className="tabular-nums text-base font-bold text-[#074553] dark:text-[#9BE7FA]">139 Video (có giỏ)</p>
             <span className="text-xs text-slate-400">Median view: 11.582</span>
           </div>
           <div className="space-y-1">
             <span className="text-slate-500 font-medium">Mẫu Phiên Live Kênh:</span>
-            <p className="font-mono text-base font-bold text-[#FFD14C] dark:text-[#FFE485]">475 Phiên Live</p>
+            <p className="tabular-nums text-base font-bold text-[#FFD14C] dark:text-[#FFE485]">475 Phiên Live</p>
             <span className="text-xs text-slate-400">Median viewer: 2.400</span>
           </div>
           <div className="space-y-1">
             <span className="text-slate-500 font-medium">Tỷ lệ Video có đơn:</span>
-            <p className="font-mono text-base font-bold text-slate-900 dark:text-white">68.35%</p>
+            <p className="tabular-nums text-base font-bold text-slate-900 dark:text-white">68.35%</p>
             <span className="text-xs text-slate-400">101 / 139 video gắn giỏ</span>
           </div>
           <div className="space-y-1">
             <span className="text-slate-500 font-medium">Tỷ lệ Live có đơn:</span>
-            <p className="font-mono text-base font-bold text-emerald-600 dark:text-emerald-400">95.58%</p>
+            <p className="tabular-nums text-base font-bold text-[#0D7287] dark:text-[#9BE7FA]">95.58%</p>
             <span className="text-xs text-slate-400">454 / 475 phiên ra đơn</span>
           </div>
         </div>
@@ -126,9 +126,9 @@ export default function ScienceHypothesisSection({ isEn, handleExport }: Science
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Video Card */}
-          <div className="rounded-2xl border-2 border-[#9BE7FA] bg-gradient-to-br from-[#EAF8FC] via-white to-[#C8EEF7]/40 p-5 shadow-xs dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 dark:border-[#9BE7FA]/60 space-y-3">
+          <div className="rounded-2xl border-2 border-[#9BE7FA] p-5 shadow-xs dark:border-[#9BE7FA]/60 space-y-3 bg-[#EAF8FC]">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wide text-[#074553] dark:text-[#9BE7FA]">
+              <span className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
                 Shoppable Video (139 video gắn giỏ)
               </span>
               <span className="rounded-full bg-[#9BE7FA] px-2.5 py-0.5 text-xs font-black text-slate-950 border border-[#9BE7FA] shadow-xs">
@@ -138,15 +138,15 @@ export default function ScienceHypothesisSection({ isEn, handleExport }: Science
             <div className="space-y-1.5 text-xs">
               <div className="flex justify-between text-slate-600 dark:text-slate-400">
                 <span>GPM Trung vị (95% CI):</span>
-                <strong className="text-slate-900 dark:text-white font-mono">22,7k – 65,6k ₫ / 1k view</strong>
+                <strong className="text-slate-900 dark:text-white tabular-nums">22,7k – 65,6k ₫ / 1k view</strong>
               </div>
               <div className="flex justify-between text-slate-600 dark:text-slate-400">
                 <span>GPM Tổng hợp (Tổng GMV / Tổng View):</span>
-                <strong className="text-[#074553] dark:text-[#9BE7FA] font-mono">121,4k ₫ / 1k view</strong>
+                <strong className="text-[#074553] dark:text-[#9BE7FA] tabular-nums">121,4k ₫ / 1k view</strong>
               </div>
               <div className="flex justify-between text-slate-600 dark:text-slate-400">
                 <span>Tỷ lệ video không có GMV (Zero GMV):</span>
-                <span className="text-rose-500 font-mono font-bold">31.65%</span>
+                <span className="text-[#92400E] dark:text-[#FFE485] tabular-nums font-bold">31.65%</span>
               </div>
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function ScienceHypothesisSection({ isEn, handleExport }: Science
           {/* Live Card */}
           <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wide text-slate-700 dark:text-slate-300">
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
                 Livestream Kênh Chính (475 phiên)
               </span>
               <span className="rounded-full bg-[#FFE485]/60 px-2.5 py-0.5 text-xs font-bold text-slate-900 border border-[#FFD14C]">
@@ -164,21 +164,21 @@ export default function ScienceHypothesisSection({ isEn, handleExport }: Science
             <div className="space-y-1.5 text-xs">
               <div className="flex justify-between text-slate-600 dark:text-slate-400">
                 <span>GPM Trung vị (95% CI):</span>
-                <strong className="text-slate-900 dark:text-white font-mono">889,4k – 1.078,5k ₫ / 1k viewer</strong>
+                <strong className="text-slate-900 dark:text-white tabular-nums">889,4k – 1.078,5k ₫ / 1k viewer</strong>
               </div>
               <div className="flex justify-between text-slate-600 dark:text-slate-400">
                 <span>GPM Tổng hợp (Tổng GMV / Tổng Viewer):</span>
-                <strong className="text-amber-600 dark:text-amber-400 font-mono">2.133,1k ₫ / 1k viewer</strong>
+                <strong className="text-[#074553] dark:text-[#9BE7FA] tabular-nums">2.133,1k ₫ / 1k viewer</strong>
               </div>
               <div className="flex justify-between text-slate-600 dark:text-slate-400">
                 <span>Tỷ lệ phiên không có GMV:</span>
-                <span className="text-emerald-500 font-mono font-bold">Chỉ 4.42% (chuyển đổi 95.6%)</span>
+                <span className="text-[#0D7287] dark:text-[#9BE7FA] tabular-nums font-bold">Chỉ 4.42% (chuyển đổi 95.6%)</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="rounded-xl border border-sky-200 bg-sky-50 dark:bg-sky-950/30 dark:border-sky-800 p-4 text-xs text-slate-800 dark:text-slate-200 leading-relaxed space-y-1">
+        <div className="rounded-xl border border-[#9BE7FA]/40 bg-[#C8EEF7]/25 dark:bg-slate-900/60 dark:border-[#9BE7FA]/30 p-4 text-xs text-slate-800 dark:text-slate-200 leading-relaxed space-y-1">
           <div className="flex items-center gap-1.5 font-bold text-[#0D7287] dark:text-[#9BE7FA]">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Bài học phân tích cho Data Analyst:</span>

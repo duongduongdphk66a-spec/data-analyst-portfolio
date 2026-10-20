@@ -30,17 +30,16 @@ export default function CreatorAudienceSection({
   return (
     <section id="creator-followers" className="space-y-6 scroll-mt-36">
       <SectionHeader 
-        badge="2.3" 
+        badge="1.4.2" 
         title={isEn ? "Audience & Follower Demographics" : "Chân Dung Người Theo Dõi & Nhân Khẩu Học"} 
         id="creator-followers" 
         onCopy={copyDeepLink} 
-        badgeBg="bg-[#FFD14C] text-slate-950" 
       />
 
       {/* Demographics 3 Charts: Gender, Age, Geographic */}
       <div className="grid md:grid-cols-3 gap-6">
         {/* Gender */}
-        <div className="p-6 rounded-3xl bg-white border border-[#FFD14C] shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
+        <div className="p-6 rounded-3xl bg-white border border-[#FFD14C] space-y-4 dark:bg-slate-900 dark:border-slate-800">
           <h3 className="text-base font-black text-slate-950 dark:text-white">
             {isEn ? 'Gender Split' : 'Tỷ Lệ Giới Tính'}
           </h3>
@@ -71,7 +70,7 @@ export default function CreatorAudienceSection({
         </div>
 
         {/* Age */}
-        <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/60 shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
+        <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/60 space-y-4 dark:bg-slate-900 dark:border-slate-800">
           <h3 className="text-base font-black text-slate-950 dark:text-white">
             {isEn ? 'Age Distribution' : 'Cơ Cấu Nhóm Tuổi'}
           </h3>
@@ -96,7 +95,7 @@ export default function CreatorAudienceSection({
         </div>
 
         {/* Top Cities */}
-        <div className="p-6 rounded-3xl bg-white border border-[#FFE485] shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
+        <div className="p-6 rounded-3xl bg-white border border-[#FFE485] space-y-4 dark:bg-slate-900 dark:border-slate-800">
           <h3 className="text-base font-black text-slate-950 dark:text-white">
             {isEn ? 'Top Locations' : 'Phân Bổ Tỉnh / Thành'}
           </h3>
@@ -122,10 +121,10 @@ export default function CreatorAudienceSection({
       </div>
 
       {/* Audience Behavioral Synthesis & Content Fit */}
-      <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2.5 leading-relaxed">
-        <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+      <div className="p-4 rounded-2xl bg-[#FFE485]/20 border border-[#FFE485]/60 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2.5 leading-relaxed">
+        <Sparkles className="w-4 h-4 text-[#B45309] dark:text-[#FFD14C] shrink-0 mt-0.5" />
         <p>
-          <strong className="text-amber-900 dark:text-amber-300">Tổng hợp hành vi tệp khán giả: </strong>
+          <strong className="text-[#92400E] dark:text-[#FFE485]">Tổng hợp hành vi tệp khán giả: </strong>
           Với cơ cấu <strong>73% Nữ giới</strong>, <strong>60% độ tuổi 18–24 (Gen Z)</strong> và <strong>82% tập trung tại hai đại đô thị Hà Nội & TP. HCM</strong>, đây là nhóm khách hàng văn phòng trẻ và học sinh/sinh viên có sức mua thời trang rất nhanh. Họ có nhịp sinh hoạt đặc thù: bận học tập và làm việc buổi sáng (lý giải tại sao 54% bài đăng sáng chỉ đạt tương tác thấp), và chỉ tích cực lướt mạng tìm kiếm deal vào giờ nghỉ trưa <strong>12:00 – 13:00</strong> và giải lao chiều <strong>15:00 – 16:00</strong>.
         </p>
       </div>

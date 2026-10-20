@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Target, Scale, Check, AlertCircle, BarChart3, LineChart as LineChartIcon } from 'lucide-react';
 import { 
-  ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend 
+  ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label 
 } from 'recharts';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { 
@@ -35,7 +35,7 @@ export function PolicyEvaluationSection({
   const preCovidData = sourceData.filter((d: any) => Number(d.year) >= 2003 && Number(d.year) <= 2019);
 
   return (
-    <section id="danh-gia-hieu-qua" className="py-16 md:py-24 bg-white border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
+    <section id="danh-gia-hieu-qua" className="py-16 md:py-24 bg-white border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionHeader
           variant="stacked"
@@ -65,11 +65,11 @@ export function PolicyEvaluationSection({
         </div>
 
         {/* Counterfactual Interactive Chart Container */}
-        <div className="mb-12 p-6 sm:p-8 rounded-2xl bg-ground border border-slate-200 shadow-sm dark:bg-slate-900 dark:border-slate-800">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="mb-12 p-6 sm:p-8 rounded-2xl bg-ground border border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-slate-200 dark:border-slate-800">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="px-2 py-0.5 rounded text-xs font-mono font-bold uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                <span className="px-2 py-0.5 rounded text-xs tabular-nums font-bold uppercase bg-[#C8EEF7]/60 text-[#074553] dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] border border-[#9BE7FA]/40">
                   Econometric Simulation
                 </span>
                 <span className="text-xs text-slate-500 font-bold">Thực tế (Actual) vs Phản thực tế (Baseline No-Policy)</span>
@@ -78,8 +78,8 @@ export function PolicyEvaluationSection({
                 <BarChart3 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                 <span>Mô hình Đối chứng Tăng trưởng Khách Quốc tế (2003 – 2019)</span>
                 {isLiveDb && (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] tabular-nums font-bold bg-[#FFE485]/30 text-[#92400E] dark:bg-[#FFD14C]/15 dark:text-[#FFE485] border border-[#FFD14C]/40">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C]" />
                     MySQL Live
                   </span>
                 )}
@@ -90,7 +90,7 @@ export function PolicyEvaluationSection({
               <button
                 type="button"
                 onClick={() => setShowCounterfactual(!showCounterfactual)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${
                   showCounterfactual
                     ? 'bg-[#0D7287] text-white shadow-xs font-black dark:bg-[#9BE7FA] dark:text-slate-950'
                     : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-200'
@@ -104,10 +104,12 @@ export function PolicyEvaluationSection({
 
           <div className="h-[320px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={preCovidData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <LineChart data={preCovidData} margin={{ top: 22, right: 30, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} unit="M" domain={[0, 36]} />
+                <YAxis tick={{ fontSize: 12 }} domain={[0, 36]}>
+                  <Label value="(M)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                </YAxis>
                 <Tooltip 
                   formatter={(value: any, name: any) => [
                     `${value} Triệu khách`, 
@@ -130,10 +132,10 @@ export function PolicyEvaluationSection({
                   <Line 
                     type="monotone" 
                     dataKey="counterfactual" 
-                    stroke="#F59E0B" 
+                    stroke="#FFD14C" 
                     strokeWidth={2} 
                     strokeDasharray="5 5" 
-                    dot={{ r: 3, fill: '#F59E0B' }}
+                    dot={{ r: 3, fill: '#FFD14C' }}
                     name="counterfactual"
                   />
                 )}
@@ -142,28 +144,28 @@ export function PolicyEvaluationSection({
           </div>
 
           {/* Key Metrics Bento */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-6 pt-4 border-slate-200 dark:border-slate-800">
             <div className="p-3 rounded-xl bg-white border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
               <span className="text-xs uppercase font-bold text-slate-400 block mb-1">Tốc độ Tăng trưởng Trước 2013</span>
-              <p className="font-mono text-xl font-black text-slate-900 dark:text-white">CAGR +5.1%</p>
+              <p className="tabular-nums text-xl font-black text-slate-900 dark:text-white">CAGR +5.1%</p>
               <p className="text-xs text-slate-500">2003–2012 (Giai đoạn tăng trưởng chậm)</p>
             </div>
 
             <div className="p-3 rounded-xl bg-white border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
-              <span className="text-xs uppercase font-bold text-emerald-600 block mb-1">Tốc độ Sau Chính Sách 2013</span>
-              <p className="font-mono text-xl font-black text-emerald-600 dark:text-emerald-400">CAGR +20.6%</p>
-              <p className="text-xs text-emerald-600/80">Tăng gấp 4.04 lần tốc độ tự nhiên</p>
+              <span className="text-xs uppercase font-bold text-emerald-600 dark:text-emerald-400 block mb-1">Tốc độ Sau Chính Sách 2013</span>
+              <p className="tabular-nums text-xl font-black text-emerald-600 dark:text-emerald-400">CAGR +20.6%</p>
+              <p className="text-xs text-emerald-700/80 dark:text-emerald-400/80">Tăng gấp 4.04 lần tốc độ tự nhiên</p>
             </div>
 
             <div className="p-3 rounded-xl bg-white border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
-              <span className="text-xs uppercase font-bold text-[#0D7287] dark:text-[#9BE7FA] block mb-1">Thặng Dư Du Khách Năm 2019</span>
-              <p className="font-mono text-xl font-black text-[#0D7287] dark:text-[#9BE7FA]">+19.8 Triệu</p>
+              <span className="text-xs uppercase font-bold text-emerald-600 dark:text-emerald-400 block mb-1">Thặng Dư Du Khách Năm 2019</span>
+              <p className="tabular-nums text-xl font-black text-emerald-600 dark:text-emerald-400">+19.8 Triệu</p>
               <p className="text-xs text-slate-500">31.9M thực tế vs 12.1M baseline</p>
             </div>
 
             <div className="p-3 rounded-xl bg-white border border-slate-200 dark:bg-slate-800/60 dark:border-slate-700">
-              <span className="text-xs uppercase font-bold text-amber-600 block mb-1">Thặng Dư Tích Lũy (2013–2019)</span>
-              <p className="font-mono text-xl font-black text-amber-600">+63.4 Triệu</p>
+              <span className="text-xs uppercase font-bold text-[#B45309] dark:text-[#FFE485] block mb-1">Thặng Dư Tích Lũy (2013–2019)</span>
+              <p className="tabular-nums text-xl font-black text-[#B45309] dark:text-[#FFE485]">+63.4 Triệu</p>
               <p className="text-xs text-slate-500">Tổng khách vượt trội thu hút được</p>
             </div>
           </div>
@@ -183,20 +185,20 @@ export function PolicyEvaluationSection({
                 key={item.id}
                 className="p-6 rounded-2xl bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 shadow-xs space-y-4"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-slate-100 dark:border-slate-800">
                   <div className="flex items-center gap-2.5">
-                    <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-md bg-[#0D7287]/10 text-[#0D7287] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA]">
+                    <span className="text-xs tabular-nums font-bold px-2.5 py-0.5 rounded-md bg-[#0D7287]/10 text-[#0D7287] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA]">
                       {item.id.replace('policy-', '0')}
                     </span>
                     <h5 className="text-base sm:text-lg font-black text-slate-950 dark:text-white">
                       {isEn ? item.pillarEn : item.pillarVi}
                     </h5>
                   </div>
-                  <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800 w-fit">
-                    <span className="text-amber-500 font-black tracking-widest">{'★'.repeat(item.impactScore)}</span>
+                  <div className="flex items-center gap-2 text-xs font-bold text-[#074553] dark:text-[#9BE7FA] bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 px-3 py-1 rounded-full border border-[#9BE7FA]/40 dark:border-[#9BE7FA]/30 w-fit">
+                    <span className="text-[#FFD14C] font-black tracking-widest">{''.repeat(item.impactScore)}</span>
                     <span className="text-slate-300 dark:text-slate-700">|</span>
                     <span>{isEn ? 'Execution Impact:' : 'Hiệu quả thực thi:'}</span>
-                    <span className="font-mono font-black">{item.impactScore}/5 {isEn ? 'Points' : 'Điểm'}</span>
+                    <span className="tabular-nums font-black">{item.impactScore}/5 {isEn ? 'Points' : 'Điểm'}</span>
                   </div>
                 </div>
 
@@ -210,8 +212,8 @@ export function PolicyEvaluationSection({
                     </p>
                   </div>
 
-                  <div className="space-y-2 p-3.5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/60">
-                    <span className="text-xs uppercase font-bold text-emerald-700 dark:text-emerald-400 block flex items-center gap-1">
+                  <div className="space-y-2 p-3.5 rounded-xl bg-[#C8EEF7]/25 dark:bg-slate-950/80 border border-[#9BE7FA]/40 dark:border-[#9BE7FA]/20">
+                    <span className="text-xs uppercase font-bold text-[#074553] dark:text-[#9BE7FA] block flex items-center gap-1">
                       <Check className="w-3.5 h-3.5" />
                       <span>{isEn ? 'Quantifiable Evidence' : 'Bằng chứng định lượng đo lường được'}</span>
                     </span>
@@ -220,8 +222,8 @@ export function PolicyEvaluationSection({
                     </p>
                   </div>
 
-                  <div className="space-y-2 p-3.5 rounded-xl bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/60">
-                    <span className="text-xs uppercase font-bold text-rose-700 dark:text-rose-400 block flex items-center gap-1">
+                  <div className="space-y-2 p-3.5 rounded-xl bg-[#FFE485]/15 dark:bg-slate-950/80 border border-[#FFE485]/50 dark:border-[#FFE485]/20">
+                    <span className="text-xs uppercase font-bold text-[#92400E] dark:text-[#FFE485] block flex items-center gap-1">
                       <AlertCircle className="w-3.5 h-3.5" />
                       <span>{isEn ? 'Negative Externalities & Unintended Costs' : 'Ngoại ứng tiêu cực & Chi phí ngoài dự kiến'}</span>
                     </span>

@@ -10,7 +10,7 @@ const FALLBACK_FLAGSHIP_PROJECTS: ProjectCardData[] = [
     id: 'kami-ely',
     title: {
       vi: 'Kiểm Toán Đa Nguồn & Tối Ưu Chuyển Đổi TikTok Shop Kami Ely (@kamielyhn)',
-      en: 'Multi-Source SQL Audit & Conversion Optimization — Kami Ely TikTok Shop'
+      en: 'Multi-Source SQL Audit & Conversion Optimization: Kami Ely TikTok Shop'
     },
     description: {
       vi: 'Phân tích 8 bảng dữ liệu thực nghiệm (18.778 bản ghi SQL, 12,74 Tỉ VNĐ trong 180 ngày & 31,6 Tỉ VNĐ All-Time). Giải mã Nghịch lý GPM Video gấp 4,5x LIVE, quy luật Pareto trên 5.713 Creators và xây dựng mô hình What-If ROI.',
@@ -35,8 +35,8 @@ const FALLBACK_FLAGSHIP_PROJECTS: ProjectCardData[] = [
   {
     id: 'heritage-japan',
     title: {
-      vi: 'Kinh Tế Lượng Di Sản Văn Hóa & Chính Sách Du Lịch Nhật Bản (2015–2025)',
-      en: 'Cultural Heritage Econometrics & Tourism Policy in Japan (2015–2025)'
+      vi: 'Kinh Tế Lượng Di Sản Văn Hóa & Chính Sách Du Lịch Nhật Bản (2015-2025)',
+      en: 'Cultural Heritage Econometrics & Tourism Policy in Japan (2015-2025)'
     },
     description: {
       vi: 'Định lượng sự bất cân xứng không gian của 1.132 Quốc bảo và 13.377 Tài sản văn hóa quan trọng (Gini = 0,64). Ứng dụng hồi quy OLS (R² = 0,84) và mô hình Sai phân kép (DiD) đánh giá hiệu quả Luật Bảo tồn sửa đổi năm 2019.',
@@ -76,20 +76,20 @@ export default function ProjectsSection({ projects: propsProjects }: ProjectsSec
   }, [projects]);
 
   return (
-    <section id="projects" aria-label="Flagship Case Studies" className="w-full space-y-6">
+    <section id="projects" aria-label="Flagship Case Studies" className="w-full max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
       {/* HEADER: MA TRẬN & DANH MỤC ĐỐI SÁNH DỰ ÁN */}
-      <div className="border-b border-slate-200 dark:border-slate-800 pb-4 space-y-2">
-        <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold uppercase bg-[#9BE7FA]/20 text-[#074553] border border-[#9BE7FA]/60 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700">
+      <div className="space-y-2">
+        <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-[#C8EEF7]/45 text-[#074553] border border-[#9BE7FA]/50 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700">
           {lang === 'vi'
-            ? 'MA TRẬN NĂNG LỰC & 3 DỰ ÁN THỰC CHIẾN'
-            : 'CROSS-PROJECT MATRIX & 3 FLAGSHIP CASE STUDIES'}
+            ? 'Ma trận năng lực & 3 dự án thực chiến'
+            : 'Cross-project matrix & 3 flagship case studies'}
         </span>
-        <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white pt-1">
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white pt-1">
           {lang === 'vi'
             ? 'Đối Chiếu Quy Mô Dữ Liệu, Phát Hiện Cốt Lõi & Tác Động Kinh Doanh'
             : 'Comparing Dataset Scale, Core Findings & Quantified Business Impact'}
-        </h2>
-        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-4xl leading-relaxed">
+        </h1>
+        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-4xl leading-relaxed">
           {lang === 'vi'
             ? '3 dự án thực chiến đại diện 3 lĩnh vực trọng tâm (E-Commerce SQL, Product BI & Kinh tế lượng). Mỗi dự án đều tích hợp bộ số liệu kiểm chứng, giải mã nghịch lý thực tế và mô hình tương tác What-If.'
             : '3 empirical case studies across 3 core domains (E-Commerce SQL, Product BI & Econometrics) with auditable data, counter-intuitive findings, and interactive What-If simulators.'}

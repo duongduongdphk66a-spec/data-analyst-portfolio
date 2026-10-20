@@ -3,7 +3,7 @@
 import React from 'react';
 import { TrendingUp, Download } from 'lucide-react';
 import { 
-  ComposedChart, Line, XAxis, YAxis, CartesianGrid, 
+  ComposedChart, Line, XAxis, YAxis, CartesianGrid, Label,
   Tooltip, ResponsiveContainer, Legend, ReferenceLine 
 } from 'recharts';
 import { KAMI_MATH_STATS } from '@/app/data/kamiElyData';
@@ -22,10 +22,10 @@ export default function ScienceCorrelationSection({
   handleExport
 }: ScienceCorrelationSectionProps) {
   return (
-    <section id="sec-correlation" className="space-y-8 py-16 md:py-20 border-b border-slate-200/80 dark:border-slate-800">
+    <section id="sec-correlation" className="space-y-8 py-16 md:py-20 border-slate-200/80 dark:border-slate-800">
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <span className="editorial-kicker">
+          <span className="meta-label">
             {isEn ? 'PHASE 04 · CORRELATION & MARGINAL RETURNS' : 'PHẦN 4 · TƯƠNG QUAN & NĂNG SUẤT CẬN BIÊN GIẢM DẦN'}
           </span>
         </div>
@@ -41,12 +41,12 @@ export default function ScienceCorrelationSection({
 
       {/* Strategic Analytical Principle Callout */}
       <div className="border-l-4 border-[#9BE7FA] pl-5 py-2 space-y-3 text-slate-800 dark:text-slate-200 bg-[#C8EEF7]/20 dark:bg-[#9BE7FA]/5 rounded-r-xl">
-        <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA]">
+        <div className="flex items-center justify-between text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
           <span className="flex items-center gap-2">
             <TrendingUp className="h-4 w-4 text-[#074553] dark:text-[#9BE7FA]" />
             {isEn ? 'Key Analytical Findings: Live Streaming Plateau' : 'Nhận Định Phân Tích: Giới Hạn Hiệu Suất Của Livestream'}
           </span>
-          <span className="font-mono text-[11px] text-[#074553] dark:text-[#9BE7FA] bg-[#C8EEF7]/80 dark:bg-[#9BE7FA]/20 px-2.5 py-0.5 rounded-full border border-[#9BE7FA]">
+          <span className="tabular-nums text-[11px] text-[#074553] dark:text-[#9BE7FA] bg-[#C8EEF7]/80 dark:bg-[#9BE7FA]/20 px-2.5 py-0.5 rounded-full border border-[#9BE7FA]">
             {isEn ? 'Optimal Duration: ~3.1 Hours/Day' : 'Thời Lượng Tối Ưu: ~3.1 Giờ/Ngày'}
           </span>
         </div>
@@ -116,10 +116,12 @@ export default function ScienceCorrelationSection({
 
         <div className="h-72 w-full sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={KAMI_MATH_STATS.correlation.fittedPolyCurve} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+            <ComposedChart data={KAMI_MATH_STATS.correlation.fittedPolyCurve} margin={{ top: 22, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
               <XAxis dataKey="hours" tick={{ fontSize: 11 }} unit="h" />
-              <YAxis tick={{ fontSize: 11 }} unit="M" />
+              <YAxis tick={{ fontSize: 11 }}>
+                <Label value={isEn ? '(M VND)' : '(Tr đ)'} position="top" offset={10} fill="#94a3b8" fontSize={11} />
+              </YAxis>
               <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }} />
               <Legend />
               <ReferenceLine x={3.1} stroke="#FFD14C" strokeDasharray="4 4" label={{ value: 'Đỉnh tối ưu: ~3.1h', position: 'top', fill: '#FFD14C', fontSize: 11 }} />

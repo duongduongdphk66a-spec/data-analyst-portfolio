@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 
 export default function DashboardPage() {
   return (
-    <div className="relative w-screen h-screen flex flex-col bg-slate-950 text-slate-100 overflow-hidden">
+    <div className="relative w-screen h-dvh flex flex-col bg-slate-950 text-slate-100 overflow-hidden">
       {/* Top Navigation Bar */}
-      <header className="h-14 bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 flex items-center justify-between z-10 shrink-0">
+      <header className="h-14 bg-slate-900/90 border-slate-800 px-4 flex items-center justify-between z-10 shrink-0">
         <div className="flex items-center gap-3">
           <Link
             href="/projects/library-bus"
@@ -30,7 +30,7 @@ export default function DashboardPage() {
           href="/library-bus/understand_dashboard.html"
           target="_blank"
           rel="noopener noreferrer"
-          className="min-h-[44px] inline-flex items-center gap-1.5 text-xs font-semibold text-[#074553] bg-[#9BE7FA] hover:bg-[#C8EEF7] px-3.5 py-2 rounded-xl transition-all cursor-pointer shadow-xs border border-[#9BE7FA]"
+          className="min-h-[44px] inline-flex items-center gap-1.5 text-xs font-semibold text-[#074553] bg-[#9BE7FA] hover:bg-[#C8EEF7] px-3.5 py-2 rounded-xl transition cursor-pointer shadow-xs border border-[#9BE7FA]"
         >
           <span>HTML Tĩnh Gốc</span>
           <ExternalLink className="w-3.5 h-3.5" />

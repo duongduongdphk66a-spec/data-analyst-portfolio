@@ -51,15 +51,15 @@ export default function KamiElyDataScopeMatrix({
 
 
   return (
-    <section id="data-scope-matrix" className="w-full min-w-0 max-w-full overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-950/90 p-4 sm:p-6 shadow-xl dark:shadow-2xl space-y-6">
+    <section id="data-scope-matrix" className="w-full min-w-0 max-w-full overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-950/90 p-4 sm:p-6 space-y-6">
       {/* HEADER & DATA INTEGRITY BADGES */}
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5 min-w-0">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 border-slate-200 dark:border-slate-800 pb-5 min-w-0">
         <div className="space-y-1.5 min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-nowrap whitespace-nowrap overflow-x-auto scrollbar-none">
-            <span className="px-2.5 py-1 text-[11px] font-mono font-bold uppercase tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/30 rounded-md shrink-0">
+            <span className="px-2.5 py-1 text-xs tabular-nums font-bold bg-[#C8EEF7]/50 text-[#074553] border border-[#9BE7FA]/50 dark:bg-[#074553]/60 dark:text-[#9BE7FA] dark:border-[#074553] rounded-md shrink-0">
               {lang === 'vi' ? 'Kiểm Toán & Đồng Bộ Hóa Dữ Liệu (SSOT)' : 'Data Governance & Reconciliation (SSOT)'}
             </span>
-            <span className="px-2.5 py-1 text-[11px] font-mono text-sky-800 bg-sky-50 border border-sky-200 dark:text-sky-400 dark:bg-sky-500/10 dark:border-sky-500/20 rounded-md shrink-0">
+            <span className="px-2.5 py-1 text-[11px] tabular-nums text-sky-800 bg-sky-50 border border-sky-200 dark:text-sky-400 dark:bg-sky-500/10 dark:border-sky-500/20 rounded-md shrink-0">
               {lang === 'vi' ? 'Thu thập: 05/09/2026' : 'Collected: Sep 05, 2026'}
             </span>
           </div>
@@ -78,33 +78,33 @@ export default function KamiElyDataScopeMatrix({
         {/* QUICK SUMMARY PILLS */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 w-full xl:w-auto min-w-0">
           <div className="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800">
-            <div className="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">
+            <div className="text-xs tabular-nums uppercase text-slate-500 dark:text-slate-400">
               {lang === 'vi' ? 'GMV Toàn Shop (180d)' : 'Shop GMV (180d)'}
             </div>
-            <div className="text-sm sm:text-base font-extrabold font-mono text-slate-950 dark:text-white">12,74 Tỉ đ</div>
-            <div className="text-xs text-emerald-600 dark:text-emerald-400 font-mono">85.500 SP • All-time: 31,6 Tỉ</div>
+            <div className="text-sm sm:text-base font-extrabold tabular-nums text-slate-950 dark:text-white">12,74 Tỉ đ</div>
+            <div className="text-xs text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">85.500 SP • All-time: 31,6 Tỉ</div>
           </div>
           <div className="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800">
-            <div className="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">
+            <div className="text-xs tabular-nums uppercase text-slate-500 dark:text-slate-400">
               {lang === 'vi' ? 'Chính Chủ (180d Net/Gross)' : 'Official (180d Net/Gross)'}
             </div>
-            <div className="text-sm sm:text-base font-extrabold font-mono text-sky-700 dark:text-sky-400">5,80 / 7,89 Tỉ</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400 font-mono">470–475 LIVE • All-time: 9,2 Tỉ</div>
+            <div className="text-sm sm:text-base font-extrabold tabular-nums text-[#074553] dark:text-[#9BE7FA]">5,80 / 7,89 Tỉ</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400 tabular-nums">470–475 LIVE • All-time: 9,2 Tỉ</div>
           </div>
           <div className="col-span-2 sm:col-span-1 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800">
-            <div className="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">
+            <div className="text-xs tabular-nums uppercase text-slate-500 dark:text-slate-400">
               {lang === 'vi' ? 'Cơ Cấu 90 Ngày (6,14 Tỉ)' : '90d Split (6.14B VND)'}
             </div>
-            <div className="text-xs sm:text-sm font-extrabold font-mono text-pink-700 dark:text-pink-400">
+            <div className="text-xs sm:text-sm font-extrabold tabular-nums text-amber-900 dark:text-[#FFE485]">
               49,3% • 27,8% • 22,9%
             </div>
-            <div className="text-xs text-slate-500 dark:text-slate-400 font-mono">Chính chủ • KOC • Kệ hàng</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400 tabular-nums">Chính chủ • KOC • Kệ hàng</div>
           </div>
         </div>
       </div>
 
       {/* NAVIGATION TABS */}
-      <div className="border-b border-slate-200 dark:border-slate-800/80 pb-3 overflow-x-auto scrollbar-none">
+      <div className="border-slate-200 dark:border-slate-800/80 pb-3 overflow-x-auto scrollbar-none">
         <div className="flex items-center gap-2 flex-nowrap whitespace-nowrap min-w-max">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
@@ -115,14 +115,14 @@ export default function KamiElyDataScopeMatrix({
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-2 border cursor-pointer shrink-0 whitespace-nowrap ${
                   isActive
-                    ? 'bg-sky-50 text-sky-950 border-sky-400 shadow-xs dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/40 dark:shadow-sm'
+                    ? 'bg-[#C8EEF7]/60 text-[#074553] border-[#9BE7FA] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/60'
                     : 'bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-950 hover:bg-slate-100 dark:bg-slate-900/60 dark:text-slate-400 dark:border-slate-800 dark:hover:text-slate-200 dark:hover:bg-slate-900'
                 }`}
               >
                 <span>{tab.label[lang]}</span>
                 <span
-                  className={`px-1.5 py-0.5 rounded text-xs font-mono shrink-0 ${
-                    isActive ? 'bg-sky-200 text-sky-900 dark:bg-sky-500/30 dark:text-sky-200' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
+                  className={`px-1.5 py-0.5 rounded text-xs tabular-nums shrink-0 ${
+                    isActive ? 'bg-[#9BE7FA]/40 text-[#074553] dark:bg-[#9BE7FA]/30 dark:text-[#9BE7FA]' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
                   }`}
                 >
                   {tab.badge}
@@ -139,7 +139,7 @@ export default function KamiElyDataScopeMatrix({
           <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-slate-50 text-slate-700 border-b border-slate-200 font-mono uppercase text-[11px] dark:bg-slate-900/95 dark:text-slate-300 dark:border-slate-800">
+                <tr className="bg-slate-50 text-slate-700 tabular-nums uppercase text-[11px] dark:bg-slate-900/95 dark:text-slate-300">
                   <th className="p-3.5 min-w-[160px]">{lang === 'vi' ? 'Chỉ Số Đối Chiếu' : 'Metric'}</th>
                   <th className="p-3.5 min-w-[135px] bg-slate-100/60 dark:bg-slate-900/50">
                     <div>{lang === 'vi' ? 'Toàn Shop (All-Time)' : 'Shop (All-Time)'}</div>
@@ -155,31 +155,31 @@ export default function KamiElyDataScopeMatrix({
                     <div>{lang === 'vi' ? 'Chính Chủ (180 Ngày)' : 'Official (Last 180d)'}</div>
                     <div className="text-xs text-sky-700 dark:text-sky-400/80 font-normal">Net UI vs. Gross CSV</div>
                   </th>
-                  <th className="p-3.5 min-w-[160px] bg-emerald-50 text-emerald-900 dark:bg-emerald-950/20 dark:text-emerald-300">
+                  <th className="p-3.5 min-w-[160px] bg-[#C8EEF7]/40 text-[#074553] dark:bg-[#074553]/40 dark:text-[#9BE7FA]">
                     <div>{lang === 'vi' ? 'Toàn Shop (90 Ngày)' : 'Shop (Last 90d)'}</div>
-                    <div className="text-xs text-emerald-700 dark:text-emerald-400/80 font-normal">_product data</div>
+                    <div className="text-xs text-[#0D7287] dark:text-[#9BE7FA]/80 font-normal">_product data</div>
                   </th>
-                  <th className="p-3.5 min-w-[160px] bg-emerald-50 text-emerald-900 dark:bg-emerald-950/20 dark:text-emerald-300">
+                  <th className="p-3.5 min-w-[160px] bg-[#C8EEF7]/40 text-[#074553] dark:bg-[#074553]/40 dark:text-[#9BE7FA]">
                     <div>{lang === 'vi' ? 'Chính Chủ (90 Ngày)' : 'Official (Last 90d)'}</div>
-                    <div className="text-xs text-emerald-700 dark:text-emerald-400/80 font-normal">Creator Goods</div>
+                    <div className="text-xs text-[#0D7287] dark:text-[#9BE7FA]/80 font-normal">Creator Goods</div>
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/70 text-slate-700 dark:text-slate-200">
+              <tbody className="text-slate-700 dark:text-slate-200 [&>tr:nth-child(even)]:bg-slate-50 dark:[&>tr:nth-child(even)]:bg-slate-800/40">
                 {kamiReconciliationData.multiWindowMatrix.map((row) => (
                   <tr key={row.metricId} className="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition">
                     <td className="p-3.5 font-bold text-slate-900 dark:text-white">
                       <div>{row.metricName[lang]}</div>
                       <div className="text-[11px] font-normal text-slate-500 dark:text-slate-400 mt-0.5">{row.auditNote[lang]}</div>
                     </td>
-                    <td className="p-3.5 font-mono text-slate-700 bg-slate-50/60 dark:text-slate-300 dark:bg-slate-900/20">{row.shopAllTime[lang]}</td>
-                    <td className="p-3.5 font-mono text-slate-700 bg-slate-50/60 dark:text-slate-300 dark:bg-slate-900/20">{row.creatorAllTime[lang]}</td>
-                    <td className="p-3.5 font-mono font-semibold text-sky-800 bg-sky-50/40 dark:text-sky-300 dark:bg-sky-950/10">{row.shop180d[lang]}</td>
-                    <td className="p-3.5 font-mono font-semibold text-sky-800 bg-sky-50/40 dark:text-sky-200 dark:bg-sky-950/10">{row.creator180d[lang]}</td>
-                    <td className="p-3.5 font-mono font-semibold text-emerald-800 bg-emerald-50/40 dark:text-emerald-300 dark:bg-emerald-950/10">
+                    <td className="p-3.5 tabular-nums text-slate-700 bg-slate-50/60 dark:text-slate-300 dark:bg-slate-900/20">{row.shopAllTime[lang]}</td>
+                    <td className="p-3.5 tabular-nums text-slate-700 bg-slate-50/60 dark:text-slate-300 dark:bg-slate-900/20">{row.creatorAllTime[lang]}</td>
+                    <td className="p-3.5 tabular-nums font-semibold text-sky-800 bg-sky-50/40 dark:text-sky-300 dark:bg-sky-950/10">{row.shop180d[lang]}</td>
+                    <td className="p-3.5 tabular-nums font-semibold text-sky-800 bg-sky-50/40 dark:text-sky-200 dark:bg-sky-950/10">{row.creator180d[lang]}</td>
+                    <td className="p-3.5 tabular-nums font-semibold text-[#074553] bg-[#C8EEF7]/30 dark:text-[#9BE7FA] dark:bg-[#074553]/20">
                       {row.shop90d[lang]}
                     </td>
-                    <td className="p-3.5 font-mono font-semibold text-emerald-800 bg-emerald-50/40 dark:text-emerald-200 dark:bg-emerald-950/10">
+                    <td className="p-3.5 tabular-nums font-semibold text-[#074553] bg-[#C8EEF7]/30 dark:text-[#9BE7FA] dark:bg-[#074553]/20">
                       {row.creator90d[lang]}
                     </td>
                   </tr>
@@ -193,7 +193,7 @@ export default function KamiElyDataScopeMatrix({
       {/* TAB 2: 8 RAW DATASETS CATALOG (UNCHANGED MYSQL TABLES) */}
       {activeTab === 'eight-datasets' && (
         <div className="space-y-4">
-          <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 dark:bg-emerald-500/10 dark:border-emerald-500/20 dark:text-emerald-300">
+          <div className="p-3.5 rounded-xl bg-[#C8EEF7]/40 border border-[#9BE7FA]/40 text-xs text-[#074553] dark:bg-[#074553]/40 dark:border-[#074553] dark:text-[#9BE7FA]">
             <strong>{lang === 'vi' ? 'Cam kết Bảo toàn Dữ liệu Gốc:' : 'Raw Data Preservation Guarantee:'}</strong>{' '}
             {lang === 'vi'
               ? 'Toàn bộ 8 bảng dữ liệu dưới đây trong MySQL / CSV (tổng cộng 18.778 dòng) được giữ nguyên 100% không chỉnh sửa. Các phép đối soát kênh được thực hiện tự động qua truy vấn SQL JOIN và VIEW.'
@@ -208,25 +208,25 @@ export default function KamiElyDataScopeMatrix({
               >
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-slate-200 text-sky-800 dark:bg-slate-800 dark:text-sky-400">
+                    <span className="px-2 py-0.5 rounded text-xs tabular-nums font-bold bg-slate-200 text-sky-800 dark:bg-slate-800 dark:text-sky-400">
                       {ds.tableName}
                     </span>
-                    <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400">{ds.timeWindow[lang]}</span>
+                    <span className="text-[11px] tabular-nums text-slate-500 dark:text-slate-400">{ds.timeWindow[lang]}</span>
                   </div>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white break-all">{ds.fileName}</h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {ds.granularity[lang]} • <span className="font-mono text-slate-700 dark:text-slate-300">Key: {ds.joinKeys}</span>
+                    {ds.granularity[lang]} • <span className="tabular-nums text-slate-700 dark:text-slate-300">Key: {ds.joinKeys}</span>
                   </p>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-white border border-slate-200 dark:bg-slate-950/80 dark:border-slate-800/80 font-mono text-xs">
+                <div className="grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-white border border-slate-200 dark:bg-slate-950/80 dark:border-slate-800/80 tabular-nums text-xs">
                   <div>
                     <div className="text-xs text-slate-500 dark:text-slate-400">{lang === 'vi' ? 'Số bản ghi' : 'Rows'}</div>
                     <div className="font-bold text-slate-950 dark:text-white">{ds.rowCount.toLocaleString('vi-VN')}</div>
                   </div>
                   <div>
                     <div className="text-xs text-slate-500 dark:text-slate-400">{lang === 'vi' ? 'Sản lượng' : 'Units'}</div>
-                    <div className="font-bold text-emerald-700 dark:text-emerald-400">{ds.totalUnits.toLocaleString('vi-VN')} SP</div>
+                    <div className="font-bold text-[#0D7287] dark:text-[#9BE7FA]">{ds.totalUnits.toLocaleString('vi-VN')} SP</div>
                   </div>
                   <div>
                     <div className="text-xs text-slate-500 dark:text-slate-400">GMV</div>
@@ -236,7 +236,7 @@ export default function KamiElyDataScopeMatrix({
                   </div>
                 </div>
 
-                <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200 dark:border-slate-800/80 pt-2.5">
+                <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed border-slate-200 dark:border-slate-800/80 pt-2.5">
                   {ds.keyInsight[lang]}
                 </p>
               </div>
@@ -255,10 +255,10 @@ export default function KamiElyDataScopeMatrix({
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-pink-100 text-pink-800 border border-pink-200 dark:bg-pink-500/15 dark:text-pink-400 dark:border-pink-500/30">
+                  <span className="px-2 py-0.5 rounded text-xs tabular-nums font-bold bg-[#C8EEF7]/50 text-[#074553] border border-[#9BE7FA]/40 dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30">
                     {rule.ruleCode}
                   </span>
-                  <span className="px-2 py-0.5 rounded text-xs font-mono font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-400">
+                  <span className="px-2 py-0.5 rounded text-xs tabular-nums font-semibold bg-[#FFE485]/40 text-amber-950 dark:bg-[#FFE485]/15 dark:text-[#FFE485]">
                     {rule.status}
                   </span>
                 </div>
@@ -266,20 +266,20 @@ export default function KamiElyDataScopeMatrix({
 
                 <div className="space-y-1.5 text-xs bg-white p-3 rounded-lg border border-slate-200 dark:bg-slate-950/80 dark:border-slate-800/80">
                   <div>
-                    <span className="text-slate-500 dark:text-slate-400 font-mono">Nguồn A: </span>
+                    <span className="text-slate-500 dark:text-slate-400 tabular-nums">Nguồn A: </span>
                     <span className="text-slate-800 dark:text-slate-200 font-medium">{rule.sourceAValue[lang]}</span>
                   </div>
                   <div>
-                    <span className="text-slate-500 dark:text-slate-400 font-mono">Nguồn B: </span>
+                    <span className="text-slate-500 dark:text-slate-400 tabular-nums">Nguồn B: </span>
                     <span className="text-slate-800 dark:text-slate-200 font-medium">{rule.sourceBValue[lang]}</span>
                   </div>
-                  <div className="pt-1 border-t border-slate-200 dark:border-slate-800/80 text-amber-700 dark:text-amber-400 font-mono text-[11px]">
+                  <div className="pt-1 border-slate-200 dark:border-slate-800/80 text-amber-700 dark:text-amber-400 tabular-nums text-[11px]">
                     Δ: {rule.deltaSummary[lang]}
                   </div>
                 </div>
               </div>
 
-              <div className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200 dark:border-slate-800 pt-2.5">
+              <div className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed border-slate-200 dark:border-slate-800 pt-2.5">
                 <strong className="text-sky-700 dark:text-sky-400">
                   {lang === 'vi' ? 'Quy chuẩn xử lý:' : 'Resolution Rule:'}
                 </strong>{' '}
@@ -300,14 +300,14 @@ export default function KamiElyDataScopeMatrix({
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-sky-100 text-sky-800 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-400 dark:border-sky-500/30">
+                  <span className="px-2.5 py-0.5 rounded text-xs tabular-nums font-bold bg-sky-100 text-sky-800 border border-sky-200 dark:bg-sky-500/15 dark:text-sky-400 dark:border-sky-500/30">
                     {mod.synchronizedWindow}
                   </span>
-                  <span className="text-xs font-mono text-emerald-700 dark:text-emerald-400 font-semibold">180d In-Window Synced</span>
+                  <span className="text-xs tabular-nums text-[#0D7287] dark:text-[#9BE7FA] font-semibold">180d In-Window Synced</span>
                 </div>
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white">{mod.moduleName[lang]}</h3>
-                <div className="p-2.5 rounded-lg bg-white border border-slate-200 text-[11px] font-mono text-emerald-800 dark:bg-slate-950/90 dark:border-slate-800 dark:text-emerald-300">
-                  ⚓ {mod.csvAnchorMetric[lang]}
+                <div className="p-2.5 rounded-lg bg-white border border-slate-200 text-[11px] tabular-nums text-[#074553] dark:bg-slate-950/90 dark:border-slate-800 dark:text-[#9BE7FA]">
+                  {mod.csvAnchorMetric[lang]}
                 </div>
                 <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-300 list-disc pl-4 pt-1">
                   {mod.telemetryMetrics.map((item, idx) => (

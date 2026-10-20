@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 
 export default function PresentationPage() {
   return (
-    <div className="relative w-screen h-screen flex flex-col bg-slate-950 text-slate-100 overflow-hidden">
+    <div className="relative w-screen h-dvh flex flex-col bg-slate-950 text-slate-100 overflow-hidden">
       {/* Top Navigation Bar */}
-      <header className="min-h-[56px] py-2 bg-slate-900/90 backdrop-blur border-b border-[#C8EEF7]/20 px-4 flex items-center justify-between z-10 shrink-0">
+      <header className="min-h-[56px] py-2 bg-slate-900/90 border-[#C8EEF7]/20 px-4 flex items-center justify-between z-10 shrink-0">
         <div className="flex items-center gap-3">
           <Link
             href="/projects/library-bus"

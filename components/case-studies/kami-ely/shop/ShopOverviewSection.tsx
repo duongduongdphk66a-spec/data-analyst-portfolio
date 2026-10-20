@@ -22,7 +22,7 @@ export default function ShopOverviewSection({
   return (
     <section id="shop-overview" className="space-y-6 scroll-mt-36">
       <SectionHeader 
-        badge="1.1" 
+        badge="1.1.2" 
         title={isEn ? "Shop Overview & Operational Health" : "Tổng Quan Về Shop & Sức Khỏe Vận Hành"} 
         id="shop-overview" 
         onCopy={copyDeepLink} 
@@ -34,7 +34,7 @@ export default function ShopOverviewSection({
       {/* Shop Profile & Benchmark Grid */}
       <div className="grid md:grid-cols-3 gap-6">
         {/* Profile Card */}
-        <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/80 shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
+        <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/80 space-y-4 dark:bg-slate-900 dark:border-slate-800">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-[#C8EEF7] flex items-center justify-center font-black text-[#0D7287] text-lg border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700">
               KE
@@ -44,7 +44,7 @@ export default function ShopOverviewSection({
               <p className="text-xs text-slate-500 dark:text-slate-400">TikTok Shop Vietnam · Sports & Outdoor</p>
             </div>
           </div>
-          <div className="divide-y divide-slate-100 text-xs text-slate-600 dark:divide-slate-800 dark:text-slate-400">
+          <div className="divide-slate-100 text-xs text-slate-600 dark:divide-slate-800 dark:text-slate-400">
             <div className="py-2 flex justify-between">
               <span>{isEn ? 'Inclusion Time' : 'Thời gian gia nhập'}:</span>
               <b className="text-slate-900 dark:text-slate-200">{activeOverview.inclusionDate}</b>
@@ -65,7 +65,7 @@ export default function ShopOverviewSection({
         </div>
 
         {/* Operations & Service Quality */}
-        <div className="p-6 rounded-3xl bg-white border border-[#FFE485] shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
+        <div className="p-6 rounded-3xl bg-white border border-[#FFE485] space-y-4 dark:bg-slate-900 dark:border-slate-800">
           <h3 className="text-sm font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
             {isEn ? 'Service & Operations Score' : 'Chất Lượng Dịch Vụ & Vận Hành'}
@@ -91,7 +91,7 @@ export default function ShopOverviewSection({
         </div>
 
         {/* Content Assets Inventory */}
-        <div className="p-6 rounded-3xl bg-white border border-[#C8EEF7] shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
+        <div className="p-6 rounded-3xl bg-white border border-[#C8EEF7] space-y-4 dark:bg-slate-900 dark:border-slate-800">
           <h3 className="text-sm font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-[#FFD14C]" />
             {isEn ? 'Content & Commerce Inventory' : 'Tài Sản Nội Dung & Thương Mại'}

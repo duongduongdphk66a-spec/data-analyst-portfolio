@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { Eye } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 export interface LibraryBusHeroProps {
@@ -11,87 +10,133 @@ export interface LibraryBusHeroProps {
 
 export function LibraryBusHero({ 
   isEn: propIsEn, 
-  onNavClick = (id, e) => {
-    e?.preventDefault?.();
-    const el = document.getElementById(id);
-    if (el) {
-      const y = el.getBoundingClientRect().top + window.scrollY - 95;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
-  } 
+  onNavClick: _onNavClick,
 }: LibraryBusHeroProps = {}) {
   const { language } = useLanguage();
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
+  const lang = isEn ? 'en' : 'vi';
+
+  const libraryBusKpiCards = [
+    {
+      id: 'kpi-bus-desktop',
+      badge: { vi: 'HỆ THỐNG GIAO DIỆN • 20 SCREENS', en: 'UI SYSTEM • 20 SCREENS' },
+      badgeColor: 'bg-[#C8EEF7]/50 text-[#074553] border-[#9BE7FA]/40 dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30',
+      title: { vi: 'Quy Chuẩn Wireframe & UI Desktop', en: 'Desktop Wireframes & UI Standards' },
+      primaryValue: '20 Màn Hình',
+      exactSubValue: 'Lưới 12 Cột (Desktop 1440px)',
+      comparisonNote: {
+        vi: 'Thiết kế chuẩn hóa từ wireframe khung dây đến UI hoàn thiện, đáp ứng các luồng tra cứu sách, lịch trình xe và mượn trả.',
+        en: 'Standardized from wireframes to high-fidelity UI, covering book search, real-time bus tracking, and lending flows.'
+      },
+      accentBorder: 'hover:border-[#9BE7FA]/60'
+    },
+    {
+      id: 'kpi-bus-mobile',
+      badge: { vi: 'THIẾT KẾ ĐA NỀN TẢNG • MOBILE UX', en: 'CROSS-PLATFORM • MOBILE UX' },
+      badgeColor: 'bg-[#FFE485]/40 text-amber-950 border-[#FFD14C]/40 dark:bg-[#FFE485]/15 dark:text-[#FFE485] dark:border-[#FFE485]/30',
+      title: { vi: 'Bố Cục Responsive Chuẩn Mobile', en: 'Responsive Mobile Screen Set' },
+      primaryValue: '20 Bản Mobile',
+      exactSubValue: 'Bố Cục 1 Cột Tối Ưu Cảm Ứng',
+      comparisonNote: {
+        vi: 'Tối ưu hóa thao tác một tay với nút bấm tối thiểu 44px, điều hướng thanh bar phía dưới và thời gian tải nhanh trên 4G/5G.',
+        en: 'Optimized for single-hand use with 44px touch targets, bottom bar navigation, and rapid lightweight loading on cellular.'
+      },
+      accentBorder: 'hover:border-[#FFD14C]/60'
+    },
+    {
+      id: 'kpi-bus-palette',
+      badge: { vi: 'BẢNG MÀU THƯƠNG HIỆU • 6 TÔNG', en: 'BRAND PALETTE • 6 TONES' },
+      badgeColor: 'bg-[#C8EEF7]/50 text-[#074553] border-[#9BE7FA]/40 dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30',
+      title: { vi: 'Hệ Màu Bản Sắc Tiệm Bánh & Tri Thức', en: 'Bakery Warmth & Brand Colors' },
+      primaryValue: '6 Tông Màu',
+      exactSubValue: 'Molasses Ink → Butter Cream',
+      comparisonNote: {
+        vi: 'Phối màu ấm áp gợi cảm giác tiệm bánh cổ điển (Warm Bakery), tạo sự gần gũi, ấm áp và khuyến khích văn hóa đọc cộng đồng.',
+        en: 'Warm tones inspired by vintage bakery aesthetics, creating a welcoming atmosphere that fosters community reading habits.'
+      },
+      accentBorder: 'hover:border-[#9BE7FA]/60'
+    },
+    {
+      id: 'kpi-bus-typography',
+      badge: { vi: 'HỆ THỐNG TYPOGRAPHY • DUAL FONT', en: 'TYPOGRAPHY SYSTEM • DUAL FONT' },
+      badgeColor: 'bg-[#FFE485]/40 text-amber-950 border-[#FFD14C]/40 dark:bg-[#FFE485]/15 dark:text-[#FFE485] dark:border-[#FFE485]/30',
+      title: { vi: 'Phông Chữ Tiêu Đề & Nội Dung', en: 'Heading & Body Typography Hierarchy' },
+      primaryValue: 'Lora + Outfit',
+      exactSubValue: 'Serif Cổ Điển + Sans Hiện Đại',
+      comparisonNote: {
+        vi: 'Lora mang nét trang nhã tri thức cho đề mục; Outfit mang tính trực quan, rõ nét cho văn bản chỉ dẫn và thông số vận hành.',
+        en: 'Lora delivers literary elegance for headings; Outfit provides geometric clarity for UI labels, guidance, and metrics.'
+      },
+      accentBorder: 'hover:border-[#FFD14C]/60'
+    }
+  ];
+
   return (
-    <header className="py-16 md:py-24 border-b border-slate-200/80 dark:border-slate-800">
-      <div className="page-container space-y-8">
-        <div className="max-w-5xl space-y-6">
-          <h1 className="editorial-section-title text-3xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-slate-950 dark:text-white">
-            {isEn ? 'Library Bus System:' : 'Tủ Sách Lưu Động (Library Bus):'} <br />
-            <span className="text-[#0D7287] dark:text-[#9BE7FA]">
-              {isEn ? 'Website Design Guidelines: Research, Logo & UI Components, Wireframes' : 'Bộ Quy Chuẩn Thiết Kế Website: Nghiên Cứu, Logo & UI, Wireframe'}
-            </span>
-          </h1>
-          
-          <p className="editorial-lead text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed max-w-4xl dark:text-slate-300">
-            {isEn
-              ? 'UX/UI website design for mobile library service: book search, real-time bus tracking and automated borrowing.'
-              : 'Thiết kế website xe thư viện lưu động: tra cứu đầu sách, định vị lịch trình xe và quy trình mượn tự động.'}
-          </p>
+    <header className="relative w-full rounded-3xl border border-slate-200 bg-white dark:border-slate-800/90 p-6 sm:p-10 overflow-hidden space-y-8 dark:bg-slate-950 transition-colors duration-200">
+      {/* BACKGROUND GLOW DECORATION */}
+      <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#9BE7FA]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#FFE485]/10 blur-3xl" />
 
-          <div className="flex flex-wrap items-center gap-4 pt-2">
-            <a
-              href="#visual-comparison"
-              onClick={(e) => onNavClick('visual-comparison', e)}
-              className="btn-primary flex items-center gap-2.5 cursor-pointer font-bold text-sm sm:text-base px-6 py-3 min-h-[46px] rounded-2xl shadow-md"
-            >
-              <Eye className="w-5 h-5" />
-              <span>{isEn ? 'View 20 UI Screens' : 'Xem 20 Màn Hình Giao Diện'}</span>
-            </a>
-            <a
-              href="/projects/library-bus/presentation"
-              className="btn-secondary-editorial flex items-center gap-2.5 font-bold text-sm sm:text-base px-6 py-3 min-h-[46px] rounded-2xl border border-slate-300 dark:border-slate-700 hover:border-[#0D7287]"
-            >
-              <Eye className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
-              <span>{isEn ? 'View Presentation Deck (30 Slides)' : 'Xem Bản Trình Chiếu (30 Slide)'}</span>
-            </a>
-          </div>
-        </div>
+      {/* HERO HEADLINE */}
+      <div className="relative space-y-4 max-w-5xl">
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white leading-[1.15]">
+          {isEn ? (
+            <>
+              Library Bus System:{' '}
+              <span className="text-[#0D7287] dark:text-[#9BE7FA]">
+                Website Design Guidelines
+              </span>
+              : Research, Logo & UI Components, Wireframes
+            </>
+          ) : (
+            <>
+              Hệ Thống Xe Thư Viện Lưu Động (Library Bus):{' '}
+              <span className="text-[#0D7287] dark:text-[#9BE7FA]">
+                Bộ Quy Chuẩn Thiết Kế Website
+              </span>
+              : Nghiên Cứu UX, Logo & UI, Wireframe
+            </>
+          )}
+        </h1>
+        
+        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
+          {isEn
+            ? 'End-to-end UX/UI website architecture for mobile library service: reader user flows, real-time bus route tracking, modular 12-column grid, and automated borrowing pipelines.'
+            : 'Thiết kế kiến trúc UX/UI website xe thư viện lưu động: nghiên cứu luồng độc giả, định vị lịch trình xe, hệ thống lưới 12 cột và quy trình số hóa mượn sách tự động.'}
+        </p>
+      </div>
 
-        {/* Key facts */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
-          <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1.5 hover:border-[#9BE7FA]/60 transition-colors">
-            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider block text-slate-500 dark:text-slate-400">
-              {isEn ? 'DESKTOP SCREENS' : 'MÀN HÌNH DESKTOP'}
-            </span>
-            <p className="font-mono text-3xl sm:text-4xl font-extrabold text-slate-950 dark:text-white">20</p>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 pt-0.5">{isEn ? 'Wireframe + UI design' : 'Wireframe + UI design'}</p>
-          </div>
+      {/* 4 BENTO KPI CARDS - UNIFIED KAMI ELY STYLE */}
+      <div className="relative grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+        {libraryBusKpiCards.map((card) => (
+          <div
+            key={card.id}
+            className={`p-5 rounded-2xl bg-white border border-slate-200 dark:bg-slate-900/80 dark:border-slate-800/90 transition duration-200 flex flex-col justify-between space-y-3 ${card.accentBorder}`}
+          >
+            <div className="space-y-2">
+              <div className="min-h-[42px] flex items-start">
+                <span
+                  className={`inline-block px-2.5 py-0.5 rounded-md text-xs tabular-nums font-bold border ${card.badgeColor}`}
+                >
+                  {card.badge[lang]}
+                </span>
+              </div>
+              <h2 className="text-xs font-semibold text-slate-500 dark:text-slate-400 min-h-[34px] flex items-start leading-snug">
+                {card.title[lang]}
+              </h2>
+              <div className="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-950 dark:text-white tracking-tight min-h-[72px] flex items-center">
+                {card.primaryValue}
+              </div>
+              <div className="text-xs tabular-nums font-semibold text-[#074553] dark:text-[#9BE7FA] min-h-[34px] flex items-start leading-snug">
+                {card.exactSubValue}
+              </div>
+            </div>
 
-          <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1.5 hover:border-[#9BE7FA]/60 transition-colors">
-            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider block text-slate-500 dark:text-slate-400">
-              {isEn ? 'MOBILE VERSIONS' : 'BẢN MOBILE'}
-            </span>
-            <p className="font-mono text-3xl sm:text-4xl font-extrabold text-[#0D7287] dark:text-[#9BE7FA]">20</p>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 pt-0.5">{isEn ? 'Single-column layouts' : 'Bố cục một cột'}</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed pt-3 mt-auto">
+              {card.comparisonNote[lang]}
+            </p>
           </div>
-
-          <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-1.5 hover:border-[#9BE7FA]/60 transition-colors">
-            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider block text-slate-500 dark:text-slate-400">
-              {isEn ? 'COLOR PALETTE' : 'BẢNG MÀU'}
-            </span>
-            <p className="font-mono text-3xl sm:text-4xl font-extrabold text-slate-950 dark:text-white">{isEn ? '6 tones' : '6 tông'}</p>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 pt-0.5">Molasses Ink → Butter Cream</p>
-          </div>
-
-          <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA] border-y border-r border-slate-200 dark:border-slate-800 shadow-sm space-y-1.5 hover:border-[#9BE7FA]/60 transition-colors">
-            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider block text-[#0D7287] dark:text-[#9BE7FA]">
-              {isEn ? 'TYPEFACES' : 'PHÔNG CHỮ'}
-            </span>
-            <p className="font-mono text-3xl sm:text-4xl font-extrabold text-slate-950 dark:text-white">Lora + Outfit</p>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 pt-0.5">{isEn ? 'Headings + body text' : 'Tiêu đề + nội dung'}</p>
-          </div>
-        </div>
+        ))}
       </div>
     </header>
   );

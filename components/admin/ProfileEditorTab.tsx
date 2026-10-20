@@ -68,7 +68,7 @@ export default function ProfileEditorTab({
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-150">
       {/* Basic Details Card */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-5">
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div className="flex items-center justify-between border-slate-100 dark:border-slate-800 pb-3">
           <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
             <User className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
             Thông tin Cơ bản
@@ -76,7 +76,7 @@ export default function ProfileEditorTab({
           <button
             onClick={onSave}
             disabled={isSaving}
-            className="px-3 py-1.5 bg-[#0D7287] hover:bg-cyan-700 disabled:opacity-50 text-white font-bold text-xs rounded-lg transition-all cursor-pointer shadow-xs"
+            className="px-3 py-1.5 bg-[#0D7287] hover:bg-cyan-700 disabled:opacity-50 text-white font-bold text-xs rounded-lg transition cursor-pointer shadow-xs"
           >
             Lưu phần này
           </button>
@@ -196,7 +196,7 @@ export default function ProfileEditorTab({
 
       {/* Skills List Card */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div className="flex items-center justify-between border-slate-100 dark:border-slate-800 pb-3">
           <div>
             <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
@@ -208,7 +208,7 @@ export default function ProfileEditorTab({
           </div>
           <button
             onClick={handleAddSkill}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition-all cursor-pointer shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0D7287] hover:bg-[#074553] text-white dark:bg-[#9BE7FA] dark:text-slate-950 dark:hover:bg-[#C8EEF7] font-bold text-xs rounded-lg transition cursor-pointer shadow-xs"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Thêm Kỹ Năng</span>
@@ -295,7 +295,7 @@ export default function ProfileEditorTab({
 
       {/* Experiences & Education Card */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div className="flex items-center justify-between border-slate-100 dark:border-slate-800 pb-3">
           <div>
             <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
               <FileText className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
@@ -308,13 +308,13 @@ export default function ProfileEditorTab({
           <div className="flex gap-2">
             <button
               onClick={() => handleAddExperience('education')}
-              className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-all cursor-pointer shadow-xs"
+              className="px-3 py-1.5 bg-[#FFE485] hover:bg-[#FFD14C] text-[#92400E] font-bold text-xs rounded-lg transition cursor-pointer shadow-xs"
             >
               + Học Vấn
             </button>
             <button
               onClick={() => handleAddExperience('work')}
-              className="px-3 py-1.5 bg-[#0D7287] hover:bg-cyan-700 text-white font-bold text-xs rounded-lg transition-all cursor-pointer shadow-xs"
+              className="px-3 py-1.5 bg-[#0D7287] hover:bg-cyan-700 text-white font-bold text-xs rounded-lg transition cursor-pointer shadow-xs"
             >
               + Kinh Nghiệm
             </button>
@@ -330,10 +330,10 @@ export default function ProfileEditorTab({
               <div className="flex items-center justify-between gap-2">
                 <span className={`px-2 py-0.5 rounded-md text-xs font-bold uppercase ${
                   exp.type === 'education' 
-                    ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300' 
-                    : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                    ? 'bg-[#C8EEF7] text-[#074553] dark:bg-[#074553]/60 dark:text-[#9BE7FA]' 
+                    : 'bg-[#FFE485]/40 text-[#92400E] dark:bg-[#FFE485]/20 dark:text-[#FFE485]'
                 }`}>
-                  {exp.type === 'education' ? '🎓 Học vấn' : '💼 Kinh nghiệm thực tế'}
+                  {exp.type === 'education' ? 'Học vấn' : 'Kinh nghiệm thực tế'}
                 </span>
                 <button
                   onClick={() => handleRemoveExperience(exp.id)}
@@ -397,7 +397,7 @@ export default function ProfileEditorTab({
                     newExp[idx].description = e.target.value.split('\n');
                     setProfileForm({ ...profileForm, experiences: newExp });
                   }}
-                  className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-mono"
+                  className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200"
                 />
               </div>
             </div>
@@ -407,7 +407,7 @@ export default function ProfileEditorTab({
 
       {/* Career Goals List Card */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div className="flex items-center justify-between border-slate-100 dark:border-slate-800 pb-3">
           <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
             <CheckCheck className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
             Mục Tiêu & Định Hướng Phát Triển

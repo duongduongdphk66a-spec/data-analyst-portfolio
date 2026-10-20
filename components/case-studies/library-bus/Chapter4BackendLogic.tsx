@@ -36,8 +36,8 @@ export const FLOW_EDGES: Record<'workflow' | 'dataflow', FlowEdge[]> = {
       id: 'E1',
       source: 'Client',
       target: 'BorrowService',
-      routeVi: 'Độc giả (Client) ➔ BorrowService (Django View)',
-      routeEn: 'Reader (Client) ➔ BorrowService (Django View)',
+      routeVi: 'Độc giả (Client) → BorrowService (Django View)',
+      routeEn: 'Reader (Client) → BorrowService (Django View)',
       techVi: 'with transaction.atomic()',
       techEn: 'with transaction.atomic()',
       descVi: 'Khởi tạo giao dịch ACID cho yêu cầu mượn sách; mọi lỗi phát sinh phía sau sẽ tự động ROLLBACK toàn bộ, bảo toàn tính toàn vẹn dữ liệu.',
@@ -50,8 +50,8 @@ export const FLOW_EDGES: Record<'workflow' | 'dataflow', FlowEdge[]> = {
       id: 'E2',
       source: 'BorrowService',
       target: 'InventoryDB',
-      routeVi: 'BorrowService ➔ PostgreSQL (Book Row Lock)',
-      routeEn: 'BorrowService ➔ PostgreSQL (Book Row Lock)',
+      routeVi: 'BorrowService → PostgreSQL (Book Row Lock)',
+      routeEn: 'BorrowService → PostgreSQL (Book Row Lock)',
       techVi: 'Book.objects.select_for_update(nowait=False)',
       techEn: 'Book.objects.select_for_update(nowait=False)',
       descVi: 'Khóa cứng dòng dữ liệu cuốn sách (Row-level Lock) trong DB, chặn các luồng mượn trùng lặp cùng lúc (chống Race Condition tuyệt đối).',
@@ -64,8 +64,8 @@ export const FLOW_EDGES: Record<'workflow' | 'dataflow', FlowEdge[]> = {
       id: 'E3',
       source: 'InventoryDB',
       target: 'ReservationQueue',
-      routeVi: 'Kiểm tra tồn kho ➔ Hàng đợi Đặt trước (Fallback)',
-      routeEn: 'Inventory Check ➔ Reservation Queue (Fallback)',
+      routeVi: 'Kiểm tra tồn kho → Hàng đợi Đặt trước (Fallback)',
+      routeEn: 'Inventory Check → Reservation Queue (Fallback)',
       techVi: 'available_copies == 0 (Fallback)',
       techEn: 'available_copies == 0 (Fallback)',
       descVi: 'Đường rẽ nhánh khi tồn kho bằng 0: tự động chuyển yêu cầu sang hàng đợi Đặt trước (reservation_create) và gửi thông báo khi có sách trả.',
@@ -78,8 +78,8 @@ export const FLOW_EDGES: Record<'workflow' | 'dataflow', FlowEdge[]> = {
       id: 'E4',
       source: 'BorrowService',
       target: 'CeleryBroker',
-      routeVi: 'BorrowService ➔ Redis / Celery Worker',
-      routeEn: 'BorrowService ➔ Redis / Celery Worker',
+      routeVi: 'BorrowService → Redis / Celery Worker',
+      routeEn: 'BorrowService → Redis / Celery Worker',
       techVi: '@shared_task.delay(borrow_id=order.id)',
       techEn: '@shared_task.delay(borrow_id=order.id)',
       descVi: 'Sau khi COMMIT giảm tồn kho -1, đẩy sự kiện bất đồng bộ sang Redis để gửi email xác nhận & lịch nhắc trả (due_reminder.txt) mà không chặn HTTP.',
@@ -94,8 +94,8 @@ export const FLOW_EDGES: Record<'workflow' | 'dataflow', FlowEdge[]> = {
       id: 'D1',
       source: 'UserEvents',
       target: 'CeleryWorker',
-      routeVi: 'Giao dịch / Đọc PDF ➔ Event Collector (Celery)',
-      routeEn: 'User Events (Borrow/PDF) ➔ Event Collector (Celery)',
+      routeVi: 'Giao dịch / Đọc PDF → Event Collector (Celery)',
+      routeEn: 'User Events (Borrow/PDF) → Event Collector (Celery)',
       techVi: 'analytics/tasks.py (Signals & Celery Tasks)',
       techEn: 'analytics/tasks.py (Signals & Celery Tasks)',
       descVi: 'Thu thập luồng sự kiện mượn sách, đọc PDF, đánh giá sao và đẩy ngầm vào Worker mà không làm chậm phản hồi HTTP của người dùng.',
@@ -108,8 +108,8 @@ export const FLOW_EDGES: Record<'workflow' | 'dataflow', FlowEdge[]> = {
       id: 'D2',
       source: 'CeleryWorker',
       target: 'BayesianEngine',
-      routeVi: 'Celery Worker ➔ Bayesian Ranking Engine',
-      routeEn: 'Celery Worker ➔ Bayesian Ranking Engine',
+      routeVi: 'Celery Worker → Bayesian Ranking Engine',
+      routeEn: 'Celery Worker → Bayesian Ranking Engine',
       techVi: 'W = (v / (v + m)) * R + (m / (v + m)) * C',
       techEn: 'W = (v / (v + m)) * R + (m / (v + m)) * C',
       mathFormula: 'W = \\frac{v}{v+m}R + \\frac{m}{v+m}C',
@@ -123,8 +123,8 @@ export const FLOW_EDGES: Record<'workflow' | 'dataflow', FlowEdge[]> = {
       id: 'D3',
       source: 'CeleryWorker',
       target: 'CosineRecommender',
-      routeVi: 'Hồ sơ Độc giả ➔ Cosine Similarity Recommender',
-      routeEn: 'User Profile ➔ Cosine Similarity Recommender',
+      routeVi: 'Hồ sơ Độc giả → Cosine Similarity Recommender',
+      routeEn: 'User Profile → Cosine Similarity Recommender',
       techVi: 'cos(θ) = (u · b) / (||u|| * ||b||)',
       techEn: 'cos(θ) = (u · b) / (||u|| * ||b||)',
       mathFormula: '\\cos(\\theta) = \\frac{\\mathbf{u}\\cdot\\mathbf{b}}{\\|\\mathbf{u}\\|_2 \\|\\mathbf{b}\\|_2}',
@@ -265,8 +265,8 @@ export function Chapter4BackendLogic({
       const doc = iframe?.contentDocument;
       if (!doc) return;
 
-      const highlightColor = type === 'workflow' ? '#FA6933' : '#323987';
-      const glowColor = type === 'workflow' ? 'rgba(250, 105, 51, 0.9)' : 'rgba(155, 231, 250, 0.9)';
+      const highlightColor = resolvedTheme === 'dark' ? '#9BE7FA' : '#0D7287';
+      const glowColor = 'rgba(155, 231, 250, 0.9)';
 
       // Reset all edges
       const allPaths = doc.querySelectorAll('path[data-animate="edge"], path[data-edge-from]');
@@ -285,7 +285,6 @@ export function Chapter4BackendLogic({
           const el = p as HTMLElement;
           el.style.stroke = highlightColor;
           el.style.strokeWidth = '3.5px';
-          el.style.filter = `drop-shadow(0 0 8px ${glowColor})`;
           el.style.opacity = '1';
         });
       } else {
@@ -378,40 +377,45 @@ export function Chapter4BackendLogic({
       <SectionHeader
         variant="chapter"
         id="sec-backend"
-        chapter="CHAPTER 04"
+        chapter={isEn ? 'CHAPTER 4' : 'PHẦN 4'}
         subtitle={isEn ? 'Django ORM, row-level locking, Celery asynchronous queue & interactive flow inspector' : 'Django ORM, khóa dòng dữ liệu, hàng đợi bất đồng bộ Celery & bộ kiểm tra luồng tương tác'}
-        badge="04"
-        title={isEn ? '04. Backend Logic & Interactive Flow Inspector' : '04. Backend Logic & Bộ Kiểm Tra Luồng Tương Tác'}
+        badge=""
+        title={isEn ? '4. Backend Logic & Interactive Flow Inspector' : '4. Backend Logic & Bộ Kiểm Tra Luồng Tương Tác'}
         onCopy={onCopyDeepLink}
       />
 
       {/* STACK CHIPS */}
       <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
-          <Server className="w-4 h-4 text-[#FA6933]" />
+          <Server className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
           <span>{isEn ? 'Backend Architecture Stack:' : 'Ngăn xếp công nghệ Backend:'}</span>
         </div>
-        <div className="flex flex-wrap gap-2 text-xs font-mono font-semibold">
-          <span className="px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[#323987] dark:text-[#9BE7FA]">Django 5.x ORM</span>
-          <span className="px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[#FA6933]">PostgreSQL ACID</span>
-          <span className="px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-emerald-600 dark:text-emerald-400">Celery Workers</span>
-          <span className="px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-rose-600 dark:text-rose-400">Redis Broker</span>
+        <div className="flex flex-wrap gap-2 text-xs tabular-nums font-semibold">
+          <span className="px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[#0D7287] dark:text-[#9BE7FA]">Django 5.x ORM</span>
+          <span className="px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200">PostgreSQL ACID</span>
+          <span className="px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[#0D7287] dark:text-[#9BE7FA]">Celery Workers</span>
+          <span className="px-2.5 py-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200">Redis Broker</span>
         </div>
       </div>
 
       {/* SƠ ĐỒ TUẦN TỰ LOGIC BACKEND (SEQUENCE DIAGRAM STEPS) */}
       <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-slate-100 dark:border-slate-800 pb-3">
           <div className="space-y-1">
-            <h3 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Lock className="w-5 h-5 text-[#FA6933]" />
-              <span>{isEn ? 'Atomic Row Locking & Task Queue Sequence' : 'Sơ đồ Tuần tự: Khóa Dòng Dữ liệu & Đẩy Task Celery'}</span>
-            </h3>
+            <div className="flex items-center gap-2.5">
+              <span className="px-3 py-1 rounded-xl bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 font-black text-sm tabular-nums">
+                4.1
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
+                <Lock className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                <span>{isEn ? 'Atomic Row Locking & Task Queue Sequence' : 'Sơ đồ Tuần tự: Khóa Dòng Dữ liệu & Đẩy Task Celery'}</span>
+              </h3>
+            </div>
             <p className="text-xs sm:text-sm text-slate-500">
               {isEn ? 'Transactions service sequence with PostgreSQL SELECT ... FOR UPDATE' : 'Quy trình giao dịch mượn sách an toàn với select_for_update() và Celery .delay()'}
             </p>
           </div>
-          <span className="text-xs font-mono px-3 py-1.5 rounded-xl bg-[#C8EEF7]/50 text-[#0D7287] dark:bg-slate-800 dark:text-[#9BE7FA] font-black border border-[#9BE7FA]/40">
+          <span className="text-xs tabular-nums px-3 py-1.5 rounded-xl bg-[#C8EEF7]/50 text-[#0D7287] dark:bg-slate-800 dark:text-[#9BE7FA] font-black border border-[#9BE7FA]/40">
             Zero Overselling
           </span>
         </div>
@@ -420,35 +424,35 @@ export function Chapter4BackendLogic({
         <div className="grid grid-cols-1 md:grid-cols-5 gap-3.5 text-xs sm:text-sm">
           {/* Step 1 */}
           <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 space-y-2.5">
-            <span className="w-7 h-7 rounded-xl bg-[#323987] text-white flex items-center justify-center font-mono font-bold text-xs sm:text-sm shadow-xs">1</span>
+            <span className="w-7 h-7 rounded-xl bg-slate-900 dark:bg-slate-800 text-white flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm shadow-xs">1</span>
             <div className="font-bold text-slate-900 dark:text-white">Độc giả gửi Yêu cầu</div>
-            <p className="text-slate-500 font-mono text-xs">POST /transactions/borrow/</p>
+            <p className="text-slate-500 tabular-nums text-xs">POST /transactions/borrow/</p>
           </div>
 
           {/* Step 2 */}
-          <div className="p-4 rounded-2xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 space-y-2.5">
-            <span className="w-7 h-7 rounded-xl bg-[#FFD14C] text-slate-950 flex items-center justify-center font-mono font-bold text-xs sm:text-sm shadow-xs">2</span>
-            <div className="font-bold text-amber-900 dark:text-amber-200">Khóa dòng bản ghi</div>
-            <p className="text-slate-600 dark:text-slate-400 font-mono text-xs">BEGIN + SELECT ... FOR UPDATE</p>
+          <div className="p-4 rounded-2xl bg-[#FFE485]/20 dark:bg-[#FFE485]/10 border border-[#FFD14C]/40 space-y-2.5">
+            <span className="w-7 h-7 rounded-xl bg-[#FFD14C] text-slate-950 flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm shadow-xs">2</span>
+            <div className="font-bold text-[#92400E] dark:text-[#FFE485]">Khóa dòng bản ghi</div>
+            <p className="text-slate-600 dark:text-slate-400 tabular-nums text-xs">BEGIN + SELECT ... FOR UPDATE</p>
           </div>
 
           {/* Step 3 */}
-          <div className="p-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 space-y-2.5">
-            <span className="w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-mono font-bold text-xs sm:text-sm shadow-xs">3</span>
-            <div className="font-bold text-emerald-900 dark:text-emerald-200">Giao dịch thành công</div>
+          <div className="p-4 rounded-2xl bg-[#C8EEF7]/30 dark:bg-[#074553]/20 border border-[#9BE7FA]/40 space-y-2.5">
+            <span className="w-7 h-7 rounded-xl bg-[#0D7287] dark:bg-[#9BE7FA] text-white dark:text-[#04242C] flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm shadow-xs">3</span>
+            <div className="font-bold text-[#074553] dark:text-[#9BE7FA]">Giao dịch thành công</div>
             <p className="text-slate-600 dark:text-slate-400 text-xs">Tồn kho -1 & COMMIT giải phóng khóa</p>
           </div>
 
           {/* Step 4 */}
-          <div className="p-4 rounded-2xl bg-sky-50/70 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-800 space-y-2.5">
-            <span className="w-7 h-7 rounded-xl bg-sky-600 text-white flex items-center justify-center font-mono font-bold text-xs sm:text-sm shadow-xs">4</span>
-            <div className="font-bold text-sky-900 dark:text-sky-200">Đẩy Task Redis</div>
-            <p className="text-slate-600 dark:text-slate-400 font-mono text-xs">.delay() gửi email & phân tích</p>
+          <div className="p-4 rounded-2xl bg-[#FFE485]/15 dark:bg-[#FFE485]/5 border border-[#FFD14C]/40 space-y-2.5">
+            <span className="w-7 h-7 rounded-xl bg-[#FFD14C] text-slate-950 flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm shadow-xs">4</span>
+            <div className="font-bold text-[#92400E] dark:text-[#FFE485]">Đẩy Task Redis</div>
+            <p className="text-slate-600 dark:text-slate-400 tabular-nums text-xs">.delay() gửi email & phân tích</p>
           </div>
 
           {/* Step 5 */}
           <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 space-y-2.5">
-            <span className="w-7 h-7 rounded-xl bg-slate-700 text-white flex items-center justify-center font-mono font-bold text-xs sm:text-sm shadow-xs">5</span>
+            <span className="w-7 h-7 rounded-xl bg-slate-700 text-white flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm shadow-xs">5</span>
             <div className="font-bold text-slate-900 dark:text-white">Celery Worker ngầm</div>
             <p className="text-slate-500 text-xs">Cập nhật Analytics & Email nhắc hạn</p>
           </div>
@@ -456,16 +460,16 @@ export function Chapter4BackendLogic({
 
         {/* Branch Explanation Pills */}
         <div className="grid sm:grid-cols-2 gap-3 pt-1 text-xs sm:text-sm">
-          <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 flex items-start gap-2.5 text-emerald-900 dark:text-emerald-200">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+          <div className="p-3.5 rounded-2xl bg-[#C8EEF7]/30 dark:bg-[#074553]/20 border border-[#9BE7FA]/40 flex items-start gap-2.5 text-[#074553] dark:text-[#9BE7FA]">
+            <CheckCircle2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA] shrink-0 mt-0.5" />
             <div>
               <span className="font-bold">Trường hợp còn sách (Tồn kho &gt; 0): </span>
               <span>Khóa dòng dữ liệu, giảm tồn kho, ghi nhận phiếu mượn và phản hồi 200 OK.</span>
             </div>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 flex items-start gap-2.5 text-rose-900 dark:text-rose-200">
-            <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+          <div className="p-3.5 rounded-2xl bg-[#FFE485]/20 dark:bg-[#FFE485]/10 border border-[#FFE485]/60 flex items-start gap-2.5 text-[#92400E] dark:text-[#FFE485]">
+            <AlertTriangle className="w-4 h-4 text-[#B45309] dark:text-[#FFD14C] shrink-0 mt-0.5" />
             <div>
               <span className="font-bold">Trường hợp hết sách (Tồn kho == 0): </span>
               <span>ROLLBACK tức thời, phản hồi 400 Bad Request và tự động kích hoạt tùy chọn Đặt trước.</span>
@@ -478,10 +482,15 @@ export function Chapter4BackendLogic({
       <div className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs">
           <div className="space-y-1">
-            <h3 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Layers className="w-5 h-5 text-[#323987] dark:text-[#9BE7FA]" />
-              <span>{isEn ? '2 Interactive Flow Diagrams & Edge Inspector' : '2 Biểu Đồ Luồng & Bộ Giải Thích Đường Nối (Edge Inspector)'}</span>
-            </h3>
+            <div className="flex items-center gap-2.5">
+              <span className="px-3 py-1 rounded-xl bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 font-black text-sm tabular-nums">
+                4.2
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
+                <Layers className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                <span>{isEn ? 'Interactive Flow Diagrams & Edge Inspector' : 'Biểu Đồ Luồng Tương Tác & Bộ Giải Thích Đường Nối'}</span>
+              </h3>
+            </div>
             <p className="text-xs sm:text-sm text-slate-500">
               {isEn ? 'Click on SVG nodes/edges or chip buttons to inspect underlying backend transactions and concurrency locks' : 'Nhấp trực tiếp vào đường nối trên sơ đồ hoặc chọn thẻ bên dưới để xem giải thích kỹ thuật chi tiết'}
             </p>
@@ -530,7 +539,7 @@ export function Chapter4BackendLogic({
                   onClick={() => setLayoutMode('stacked')}
                   className={`px-3 py-1.5 rounded-xl transition cursor-pointer min-h-[36px] ${
                     layoutMode === 'stacked'
-                      ? 'bg-[#323987] text-white shadow-xs'
+                      ? 'bg-slate-900 text-white dark:bg-[#9BE7FA] dark:text-slate-950 shadow-xs'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                   }`}
                   title="Xếp chồng toàn chiều rộng (Rộng nhất)"
@@ -541,7 +550,7 @@ export function Chapter4BackendLogic({
                   onClick={() => setLayoutMode('grid')}
                   className={`px-3 py-1.5 rounded-xl transition cursor-pointer min-h-[36px] ${
                     layoutMode === 'grid'
-                      ? 'bg-[#323987] text-white shadow-xs'
+                      ? 'bg-slate-900 text-white dark:bg-[#9BE7FA] dark:text-slate-950 shadow-xs'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                   }`}
                   title="2 Cột song song"
@@ -557,7 +566,7 @@ export function Chapter4BackendLogic({
                 onClick={() => setHeightMode('fit')}
                 className={`px-3 py-1.5 rounded-xl transition cursor-pointer min-h-[36px] ${
                   heightMode === 'fit'
-                    ? 'bg-[#323987] text-white shadow-xs'
+                    ? 'bg-slate-900 text-white dark:bg-[#9BE7FA] dark:text-slate-950 shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                 }`}
                 title={isEn ? 'Fit diagram completely in 1 screen' : 'Kích thước vừa trọn 1 màn hình'}
@@ -568,7 +577,7 @@ export function Chapter4BackendLogic({
                 onClick={() => setHeightMode('standard')}
                 className={`px-2.5 py-1.5 rounded-xl transition cursor-pointer min-h-[36px] ${
                   heightMode === 'standard'
-                    ? 'bg-[#323987] text-white shadow-xs'
+                    ? 'bg-slate-900 text-white dark:bg-[#9BE7FA] dark:text-slate-950 shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                 }`}
               >
@@ -578,7 +587,7 @@ export function Chapter4BackendLogic({
                 onClick={() => setHeightMode('jumbo')}
                 className={`px-2.5 py-1.5 rounded-xl transition cursor-pointer min-h-[36px] ${
                   heightMode === 'jumbo'
-                    ? 'bg-[#FA6933] text-white shadow-xs'
+                    ? 'bg-slate-900 text-white dark:bg-[#9BE7FA] dark:text-slate-950 shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                 }`}
                 title={isEn ? 'Large expanded view (900px)' : 'Khổ lớn (900px)'}
@@ -591,15 +600,13 @@ export function Chapter4BackendLogic({
 
         {/* Display Container: Stacked (1 column full width) by default for maximum visibility */}
         <div className={`grid gap-8 ${activeTab === 'both' && layoutMode === 'grid' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
-          {/* ========================================================
-              CHART 1: BORROWING WORKFLOW & RACE CONDITION PREVENTION
-              ======================================================== */}
+          {/* CHART 1: BORROWING WORKFLOW & RACE CONDITION PREVENTION */}
           {(activeTab === 'both' || activeTab === 'workflow') && (
-            <div className="p-6 sm:p-7 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-md space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3.5">
+            <div className="p-6 sm:p-7 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-slate-100 dark:border-slate-800 pb-3.5">
                 <div>
                   <h4 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#FA6933]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
                     <span>{isEn ? BACKEND_CHARTS[0].titleEn : BACKEND_CHARTS[0].titleVi}</span>
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
@@ -608,7 +615,7 @@ export function Chapter4BackendLogic({
                 </div>
                 
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono text-[#FA6933] font-bold px-2.5 py-1 rounded-xl bg-orange-50 dark:bg-orange-950/40 border border-orange-200 dark:border-orange-900">
+                  <span className="text-xs tabular-nums text-[#92400E] dark:text-[#FFE485] font-bold px-2.5 py-1 rounded-xl bg-[#FFE485]/40 dark:bg-[#FFE485]/10 border border-[#FFE485]/60">
                     {BACKEND_CHARTS[0].badge}
                   </span>
                   
@@ -617,7 +624,7 @@ export function Chapter4BackendLogic({
                     className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
                     title={isEn ? 'Expand Fullscreen Modal' : 'Phóng to toàn cảnh (Modal)'}
                   >
-                    <Maximize2 className="w-4 h-4 text-[#323987] dark:text-[#9BE7FA]" />
+                    <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                   </button>
 
                   <a
@@ -627,7 +634,7 @@ export function Chapter4BackendLogic({
                     className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
                     title={isEn ? 'Open in new window' : 'Mở tab mới'}
                   >
-                    <ExternalLink className="w-4 h-4 text-[#FA6933]" />
+                    <ExternalLink className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                   </a>
                 </div>
               </div>
@@ -642,12 +649,12 @@ export function Chapter4BackendLogic({
               </div>
 
               {/* Responsive Iframe Canvas */}
-              <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-inner">
+              <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
                 <iframe 
                   ref={wfIframeRef}
                   src={`${BACKEND_CHARTS[0].src}&theme=${resolvedTheme}`} 
                   onLoad={() => attachIframeInspector(wfIframeRef.current, 'workflow')}
-                  className={`w-full ${iframeHeightClass} bg-white dark:bg-slate-950 transition-all duration-300`} 
+                  className={`w-full ${iframeHeightClass} bg-white dark:bg-slate-950 transition duration-300`} 
                   title={isEn ? BACKEND_CHARTS[0].titleEn : BACKEND_CHARTS[0].titleVi} 
                   loading="lazy"
                 />
@@ -655,14 +662,14 @@ export function Chapter4BackendLogic({
 
               {/* EDGE INSPECTOR FOR 4.1 */}
               <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 dark:border-slate-800 pb-2">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-slate-200/80 dark:border-slate-800 pb-2">
                   <div className="flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-[#FA6933]" />
+                    <Activity className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                     <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                       {isEn ? 'Edge Inspector: Select Active Flow Path' : 'Bộ kiểm tra đường nối: Chọn luồng xử lý trên biểu đồ'}
                     </span>
                   </div>
-                  <span className="text-[11px] font-mono text-[#FA6933] font-semibold">
+                  <span className="text-[11px] tabular-nums text-[#0D7287] dark:text-[#9BE7FA] font-semibold">
                     {isEn ? 'Interactive DOM Synced' : 'Đồng bộ sự kiện DOM'}
                   </span>
                 </div>
@@ -676,35 +683,35 @@ export function Chapter4BackendLogic({
                         key={edge.id}
                         type="button"
                         onClick={() => handleSelectWorkflowEdge(edge)}
-                        className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer flex items-center gap-2 ${
+                        className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold border transition cursor-pointer flex items-center gap-2 ${
                           isSelected
-                            ? 'bg-[#FA6933] text-white border-[#FA6933] shadow-sm ring-2 ring-[#FA6933]/30 scale-[1.01]'
-                            : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-[#FA6933]'
+                            ? 'bg-slate-900 text-white border-slate-900 dark:bg-[#9BE7FA] dark:text-slate-950 dark:border-[#9BE7FA] shadow-xs'
+                            : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-[#9BE7FA]'
                         }`}
                       >
-                        <span className={`px-1.5 py-0.5 rounded font-mono text-[10px] font-bold ${
-                          isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-700 text-[#FA6933]'
+                        <span className={`px-1.5 py-0.5 rounded tabular-nums text-[10px] font-bold ${
+                          isSelected ? 'bg-white/20 text-white dark:bg-slate-900/20 dark:text-slate-950' : 'bg-slate-100 dark:bg-slate-700 text-[#0D7287] dark:text-[#9BE7FA]'
                         }`}>
                           {edge.id}
                         </span>
-                        <span>{edge.source} ➔ {edge.target}</span>
+                        <span>{edge.source} → {edge.target}</span>
                       </button>
                     );
                   })}
                 </div>
 
                 {/* Selected Edge Detail Card */}
-                <div className="p-4 rounded-xl border-l-4 border-[#FA6933] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs space-y-2.5 shadow-2xs">
+                <div className="p-4 rounded-xl border-l-4 border-[#0D7287] dark:border-[#9BE7FA] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs space-y-2.5 shadow-2xs">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold px-2 py-0.5 rounded bg-orange-100 dark:bg-orange-950/60 text-[#FA6933] border border-orange-200 dark:border-orange-800">
+                      <span className="tabular-nums font-bold px-2 py-0.5 rounded bg-[#FFE485]/40 dark:bg-[#FFE485]/10 text-[#92400E] dark:text-[#FFE485] border border-[#FFE485]/60">
                         {selectedWorkflowEdge.id}
                       </span>
                       <b className="text-slate-900 dark:text-white text-xs sm:text-sm">
                         {isEn ? selectedWorkflowEdge.routeEn : selectedWorkflowEdge.routeVi}
                       </b>
                     </div>
-                    <code className="font-mono font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#FA6933] text-[11px] border border-slate-200 dark:border-slate-700">
+                    <code className="font-mono font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA] text-[11px] border border-slate-200 dark:border-slate-700">
                       {isEn ? selectedWorkflowEdge.techEn : selectedWorkflowEdge.techVi}
                     </code>
                   </div>
@@ -713,8 +720,8 @@ export function Chapter4BackendLogic({
                     {isEn ? selectedWorkflowEdge.descEn : selectedWorkflowEdge.descVi}
                   </p>
 
-                  <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-start gap-2 text-slate-600 dark:text-slate-400">
-                    <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <div className="pt-2 border-slate-100 dark:border-slate-800 flex items-start gap-2 text-slate-600 dark:text-slate-400">
+                    <ShieldCheck className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA] shrink-0 mt-0.5" />
                     <span><b>{isEn ? 'Concurrency Mechanism:' : 'Cơ chế an toàn luồng:'}</b> {isEn ? selectedWorkflowEdge.concurrencyEn : selectedWorkflowEdge.concurrencyVi}</span>
                   </div>
                 </div>
@@ -722,15 +729,13 @@ export function Chapter4BackendLogic({
             </div>
           )}
 
-          {/* ========================================================
-              CHART 2: ANALYTICS DATAFLOW & ASYNCHRONOUS CELERY QUEUE
-              ======================================================== */}
+          {/* CHART 2: ANALYTICS DATAFLOW & ASYNCHRONOUS CELERY QUEUE */}
           {(activeTab === 'both' || activeTab === 'dataflow') && (
-            <div className="p-6 sm:p-7 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-md space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3.5">
+            <div className="p-6 sm:p-7 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-slate-100 dark:border-slate-800 pb-3.5">
                 <div>
                   <h4 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#323987] dark:bg-[#9BE7FA]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
                     <span>{isEn ? BACKEND_CHARTS[1].titleEn : BACKEND_CHARTS[1].titleVi}</span>
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
@@ -739,7 +744,7 @@ export function Chapter4BackendLogic({
                 </div>
                 
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono text-[#323987] dark:text-[#9BE7FA] font-bold px-2.5 py-1 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-900">
+                  <span className="text-xs tabular-nums text-[#0D7287] dark:text-[#9BE7FA] font-bold px-2.5 py-1 rounded-xl bg-cyan-50 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-900">
                     {BACKEND_CHARTS[1].badge}
                   </span>
                   
@@ -748,7 +753,7 @@ export function Chapter4BackendLogic({
                     className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
                     title={isEn ? 'Expand Fullscreen Modal' : 'Phóng to toàn cảnh (Modal)'}
                   >
-                    <Maximize2 className="w-4 h-4 text-[#323987] dark:text-[#9BE7FA]" />
+                    <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                   </button>
 
                   <a
@@ -758,7 +763,7 @@ export function Chapter4BackendLogic({
                     className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
                     title={isEn ? 'Open in new window' : 'Mở tab mới'}
                   >
-                    <ExternalLink className="w-4 h-4 text-[#FA6933]" />
+                    <ExternalLink className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                   </a>
                 </div>
               </div>
@@ -773,12 +778,12 @@ export function Chapter4BackendLogic({
               </div>
 
               {/* Responsive Iframe Canvas */}
-              <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-inner">
+              <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
                 <iframe 
                   ref={dfIframeRef}
                   src={`${BACKEND_CHARTS[1].src}&theme=${resolvedTheme}`} 
                   onLoad={() => attachIframeInspector(dfIframeRef.current, 'dataflow')}
-                  className={`w-full ${iframeHeightClass} bg-white dark:bg-slate-950 transition-all duration-300`} 
+                  className={`w-full ${iframeHeightClass} bg-white dark:bg-slate-950 transition duration-300`} 
                   title={isEn ? BACKEND_CHARTS[1].titleEn : BACKEND_CHARTS[1].titleVi} 
                   loading="lazy"
                 />
@@ -786,14 +791,14 @@ export function Chapter4BackendLogic({
 
               {/* EDGE INSPECTOR FOR 4.2 */}
               <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 dark:border-slate-800 pb-2">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-slate-200/80 dark:border-slate-800 pb-2">
                   <div className="flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-[#323987] dark:text-[#9BE7FA]" />
+                    <Activity className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                     <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                       {isEn ? 'Edge Inspector: Select Active Flow Path' : 'Bộ kiểm tra đường nối: Chọn luồng phân tích trên biểu đồ'}
                     </span>
                   </div>
-                  <span className="text-[11px] font-mono text-[#323987] dark:text-[#9BE7FA] font-semibold">
+                  <span className="text-[11px] tabular-nums text-[#0D7287] dark:text-[#9BE7FA] font-semibold">
                     {isEn ? 'Interactive DOM Synced' : 'Đồng bộ sự kiện DOM'}
                   </span>
                 </div>
@@ -807,41 +812,41 @@ export function Chapter4BackendLogic({
                         key={edge.id}
                         type="button"
                         onClick={() => handleSelectDataflowEdge(edge)}
-                        className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer flex items-center gap-2 ${
+                        className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold border transition cursor-pointer flex items-center gap-2 ${
                           isSelected
-                            ? 'bg-[#323987] text-white border-[#323987] shadow-sm ring-2 ring-[#323987]/30 scale-[1.01]'
-                            : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-[#323987]'
+                            ? 'bg-slate-900 text-white border-slate-900 dark:bg-[#9BE7FA] dark:text-slate-950 dark:border-[#9BE7FA] shadow-xs'
+                            : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-[#9BE7FA]'
                         }`}
                       >
-                        <span className={`px-1.5 py-0.5 rounded font-mono text-[10px] font-bold ${
-                          isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-700 text-[#323987] dark:text-[#9BE7FA]'
+                        <span className={`px-1.5 py-0.5 rounded tabular-nums text-[10px] font-bold ${
+                          isSelected ? 'bg-white/20 text-white dark:bg-slate-900/20 dark:text-slate-950' : 'bg-slate-100 dark:bg-slate-700 text-[#0D7287] dark:text-[#9BE7FA]'
                         }`}>
                           {edge.id}
                         </span>
-                        <span>{edge.source} ➔ {edge.target}</span>
+                        <span>{edge.source} → {edge.target}</span>
                       </button>
                     );
                   })}
                 </div>
 
                 {/* Selected Edge Detail Card */}
-                <div className="p-4 rounded-xl border-l-4 border-[#323987] dark:border-[#9BE7FA] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs space-y-2.5 shadow-2xs">
+                <div className="p-4 rounded-xl border-l-4 border-[#0D7287] dark:border-[#9BE7FA] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs space-y-2.5 shadow-2xs">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950/60 text-[#323987] dark:text-[#9BE7FA] border border-indigo-200 dark:border-indigo-800">
+                      <span className="tabular-nums font-bold px-2 py-0.5 rounded bg-cyan-100 dark:bg-cyan-950/60 text-[#0D7287] dark:text-[#9BE7FA] border border-cyan-200 dark:border-cyan-800">
                         {selectedDataflowEdge.id}
                       </span>
                       <b className="text-slate-900 dark:text-white text-xs sm:text-sm">
                         {isEn ? selectedDataflowEdge.routeEn : selectedDataflowEdge.routeVi}
                       </b>
                     </div>
-                    <code className="font-mono font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#323987] dark:text-[#9BE7FA] text-[11px] border border-slate-200 dark:border-slate-700">
+                    <code className="font-mono font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA] text-[11px] border border-slate-200 dark:border-slate-700">
                       {isEn ? selectedDataflowEdge.techEn : selectedDataflowEdge.techVi}
                     </code>
                   </div>
 
                   {selectedDataflowEdge.mathFormula && (
-                    <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/80 font-mono text-xs text-indigo-700 dark:text-sky-300 border border-slate-200 dark:border-slate-700">
+                    <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/80 tabular-nums text-xs text-[#0D7287] dark:text-[#9BE7FA] border border-slate-200 dark:border-slate-700">
                       <span className="font-sans font-bold text-slate-500 mr-2 text-[11px]">Công thức toán:</span>
                       <code>{selectedDataflowEdge.techVi}</code>
                     </div>
@@ -851,8 +856,8 @@ export function Chapter4BackendLogic({
                     {isEn ? selectedDataflowEdge.descEn : selectedDataflowEdge.descVi}
                   </p>
 
-                  <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-start gap-2 text-slate-600 dark:text-slate-400">
-                    <Zap className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                  <div className="pt-2 border-slate-100 dark:border-slate-800 flex items-start gap-2 text-slate-600 dark:text-slate-400">
+                    <Zap className="w-4 h-4 text-[#FFD14C] shrink-0 mt-0.5" />
                     <span><b>{isEn ? 'Async / Concurrency Model:' : 'Mô hình xử lý bất đồng bộ:'}</b> {isEn ? selectedDataflowEdge.concurrencyEn : selectedDataflowEdge.concurrencyVi}</span>
                   </div>
                 </div>
@@ -865,13 +870,13 @@ export function Chapter4BackendLogic({
       {/* FULLSCREEN MODAL (WHEN USER CLICKS MAXIMIZE ON ANY CHART) */}
       {fullscreenChart && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 dark:bg-black/85 backdrop-blur-md p-3 sm:p-6 flex flex-col justify-between animate-in fade-in duration-200">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white bg-white/80 dark:bg-slate-900/80 px-4 py-2.5 rounded-2xl">
+          <div className="flex items-center justify-between pb-3 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white bg-white/80 dark:bg-slate-900/80 px-4 py-2.5 rounded-2xl">
             <div className="flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full bg-[#FA6933] animate-pulse" />
+              <span className="w-3 h-3 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
               <h3 className="font-bold text-base sm:text-xl">
                 {isEn ? fullscreenChart.titleEn : fullscreenChart.titleVi}
               </h3>
-              <span className="text-xs font-mono px-2 py-0.5 rounded bg-orange-50 dark:bg-slate-800 text-[#FA6933] dark:text-slate-300 border border-orange-200 dark:border-slate-700">
+              <span className="text-xs tabular-nums px-2 py-0.5 rounded bg-[#C8EEF7]/50 dark:bg-slate-800 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/40 dark:border-slate-700">
                 {fullscreenChart.badge}
               </span>
             </div>
@@ -880,7 +885,7 @@ export function Chapter4BackendLogic({
                 href={`${fullscreenChart.externalUrl}?theme=${resolvedTheme}`} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-xs font-bold text-[#323987] dark:text-sky-400 hover:underline flex items-center gap-1"
+                className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA] hover:underline flex items-center gap-1"
               >
                 <span>{isEn ? 'Open Raw File' : 'Mở file gốc'}</span>
                 <ExternalLink className="w-4 h-4" />
@@ -903,7 +908,7 @@ export function Chapter4BackendLogic({
             />
           </div>
 
-          <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-400 pt-2 border-t border-slate-200 dark:border-slate-800">
+          <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-400 pt-2 border-slate-200 dark:border-slate-800">
             <span>Library Bus Interactive Flow Visualizer</span>
             <button 
               onClick={() => setFullscreenChart(null)} 
@@ -917,38 +922,38 @@ export function Chapter4BackendLogic({
 
       {/* DANH MỤC ĐƯỜNG NỐI & GIẢI THÍCH LUỒNG XỬ LÝ (EDGE INSPECTOR SUMMARY TABLE) */}
       <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-slate-100 dark:border-slate-800 pb-3">
           <div className="space-y-1">
             <h3 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <GitCommit className="w-5 h-5 text-[#FA6933]" />
+              <GitCommit className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
               <span>{isEn ? 'Edge Inspector Catalog & Flow Explanations' : 'Danh Mục Đường Nối & Giải Thích Luồng Xử Lý (Edge Inspector)'}</span>
             </h3>
             <p className="text-xs sm:text-sm text-slate-500">
               {isEn ? 'Comprehensive mapping of edges, backend triggers, locking mechanisms and async workers' : 'Bảng tổng hợp đối chiếu toàn bộ các đường nối, cơ chế kích hoạt backend và giải thích luồng xử lý'}
             </p>
           </div>
-          <span className="text-xs font-mono px-3 py-1.5 rounded-xl bg-orange-50 dark:bg-slate-800 text-[#FA6933] font-bold border border-orange-200 dark:border-slate-700">
+          <span className="text-xs tabular-nums px-3 py-1.5 rounded-xl bg-[#FFE485]/40 dark:bg-slate-800 text-[#92400E] dark:text-[#FFE485] font-bold border border-[#FFE485]/60 dark:border-slate-700">
             7 Core Flows
           </span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs sm:text-sm">
-            <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold uppercase text-xs">
+            <thead className="bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 font-bold uppercase text-xs">
               <tr>
                 <th className="p-3.5 w-1/5">{isEn ? 'Diagram & Code' : 'Biểu đồ & Mã đường nối'}</th>
                 <th className="p-3.5 w-1/4">{isEn ? 'Backend Trigger' : 'Cơ chế Backend kích hoạt'}</th>
                 <th className="p-3.5">{isEn ? 'Flow Explanation When Rendered' : 'Giải thích luồng xử lý khi đường nối hiện ra'}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+            <tbody className="[&>tr:nth-child(even)]:bg-slate-50 dark:[&>tr:nth-child(even)]:bg-slate-800/40">
               {/* 4.1 Luồng Mượn/Trả */}
               {FLOW_EDGES.workflow.map((edge) => (
                 <tr key={edge.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
                   <td className="p-3.5 align-top">
-                    <span className="font-bold text-[#FA6933] block text-xs">4.1 Luồng Mượn/Trả</span>
-                    <span className="font-mono font-bold text-slate-900 dark:text-white text-xs block mt-0.5">
-                      [{edge.id}] {edge.source} ➔ {edge.target}
+                    <span className="font-bold text-[#0D7287] dark:text-[#9BE7FA] block text-xs">4.1 Luồng Mượn/Trả</span>
+                    <span className="tabular-nums font-bold text-slate-900 dark:text-white text-xs block mt-0.5">
+                      [{edge.id}] {edge.source} → {edge.target}
                     </span>
                   </td>
                   <td className="p-3.5 align-top">
@@ -969,9 +974,9 @@ export function Chapter4BackendLogic({
               {FLOW_EDGES.dataflow.map((edge) => (
                 <tr key={edge.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
                   <td className="p-3.5 align-top">
-                    <span className="font-bold text-[#323987] dark:text-[#9BE7FA] block text-xs">4.2 Luồng Phân tích</span>
-                    <span className="font-mono font-bold text-slate-900 dark:text-white text-xs block mt-0.5">
-                      [{edge.id}] {edge.source} ➔ {edge.target}
+                    <span className="font-bold text-[#0D7287] dark:text-[#9BE7FA] block text-xs">4.2 Luồng Phân tích</span>
+                    <span className="tabular-nums font-bold text-slate-900 dark:text-white text-xs block mt-0.5">
+                      [{edge.id}] {edge.source} → {edge.target}
                     </span>
                   </td>
                   <td className="p-3.5 align-top">
@@ -996,7 +1001,7 @@ export function Chapter4BackendLogic({
       <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-4">
         <div className="space-y-1">
           <h3 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <TableProperties className="w-5 h-5 text-[#323987] dark:text-[#9BE7FA]" />
+            <TableProperties className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
             <span>{isEn ? 'Python / Django Technical Specification' : 'Đặc Tả Kỹ Thuật Python / Django Cốt Lõi'}</span>
           </h3>
           <p className="text-xs sm:text-sm text-slate-500">
@@ -1006,19 +1011,19 @@ export function Chapter4BackendLogic({
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs sm:text-sm">
-            <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold uppercase text-xs">
+            <thead className="bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 font-bold uppercase text-xs">
               <tr>
                 <th className="p-3.5 w-1/4">Hàm / Decorator Python</th>
                 <th className="p-3.5 w-1/3">Tham số đầu vào & Mặc định</th>
                 <th className="p-3.5">Kết quả trả về & Cơ chế hoạt động</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+            <tbody className="[&>tr:nth-child(even)]:bg-slate-50 dark:[&>tr:nth-child(even)]:bg-slate-800/40">
               {TECHNICAL_SPECS.map((spec, idx) => (
                 <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
                   <td className="p-3.5 align-top">
-                    <span className="font-mono font-bold text-[#FA6933] block text-sm">{spec.fn}</span>
-                    <span className="font-mono text-[11px] text-slate-500 block mt-0.5">{spec.signature}</span>
+                    <span className="tabular-nums font-bold text-[#0D7287] dark:text-[#9BE7FA] block text-sm">{spec.fn}</span>
+                    <span className="tabular-nums text-[11px] text-slate-500 block mt-0.5">{spec.signature}</span>
                   </td>
                   <td className="p-3.5 align-top space-y-1 text-slate-600 dark:text-slate-300">
                     {(isEn ? spec.paramsEn : spec.paramsVi).map((p, pIdx) => (

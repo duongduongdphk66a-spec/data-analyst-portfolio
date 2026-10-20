@@ -7,9 +7,7 @@ export const PALETTE = ['#9BE7FA', '#FFD14C', '#C8EEF7', '#FFE485', '#074553', '
 
 export { shopOverviewKPIs, shopWeeklyTrendData, shopTopSKUs, topAffiliatesList };
 
-// ============================================================================
 // PART 1: SHOP DATA (KAMI ELY OFFICIAL STORE)
-// ============================================================================
 
 // Transaction channel distribution (from Screenshot 073520 & 073528)
 export const getShopChannelData = (isEn: boolean) => ({
@@ -44,12 +42,12 @@ export const getShopCategoryData = (isEn: boolean) => ({
   units: [
     { name: isEn ? 'Sports & Outdoor' : 'Thể thao & Dã ngoại', value: 60.46 },
     { name: isEn ? 'Womenswear & Underwear' : 'Thời trang nữ & Đồ lót', value: 37.85 },
-    { name: isEn ? 'Fashion Accessories' : 'Phụ kiện thời trang', value: 1.69 }
+    { name: isEn ? 'Fashion Accessories' : 'Phụ kiện thời trang', value: 1.80 }
   ],
   gmv: [
     { name: isEn ? 'Sports & Outdoor' : 'Thể thao & Dã ngoại', value: 66.48 },
     { name: isEn ? 'Womenswear & Underwear' : 'Thời trang nữ & Đồ lót', value: 33.22 },
-    { name: isEn ? 'Fashion Accessories' : 'Phụ kiện thời trang', value: 0.30 }
+    { name: isEn ? 'Fashion Accessories' : 'Phụ kiện thời trang', value: 0.31 }
   ],
   byCount: [
     { name: isEn ? 'Womenswear & Underwear' : 'Thời trang nữ & Đồ lót', value: 46.75 },
@@ -226,8 +224,8 @@ export const shopVideoKPIs = {
   totalShoppableVideos: '11.2k',
   units90d: '15.2k',
   gmv90d: '2,4 Tỷ đ',
-  paidAdsShare: '0%',
-  organicShare: '100%'
+  paidAdsShare: '94.7%', // Reconciled with shoppableVideoAdsBreakdown
+  organicShare: '5.3%'
 };
 
 export const topShoppableVideos = [
@@ -250,7 +248,7 @@ export const topShoppableVideos = [
     ads: 'NO (Organic)'
   },
   {
-    title: '🩱⛱️🕶️☀️ Đi biển thì mặc gì? Gợi ý outfit cực xinh cho nàng',
+    title: '️Đi biển thì mặc gì? Gợi ý outfit cực xinh cho nàng',
     creator: 'Nước lọc 7 mào',
     views: '465.3k',
     likes: '950',
@@ -307,10 +305,8 @@ export const shopSelfOperatedAccount = {
   strategicInsightEn: 'The single self-operated channel @kamielyhn serves as the primary revenue engine, contributing ~50% of the entire store GMV (3.0B VND / 90 days) free from third-party affiliate commission margins.'
 };
 
-// ============================================================================
 // BỔ SUNG DỮ LIỆU TIKTOK SHOP SELLER CENTER (1ST-PARTY DATA) & ĐỐI SOÁT CSV
 // Tệp đích: app/data/kami-ely/shop.ts
-// ============================================================================
 
 export interface SellerCenterMetricItem {
   id: string;

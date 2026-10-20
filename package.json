@@ -12,7 +12,10 @@
     "lint": "next lint",
     "test": "vitest run",
     "verify": "node scripts/verify_system_integrity.js",
-    "clean": "node -e \"fs.rmSync('.next', { recursive: true, force: true })\""
+    "clean": "node -e \"fs.rmSync('.next', { recursive: true, force: true })\"",
+    "taste:lint": "node .agents/skills/taste-skill/scripts/lint.mjs app/ components/",
+    "taste:draw": "node .agents/skills/taste-skill/scripts/draw.mjs",
+    "taste:inspect": "node .agents/skills/taste-skill/scripts/inspect.mjs"
   },
   "dependencies": {
     "autoprefixer": "^10.4.21",

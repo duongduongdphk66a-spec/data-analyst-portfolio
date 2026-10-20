@@ -1,8 +1,6 @@
-// ============================================================================
 // FILE: app/data/kami-ely/reconciliation.ts
 // MA TRẬN ĐỐI SOÁT ĐA TẦNG & ĐỒNG BỘ HÓA DỮ LIỆU KAMI ELY (@kamielyhn)
 // Bảo toàn 100% số liệu gốc của 8 bảng CSV/XLSX & Đồng bộ khung 180 ngày
-// ============================================================================
 
 export interface LocalizedText {
   vi: string;
@@ -593,9 +591,7 @@ export const kamiReconciliationData = {
   ] as SynchronizedTelemetryItem[]
 };
 
-// ============================================================================
 // TƯƠNG THÍCH NGƯỢC (BACKWARD COMPATIBILITY)
-// ============================================================================
 export interface DataReconciliationCase {
   id: string;
   badge: { vi: string; en: string };

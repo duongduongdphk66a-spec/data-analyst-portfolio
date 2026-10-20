@@ -1,10 +1,8 @@
-// ============================================================================
 // FILE: app/lib/seedKamiData.ts
 // TRÌNH QUẢN LÝ NẠP & ĐỐI SOÁT AN TOÀN 8 BẢNG DỮ LIỆU KAMI ELY (@kamielyhn)
 // - Tự động nhận diện file bị lỗi dấu tiếng Việt "(180 ng y) .xlsx" bằng Regex
 // - Tự động gộp Tập 1 & Tập 2 của _shop LIVE (7.046 phiên)
 // - Bảo toàn 100% dữ liệu nếu 8 bảng trong MySQL đã được nạp sẵn
-// ============================================================================
 
 // Lazy-load Node.js built-ins in Node runtime without breaking client-side Webpack bundling
 function getNodeFs() {
@@ -250,14 +248,14 @@ export const shopWeeklyTrendData = [
   { date: '22/06', units: 5050, gmv: 850.2, live: 301, video: 31 },
   { date: '29/06', units: 3762, gmv: 640.1, live: 177, video: 31 },
   { date: '06/07', units: 3673, gmv: 594.2, live: 203, video: 32 },
-  { date: '13/07', units: 2980, gmv: 469.1, live: 198, video: 30 },
-  { date: '20/07', units: 2382, gmv: 363.3, live: 195, video: 42 },
-  { date: '27/07', units: 1792, gmv: 260.6, live: 187, video: 33 },
-  { date: '03/08', units: 1546, gmv: 214.3, live: 195, video: 18 },
-  { date: '10/08', units: 1673, gmv: 232.0, live: 211, video: 38 },
-  { date: '17/08', units: 1776, gmv: 247.9, live: 206, video: 20 },
-  { date: '24/08', units: 1761, gmv: 244.5, live: 232, video: 13 },
-  { date: '31/08', units: 1640, gmv: 233.1, live: 279, video: 17 },
+  { date: '13/07', units: 2980, gmv: 469.1, live: 237, video: 78 },
+  { date: '20/07', units: 2590, gmv: 400.6, live: 178, video: 39 },
+  { date: '27/07', units: 2100, gmv: 289.0, live: 179, video: 19 },
+  { date: '03/08', units: 1996, gmv: 204.2, live: 162, video: 21 },
+  { date: '10/08', units: 1646, gmv: 143.9, live: 112, video: 27 },
+  { date: '17/08', units: 1333, gmv: 114.3, live: 146, video: 39 },
+  { date: '24/08', units: 1335, gmv: 111.2, live: 153, video: 84 },
+  { date: '31/08', units: 493, gmv: 41.7, live: 99, video: 67 },
 ];
 
 export const shopTopSKUs = [
@@ -330,7 +328,7 @@ export const topAffiliatesList = [
   },
   {
     id: 'dayboisinhtonbmt',
-    name: '🏊sinh tồn 🏊thực chiến',
+    name: 'sinh tồn thực chiến',
     type: 'Sports / Other',
     followers: 89407,
     units: 305,
@@ -340,7 +338,7 @@ export const topAffiliatesList = [
   },
   {
     id: 'pahavt',
-    name: 'Phương Anhh 🦢✨',
+    name: 'Phương Anhh ',
     type: 'Clothing & Accessories',
     followers: 34651,
     units: 500,
@@ -530,7 +528,7 @@ export const shopVideosList = [
   {
     channelType: 'creator' as const,
     videoDate: '08/04/2026',
-    title: '| BEACH READY FIT_ ☀️ Set bikini caro vintage tôn dáng mặc đi biển hè',
+    title: '| BEACH READY FIT_ Set bikini caro vintage tôn dáng mặc đi biển hè',
     author: '@kamielyhn',
     views: '755.0k',
     likes: '1,824',
@@ -603,7 +601,7 @@ export const collaborativeStoresList = [
     totalShopUnits: '238.2k',
     affiliatedProducts: 177,
     bestSeller: 'KAMI BiKINI BestSeller (15.7k sold)',
-    creatorUnitsSold: 69100,
+    creatorUnitsSold: 69200,
     creatorGmvMillionVnd: 9100.0,
     gmvShare: '98.92%',
     liveSessions: 208,
@@ -616,37 +614,37 @@ export const collaborativeStoresList = [
     totalShopUnits: '2.1k',
     affiliatedProducts: 4,
     bestSeller: 'Combo GIÁ SHOCK: Bikini (548 sold)',
-    creatorUnitsSold: 578,
-    creatorGmvMillionVnd: 74.0,
-    gmvShare: '0.80%',
+    creatorUnitsSold: 668,
+    creatorGmvMillionVnd: 71.8,
+    gmvShare: '0.78%',
     liveSessions: 12,
-    videosCount: 8,
+    videosCount: 0,
   },
   {
     storeRank: 3,
-    storeName: 'Miu Miu Fashion',
-    category: 'Womenswear',
-    totalShopUnits: '5.4k',
-    affiliatedProducts: 6,
-    bestSeller: 'Váy thiết kế cổ yếm lụa (210 sold)',
-    creatorUnitsSold: 185,
-    creatorGmvMillionVnd: 28.5,
-    gmvShare: '0.31%',
+    storeName: 'KamiBiii',
+    category: 'Womenswear & Underwear',
+    totalShopUnits: '966',
+    affiliatedProducts: 0,
+    bestSeller: 'DEAL MUA 1 TẶNG 1: M... (251 sold)',
+    creatorUnitsSold: 55,
+    creatorGmvMillionVnd: 6.2,
+    gmvShare: '0.07%',
     liveSessions: 4,
-    videosCount: 3,
+    videosCount: 1,
   },
   {
     storeRank: 4,
-    storeName: 'Bella Beachwear',
-    category: 'Sports & Outdoor',
-    totalShopUnits: '1.8k',
-    affiliatedProducts: 2,
-    bestSeller: 'Kính râm phân cực nữ (95 sold)',
-    creatorUnitsSold: 88,
-    creatorGmvMillionVnd: 11.2,
-    gmvShare: '0.12%',
-    liveSessions: 2,
-    videosCount: 2,
+    storeName: 'KamiBiki',
+    category: 'Womenswear & Underwear',
+    totalShopUnits: '14',
+    affiliatedProducts: 0,
+    bestSeller: 'Bikini 2 mảnh phối vòng (0 sold)',
+    creatorUnitsSold: 0,
+    creatorGmvMillionVnd: 0.0,
+    gmvShare: '0.00%',
+    liveSessions: 0,
+    videosCount: 0,
   },
 ];
 
@@ -666,9 +664,9 @@ export const dataScopesList = [
     keyHighlightsJson: JSON.stringify([
       'Bao phủ 8 bảng CSV nguồn chính thức từ TikTok Shop',
       'Đỉnh mùa vụ tuần 15/06 đạt 1,058 Tỷ đ / tuần với 6.363 sản phẩm',
-      'Creator @kamielyhn livestream 470 phiên đóng góp 7,02 Tỷ đ (55.3% GMV shop)',
+      'Creator @kamielyhn livestream 470 phiên đóng góp 4,9 Tỷ đ net (hoặc 475 phiên CSV gộp 7,02 Tỷ đ)',
     ]),
-    screenshotIdsJson: JSON.stringify(['080124', '080209', '080227']),
+    screenshotIdsJson: JSON.stringify(['080124', '074300', '080559']),
   },
   {
     scopeCode: 'horizon-90d',
@@ -680,14 +678,14 @@ export const dataScopesList = [
     timeframeBadge: '90-Day Window',
     periodVi: 'Cửa sổ đánh giá hiệu suất vận hành sau đỉnh mùa vụ và phân hóa mạng lưới Affiliate.',
     periodEn: 'Operational performance window post-peak and KOC affiliate network split.',
-    totalGmv: '6,08 Tỷ đ',
+    totalGmv: '6,14 Tỷ đ',
     totalUnits: '40.2k SP',
     keyHighlightsJson: JSON.stringify([
       'Đối soát tương quan giữa 208 phiên LIVE chính chủ và 234 KOCs liên kết',
       'Tỷ trọng đóng góp GMV của Creator @kamielyhn duy trì ở mức 49.3%',
       'Nhận diện 94.9% KOCs tiếp thị liên kết rơi vào trạng thái ngủ đông',
     ]),
-    screenshotIdsJson: JSON.stringify(['081121', '081248', '081320']),
+    screenshotIdsJson: JSON.stringify(['073520', '073528', '073543']),
   },
   {
     scopeCode: 'horizon-28d',
@@ -706,7 +704,7 @@ export const dataScopesList = [
       'Lưu lượng Search có tỷ lệ vào phòng vượt trội đạt 25.68%',
       'Thẻ sản phẩm Tab Cửa Hàng chuyển đổi đạt 5.11% với AOV cao 208k đ',
     ]),
-    screenshotIdsJson: JSON.stringify(['081347', '081414', '081432']),
+    screenshotIdsJson: JSON.stringify(['080014', '080726', '080749']),
   },
 ];
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-14T11:51:20",
+  "generatedAt": "2026-10-20T08:33:22",
   "generator": "scripts/kami/build_metrics.py",
   "dataScope": [
     {
@@ -2340,22 +2340,26 @@
         {
           "month": "2026-05",
           "sessions": 37,
-          "gmv": 207102805.0
+          "gmv": 207102805.0,
+          "liveHours": 204.4
         },
         {
           "month": "2026-06",
           "sessions": 79,
-          "gmv": 785207263.0
+          "gmv": 785207263.0,
+          "liveHours": 436.2
         },
         {
           "month": "2026-07",
           "sessions": 91,
-          "gmv": 214178808.0
+          "gmv": 214178808.0,
+          "liveHours": 351.4
         },
         {
           "month": "2026-08",
           "sessions": 48,
-          "gmv": 49747975.0
+          "gmv": 49747975.0,
+          "liveHours": 176.1
         }
       ]
     },
@@ -2363,7 +2367,51 @@
       "id": "gonpinkk",
       "name": "Gon Pink",
       "gmv": 145534291.0
-    }
+    },
+    "monthly": [
+      {
+        "month": "2026-03",
+        "sessions": 565,
+        "gmv": 207062419.0,
+        "liveHours": 1318.2
+      },
+      {
+        "month": "2026-04",
+        "sessions": 1957,
+        "gmv": 940559595.0,
+        "liveHours": 5238.6
+      },
+      {
+        "month": "2026-05",
+        "sessions": 1388,
+        "gmv": 1967523356.0,
+        "liveHours": 3526.8
+      },
+      {
+        "month": "2026-06",
+        "sessions": 1564,
+        "gmv": 4921701584.0,
+        "liveHours": 3988.7
+      },
+      {
+        "month": "2026-07",
+        "sessions": 843,
+        "gmv": 938620112.0,
+        "liveHours": 2255.7
+      },
+      {
+        "month": "2026-08",
+        "sessions": 649,
+        "gmv": 285807874.0,
+        "liveHours": 1593.3
+      },
+      {
+        "month": "2026-09",
+        "sessions": 80,
+        "gmv": 1003000.0,
+        "liveHours": 159.4
+      }
+    ]
   },
   "creators": {
     "window": "90N",

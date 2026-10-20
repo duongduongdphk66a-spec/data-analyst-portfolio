@@ -186,9 +186,7 @@ function getAdminVerifyCode(): string {
 
 const TOKEN_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 giờ
 
-// ==========================================
 // Rate Limiter (In-memory + MySQL Cluster Sync)
-// ==========================================
 interface RateLimitEntry {
   failedAttempts: number;
   lockedUntil: number | null;
@@ -351,9 +349,7 @@ export async function resetLoginAttemptsAsync(ip: string): Promise<void> {
   }
 }
 
-// ==========================================
 // Token & Password Validation
-// ==========================================
 
 /**
  * Tạo token phiên đăng nhập (Signed Session Token) dựa trên HMAC-SHA256

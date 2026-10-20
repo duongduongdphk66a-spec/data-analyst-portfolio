@@ -38,7 +38,7 @@ export default function Sidebar() {
   return (
     <aside 
       aria-label="Thanh điều hướng chính"
-      className="w-20 lg:w-64 bg-slate-50/90 dark:bg-[#0B0F17] text-slate-900 dark:text-slate-100 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-slate-200/80 dark:border-slate-800 shadow-sm relative z-40 font-sans overflow-hidden transition-[width] duration-300 backdrop-blur-md"
+      className="w-20 lg:w-64 bg-slate-50/90 dark:bg-[#0B0F17] text-slate-900 dark:text-slate-100 flex-col hidden md:flex h-full flex-shrink-0 select-none border-r border-slate-200/80 dark:border-slate-800 relative z-40 font-sans overflow-hidden transition-[width] duration-300 backdrop-blur-md" /* taste-skill-ignore: sidebar layout boundary */
     >
       {/* Single subtle ambient brand glow (reduced from 3 blur halos) */}
       <div className="absolute -top-20 -left-20 w-44 h-44 bg-[#9BE7FA]/20 dark:bg-[#9BE7FA]/5 rounded-full blur-3xl pointer-events-none" />
@@ -46,8 +46,8 @@ export default function Sidebar() {
       {/* Top Header: Brand Identity (MVH) */}
       <div className="p-3 lg:p-5 pb-3 relative z-10">
         <Link href="/" className="flex items-center justify-center lg:justify-start gap-3 group" title={profile.name || 'Ma Văn Hùng'}>
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#9BE7FA] to-[#0D7287] text-white shadow-sm border border-[#9BE7FA]/40 group-hover:scale-105 transition-all duration-300 shrink-0 flex items-center justify-center">
-            <span className="font-heading font-black text-sm text-slate-950 tracking-wider">
+          <div className="w-10 h-10 rounded-xl bg-[#9BE7FA] text-slate-950 border border-[#0D7287]/20 group-hover:scale-105 transition-transform duration-300 shrink-0 flex items-center justify-center">
+            <span className="font-heading font-black text-sm text-slate-950">
               {profile.name ? profile.name.split(' ').map((n: string) => n[0]).join('') : 'MVH'}
             </span>
           </div>
@@ -55,27 +55,21 @@ export default function Sidebar() {
             <h2 className="text-base font-heading font-black text-slate-950 dark:text-white tracking-tight group-hover:text-[#0D7287] dark:group-hover:text-[#9BE7FA] transition-colors truncate">
               {profile.name || 'Ma Văn Hùng'}
             </h2>
-            <p className="text-[11px] text-[#0D7287] dark:text-[#9BE7FA] font-mono font-bold tracking-wide truncate">
+            <p className="text-xs text-[#0D7287] dark:text-[#9BE7FA] font-semibold truncate">
               {profile.title || 'Data Analyst'}
             </p>
           </div>
         </Link>
 
-        {/* Live Status Badge (Sole animate-ping on the screen) */}
+        {/* Live Status Badge */}
         <div className="hidden lg:block mt-3">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-xs font-bold text-emerald-800 dark:text-emerald-300 shadow-2xs">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-600 dark:bg-emerald-400"></span>
-            </span>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-xs font-bold text-emerald-800 dark:text-emerald-300">
+            <span className="inline-flex rounded-full h-2 w-2 bg-emerald-600 dark:bg-emerald-400" />
             <span>{language === 'en' ? 'Open for Analytics' : 'Sẵn sàng nhận dự án DA'}</span>
           </div>
         </div>
         <div className="lg:hidden flex justify-center mt-3" title={language === 'en' ? 'Open for Analytics' : 'Sẵn sàng nhận dự án DA'}>
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600 dark:bg-emerald-400"></span>
-          </span>
+          <span className="inline-flex rounded-full h-2 w-2 bg-emerald-600 dark:bg-emerald-400" />
         </div>
 
         {/* Quick Search trigger (Command Palette) */}
@@ -83,15 +77,15 @@ export default function Sidebar() {
           <button
             type="button"
             onClick={openCommandPalette}
-            className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900/90 hover:bg-slate-100/80 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/90 dark:border-slate-800 text-xs transition-all duration-200 group cursor-pointer shadow-2xs"
+            className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900/90 hover:bg-slate-100/80 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/90 dark:border-slate-800 text-xs transition-colors duration-200 group cursor-pointer"
           >
             <div className="flex items-center gap-2">
-              <Search className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 group-hover:text-[#0D7287] dark:group-hover:text-[#9BE7FA] group-hover:scale-110 transition-all" />
-              <span className="text-[11px] font-medium text-slate-600 dark:text-slate-400 group-hover:text-slate-950 dark:group-hover:text-white">
+              <Search className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 group-hover:text-[#0D7287] dark:group-hover:text-[#9BE7FA] group-hover:scale-110 transition-transform" />
+              <span className="text-xs font-medium text-slate-600 dark:text-slate-400 group-hover:text-slate-950 dark:group-hover:text-white">
                 {language === 'en' ? 'Quick search...' : 'Tìm kiếm nhanh...'}
               </span>
             </div>
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-500 dark:text-slate-400">
               Ctrl K
             </kbd>
           </button>
@@ -102,7 +96,7 @@ export default function Sidebar() {
             onClick={openCommandPalette}
             aria-label={language === 'en' ? 'Quick search' : 'Tìm kiếm nhanh'}
             title={language === 'en' ? 'Quick search (Ctrl K)' : 'Tìm kiếm nhanh (Ctrl K)'}
-            className="p-2 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-all duration-200 cursor-pointer shadow-2xs"
+            className="p-2 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-colors duration-200 cursor-pointer"
           >
             <Search className="w-4 h-4" />
           </button>
@@ -133,15 +127,15 @@ export default function Sidebar() {
                   }
                 }}
                 aria-current={isActive ? 'page' : undefined}
-                className={`w-full flex items-center justify-center lg:justify-between px-2.5 lg:px-3.5 py-2.5 rounded-xl transition-all duration-200 cursor-pointer text-left text-xs group ${
+                className={`w-full flex items-center justify-center lg:justify-between px-2.5 lg:px-3.5 py-2.5 rounded-xl transition-colors duration-200 cursor-pointer text-left text-xs group ${
                   isActive
-                    ? 'bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 text-[#074553] dark:text-[#9BE7FA] font-black border-l-3 border-[#0D7287] dark:border-[#9BE7FA] shadow-2xs'
+                    ? 'bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 text-[#074553] dark:text-[#9BE7FA] font-black border-l-3 border-[#0D7287] dark:border-[#9BE7FA]'
                     : 'text-slate-600 dark:text-slate-400 font-semibold hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800/50'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
                   <ItemIcon 
-                    className={`w-4 h-4 transition-all duration-200 group-hover:scale-110 ${
+                    className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 ${
                       isActive 
                         ? 'text-[#074553] dark:text-[#9BE7FA]' 
                         : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300'
@@ -158,7 +152,7 @@ export default function Sidebar() {
                 )}
               </Link>
 
-              {/* Sub-projects nested list: static active dot instead of animate-ping */}
+              {/* Sub-projects nested list */}
               {item.hasChildren && isProjectsOpen && (
                 <div className="hidden lg:flex flex-col gap-1 mt-1 pl-4 ml-3 border-l-2 border-slate-200 dark:border-slate-800 animate-in slide-in-from-top-1 duration-200">
                   {projects.map((proj) => {
@@ -167,7 +161,7 @@ export default function Sidebar() {
                       <Link
                         key={proj.id}
                         href={`/projects/${proj.id}`}
-                        className={`text-left text-[11px] py-1.5 px-2.5 font-bold rounded-lg transition-all duration-150 truncate cursor-pointer flex items-center gap-2 group ${
+                        className={`text-left text-xs py-1.5 px-2.5 font-bold rounded-lg transition-colors duration-150 truncate cursor-pointer flex items-center gap-2 group ${
                           isSelected
                             ? 'bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 text-[#074553] dark:text-[#9BE7FA] font-black'
                             : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/60'
@@ -189,18 +183,16 @@ export default function Sidebar() {
           );
         })}
 
-        {/* Editorial Divider */}
-        <div className="pt-3 pb-2 px-2">
-          <div className="border-t border-slate-200/80 dark:border-slate-800" />
-        </div>
+        {/* Editorial Spacing */}
+        <div className="pt-2 pb-1" />
 
-        {/* Direct Action: Download CV - refined neutral card with cyan accent */}
+        {/* Direct Action: Download CV */}
         <div className="hidden lg:block px-1 pt-1">
           <a
             href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="relative overflow-hidden group p-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/90 border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:border-[#9BE7FA]/60 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center justify-between cursor-pointer"
+            className="relative overflow-hidden group p-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/90 border border-slate-200/90 dark:border-slate-800 hover:border-[#9BE7FA]/60 hover:-translate-y-0.5 active:scale-[0.98] transition-transform duration-200 flex items-center justify-between cursor-pointer"
           >
             <div className="flex items-center gap-2.5 text-xs font-bold text-slate-900 dark:text-white relative z-10">
               <div className="p-1.5 rounded-lg bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 text-[#074553] dark:text-[#9BE7FA] group-hover:scale-110 transition-transform">
@@ -208,10 +200,10 @@ export default function Sidebar() {
               </div>
               <div className="flex flex-col">
                 <span>{language === 'en' ? 'Download CV' : 'Tải CV Chi Tiết'}</span>
-                <span className="text-xs font-mono font-medium text-slate-400 dark:text-slate-500">PDF • 2026</span>
+                <span className="text-xs font-medium text-slate-400 dark:text-slate-500 tabular-nums">PDF • 2026</span>
               </div>
             </div>
-            <span className="text-xs font-mono font-black px-1.5 py-0.5 rounded bg-[#FFD14C] text-slate-950 shadow-2xs relative z-10">
+            <span className="text-xs font-black px-1.5 py-0.5 rounded bg-[#FFD14C] text-slate-950 relative z-10">
               CV
             </span>
           </a>
@@ -222,7 +214,7 @@ export default function Sidebar() {
             target="_blank"
             rel="noopener noreferrer"
             title={language === 'en' ? 'Download CV' : 'Tải CV Chi Tiết'}
-            className="p-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 text-[#074553] dark:text-[#9BE7FA] transition-all duration-300 cursor-pointer shadow-2xs"
+            className="p-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 text-[#074553] dark:text-[#9BE7FA] transition-colors duration-200 cursor-pointer"
           >
             <Download className="w-4 h-4" />
           </a>
@@ -230,7 +222,7 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer Controls */}
-      <div className="p-2 lg:p-4 pt-3 space-y-3 relative z-10 border-t border-slate-200/80 dark:border-slate-800 bg-slate-100/60 dark:bg-slate-900/60 backdrop-blur-xs">
+      <div className="p-2 lg:p-4 pt-4 space-y-3 relative z-10 bg-slate-100/60 dark:bg-slate-900/60 backdrop-blur-xs">
         {/* Social Links & Controls Row */}
         <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-2.5 lg:gap-0">
           {/* Social Links */}
@@ -241,7 +233,7 @@ export default function Sidebar() {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 aria-label="LinkedIn Profile"
-                className="p-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white border border-slate-200 dark:border-slate-700 hover:shadow-xs transition-all duration-200 cursor-pointer"
+                className="p-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white border border-slate-200 dark:border-slate-700 transition-colors duration-200 cursor-pointer"
                 title="LinkedIn"
               >
                 <Linkedin className="w-4 h-4" />
@@ -253,7 +245,7 @@ export default function Sidebar() {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 aria-label="GitHub Repository"
-                className="p-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white border border-slate-200 dark:border-slate-700 hover:shadow-xs transition-all duration-200 cursor-pointer"
+                className="p-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white border border-slate-200 dark:border-slate-700 transition-colors duration-200 cursor-pointer"
                 title="GitHub"
               >
                 <Github className="w-4 h-4" />
@@ -269,7 +261,7 @@ export default function Sidebar() {
               type="button"
               onClick={toggleTheme}
               aria-label="Đổi chế độ sáng / tối"
-              className="p-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-amber-500 transition-all border border-slate-200 dark:border-slate-700 hover:shadow-xs hover:rotate-12 cursor-pointer"
+              className="p-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-amber-500 transition-transform border border-slate-200 dark:border-slate-700 hover:rotate-12 cursor-pointer"
               title="Đổi theme Sáng / Tối"
             >
               {resolvedTheme === 'dark' ? (

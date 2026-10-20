@@ -1,22 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  Bar, BarChart, CartesianGrid, Cell, ComposedChart, LabelList, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis,
+  Bar, BarChart, CartesianGrid, Cell, ComposedChart, Label, LabelList, Legend, Line, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';
 import {
-  COLORS, funnelFacts, funnels, gpmCompare, liveDuration, sqlSnippets, type FunnelKey,
+  COLORS, donutFunnels, funnelFacts, funnels, gpmCompare, liveDuration, sqlSnippets, type FunnelKey,
 } from '../playbookData';
 import { ChartCard, ChartTooltip, Chip, GRID_STROKE, StageSection, TEXT_FILL_CLASS, axisTick, legendFormatter, usePlaybookLang } from '../PlaybookUi';
 
-const FUNNEL_KEYS: FunnelKey[] = ['creator', 'sku', 'video', 'live'];
+const FUNNEL_KEYS: FunnelKey[] = ['video', 'live', 'sku', 'creator'];
 const STEP_COLORS = [COLORS.cyan, COLORS.butter, COLORS.amber] as const;
 
 export default function Stage5Funnels() {
   const { L, b, n } = usePlaybookLang();
-  const [active, setActive] = useState<FunnelKey>('video');
-  const funnel = funnels[active];
-  const first = funnel.steps[0].value;
 
   const gpm = [
     {
@@ -49,53 +46,87 @@ export default function Stage5Funnels() {
       ]}
       sql={sqlSnippets.s5}
     >
-      <ChartCard
-        title={L('Phễu theo đối tượng', 'Funnel by object')}
-        height=""
-        badge={
-          <div className="flex flex-wrap justify-end gap-1" role="group" aria-label={L('Chọn phễu', 'Select funnel')}>
-            {FUNNEL_KEYS.map((k) => (
-              <button
-                key={k}
-                type="button"
-                aria-pressed={active === k}
-                onClick={() => setActive(k)}
-                className={`min-h-11 min-w-11 cursor-pointer rounded-xl px-3 text-xs font-bold transition-colors duration-200 ${
-                  active === k
-                    ? 'bg-[#9BE7FA] text-slate-950'
-                    : 'bg-[#C8EEF7]/40 text-slate-600 hover:bg-[#C8EEF7] dark:bg-slate-800 dark:text-slate-300'
-                }`}
-              >
-                {b(funnels[k].title)}
-              </button>
-            ))}
-          </div>
-        }
-      >
-        <ol className="space-y-4 pt-1">
-          {funnel.steps.map((s, i) => {
-            const width = Math.max((s.value / first) * 100, 3);
-            const prev = i > 0 ? funnel.steps[i - 1].value : null;
-            return (
-              <li key={`${active}-${i}`}>
-                <div className="mb-1 flex items-center justify-between gap-2 text-xs">
-                  <span className="font-bold text-slate-800 dark:text-slate-100">{b(s.label)}</span>
-                  <span className="flex items-center gap-2 tabular-nums text-slate-600 dark:text-slate-300">
-                    {n(s.value)}
-                    {prev !== null && <Chip tone="amber">{n((s.value / prev) * 100, 1)}%</Chip>}
+      {FUNNEL_KEYS.map((k) => {
+        const item = donutFunnels[k];
+        return (
+          <ChartCard
+            key={k}
+            title={b(item.title)}
+            subtitle={b(item.subtitle)}
+            badge={<Chip tone={item.tone}>{b(item.badge)}</Chip>}
+            height=""
+          >
+            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 pt-1">
+              {/* Donut Chart with center metric */}
+              <div className="relative w-40 h-40 sm:w-44 sm:h-44 shrink-0 flex items-center justify-center mx-auto">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Tooltip
+                      content={
+                        <ChartTooltip
+                          fmt={(v) => `${n(Number(v))} (${n((Number(v) / item.total) * 100, 1)}%)`}
+                        />
+                      }
+                    />
+                    <Pie
+                      data={item.segments.map((s) => ({ ...s, name: b(s.name) }))}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={46}
+                      outerRadius={66}
+                      paddingAngle={2}
+                      stroke="none"
+                    >
+                      {item.segments.map((seg, idx) => (
+                        <Cell key={`cell-${idx}`} fill={seg.color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
+                  <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white tabular-nums">
+                    {item.centerVal}
+                  </span>
+                  <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                    {b(item.centerLabel)}
                   </span>
                 </div>
-                <div className="h-8 rounded-xl bg-slate-100 dark:bg-slate-800">
-                  <div
-                    className="h-8 rounded-xl transition-all duration-300"
-                    style={{ width: `${width}%`, backgroundColor: STEP_COLORS[i] ?? COLORS.amber }}
-                  />
-                </div>
-              </li>
-            );
-          })}
-        </ol>
-      </ChartCard>
+              </div>
+
+              {/* Structured Breakdown List */}
+              <div className="flex-1 w-full space-y-2.5">
+                {item.segments.map((seg, idx) => {
+                  const pct = n((seg.value / item.total) * 100, 1);
+                  return (
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between gap-2 text-xs rounded-lg p-1.5 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span
+                          className="h-2.5 w-2.5 shrink-0 rounded-full"
+                          style={{ backgroundColor: seg.color }}
+                        />
+                        <span className="truncate font-medium text-slate-700 dark:text-slate-200">
+                          {b(seg.name)}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0 tabular-nums">
+                        <span className="font-semibold text-slate-900 dark:text-white">{n(seg.value)}</span>
+                        <Chip tone={idx === 0 ? 'teal' : idx === 1 ? 'cyan' : 'amber'}>
+                          {pct}%
+                        </Chip>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </ChartCard>
+        );
+      })}
 
       <ChartCard
         title={L('GPM video và LIVE: hai nguồn, hai kết quả (nghìn đ)', 'Video vs LIVE GPM: two sources, two results (K VND)')}
@@ -125,7 +156,7 @@ export default function Stage5Funnels() {
           ))}
         </div>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Chip tone={gpmCompare.isSignificant ? 'cyan' : 'rose'}>
+          <Chip tone={gpmCompare.isSignificant ? 'cyan' : 'amber'}>
             {L('Mann-Whitney một phía', 'One-sided Mann-Whitney')}: p = {n(gpmCompare.mannWhitneyP, 1)}
           </Chip>
           <Chip>{L('Rank-biserial', 'Rank-biserial')} {n(gpmCompare.rankBiserial, 3)}</Chip>
@@ -139,11 +170,15 @@ export default function Stage5Funnels() {
         height="h-72"
       >
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={liveDuration} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
+          <ComposedChart data={liveDuration} margin={{ top: 22, right: 8, left: -4, bottom: 0 }}>
             <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
             <XAxis dataKey="bucket" tick={axisTick} tickLine={false} axisLine={false} />
-            <YAxis yAxisId="pct" domain={[0, 100]} tick={axisTick} tickLine={false} axisLine={false} unit="%" />
-            <YAxis yAxisId="gph" orientation="right" tick={axisTick} tickLine={false} axisLine={false} />
+            <YAxis yAxisId="pct" domain={[0, 100]} tick={axisTick} tickLine={false} axisLine={false} width={34}>
+              <Label value="(%)" position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+            </YAxis>
+            <YAxis yAxisId="gph" orientation="right" tick={axisTick} tickLine={false} axisLine={false} width={38}>
+              <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+            </YAxis>
             <Tooltip
               cursor={{ fill: 'rgba(155,231,250,0.15)' }}
               content={

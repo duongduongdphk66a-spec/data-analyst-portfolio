@@ -46,11 +46,11 @@ interface RecruiterPitchTelemetry {
 const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
   'kami-ely': {
     domainBadge: {
-      vi: 'CASE STUDY #1 • E-COMMERCE SQL & BI',
-      en: 'CASE STUDY #1 • E-COMMERCE SQL & BI'
+      vi: 'E-Commerce SQL & BI',
+      en: 'E-Commerce SQL & BI'
     },
     badgeStyle:
-      'bg-[#C8EEF7]/40 text-[#074553] border-[#9BE7FA]/60 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700',
+      'bg-[#C8EEF7]/45 text-[#074553] border-[#9BE7FA]/60 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700',
     readTimeTag: {
       vi: 'Tóm tắt 30s • Đọc sâu 3 phút',
       en: '30s Pitch • 3-Min Scan'
@@ -64,8 +64,8 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
       en: 'Counter-Intuitive Discovery (Why working harder yielded less):'
     },
     paradoxHookBody: {
-      vi: 'Đội ngũ đứng LIVE ~7,5h/ngày nhưng chỉ thu 30,2k đ/1.000 views — thấp hơn 4,5 lần so với Video ngắn (135,2k đ). Ngày spam kỷ lục 106 phiên LIVE (09/04) chỉ đạt 79,4 Tr đ, thua xa ngày phát 45 phiên chọn lọc (25/06) đạt 196,1 Tr đ (hiệu suất gấp 5,8 lần)!',
-      en: 'Hosts streamed ~7.5h/day for just 30.2k VND/1k views — 4.5x lower than Short Video (135.2k). A record 106 LIVEs on Apr 09 yielded only 79.4M VND, whereas 45 focused LIVEs on Jun 25 generated 196.1M VND (5.8x higher efficiency)!'
+      vi: 'Đội ngũ đứng LIVE ~7,5h/ngày nhưng chỉ thu 30,2k đ/1.000 views, thấp hơn 4,5 lần so với Video ngắn (135,2k đ). Ngày spam kỷ lục 106 phiên LIVE (09/04) chỉ đạt 79,4 Tr đ, thua xa ngày phát 45 phiên chọn lọc (25/06) đạt 196,1 Tr đ (hiệu suất gấp 5,8 lần).',
+      en: 'Hosts streamed ~7.5h/day for just 30.2k VND/1k views, 4.5x lower than Short Video (135.2k). A record 106 LIVEs on Apr 09 yielded only 79.4M VND, whereas 45 focused LIVEs on Jun 25 generated 196.1M VND (5.8x higher efficiency).'
     },
     roiHighlight: {
       vi: 'Tác động: Đẩy tốc độ LIVE tăng 3,16x (1,81M → 5,73M đ/giờ) & Mở khóa +1,18 Tỉ VNĐ/tháng',
@@ -103,11 +103,11 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
   },
   'library-bus': {
     domainBadge: {
-      vi: 'CASE STUDY #2 • UX/UI DESIGN SYSTEM & RESEARCH',
-      en: 'CASE STUDY #2 • UX/UI DESIGN SYSTEM & RESEARCH'
+      vi: 'UX/UI Design System & Research',
+      en: 'UX/UI Design System & Research'
     },
     badgeStyle:
-      'bg-[#C8EEF7]/40 text-[#074553] border-[#9BE7FA]/60 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700',
+      'bg-[#C8EEF7]/45 text-[#074553] border-[#9BE7FA]/60 dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700',
     readTimeTag: {
       vi: '3 Chương • 20 Cặp Màn Hình',
       en: '3 Chapters • 20 Screen Pairs'
@@ -165,18 +165,18 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
   },
   'heritage-japan': {
     domainBadge: {
-      vi: 'CASE STUDY #3 • KINH TẾ LƯỢNG & CHÍNH SÁCH',
-      en: 'CASE STUDY #3 • ECONOMETRICS & POLICY'
+      vi: 'Kinh tế lượng & Chính sách',
+      en: 'Econometrics & Policy'
     },
     badgeStyle:
-      'bg-[#FFE485]/30 text-amber-950 border-[#FFD14C]/50 dark:bg-slate-800 dark:text-[#FFE485] dark:border-slate-700',
+      'bg-[#FFE485]/35 text-amber-950 border-[#FFD14C]/50 dark:bg-slate-800 dark:text-[#FFE485] dark:border-slate-700',
     readTimeTag: {
       vi: 'Tóm tắt 30s • Mô hình OLS & DiD',
       en: '30s Pitch • OLS & DiD Models'
     },
     oneLinePitch: {
-      vi: 'Kiểm định kinh tế lượng trên 14.509 di sản văn hóa cấp quốc gia tại Nhật Bản (2015–2025) để đo lường tác động kinh tế du lịch và hiệu quả của Luật Bảo tồn sửa đổi năm 2019.',
-      en: 'Econometric evaluation of 14,509 national cultural properties in Japan (2015–2025) measuring tourism elasticity and the impact of the 2019 Law Reform.'
+      vi: 'Kiểm định kinh tế lượng trên 14.509 di sản văn hóa cấp quốc gia tại Nhật Bản (2015-2025) để đo lường tác động kinh tế du lịch và hiệu quả của Luật Bảo tồn sửa đổi năm 2019.',
+      en: 'Econometric evaluation of 14,509 national cultural properties in Japan (2015-2025) measuring tourism elasticity and the impact of the 2019 Law Reform.'
     },
     paradoxHookTitle: {
       vi: 'Nghịch lý Không gian & Ngân sách (Cực quá tải vs. Cực thiếu vốn):',
@@ -241,14 +241,14 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
   const techList = project.tech || project.tags || ['SQL', 'Python', 'Power BI', 'Next.js'];
 
   return (
-    <article className="group rounded-3xl border border-slate-200 dark:border-slate-800/90 bg-white dark:bg-slate-950/95 hover:border-[#9BE7FA] dark:hover:border-[#9BE7FA]/60 transition-all duration-300 shadow-lg hover:shadow-2xl flex flex-col justify-between p-5 sm:p-6 space-y-4">
+    <article className="group rounded-3xl border border-[#C8EEF7] dark:border-slate-800/90 bg-white dark:bg-slate-950/95 hover:border-[#9BE7FA] dark:hover:border-[#9BE7FA]/60 transition-colors duration-200 flex flex-col justify-between p-5 sm:p-6 space-y-4">
       <div className="space-y-4">
         {/* DÒNG 1: BADGE LĨNH VỰC & THỜI GIAN ĐỌC 30 GIÂY */}
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold border ${pitch.badgeStyle}`}>
+          <span className={`px-2.5 py-1 rounded-lg text-xs font-bold border ${pitch.badgeStyle}`}>
             {pitch.domainBadge[lang]}
           </span>
-          <span className="text-xs font-mono font-semibold text-slate-600 dark:text-slate-400 inline-flex items-center gap-1">
+          <span className="text-xs font-medium text-slate-600 dark:text-slate-400 inline-flex items-center gap-1 tabular-nums">
             <Clock className="w-3 h-3 text-slate-400 shrink-0" />
             <span>{pitch.readTimeTag[lang]}</span>
           </span>
@@ -257,9 +257,9 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
         {/* DÒNG 2: TIÊU ĐỀ & CÂU ĐỊNH VỊ 5 GIÂY */}
         <div className="space-y-1.5">
           <Link href={`/projects/${project.id}`} className="block">
-            <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition leading-snug">
+            <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition-colors leading-snug">
               {resolveText(project.title, project.titleEn)}
-            </h3>
+            </h2>
           </Link>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
             {pitch.oneLinePitch[lang]}
@@ -271,12 +271,12 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
           {pitch.kpis.map((kpi, idx) => (
             <div
               key={idx}
-              className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800"
+              className="p-2.5 rounded-xl bg-[#F8FCFD] dark:bg-slate-900/90 border border-[#C8EEF7] dark:border-slate-800"
             >
-              <div className="text-xs font-mono text-slate-500 dark:text-slate-400 truncate">
+              <div className="text-xs font-medium text-slate-500 dark:text-slate-400 truncate">
                 {kpi.label[lang]}
               </div>
-              <div className="text-xs sm:text-sm font-extrabold font-mono text-slate-900 dark:text-white mt-0.5 truncate">
+              <div className="text-xs sm:text-sm font-extrabold tabular-nums text-slate-900 dark:text-white mt-0.5 truncate">
                 {kpi.value}
               </div>
             </div>
@@ -285,8 +285,8 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
 
         {/* DÒNG 4: HỘP "NGHỊCH LÝ GÂY TÒ MÒ" (THE 15-SECOND PARADOX HOOK) */}
         <div className="p-3.5 rounded-2xl bg-[#FFE485]/15 dark:bg-[#FFD14C]/10 border border-[#FFE485]/60 dark:border-[#FFD14C]/30 space-y-1.5">
-          <div className="text-xs font-mono font-extrabold text-amber-950 dark:text-[#FFE485] flex items-center gap-1.5">
-            <Zap className="w-3.5 h-3.5 text-[#FFD14C] shrink-0" />
+          <div className="text-xs font-extrabold text-amber-950 dark:text-[#FFE485] flex items-center gap-1.5">
+            <Zap className="w-3.5 h-3.5 text-amber-500 dark:text-[#FFD14C] shrink-0" />
             <span>{pitch.paradoxHookTitle[lang]}</span>
           </div>
           <p className="text-xs text-slate-800 dark:text-slate-200 leading-relaxed">
@@ -295,14 +295,14 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
         </div>
 
         {/* DÒNG 5: THANH CƠ CẤU DỮ LIỆU MINI */}
-        <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800/90 space-y-2">
+        <div className="p-3.5 rounded-2xl bg-[#F8FCFD] dark:bg-slate-900/70 border border-[#C8EEF7] dark:border-slate-800/90 space-y-2">
           {pitch.miniBars.map((bar, idx) => (
             <div key={idx} className="space-y-1">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-semibold text-slate-700 dark:text-slate-300 truncate">
                   {bar.label[lang]}
                 </span>
-                <span className="font-mono font-bold text-slate-900 dark:text-[#9BE7FA] shrink-0 ml-2">
+                <span className="tabular-nums font-bold text-slate-900 dark:text-[#9BE7FA] shrink-0 ml-2">
                   {bar.textValue}
                 </span>
               </div>
@@ -324,12 +324,12 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
       </div>
 
       {/* CHÂN THẺ: TECH STACK & NÚT BẤM KÍCH THÍCH TÒ MÒ (CURIOSITY CTA) */}
-      <div className="space-y-3.5 pt-3 border-t border-slate-200 dark:border-slate-800">
+      <div className="space-y-3.5 pt-4">
         <div className="flex flex-wrap gap-1.5">
           {techList.slice(0, 5).map((item) => (
             <span
               key={item}
-              className="px-2.5 py-0.5 rounded-md text-xs font-mono font-semibold bg-slate-100 text-slate-800 border border-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800"
+              className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#F8FCFD] text-slate-800 border border-[#C8EEF7] dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800"
             >
               {item}
             </span>
@@ -339,7 +339,7 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <Link
             href={`/projects/${project.id}`}
-            className="min-h-[44px] flex-1 px-4 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm border border-[#9BE7FA] text-center cursor-pointer"
+            className="min-h-[44px] flex-1 px-4 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-bold transition-colors flex items-center justify-center gap-1.5 border border-[#9BE7FA] text-center cursor-pointer"
           >
             <span>{pitch.curiosityCta[lang]}</span>
             <ArrowUpRight className="w-4 h-4 text-[#074553] shrink-0" />
@@ -351,14 +351,14 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
                 href={pitch.secondaryAction.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-[44px] px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 hover:border-[#9BE7FA] text-xs font-mono font-bold transition flex items-center justify-center shrink-0 cursor-pointer"
+                className="min-h-[44px] px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 hover:border-[#9BE7FA] text-xs font-bold transition-colors flex items-center justify-center shrink-0 cursor-pointer"
               >
                 {pitch.secondaryAction.label[lang]}
               </a>
             ) : (
               <Link
                 href={pitch.secondaryAction.href}
-                className="min-h-[44px] px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 hover:border-[#9BE7FA] text-xs font-mono font-bold transition flex items-center justify-center shrink-0 cursor-pointer"
+                className="min-h-[44px] px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-700 hover:border-[#9BE7FA] text-xs font-bold transition-colors flex items-center justify-center shrink-0 cursor-pointer"
               >
                 {pitch.secondaryAction.label[lang]}
               </Link>

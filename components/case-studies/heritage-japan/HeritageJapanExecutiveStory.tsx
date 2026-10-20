@@ -36,14 +36,14 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
   ];
 
   return (
-    <section id="heritage-executive-story" className="mb-14 rounded-3xl bg-white border-2 border-slate-200/90 shadow-xl overflow-hidden dark:bg-slate-900/95 dark:border-slate-800 transition-all">
+    <section id="heritage-executive-story" className="mb-14 rounded-3xl bg-white border-2 border-slate-200/90 overflow-hidden dark:bg-slate-900/95 dark:border-slate-800 transition">
       {/* Header Banner (White Background) */}
-      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 text-slate-950 dark:text-white relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
-        <div className="absolute right-0 top-0 w-96 h-96 bg-gradient-to-br from-[#9BE7FA]/10 to-[#FFD14C]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 text-slate-950 dark:text-white relative overflow-hidden border-slate-200 dark:border-slate-800">
+        <div className="absolute right-0 top-0 w-96 h-96 rounded-full blur-3xl pointer-events-none bg-[#9BE7FA]/10" />
         
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2.5 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFE485] text-slate-950 text-xs font-black uppercase tracking-wider border border-[#FFD14C]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFE485] text-slate-950 text-xs font-black border border-[#FFD14C]">
               <Clock className="w-3.5 h-3.5" />
               <span>{isEn ? 'EXECUTIVE AUDIT' : 'BẢN PHÂN TÍCH ĐIỀU HÀNH'}</span>
             </div>
@@ -62,22 +62,22 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
           {/* Quick Stats Pill */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 gap-3 shrink-0">
             <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center shadow-xs">
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">{isEn ? '2024 Record Visitors' : 'Kỷ Lục Khách 2024'}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-bold">{isEn ? '2024 Record Visitors' : 'Kỷ Lục Khách 2024'}</div>
               <div className="text-lg sm:text-xl font-black text-[#0D7287] dark:text-[#9BE7FA] mt-0.5">36.87 Triệu</div>
             </div>
             <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center shadow-xs">
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">{isEn ? '2024 Expenditure' : 'Chi Tiêu 2024'}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-bold">{isEn ? '2024 Expenditure' : 'Chi Tiêu 2024'}</div>
               <div className="text-lg sm:text-xl font-black text-[#0D7287] dark:text-[#FFD14C] mt-0.5">8.14 Nghìn Tỷ ¥</div>
             </div>
             <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center col-span-2 sm:col-span-1 md:col-span-2 shadow-xs">
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">{isEn ? 'Policy CAGR (2013-19)' : 'Tăng Trưởng CAGR'}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-bold">{isEn ? 'Policy CAGR (2013-19)' : 'Tăng Trưởng CAGR'}</div>
               <div className="text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400 mt-0.5">+20.6% / năm</div>
             </div>
           </div>
         </div>
 
         {/* Tab switcher inside Executive Story */}
-        <div className="flex items-center gap-2 overflow-x-auto pt-5 scrollbar-none border-t border-slate-200 dark:border-slate-800 mt-6">
+        <div className="flex items-center gap-2 overflow-x-auto pt-5 scrollbar-none border-slate-200 dark:border-slate-800 mt-6">
           {blocks.map((b) => {
             const Icon = b.icon;
             const isActive = activeStoryBlock === b.id;
@@ -85,7 +85,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
               <button
                 key={b.id}
                 onClick={() => setActiveStoryBlock(b.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer border ${
+                className={`px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition whitespace-nowrap flex items-center gap-2 cursor-pointer border ${
                   isActive
                     ? 'bg-[#C8EEF7] text-[#0D7287] border-[#9BE7FA] shadow-xs font-black dark:bg-[#9BE7FA] dark:text-slate-950'
                     : 'bg-slate-100/80 text-slate-700 border-slate-200 hover:bg-slate-200 hover:text-slate-900 dark:bg-slate-800/60 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
@@ -107,7 +107,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
           <div className="space-y-6 animate-in fade-in duration-300">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
               <div className="lg:col-span-7 space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-teal-100 text-teal-900 dark:bg-teal-950/80 dark:text-teal-300 text-xs font-bold">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[#C8EEF7]/60 text-[#074553] dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] text-xs font-bold">
                   <TrendingUp className="w-3.5 h-3.5" />
                   <span>{isEn ? '20-YEAR TIME-SERIES DYNAMICS' : 'ĐỘNG LỰC CHUỖI THỜI GIAN 20 NĂM'}</span>
                 </div>
@@ -124,17 +124,17 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-xs uppercase font-bold text-slate-400 font-mono">2003 Baseline</div>
+                    <div className="text-xs uppercase font-bold text-slate-400 tabular-nums">2003 Baseline</div>
                     <div className="text-lg font-black text-slate-800 dark:text-slate-100">5.21M Khách</div>
                     <div className="text-xs text-slate-500 font-medium">Chi tiêu ~1.1T ¥</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-xs uppercase font-bold text-[#0D7287] dark:text-[#9BE7FA] font-mono">2019 Pre-Covid Peak</div>
-                    <div className="text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">31.88M Khách</div>
-                    <div className="text-xs text-teal-600 dark:text-teal-400 font-bold">+512% vs 2003</div>
+                    <div className="text-xs uppercase font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">2019 Pre-Covid Peak</div>
+                    <div className="text-lg font-black text-emerald-600 dark:text-emerald-400">31.88M Khách</div>
+                    <div className="text-xs text-emerald-600 dark:text-emerald-400 font-bold">+512% vs 2003</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs col-span-2 sm:col-span-1">
-                    <div className="text-xs uppercase font-bold text-[#FFD14C] font-mono">2024 All-Time High</div>
+                    <div className="text-xs uppercase font-bold text-[#FFD14C] tabular-nums">2024 All-Time High</div>
                     <div className="text-lg font-black text-amber-600 dark:text-amber-400">36.87M Khách</div>
                     <div className="text-xs text-amber-600 font-bold">¥8.14T Chi tiêu</div>
                   </div>
@@ -155,12 +155,12 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
 
               {/* Data Table Comparison */}
               <div className="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
-                <div className="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-slate-800">
+                <div className="flex justify-between items-center pb-2 border-slate-100 dark:border-slate-800">
                   <span className="text-xs font-black uppercase text-slate-900 dark:text-white flex items-center gap-1.5">
                     <BarChart2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                     {isEn ? 'National Milestone Telemetry' : 'Cột Mốc Tăng Trưởng Toàn Quốc'}
                   </span>
-                  <span className="text-xs font-mono font-bold text-slate-400">JNTO / MLIT</span>
+                  <span className="text-xs tabular-nums font-bold text-slate-400">JNTO / MLIT</span>
                 </div>
 
                 <div className="space-y-2 text-xs">
@@ -175,10 +175,10 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                   ].map((row, i) => (
                     <div key={i} className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">{row.year}</span>
+                        <span className="tabular-nums font-bold text-[#0D7287] dark:text-[#9BE7FA]">{row.year}</span>
                         <span className="text-slate-600 dark:text-slate-300 font-medium">{row.status}</span>
                       </div>
-                      <div className="text-right font-mono">
+                      <div className="text-right tabular-nums">
                         <span className="font-bold text-slate-900 dark:text-white">{row.visitors}</span>
                         <span className="text-slate-400 text-xs ml-1.5">({row.spend})</span>
                       </div>
@@ -212,7 +212,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                   <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2">
-                    <span className="text-xs font-bold text-rose-600 dark:text-rose-400 flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-[#92400E] dark:text-[#FFE485] flex items-center gap-1.5">
                       <Landmark className="w-4 h-4" />
                       Cố Đô Kyoto (4.5M Khách Quốc Tế)
                     </span>
@@ -234,7 +234,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
 
               {/* Structural Metric Comparison */}
               <div className="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
-                <h4 className="text-xs font-black uppercase text-slate-900 dark:text-white flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                <h4 className="text-xs font-black uppercase text-slate-900 dark:text-white flex items-center gap-1.5 border-slate-100 dark:border-slate-800 pb-2">
                   <Activity className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                   {isEn ? 'Spatial Strain Comparison' : 'Đối Sánh Áp Lực Hạ Tầng'}
                 </h4>
@@ -243,7 +243,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                   <div>
                     <div className="flex justify-between text-xs font-bold mb-1">
                       <span className="text-slate-700 dark:text-slate-300">Tỷ lệ khách lưu trú qua đêm tại Kyoto</span>
-                      <span className="font-mono text-[#0D7287] dark:text-[#9BE7FA]">68.4%</span>
+                      <span className="tabular-nums text-[#0D7287] dark:text-[#9BE7FA]">68.4%</span>
                     </div>
                     <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
                       <div className="bg-[#0D7287] h-full rounded-full" style={{ width: '68.4%' }} />
@@ -253,7 +253,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                   <div>
                     <div className="flex justify-between text-xs font-bold mb-1">
                       <span className="text-slate-700 dark:text-slate-300">Tỷ lệ khách lưu trú qua đêm tại Nara</span>
-                      <span className="font-mono text-amber-500">14.8% (Bẫy Day-trip)</span>
+                      <span className="tabular-nums text-amber-500">14.8% (Bẫy Day-trip)</span>
                     </div>
                     <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
                       <div className="bg-[#FFD14C] h-full rounded-full" style={{ width: '14.8%' }} />
@@ -263,7 +263,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                   <div>
                     <div className="flex justify-between text-xs font-bold mb-1">
                       <span className="text-slate-700 dark:text-slate-300">Áp lực xe buýt đô thị vượt chuẩn</span>
-                      <span className="font-mono text-rose-500">+142% giờ cao điểm</span>
+                      <span className="tabular-nums text-rose-600 dark:text-rose-400 font-bold">+142% giờ cao điểm</span>
                     </div>
                     <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
                       <div className="bg-rose-500 h-full rounded-full" style={{ width: '92%' }} />
@@ -284,7 +284,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
           <div className="space-y-6 animate-in fade-in duration-300">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
               <div className="lg:col-span-7 space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-indigo-100 text-indigo-900 dark:bg-indigo-950/80 dark:text-indigo-300 text-xs font-bold">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[#C8EEF7]/60 text-[#074553] dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] text-xs font-bold">
                   <Layers className="w-3.5 h-3.5" />
                   <span>{isEn ? 'COUNTERFACTUAL & MACRO SHOCK' : 'DỰ BÁO PHẢN THỰC TẾ & CÚ SỐC VĨ MÔ'}</span>
                 </div>
@@ -301,17 +301,17 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
 
                 <div className="grid grid-cols-3 gap-3 pt-2">
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-xs uppercase font-bold text-slate-400 font-mono">Tự nhiên (5.1%)</div>
+                    <div className="text-xs uppercase font-bold text-slate-400 tabular-nums">Tự nhiên (5.1%)</div>
                     <div className="text-base sm:text-lg font-black text-slate-700 dark:text-slate-300">12.1M (2019)</div>
                     <div className="text-xs text-slate-500">Kịch bản không chính sách</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-xs uppercase font-bold text-teal-600 dark:text-teal-400 font-mono">Thực tế (20.6%)</div>
+                    <div className="text-xs uppercase font-bold text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">Thực tế (20.6%)</div>
                     <div className="text-base sm:text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">31.9M (2019)</div>
-                    <div className="text-xs text-teal-600 dark:text-teal-400 font-bold">Gấp 2.6 lần dự phóng</div>
+                    <div className="text-xs text-[#0D7287] dark:text-[#9BE7FA] font-bold">Gấp 2.6 lần dự phóng</div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-                    <div className="text-xs uppercase font-bold text-amber-500 font-mono">Thặng dư tích lũy</div>
+                    <div className="text-xs uppercase font-bold text-amber-500 tabular-nums">Thặng dư tích lũy</div>
                     <div className="text-base sm:text-lg font-black text-amber-600 dark:text-amber-400">+63.4M Lượt</div>
                     <div className="text-xs text-amber-600 font-bold">2013 – 2019</div>
                   </div>
@@ -320,20 +320,20 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
 
               {/* V-Shape Recovery Insight Card */}
               <div className="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
-                <span className="text-xs font-black uppercase text-slate-900 dark:text-white flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
-                  <TrendingUp className="w-4 h-4 text-emerald-500" />
+                <span className="text-xs font-black uppercase text-slate-900 dark:text-white flex items-center gap-1.5 border-slate-100 dark:border-slate-800 pb-2">
+                  <TrendingUp className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                   {isEn ? 'V-Shape Rebound & Weak Yen Accelerator' : 'Phục Hồi V-Shape & Hiệu Ứng Tỷ Giá Yên'}
                 </span>
 
                 <div className="space-y-2 text-xs">
-                  <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800">
-                    <div className="font-bold text-rose-900 dark:text-rose-200">2020 – 2021: Đáy Khủng Hoảng (-99.4%)</div>
+                  <div className="p-2.5 rounded-xl bg-[#FFE485]/15 dark:bg-slate-900 border border-[#FFE485]/40 dark:border-[#FFE485]/20">
+                    <div className="font-bold text-[#92400E] dark:text-[#FFE485]">2020 – 2021: Đáy Khủng Hoảng (-99.4%)</div>
                     <div className="text-slate-600 dark:text-slate-400 mt-0.5">Khách quốc tế rơi xuống 245 nghìn người năm 2021 do phong tỏa biên giới tuyệt đối.</div>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800">
-                    <div className="font-bold text-teal-900 dark:text-teal-200">2023 – 2024: Phục Hồi Thần Tốc V-Shape</div>
-                    <div className="text-slate-600 dark:text-slate-400 mt-0.5">25.1M (2023) ➔ 36.9M (2024). Đạt 115.6% lượng khách đỉnh 2019 chỉ sau 24 tháng mở cửa.</div>
+                  <div className="p-2.5 rounded-xl bg-[#C8EEF7]/30 dark:bg-slate-900 border border-[#9BE7FA]/40 dark:border-[#9BE7FA]/20">
+                    <div className="font-bold text-[#074553] dark:text-[#9BE7FA]">2023 – 2024: Phục Hồi Thần Tốc V-Shape</div>
+                    <div className="text-slate-600 dark:text-slate-400 mt-0.5">25.1M (2023) → 36.9M (2024). Đạt 115.6% lượng khách đỉnh 2019 chỉ sau 24 tháng mở cửa.</div>
                   </div>
 
                   <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800">
@@ -351,7 +351,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
           <div className="space-y-6 animate-in fade-in duration-300">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
               <div className="lg:col-span-7 space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-rose-100 text-rose-900 dark:bg-rose-950/80 dark:text-rose-300 text-xs font-bold">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[#FFE485]/35 text-[#92400E] dark:bg-[#FFD14C]/15 dark:text-[#FFE485] text-xs font-bold">
                   <ShieldAlert className="w-3.5 h-3.5" />
                   <span>{isEn ? 'STATISTICAL AUDITING & INTEGRITY' : 'KIỂM ĐỊNH DỮ LIỆU & PHÁT HIỆN SAI LỆCH'}</span>
                 </div>
@@ -367,13 +367,13 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                 </p>
 
                 <div className="space-y-3">
-                  <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-rose-200 dark:border-rose-900 shadow-xs space-y-2">
+                  <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-[#FFE485]/60 dark:border-[#FFE485]/30 shadow-xs space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-rose-700 dark:text-rose-400 text-xs flex items-center gap-1.5">
+                      <span className="font-bold text-[#92400E] dark:text-[#FFE485] text-xs flex items-center gap-1.5">
                         <ShieldAlert className="w-4 h-4" />
                         Lỗi 1: Điểm Dị Biệt 10x tại Kyoto Năm 2020 (Biểu đồ 3.2)
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-rose-100 text-rose-800 text-xs font-mono font-bold">CRITICAL OUTLIER</span>
+                      <span className="px-2 py-0.5 rounded bg-[#FFE485]/40 text-[#92400E] dark:bg-[#FFD14C]/20 dark:text-[#FFE485] text-xs tabular-nums font-bold">CRITICAL OUTLIER</span>
                     </div>
                     <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                       Đồ thị gốc ghi nhận <strong>3,799 nghìn khách</strong> (3.8M). Trong khi toàn quốc chỉ đón 4.1M khách. Kyoto không thể chiếm tới 92% khách cả nước. DMO Kyoto công bố chính thức chỉ có <strong>379.9 nghìn khách</strong>. Tác giả đã gõ sót dấu chấm thập phân trong Excel.
@@ -386,7 +386,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                         <Coins className="w-4 h-4" />
                         Lỗi 2: Nhầm Lẫn Thứ Nguyên &ldquo;Tỷ Yên&rdquo; vs &ldquo;Trăm Triệu Yên&rdquo; tại Nara (Biểu đồ 3.6)
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-xs font-mono font-bold">UNIT AMBIGUITY</span>
+                      <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-xs tabular-nums font-bold">UNIT AMBIGUITY</span>
                     </div>
                     <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                       Biểu đồ 3.6 ghi 1,208 tỷ Yên cho Nara (ngang ngửa chi tiêu Kyoto 1,308 tỷ Yên). Thống kê tỉnh Nara sử dụng đơn vị <strong>億円 (Trăm triệu Yên)</strong>. Chi tiêu thực tế là 120.8 tỷ Yên. Việc nhầm lẫn giữa 億円 và 10億円 là lỗi dịch thuật kinh tế điển hình.
@@ -397,14 +397,14 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
 
               {/* Audit Verification Checklist */}
               <div className="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
-                <span className="text-xs font-black uppercase text-slate-900 dark:text-white flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                <span className="text-xs font-black uppercase text-slate-900 dark:text-white flex items-center gap-1.5 border-slate-100 dark:border-slate-800 pb-2">
                   <FileCheck className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                   {isEn ? 'Data Cleansing Actions Taken' : 'Quy Chuẩn Làm Sạch Dữ Liệu'}
                 </span>
 
                 <div className="space-y-2 text-xs">
                   <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
-                    <div className="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                    <div className="font-bold text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       Chuẩn Hóa Chuỗi Số Liệu Sạch (Clean Time-Series)
                     </div>
@@ -412,7 +412,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                   </div>
 
                   <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
-                    <div className="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                    <div className="font-bold text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       Cung Cấp Chế Độ Đối Soát &ldquo;Đồ Thị Nguyên Bản&rdquo;
                     </div>
@@ -420,7 +420,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                   </div>
 
                   <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
-                    <div className="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                    <div className="font-bold text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       Cập Nhật Số Liệu Hậu Khủng Hoảng (2023 – 2025)
                     </div>
@@ -436,7 +436,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
         {activeStoryBlock === 5 && (
           <div className="space-y-6 animate-in fade-in duration-300">
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-100 text-emerald-900 dark:bg-emerald-950/80 dark:text-emerald-300 text-xs font-bold">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[#C8EEF7]/60 text-[#074553] dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] text-xs font-bold">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>{isEn ? 'STRATEGIC POLICY BLUEPRINT' : 'LỘ TRÌNH CHÍNH SÁCH 4 TRỤ CỘT CÓ KPI'}</span>
               </div>
@@ -454,7 +454,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
                 {[
                   {
-                    step: '01',
+                    step: '1',
                     title: isEn ? 'Dynamic Lodging Tax' : 'Thuế Lưu Trú Lũy Tiến',
                     kpi: 'Tăng thu 6.2 tỷ ¥/năm',
                     desc: isEn 
@@ -463,7 +463,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                     tag: 'Financial Sustainability'
                   },
                   {
-                    step: '02',
+                    step: '2',
                     title: isEn ? 'Decentralized Heritage Pass' : 'Thẻ Di Sản Phi Tập Trung',
                     kpi: 'Điều hướng 35% dòng khách',
                     desc: isEn 
@@ -472,7 +472,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                     tag: 'Spatial Routing'
                   },
                   {
-                    step: '03',
+                    step: '3',
                     title: isEn ? 'AI Smart Bus Dispatch' : 'Điều Hướng Xe Buýt Thông Minh',
                     kpi: 'Giảm 42% kẹt xe Gion',
                     desc: isEn 
@@ -481,7 +481,7 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                     tag: 'Infrastructure Relieve'
                   },
                   {
-                    step: '04',
+                    step: '4',
                     title: isEn ? 'Luxury Immersion Stays' : 'Chuỗi Lưu Trú Bản Địa Cao Cấp',
                     kpi: 'Tăng lưu trú Nara lên 30%',
                     desc: isEn 
@@ -493,15 +493,15 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
                   <div key={idx} className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between space-y-3">
                     <div className="space-y-1.5">
                       <div className="flex justify-between items-center">
-                        <span className="font-mono text-xs font-black text-[#0D7287] dark:text-[#9BE7FA]">{item.step}</span>
-                        <span className="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold">{item.tag}</span>
+                        <span className="tabular-nums text-xs font-black text-[#0D7287] dark:text-[#9BE7FA]">{item.step}</span>
+                        <span className="text-xs tabular-nums px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold">{item.tag}</span>
                       </div>
                       <h4 className="text-base font-black text-slate-950 dark:text-white">{item.title}</h4>
                       <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{item.desc}</p>
                     </div>
-                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-                      <div className="text-xs font-mono text-slate-400 uppercase font-bold">Mục tiêu định lượng:</div>
-                      <div className="text-xs font-black text-emerald-600 dark:text-emerald-400 mt-0.5">{item.kpi}</div>
+                    <div className="pt-2 border-slate-100 dark:border-slate-800">
+                      <div className="text-xs tabular-nums text-slate-400 uppercase font-bold">Mục tiêu định lượng:</div>
+                      <div className="text-xs font-black text-[#0D7287] dark:text-[#9BE7FA] mt-0.5">{item.kpi}</div>
                     </div>
                   </div>
                 ))}
@@ -511,14 +511,14 @@ export default function HeritageJapanExecutiveStory({ isEn, onJumpToSection }: H
               <div className="pt-4 flex flex-wrap items-center gap-3">
                 <button
                   onClick={() => onJumpToSection && onJumpToSection('chuong-3')}
-                  className="px-5 py-2.5 rounded-xl bg-[#0D7287] hover:bg-[#095262] text-white text-xs font-black transition-all flex items-center gap-2 cursor-pointer shadow-md"
+                  className="px-5 py-2.5 rounded-xl bg-[#0D7287] hover:bg-[#095262] text-white text-xs font-black transition flex items-center gap-2 cursor-pointer"
                 >
                   <span>{isEn ? 'Explore Chapter 3 Data & Charts' : 'Xem Dữ Liệu & Biểu Đồ Chi Tiết (Chương 3)'}</span>
                   <ArrowUpRight className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => onJumpToSection && onJumpToSection('kiem-dinh-du-lieu')}
-                  className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-xs font-bold transition flex items-center gap-2 cursor-pointer"
                 >
                   <span>{isEn ? 'View Raw Thesis Artifact Audit' : 'Xem Bằng Chứng Kiểm Định Học Thuật'}</span>
                   <ChevronRight className="w-4 h-4" />

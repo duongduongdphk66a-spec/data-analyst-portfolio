@@ -374,14 +374,14 @@ export const fastmossScreenshotsManifest: FastMossScreenshotItem[] = [
     id: 'sc-074300',
     filename: 'Screenshot 2026-09-05 074300.png',
     src: '/kami/Screenshot 2026-09-05 074300.png',
-    group: 'creator',
-    sectionId: 'creator-live',
+    group: 'shop',
+    sectionId: 'shop-live',
     timeframeVi: '180 ngày gần nhất (09/03/2026 - 04/09/2026)',
     timeframeEn: 'Last 180 Days (2026-03-09 ~ 2026-09-04)',
-    titleVi: 'Phân Tích Toàn Bộ Livestream Của Kênh (180 Ngày)',
-    titleEn: 'Comprehensive Channel LIVE Analytics (180 Days)',
-    descriptionVi: '7.0k phiên LIVE ghi nhận 67.2k SP bán ra, tổng 9,3 Tỷ đ GMV, trung bình 5.5k người xem và 1,3 Triệu đ doanh số mỗi phiên.',
-    descriptionEn: '7.0k LIVE sessions achieved 67.2k units sold, 9.3B VND GMV, averaging 5.5k viewers and 1.3M VND per session.',
+    titleVi: 'Phân Tích Toàn Bộ Livestream Của Shop (180 Ngày)',
+    titleEn: 'Comprehensive Store-Wide LIVE Analytics (180 Days)',
+    descriptionVi: '7.0k phiên LIVE toàn shop ghi nhận 67.2k SP bán ra, tổng 9,3 Tỷ đ GMV, trung bình 5.5k người xem và 1,3 Triệu đ doanh số mỗi phiên.',
+    descriptionEn: '7.0k store-wide LIVE sessions achieved 67.2k units sold, 9.3B VND GMV, averaging 5.5k viewers and 1.3M VND per session.',
     keyMetric: '9,3 Tỷ đ GMV LIVE · 7.0k Phiên'
   },
   {
@@ -535,8 +535,8 @@ export const fastmossScreenshotsManifest: FastMossScreenshotItem[] = [
     timeframeEn: 'Last 180 Days (Mar 09 - Aug 24)',
     titleVi: 'Tổng Doanh Thu GMV Của Creator 180 Ngày (5,8 Tỷ đ)',
     titleEn: 'Creator Total GMV 180-Day Telemetry (5.8B VND)',
-    descriptionVi: 'Creator mang về 5,8 Tỷ đ GMV trong 180 ngày (chiếm 45.7% GMV toàn shop 12,7 Tỷ đ). Đỉnh điểm tuần tháng 06/2026 đạt ~1,7 Tỷ đ.',
-    descriptionEn: 'Creator generated 5.8B VND GMV in 180 days (45.7% of shop 12.7B GMV), peaking at ~1.7B in peak week June 2026.',
+    descriptionVi: 'Creator mang về 5,8 Tỷ đ GMV trong 180 ngày (chiếm 45.7% GMV toàn shop 12,7 Tỷ đ). Đỉnh điểm ngày bán hàng cao nhất tháng 06/2026 đạt ~175 Triệu đ/ngày.',
+    descriptionEn: 'Creator generated 5.8B VND GMV in 180 days (45.7% of shop 12.7B GMV), peaking at ~175M VND/day on the single highest day in June 2026.',
     keyMetric: '5,8 Tỷ đ GMV Creator (180 Ngày)'
   },
   {

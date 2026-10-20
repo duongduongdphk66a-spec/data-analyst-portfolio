@@ -139,39 +139,37 @@ export default function AboutSection() {
   return (
     <section id="about" className="py-6 sm:py-8 space-y-12 sm:space-y-16">
       {/* =====================================================================
-       * 1. HERO "ABOUT ME" SPLIT BANNER (Official Project Cyan & Deep Teal Theme)
+       * 1. HERO "ABOUT ME" SPLIT BANNER (Theme-consistent 4-Color Palette)
        * ===================================================================== */}
-      <div className="rounded-3xl overflow-hidden shadow-xl border border-[#9BE7FA]/30 dark:border-slate-800 grid grid-cols-1 lg:grid-cols-12 bg-gradient-to-br from-[#074553] via-[#093540] to-[#0A5F70] text-white">
+      <div className="rounded-3xl overflow-hidden border border-[#C8EEF7] dark:border-slate-800 grid grid-cols-1 lg:grid-cols-12 bg-[#F0F9FB] dark:bg-slate-900 text-slate-900 dark:text-white">
         {/* Left Column: Analyst Identity Card */}
-        <div className="lg:col-span-4 relative bg-[#04242c]/75 p-6 sm:p-8 md:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/10">
+        <div className="lg:col-span-4 relative bg-[#C8EEF7]/45 dark:bg-slate-950/60 p-6 sm:p-8 md:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#C8EEF7] dark:border-slate-800" /* taste-skill-ignore: column boundary */>
           <div className="space-y-6">
             {/* Status Pill in #9BE7FA / #FFD14C */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#9BE7FA]/15 border border-[#9BE7FA]/35 text-[#9BE7FA] text-xs font-semibold">
-              <span className="w-2 h-2 rounded-full bg-[#FFD14C] animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 dark:bg-[#9BE7FA]/15 border border-[#9BE7FA]/50 dark:border-[#9BE7FA]/35 text-[#074553] dark:text-[#9BE7FA] text-xs font-semibold">
+              <span className="w-2 h-2 rounded-full bg-[#FFD14C]" />
               {isVi
                 ? "Sẵn sàng cho vị trí Data Analyst"
                 : "Available for Data Analyst Roles"}
             </div>
 
             <div className="pt-2">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-[#9BE7FA] via-[#C8EEF7] to-[#FFD14C] p-0.5 shadow-lg">
-                <div className="w-full h-full rounded-[14px] bg-[#074553] flex items-center justify-center">
-                  <span className="text-2xl font-extrabold tracking-wider text-[#9BE7FA]">
-                    MVH
-                  </span>
-                </div>
+              <div className="w-20 h-20 rounded-2xl bg-[#9BE7FA] border border-[#074553]/15 flex items-center justify-center">
+                <span className="text-2xl font-extrabold text-[#074553]">
+                  MVH
+                </span>
               </div>
-              <h2 className="mt-5 text-2xl font-bold tracking-tight text-white">
+              <h2 className="mt-5 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
                 Mã Văn Hùng
               </h2>
-              <p className="text-sm text-[#9BE7FA] font-medium mt-1">
+              <p className="text-sm text-[#074553] dark:text-[#9BE7FA] font-semibold mt-1">
                 Data Analyst & Quantitative Researcher
               </p>
             </div>
 
-            <div className="space-y-3 pt-4 border-t border-white/10 text-sm text-slate-200">
+            <div className="space-y-3 pt-5 text-sm text-slate-700 dark:text-slate-300">
               <div className="flex items-start gap-2.5">
-                <GraduationCap className="w-4 h-4 text-[#9BE7FA] shrink-0 mt-0.5" />
+                <GraduationCap className="w-4 h-4 text-[#074553] dark:text-[#9BE7FA] shrink-0 mt-0.5" />
                 <span>
                   {isVi
                     ? "Khởi nguồn từ Nghiên cứu Khoa học (Du lịch Di sản Nhật Bản)"
@@ -179,31 +177,31 @@ export default function AboutSection() {
                 </span>
               </div>
               <div className="flex items-start gap-2.5">
-                <Database className="w-4 h-4 text-[#FFE485] shrink-0 mt-0.5" />
+                <Database className="w-4 h-4 text-[#0D7287] dark:text-[#FFE485] shrink-0 mt-0.5" />
                 <span>SQL 8-Stage Pipeline • Python (Pandas, SciPy)</span>
               </div>
               <div className="flex items-start gap-2.5">
-                <LineChart className="w-4 h-4 text-[#FFD14C] shrink-0 mt-0.5" />
+                <LineChart className="w-4 h-4 text-amber-600 dark:text-[#FFD14C] shrink-0 mt-0.5" />
                 <span>Data Storytelling • BI & Product UX Analytics</span>
               </div>
             </div>
           </div>
 
-          <div className="pt-8 mt-8 border-t border-white/10 flex flex-wrap gap-3">
+          <div className="pt-6 mt-6 flex flex-wrap gap-3">
             <a
               href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] font-bold text-xs transition shadow-md shadow-[#9BE7FA]/20 border border-[#9BE7FA] cursor-pointer"
+              className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] font-bold text-xs transition-colors border border-[#9BE7FA] cursor-pointer"
             >
               <Download className="w-3.5 h-3.5" />
               {isVi ? "Tải CV (PDF)" : "Download CV"}
             </a>
             <Link
               href="/blog"
-              className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium text-xs transition border border-white/15 cursor-pointer"
+              className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-900 dark:text-white font-semibold text-xs transition-colors border border-[#C8EEF7] dark:border-slate-700 cursor-pointer"
             >
-              <BookOpen className="w-3.5 h-3.5 text-[#9BE7FA]" />
+              <BookOpen className="w-3.5 h-3.5 text-[#074553] dark:text-[#9BE7FA]" />
               {isVi ? "Đọc Blog Phân tích" : "Read Analytics Blog"}
             </Link>
           </div>
@@ -211,30 +209,30 @@ export default function AboutSection() {
 
         {/* Right Column: Editorial "About Me" Introduction */}
         <div className="lg:col-span-8 p-6 sm:p-10 lg:p-14 flex flex-col justify-center">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#9BE7FA] mb-2">
-            {isVi ? "Giới thiệu Bản thân" : "Who I Am, What I Do & Why It Matters"}
+          <span className="text-sm font-semibold text-[#074553] dark:text-[#9BE7FA] mb-2">
+            {isVi ? "Giới thiệu bản thân" : "Who I am, what I do & why it matters"}
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6">
             About Me
           </h1>
 
-          <div className="space-y-4 text-base sm:text-[17px] leading-relaxed text-slate-100">
+          <div className="space-y-4 text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-200">
             {isVi ? (
               <>
                 <p>
                   Tôi là <strong>Mã Văn Hùng</strong>, một{" "}
-                  <strong className="text-[#9BE7FA]">Data Analyst</strong> trưởng thành từ nền tảng{" "}
-                  <strong>nghiên cứu khoa học định lượng</strong>, luôn tâm huyết với việc đồng hành cùng các tổ chức để khai thác hiệu quả giá trị thực từ dữ liệu; từ những ý tưởng đầu tiên về việc{" "}
+                  <strong className="text-[#074553] dark:text-[#9BE7FA]">Data Analyst</strong> trưởng thành từ nền tảng{" "}
+                  <strong>nghiên cứu khoa học định lượng</strong>, luôn tâm huyết với việc đồng hành cùng các tổ chức để khai thác hiệu quả giá trị thực từ dữ liệu: từ những ý tưởng đầu tiên về việc{" "}
                   <em>cần đo lường chỉ số gì và làm sao để thu thập dữ liệu chính xác</em>, xuyên suốt quá trình làm sạch, đối soát (reconciliation), phân tích thống kê cho đến bước truyền tải các{" "}
                   <strong>insights</strong> có sức nặng.
                 </p>
                 <p>
-                  Tôi hỗ trợ trọn vẹn từng mắt xích của quy trình phân tích — từ xây dựng luồng truy vấn{" "}
-                  <strong>SQL 8 giai đoạn</strong>, kiểm định thống kê bằng <strong>Python</strong>, đến thiết kế{" "}
-                  <strong>Interactive Dashboards</strong> — giúp đội ngũ của bạn đưa ra quyết định dựa trên bằng chứng thực nghiệm (
+                  Tôi hỗ trợ trọn vẹn từng mắt xích của quy trình phân tích, bao gồm xây dựng luồng truy vấn{" "}
+                  <strong>SQL 8 giai đoạn</strong>, kiểm định thống kê bằng <strong>Python</strong>, và thiết kế{" "}
+                  <strong>Interactive Dashboards</strong> để giúp đội ngũ của bạn đưa ra quyết định dựa trên bằng chứng thực nghiệm (
                   <em>evidence-driven decisions</em>).
                 </p>
-                <p className="pt-2 text-[#C8EEF7] font-medium text-sm">
+                <p className="pt-2 text-[#074553] dark:text-[#C8EEF7] font-semibold text-sm">
                   Tôi hiện sẵn sàng cho các vị trí Data Analyst toàn thời gian, các dự án phân tích đối soát dữ liệu và nghiên cứu sản phẩm.
                 </p>
               </>
@@ -242,15 +240,15 @@ export default function AboutSection() {
               <>
                 <p>
                   I am <strong>Mã Văn Hùng</strong>, a{" "}
-                  <strong className="text-[#9BE7FA]">Data Analyst</strong> with a strong foundation in{" "}
-                  <strong>quantitative academic research</strong>, passionate about working with organisations that want to make effective use of their data; from the first ideas around{" "}
-                  <em>what you want to measure and how to capture data accurately</em>, through data preparation, reconciliation, and statistical analysis, all the way to impactful presentation of insights.
+                  <strong className="text-[#074553] dark:text-[#9BE7FA]">Data Analyst</strong> with a strong foundation in{" "}
+                  <strong>quantitative academic research</strong>, working with organisations that want to make effective use of their data: from the first ideas around{" "}
+                  <em>what you want to measure and how to capture data accurately</em>, through data preparation, reconciliation, and statistical analysis, all the way to clear presentation of insights.
                 </p>
                 <p>
-                  I support each step of the analytical process — from <strong>8-stage SQL pipelines</strong> and{" "}
-                  <strong>Python statistical modeling</strong> to interactive <strong>BI & web dashboards</strong> — enabling your organisation to make evidence-driven decisions with confidence.
+                  I support each step of the analytical process, including <strong>8-stage SQL pipelines</strong>,{" "}
+                  <strong>Python statistical modeling</strong>, and interactive <strong>BI & web dashboards</strong> so your organisation can make evidence-driven decisions with confidence.
                 </p>
-                <p className="pt-2 text-[#C8EEF7] font-medium text-sm">
+                <p className="pt-2 text-[#074553] dark:text-[#C8EEF7] font-semibold text-sm">
                   I am available for full-time Data Analyst opportunities, short-term data audit consulting, and research collaborations.
                 </p>
               </>
@@ -262,10 +260,10 @@ export default function AboutSection() {
       {/* =====================================================================
        * 2. THREE PILLARS: COLLECT • PROCESS • VISUALISE (Horizontal Cards, Max 2 Cols)
        * ===================================================================== */}
-      <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 lg:p-12 border border-slate-200 dark:border-slate-800 shadow-sm space-y-8">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 lg:p-12 border border-[#C8EEF7] dark:border-slate-800 space-y-8">
         <div className="max-w-3xl">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#074553] dark:text-[#9BE7FA]">
-            {isVi ? "Quy trình & Năng lực Cốt lõi" : "End-to-End Analytical Workflow"}
+          <span className="text-sm font-semibold text-[#074553] dark:text-[#9BE7FA]">
+            {isVi ? "Quy trình & năng lực cốt lõi" : "End-to-end analytical workflow"}
           </span>
           <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
             {isVi
@@ -281,21 +279,21 @@ export default function AboutSection() {
 
         <div className="space-y-5">
           {/* Pillar 1: Collect */}
-          <div className="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-6 sm:p-8 border border-slate-200 dark:border-slate-800 hover:border-[#9BE7FA]/50 transition grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div className="rounded-2xl bg-[#F8FCFD] dark:bg-slate-800/50 p-6 sm:p-8 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#9BE7FA] transition-colors grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div className="lg:col-span-4 flex items-center gap-5">
-              <div className="shrink-0 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xs">
+              <div className="shrink-0 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-700">
                 <CollectIllustration className="w-16 h-16" />
               </div>
               <div>
-                <span className="font-mono text-xs font-bold text-[#074553] dark:text-[#9BE7FA] uppercase tracking-wider">
-                  01 • DATA ACQUISITION
+                <span className="text-xs font-semibold text-[#074553] dark:text-[#9BE7FA]">
+                  {isVi ? "Thu thập & kiểm toán nguồn" : "Data acquisition"}
                 </span>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
                   Collect
                 </h3>
               </div>
             </div>
-            <div className="lg:col-span-8 text-slate-600 dark:text-slate-300 text-sm sm:text-[15px] leading-relaxed lg:border-l lg:border-slate-200 dark:lg:border-slate-700 lg:pl-8">
+            <div className="lg:col-span-8 text-slate-600 dark:text-slate-300 text-sm sm:text-[15px] leading-relaxed lg:pl-8">
               {isVi ? (
                 <>
                   Xuất phát từ nền tảng <strong>nghiên cứu khoa học kinh tế - xã hội</strong>, tôi có kiến thức lý thuyết và thực tiễn vững chắc trong{" "}
@@ -318,21 +316,21 @@ export default function AboutSection() {
           </div>
 
           {/* Pillar 2: Process */}
-          <div className="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-6 sm:p-8 border border-slate-200 dark:border-slate-800 hover:border-[#9BE7FA]/50 transition grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div className="rounded-2xl bg-[#F8FCFD] dark:bg-slate-800/50 p-6 sm:p-8 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#9BE7FA] transition-colors grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div className="lg:col-span-4 flex items-center gap-5">
-              <div className="shrink-0 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xs">
+              <div className="shrink-0 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-700">
                 <ProcessIllustration className="w-16 h-16" />
               </div>
               <div>
-                <span className="font-mono text-xs font-bold text-amber-800 dark:text-[#FFD14C] uppercase tracking-wider">
-                  02 • TRANSFORMATION & AUDIT
+                <span className="text-xs font-semibold text-amber-800 dark:text-[#FFD14C]">
+                  {isVi ? "Biến đổi & đối soát" : "Transformation & audit"}
                 </span>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
                   Process
                 </h3>
               </div>
             </div>
-            <div className="lg:col-span-8 text-slate-600 dark:text-slate-300 text-sm sm:text-[15px] leading-relaxed lg:border-l lg:border-slate-200 dark:lg:border-slate-700 lg:pl-8">
+            <div className="lg:col-span-8 text-slate-600 dark:text-slate-300 text-sm sm:text-[15px] leading-relaxed lg:pl-8">
               {isVi ? (
                 <>
                   Vận dụng khung 8 giai đoạn <strong>SQL for Data Analysis</strong> và hệ sinh thái{" "}
@@ -352,21 +350,21 @@ export default function AboutSection() {
           </div>
 
           {/* Pillar 3: Visualise */}
-          <div className="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-6 sm:p-8 border border-slate-200 dark:border-slate-800 hover:border-[#9BE7FA]/50 transition grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div className="rounded-2xl bg-[#F8FCFD] dark:bg-slate-800/50 p-6 sm:p-8 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#9BE7FA] transition-colors grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div className="lg:col-span-4 flex items-center gap-5">
-              <div className="shrink-0 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xs">
+              <div className="shrink-0 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-700">
                 <VisualiseIllustration className="w-16 h-16" />
               </div>
               <div>
-                <span className="font-mono text-xs font-bold text-[#074553] dark:text-[#9BE7FA] uppercase tracking-wider">
-                  03 • ACTIONABLE STORYTELLING
+                <span className="text-xs font-semibold text-[#074553] dark:text-[#9BE7FA]">
+                  {isVi ? "Trực quan hóa & kể chuyện dữ liệu" : "Actionable storytelling"}
                 </span>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
                   Visualise
                 </h3>
               </div>
             </div>
-            <div className="lg:col-span-8 text-slate-600 dark:text-slate-300 text-sm sm:text-[15px] leading-relaxed lg:border-l lg:border-slate-200 dark:lg:border-slate-700 lg:pl-8">
+            <div className="lg:col-span-8 text-slate-600 dark:text-slate-300 text-sm sm:text-[15px] leading-relaxed lg:pl-8">
               {isVi ? (
                 <>
                   Áp dụng các <strong>nguyên tắc thực hành tốt nhất về trực quan hóa dữ liệu (data visualisation best-practices)</strong>, tôi thiết kế các{" "}
@@ -393,8 +391,8 @@ export default function AboutSection() {
        * ===================================================================== */}
       <div className="space-y-8">
         <div className="max-w-3xl">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#074553] dark:text-[#9BE7FA]">
-            {isVi ? "Hành trình & Động lực" : "My Story & Analytical Mindset"}
+          <span className="text-sm font-semibold text-[#074553] dark:text-[#9BE7FA]">
+            {isVi ? "Hành trình & động lực" : "My story & analytical mindset"}
           </span>
           <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
             {isVi
@@ -405,14 +403,14 @@ export default function AboutSection() {
 
         <div className="space-y-6">
           {/* Card 1: How did you get started */}
-          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-[#9BE7FA]/50 transition grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#9BE7FA] transition-colors grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
             <div className="lg:col-span-5 space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-[#9BE7FA]/20 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/40 flex items-center justify-center shrink-0">
                   <Compass className="w-5 h-5" />
                 </div>
-                <span className="font-mono text-xs font-bold px-3 py-1 rounded-full bg-[#C8EEF7]/40 dark:bg-slate-800 text-[#074553] dark:text-[#9BE7FA]">
-                  01 / HOW I GOT STARTED
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#C8EEF7]/45 dark:bg-slate-800 text-[#074553] dark:text-[#9BE7FA]">
+                  {isVi ? "Khởi đầu hành trình" : "How I got started"}
                 </span>
               </div>
 
@@ -427,7 +425,7 @@ export default function AboutSection() {
               <div className="pt-2">
                 <Link
                   href="/projects/proj-heritage-japan"
-                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#9BE7FA]/20 hover:bg-[#9BE7FA] text-[#074553] dark:text-[#9BE7FA] dark:hover:text-[#074553] border border-[#9BE7FA]/40 text-xs font-bold transition cursor-pointer"
+                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#9BE7FA]/20 hover:bg-[#9BE7FA] text-[#074553] dark:text-[#9BE7FA] dark:hover:text-[#074553] border border-[#9BE7FA]/40 text-xs font-bold transition-colors cursor-pointer"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>
@@ -440,12 +438,12 @@ export default function AboutSection() {
               </div>
             </div>
 
-            <div className="lg:col-span-7 space-y-3.5 text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed lg:border-l lg:border-slate-100 dark:lg:border-slate-800 lg:pl-8">
+            <div className="lg:col-span-7 space-y-3.5 text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed lg:pl-8">
               {isVi ? (
                 <>
                   <p>
                     Tôi bắt đầu bước chân vào lĩnh vực phân tích dữ liệu khi thực hiện{" "}
-                    <strong>đề tài nghiên cứu khoa học tại trường đại học</strong> — cũng chính là{" "}
+                    <strong>đề tài nghiên cứu khoa học tại trường đại học</strong>, chính là{" "}
                     <strong>Dự án Kinh tế học Du lịch Di sản Nhật Bản (Heritage Japan)</strong>.
                   </p>
                   <p>
@@ -459,7 +457,7 @@ export default function AboutSection() {
                 <>
                   <p>
                     I got started in data analysis while conducting{" "}
-                    <strong>university scientific research</strong> — which is the{" "}
+                    <strong>university scientific research</strong> on the{" "}
                     <strong>Japanese World Heritage Tourism (`heritage-japan`)</strong> project featured in this portfolio.
                   </p>
                   <p>
@@ -474,14 +472,14 @@ export default function AboutSection() {
           </div>
 
           {/* Card 2: What about data interests you most */}
-          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-[#FFE485]/60 transition grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#FFE485] transition-colors grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
             <div className="lg:col-span-5 space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-[#FFE485]/30 text-amber-900 dark:text-[#FFE485] border border-[#FFE485]/50 flex items-center justify-center shrink-0">
                   <Microscope className="w-5 h-5" />
                 </div>
-                <span className="font-mono text-xs font-bold px-3 py-1 rounded-full bg-[#FFE485]/30 dark:bg-slate-800 text-amber-900 dark:text-[#FFE485]">
-                  02 / WHAT INTERESTS ME MOST
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FFE485]/30 dark:bg-slate-800 text-amber-900 dark:text-[#FFE485]">
+                  {isVi ? "Điểm thu hút nhất ở dữ liệu" : "What interests me most"}
                 </span>
               </div>
 
@@ -496,7 +494,7 @@ export default function AboutSection() {
               <div className="pt-2">
                 <Link
                   href="/projects/proj-kami-ely"
-                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FFE485]/20 hover:bg-[#FFE485] text-amber-950 dark:text-[#FFE485] dark:hover:text-amber-950 border border-[#FFE485]/50 text-xs font-bold transition cursor-pointer"
+                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FFE485]/20 hover:bg-[#FFE485] text-amber-950 dark:text-[#FFE485] dark:hover:text-amber-950 border border-[#FFE485]/50 text-xs font-bold transition-colors cursor-pointer"
                 >
                   <FileSpreadsheet className="w-4 h-4" />
                   <span>
@@ -509,7 +507,7 @@ export default function AboutSection() {
               </div>
             </div>
 
-            <div className="lg:col-span-7 space-y-3.5 text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed lg:border-l lg:border-slate-100 dark:lg:border-slate-800 lg:pl-8">
+            <div className="lg:col-span-7 space-y-3.5 text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed lg:pl-8">
               {isVi ? (
                 <>
                   <p>
@@ -517,7 +515,7 @@ export default function AboutSection() {
                     <strong>việc tìm ra sự thật gốc (Single Source of Truth) ẩn sau những con số mâu thuẫn hoặc phân phối lệch chuẩn</strong>.
                   </p>
                   <p>
-                    Trong thực tế, dữ liệu giữa các hệ thống hiếm khi khớp nhau hoàn toàn — điển hình như độ lệch GMV giữa báo cáo Creator và Shop trên{" "}
+                    Trong thực tế, dữ liệu giữa các hệ thống hiếm khi khớp nhau hoàn toàn, điển hình như độ lệch GMV giữa báo cáo Creator và Shop trên{" "}
                     <strong>TikTok Shop (Kami Ely)</strong>.
                   </p>
                   <p>
@@ -534,7 +532,7 @@ export default function AboutSection() {
                   </p>
                   <p>
                     Whether reconciling Creator vs. Shop GMV variances in{" "}
-                    <strong>TikTok Shop (Kami Ely)</strong> or testing non-normal distributions, I love the investigative rigor of{" "}
+                    <strong>TikTok Shop (Kami Ely)</strong> or testing non-normal distributions, I enjoy the investigative rigor of{" "}
                     <strong>Data Reconciliation</strong> and <strong>Hypothesis Testing</strong> to answer <em>&ldquo;Why?&rdquo;</em> with statistical confidence.
                   </p>
                 </>
@@ -543,14 +541,14 @@ export default function AboutSection() {
           </div>
 
           {/* Card 3: Where your passions lie */}
-          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-[#FFD14C]/60 transition grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#FFD14C] transition-colors grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
             <div className="lg:col-span-5 space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-[#FFD14C]/20 text-amber-800 dark:text-[#FFD14C] border border-[#FFD14C]/50 flex items-center justify-center shrink-0">
                   <Flame className="w-5 h-5" />
                 </div>
-                <span className="font-mono text-xs font-bold px-3 py-1 rounded-full bg-[#FFD14C]/20 dark:bg-slate-800 text-amber-900 dark:text-[#FFD14C]">
-                  03 / WHERE MY PASSIONS LIE
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FFD14C]/20 dark:bg-slate-800 text-amber-900 dark:text-[#FFD14C]">
+                  {isVi ? "Đam mê nghề nghiệp" : "Where my passions lie"}
                 </span>
               </div>
 
@@ -565,7 +563,7 @@ export default function AboutSection() {
               <div className="pt-2">
                 <Link
                   href="/projects/proj-library-bus"
-                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FFD14C]/20 hover:bg-[#FFD14C] text-amber-950 dark:text-[#FFD14C] dark:hover:text-slate-950 border border-[#FFD14C]/50 text-xs font-bold transition cursor-pointer"
+                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FFD14C]/20 hover:bg-[#FFD14C] text-amber-950 dark:text-[#FFD14C] dark:hover:text-slate-950 border border-[#FFD14C]/50 text-xs font-bold transition-colors cursor-pointer"
                 >
                   <Layers className="w-4 h-4" />
                   <span>
@@ -578,7 +576,7 @@ export default function AboutSection() {
               </div>
             </div>
 
-            <div className="lg:col-span-7 space-y-3.5 text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed lg:border-l lg:border-slate-100 dark:lg:border-slate-800 lg:pl-8">
+            <div className="lg:col-span-7 space-y-3.5 text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed lg:pl-8">
               {isVi ? (
                 <>
                   <p>
@@ -587,7 +585,7 @@ export default function AboutSection() {
                   </p>
                   <p>
                     Tôi luôn kết hợp <strong>kỹ thuật xử lý dữ liệu hậu cần (SQL Pipeline, Python)</strong> với{" "}
-                    <strong>trải nghiệm người dùng (Product/UX Analytics)</strong> — từ việc xây dựng{" "}
+                    <strong>trải nghiệm người dùng (Product/UX Analytics)</strong>, từ việc xây dựng{" "}
                     <strong>SQL Lab tương tác</strong> đến thiết kế luồng dữ liệu cho hệ thống{" "}
                     <strong>Library Bus</strong>.
                   </p>
@@ -600,7 +598,7 @@ export default function AboutSection() {
                   </p>
                   <p>
                     From interactive <strong>SQL Workbenches</strong> to end-to-end telemetry architecture in{" "}
-                    <strong>Library Bus</strong>, I am passionate about turning complex backend data into transparent, human-centric tools that drive immediate business action.
+                    <strong>Library Bus</strong>, I focus on turning complex backend data into transparent, human-centric tools that drive immediate business action.
                   </p>
                 </>
               )}
@@ -610,17 +608,17 @@ export default function AboutSection() {
       </div>
 
       {/* =====================================================================
-       * 4. TESTIMONIALS SECTION (Project Deep Navy Theme with #9BE7FA Accents)
+       * 4. TESTIMONIALS SECTION (Theme-consistent surface)
        * ===================================================================== */}
-      <div className="rounded-3xl bg-slate-950 dark:bg-[#0B0F17] border border-[#9BE7FA]/20 dark:border-slate-800 p-6 sm:p-10 lg:p-12 text-white shadow-xl space-y-8">
+      <div className="rounded-3xl bg-[#F0F9FB] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 p-6 sm:p-10 lg:p-12 text-slate-900 dark:text-white space-y-8">
         <div className="max-w-3xl">
-          <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#9BE7FA]">
-            <Sparkles className="w-3.5 h-3.5 text-[#FFD14C]" />
+          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#074553] dark:text-[#9BE7FA]">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-[#FFD14C]" />
             {isVi
-              ? "Đánh giá & Nhận xét (Testimonials)"
-              : "Testimonials & Endorsements"}
+              ? "Đánh giá & nhận xét (Testimonials)"
+              : "Testimonials & endorsements"}
           </span>
-          <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-white">
+          <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
             {isVi
               ? "Góc nhìn từ Giảng viên, Quản lý & Cộng sự Dự án"
               : "What Advisors, Stakeholders & Peers Say"}
@@ -639,15 +637,15 @@ export default function AboutSection() {
             return (
               <div
                 key={item.id}
-                className="rounded-2xl bg-slate-900/80 border border-slate-800 p-6 sm:p-7 flex flex-col justify-between hover:border-[#9BE7FA]/40 transition"
+                className="rounded-2xl bg-white dark:bg-slate-950/70 border border-[#C8EEF7] dark:border-slate-800 p-6 sm:p-7 flex flex-col justify-between hover:border-[#9BE7FA] transition-colors"
               >
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-10 h-10 rounded-xl bg-[#9BE7FA]/15 border border-[#9BE7FA]/30 text-[#9BE7FA] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 border border-[#9BE7FA]/40 text-[#074553] dark:text-[#9BE7FA] flex items-center justify-center">
                       <Quote className="w-5 h-5" />
                     </div>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full bg-slate-800 text-slate-200">
-                      <RoleIcon className="w-3.5 h-3.5 text-[#9BE7FA]" />
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-[#F0F9FB] dark:bg-slate-800 text-[#074553] dark:text-slate-200 border border-[#C8EEF7] dark:border-slate-700">
+                      <RoleIcon className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
                       {item.roleType === "academic"
                         ? isVi
                           ? "Nghiên cứu Khoa học"
@@ -662,21 +660,21 @@ export default function AboutSection() {
                     </span>
                   </div>
 
-                  <blockquote className="text-sm leading-relaxed text-slate-300 italic mb-6">
+                  <blockquote className="text-sm leading-relaxed text-slate-700 dark:text-slate-300 italic mb-6">
                     &ldquo;{isVi ? item.quoteVi : item.quoteEn}&rdquo;
                   </blockquote>
                 </div>
 
-                <div className="pt-5 border-t border-slate-800">
-                  <div className="font-bold text-white text-sm">
+                <div className="pt-5 mt-auto">
+                  <div className="font-bold text-slate-900 dark:text-white text-sm">
                     {isVi ? item.authorVi : item.authorEn}
                   </div>
-                  <div className="text-xs text-slate-400 mt-0.5">
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     {isVi ? item.titleVi : item.titleEn}
                   </div>
                   <Link
                     href={item.projectLink}
-                    className="mt-2 inline-flex items-center gap-1 text-xs font-mono text-[#9BE7FA] hover:text-[#C8EEF7] hover:underline"
+                    className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#074553] dark:text-[#9BE7FA] hover:underline"
                   >
                     • {isVi ? item.contextVi : item.contextEn}
                     <ArrowUpRight className="w-3 h-3" />
@@ -691,14 +689,14 @@ export default function AboutSection() {
       {/* =====================================================================
        * 5. BLOG PREVIEW SECTION LINKING TO DEDICATED /blog PAGE
        * ===================================================================== */}
-      <div className="rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-10 lg:p-12 border border-slate-200 dark:border-slate-800 shadow-sm space-y-8">
+      <div className="rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-10 lg:p-12 border border-[#C8EEF7] dark:border-slate-800 space-y-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#074553] dark:text-[#9BE7FA]">
+            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#074553] dark:text-[#9BE7FA]">
               <BookOpen className="w-3.5 h-3.5" />
               {isVi
-                ? "Bài viết Chia sẻ Quy trình & Phát hiện"
-                : "Analytical Process & Findings Blog"}
+                ? "Bài viết chia sẻ quy trình & phát hiện"
+                : "Analytical process & findings blog"}
             </span>
             <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
               {isVi
@@ -709,7 +707,7 @@ export default function AboutSection() {
 
           <Link
             href="/blog"
-            className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-extrabold transition self-start md:self-auto shadow-md shadow-[#9BE7FA]/20 border border-[#9BE7FA] cursor-pointer"
+            className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-extrabold transition-colors self-start md:self-auto border border-[#9BE7FA] cursor-pointer"
           >
             {isVi ? "Xem toàn bộ Trang /blog" : "Visit Full /blog Page"}
             <ArrowRight className="w-4 h-4" />
@@ -721,19 +719,19 @@ export default function AboutSection() {
             <Link
               key={post.id}
               href="/blog"
-              className="group rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 p-6 flex flex-col justify-between hover:border-[#9BE7FA]/60 transition cursor-pointer"
+              className="group rounded-2xl bg-[#F8FCFD] dark:bg-slate-800/50 border border-[#C8EEF7] dark:border-slate-800 p-6 flex flex-col justify-between hover:border-[#9BE7FA] transition-colors cursor-pointer"
             >
               <div>
                 <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
                   <span className="font-bold text-[#074553] dark:text-[#9BE7FA]">
                     {isVi ? post.categoryVi : post.categoryEn}
                   </span>
-                  <span className="inline-flex items-center gap-1 font-mono">
+                  <span className="inline-flex items-center gap-1 tabular-nums">
                     <Clock className="w-3.5 h-3.5" />
                     {isVi ? post.readTimeVi : post.readTimeEn}
                   </span>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition leading-snug mb-2">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition-colors leading-snug mb-2">
                   {isVi ? post.titleVi : post.titleEn}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
@@ -741,11 +739,11 @@ export default function AboutSection() {
                 </p>
               </div>
 
-              <div className="pt-4 mt-5 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
+              <div className="pt-4 mt-5 flex items-center justify-between text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
                 <span>
                   {isVi ? "Đọc quy trình & SQL/Python" : "Read Process & Code"}
                 </span>
-                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </div>
             </Link>
           ))}

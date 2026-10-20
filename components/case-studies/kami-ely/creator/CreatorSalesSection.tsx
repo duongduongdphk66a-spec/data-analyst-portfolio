@@ -10,7 +10,6 @@ import {
   Award,
   Sparkles,
   ShieldCheck,
-  Link as LinkIcon,
   ArrowRight
 } from 'lucide-react';
 import {
@@ -50,40 +49,18 @@ export default function CreatorSalesSection({
 
   return (
     <div className="space-y-16">
-      {/* GROUP DIVIDER: NĂNG LỰC THƯƠNG MẠI & TẬP TRUNG THƯƠNG HIỆU */}
-      <div className="pt-6 pb-2 flex items-center gap-4">
-        <div className="h-px bg-gradient-to-r from-transparent via-[#FFD14C] to-transparent flex-1 dark:via-slate-700" />
-        <span className="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#FFE485] text-slate-950 border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C] dark:border-slate-700 shadow-xs">
-          {isEn ? 'Group III: Commercial Capacity & Exclusive Monopolization' : 'Nhóm III: Năng Lực Thương Mại & Mức Độ Tập Trung Thương Hiệu'}
-        </span>
-        <div className="h-px bg-gradient-to-r from-transparent via-[#FFD14C] to-transparent flex-1 dark:via-slate-700" />
-      </div>
-
-      {/* 2.6 PHÂN TÍCH DOANH SỐ & VIỄN TRẮC 180 NGÀY (SALES TELEMETRY 180-DAY) */}
+      {/* 1.2.4 PHÂN TÍCH DOANH SỐ & VIỄN TRẮC 180 NGÀY (SALES TELEMETRY 180-DAY) */}
       <section id="creator-sales" className="space-y-6 scroll-mt-36">
-        <div className="flex items-center justify-between border-b border-slate-200 pb-3 dark:border-slate-800">
-          <div className="flex items-center gap-2">
-            <span className="px-3 py-1 bg-[#FFD14C] text-slate-950 rounded-lg text-xs font-black uppercase">
-              2.6
-            </span>
-            <h2 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
-              {isEn ? 'Sales Analysis & 180-Day Telemetry' : 'Phân Tích Doanh Số & Dữ Liệu Viễn Trắc 180 Ngày'}
-            </h2>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => copyDeepLink('creator-sales', '2.6 Phân tích doanh số')}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
-              title="Sao chép liên kết"
-            >
-              <LinkIcon className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
+        <SectionHeader 
+          badge="1.2.4" 
+          title={isEn ? "Sales Analysis & 180-Day Telemetry" : "Phân Tích Doanh Số & Dữ Liệu Viễn Trắc 180 Ngày"} 
+          id="creator-sales" 
+          onCopy={copyDeepLink} 
+        />
 
         {/* 180-Day Creator Telemetry Ribbon */}
-        <div className="p-6 rounded-3xl bg-gradient-to-r from-[#C8EEF7]/40 via-white to-[#FFE485]/30 border border-[#9BE7FA] dark:bg-slate-900 dark:border-slate-800 shadow-sm space-y-4">
-          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-slate-100 pb-3 dark:border-slate-800">
+        <div className="p-6 rounded-3xl border border-[#9BE7FA] dark:bg-slate-900 dark:border-slate-800 space-y-4 bg-[#C8EEF7]/40">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-slate-100 pb-3 dark:border-slate-800">
             <div>
               <h3 className="text-base font-black text-slate-950 dark:text-white flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
@@ -94,7 +71,7 @@ export default function CreatorSalesSection({
               </p>
             </div>
             <div className="flex items-center gap-1.5 text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+              <CheckCircle2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               <span>100% Verified Telemetry</span>
             </div>
           </div>
@@ -103,38 +80,38 @@ export default function CreatorSalesSection({
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 pt-1">
             <div className="p-3 rounded-2xl bg-white border border-[#FFD14C] text-center dark:bg-slate-950 dark:border-slate-800">
               <div className="text-lg font-black text-slate-950 dark:text-[#FFD14C]">{creator180dTelemetry.totalGmv}</div>
-              <div className="text-xs text-slate-500 mt-0.5">{isEn ? '180d GMV' : 'Doanh số 180d'}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{isEn ? '180d GMV' : 'Doanh số 180d'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-white border border-[#9BE7FA] text-center dark:bg-slate-950 dark:border-slate-800">
               <div className="text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">{creator180dTelemetry.totalUnitsSold}</div>
-              <div className="text-xs text-slate-500 mt-0.5">{isEn ? 'Units Sold' : 'Sản phẩm bán'}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{isEn ? 'Units Sold' : 'Sản phẩm bán'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-950 dark:border-slate-800">
               <div className="text-lg font-black text-slate-950 dark:text-white">{creator180dTelemetry.totalVideoViews}</div>
-              <div className="text-xs text-slate-500 mt-0.5">{isEn ? 'Video Views' : 'Lượt xem video'}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{isEn ? 'Video Views' : 'Lượt xem video'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-950 dark:border-slate-800">
-              <div className="text-lg font-black text-rose-600 dark:text-rose-400">{creator180dTelemetry.likes}</div>
-              <div className="text-xs text-slate-500 mt-0.5">{isEn ? 'Likes' : 'Lượt thích'}</div>
+              <div className="text-lg font-black text-slate-950 dark:text-white">{creator180dTelemetry.likes}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{isEn ? 'Likes' : 'Lượt thích'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-950 dark:border-slate-800">
-              <div className="text-lg font-black text-amber-600 dark:text-amber-400">{creator180dTelemetry.saves}</div>
-              <div className="text-xs text-slate-500 mt-0.5">{isEn ? 'Saves' : 'Lưu trữ'}</div>
+              <div className="text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">{creator180dTelemetry.saves}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{isEn ? 'Saves' : 'Lưu trữ'}</div>
             </div>
             <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-950 dark:border-slate-800">
-              <div className="text-lg font-black text-blue-600 dark:text-blue-400">{creator180dTelemetry.shares}</div>
-              <div className="text-xs text-slate-500 mt-0.5">{isEn ? 'Shares' : 'Chia sẻ'}</div>
+              <div className="text-lg font-black text-[#0D7287] dark:text-[#9BE7FA]">{creator180dTelemetry.shares}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{isEn ? 'Shares' : 'Chia sẻ'}</div>
             </div>
-            <div className="p-3 rounded-2xl bg-white border border-emerald-300 text-center dark:bg-slate-950 dark:border-slate-800">
-              <div className="text-lg font-black text-emerald-600 dark:text-emerald-400">{creator180dTelemetry.followerGrowth}</div>
-              <div className="text-xs text-slate-500 mt-0.5">{isEn ? 'Follower Net' : 'Tăng Follow'}</div>
+            <div className="p-3 rounded-2xl bg-white border border-[#9BE7FA]/60 text-center dark:bg-slate-950 dark:border-slate-800">
+              <div className="text-lg font-black text-[#074553] dark:text-[#9BE7FA]">{creator180dTelemetry.followerGrowth}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{isEn ? 'Follower Net' : 'Tăng Follow'}</div>
             </div>
           </div>
         </div>
 
         {/* LIVE vs Video vs Showcase Commercial Distribution */}
         <div className="grid md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-3xl bg-white border border-[#FFD14C] shadow-sm space-y-3 dark:bg-slate-900 dark:border-slate-800">
+          <div className="p-6 rounded-3xl bg-white border border-[#FFD14C] space-y-3 dark:bg-slate-900 dark:border-slate-800">
             <div className="flex items-center justify-between">
               <span className="px-2.5 py-0.5 rounded-full bg-[#FFE485] text-slate-950 text-xs font-bold border border-[#FFD14C] dark:bg-slate-800 dark:text-[#FFD14C]">
                 LIVE Channel (84.5%)
@@ -149,14 +126,14 @@ export default function CreatorSalesSection({
                 {creator180dTelemetry.liveSales.units} ({creator180dTelemetry.liveSales.shareUnits} sản lượng)
               </div>
             </div>
-            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pt-1 border-t border-slate-100 dark:border-slate-800">
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pt-1 border-slate-100 dark:border-slate-800">
               {isEn 
                 ? 'The core revenue engine. Live sessions achieve highest conversion by letting viewers see bikini fitting on-screen with real-time size recommendations.' 
                 : 'Kênh chốt đơn chủ lực. Livestream tỷ lệ chuyển đổi cao do người xem nhìn trực tiếp form dáng trên mẫu thật và được tư vấn size.'}
             </p>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA] shadow-sm space-y-3 dark:bg-slate-900 dark:border-slate-800">
+          <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA] space-y-3 dark:bg-slate-900 dark:border-slate-800">
             <div className="flex items-center justify-between">
               <span className="px-2.5 py-0.5 rounded-full bg-[#C8EEF7] text-[#0D7287] text-xs font-bold border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]">
                 Shoppable Video (15.0%)
@@ -171,14 +148,14 @@ export default function CreatorSalesSection({
                 {creator180dTelemetry.videoSales.units} ({creator180dTelemetry.videoSales.shareUnits} sản lượng)
               </div>
             </div>
-            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pt-1 border-t border-slate-100 dark:border-slate-800">
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pt-1 border-slate-100 dark:border-slate-800">
               {isEn 
                 ? 'Top-of-funnel brand amplifier. 6.6M views generate continuous organic discovery and long-tail purchases even when creator is offline.' 
                 : 'Phễu lan tỏa thương hiệu. 6.6M lượt xem tạo dòng traffic tự nhiên và đem lại doanh số ổn định ngay cả khi không live.'}
             </p>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-3 dark:bg-slate-900 dark:border-slate-800">
+          <div className="p-6 rounded-3xl bg-white border border-slate-200 space-y-3 dark:bg-slate-900 dark:border-slate-800">
             <div className="flex items-center justify-between">
               <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold dark:bg-slate-800 dark:text-slate-400">
                 Showcase / Trưng bày (0%)
@@ -193,7 +170,7 @@ export default function CreatorSalesSection({
                 {creator180dTelemetry.showcaseSales.units}
               </div>
             </div>
-            <p className="text-xs text-slate-500 leading-relaxed pt-1 border-t border-slate-100 dark:border-slate-800">
+            <p className="text-xs text-slate-500 leading-relaxed pt-1 border-slate-100 dark:border-slate-800">
               {isEn 
                 ? 'Showcase tab is entirely unmonetized. Creator focuses 100% of commercial attention on dynamic interactive channels (Live & Shoppable Video).' 
                 : 'Tủ trưng bày không phát sinh doanh thu. 100% tài nguyên tập trung vào các kênh tương tác (Livestream và Video).'}
@@ -202,8 +179,8 @@ export default function CreatorSalesSection({
         </div>
 
         {/* 180-Day Bi-Weekly GMV Trajectory Chart */}
-        <div className="p-6 rounded-3xl bg-white border border-[#FFD14C] shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
-          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-slate-100 pb-3 dark:border-slate-800">
+        <div className="p-6 rounded-3xl bg-white border border-[#FFD14C] space-y-4 dark:bg-slate-900 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-slate-100 pb-3 dark:border-slate-800">
             <div>
               <h3 className="text-base font-black text-slate-950 dark:text-white flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-[#0D7287] dark:text-[#FFD14C]" />
@@ -229,7 +206,7 @@ export default function CreatorSalesSection({
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
                 <XAxis dataKey="dateRange" stroke="#64748B" fontSize={10} angle={-25} textAnchor="end" tickLine={false} />
-                <YAxis stroke="#64748B" fontSize={11} tickLine={false} tickFormatter={(v) => `${v}M`} />
+                <YAxis stroke="#64748B" fontSize={11} tickLine={false} tickFormatter={(v) => isEn ? `${v}M` : `${v} Tr`} />
                 <Tooltip 
                   formatter={(val: any, _name: any, item: any) => [
                     `${Number(val).toLocaleString()} Triệu đ (${item?.payload?.units?.toLocaleString()} SP)`,
@@ -243,8 +220,8 @@ export default function CreatorSalesSection({
         </div>
 
         {/* Product Category Sales Capacity (Screenshots 081026 & 081041) */}
-        <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/60 shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
-          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-b border-slate-100 pb-3 dark:border-slate-800">
+        <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/60 space-y-4 dark:bg-slate-900 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-slate-100 pb-3 dark:border-slate-800">
             <div>
               <h3 className="text-base font-black text-slate-950 dark:text-white flex items-center gap-2">
                 <Award className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
@@ -258,13 +235,13 @@ export default function CreatorSalesSection({
               <div className="flex bg-[#C8EEF7]/40 rounded-xl p-1 dark:bg-slate-800 shrink-0">
                 <button 
                   onClick={() => setCrSalesMetric('gmv')} 
-                  className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${crSalesMetric === 'gmv' ? 'bg-[#FFD14C] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}
+                  className={`px-2.5 py-1 text-xs font-bold rounded-lg transition cursor-pointer ${crSalesMetric === 'gmv' ? 'bg-[#FFD14C] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}
                 >
                   GMV
                 </button>
                 <button 
                   onClick={() => setCrSalesMetric('units')} 
-                  className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${crSalesMetric === 'units' ? 'bg-[#9BE7FA] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}
+                  className={`px-2.5 py-1 text-xs font-bold rounded-lg transition cursor-pointer ${crSalesMetric === 'units' ? 'bg-[#9BE7FA] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}
                 >
                   {isEn ? 'Units' : 'Sản lượng'}
                 </button>
@@ -285,7 +262,7 @@ export default function CreatorSalesSection({
               </ResponsiveContainer>
             </div>
 
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-[#FFFDF5] to-[#FFE485]/20 border border-[#FFE485] border-l-4 border-l-[#FFD14C] shadow-xs flex flex-col justify-center space-y-3 text-xs sm:text-sm dark:bg-slate-800/60 dark:border-slate-700 dark:border-l-[#FFD14C]">
+            <div className="p-5 rounded-2xl border border-[#FFE485] border-l-4 border-l-[#FFD14C] shadow-xs flex flex-col justify-center space-y-3 text-xs sm:text-sm dark:bg-slate-800/60 dark:border-slate-700 dark:border-l-[#FFD14C] bg-[#FFFDF5]">
               <div className="font-black text-slate-900 dark:text-white text-sm flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-[#FFD14C]" />
                 {isEn ? 'Niche Monopoly Effect' : 'Hiệu Ứng Thống Trị Ngách'}
@@ -301,14 +278,13 @@ export default function CreatorSalesSection({
         </div>
       </section>
 
-      {/* 2.7 CỬA HÀNG HỢP TÁC PHÂN PHỐI (TOP COLLABORATIVE STORES) */}
+      {/* 1.2.5 CỬA HÀNG HỢP TÁC PHÂN PHỐI (TOP COLLABORATIVE STORES) */}
       <section id="creator-collaborative" className="space-y-6 scroll-mt-36">
         <SectionHeader 
-          badge="2.7" 
+          badge="1.2.5" 
           title={isEn ? "Top Collaborative Brand Stores" : "Các Cửa Hàng Hợp Tác Phân Phối Của Creator"} 
           id="creator-collaborative" 
           onCopy={copyDeepLink} 
-          badgeBg="bg-[#FFD14C] text-slate-950" 
         />
 
         {/* Collaborative Stores Table & Brand Concentration */}
@@ -316,7 +292,7 @@ export default function CreatorSalesSection({
           {/* Desktop Table Layout */}
           <div className="hidden md:block overflow-x-auto rounded-2xl border border-[#FFD14C] bg-white shadow-xs dark:bg-slate-900 dark:border-slate-800">
             <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-[#FFE485]/30 text-slate-800 font-bold uppercase border-b border-[#FFE485]/60 dark:bg-slate-800/80 dark:text-slate-300 dark:border-slate-700">
+              <thead className="bg-[#FFE485]/30 text-slate-800 font-bold uppercase dark:bg-slate-800/80 dark:text-slate-300">
                 <tr>
                   <th className="p-3.5">Cửa Hàng Đối Tác</th>
                   <th className="p-3.5">Đã Bán (Sản lượng)</th>
@@ -327,7 +303,7 @@ export default function CreatorSalesSection({
                   <th className="p-3.5">Video Gắn Giỏ</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody className="[&>tr:nth-child(even)]:bg-slate-50 dark:[&>tr:nth-child(even)]:bg-slate-800/40">
                 {creatorCollaborativeStores.map((s, i) => (
                   <tr key={i} className={`hover:bg-[#FFE485]/10 transition-colors dark:hover:bg-slate-800/50 ${i === 0 ? 'bg-[#FFFDF5] dark:bg-slate-800/40 font-bold' : ''}`}>
                     <td className="p-3.5 flex items-center gap-2">
@@ -342,11 +318,11 @@ export default function CreatorSalesSection({
                       )}
                     </td>
                     <td className="p-3.5 font-bold text-slate-900 dark:text-white">{s.unitsSold}</td>
-                    <td className="p-3.5 text-slate-600 dark:text-slate-400 font-mono">{s.unitsShare}</td>
+                    <td className="p-3.5 text-slate-600 dark:text-slate-400 tabular-nums">{s.unitsShare}</td>
                     <td className="p-3.5 font-bold text-[#0D7287] dark:text-[#FFD14C]">{s.gmv}</td>
-                    <td className="p-3.5 font-bold text-slate-900 dark:text-white font-mono">{s.gmvShare}</td>
-                    <td className="p-3.5 text-slate-600 dark:text-slate-400 font-mono">{s.liveSessions}</td>
-                    <td className="p-3.5 text-slate-600 dark:text-slate-400 font-mono">{s.videosCount}</td>
+                    <td className="p-3.5 font-bold text-slate-900 dark:text-white tabular-nums">{s.gmvShare}</td>
+                    <td className="p-3.5 text-slate-600 dark:text-slate-400 tabular-nums">{s.liveSessions}</td>
+                    <td className="p-3.5 text-slate-600 dark:text-slate-400 tabular-nums">{s.videosCount}</td>
                   </tr>
                 ))}
               </tbody>
@@ -374,7 +350,7 @@ export default function CreatorSalesSection({
                     </span>
                   )}
                 </div>
-                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
+                <div className="grid grid-cols-2 gap-2 pt-2 border-slate-100 dark:border-slate-800 text-xs">
                   <div>
                     <div className="text-xs text-slate-400">{isEn ? 'Units Sold' : 'Sản lượng'}</div>
                     <div className="font-bold text-slate-800 dark:text-slate-200">{s.unitsSold} ({s.unitsShare})</div>
@@ -397,7 +373,7 @@ export default function CreatorSalesSection({
           </div>
 
           {/* Brand Concentration Analysis Callout */}
-          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#FFFDF5] via-[#C8EEF7]/20 to-[#FFE485]/30 border border-[#FFD14C] border-l-4 border-l-[#FFD14C] shadow-sm flex flex-col md:flex-row gap-6 items-center justify-between dark:bg-slate-900 dark:border-slate-800 dark:border-l-[#FFD14C]">
+          <div className="p-6 rounded-3xl border border-[#FFD14C] border-l-4 border-l-[#FFD14C] flex flex-col md:flex-row gap-6 items-center justify-between dark:bg-slate-900 dark:border-slate-800 dark:border-l-[#FFD14C] bg-[#FFFDF5]">
             <div className="space-y-2">
               <div className="font-black text-slate-950 dark:text-white text-base flex items-center gap-2">
                 <ShieldCheck className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
@@ -418,10 +394,10 @@ export default function CreatorSalesSection({
       </section>
 
       {/* CROSS-TAB NAVIGATION CTA */}
-      <div className="pt-8 border-t border-[#FFE485]/60 dark:border-slate-800">
-        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#FFFDF5] via-[#FFF9E6] to-[#FFE485]/40 border-2 border-[#FFD14C] shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-6 dark:bg-gradient-to-br dark:from-[#041E24] dark:via-slate-900 dark:to-[#0D7287]/40 dark:border-[#9BE7FA] dark:shadow-xl transition-colors">
+      <div className="pt-8 border-[#FFE485]/60 dark:border-slate-800">
+        <div className="p-6 sm:p-8 rounded-3xl border-2 border-[#FFD14C] flex flex-col md:flex-row items-start md:items-center justify-between gap-6 dark:border-[#9BE7FA] transition-colors bg-[#FFFDF5]">
           <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD14C] text-slate-950 text-xs font-black uppercase tracking-wider dark:bg-[#9BE7FA] dark:text-slate-950">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD14C] text-slate-950 text-xs font-black dark:bg-[#9BE7FA] dark:text-slate-950">
               <Sparkles className="w-3.5 h-3.5" />
               <span>{isEn ? 'STATISTICAL RIGOR & OPTIMIZATION' : 'CHUYÊN SÂU TOÁN THỐNG KÊ & TỐI ƯU'}</span>
             </div>
@@ -442,7 +418,7 @@ export default function CreatorSalesSection({
                 handleTabChange('science');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="px-6 py-3.5 rounded-2xl bg-[#0D7287] hover:bg-[#095262] text-white dark:bg-[#9BE7FA] dark:hover:bg-[#72dbf3] dark:text-slate-950 font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="px-6 py-3.5 rounded-2xl bg-[#0D7287] hover:bg-[#095262] text-white dark:bg-[#9BE7FA] dark:hover:bg-[#72dbf3] dark:text-slate-950 font-black text-sm transition flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>{isEn ? 'Explore Data Science Case Study' : 'Khám Phá Nghiên Cứu Data Science'}</span>
               <ArrowRight className="w-4 h-4" />
@@ -452,7 +428,7 @@ export default function CreatorSalesSection({
                 handleTabChange('shop');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-300 hover:border-[#0D7287] text-slate-800 dark:bg-white/10 dark:hover:bg-white/20 dark:border-white/20 dark:text-white font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-300 hover:border-[#0D7287] text-slate-800 dark:bg-white/10 dark:hover:bg-white/20 dark:border-white/20 dark:text-white font-bold text-sm shadow-xs transition flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>{isEn ? 'Return to Shop Analysis (Part 1)' : 'Quay Lại Phân Tích Shop (Phần 1)'}</span>
             </button>

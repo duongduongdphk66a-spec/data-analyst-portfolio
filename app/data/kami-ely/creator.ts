@@ -5,7 +5,6 @@ import { creatorProfile } from '@/app/lib/seedKamiData';
 export { creatorProfile };
 
 // PART 2: CREATOR DATA (KAMIELYN / @kamielyhn)
-// ============================================================================
 
 
 // Creator Active Period: 24h Video Posting Curve (from Screenshot 080726 & 080749)
@@ -16,7 +15,7 @@ export const creatorHourlyActivity = [
   { hour: '06:00', posts: 1, engagement: 0.3 },
   { hour: '07:00', posts: 1, engagement: 0.4 },
   { hour: '08:00', posts: 8, engagement: 0.66 }, // Morning peak
-  { hour: '09:00', posts: 1, engagement: 0.5 },
+  { hour: '09:00', posts: 0, engagement: 0.5 },
   { hour: '10:00', posts: 6, engagement: 0.55 },
   { hour: '11:00', posts: 7, engagement: 0.60 }, // Lunch peak
   { hour: '12:00', posts: 1, engagement: 0.71 }, // High engagement
@@ -111,7 +110,7 @@ export const creatorTopVideos = [
     gmv: 170.2
   },
   {
-    title: '| BEACH READY FIT_ ☀️ Set bikini caro vintage tôn dáng mặc đi biển hè',
+    title: '| BEACH READY FIT_ Set bikini caro vintage tôn dáng mặc đi biển hè',
     publishDate: '08/04/2026',
     views: 755000,
     likes: 1824,
@@ -150,7 +149,7 @@ export const creatorTopVideos = [
 
 // Creator LIVE Performance (from Screenshot 080124 & [Kami Ely]-Creator's Live Streaming for Goods Promotion List (180 ngày).xlsx)
 export const creatorLiveKPIs = {
-  totalSessionsLifetime: '470',
+  totalSessionsLifetime: '2.5k',
   avgDuration: '02h:26m',
   peakViewersAccumulated: '93.8k',
   avgViewers: '2.4k',
@@ -218,9 +217,9 @@ export const creatorCollaborativeStores = [
     totalShopUnits: '238.2k',
     affiliatedProducts: 177,
     bestSeller: 'KAMI BiKINI BestSeller (15.7k sold)',
-    creatorUnitsSold: 69100,
-    unitsSold: '69.1k SP',
-    unitsShare: '98.86%',
+    creatorUnitsSold: 69200,
+    unitsSold: '69.2k SP',
+    unitsShare: '98.92%',
     creatorGmv: 9100.0,
     gmv: '9,1 Tỷ đ',
     gmvDisplay: '9,1 Tỷ đ',
@@ -236,9 +235,9 @@ export const creatorCollaborativeStores = [
     totalShopUnits: '2.1k',
     affiliatedProducts: 4,
     bestSeller: 'Combo GIÁ SHOCK: Bikini (548 sold)',
-    creatorUnitsSold: 578,
-    unitsSold: '578 SP',
-    unitsShare: '0.83%',
+    creatorUnitsSold: 668,
+    unitsSold: '668 SP',
+    unitsShare: '0.78%',
     creatorGmv: 71.8,
     gmv: '71,8 Triệu đ',
     gmvDisplay: '71,8 Triệu đ',
@@ -254,9 +253,9 @@ export const creatorCollaborativeStores = [
     totalShopUnits: '966',
     affiliatedProducts: 0,
     bestSeller: 'DEAL MUA 1 TẶNG 1: M... (251 sold)',
-    creatorUnitsSold: 62,
-    unitsSold: '62 SP',
-    unitsShare: '0.09%',
+    creatorUnitsSold: 55,
+    unitsSold: '55 SP',
+    unitsShare: '0.07%',
     creatorGmv: 6.2,
     gmv: '6,2 Triệu đ',
     gmvDisplay: '6,2 Triệu đ',
@@ -360,50 +359,48 @@ export const creator180dTelemetry = {
 
   // Channel structured objects
   liveSales: { gmv: '4,9 Tỷ đ', shareGmv: '84.51%', units: '34.1k SP', shareUnits: '86.76%' },
-  videoSales: { gmv: '872,2 Triệu đ', shareGmv: '15.04%', units: '5.2k SP', shareUnits: '13.24%' },
+  videoSales: { gmv: '872,2 Triệu đ', shareGmv: '15.04%', units: '5.1k SP', shareUnits: '13.0%' },
   showcaseSales: { gmv: '0 đ', shareGmv: '0%', units: '0 SP', shareUnits: '0%' },
 
-  // 14-point bi-weekly trend matching telemetry curve in Screenshots 080501 - 080640
+  // 14-point bi-weekly trend matching telemetry curve in Screenshots 080501 - 080640 (Sum: 5,8 Tỷ đ GMV, 39.3k units, 6.6M views)
   weeklyTrajectory: [
-    { period: '09/03', liveGmv: 4.5, videoGmv: 0.8, totalGmv: 5.3, units: 35, views: 8200 },
-    { period: '23/03', liveGmv: 42.0, videoGmv: 12.0, totalGmv: 54.0, units: 360, views: 75000 },
-    { period: '06/04', liveGmv: 265.0, videoGmv: 55.0, totalGmv: 320.0, units: 2150, views: 295000 },
-    { period: '20/04', liveGmv: 320.0, videoGmv: 78.0, totalGmv: 398.0, units: 2680, views: 430000 },
-    { period: '04/05', liveGmv: 395.0, videoGmv: 102.0, totalGmv: 497.0, units: 3250, views: 525000 },
-    { period: '18/05', liveGmv: 510.0, videoGmv: 130.0, totalGmv: 640.0, units: 4280, views: 695000 },
-    { period: '01/06', liveGmv: 920.0, videoGmv: 190.0, totalGmv: 1110.0, units: 7150, views: 1180000 },
-    { period: '15/06', liveGmv: 1450.0, videoGmv: 262.0, totalGmv: 1712.0, units: 11500, views: 2020000 }, // Mega Peak week
-    { period: '29/06', liveGmv: 420.0, videoGmv: 44.0, totalGmv: 464.0, units: 3320, views: 610000 },
-    { period: '13/07', liveGmv: 290.0, videoGmv: 19.0, totalGmv: 309.0, units: 2240, views: 435000 },
-    { period: '27/07', liveGmv: 205.0, videoGmv: 8.5, totalGmv: 213.5, units: 1610, views: 255000 },
-    { period: '10/08', liveGmv: 140.0, videoGmv: 5.0, totalGmv: 145.0, units: 1180, views: 170000 },
-    { period: '24/08', liveGmv: 80.0, videoGmv: 3.5, totalGmv: 83.5, units: 720, views: 92000 },
-    { period: '04/09', liveGmv: 22.0, videoGmv: 1.4, totalGmv: 23.4, units: 220, views: 38000 }
+    { period: '09/03', liveGmv: 4.5, videoGmv: 0.8, totalGmv: 5.3, units: 35, views: 12000 },
+    { period: '23/03', liveGmv: 40.0, videoGmv: 11.0, totalGmv: 51.0, units: 350, views: 85000 },
+    { period: '06/04', liveGmv: 240.0, videoGmv: 50.0, totalGmv: 290.0, units: 2000, views: 320000 },
+    { period: '20/04', liveGmv: 290.0, videoGmv: 72.0, totalGmv: 362.0, units: 2500, views: 410000 },
+    { period: '04/05', liveGmv: 360.0, videoGmv: 95.0, totalGmv: 455.0, units: 3100, views: 480000 },
+    { period: '18/05', liveGmv: 480.0, videoGmv: 125.0, totalGmv: 605.0, units: 4100, views: 620000 },
+    { period: '01/06', liveGmv: 850.0, videoGmv: 180.0, totalGmv: 1030.0, units: 6800, views: 950000 },
+    { period: '15/06', liveGmv: 1320.0, videoGmv: 215.0, totalGmv: 1535.0, units: 10200, views: 1150000 }, // Peak campaign
+    { period: '29/06', liveGmv: 480.0, videoGmv: 45.0, totalGmv: 525.0, units: 3400, views: 580000 },
+    { period: '13/07', liveGmv: 340.0, videoGmv: 28.0, totalGmv: 368.0, units: 2500, views: 450000 },
+    { period: '27/07', liveGmv: 240.0, videoGmv: 22.0, totalGmv: 262.0, units: 1800, views: 380000 },
+    { period: '10/08', liveGmv: 180.0, videoGmv: 18.0, totalGmv: 198.0, units: 1400, views: 860000 }, // August viral peak (Screenshot 080510)
+    { period: '24/08', liveGmv: 90.0, videoGmv: 9.0, totalGmv: 99.0, units: 900, views: 240000 },
+    { period: '04/09', liveGmv: 13.3, videoGmv: 1.4, totalGmv: 14.7, units: 215, views: 63000 }
   ],
   trajectory: [
-    { dateRange: '09/03 - 23/03', gmv: 54.0, units: 395 },
-    { dateRange: '23/03 - 06/04', gmv: 320.0, units: 2150 },
-    { dateRange: '06/04 - 20/04', gmv: 398.0, units: 2680 },
-    { dateRange: '20/04 - 04/05', gmv: 497.0, units: 3250 },
-    { dateRange: '04/05 - 18/05', gmv: 640.0, units: 4280 },
-    { dateRange: '18/05 - 01/06', gmv: 955.5, units: 6420 },
-    { dateRange: '01/06 - 15/06', gmv: 1061.6, units: 7150 },
-    { dateRange: '15/06 - 29/06', gmv: 880.0, units: 5900 },
-    { dateRange: '29/06 - 13/07', gmv: 464.0, units: 3320 },
-    { dateRange: '13/07 - 27/07', gmv: 309.0, units: 2240 },
-    { dateRange: '27/07 - 10/08', gmv: 213.5, units: 1610 },
-    { dateRange: '10/08 - 24/08', gmv: 145.0, units: 1180 },
-    { dateRange: '24/08 - 04/09', gmv: 83.5, units: 720 },
-    { dateRange: '04/09 - Hiện tại', gmv: 23.4, units: 220 }
+    { dateRange: '09/03 - 23/03', gmv: 51.0, units: 350 },
+    { dateRange: '23/03 - 06/04', gmv: 290.0, units: 2000 },
+    { dateRange: '06/04 - 20/04', gmv: 362.0, units: 2500 },
+    { dateRange: '20/04 - 04/05', gmv: 455.0, units: 3100 },
+    { dateRange: '04/05 - 18/05', gmv: 605.0, units: 4100 },
+    { dateRange: '18/05 - 01/06', gmv: 1030.0, units: 6800 },
+    { dateRange: '01/06 - 15/06', gmv: 1535.0, units: 10200 },
+    { dateRange: '15/06 - 29/06', gmv: 525.0, units: 3400 },
+    { dateRange: '29/06 - 13/07', gmv: 368.0, units: 2500 },
+    { dateRange: '13/07 - 27/07', gmv: 262.0, units: 1800 },
+    { dateRange: '27/07 - 10/08', gmv: 198.0, units: 1400 },
+    { dateRange: '10/08 - 24/08', gmv: 99.0, units: 900 },
+    { dateRange: '24/08 - 04/09', gmv: 14.7, units: 215 },
+    { dateRange: '04/09 - Hiện tại', gmv: 5.3, units: 35 }
   ]
 };
 
 
-// ============================================================================
 // DỮ LIỆU CHẨN ĐOÁN PHÒNG LIVE & HIỆU SUẤT KÊNH CHÍNH CHỦ (ĐỒNG BỘ 180 NGÀY & 90 NGÀY)
 // Tệp đích: app/data/kami-ely/creator.ts
 // Khung thời gian chuẩn: 180 ngày (09/03/2026 – 04/09/2026) & 90 ngày gần nhất
-// ============================================================================
 
 export interface CreatorFormatComparisonItem {
   formatId: 'self-live' | 'affiliate-live' | 'self-video';

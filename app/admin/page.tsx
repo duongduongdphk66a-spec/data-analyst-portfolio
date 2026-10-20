@@ -135,7 +135,7 @@ export default function AdminPage() {
 
   if (isAuthenticated === null) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center min-h-screen p-8">
+      <div className="flex-1 flex flex-col items-center justify-center min-h-dvh p-8">
         <RefreshCw className="w-8 h-8 animate-spin text-cyan-600 mb-2" />
         <p className="text-xs text-slate-500 font-medium">Đang kiểm tra phiên xác thực...</p>
       </div>
@@ -144,20 +144,20 @@ export default function AdminPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-dvh flex items-center justify-center p-4">
         <AdminLoginView onLoginSuccess={() => setIsAuthenticated(true)} />
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 h-screen flex flex-col">
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full flex-1 shadow-2xl flex flex-col overflow-hidden text-slate-900 dark:text-slate-100 font-sans">
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 h-dvh flex flex-col">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full flex-1 flex flex-col overflow-hidden text-slate-900 dark:text-slate-100 font-sans">
         
         {/* Top Header */}
-        <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 flex items-center justify-between flex-shrink-0">
+        <div className="px-6 py-4 border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#0D7287] to-cyan-500 text-white flex items-center justify-center font-black text-sm shadow-md shadow-cyan-500/20">
+            <div className="w-10 h-10 rounded-2xl text-white flex items-center justify-center font-black text-sm bg-[#0D7287]">
               CMS
             </div>
             <div>
@@ -176,7 +176,7 @@ export default function AdminPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 bg-slate-100 dark:bg-slate-800 hover:bg-red-50 dark:hover:bg-red-950/40 rounded-xl transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 bg-slate-100 dark:bg-slate-800 hover:bg-red-50 dark:hover:bg-red-950/40 rounded-xl transition cursor-pointer"
               title="Đăng xuất quyền Admin"
             >
               <LogOut className="w-3.5 h-3.5" />
@@ -186,10 +186,10 @@ export default function AdminPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center px-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 gap-2 overflow-x-auto shrink-0 pt-2">
+        <div className="flex items-center px-6 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 gap-2 overflow-x-auto shrink-0 pt-2">
           <button
             onClick={() => setActiveTab('profile')}
-            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-extrabold rounded-t-xl transition-all cursor-pointer border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-extrabold rounded-t-xl transition cursor-pointer border-b-2 whitespace-nowrap ${
               activeTab === 'profile'
                 ? 'border-[#074553] text-[#074553] dark:border-[#9BE7FA] dark:text-[#9BE7FA] bg-[#C8EEF7]/30 dark:bg-slate-800/60'
                 : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -201,7 +201,7 @@ export default function AdminPage() {
 
           <button
             onClick={() => setActiveTab('texts')}
-            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-extrabold rounded-t-xl transition-all cursor-pointer border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-extrabold rounded-t-xl transition cursor-pointer border-b-2 whitespace-nowrap ${
               activeTab === 'texts'
                 ? 'border-[#074553] text-[#074553] dark:border-[#9BE7FA] dark:text-[#9BE7FA] bg-[#C8EEF7]/30 dark:bg-slate-800/60'
                 : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -213,7 +213,7 @@ export default function AdminPage() {
 
           <button
             onClick={() => setActiveTab('projects')}
-            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-extrabold rounded-t-xl transition-all cursor-pointer border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-extrabold rounded-t-xl transition cursor-pointer border-b-2 whitespace-nowrap ${
               activeTab === 'projects'
                 ? 'border-[#074553] text-[#074553] dark:border-[#9BE7FA] dark:text-[#9BE7FA] bg-[#C8EEF7]/30 dark:bg-slate-800/60'
                 : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -225,7 +225,7 @@ export default function AdminPage() {
 
           <button
             onClick={() => setActiveTab('database')}
-            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-extrabold rounded-t-xl transition-all cursor-pointer border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] text-xs font-extrabold rounded-t-xl transition cursor-pointer border-b-2 whitespace-nowrap ${
               activeTab === 'database'
                 ? 'border-[#074553] text-[#074553] dark:border-[#9BE7FA] dark:text-[#9BE7FA] bg-[#C8EEF7]/30 dark:bg-slate-800/60'
                 : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -277,9 +277,9 @@ export default function AdminPage() {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3.5 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/90 flex items-center justify-between flex-shrink-0">
+        <div className="px-6 py-3.5 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/90 flex items-center justify-between flex-shrink-0">
           <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-            <Check className="w-3.5 h-3.5 text-emerald-500" />
+            <Check className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
             Thay đổi sẽ tự động đồng bộ thời gian thực lên toàn bộ các trang và cơ sở dữ liệu.
           </span>
 
@@ -287,7 +287,7 @@ export default function AdminPage() {
             <button
               onClick={handleSaveAll}
               disabled={isSaving}
-              className="flex items-center gap-2 px-5 py-2 bg-[#0D7287] hover:bg-cyan-700 text-white font-bold text-xs rounded-xl shadow-md shadow-cyan-500/20 transition-all cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-2 px-5 py-2 bg-[#0D7287] hover:bg-cyan-700 text-white font-bold text-xs rounded-xl transition cursor-pointer disabled:opacity-50"
             >
               {isSaving ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
               <span>Lưu Thay Đổi (Save to MySQL)</span>

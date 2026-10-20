@@ -481,9 +481,7 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
   },
 ];
 
-// ============================================================================
 // DỮ LIỆU CHUỖI THỜI GIAN THEO 6 BIỂU ĐỒ TRONG NIÊN LUẬN & DỮ LIỆU CẬP NHẬT CHÍNH THỨC
-// ============================================================================
 
 // Biểu đồ 3.1: Số lượng khách quốc tế đến Nhật Bản (triệu người)
 // Nguồn gốc niên luận: JNTO (2003 - 2022); Cập nhật: JNTO (2023 - 2025)
@@ -663,10 +661,8 @@ export const gdpShareData = [
   { year: '2024', gdpShare: 8.4, directRevenue: 68.20 }
 ];
 
-// ============================================================================
 // HỒ SƠ PHÁT HIỆN VẤN ĐỀ & KIỂM ĐỊNH DỮ LIỆU (DATA AUDIT & ANOMALIES)
 // Dành cho vai trò Data Analyst: chứng minh tư duy phản biện và khả năng kiểm định dữ liệu
-// ============================================================================
 
 export interface DataAuditFinding {
   id: string;
@@ -728,9 +724,7 @@ export const DATA_AUDIT_FINDINGS: DataAuditFinding[] = [
   }
 ];
 
-// ============================================================================
 // MA TRẬN ĐÁNH GIÁ HIỆU QUẢ CHÍNH SÁCH (POLICY EFFECTIVENESS MATRIX)
-// ============================================================================
 
 export interface PolicyEvaluationItem {
   id: string;
@@ -796,10 +790,8 @@ export const POLICY_EVALUATION_MATRIX: PolicyEvaluationItem[] = [
   }
 ];
 
-// ============================================================================
 // DỮ LIỆU ĐỐI CHỨNG PHẢN THỰC TẾ (COUNTERFACTUAL ANALYSIS DATA)
 // Baseline: Kéo dài xu hướng tăng trưởng 2003-2012 (CAGR 5.1%) so với Thực tế 2013-2019
-// ============================================================================
 
 export const COUNTERFACTUAL_SUMMARY = {
   baselineCagr: 0.051,       // 5.1% tăng trưởng thường niên giai đoạn 2003 - 2012

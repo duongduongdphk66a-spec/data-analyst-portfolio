@@ -4,7 +4,7 @@ import GoBackButton from '@/components/ui/GoBackButton';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-ground flex items-center justify-center px-6">
+    <div className="min-h-dvh bg-ground flex items-center justify-center px-6">
       <div className="max-w-lg w-full text-center space-y-8">
         {/* 404 Visual */}
         <div className="relative">
@@ -12,7 +12,7 @@ export default function NotFound() {
             404
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#0D7287] to-brand-primary flex items-center justify-center shadow-lg shadow-brand-primary/20">
+            <div className="w-20 h-20 rounded-2xl flex items-center justify-center bg-[#0D7287]">
               <Search className="w-9 h-9 text-white" />
             </div>
           </div>
@@ -33,7 +33,7 @@ export default function NotFound() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#0D7287] to-[#0A5F70] text-white font-heading font-bold text-sm hover:shadow-lg hover:shadow-[#0D7287]/25 transition-all duration-300 hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-heading font-bold text-sm transition duration-300 hover:-translate-y-0.5 bg-[#0D7287]"
           >
             <Home className="w-4 h-4" />
             Về Trang Chủ
@@ -43,7 +43,7 @@ export default function NotFound() {
 
         {/* Decorative Bottom */}
         <div className="pt-6">
-          <p className="text-xs font-mono text-ink-muted/60">
+          <p className="text-xs tabular-nums text-ink-muted/60">
             ERROR_CODE: 404 · PAGE_NOT_FOUND
           </p>
         </div>

@@ -34,7 +34,7 @@ export function Chapter1HeritageSection({
   }, [unescoFilter, unescoSearch]);
 
   return (
-    <section id="chuong-1" className="py-16 bg-ground border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
+    <section id="chuong-1" className="py-16 bg-ground border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionHeader
           variant="stacked"
@@ -64,7 +64,7 @@ export function Chapter1HeritageSection({
             </div>
 
             {/* Interactive UNESCO Explorer */}
-            <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
+            <div className="mt-8 pt-6 border-slate-200 dark:border-slate-800">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                 <div>
                   <h4 className="font-extrabold text-slate-900 text-sm sm:text-base flex items-center gap-2 dark:text-white">
@@ -80,7 +80,7 @@ export function Chapter1HeritageSection({
                       <button
                         key={type}
                         onClick={() => setUnescoFilter(type)}
-                        className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
+                        className={`px-2.5 py-1 rounded text-xs font-bold transition cursor-pointer ${
                           unescoFilter === type 
                             ? 'bg-white text-slate-950 shadow-xs dark:bg-slate-700 dark:text-white' 
                             : 'text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white'
@@ -101,7 +101,7 @@ export function Chapter1HeritageSection({
                   value={unescoSearch}
                   onChange={(e) => setUnescoSearch(e.target.value)}
                   placeholder="Tìm theo tên di sản, tỉnh (Kyoto, Nara, Hiroshima, Tokyo...)..."
-                  className="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#9BE7FA] transition-all dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+                  className="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#9BE7FA] transition dark:bg-slate-800 dark:border-slate-700 dark:text-white"
                 />
               </div>
 
@@ -110,17 +110,17 @@ export function Chapter1HeritageSection({
                 {filteredUnescoSites.map((site) => (
                   <div 
                     key={site.id}
-                    className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-[#9BE7FA] transition-all text-xs dark:bg-slate-800/70 dark:border-slate-700/80"
+                    className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-[#9BE7FA] transition text-xs dark:bg-slate-800/70 dark:border-slate-700/80"
                   >
                     <div className="flex items-center justify-between gap-1 mb-1">
                       <span className={`px-2 py-0.5 rounded text-xs font-extrabold ${
                         site.type === 'Văn hóa' 
-                          ? 'bg-amber-100 text-amber-900 border border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800' 
-                          : 'bg-emerald-100 text-emerald-900 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
+                          ? 'bg-[#FFE485]/40 text-[#92400E] border border-[#FFE485]/70 dark:bg-[#FFE485]/20 dark:text-[#FFE485] dark:border-[#FFE485]/40' 
+                          : 'bg-[#C8EEF7] text-[#074553] border border-[#9BE7FA]/60 dark:bg-[#074553]/60 dark:text-[#9BE7FA] dark:border-[#074553]'
                       }`}>
                         {site.type} • {site.year}
                       </span>
-                      <span className="text-slate-400 font-mono text-xs">{site.prefecture}</span>
+                      <span className="text-slate-400 tabular-nums text-xs">{site.prefecture}</span>
                     </div>
                     <p className="font-extrabold text-slate-900 mb-0.5 dark:text-white">{site.nameVi}</p>
                     <p className="text-[11px] text-slate-500 font-japanese mb-1.5 dark:text-slate-400">{site.nameJa}</p>
@@ -144,9 +144,9 @@ export function Chapter1HeritageSection({
 
               {/* 2-column impact matrix */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                <div className="p-5 rounded-xl bg-emerald-50/70 border border-emerald-200 dark:bg-emerald-950/20 dark:border-emerald-900/60">
-                  <div className="flex items-center gap-2 text-emerald-800 font-black text-sm uppercase tracking-wider mb-2 dark:text-emerald-300">
-                    <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <div className="p-5 rounded-xl bg-[#C8EEF7]/40 border border-[#9BE7FA]/60 dark:bg-[#074553]/30 dark:border-[#074553]">
+                  <div className="flex items-center gap-2 text-[#074553] font-black text-sm uppercase tracking-wider mb-2 dark:text-[#9BE7FA]">
+                    <TrendingUp className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                     <span>Tác động tích cực (Positive Impacts)</span>
                   </div>
                   <ul className="text-xs sm:text-sm space-y-2 text-slate-700 list-disc list-inside dark:text-slate-300">
@@ -157,9 +157,9 @@ export function Chapter1HeritageSection({
                   </ul>
                 </div>
 
-                <div className="p-5 rounded-xl bg-rose-50/70 border border-rose-200 dark:bg-rose-950/20 dark:border-rose-900/60">
-                  <div className="flex items-center gap-2 text-rose-800 font-black text-sm uppercase tracking-wider mb-2 dark:text-rose-300">
-                    <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+                <div className="p-5 rounded-xl bg-[#FFE485]/15 border border-[#FFE485]/50 dark:bg-[#FFE485]/10 dark:border-[#FFE485]/30">
+                  <div className="flex items-center gap-2 text-[#92400E] font-black text-sm uppercase tracking-wider mb-2 dark:text-[#FFE485]">
+                    <AlertTriangle className="w-4 h-4 text-[#B45309] dark:text-[#FFD14C]" />
                     <span>Tác động tiêu cực (Negative Impacts)</span>
                   </div>
                   <ul className="text-xs sm:text-sm space-y-2 text-slate-700 list-disc list-inside dark:text-slate-300">

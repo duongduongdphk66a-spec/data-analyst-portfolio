@@ -42,10 +42,42 @@ When implementing or refining interfaces, follow `ui-ux-pro-max` guidelines and 
    - Soft Butter Gold: `#FFE485` (soft KPI highlights, secondary badges)
    - Amber Gold: `#FFD14C` (status indicators, spinners, key focal callouts)
 
-2. **UI/UX Pro Max Checklist**:
+2. **Semantic Metric & Data Indicators**:
+   - **Positive Figures (Tích cực, tăng trưởng, dương)**: Use semantic green/emerald (`text-emerald-600 dark:text-emerald-400`, `bg-emerald-500/10`) or Cyan (`#0D7287` / `#9BE7FA`) to highlight upward deltas (e.g. `+24%`, growth, targets met).
+   - **Negative Figures (Tiêu cực, sụt giảm, âm)**: Use semantic red/rose (`text-rose-600 dark:text-rose-400`, `bg-rose-500/10`, `fill-rose-500`) to highlight drops, deficits, and alerts (e.g. `-18%`, churn, pandemic troughs).
+   - **Neutral / Baseline Figures**: Use Slates (`text-slate-900 dark:text-white` or `text-slate-500 dark:text-slate-400`).
+
+3. **Data Visualization & Chart Color Harmony**:
+   - Charts (Recharts, SVG sparklines, multi-series bar/line/area charts, heatmaps) may use categorical and comparative color palettes beyond the 4 core colors (e.g. Emerald, Rose, Indigo, Teal, Amber, Violet) to clearly distinguish distinct data categories and series.
+   - Maintain visual harmony with the portfolio base palette: avoid harsh neon or muddy clashes, balance saturation and lightness, and maintain at least 4.5:1 text/element contrast (WCAG AA).
+
+4. **UI/UX Pro Max Checklist**:
    - Strictly SVG icons (Lucide React), never raw emojis as UI icons.
    - Clickable targets meet 44×44px minimum touch size with `cursor-pointer`.
    - Text contrast maintains 4.5:1 minimum (WCAG AA).
    - Smooth 150-300ms transitions with easing.
    - Responsive layouts without horizontal scrolling (375px to 1440px).
+
+## Taste Skill & Anti-Slop Art Direction
+
+Follow `taste-skill` standards (from `.agents/skills/taste-skill`) to eliminate generic AI styling patterns:
+
+1. **Anti-Slop Visual Rules**:
+   - Do not use decorative index numbering (`01`, `02`, `03`) as filler ornament.
+   - Do not add uppercase tracking-spaced kicker labels ("EYEBROW / PRETITLE") above headings unless semantically required.
+   - Avoid generic indigo/violet AI gradient fills and gradient text (`bg-clip-text`). Use solid brand tones.
+   - Avoid resting shadows on flat surfaces (`shadow-sm`, `shadow-xl`). Rest elements on clean surfaces; reserve elevation for floating overlays (drawers, modals, sticky headers).
+   - Prefer whitespace and tonal surfaces over 1px hairline divider borders (`<hr>`, `border-t`, `divide-y`).
+   - Limit backdrop blurs to one sticky bar at most; avoid glassmorphism cards.
+
+2. **Typography & Layout**:
+   - Headlines need presence and intentional scale with tight tracking (`tracking-tight`) and balanced wrap (`text-wrap: balance`).
+   - Use tabular numbers (`tabular-nums`) for metrics, data points, and tables.
+   - Restrict paragraph width to readable bounds (`max-w-prose` or ~65 characters).
+   - Use viewport-safe mobile sizing (`min-h-[100dvh]` or `100svh`, avoiding `100vh`).
+   - Target properties explicitly in transitions (e.g. `transition-transform transition-opacity`) rather than blanket `transition-all`.
+
+3. **Validation**:
+   - Run `npm run taste:lint` to check project code for banned AI-design tells.
+   - Run `npm run taste:draw` to explore curated editorial directions for new pages.
 

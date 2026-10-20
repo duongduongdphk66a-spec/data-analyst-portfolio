@@ -79,19 +79,10 @@ export default function BlogPage() {
       {/* =====================================================================
        * 1. BLOG HERO HEADER (Official Project Cyan & Deep Teal Palette)
        * ===================================================================== */}
-      <section className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#074553] via-[#093540] to-[#0A5F70] border border-[#9BE7FA]/30 text-white p-8 sm:p-12 shadow-xl">
-        <div
-          className="absolute inset-0 opacity-15 pointer-events-none"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 2px 2px, rgba(155,231,250,0.4) 1px, transparent 0)",
-            backgroundSize: "24px 24px",
-          }}
-        />
-
+      <section className="relative rounded-3xl overflow-hidden bg-[#F0F9FB] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 text-slate-900 dark:text-white p-8 sm:p-12">
         <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#9BE7FA]/15 border border-[#9BE7FA]/40 text-[#9BE7FA] text-xs font-semibold uppercase tracking-wider">
-            <BookOpen className="w-3.5 h-3.5 text-[#FFD14C]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-[#C8EEF7] dark:border-slate-700 text-[#074553] dark:text-[#9BE7FA] text-xs font-semibold">
+            <BookOpen className="w-3.5 h-3.5 text-amber-600 dark:text-[#FFD14C]" />
             <span>
               {isVi
                 ? "Nhật ký Phân tích & Nghiên cứu Dữ liệu"
@@ -99,13 +90,13 @@ export default function BlogPage() {
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
             {isVi
               ? "Quy trình Phân tích, Đối soát & Phát hiện Thực nghiệm"
               : "Analytical Process, Data Reconciliation & Key Findings"}
           </h1>
 
-          <p className="text-[#C8EEF7] text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed">
             {isVi
               ? "Nơi tôi ghi lại chi tiết cách đặt câu hỏi nghiên cứu, quy trình làm sạch dữ liệu (Data Audit), tối ưu hóa truy vấn SQL, kiểm định giả thuyết thống kê và đúc kết bài học từ các dự án thực tế."
               : "Detailed write-ups documenting my research hypotheses, data auditing pipelines, SQL query optimization, statistical hypothesis testing, and strategic findings across projects."}
@@ -113,7 +104,7 @@ export default function BlogPage() {
         </div>
 
         {/* Summary Metric Pills */}
-        <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-8 border-t border-white/10">
+        <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6">
           {[
             {
               labelVi: "Chuyên đề Phân tích",
@@ -138,12 +129,12 @@ export default function BlogPage() {
           ].map((stat, idx) => (
             <div
               key={idx}
-              className="rounded-2xl bg-[#04242c]/70 border border-white/10 px-4 py-3"
+              className="rounded-2xl bg-white dark:bg-slate-950/70 border border-[#C8EEF7] dark:border-slate-800 px-4 py-3"
             >
-              <div className="text-lg sm:text-xl font-bold text-[#9BE7FA]">
+              <div className="text-lg sm:text-xl font-bold text-[#074553] dark:text-[#9BE7FA] tabular-nums">
                 {stat.value}
               </div>
-              <div className="text-xs text-slate-300 mt-0.5">
+              <div className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                 {isVi ? stat.labelVi : stat.labelEn}
               </div>
             </div>
@@ -154,7 +145,7 @@ export default function BlogPage() {
       {/* =====================================================================
        * 2. FILTER & SEARCH BAR (Cyan & Gold Active States)
        * ===================================================================== */}
-      <section className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <section className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
           <Filter className="w-4 h-4 text-slate-400 shrink-0 mr-1 hidden sm:block" />
           {categories.map((cat) => {
@@ -164,9 +155,9 @@ export default function BlogPage() {
                 key={cat.id}
                 type="button"
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer border ${
+                className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer border ${
                   active
-                    ? "bg-[#9BE7FA] text-[#074553] border-[#9BE7FA] font-extrabold shadow-sm shadow-[#9BE7FA]/20"
+                    ? "bg-[#9BE7FA] text-[#074553] border-[#9BE7FA] font-extrabold"
                     : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-transparent hover:border-[#9BE7FA]/40 hover:bg-slate-200 dark:hover:bg-slate-700"
                 }`}
               >
@@ -208,7 +199,7 @@ export default function BlogPage() {
           filteredPosts.map((post) => (
             <article
               key={post.id}
-              className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-9 shadow-sm hover:border-[#9BE7FA]/60 transition grid grid-cols-1 lg:grid-cols-12 gap-8"
+              className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-9 hover:border-[#9BE7FA]/60 transition-colors grid grid-cols-1 lg:grid-cols-12 gap-8"
             >
               {/* Left Column (7 Cols): Narrative, Process & Actions */}
               <div className="lg:col-span-7 flex flex-col justify-between space-y-5">
@@ -218,11 +209,11 @@ export default function BlogPage() {
                     <span className="px-3 py-1 rounded-full font-bold bg-[#9BE7FA]/15 dark:bg-[#9BE7FA]/10 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/30">
                       {isVi ? post.categoryVi : post.categoryEn}
                     </span>
-                    <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 font-mono">
+                    <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 tabular-nums">
                       <Calendar className="w-3.5 h-3.5" />
                       {post.date}
                     </span>
-                    <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 font-mono">
+                    <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 tabular-nums">
                       <Clock className="w-3.5 h-3.5" />
                       {isVi ? post.readTimeVi : post.readTimeEn}
                     </span>
@@ -240,7 +231,7 @@ export default function BlogPage() {
 
                   {/* Process Steps */}
                   <div className="space-y-2 pt-1">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA]">
+                    <h3 className="text-sm font-bold text-[#074553] dark:text-[#9BE7FA]">
                       {isVi
                         ? "Quy trình Phân tích (Analytical Process):"
                         : "Analytical Process:"}
@@ -262,12 +253,12 @@ export default function BlogPage() {
                 </div>
 
                 {/* Tags & Action Bar */}
-                <div className="pt-5 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
+                <div className="pt-5 flex flex-wrap items-center justify-between gap-4">
                   <div className="flex flex-wrap gap-1.5">
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-1 text-xs font-mono px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
+                        className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
                       >
                         <Tag className="w-2.5 h-2.5" />
                         {tag}
@@ -279,14 +270,14 @@ export default function BlogPage() {
                     <button
                       type="button"
                       onClick={() => setActivePost(post)}
-                      className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-bold transition cursor-pointer shadow-sm border border-[#9BE7FA]"
+                      className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-bold transition-colors cursor-pointer border border-[#9BE7FA]"
                     >
                       <BookOpen className="w-3.5 h-3.5" />
                       {isVi ? "Đọc chi tiết" : "Read Full Note"}
                     </button>
                     <Link
                       href={post.projectSlug}
-                      className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold transition cursor-pointer"
+                      className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold transition-colors cursor-pointer"
                     >
                       {isVi ? "Xem Dự án" : "View Case Study"}
                       <ArrowUpRight className="w-3.5 h-3.5" />
@@ -299,13 +290,13 @@ export default function BlogPage() {
               <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
                 {/* Code Block Card */}
                 <div className="rounded-2xl bg-slate-950 border border-slate-800 overflow-hidden">
-                  <div className="px-4 py-2.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-300">
+                  <div className="px-4 py-2.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between" /* taste-skill-ignore: code block header */>
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-300">
                       <Terminal className="w-3.5 h-3.5 text-[#9BE7FA]" />
                       {isVi ? post.codeTitleVi : post.codeTitleEn}
                     </span>
-                    <span className="text-xs font-mono uppercase px-2 py-0.5 rounded bg-[#9BE7FA]/20 text-[#9BE7FA]">
-                      {post.codeLanguage}
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#9BE7FA]/20 text-[#9BE7FA]">
+                      {post.codeLanguage.toUpperCase()}
                     </span>
                   </div>
                   <pre className="p-4 text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed max-h-60">
@@ -315,7 +306,7 @@ export default function BlogPage() {
 
                 {/* Key Findings Box with Gold Accent (#FFE485 & #FFD14C) */}
                 <div className="rounded-2xl bg-[#FFE485]/15 dark:bg-[#FFE485]/10 border border-[#FFE485]/35 p-5">
-                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-900 dark:text-[#FFE485] mb-2">
+                  <div className="flex items-center gap-2 text-sm font-bold text-amber-900 dark:text-[#FFE485] mb-2">
                     <Sparkles className="w-4 h-4 text-[#FFD14C]" />
                     <span>
                       {isVi
@@ -342,20 +333,20 @@ export default function BlogPage() {
           onClick={() => setActivePost(null)}
         >
           <div
-            className="relative w-full max-w-3xl rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-2xl my-8 space-y-6"
+            className="relative w-full max-w-3xl rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-2xl my-8 space-y-6" /* taste-skill-ignore: modal overlay */
             onClick={(e) => e.stopPropagation()}
           >
             <button
               type="button"
               onClick={() => setActivePost(null)}
-              className="absolute top-6 right-6 min-h-[44px] min-w-[44px] rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-white transition cursor-pointer"
+              className="absolute top-6 right-6 min-h-[44px] min-w-[44px] rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
               aria-label="Close modal"
             >
               <X className="w-4 h-4" />
             </button>
 
             <div className="space-y-3 pr-8">
-              <span className="inline-block text-xs font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA]">
+              <span className="inline-block text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
                 {isVi ? activePost.categoryVi : activePost.categoryEn}
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white leading-snug">
@@ -364,8 +355,8 @@ export default function BlogPage() {
             </div>
 
             <div className="rounded-2xl bg-slate-50 dark:bg-slate-800/60 p-5 border border-slate-200/80 dark:border-slate-800 space-y-2">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                {isVi ? "1. Bài toán & Bối cảnh" : "1. Problem & Context"}
+              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">
+                {isVi ? "Bài toán & Bối cảnh" : "Problem & Context"}
               </h3>
               <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
                 {isVi ? activePost.problemVi : activePost.problemEn}
@@ -373,10 +364,10 @@ export default function BlogPage() {
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA]">
+              <h3 className="text-sm font-bold text-[#074553] dark:text-[#9BE7FA]">
                 {isVi
-                  ? "2. Quy trình Xử lý & Phân tích"
-                  : "2. Step-by-Step Analytical Process"}
+                  ? "Quy trình Xử lý & Phân tích"
+                  : "Step-by-Step Analytical Process"}
               </h3>
               <ul className="space-y-2.5">
                 {(isVi ? activePost.processVi : activePost.processEn).map(
@@ -394,12 +385,12 @@ export default function BlogPage() {
             </div>
 
             <div className="rounded-2xl bg-slate-950 border border-slate-800 overflow-hidden">
-              <div className="px-4 py-2.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
-                <span className="text-xs font-mono text-slate-300">
+              <div className="px-4 py-2.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between" /* taste-skill-ignore: code block header */>
+                <span className="text-xs font-medium text-slate-300">
                   {isVi ? activePost.codeTitleVi : activePost.codeTitleEn}
                 </span>
-                <span className="text-xs font-mono uppercase px-2 py-0.5 rounded bg-[#9BE7FA]/20 text-[#9BE7FA]">
-                  {activePost.codeLanguage}
+                <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#9BE7FA]/20 text-[#9BE7FA]">
+                  {activePost.codeLanguage.toUpperCase()}
                 </span>
               </div>
               <pre className="p-4 text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed">
@@ -408,17 +399,17 @@ export default function BlogPage() {
             </div>
 
             <div className="rounded-2xl bg-[#FFE485]/15 border border-[#FFE485]/35 p-5 space-y-2">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-amber-900 dark:text-[#FFE485]">
+              <h3 className="text-sm font-bold text-amber-900 dark:text-[#FFE485]">
                 {isVi
-                  ? "3. Phát hiện Cốt lõi (Key Findings)"
-                  : "3. Key Findings & Strategic Impact"}
+                  ? "Phát hiện Cốt lõi (Key Findings)"
+                  : "Key Findings & Strategic Impact"}
               </h3>
               <p className="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">
                 {isVi ? activePost.findingsVi : activePost.findingsEn}
               </p>
             </div>
 
-            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between" /* taste-skill-ignore: modal footer */>
               <Link
                 href={activePost.projectSlug}
                 onClick={() => setActivePost(null)}

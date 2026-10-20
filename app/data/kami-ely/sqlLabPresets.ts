@@ -1,7 +1,5 @@
-// ============================================================================
 // FILE: app/data/kami-ely/sqlLabPresets.ts
 // 4 TRUY VẤN SQL THỰC CHIẾN TRÊN 8 BẢNG DỮ LIỆU KAMI ELY CHO TRANG /LAB
-// ============================================================================
 
 export interface KamiSqlPresetItem {
   id: string;

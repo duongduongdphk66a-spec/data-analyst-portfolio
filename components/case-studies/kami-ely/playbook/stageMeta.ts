@@ -35,8 +35,8 @@ export const STAGE_META: readonly StageMeta[] = [
   {
     n: 4,
     id: 'pb-stage-4',
-    title: { vi: 'Cohort creator', en: 'Creator cohorts' },
-    short: { vi: 'Cohort', en: 'Cohorts' },
+    title: { vi: 'Phân tích Affiliate', en: 'Affiliate Analysis' },
+    short: { vi: 'Affiliate', en: 'Affiliate' },
     coverage: 'partial',
     gap: {
       vi: 'Seller Center không có mã khách hàng nên cohort được tính trên creator.',

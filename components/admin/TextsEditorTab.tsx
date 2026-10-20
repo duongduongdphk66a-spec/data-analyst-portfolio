@@ -69,7 +69,7 @@ export default function TextsEditorTab({
         <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
           <button
             onClick={() => setTextLang('vi')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition cursor-pointer ${
               textLang === 'vi'
                 ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
                 : 'text-slate-600 dark:text-slate-400'
@@ -79,7 +79,7 @@ export default function TextsEditorTab({
           </button>
           <button
             onClick={() => setTextLang('en')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition cursor-pointer ${
               textLang === 'en'
                 ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
                 : 'text-slate-600 dark:text-slate-400'
@@ -102,7 +102,7 @@ export default function TextsEditorTab({
             <button
               key={sec.id}
               onClick={() => setTextSubSection(sec.id)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
                 textSubSection === sec.id
                   ? 'bg-[#0D7287] text-white'
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200'
@@ -125,7 +125,7 @@ export default function TextsEditorTab({
         <button
           onClick={onSave}
           disabled={isSaving}
-          className="px-4 py-1.5 bg-[#0D7287] hover:bg-cyan-700 disabled:opacity-50 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer"
+          className="px-4 py-1.5 bg-[#0D7287] hover:bg-cyan-700 disabled:opacity-50 text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer"
         >
           Lưu Văn Bản
         </button>
@@ -150,14 +150,14 @@ export default function TextsEditorTab({
               >
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded-md bg-cyan-100 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 font-mono text-xs font-bold">
+                    <span className="px-2 py-0.5 rounded-md bg-cyan-100 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 tabular-nums text-xs font-bold">
                       {item.key}
                     </span>
                     <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
                       • {item.sectionLabel}
                     </span>
                   </div>
-                  <span className="text-xs text-slate-400 font-mono">
+                  <span className="text-xs text-slate-400 tabular-nums">
                     {val.length} ký tự
                   </span>
                 </div>

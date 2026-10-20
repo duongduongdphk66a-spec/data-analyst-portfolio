@@ -3,7 +3,7 @@
 import React from 'react';
 import { ShieldCheck, Download, AlertTriangle } from 'lucide-react';
 import { 
-  ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid, 
+  ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid, Label,
   Tooltip, ResponsiveContainer, Legend 
 } from 'recharts';
 import { KAMI_MATH_STATS } from '@/app/data/kamiElyData';
@@ -15,10 +15,10 @@ interface ScienceEdaSectionProps {
 
 export default function ScienceEdaSection({ isEn, handleExport }: ScienceEdaSectionProps) {
   return (
-    <section id="sec-eda" className="space-y-8 py-16 md:py-20 border-b border-slate-200/80 dark:border-slate-800">
+    <section id="sec-eda" className="space-y-8 py-16 md:py-20 border-slate-200/80 dark:border-slate-800">
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <span className="editorial-kicker">
+          <span className="meta-label">
             {isEn ? 'PHASE 02 · DATA PREPROCESSING & EDA' : 'PHẦN 2 · TIỀN XỬ LÝ DỮ LIỆU & THỐNG KÊ MÔ TẢ'}
           </span>
         </div>
@@ -34,12 +34,12 @@ export default function ScienceEdaSection({ isEn, handleExport }: ScienceEdaSect
 
       {/* Analytical Insight Callout: Outlier Filtering */}
       <div className="border-l-4 border-[#9BE7FA] pl-5 py-2 space-y-2 text-slate-800 dark:text-slate-200 bg-[#C8EEF7]/20 dark:bg-[#9BE7FA]/5 rounded-r-xl">
-        <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA]">
+        <div className="flex items-center justify-between text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
           <span className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-[#074553] dark:text-[#9BE7FA]" />
             {isEn ? 'Outlier Filtering Methodology' : 'Nguyên Lý Định Vị Điểm Dị Biệt (Outlier Detection)'}
           </span>
-          <span className="font-mono text-[11px] text-[#074553] dark:text-[#9BE7FA] bg-[#C8EEF7]/80 dark:bg-[#9BE7FA]/20 px-2 py-0.5 rounded border border-[#9BE7FA]">
+          <span className="tabular-nums text-[11px] text-[#074553] dark:text-[#9BE7FA] bg-[#C8EEF7]/80 dark:bg-[#9BE7FA]/20 px-2 py-0.5 rounded border border-[#9BE7FA]">
             {isEn ? 'Filter: > 3 Standard Deviations' : 'Ngưỡng Lọc: > 3 Độ Lệch Chuẩn'}
           </span>
         </div>
@@ -72,10 +72,12 @@ export default function ScienceEdaSection({ isEn, handleExport }: ScienceEdaSect
 
         <div className="h-72 w-full sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={KAMI_MATH_STATS.eda.zTimelineData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+            <ComposedChart data={KAMI_MATH_STATS.eda.zTimelineData} margin={{ top: 22, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
               <XAxis dataKey="dateLabel" tick={{ fontSize: 11 }} />
-              <YAxis tick={{ fontSize: 11 }} unit="M" />
+              <YAxis tick={{ fontSize: 11 }}>
+                <Label value={isEn ? '(M VND)' : '(Tr đ)'} position="top" offset={10} fill="#94a3b8" fontSize={11} />
+              </YAxis>
               <Tooltip 
                 formatter={(val: any, name?: any) => [
                   `${val} Triệu VNĐ`, 
@@ -83,7 +85,7 @@ export default function ScienceEdaSection({ isEn, handleExport }: ScienceEdaSect
                 ]}
                 labelFormatter={(lbl, items) => {
                   const item = items?.[0]?.payload;
-                  return `${lbl} ${item?.isOutlier ? '⚠️ ĐIỂM DỊ BIỆT ĐỘT BIẾN' : ''}`;
+                  return `${lbl} ${item?.isOutlier ? 'ĐIỂM DỊ BIỆT ĐỘT BIẾN' : ''}`;
                 }}
                 contentStyle={{ backgroundColor: '#0f172a', borderColor: '#9BE7FA', color: '#f8fafc', borderRadius: '12px' }}
               />
@@ -123,10 +125,10 @@ export default function ScienceEdaSection({ isEn, handleExport }: ScienceEdaSect
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-semibold px-2.5 py-1 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-[#C8EEF7] dark:border-slate-700">
+            <span className="tabular-nums text-xs font-semibold px-2.5 py-1 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-[#C8EEF7] dark:border-slate-700">
               Trung vị = 4,51M VNĐ
             </span>
-            <span className="font-mono text-xs font-semibold px-2.5 py-1 rounded-full bg-[#C8EEF7]/80 dark:bg-[#9BE7FA]/20 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]">
+            <span className="tabular-nums text-xs font-semibold px-2.5 py-1 rounded-full bg-[#C8EEF7]/80 dark:bg-[#9BE7FA]/20 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]">
               Trung bình = 14,85M VNĐ
             </span>
           </div>
@@ -134,10 +136,12 @@ export default function ScienceEdaSection({ isEn, handleExport }: ScienceEdaSect
 
         <div className="h-64 w-full sm:h-72">
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={KAMI_MATH_STATS.eda.kdePoints} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+            <ComposedChart data={KAMI_MATH_STATS.eda.kdePoints} margin={{ top: 22, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#9BE7FA" opacity={0.25} />
               <XAxis dataKey="range" tick={{ fontSize: 11 }} />
-              <YAxis tick={{ fontSize: 11 }} unit="%" />
+              <YAxis tick={{ fontSize: 11 }}>
+                <Label value="(%)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+              </YAxis>
               <Tooltip 
                 formatter={(val: any, name?: any) => [
                   `${val}%`, 

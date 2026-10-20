@@ -16,7 +16,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-ground flex items-center justify-center px-6">
+    <div className="min-h-dvh bg-ground flex items-center justify-center px-6">
       <div className="max-w-lg w-full text-center space-y-8">
         {/* Error Visual */}
         <div className="relative">
@@ -24,7 +24,7 @@ export default function Error({
             500
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center shadow-lg shadow-red-500/20">
+            <div className="w-20 h-20 rounded-2xl flex items-center justify-center bg-red-500">
               <AlertTriangle className="w-9 h-9 text-white" />
             </div>
           </div>
@@ -40,7 +40,7 @@ export default function Error({
             Vui lòng thử lại hoặc quay về trang chủ.
           </p>
           {error.digest && (
-            <p className="text-xs font-mono text-ink-muted/50 mt-2">
+            <p className="text-xs tabular-nums text-ink-muted/50 mt-2">
               Error Digest: {error.digest}
             </p>
           )}
@@ -50,14 +50,14 @@ export default function Error({
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <button
             onClick={reset}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#0D7287] to-[#0A5F70] text-white font-heading font-bold text-sm hover:shadow-lg hover:shadow-[#0D7287]/25 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-heading font-bold text-sm transition duration-300 hover:-translate-y-0.5 cursor-pointer bg-[#0D7287]"
           >
             <RefreshCw className="w-4 h-4" />
             Thử Lại
           </button>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border text-ink-secondary font-heading font-bold text-sm hover:bg-surface-tint transition-all duration-300"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border text-ink-secondary font-heading font-bold text-sm hover:bg-surface-tint transition duration-300"
           >
             <Home className="w-4 h-4" />
             Về Trang Chủ
@@ -66,7 +66,7 @@ export default function Error({
 
         {/* Decorative Bottom */}
         <div className="pt-6">
-          <p className="text-xs font-mono text-ink-muted/60">
+          <p className="text-xs tabular-nums text-ink-muted/60">
             ERROR_CODE: 500 · INTERNAL_ERROR
           </p>
         </div>

@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 import {
-  Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, ComposedChart, Legend, Line, ReferenceDot, ResponsiveContainer,
+  Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, ComposedChart, Label, Legend, Line, ReferenceDot, ResponsiveContainer,
   Tooltip, XAxis, YAxis,
 } from 'recharts';
 import { COLORS, dailySeries, dowSeries, monthlySeries, sqlSnippets, storeFacts } from '../playbookData';
-import { ChartCard, ChartTooltip, GRID_STROKE, StageSection, axisTick, legendFormatter, usePlaybookLang } from '../PlaybookUi';
+import { ChartCard, ChartTooltip, GRID_STROKE, StageSection, TEXT_FILL_CLASS, axisTick, legendFormatter, usePlaybookLang } from '../PlaybookUi';
 
 type DailyView = 'daily' | 'cumulative';
 
@@ -62,10 +62,12 @@ export default function Stage3TimeSeries() {
       >
         <ResponsiveContainer width="100%" height="100%">
           {view === 'daily' ? (
-            <ComposedChart data={dailySeries} margin={{ top: 12, right: 12, left: -12, bottom: 0 }}>
+            <ComposedChart data={dailySeries} margin={{ top: 22, right: 12, left: -4, bottom: 0 }}>
               <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
               <XAxis dataKey="label" interval={tickEvery} tick={axisTick} tickLine={false} axisLine={false} />
-              <YAxis tick={axisTick} tickLine={false} axisLine={false} />
+              <YAxis tick={axisTick} tickLine={false} axisLine={false} width={38}>
+                <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+              </YAxis>
               <Tooltip
                 cursor={{ fill: 'rgba(155,231,250,0.15)' }}
                 content={<ChartTooltip fmt={(v) => `${n(v, 1)} ${L('Tr', 'M')}`} />}
@@ -76,7 +78,7 @@ export default function Stage3TimeSeries() {
               {peak && <ReferenceDot x={peak.label} y={peak.gmv} r={6} fill={COLORS.amber} stroke={COLORS.deep} strokeWidth={2} />}
             </ComposedChart>
           ) : (
-            <AreaChart data={dailySeries} margin={{ top: 12, right: 12, left: -12, bottom: 0 }}>
+            <AreaChart data={dailySeries} margin={{ top: 22, right: 12, left: -4, bottom: 0 }}>
               <defs>
                 <linearGradient id="pbCum" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor={COLORS.amber} stopOpacity={0.7} />
@@ -85,7 +87,9 @@ export default function Stage3TimeSeries() {
               </defs>
               <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
               <XAxis dataKey="label" interval={tickEvery} tick={axisTick} tickLine={false} axisLine={false} />
-              <YAxis tick={axisTick} tickLine={false} axisLine={false} />
+              <YAxis tick={axisTick} tickLine={false} axisLine={false} width={38}>
+                <Label value={L('(Tỉ đ)', '(B VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+              </YAxis>
               <Tooltip content={<ChartTooltip fmt={(v) => `${n(v, 2)} ${L('Tỉ', 'B')}`} />} />
               <Area type="monotone" dataKey="cumulativeB" name={L('GMV lũy kế', 'Cumulative GMV')} stroke={COLORS.deep} strokeWidth={2.5} fill="url(#pbCum)" />
             </AreaChart>
@@ -95,10 +99,12 @@ export default function Stage3TimeSeries() {
 
       <ChartCard title={L('GMV mỗi ngày theo tháng (triệu đ) và % so với tháng trước', 'GMV per day by month (M VND) and % vs previous month')}>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={monthlySeries} margin={{ top: 22, right: 8, left: -12, bottom: 0 }}>
+          <BarChart data={monthlySeries} margin={{ top: 22, right: 8, left: -4, bottom: 0 }}>
             <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
             <XAxis dataKey="label" tick={axisTick} tickLine={false} axisLine={false} />
-            <YAxis tick={axisTick} tickLine={false} axisLine={false} />
+            <YAxis tick={axisTick} tickLine={false} axisLine={false} width={38}>
+              <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+            </YAxis>
             <Tooltip
               cursor={{ fill: 'rgba(155,231,250,0.15)' }}
               content={<ChartTooltip fmt={(v) => `${n(v, 1)} ${L('Tr/ngày', 'M/day')}`} />}
@@ -122,7 +128,7 @@ export default function Stage3TimeSeries() {
                     textAnchor="middle"
                     fontSize={11}
                     fontWeight={700}
-                    className={up ? 'fill-[#0D7287] dark:fill-[#9BE7FA]' : 'fill-[#E11D48] dark:fill-rose-300'}
+                    className={up ? 'fill-[#0D7287] dark:fill-[#9BE7FA]' : 'fill-[#B45309] dark:fill-[#FFE485]'}
                   >
                     {`${up ? '+' : ''}${n(row.momPerDayPct, 0)}%`}
                   </text>
@@ -139,10 +145,12 @@ export default function Stage3TimeSeries() {
 
       <ChartCard title={L('Mùa vụ theo thứ: GMV trung vị mỗi ngày (triệu đ)', 'Day-of-week seasonality: median daily GMV (M VND)')}>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={dowSeries} margin={{ top: 12, right: 8, left: -12, bottom: 0 }}>
+          <BarChart data={dowSeries} margin={{ top: 22, right: 8, left: -4, bottom: 0 }}>
             <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
             <XAxis dataKey={L('day', 'dayEn')} tick={axisTick} tickLine={false} axisLine={false} />
-            <YAxis tick={axisTick} tickLine={false} axisLine={false} />
+            <YAxis tick={axisTick} tickLine={false} axisLine={false} width={38}>
+              <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+            </YAxis>
             <Tooltip
               cursor={{ fill: 'rgba(155,231,250,0.15)' }}
               content={<ChartTooltip fmt={(v) => `${n(v, 1)} ${L('Tr', 'M')}`} />}

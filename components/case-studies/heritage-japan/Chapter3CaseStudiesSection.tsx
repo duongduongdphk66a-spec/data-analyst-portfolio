@@ -20,9 +20,9 @@ export function Chapter3CaseStudiesSection() {
       <div className="space-y-6">
         {/* CASE 1: KYOTO */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8 dark:bg-slate-900 dark:border-slate-800 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-slate-100 pb-4 dark:border-slate-800">
             <div>
-              <span className="text-xs font-extrabold text-[#0D7287] uppercase tracking-wider dark:text-[#9BE7FA]">Case Study 01</span>
+              <span className="text-xs font-extrabold text-[#0D7287] dark:text-[#9BE7FA]">Case Study 01</span>
               <h4 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
                 Cố đô Kyoto: Quá tải xe buýt, Live camera Kyoto Comfort Map & Rác thải
               </h4>
@@ -34,7 +34,7 @@ export function Chapter3CaseStudiesSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
             <div className="space-y-3">
-              <h5 className="font-bold text-rose-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-rose-400">
+              <h5 className="font-bold text-[#92400E] flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-[#FFE485]">
                 <AlertTriangle className="w-4 h-4" />
                 <span>Thực trạng khủng hoảng (Overtourism)</span>
               </h5>
@@ -47,7 +47,7 @@ export function Chapter3CaseStudiesSection() {
             </div>
 
             <div className="space-y-3">
-              <h5 className="font-bold text-emerald-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-emerald-400">
+              <h5 className="font-bold text-[#074553] flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-[#9BE7FA]">
                 <ShieldCheck className="w-4 h-4" />
                 <span>Giải pháp quản trị của Thành phố Kyoto</span>
               </h5>
@@ -68,21 +68,21 @@ export function Chapter3CaseStudiesSection() {
 
         {/* CASE 2: NARA */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8 dark:bg-slate-900 dark:border-slate-800 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-slate-100 pb-4 dark:border-slate-800">
             <div>
-              <span className="text-xs font-extrabold text-amber-600 uppercase tracking-wider dark:text-amber-400">Case Study 02</span>
+              <span className="text-xs font-extrabold text-amber-600 dark:text-amber-400">Case Study 02</span>
               <h4 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
                 Cố đô Nara: Vấn nạn bảo vệ đàn hươu thần & Pháp lệnh lưu trú cao cấp
               </h4>
             </div>
-            <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-bold w-fit dark:bg-emerald-950/60 dark:text-emerald-300">
+            <span className="px-3 py-1 rounded-full bg-[#FFE485]/35 text-[#92400E] border border-[#FFD14C]/40 text-xs font-bold w-fit dark:bg-[#FFD14C]/15 dark:text-[#FFE485]">
               3.3M du khách (2019)
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
             <div className="space-y-3">
-              <h5 className="font-bold text-rose-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-rose-400">
+              <h5 className="font-bold text-[#92400E] flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-[#FFE485]">
                 <AlertTriangle className="w-4 h-4" />
                 <span>Mối lo ngại sinh thái đàn hươu công viên Nara</span>
               </h5>
@@ -92,7 +92,7 @@ export function Chapter3CaseStudiesSection() {
             </div>
 
             <div className="space-y-3">
-              <h5 className="font-bold text-emerald-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-emerald-400">
+              <h5 className="font-bold text-[#074553] flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-[#9BE7FA]">
                 <ShieldCheck className="w-4 h-4" />
                 <span>Pháp lệnh lưu trú & Tái thiết di sản</span>
               </h5>
@@ -105,21 +105,21 @@ export function Chapter3CaseStudiesSection() {
 
         {/* CASE 3: FUJI */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8 dark:bg-slate-900 dark:border-slate-800 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-slate-100 pb-4 dark:border-slate-800">
             <div>
-              <span className="text-xs font-extrabold text-indigo-600 uppercase tracking-wider dark:text-indigo-400">Case Study 03</span>
+              <span className="text-xs font-extrabold text-[#0D7287] dark:text-[#9BE7FA]">Case Study 03</span>
               <h4 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
                 Núi Phú Sĩ: Quỹ bảo tồn tự nguyện 1.000¥, Đề án đường sắt & Trung tâm VR
               </h4>
             </div>
-            <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-900 text-xs font-bold w-fit dark:bg-indigo-950/60 dark:text-indigo-300">
+            <span className="px-3 py-1 rounded-full bg-[#C8EEF7]/50 text-[#074553] text-xs font-bold w-fit dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA]">
               5.06M du khách (2019)
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
             <div className="space-y-3">
-              <h5 className="font-bold text-rose-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-rose-400">
+              <h5 className="font-bold text-[#92400E] flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-[#FFE485]">
                 <AlertTriangle className="w-4 h-4" />
                 <span>Áp lực quá tải sườn núi & Khí thải xe cá nhân</span>
               </h5>
@@ -129,7 +129,7 @@ export function Chapter3CaseStudiesSection() {
             </div>
 
             <div className="space-y-3">
-              <h5 className="font-bold text-emerald-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-emerald-400">
+              <h5 className="font-bold text-[#074553] flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-[#9BE7FA]">
                 <ShieldCheck className="w-4 h-4" />
                 <span>Bộ công cụ giải pháp bền vững</span>
               </h5>
@@ -150,9 +150,9 @@ export function Chapter3CaseStudiesSection() {
 
         {/* CASE 4: SHIRAKAWA-GO */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8 dark:bg-slate-900 dark:border-slate-800 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-slate-100 pb-4 dark:border-slate-800">
             <div>
-              <span className="text-xs font-extrabold text-emerald-600 uppercase tracking-wider dark:text-emerald-400">Case Study 04</span>
+              <span className="text-xs font-extrabold text-[#0D7287] dark:text-[#9BE7FA]">Case Study 04</span>
               <h4 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
                 Làng cổ Shirakawa-go: Chế độ đặt chỗ trước 100% Lễ hội Ánh sáng Winter Light-up
               </h4>
@@ -164,7 +164,7 @@ export function Chapter3CaseStudiesSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
             <div className="space-y-3">
-              <h5 className="font-bold text-rose-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-rose-400">
+              <h5 className="font-bold text-[#92400E] flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-[#FFE485]">
                 <AlertTriangle className="w-4 h-4" />
                 <span>Tỷ lệ nghịch ngạc nhiên: Du khách gấp 3.000 lần dân số</span>
               </h5>
@@ -174,7 +174,7 @@ export function Chapter3CaseStudiesSection() {
             </div>
 
             <div className="space-y-3">
-              <h5 className="font-bold text-emerald-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-emerald-400">
+              <h5 className="font-bold text-[#074553] flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-[#9BE7FA]">
                 <ShieldCheck className="w-4 h-4" />
                 <span>Hệ thống đặt chỗ nghiêm ngặt (Advance Reservation)</span>
               </h5>
@@ -187,9 +187,9 @@ export function Chapter3CaseStudiesSection() {
 
         {/* CASE 5: MIYAJIMA */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8 dark:bg-slate-900 dark:border-slate-800 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-slate-100 pb-4 dark:border-slate-800">
             <div>
-              <span className="text-xs font-extrabold text-[#0D7287] uppercase tracking-wider dark:text-[#9BE7FA]">Case Study 05</span>
+              <span className="text-xs font-extrabold text-[#0D7287] dark:text-[#9BE7FA]">Case Study 05</span>
               <h4 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white">
                 Đền Itsukushima (Miyajima): Thuế vào đảo 100 Yên tái thiết di sản
               </h4>
@@ -201,7 +201,7 @@ export function Chapter3CaseStudiesSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
             <div className="space-y-3">
-              <h5 className="font-bold text-rose-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-rose-400">
+              <h5 className="font-bold text-[#92400E] flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-[#FFE485]">
                 <AlertTriangle className="w-4 h-4" />
                 <span>Chi phí duy tu đền nổi & Quá tải hòn đảo</span>
               </h5>
@@ -211,7 +211,7 @@ export function Chapter3CaseStudiesSection() {
             </div>
 
             <div className="space-y-3">
-              <h5 className="font-bold text-emerald-700 flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-emerald-400">
+              <h5 className="font-bold text-[#074553] flex items-center gap-1.5 text-sm uppercase tracking-wider dark:text-[#9BE7FA]">
                 <ShieldCheck className="w-4 h-4" />
                 <span>Chính sách thuế vào đảo (Miyajima Visitor Tax)</span>
               </h5>

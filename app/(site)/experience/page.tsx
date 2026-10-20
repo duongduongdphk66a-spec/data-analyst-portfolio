@@ -76,7 +76,7 @@ const CONTENT: Record<
     badge: 'Hành trình Thực chiến & Tác động Kinh doanh',
     title: 'Kinh nghiệm làm việc & Dự án trọng điểm',
     subtitle:
-      'Mỗi giai đoạn dưới đây không chỉ là danh sách đầu việc, mà là quá trình chuyển hóa các bài toán dữ liệu phức tạp thành kết quả định lượng và hệ thống vận hành thực tế.',
+      'Mỗi giai đoạn dưới đây thể hiện quá trình chuyển hóa các bài toán dữ liệu phức tạp thành kết quả định lượng và hệ thống vận hành thực tế.',
     downloadCv: 'Tải bản đầy đủ CV (PDF)',
     snapshotTitle: 'Tóm tắt năng lực cốt lõi (Career Snapshot)',
     filterLabel: 'Lọc theo nhóm chuyên môn:',
@@ -97,8 +97,8 @@ const CONTENT: Record<
     experiences: [
       {
         id: 'exp-1',
-        period: 'Giai đoạn Thực chiến // E-Commerce & Creator Economy',
-        role: 'Data Analyst — Thương mại Điện tử & Phân tích Kênh bán',
+        period: 'Giai đoạn Thực chiến • E-Commerce & Creator Economy',
+        role: 'Data Analyst: Thương mại Điện tử & Phân tích Kênh bán',
         organization: 'Dự án Phân tích Chuyên sâu TikTok Shop (Kami Ely)',
         domainTag: 'E-Commerce & TikTok Shop Analytics',
         categories: ['SQL', 'PYTHON', 'BI'],
@@ -121,8 +121,8 @@ const CONTENT: Record<
       },
       {
         id: 'exp-2',
-        period: 'Giai đoạn Thực chiến // Product Analytics & System Design',
-        role: 'Product & BI Analyst — Thiết kế Hệ thống & Dashboard Quản trị',
+        period: 'Giai đoạn Thực chiến • Product Analytics & System Design',
+        role: 'Product & BI Analyst: Thiết kế Hệ thống & Dashboard Quản trị',
         organization: 'Hệ sinh thái Thư viện Lưu động (Library Bus)',
         domainTag: 'System Architecture & BI Dashboard',
         categories: ['PRODUCT', 'BI', 'SQL'],
@@ -145,8 +145,8 @@ const CONTENT: Record<
       },
       {
         id: 'exp-3',
-        period: 'Giai đoạn Nghiên cứu Định lượng // Data Audit & Policy',
-        role: 'Quantitative Data Researcher — Kiểm toán Dữ liệu & Đánh giá Chính sách',
+        period: 'Giai đoạn Nghiên cứu Định lượng • Data Audit & Policy',
+        role: 'Quantitative Data Researcher: Kiểm toán Dữ liệu & Đánh giá Chính sách',
         organization: 'Nghiên cứu Di sản & Chính sách Bảo tồn (Heritage Japan)',
         domainTag: 'Data Audit & Policy Evaluation',
         categories: ['PYTHON', 'BI'],
@@ -173,7 +173,7 @@ const CONTENT: Record<
     badge: 'Proven Track Record & Business Impact',
     title: 'Experience & High-Impact Engagements',
     subtitle:
-      'Rather than a passive list of responsibilities, this timeline highlights how I translate complex data problems into quantified business outcomes and production-ready analytics.',
+      'This timeline highlights how I translate complex data problems into quantified business outcomes and production-ready analytics.',
     downloadCv: 'Download Full CV (PDF)',
     snapshotTitle: 'Career Snapshot & Core Competencies',
     filterLabel: 'Filter by competency:',
@@ -194,8 +194,8 @@ const CONTENT: Record<
     experiences: [
       {
         id: 'exp-1',
-        period: 'Applied Engagement // E-Commerce & Creator Economy',
-        role: 'Data Analyst — Commercial & Creator Performance',
+        period: 'Applied Engagement • E-Commerce & Creator Economy',
+        role: 'Data Analyst: Commercial & Creator Performance',
         organization: 'TikTok Shop Deep-Dive Analytics (Kami Ely)',
         domainTag: 'E-Commerce & TikTok Shop Analytics',
         categories: ['SQL', 'PYTHON', 'BI'],
@@ -218,8 +218,8 @@ const CONTENT: Record<
       },
       {
         id: 'exp-2',
-        period: 'Applied Engagement // Product Analytics & System Design',
-        role: 'Product & BI Analyst — System Architecture & Executive Dashboards',
+        period: 'Applied Engagement • Product Analytics & System Design',
+        role: 'Product & BI Analyst: System Architecture & Executive Dashboards',
         organization: 'Mobile Library Ecosystem (Library Bus)',
         domainTag: 'System Architecture & BI Dashboard',
         categories: ['PRODUCT', 'BI', 'SQL'],
@@ -242,8 +242,8 @@ const CONTENT: Record<
       },
       {
         id: 'exp-3',
-        period: 'Quantitative Research // Data Audit & Policy',
-        role: 'Quantitative Data Researcher — Data Audit & Policy Evaluation',
+        period: 'Quantitative Research • Data Audit & Policy',
+        role: 'Quantitative Data Researcher: Data Audit & Policy Evaluation',
         organization: 'Cultural Heritage & Policy Study (Heritage Japan)',
         domainTag: 'Data Audit & Policy Evaluation',
         categories: ['PYTHON', 'BI'],
@@ -269,7 +269,7 @@ const CONTENT: Record<
 };
 
 export default function ExperiencePage() {
-  const { language, toggleLanguage } = useLanguage();
+  const { language } = useLanguage();
   const lang: Lang = language === 'en' ? 'en' : 'vi';
 
   const [activeFilter, setActiveFilter] = useState<SkillFilter>('ALL');
@@ -291,34 +291,22 @@ export default function ExperiencePage() {
   return (
     <main className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-8 md:py-14 space-y-12 md:space-y-16">
       
-      {/* 1. TOP BAR: Status Badge, Download CV & Language Switcher */}
+      {/* 1. TOP BAR: Status Badge & Download CV */}
       <div className="flex flex-wrap justify-between items-center gap-3">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 border border-[#9BE7FA]/40 text-[#074553] dark:text-[#9BE7FA] text-xs font-semibold">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-emerald-500" />
           <span>{t.badge}</span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2.5">
-          <a
-            href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="min-h-[44px] px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 cursor-pointer shadow-xs"
-          >
-            <FileText className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
-            <span>{t.downloadCv}</span>
-          </a>
-
-          <button
-            type="button"
-            onClick={toggleLanguage}
-            aria-label={lang === 'vi' ? 'Chuyển sang tiếng Anh' : 'Switch to Vietnamese'}
-            className="min-h-[44px] px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 transition-all flex items-center gap-2 cursor-pointer shadow-xs"
-          >
-            <Globe className="w-3.5 h-3.5 text-[#074553] dark:text-[#9BE7FA]" />
-            <span>{lang === 'vi' ? 'EN / VI' : 'VI / EN'}</span>
-          </button>
-        </div>
+        <a
+          href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="min-h-[44px] px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-xs sm:text-sm transition-colors flex items-center gap-2 cursor-pointer"
+        >
+          <FileText className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
+          <span>{t.downloadCv}</span>
+        </a>
       </div>
 
       {/* 2. HEADER: Page Title & Executive Introduction */}
@@ -333,22 +321,22 @@ export default function ExperiencePage() {
 
       {/* 3. CAREER SNAPSHOT BAR: 4 Core Competency Metric Cards */}
       <section className="space-y-3">
-        <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <h2 className="text-sm font-semibold text-slate-600 dark:text-slate-400">
           {t.snapshotTitle}
-        </div>
+        </h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
           {snapshotMetrics.map((metric, idx) => (
             <div
               key={idx}
-              className="p-4 rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800/80 shadow-xs hover:border-[#9BE7FA]/50 transition-all"
+              className="p-4 rounded-2xl bg-white dark:bg-slate-900/70 border border-[#C8EEF7] dark:border-slate-800/80 hover:border-[#9BE7FA] transition-colors"
             >
-              <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
+              <div className="text-xs font-medium text-slate-500 dark:text-slate-400">
                 {metric.label}
               </div>
-              <div className="text-lg sm:text-xl font-extrabold font-mono text-slate-900 dark:text-white mt-1">
+              <div className="text-lg sm:text-xl font-extrabold tabular-nums text-slate-900 dark:text-white mt-1">
                 {metric.value}
               </div>
-              <div className="text-xs text-[#074553] dark:text-[#9BE7FA] font-medium mt-0.5">
+              <div className="text-xs text-[#074553] dark:text-[#9BE7FA] font-medium mt-0.5 tabular-nums">
                 {metric.sub}
               </div>
             </div>
@@ -358,7 +346,7 @@ export default function ExperiencePage() {
 
       {/* 4. INTERACTIVE SKILL & DOMAIN FILTER */}
       <section className="space-y-3">
-        <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <div className="text-sm font-semibold text-slate-600 dark:text-slate-400">
           {t.filterLabel}
         </div>
         <div className="flex flex-wrap gap-2">
@@ -369,10 +357,10 @@ export default function ExperiencePage() {
                 key={f.key}
                 type="button"
                 onClick={() => setActiveFilter(f.key)}
-                className={`min-h-[44px] px-4 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
+                className={`min-h-[44px] px-4 py-2 rounded-xl text-xs font-bold transition-colors border cursor-pointer ${
                   isActive
-                    ? 'bg-[#9BE7FA] text-[#074553] border-[#9BE7FA] shadow-xs'
-                    : 'bg-white dark:bg-slate-900/70 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-800 hover:border-[#9BE7FA]/60'
+                    ? 'bg-[#9BE7FA] text-[#074553] border-[#9BE7FA]'
+                    : 'bg-white dark:bg-slate-900/70 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-800 hover:border-[#9BE7FA]'
                 }`}
               >
                 {f.label}
@@ -383,13 +371,13 @@ export default function ExperiencePage() {
       </section>
 
       {/* 5. INTERACTIVE IMPACT TIMELINE */}
-      <section className="relative border-l-2 border-slate-200 dark:border-slate-800 ml-3 md:ml-4 pl-6 md:pl-8 space-y-10">
+      <section className="relative border-l-2 border-[#C8EEF7] dark:border-slate-800 ml-3 md:ml-4 pl-6 md:pl-8 space-y-10">
         {filteredExperiences.map((exp) => {
           const isExpanded = !!expandedIds[exp.id];
           return (
             <article
               key={exp.id}
-              className="relative group rounded-3xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/90 hover:border-[#9BE7FA]/50 p-6 sm:p-8 transition-all space-y-6 shadow-xs hover:shadow-md"
+              className="relative group rounded-3xl bg-white dark:bg-slate-900/60 border border-[#C8EEF7] dark:border-slate-800/90 hover:border-[#9BE7FA] p-6 sm:p-8 transition-colors space-y-6"
             >
               {/* Timeline Indicator Dot */}
               <span className="absolute -left-[33px] md:-left-[41px] top-8 w-4 h-4 rounded-full bg-[#9BE7FA] ring-4 ring-white dark:ring-slate-950 border-2 border-[#074553]" />
@@ -397,7 +385,7 @@ export default function ExperiencePage() {
               {/* Card Header */}
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="space-y-1">
-                  <div className="text-xs font-mono font-bold text-[#074553] dark:text-[#9BE7FA]">
+                  <div className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
                     {exp.period}
                   </div>
                   <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">
@@ -407,7 +395,7 @@ export default function ExperiencePage() {
                     {exp.organization}
                   </div>
                 </div>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 border border-[#9BE7FA]/30 text-[#074553] dark:text-[#9BE7FA] text-xs font-mono font-bold uppercase">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#C8EEF7]/45 dark:bg-[#9BE7FA]/10 border border-[#9BE7FA]/30 text-[#074553] dark:text-[#9BE7FA] text-xs font-semibold">
                   {exp.domainTag}
                 </span>
               </div>
@@ -418,9 +406,9 @@ export default function ExperiencePage() {
               </p>
 
               {/* Measurable Business Outcomes */}
-              <div className="space-y-3 bg-slate-50 dark:bg-slate-950/70 p-5 rounded-2xl border border-slate-200 dark:border-slate-800/80">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+              <div className="space-y-3 bg-[#F8FCFD] dark:bg-slate-950/70 p-5 rounded-2xl border border-[#C8EEF7] dark:border-slate-800/80">
+                <h3 className="text-sm font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 shrink-0" />
                   <span>{t.outcomesTitle}</span>
                 </h3>
                 <ul className="space-y-2.5">
@@ -441,7 +429,7 @@ export default function ExperiencePage() {
                 <button
                   type="button"
                   onClick={() => toggleExpand(exp.id)}
-                  className="min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-bold text-[#074553] dark:text-[#9BE7FA] hover:bg-[#C8EEF7]/30 dark:hover:bg-[#9BE7FA]/10 border border-[#9BE7FA]/40 transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-bold text-[#074553] dark:text-[#9BE7FA] hover:bg-[#C8EEF7]/30 dark:hover:bg-[#9BE7FA]/10 border border-[#9BE7FA]/40 transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>{isExpanded ? t.techToggleClose : t.techToggleOpen}</span>
                   {isExpanded ? (
@@ -452,29 +440,27 @@ export default function ExperiencePage() {
                 </button>
 
                 {isExpanded && (
-                  <div className="p-5 rounded-2xl bg-[#C8EEF7]/20 dark:bg-[#9BE7FA]/5 border border-[#9BE7FA]/30 space-y-2.5">
+                  <ul className="p-5 rounded-2xl bg-[#C8EEF7]/20 dark:bg-[#9BE7FA]/5 border border-[#9BE7FA]/30 space-y-2.5">
                     {exp.technicalDeepDive.map((tech, idx) => (
-                      <p
+                      <li
                         key={idx}
                         className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed flex items-start gap-2.5"
                       >
-                        <span className="text-[#074553] dark:text-[#9BE7FA] font-mono font-bold shrink-0">
-                          0{idx + 1}.
-                        </span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#074553] dark:bg-[#9BE7FA] shrink-0 mt-2" />
                         <span>{tech}</span>
-                      </p>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 )}
               </div>
 
               {/* Footer: Tech Tools & Proof-of-Work Link */}
-              <div className="pt-4 border-t border-slate-200 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-4">
+              <div className="pt-5 flex flex-wrap items-center justify-between gap-4">
                 <div className="flex flex-wrap gap-1.5">
                   {exp.tools.map((tool) => (
                     <span
                       key={tool}
-                      className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 font-mono"
+                      className="px-2.5 py-1 rounded-lg bg-[#F8FCFD] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 font-medium"
                     >
                       {tool}
                     </span>
@@ -484,7 +470,7 @@ export default function ExperiencePage() {
                 {exp.proofLink && (
                   <Link
                     href={exp.proofLink.href}
-                    className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs sm:text-sm font-extrabold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs border border-[#9BE7FA]"
+                    className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs sm:text-sm font-extrabold transition-colors flex items-center gap-1.5 cursor-pointer border border-[#9BE7FA]"
                   >
                     <span>{exp.proofLink.label}</span>
                     <ArrowRight className="w-3.5 h-3.5 shrink-0" />
@@ -497,7 +483,7 @@ export default function ExperiencePage() {
       </section>
 
       {/* 6. BOTTOM CTA: Seamless Bridge to Projects & Interactive SQL Lab */}
-      <section className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-gradient-to-r dark:from-slate-900 dark:via-slate-900 dark:to-slate-900/80 border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xs">
+      <section className="p-6 sm:p-8 rounded-3xl bg-[#F0F9FB] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-1.5 max-w-2xl">
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
             {t.ctaBottomTitle}
@@ -508,7 +494,7 @@ export default function ExperiencePage() {
         </div>
         <Link
           href="/projects"
-          className="min-h-[44px] px-6 py-3 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] font-extrabold text-sm whitespace-nowrap transition-all shadow-md shadow-[#9BE7FA]/20 flex items-center gap-2 cursor-pointer border border-[#9BE7FA]"
+          className="min-h-[44px] px-6 py-3 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] font-extrabold text-sm whitespace-nowrap transition-colors flex items-center gap-2 cursor-pointer border border-[#9BE7FA]"
         >
           <span>{t.ctaBottomBtn}</span>
           <ArrowRight className="w-4 h-4 shrink-0" />

@@ -3,7 +3,7 @@
 import React from 'react';
 import { BadgeCheck, Scale, ShieldAlert } from 'lucide-react';
 import {
-  Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis,
+  Area, AreaChart, Bar, BarChart, CartesianGrid, Label, Legend, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';
 import {
   COLORS, paretoCurve, priceBands, productFacts, reconciliationChecks, skuHealthByCategory, sqlSnippets,
@@ -50,10 +50,12 @@ export default function Stage2ProfileClean() {
     >
       <ChartCard title={L('Nhóm giá: tỷ trọng SKU, sản lượng, GMV (%)', 'Price band: share of SKUs, units, GMV (%)')}>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={priceBands} margin={{ top: 4, right: 8, left: -18, bottom: 0 }}>
+          <BarChart data={priceBands} margin={{ top: 22, right: 8, left: -18, bottom: 0 }}>
             <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
             <XAxis dataKey="band" tick={axisTick} tickLine={false} axisLine={false} />
-            <YAxis tick={axisTick} tickLine={false} axisLine={false} unit="%" />
+            <YAxis tick={axisTick} tickLine={false} axisLine={false} width={34}>
+              <Label value="(%)" position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+            </YAxis>
             <Tooltip cursor={{ fill: 'rgba(155,231,250,0.15)' }} content={<ChartTooltip fmt={(v) => `${n(v, 2)}%`} />} />
             <Legend wrapperStyle={{ fontSize: 12 }} formatter={legendFormatter} />
             <Bar dataKey="sku" name="SKU" fill={COLORS.teal} radius={[4, 4, 0, 0]} />
@@ -63,9 +65,9 @@ export default function Stage2ProfileClean() {
         </ResponsiveContainer>
       </ChartCard>
 
-      <ChartCard title={L('Đường Pareto: % SKU và % GMV tích lũy', 'Pareto curve: cumulative % of SKUs and GMV')}>
+      <ChartCard title={L('Đường Pareto: % & Số lượng SKU vs % GMV tích lũy', 'Pareto curve: cumulative % & count of SKUs vs % GMV')}>
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={paretoCurve} margin={{ top: 8, right: 12, left: -18, bottom: 0 }}>
+          <AreaChart data={paretoCurve} margin={{ top: 22, right: 12, left: -18, bottom: 18 }}>
             <defs>
               <linearGradient id="pbPareto" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor={COLORS.cyan} stopOpacity={0.8} />
@@ -73,13 +75,50 @@ export default function Stage2ProfileClean() {
               </linearGradient>
             </defs>
             <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
-            <XAxis type="number" dataKey="sku" domain={[0, 100]} tick={axisTick} tickLine={false} axisLine={false} unit="%" />
-            <YAxis domain={[0, 100]} tick={axisTick} tickLine={false} axisLine={false} unit="%" />
+            <XAxis
+              type="number"
+              dataKey="sku"
+              domain={[0, 100]}
+              ticks={[0, 25, 50, 75, 100]}
+              interval={0}
+              tickLine={false}
+              axisLine={false}
+              tick={(props: { x?: number; y?: number; payload?: { value?: number | string } }) => {
+                const { x = 0, y = 0, payload } = props;
+                const v = Number(payload?.value ?? 0);
+                const skuCount = Math.round((v * productFacts.skus) / 100);
+                return (
+                  <g transform={`translate(${x},${y})`}>
+                    <text x={0} y={0} textAnchor="middle" fontSize={11} className={TEXT_FILL_CLASS}>
+                      <tspan x={0} dy={12}>{v}%</tspan>
+                      <tspan x={0} dy={14} fontSize={10} className="fill-slate-500 dark:fill-slate-400">({skuCount} SKU)</tspan>
+                    </text>
+                  </g>
+                );
+              }}
+            />
+            <YAxis domain={[0, 100]} tick={axisTick} tickLine={false} axisLine={false} width={34}>
+              <Label value="(%)" position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+            </YAxis>
             <Tooltip
-              content={<ChartTooltip fmt={(v) => `${n(v, 1)}%`} head={(l) => `${l}% SKU`} />}
+              content={
+                <ChartTooltip
+                  fmt={(v) => `${n(v, 1)}%`}
+                  head={(l) => {
+                    const pct = Number(l);
+                    const skus = Math.round((pct * productFacts.skus) / 100);
+                    return `${n(pct, 1)}% SKU (${skus}/${productFacts.skus} SKU)`;
+                  }}
+                />
+              }
             />
             <ReferenceLine y={80} stroke={COLORS.amber} strokeDasharray="5 4" label={{ value: '80% GMV', position: 'insideBottomRight', fontSize: 11, className: TEXT_FILL_CLASS }} />
-            <ReferenceLine x={productFacts.skusFor80Pct} stroke={COLORS.teal} strokeDasharray="5 4" label={{ value: `${productFacts.skusFor80} SKU`, position: 'top', fontSize: 11, className: TEXT_FILL_CLASS }} />
+            <ReferenceLine
+              x={productFacts.skusFor80Pct}
+              stroke={COLORS.teal}
+              strokeDasharray="5 4"
+              label={{ value: `${n(productFacts.skusFor80Pct, 1)}% (${productFacts.skusFor80} SKU)`, position: 'top', fontSize: 11, className: TEXT_FILL_CLASS }}
+            />
             <Area type="monotone" dataKey="gmv" name={L('GMV tích lũy', 'Cumulative GMV')} stroke={COLORS.teal} strokeWidth={2.5} fill="url(#pbPareto)" />
           </AreaChart>
         </ResponsiveContainer>

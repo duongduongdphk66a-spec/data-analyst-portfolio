@@ -3,12 +3,12 @@
 import React from 'react';
 import { ArrowDown, ArrowRight, FileCode, FileJson, FileSpreadsheet, LayoutDashboard } from 'lucide-react';
 import {
-  Bar, BarChart, CartesianGrid, Cell, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis,
+  Bar, BarChart, CartesianGrid, Cell, Label, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';
 import {
   COLORS, K_MIN, kAnonymity, modSampleFull, modSampleMaxDevPct, modSamples, pipelineMeta, sqlSnippets,
 } from '../playbookData';
-import { ChartCard, ChartTooltip, Chip, GRID_STROKE, StageSection, axisTick, usePlaybookLang } from '../PlaybookUi';
+import { ChartCard, ChartTooltip, Chip, GRID_STROKE, StageSection, TEXT_FILL_CLASS, axisTick, usePlaybookLang } from '../PlaybookUi';
 
 export default function Stage7EtlPii() {
   const { L, n } = usePlaybookLang();
@@ -102,10 +102,12 @@ export default function Stage7EtlPii() {
         badge={<Chip tone="amber">{L('Toàn tập', 'Full set')} {n(modSampleFull, 1)}</Chip>}
       >
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={modSamples} margin={{ top: 12, right: 8, left: -12, bottom: 0 }}>
+          <BarChart data={modSamples} margin={{ top: 22, right: 8, left: -4, bottom: 0 }}>
             <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
             <XAxis dataKey="sample" tick={axisTick} tickLine={false} axisLine={false} />
-            <YAxis tick={axisTick} tickLine={false} axisLine={false} domain={[0, 'auto']} />
+            <YAxis tick={axisTick} tickLine={false} axisLine={false} domain={[0, 'auto']} width={38}>
+              <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+            </YAxis>
             <Tooltip
               cursor={{ fill: 'rgba(155,231,250,0.15)' }}
               content={<ChartTooltip fmt={(v) => `${n(v, 1)} ${L('Tr', 'M')}`} />}

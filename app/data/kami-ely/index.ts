@@ -1,7 +1,5 @@
-// ============================================================================
 // FILE: app/data/kami-ely/index.ts
 // BARREL EXPORT TOÀN BỘ DỮ LIỆU DỰ ÁN KAMI ELY (@kamielyhn)
-// ============================================================================
 
 export * from './shop';
 export * from './creator';

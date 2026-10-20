@@ -405,7 +405,10 @@ def build_shop_live():
         # Monthly trend for Girl Style
         g = aff[aff["creator id"] == GIRL_STYLE_ID].copy()
         g["month"] = g["start"].dt.to_period("M").astype(str)
-        gs_block["monthly"] = [{"month": m, "sessions": int(x.size), "gmv": r(x.sum(), 0)} for m, x in g.groupby("month")["gmv"]]
+        gs_block["monthly"] = [
+            {"month": m, "sessions": int(len(x)), "gmv": r(x["gmv"].sum(), 0), "liveHours": r(x["hours"].sum(), 1)}
+            for m, x in g.groupby("month")
+        ]
 
     # In-House Dual Channel Analysis:
     # Girl Style is an in-house satellite channel operated by the SAME internal team as @kamielyhn.
@@ -460,6 +463,10 @@ def build_shop_live():
         },
         "girlStyle": gs_block,
         "secondAffiliate": {"id": rest.index[0], "name": str(rest.iloc[0]["name"]), "gmv": r(rest.iloc[0]["gmv"], 0)} if len(rest) else None,
+        "monthly": [
+            {"month": m, "sessions": int(len(x)), "gmv": r(x["gmv"].sum(), 0), "liveHours": r(x["hours"].sum(), 1)}
+            for m, x in df.groupby(df["start"].dt.to_period("M").astype(str))
+        ],
     }
 
 

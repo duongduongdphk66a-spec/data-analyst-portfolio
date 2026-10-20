@@ -49,15 +49,15 @@ export default function CaseStudyFooter({ isEn, currentProjectId, attribution }:
   const nextProj = PROJECT_MAP[currentProjectId];
 
   return (
-    <footer className="mt-16 sm:mt-24 border-t border-slate-200/80 dark:border-slate-800 bg-ground transition-colors">
+    <footer className="mt-16 sm:mt-24 bg-ground transition-colors">
       <div className="page-container py-12 sm:py-16 space-y-10">
         {/* Next Project Teaser Card */}
         {nextProj && (
-          <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-brand-blue-light dark:border-slate-800 shadow-sm hover:border-brand-blue-vivid transition-all">
+          <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-brand-blue-light dark:border-slate-800 hover:border-[#9BE7FA] transition-colors">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
               <div className="space-y-1.5 max-w-2xl">
-                <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-brand-teal">
-                  <Sparkles className="w-3.5 h-3.5" />
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#074553] dark:text-[#9BE7FA]">
+                  <Sparkles className="w-3.5 h-3.5 text-[#FFD14C]" />
                   <span>{isEn ? 'Next Recommended Case Study' : 'Dự Án Phân Tích Tiếp Theo'}</span>
                   <span>•</span>
                   <span>{isEn ? nextProj.categoryEn : nextProj.categoryVi}</span>
@@ -72,7 +72,7 @@ export default function CaseStudyFooter({ isEn, currentProjectId, attribution }:
 
               <Link
                 href={`/projects/${nextProj.nextId}`}
-                className="btn-primary text-xs sm:text-sm py-3 px-6 shrink-0 inline-flex items-center gap-2 font-bold"
+                className="btn-primary text-xs sm:text-sm py-3 px-6 shrink-0 inline-flex items-center gap-2 font-bold cursor-pointer"
               >
                 <span>{isEn ? 'Explore Next Study' : 'Xem Dự Án Kế Tiếp'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -82,7 +82,7 @@ export default function CaseStudyFooter({ isEn, currentProjectId, attribution }:
         )}
 
         {/* Data Attribution & Author Signoff */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-slate-200/60 dark:border-slate-800/80 text-xs text-slate-500 dark:text-slate-400 font-medium">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 text-xs text-slate-500 dark:text-slate-400 font-medium">
           <div className="space-y-1">
             <p className="font-bold text-slate-800 dark:text-slate-200">
               {isEn ? attribution.datasetEn : attribution.datasetVi}
@@ -92,13 +92,13 @@ export default function CaseStudyFooter({ isEn, currentProjectId, attribution }:
             </p>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px] font-mono">
+          <div className="flex items-center gap-4 text-[11px] tabular-nums">
             <span>Ma Văn Hùng · Portfolio Data Analyst</span>
             <Link
-              href="/projects"
-              className="text-brand-teal hover:underline flex items-center gap-1 font-bold"
+              href="/"
+              className="text-[#074553] dark:text-[#9BE7FA] hover:underline flex items-center gap-1 font-bold cursor-pointer"
             >
-              <span>{isEn ? 'All Projects' : 'Tất cả dự án'}</span>
+              <span>{isEn ? 'Home' : 'Trang chủ'}</span>
               <ChevronRight className="w-3 h-3" />
             </Link>
           </div>

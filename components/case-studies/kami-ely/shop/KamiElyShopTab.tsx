@@ -128,11 +128,11 @@ export default function KamiElyShopTab({
 
       {/* GROUP DIVIDER: DOANH SỐ & SẢN PHẨM */}
       <div className="pt-6 pb-2 flex items-center gap-4">
-        <div className="h-px bg-gradient-to-r from-transparent via-[#9BE7FA] to-transparent flex-1 dark:via-slate-700" />
-        <span className="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#C8EEF7] text-[#0D7287] border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 shadow-xs">
+        <div className="flex-1" />
+        <span className="px-3.5 py-1 rounded-full text-xs font-black bg-[#C8EEF7] text-[#0D7287] border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 shadow-xs">
           {isEn ? 'Group II: Sales & Product Matrix' : 'Nhóm II: Doanh Số & Ma Trận Sản Phẩm'}
         </span>
-        <div className="h-px bg-gradient-to-r from-transparent via-[#9BE7FA] to-transparent flex-1 dark:via-slate-700" />
+        <div className="flex-1" />
       </div>
 
       <ShopSalesSection
@@ -173,11 +173,11 @@ export default function KamiElyShopTab({
 
       {/* GROUP DIVIDER: KÊNH TỰ VẬN HÀNH CHÍNH CHỦ */}
       <div className="pt-6 pb-2 flex items-center gap-4">
-        <div className="h-px bg-gradient-to-r from-transparent via-[#9BE7FA] to-transparent flex-1 dark:via-slate-700" />
-        <span className="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#C8EEF7] text-[#0D7287] border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 shadow-xs">
+        <div className="flex-1" />
+        <span className="px-3.5 py-1 rounded-full text-xs font-black bg-[#C8EEF7] text-[#0D7287] border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 shadow-xs">
           {isEn ? 'Group IV: Anchor Host & Brand Synergy' : 'Nhóm IV: Kênh Sáng Tạo Tự Vận Hành & Cộng Hưởng Thương Hiệu'}
         </span>
-        <div className="h-px bg-gradient-to-r from-transparent via-[#9BE7FA] to-transparent flex-1 dark:via-slate-700" />
+        <div className="flex-1" />
       </div>
 
       <ShopLiveVideoSection
@@ -190,10 +190,10 @@ export default function KamiElyShopTab({
       <ShopAnalysisNarrative isEn={isEn} />
 
       {/* CROSS-TAB NAVIGATION CTA (Placed at bottom of page) */}
-      <div className="pt-6 border-t border-[#9BE7FA]/60 dark:border-slate-800">
-        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#FFFDF5] via-[#FFF9E6] to-[#FFE485]/40 border-2 border-[#FFD14C] shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-6 dark:bg-gradient-to-br dark:from-[#041E24] dark:via-slate-900 dark:to-[#0D7287]/40 dark:border-[#9BE7FA] dark:shadow-xl transition-colors">
+      <div className="pt-6 border-[#9BE7FA]/60 dark:border-slate-800">
+        <div className="p-6 sm:p-8 rounded-3xl border-2 border-[#FFD14C] flex flex-col md:flex-row items-start md:items-center justify-between gap-6 dark:border-[#9BE7FA] transition-colors bg-[#FFFDF5]">
           <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD14C] text-slate-950 text-xs font-black uppercase tracking-wider dark:bg-[#9BE7FA] dark:text-slate-950">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD14C] text-slate-950 text-xs font-black dark:bg-[#9BE7FA] dark:text-slate-950">
               <Sparkles className="w-3.5 h-3.5" />
               <span>{isEn ? 'DEEP-DIVE INTO THE ANCHOR CREATOR' : 'TIẾP TỤC KHÁM PHÁ: KÊNH CHÍNH CHỦ'}</span>
             </div>
@@ -214,7 +214,7 @@ export default function KamiElyShopTab({
                 handleTabChange('creator');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="px-6 py-3.5 rounded-2xl bg-[#0D7287] hover:bg-[#095262] text-white dark:bg-[#9BE7FA] dark:hover:bg-[#72dbf3] dark:text-slate-950 font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="px-6 py-3.5 rounded-2xl bg-[#0D7287] hover:bg-[#095262] text-white dark:bg-[#9BE7FA] dark:hover:bg-[#72dbf3] dark:text-slate-950 font-black text-sm transition flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>{isEn ? 'View Creator Analysis (Part 2)' : 'Xem Phân Tích Creator (Phần 2)'}</span>
               <ArrowRight className="w-4 h-4" />
@@ -224,7 +224,7 @@ export default function KamiElyShopTab({
                 handleTabChange('science');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-300 hover:border-[#0D7287] text-slate-800 dark:bg-white/10 dark:hover:bg-white/20 dark:border-white/20 dark:text-white font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-300 hover:border-[#0D7287] text-slate-800 dark:bg-white/10 dark:hover:bg-white/20 dark:border-white/20 dark:text-white font-bold text-sm shadow-xs transition flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>{isEn ? 'Data Science Case Study' : 'Nghiên Cứu Khoa Học Dữ Liệu'}</span>
             </button>

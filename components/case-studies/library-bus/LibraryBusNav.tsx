@@ -49,7 +49,7 @@ export default function LibraryBusNav({
   return (
     <nav
       aria-label="Library Bus Case Study Navigation"
-      className="sticky top-3 z-30 w-full rounded-2xl border border-slate-200/90 bg-white/95 dark:border-slate-800/90 dark:bg-slate-950/90 backdrop-blur-md p-1.5 sm:p-2 shadow-lg"
+      className="sticky top-3 z-30 w-full rounded-2xl border border-slate-200/90 bg-white/95 dark:border-slate-800/90 dark:bg-slate-950/90 backdrop-blur-md p-1.5 sm:p-2"
     >
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2.5">
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1">
@@ -74,7 +74,7 @@ export default function LibraryBusNav({
                 onClick={() => handleScrollTo(sec.id)}
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition border cursor-pointer shrink-0 min-h-[40px] flex items-center ${
                   isActive
-                    ? 'bg-sky-50 text-sky-900 border-sky-400 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/50 shadow-xs'
+                    ? 'bg-[#C8EEF7]/50 text-[#074553] border-[#9BE7FA] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/50 shadow-xs'
                     : 'bg-slate-100 text-slate-600 border-slate-200 hover:text-slate-950 hover:bg-slate-200 dark:bg-slate-900/60 dark:text-slate-400 dark:border-slate-800 dark:hover:text-white dark:hover:bg-slate-900'
                 }`}
               >

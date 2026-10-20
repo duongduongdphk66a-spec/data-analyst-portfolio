@@ -34,13 +34,13 @@ export default function LanguageToggle({ size = 'md', className = '' }: Language
             type="button"
             onClick={() => setLanguage(lang)}
             aria-pressed={isActive}
-            className={`${pad} rounded-lg font-mono text-[11px] font-bold uppercase tracking-wide transition-colors cursor-pointer ${
+            className={`${pad} rounded-lg text-xs font-bold transition-colors cursor-pointer ${
               isActive
                 ? 'bg-brand-teal text-white dark:text-slate-950'
                 : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
             }`}
           >
-            {lang}
+            {lang.toUpperCase()}
           </button>
         );
       })}

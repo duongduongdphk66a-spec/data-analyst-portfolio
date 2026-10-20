@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { TrendingUp, Download } from 'lucide-react';
 import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, 
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Label,
   Tooltip, ResponsiveContainer, AreaChart, Area
 } from 'recharts';
 import {
@@ -71,25 +71,25 @@ export function Chapter3AnalyticsSection({
       {/* KPI Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Khách quốc tế toàn quốc</span>
+          <span className="text-xs font-bold text-slate-500 block mb-1">Khách quốc tế toàn quốc</span>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">36.9 Triệu</span>
-            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">+255%</span>
+            <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">+255%</span>
           </div>
           <p className="text-xs text-slate-500 mt-1">Kỷ lục 2024 (JNTO, vượt đỉnh 31.9M năm 2019)</p>
         </div>
 
         <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Chi tiêu du khách quốc tế</span>
+          <span className="text-xs font-bold text-slate-500 block mb-1">Chi tiêu du khách quốc tế</span>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">8.14 Nghìn tỷ ¥</span>
-            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">x5.8 lần</span>
+            <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">x5.8 lần</span>
           </div>
           <p className="text-xs text-slate-500 mt-1">Kỷ lục 2024 (観光庁, tăng +69% vs 2019)</p>
         </div>
 
         <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Đóng góp vào GDP Nhật</span>
+          <span className="text-xs font-bold text-slate-500 block mb-1">Đóng góp vào GDP Nhật</span>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">8.4% GDP</span>
             <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">68.2T ¥</span>
@@ -98,7 +98,7 @@ export function Chapter3AnalyticsSection({
         </div>
 
         <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs dark:bg-slate-900 dark:border-slate-800">
-          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Chi tiêu du lịch Kyoto</span>
+          <span className="text-xs font-bold text-slate-500 block mb-1">Chi tiêu du lịch Kyoto</span>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">1.91 Nghìn tỷ ¥</span>
             <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">8.21M khách</span>
@@ -108,8 +108,8 @@ export function Chapter3AnalyticsSection({
       </div>
 
       {/* 3.1.1 BIỂU ĐỒ SỐ LƯỢNG KHÁCH (VOLUME TELEMETRY HUB) */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 mb-8 dark:bg-slate-900 dark:border-slate-800">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+      <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 mb-8 dark:bg-slate-900 dark:border-slate-800">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-slate-200 dark:border-slate-800">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="px-2.5 py-0.5 rounded text-xs font-black bg-[#9BE7FA] text-slate-950 dark:bg-[#9BE7FA] dark:text-slate-950">
@@ -124,8 +124,8 @@ export function Chapter3AnalyticsSection({
                 {isEn ? selectedVolumeMeta.nameEn : selectedVolumeMeta.nameVi}
               </h4>
               {liveData?.isLiveDb && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] tabular-nums font-bold bg-[#C8EEF7]/40 text-[#074553] dark:bg-[#074553]/60 dark:text-[#9BE7FA] border border-[#9BE7FA]/50">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C] animate-pulse" />
                   MySQL Live
                 </span>
               )}
@@ -145,12 +145,12 @@ export function Chapter3AnalyticsSection({
         </div>
 
         {/* Volume Chart Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto py-3 border-b border-slate-100 dark:border-slate-800 scrollbar-thin">
+        <div className="flex items-center gap-2 overflow-x-auto py-3 border-slate-100 dark:border-slate-800 scrollbar-thin">
           {volumeCharts.map((item) => (
             <button
               key={item.chartId}
               onClick={() => setVolumeChartId(item.chartId)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition cursor-pointer ${
                 volumeChartId === item.chartId
                   ? 'bg-[#0D7287] text-white shadow-xs font-black dark:bg-[#9BE7FA] dark:text-slate-950'
                   : 'bg-slate-50 text-slate-600 hover:bg-slate-100 dark:bg-slate-800/60 dark:text-slate-300 dark:hover:bg-slate-800'
@@ -166,7 +166,7 @@ export function Chapter3AnalyticsSection({
           <div className="h-[340px] w-full">
             {volumeChartId === '3.1' && (
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={activeTouristsData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <AreaChart data={activeTouristsData} margin={{ top: 22, right: 30, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorTourists" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#0D7287" stopOpacity={0.8}/>
@@ -175,7 +175,9 @@ export function Chapter3AnalyticsSection({
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} unit="M" />
+                  <YAxis tick={{ fontSize: 12 }}>
+                    <Label value="(M)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                  </YAxis>
                   <Tooltip formatter={(value: any) => [`${value} Triệu khách`, 'Khách quốc tế']} />
                   <Area type="monotone" dataKey="value" stroke="#0D7287" strokeWidth={3} fillOpacity={1} fill="url(#colorTourists)" name="Lượng khách quốc tế (triệu người)" />
                 </AreaChart>
@@ -184,10 +186,12 @@ export function Chapter3AnalyticsSection({
 
             {volumeChartId === '3.2' && (
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={activeKyotoData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <BarChart data={activeKyotoData} margin={{ top: 22, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} unit="k" />
+                  <YAxis tick={{ fontSize: 12 }}>
+                    <Label value="(k)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                  </YAxis>
                   <Tooltip formatter={(value: any) => [`${value} Nghìn khách`, 'Khách quốc tế đến Kyoto']} />
                   <Bar dataKey="value" fill="#9BE7FA" stroke="#0D7287" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến TP Kyoto (nghìn người)" />
                 </BarChart>
@@ -196,12 +200,14 @@ export function Chapter3AnalyticsSection({
 
             {volumeChartId === '3.3' && (
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={activeNaraData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <BarChart data={activeNaraData} margin={{ top: 22, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} unit="k" />
+                  <YAxis tick={{ fontSize: 12 }}>
+                    <Label value="(k)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                  </YAxis>
                   <Tooltip formatter={(value: any) => [`${value} Nghìn khách`, 'Khách quốc tế đến Nara']} />
-                  <Bar dataKey="value" fill="#FFD14C" stroke="#B8860B" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến Cố đô Nara (nghìn người)" />
+                  <Bar dataKey="value" fill="#FFD14C" stroke="#FFD14C" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến Cố đô Nara (nghìn người)" />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -214,7 +220,7 @@ export function Chapter3AnalyticsSection({
             <strong className="text-slate-900 font-bold dark:text-white">
               Phân tích học thuật & Cập nhật Dữ liệu Mới nhất (JNTO / DMO KYOTO / Nara):
             </strong>
-            <span className="text-xs font-mono text-[#0D7287] dark:text-[#9BE7FA]">
+            <span className="text-xs tabular-nums text-[#0D7287] dark:text-[#9BE7FA]">
               Niên luận (2003–2022) + Cập nhật chính thức (2023–2024)
             </span>
           </div>
@@ -231,7 +237,7 @@ export function Chapter3AnalyticsSection({
                 Khách quốc tế đến Kyoto bùng nổ từ 844.9k (2013) lên đỉnh 4.5M (2019). Năm 2024 lập kỷ lục <strong>8.21 triệu khách quốc tế</strong>, lần đầu vượt khách nội địa (theo DMO KYOTO).
               </p>
               <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-xs flex items-start gap-2">
-                <span className="font-mono font-bold text-amber-700 dark:text-amber-400 shrink-0">🔍 KIỂM ĐỊNH DATA:</span>
+                <span className="tabular-nums font-bold text-amber-700 dark:text-amber-400 shrink-0">KIỂM ĐỊNH DATA:</span>
                 <span>
                   Đồ thị nguyên bản trong Niên luận (trang 31) ghi nhận năm 2020 là <strong>3,799 k</strong> (do lỗi gõ thiếu dấu phẩy thập phân của <strong>379.9 k</strong>). Biểu đồ tương tác đã được Data Analyst chuẩn hóa khoa học theo thống kê DMO Kyoto.
                 </span>
@@ -244,8 +250,8 @@ export function Chapter3AnalyticsSection({
               <p>
                 Khách đến Nara tăng mạnh từ 435k (2013) lên đỉnh 3.32M (2019). Năm 2024 đạt <strong>3.14 triệu lượt khách</strong>, phục hồi 94.6% so với trước đại dịch.
               </p>
-              <div className="p-2.5 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-900 dark:text-indigo-200 text-xs flex items-start gap-2">
-                <span className="font-mono font-bold text-indigo-700 dark:text-indigo-400 shrink-0">💡 NGHỊCH LÝ DAY-TRIPPER:</span>
+              <div className="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-900 dark:text-cyan-200 text-xs flex items-start gap-2">
+                <span className="tabular-nums font-bold text-cyan-700 dark:text-cyan-400 shrink-0">NGHỊCH LÝ DAY-TRIPPER:</span>
                 <span>
                   Dù đón hơn 3.3M khách ngoại quốc, trên <strong>85% du khách chỉ ghé thăm trong ngày</strong> (rời đi sau 3–4 tiếng ngắm hươu) khiến doanh thu lưu trú thấp và gây quá tải hạ tầng đô thị.
                 </span>
@@ -254,30 +260,30 @@ export function Chapter3AnalyticsSection({
           )}
 
           {/* Kyoto vs Nara Table */}
-          <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+          <div className="mt-4 pt-4 border-slate-200 dark:border-slate-700">
             <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white text-xs">
               <span>Đối sánh Lượng khách du lịch: Kyoto vs Nara (2013 - 2024)</span>
-              <span className="text-xs font-mono text-slate-400">Đơn vị: Nghìn người (k)</span>
+              <span className="text-xs tabular-nums text-slate-400">Đơn vị: Nghìn người (k)</span>
             </h5>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 text-slate-500 text-xs uppercase font-bold dark:border-slate-700">
+                  <tr className="text-slate-500 text-xs uppercase font-bold bg-slate-50 dark:bg-slate-800/60">
                     <th className="py-1.5 px-2">Năm khảo sát</th>
                     <th className="py-1.5 px-2 text-[#0D7287] dark:text-[#9BE7FA]">Cố đô Kyoto (Khách quốc tế)</th>
                     <th className="py-1.5 px-2 text-amber-600 dark:text-amber-400">Cố đô Nara (Khách quốc tế)</th>
                     <th className="py-1.5 px-2 text-slate-500">Tỷ lệ Nara / Kyoto</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                <tbody className="[&>tr:nth-child(even)]:bg-slate-50 dark:[&>tr:nth-child(even)]:bg-slate-800/40">
                   {activeRegionalData.filter(d => ['2013', '2015', '2017', '2019', '2021', '2022', '2023', '2024'].includes(d.year)).map(d => {
                     const ratio = d.nara && d.kyoto ? ((d.nara / d.kyoto) * 100).toFixed(1) : '-';
                     return (
                       <tr key={d.year}>
-                        <td className="py-1.5 px-2 font-mono font-bold text-slate-600 dark:text-slate-400">{d.year}</td>
+                        <td className="py-1.5 px-2 tabular-nums font-bold text-slate-600 dark:text-slate-400">{d.year}</td>
                         <td className="py-1.5 px-2 font-bold text-slate-900 dark:text-white">{d.kyoto.toLocaleString()}k khách</td>
                         <td className="py-1.5 px-2 font-bold text-slate-900 dark:text-white">{d.nara?.toLocaleString()}k khách</td>
-                        <td className="py-1.5 px-2 font-mono text-slate-500 dark:text-slate-400">{ratio}%</td>
+                        <td className="py-1.5 px-2 tabular-nums text-slate-500 dark:text-slate-400">{ratio}%</td>
                       </tr>
                     );
                   })}
@@ -289,11 +295,11 @@ export function Chapter3AnalyticsSection({
       </div>
 
       {/* 3.1.2 BIỂU ĐỒ DOANH THU & CHI TIÊU (REVENUE HUB) */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 dark:bg-slate-900 dark:border-slate-800">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+      <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 dark:bg-slate-900 dark:border-slate-800">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-slate-200 dark:border-slate-800">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="px-2.5 py-0.5 rounded text-xs font-black bg-emerald-100 text-emerald-950 dark:bg-emerald-950/60 dark:text-emerald-300">
+              <span className="px-2.5 py-0.5 rounded text-xs font-black bg-[#FFE485]/40 text-[#92400E] dark:bg-[#FFE485]/20 dark:text-[#FFE485]">
                 Nhóm 2 • Doanh thu & Chi tiêu
               </span>
               <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
@@ -305,8 +311,8 @@ export function Chapter3AnalyticsSection({
                 {isEn ? selectedRevenueMeta.nameEn : selectedRevenueMeta.nameVi}
               </h4>
               {liveData?.isLiveDb && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] tabular-nums font-bold bg-[#C8EEF7]/40 text-[#074553] dark:bg-[#074553]/60 dark:text-[#9BE7FA] border border-[#9BE7FA]/50">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C] animate-pulse" />
                   MySQL Live
                 </span>
               )}
@@ -326,14 +332,14 @@ export function Chapter3AnalyticsSection({
         </div>
 
         {/* Revenue Chart Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto py-3 border-b border-slate-100 dark:border-slate-800 scrollbar-thin">
+        <div className="flex items-center gap-2 overflow-x-auto py-3 border-slate-100 dark:border-slate-800 scrollbar-thin">
           {revenueCharts.map((item) => (
             <button
               key={item.chartId}
               onClick={() => setRevenueChartId(item.chartId)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition cursor-pointer ${
                 revenueChartId === item.chartId
-                  ? 'bg-emerald-700 text-white shadow-xs font-black dark:bg-emerald-500 dark:text-slate-950'
+                  ? 'bg-[#0D7287] text-white shadow-xs font-black dark:bg-[#9BE7FA] dark:text-slate-950'
                   : 'bg-slate-50 text-slate-600 hover:bg-slate-100 dark:bg-slate-800/60 dark:text-slate-300 dark:hover:bg-slate-800'
               }`}
             >
@@ -347,42 +353,48 @@ export function Chapter3AnalyticsSection({
           <div className="h-[340px] w-full">
             {revenueChartId === '3.4' && (
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={activeSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <AreaChart data={activeSpendData} margin={{ top: 22, right: 30, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorSpend" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#10B981" stopOpacity={0.05}/>
+                      <stop offset="5%" stopColor="#FFD14C" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#FFD14C" stopOpacity={0.05}/>
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} unit="T¥" />
+                  <YAxis tick={{ fontSize: 12 }}>
+                    <Label value="(T¥)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                  </YAxis>
                   <Tooltip formatter={(value: any) => [`${value} Nghìn tỷ Yên`, 'Chi tiêu khách quốc tế']} />
-                  <Area type="monotone" dataKey="value" stroke="#059669" strokeWidth={3} fillOpacity={1} fill="url(#colorSpend)" name="Chi tiêu quốc tế (nghìn tỷ Yên)" />
+                  <Area type="monotone" dataKey="value" stroke="#FFD14C" strokeWidth={3} fillOpacity={1} fill="url(#colorSpend)" name="Chi tiêu quốc tế (nghìn tỷ Yên)" />
                 </AreaChart>
               </ResponsiveContainer>
             )}
 
             {revenueChartId === '3.5' && (
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={kyotoSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <BarChart data={kyotoSpendData} margin={{ top: 22, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} unit="B¥" />
+                  <YAxis tick={{ fontSize: 12 }}>
+                    <Label value="(B¥)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                  </YAxis>
                   <Tooltip formatter={(value: any) => [`${value} Tỷ Yên`, 'Chi tiêu tại Kyoto']} />
-                  <Bar dataKey="value" fill="#6366F1" radius={[4, 4, 0, 0]} name="Chi tiêu du lịch TP Kyoto (tỷ Yên)" />
+                  <Bar dataKey="value" fill="#0D7287" radius={[4, 4, 0, 0]} name="Chi tiêu du lịch TP Kyoto (tỷ Yên)" />
                 </BarChart>
               </ResponsiveContainer>
             )}
 
             {revenueChartId === '3.6' && (
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={naraSpendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <BarChart data={naraSpendData} margin={{ top: 22, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} unit="B¥" />
+                  <YAxis tick={{ fontSize: 12 }}>
+                    <Label value="(B¥)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                  </YAxis>
                   <Tooltip formatter={(value: any) => [`${value} Tỷ Yên`, 'Chi tiêu tại Nara']} />
-                  <Bar dataKey="value" fill="#F59E0B" radius={[4, 4, 0, 0]} name="Chi tiêu du lịch Cố đô Nara (tỷ Yên)" />
+                  <Bar dataKey="value" fill="#FFD14C" radius={[4, 4, 0, 0]} name="Chi tiêu du lịch Cố đô Nara (tỷ Yên)" />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -395,7 +407,7 @@ export function Chapter3AnalyticsSection({
             <strong className="text-slate-900 font-bold dark:text-white">
               Phân tích học thuật & Cập nhật Doanh thu Mới nhất (観光庁 / DMO KYOTO / Nara):
             </strong>
-            <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400">
+            <span className="text-xs tabular-nums text-[#0D7287] dark:text-[#9BE7FA]">
               Niên luận (2010–2021) + Cập nhật chính thức (2022–2024)
             </span>
           </div>
@@ -418,7 +430,7 @@ export function Chapter3AnalyticsSection({
                 Chi tiêu tại Cố đô Nara được ghi nhận 872.6 (2013), đỉnh 1,208 (2018) và phục hồi mạnh mẽ sau đại dịch đạt <strong>2,060 tỷ Yên (2024)</strong>.
               </p>
               <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-xs flex items-start gap-2">
-                <span className="font-mono font-bold text-amber-700 dark:text-amber-400 shrink-0">🔍 KIỂM ĐỊNH DATA:</span>
+                <span className="tabular-nums font-bold text-amber-700 dark:text-amber-400 shrink-0">KIỂM ĐỊNH DATA:</span>
                 <span>
                   Đồ thị gốc trong Niên luận ghi đơn vị &quot;tỷ yên&quot;. Tuy nhiên số liệu cấp tỉnh của Nhật Bản thường đo bằng <strong>億円 (trăm triệu Yên)</strong>. Doanh thu Nara phản ánh tổng chi tiêu (gồm cả khách nội địa và chi phí vận tải liên vùng), vì nếu chỉ tính riêng khách quốc tế thì doanh thu Nara không thể tiệm cận Kyoto do phần lớn là khách đi về trong ngày.
                 </span>
@@ -427,25 +439,25 @@ export function Chapter3AnalyticsSection({
           )}
 
           {/* GDP Contribution Table */}
-          <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+          <div className="mt-4 pt-4 border-slate-200 dark:border-slate-700">
             <h5 className="font-bold text-slate-900 mb-2 flex items-center justify-between dark:text-white text-xs">
               <span>Tăng trưởng Đóng góp GDP Quốc gia của Ngành Du lịch (2000 - 2024)</span>
-              <span className="text-xs font-mono text-slate-400">Nguồn: METI, WTTC & Cập nhật JTA/JNTO</span>
+              <span className="text-xs tabular-nums text-slate-400">Nguồn: METI, WTTC & Cập nhật JTA/JNTO</span>
             </h5>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 text-slate-500 text-xs uppercase font-bold dark:border-slate-700">
+                  <tr className="text-slate-500 text-xs uppercase font-bold bg-slate-50 dark:bg-slate-800/60">
                     <th className="py-1.5 px-2">Năm thống kê</th>
-                    <th className="py-1.5 px-2 text-emerald-600 dark:text-emerald-400">Tỷ trọng trong tổng GDP</th>
+                    <th className="py-1.5 px-2 text-[#0D7287] dark:text-[#9BE7FA]">Tỷ trọng trong tổng GDP</th>
                     <th className="py-1.5 px-2">Quy mô Doanh thu trực tiếp</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                <tbody className="[&>tr:nth-child(even)]:bg-slate-50 dark:[&>tr:nth-child(even)]:bg-slate-800/40">
                   {gdpShareData.map(d => (
                     <tr key={d.year}>
-                      <td className="py-1.5 px-2 font-mono font-bold text-slate-600 dark:text-slate-400">{d.year}</td>
-                      <td className="py-1.5 px-2 font-bold text-emerald-600 dark:text-emerald-400">{d.gdpShare}% GDP</td>
+                      <td className="py-1.5 px-2 tabular-nums font-bold text-slate-600 dark:text-slate-400">{d.year}</td>
+                      <td className="py-1.5 px-2 font-bold text-[#0D7287] dark:text-[#9BE7FA]">{d.gdpShare}% GDP</td>
                       <td className="py-1.5 px-2 font-bold text-slate-900 dark:text-white">{d.directRevenue} Nghìn tỷ ¥</td>
                     </tr>
                   ))}

@@ -67,7 +67,7 @@ export default function ProjectDetailView({
         </p>
         <button
           onClick={handleBack}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#9BE7FA] hover:bg-[#C8EEF7] text-slate-950 rounded-xl font-bold text-sm transition-all shadow-xs cursor-pointer border border-[#9BE7FA]/60 dark:bg-[#9BE7FA] dark:text-slate-950"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#9BE7FA] hover:bg-[#C8EEF7] text-slate-950 rounded-xl font-bold text-sm transition-colors cursor-pointer border border-[#9BE7FA]/60 dark:bg-[#9BE7FA] dark:text-slate-950"
         >
           <ArrowLeft className="w-4 h-4 text-[#074553]" />
           <span>{t('nav_back_to_portfolio', 'Quay lại Portfolio')}</span>
@@ -77,9 +77,9 @@ export default function ProjectDetailView({
   }
 
   return (
-    <div className="min-h-screen bg-ground font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
+    <div className="min-h-dvh bg-ground font-sans text-slate-900 selection:bg-[#9BE7FA]/60 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-ground/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs transition-all dark:bg-[#0B0F17]/95 dark:border-slate-800">
+      <header className="sticky top-0 z-50 bg-ground/95 backdrop-blur-md border-b border-slate-200/80 transition-colors dark:bg-[#0B0F17]/95 dark:border-slate-800" /* taste-skill-ignore: sticky bar overlay */>
         <div className="page-container h-16 flex items-center justify-between">
           <button 
             onClick={handleBack}
@@ -112,12 +112,14 @@ export default function ProjectDetailView({
       </header>
 
       {/* Hero Section */}
-      <section className="page-container pt-14 pb-10 sm:pt-20 sm:pb-14 border-b border-slate-200/80 dark:border-slate-800">
+      <section className="page-container pt-14 pb-10 sm:pt-20 sm:pb-14">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6">
           <div className="flex-1 space-y-3">
-            <span className="editorial-kicker">
-              {isEn ? 'CASE STUDY · TECHNICAL OVERVIEW' : 'CHI TIẾT DỰ ÁN · BÁO CÁO PHÂN TÍCH'}
-            </span>
+            <div>
+              <span className="inline-block px-2.5 py-0.5 rounded-md text-xs font-bold bg-[#C8EEF7]/50 text-[#074553] dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA]">
+                {isEn ? 'Case study · Technical overview' : 'Chi tiết dự án · Báo cáo phân tích'}
+              </span>
+            </div>
             <h1 className="editorial-section-title text-3xl sm:text-4xl md:text-5xl font-black text-slate-950 dark:text-white leading-[1.18]">
               {isEn && project.titleEn ? project.titleEn : project.title}
             </h1>
@@ -159,7 +161,7 @@ export default function ProjectDetailView({
             {project.tags.map((tag) => (
               <span 
                 key={tag}
-                className="px-2.5 py-0.5 rounded-md bg-[#C8EEF7]/30 dark:bg-slate-900 border border-[#9BE7FA]/40 dark:border-slate-800 text-slate-800 dark:text-slate-300 font-mono text-xs"
+                className="px-2.5 py-0.5 rounded-md bg-[#C8EEF7]/30 dark:bg-slate-900 border border-[#9BE7FA]/40 dark:border-slate-800 text-slate-800 dark:text-slate-300 font-medium text-xs"
               >
                 #{tag}
               </span>
@@ -171,14 +173,14 @@ export default function ProjectDetailView({
       {/* Main Content / Markdown Case Study */}
       <main className="page-container py-16 md:py-20">
         {project.content ? (
-          <article className="prose prose-slate max-w-none prose-headings:font-heading prose-headings:font-bold prose-headings:text-slate-950 prose-a:text-[#074553] dark:prose-a:text-[#9BE7FA] prose-img:rounded-2xl prose-img:border prose-img:border-slate-200 dark:prose-img:border-slate-800 prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-pre:border prose-pre:border-slate-800 prose-pre:font-mono dark:prose-invert">
+          <article className="prose prose-slate max-w-none prose-headings:font-heading prose-headings:font-bold prose-headings:text-slate-950 prose-a:text-[#074553] dark:prose-a:text-[#9BE7FA] prose-img:rounded-2xl prose-img:border prose-img:border-slate-200 dark:prose-img:border-slate-800 prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-pre:border prose-pre:border-slate-800 dark:prose-invert">
             <ReactMarkdown 
               remarkPlugins={[remarkGfm]}
               components={{
                 img: ({ src, alt }) => {
                   if (!src || typeof src !== 'string') return null;
                   return (
-                    <span className="block my-6 overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <span className="block my-6 overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
                       <Image
                         src={src}
                         alt={alt || 'Project illustration'}
@@ -211,15 +213,10 @@ export default function ProjectDetailView({
         )}
       </main>
 
-      {/* taste-skill §4.3: Gradient divider before footer */}
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="section-divider-gradient" />
-      </div>
-
-      <footer className="border-t-0 text-slate-500 py-12 text-center text-xs">
+      <footer className="py-16 text-slate-500 text-center text-xs">
         <div className="max-w-4xl mx-auto px-6">
           <p className="mb-1 font-medium">{isEn ? 'Personal Project · Data Analytics Case Study' : 'Dự án cá nhân · Phân tích dữ liệu'}</p>
-          <p className="font-mono text-[11px] text-slate-400">Ma Van Hung · Data Analyst Portfolio</p>
+          <p className="text-xs text-slate-400">Ma Van Hung · Data Analyst Portfolio</p>
         </div>
       </footer>
     </div>

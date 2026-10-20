@@ -59,7 +59,7 @@ export default function AdminLoginView({ onLoginSuccess }: AdminLoginViewProps) 
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-12 text-center max-w-md mx-auto">
-      <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-[#0D7287] to-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-500/20 mb-6">
+      <div className="w-16 h-16 rounded-3xl text-white flex items-center justify-center mb-6 bg-[#0D7287]">
         <Lock className="w-8 h-8" />
       </div>
 
@@ -82,7 +82,7 @@ export default function AdminLoginView({ onLoginSuccess }: AdminLoginViewProps) 
             onChange={(e) => setPasswordInput(e.target.value)}
             placeholder="Nhập mật khẩu quản trị..."
             disabled={isLoggingIn}
-            className="w-full pl-10 pr-10 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+            className="w-full pl-10 pr-10 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition"
             autoFocus
           />
           <button
@@ -106,7 +106,7 @@ export default function AdminLoginView({ onLoginSuccess }: AdminLoginViewProps) 
             onChange={(e) => setVerifyCodeInput(e.target.value)}
             placeholder="Mã xác nhận bảo mật..."
             disabled={isLoggingIn}
-            className="w-full pl-10 pr-10 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+            className="w-full pl-10 pr-10 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition"
           />
           <button
             type="button"
@@ -127,7 +127,7 @@ export default function AdminLoginView({ onLoginSuccess }: AdminLoginViewProps) 
         <button
           type="submit"
           disabled={isLoggingIn}
-          className="w-full py-3 bg-[#0D7287] hover:bg-cyan-700 disabled:opacity-50 text-white font-bold text-sm rounded-xl shadow-md shadow-cyan-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
+          className="w-full py-3 bg-[#0D7287] hover:bg-cyan-700 disabled:opacity-50 text-white font-bold text-sm rounded-xl transition flex items-center justify-center gap-2 cursor-pointer"
         >
           {isLoggingIn ? (
             <>

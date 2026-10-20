@@ -53,6 +53,7 @@ data-sources/
 scratch/
 scripts/test_*.js
 scripts/inspect_*.js
+.taste-skill/
 
 # vercel
 .vercel
@@ -60,4 +61,5 @@ scripts/inspect_*.js
 # raw data files (data privacy)
 data/kami/*.xlsx
 data/kami/*.csv
+
 

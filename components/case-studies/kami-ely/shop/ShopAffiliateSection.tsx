@@ -40,20 +40,20 @@ export default function ShopAffiliateSection({
   return (
     <section id="shop-affiliates" className="space-y-6 scroll-mt-36">
       <SectionHeader 
-        badge="1.4" 
+        badge="1.4.1" 
         title={isEn ? "Affiliate Network & KOC Performance" : "Mạng Lưới Tiếp Thị Liên Kết & KOC"} 
         id="shop-affiliates" 
         onCopy={copyDeepLink} 
       />
 
       {/* Co-Operated Channel Analysis: Girl Style (@girlstyle.vn) */}
-      <div className="p-6 rounded-3xl bg-gradient-to-r from-indigo-50 via-white to-sky-50 border-2 border-indigo-200 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 dark:border-indigo-800 shadow-sm space-y-4">
+      <div className="p-6 rounded-3xl border-2 border-cyan-200 dark:border-cyan-800 space-y-4 bg-cyan-50">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-600 text-white text-xs font-black uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-600 text-white text-xs font-black">
             <Sparkles className="w-3.5 h-3.5" />
             <span>{isEn ? 'CO-OPERATED CHANNEL ANALYSIS' : 'PHÂN TÍCH KÊNH ĐỒNG VẬN HÀNH'}</span>
           </div>
-          <span className="text-xs text-slate-500 font-mono font-bold">1 Team · 2 Kênh Live Song Song</span>
+          <span className="text-xs text-slate-500 tabular-nums font-bold">1 Team · 2 Kênh Live Song Song</span>
         </div>
 
         <div className="space-y-3">
@@ -70,9 +70,9 @@ export default function ShopAffiliateSection({
 
           {/* 3 Comparative Analysis & Role Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
-            <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-slate-950/70 border border-indigo-200/80 dark:border-indigo-900/50 space-y-2 shadow-2xs">
-              <div className="font-black text-indigo-950 dark:text-indigo-300 text-xs flex items-center gap-1.5 uppercase tracking-wide">
-                <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0" />
+            <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-slate-950/70 border border-cyan-200/80 dark:border-cyan-900/50 space-y-2 shadow-2xs">
+              <div className="font-black text-cyan-950 dark:text-cyan-300 text-xs flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-cyan-500 shrink-0" />
                 {isEn ? 'Vs. Self-Operated (@kamielyhn)' : 'So Với Kênh Tự Vận Hành (@kamielyhn)'}
               </div>
               <p className="text-[12px] text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -82,9 +82,9 @@ export default function ShopAffiliateSection({
               </p>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-slate-950/70 border border-amber-200/80 dark:border-amber-900/50 space-y-2 shadow-2xs">
-              <div className="font-black text-amber-950 dark:text-amber-300 text-xs flex items-center gap-1.5 uppercase tracking-wide">
-                <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+            <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-2 shadow-2xs">
+              <div className="font-black text-slate-900 dark:text-white text-xs flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#FFD14C] shrink-0" />
                 {isEn ? 'Vs. External Affiliates (5,712 KOCs)' : 'So Với Các Affiliate Ngoài Khác'}
               </div>
               <p className="text-[12px] text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -94,9 +94,9 @@ export default function ShopAffiliateSection({
               </p>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-slate-950/70 border border-emerald-200/80 dark:border-emerald-900/50 space-y-2 shadow-2xs">
-              <div className="font-black text-emerald-950 dark:text-emerald-300 text-xs flex items-center gap-1.5 uppercase tracking-wide">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+            <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-slate-950/70 border border-[#9BE7FA]/60 dark:border-[#9BE7FA]/30 space-y-2 shadow-2xs">
+              <div className="font-black text-[#074553] dark:text-[#9BE7FA] text-xs flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#9BE7FA] shrink-0" />
                 {isEn ? 'Affirming Strategic Role' : 'Khẳng Định Vai Trò Của Girl Style'}
               </div>
               <p className="text-[12px] text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -110,24 +110,24 @@ export default function ShopAffiliateSection({
 
         {/* 6 Stat Badges: Format Disparity & Pareto Concentration */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-1">
-          <div className="p-3 rounded-2xl bg-white border border-indigo-200 text-center dark:bg-slate-900 dark:border-slate-800">
+          <div className="p-3 rounded-2xl bg-white border border-[#9BE7FA]/60 text-center dark:bg-slate-900 dark:border-slate-800">
             <div className="text-xs text-slate-500 font-bold uppercase">{isEn ? 'In-House Live (2 Channels)' : 'Live Nội Bộ (2 Kênh)'}</div>
-            <div className="text-base font-black text-indigo-600 dark:text-indigo-400 mt-0.5">8,28 Tỷ ₫ (89.4%)</div>
+            <div className="text-base font-black text-[#0D7287] dark:text-[#9BE7FA] mt-0.5">8,28 Tỷ ₫ (89.4%)</div>
             <div className="text-xs text-slate-400">Kami Ely + Girl Style</div>
           </div>
           <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
             <div className="text-xs text-slate-500 font-bold uppercase">{isEn ? 'True External KOCs' : 'Live KOC Ngoài Thực'}</div>
-            <div className="text-base font-black text-amber-600 dark:text-amber-400 mt-0.5">982,4 Tr ₫ (10.6%)</div>
+            <div className="text-base font-black text-slate-900 dark:text-white mt-0.5">982,4 Tr ₫ (10.6%)</div>
             <div className="text-xs text-slate-400">6.321 phiên · 155k/phiên</div>
           </div>
           <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
             <div className="text-xs text-slate-500 font-bold uppercase">{isEn ? 'Dormant KOCs (0 Orders)' : 'KOC "Ngủ Đông" (0 Đơn)'}</div>
-            <div className="text-base font-black text-rose-500 mt-0.5">94,89%</div>
+            <div className="text-base font-black text-rose-600 dark:text-rose-400 mt-0.5">94,89%</div>
             <div className="text-xs text-slate-400">5.421 / 5.713 KOC</div>
           </div>
           <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
             <div className="text-xs text-slate-500 font-bold uppercase">{isEn ? 'Active Converting KOCs' : 'KOC Ra Đơn Thực Tế'}</div>
-            <div className="text-base font-black text-emerald-600 dark:text-emerald-400 mt-0.5">292 KOC (5,11%)</div>
+            <div className="text-base font-black text-[#074553] dark:text-[#9BE7FA] mt-0.5">292 KOC (5,11%)</div>
             <div className="text-xs text-slate-400">Top 1% gánh 91,49% GMV</div>
           </div>
           <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
@@ -137,7 +137,7 @@ export default function ShopAffiliateSection({
           </div>
           <div className="p-3 rounded-2xl bg-white border border-slate-200 text-center dark:bg-slate-900 dark:border-slate-800">
             <div className="text-xs text-slate-500 font-bold uppercase">{isEn ? 'Top External Tier' : 'Tier Ngoài Hiệu Quả Nhất'}</div>
-            <div className="text-base font-black text-emerald-600 dark:text-emerald-400 mt-0.5">10k – 50k Follow</div>
+            <div className="text-base font-black text-[#074553] dark:text-[#9BE7FA] mt-0.5">10k – 50k Follow</div>
             <div className="text-xs text-slate-400">37.5% GMV ngoài · conv 7.8%</div>
           </div>
         </div>
@@ -145,13 +145,13 @@ export default function ShopAffiliateSection({
 
       {/* Follower Tiers Chart & Top KOC Table */}
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/60 shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
-          <div className="flex justify-between items-center border-b border-slate-100 pb-3 dark:border-slate-800">
+        <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/60 space-y-4 dark:bg-slate-900 dark:border-slate-800">
+          <div className="flex justify-between items-center border-slate-100 pb-3 dark:border-slate-800">
             <h3 className="text-base font-black text-slate-950 dark:text-white">{isEn ? 'Distribution by Follower Tier' : 'Hiệu Quả Theo Tệp Follower'}</h3>
             <div className="flex bg-[#C8EEF7]/40 rounded-xl p-1 dark:bg-slate-800">
-              <button onClick={() => setAffMetric('units')} className={`px-2 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${affMetric === 'units' ? 'bg-[#9BE7FA] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>Số lượng</button>
-              <button onClick={() => setAffMetric('gmv')} className={`px-2 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${affMetric === 'gmv' ? 'bg-[#FFD14C] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>GMV</button>
-              <button onClick={() => setAffMetric('count')} className={`px-2 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${affMetric === 'count' ? 'bg-[#FFE485] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>Số KOC</button>
+              <button onClick={() => setAffMetric('units')} className={`px-2 py-1 text-xs font-bold rounded-lg transition cursor-pointer ${affMetric === 'units' ? 'bg-[#9BE7FA] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>Số lượng</button>
+              <button onClick={() => setAffMetric('gmv')} className={`px-2 py-1 text-xs font-bold rounded-lg transition cursor-pointer ${affMetric === 'gmv' ? 'bg-[#FFD14C] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>GMV</button>
+              <button onClick={() => setAffMetric('count')} className={`px-2 py-1 text-xs font-bold rounded-lg transition cursor-pointer ${affMetric === 'count' ? 'bg-[#FFE485] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>Số KOC</button>
             </div>
           </div>
           <div className="h-64 w-full">
@@ -168,15 +168,15 @@ export default function ShopAffiliateSection({
         </div>
 
         {/* Top KOC Table */}
-        <div className="p-6 rounded-3xl bg-white border border-[#FFE485] shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-800">
+        <div className="p-6 rounded-3xl bg-white border border-[#FFE485] space-y-4 dark:bg-slate-900 dark:border-slate-800">
+          <div className="flex items-center justify-between border-slate-100 pb-3 dark:border-slate-800">
             <h3 className="text-base font-black text-slate-950 dark:text-white flex items-center gap-2">
               <Award className="w-5 h-5 text-[#FFD14C]" />
               {isEn ? 'Top Performing Affiliates' : 'Top KOC / Affiliates Tiêu Biểu'}
             </h3>
             {isLiveDb && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] tabular-nums font-bold bg-[#C8EEF7]/50 text-[#074553] dark:bg-[#9BE7FA]/10 dark:text-[#9BE7FA] border border-[#9BE7FA]/40">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C]" />
                 MySQL Live
               </span>
             )}
@@ -206,8 +206,8 @@ export default function ShopAffiliateSection({
       </div>
 
       {/* KOC Category Distribution (Screenshots 073657, 073705, 073713) */}
-      <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/60 shadow-sm space-y-4 dark:bg-slate-900 dark:border-slate-800">
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-b border-slate-100 pb-3 dark:border-slate-800">
+      <div className="p-6 rounded-3xl bg-white border border-[#9BE7FA]/60 space-y-4 dark:bg-slate-900 dark:border-slate-800">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-slate-100 pb-3 dark:border-slate-800">
           <div className="space-y-0.5">
             <h3 className="text-base font-black text-slate-950 dark:text-white flex items-center gap-2">
               <Users className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
@@ -218,9 +218,9 @@ export default function ShopAffiliateSection({
             </p>
           </div>
           <div className="flex bg-[#C8EEF7]/40 rounded-xl p-1 dark:bg-slate-800 shrink-0">
-            <button onClick={() => setAffCatMetric('units')} className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${affCatMetric === 'units' ? 'bg-[#9BE7FA] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>{isEn ? 'Units' : 'Số lượng'}</button>
-            <button onClick={() => setAffCatMetric('gmv')} className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${affCatMetric === 'gmv' ? 'bg-[#FFD14C] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>GMV</button>
-            <button onClick={() => setAffCatMetric('count')} className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${affCatMetric === 'count' ? 'bg-[#FFE485] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>{isEn ? 'KOC Count' : 'Số KOC'}</button>
+            <button onClick={() => setAffCatMetric('units')} className={`px-2.5 py-1 text-xs font-bold rounded-lg transition cursor-pointer ${affCatMetric === 'units' ? 'bg-[#9BE7FA] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>{isEn ? 'Units' : 'Số lượng'}</button>
+            <button onClick={() => setAffCatMetric('gmv')} className={`px-2.5 py-1 text-xs font-bold rounded-lg transition cursor-pointer ${affCatMetric === 'gmv' ? 'bg-[#FFD14C] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>GMV</button>
+            <button onClick={() => setAffCatMetric('count')} className={`px-2.5 py-1 text-xs font-bold rounded-lg transition cursor-pointer ${affCatMetric === 'count' ? 'bg-[#FFE485] text-slate-950 shadow-xs font-black' : 'text-slate-600 dark:text-slate-400'}`}>{isEn ? 'KOC Count' : 'Số KOC'}</button>
           </div>
         </div>
         <div className="grid md:grid-cols-3 gap-6 pt-2">
@@ -235,7 +235,7 @@ export default function ShopAffiliateSection({
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="p-5 rounded-2xl bg-gradient-to-br from-[#FFFDF5] to-[#FFE485]/20 border border-[#FFE485]/70 border-l-4 border-l-[#FFD14C] flex flex-col justify-center space-y-3 text-xs dark:bg-slate-800/60 dark:border-slate-700 dark:border-l-[#FFD14C]">
+          <div className="p-5 rounded-2xl border border-[#FFE485]/70 border-l-4 border-l-[#FFD14C] flex flex-col justify-center space-y-3 text-xs dark:bg-slate-800/60 dark:border-slate-700 dark:border-l-[#FFD14C] bg-[#FFFDF5]">
             <div className="font-black text-slate-900 dark:text-white text-sm flex items-center gap-2">
               <Lightbulb className="w-4 h-4 text-[#FFD14C]" />
               Insight Ngành Hàng KOC
@@ -250,11 +250,11 @@ export default function ShopAffiliateSection({
         </div>
       </div>
       {/* 1.4.B KOC Risk Concentration & Follower Tier Dynamics */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-slate-50 to-amber-50/30 border-2 border-amber-300/80 dark:from-slate-900 dark:via-slate-900 dark:to-amber-950/20 dark:border-amber-700/60 shadow-sm space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-200/60 dark:border-slate-800 pb-4">
+      <div className="p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 space-y-6 bg-white dark:bg-slate-900">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-slate-100 dark:border-slate-800 pb-4">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-900 dark:text-amber-300 text-xs font-black uppercase tracking-wider border border-amber-500/20">
-              <Lightbulb className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C8EEF7]/40 text-[#074553] dark:bg-[#9BE7FA]/10 dark:text-[#9BE7FA] text-xs font-black border border-[#9BE7FA]/60 dark:border-[#9BE7FA]/30">
+              <Lightbulb className="w-3.5 h-3.5 text-[#FFD14C]" />
               <span>{isEn ? 'KOC TIER AUDIT & VENDOR CONCENTRATION' : 'ĐỐI SOÁT PHÂN TẦNG KOC & RỦI RO TẬP TRUNG ĐƠN LẺ'}</span>
             </div>
             <h3 className="text-lg sm:text-xl font-black text-slate-950 dark:text-white">
@@ -263,7 +263,7 @@ export default function ShopAffiliateSection({
                 : 'Nghịch Lý Phân Tầng Follower: Nhóm <5k Gánh 96% GMV vs. Rủi Ro Phụ Thuộc 1 KOC'}
             </h3>
           </div>
-          <span className="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-amber-300 dark:border-slate-700 text-amber-800 dark:text-amber-300 shrink-0 self-start sm:self-auto">
+          <span className="text-xs tabular-nums font-bold px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-[#FFD14C] shrink-0 self-start sm:self-auto">
             90-Day Affiliate Audit: 4,7 Tỷ ₫
           </span>
         </div>
@@ -273,33 +273,33 @@ export default function ShopAffiliateSection({
           {/* Left: Follower Tier Realities */}
           <div className="p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-3">
             <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span className="w-2 h-2 rounded-full bg-[#9BE7FA]" />
               {isEn ? '1. Follower Tier Dynamics (<5k Follower Rule)' : '1. Cấu Trúc Tầng Follower: Quy Luật <5k Follower'}
             </h4>
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
               Dữ liệu đối soát 90 ngày (31,6k đơn bán / 4,7 Tỷ đ) chứng minh nghịch lý lớn: Nhóm có lượng follow thấp nhất lại mang lại doanh số cao nhất toàn sàn:
             </p>
             <div className="space-y-2 pt-1 text-xs">
-              <div className="p-2.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-between">
+              <div className="p-2.5 rounded-xl bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 border border-[#9BE7FA]/60 dark:border-[#9BE7FA]/30 flex items-center justify-between">
                 <div>
-                  <span className="font-black text-emerald-900 dark:text-emerald-200">Nano KOC (≤ 1k Follow):</span>
-                  <span className="text-[11px] text-slate-500 block">16,0k SP (50,7% đơn)</span>
+                  <span className="font-black text-[#074553] dark:text-[#9BE7FA]">Nano KOC (≤ 1k Follow):</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">16,0k SP (50,7% đơn)</span>
                 </div>
-                <div className="text-right font-black text-emerald-700 dark:text-emerald-300 text-sm">
+                <div className="text-right font-black text-[#0D7287] dark:text-[#9BE7FA] text-sm">
                   2,1 Tỷ ₫ (43,4% GMV)
                 </div>
               </div>
-              <div className="p-2.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-between">
+              <div className="p-2.5 rounded-xl bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 border border-[#9BE7FA]/60 dark:border-[#9BE7FA]/30 flex items-center justify-between">
                 <div>
-                  <span className="font-black text-emerald-900 dark:text-emerald-200">Micro KOC (1k – 5k Follow):</span>
-                  <span className="text-[11px] text-slate-500 block">16,6k SP (52,7% đơn)</span>
+                  <span className="font-black text-[#074553] dark:text-[#9BE7FA]">Micro KOC (1k – 5k Follow):</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">16,6k SP (52,7% đơn)</span>
                 </div>
-                <div className="text-right font-black text-emerald-700 dark:text-emerald-300 text-sm">
+                <div className="text-right font-black text-[#0D7287] dark:text-[#9BE7FA] text-sm">
                   2,5 Tỷ ₫ (52,7% GMV)
                 </div>
               </div>
             </div>
-            <p className="text-[11px] text-slate-500 italic pt-1">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 italic pt-1">
               → Tổng cộng nhóm KOC dưới 5.000 followers đóng góp hơn <strong>95% – 96% doanh số Affiliate</strong>, trong khi nhóm Macro (&gt;50k follow) chỉ chiếm chưa đầy 15% sản lượng.
             </p>
           </div>
@@ -307,32 +307,32 @@ export default function ShopAffiliateSection({
           {/* Right: Creator Dependency & Dormancy */}
           <div className="p-5 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-3">
             <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-rose-500" />
+              <span className="w-2 h-2 rounded-full bg-[#FFD14C]" />
               {isEn ? '2. Single-Creator Concentration Risk' : '2. Rủi Ro Tập Trung Cá Nhân & KOC "Ngủ Đông"'}
             </h4>
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
               Mặc dù có tới <strong>5.713 Creators</strong> liên kết giỏ hàng, chỉ <strong>5,1% (292 KOC)</strong> thực sự phát sinh đơn hàng thành công (94,9% hoàn toàn ngủ đông):
             </p>
-            <div className="p-3 rounded-xl bg-rose-50/60 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60 space-y-2 text-xs">
-              <div className="flex items-center justify-between font-bold text-rose-900 dark:text-rose-200">
+            <div className="p-3 rounded-xl bg-rose-50/70 dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-900/40 space-y-2 text-xs">
+              <div className="flex items-center justify-between font-bold text-rose-700 dark:text-rose-400">
                 <span>Trọng số kênh @girlstyle.vn:</span>
                 <span className="font-black text-sm">&gt;40% GMV Affiliate</span>
               </div>
-              <p className="text-[11px] text-rose-800/80 dark:text-rose-300/80 leading-relaxed">
+              <p className="text-[11px] text-rose-700/90 dark:text-rose-300 leading-relaxed">
                 Khi bóc tách tuần giữa tháng 3/2026, khi cả <code>@girlstyle.vn</code> và <code>@yumireview07</code> không lên sóng LIVE, toàn bộ doanh thu LIVE của mạng lưới affiliate rơi thẳng về <strong>0 VNĐ</strong>!
               </p>
             </div>
-            <p className="text-[11px] text-slate-500 leading-relaxed pt-1">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed pt-1">
               → Ngành hàng <strong>Clothing & Accessories</strong> chiếm 68,69% sản lượng affiliate nhưng việc dồn doanh số vào 1 KOC duy nhất tạo ra lỗ hổng lớn về tính liên tục của doanh nghiệp.
             </p>
           </div>
         </div>
 
         {/* Actionable Strategy Takeaway */}
-        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2.5 leading-relaxed">
-          <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+        <div className="p-4 rounded-2xl bg-[#C8EEF7]/30 border border-[#9BE7FA]/60 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2.5 leading-relaxed">
+          <Sparkles className="w-4 h-4 text-[#FFD14C] shrink-0 mt-0.5" />
           <p>
-            <strong className="text-amber-900 dark:text-amber-300">Giải pháp chiến lược: </strong>
+            <strong className="text-[#074553] dark:text-[#9BE7FA]">Giải pháp chiến lược: </strong>
             Triển khai chương trình <em>"Automated Sample Kit"</em> cho tệp Nano/Micro (&lt;5k follow) và nâng mức hoa hồng LIVE lên <strong>12% – 14%</strong> (so với mức 8% – 10% của video) để chuyển đổi một phần trong 5.400 KOC video sang mảng LIVE, phân tán rủi ro phụ thuộc vào kênh vệ tinh duy nhất.
           </p>
         </div>

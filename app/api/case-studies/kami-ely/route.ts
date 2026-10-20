@@ -1,7 +1,5 @@
-// ============================================================================
 // FILE: app/api/case-studies/kami-ely/route.ts
 // API PHỤC VỤ DỮ LIỆU ĐỐI SOÁT 8 BẢNG GỐC & TELEMETRY ĐỒNG BỘ 180 NGÀY
-// ============================================================================
 
 import { NextResponse } from 'next/server';
 import { kamiReconciliationData } from '@/app/data/kami-ely/reconciliation';

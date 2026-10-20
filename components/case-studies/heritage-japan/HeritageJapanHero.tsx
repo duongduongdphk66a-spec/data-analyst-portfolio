@@ -20,15 +20,15 @@ export function HeritageJapanHero({
   const { language } = useLanguage();
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   return (
-    <header className="py-16 md:py-24 border-b border-slate-200/80 dark:border-slate-800">
+    <header className="py-16 md:py-24 border-slate-200/80 dark:border-slate-800">
       <div className="page-container">
         <div className="max-w-4xl space-y-6">
           
           <div className="flex flex-wrap items-center gap-3">
-            <span className="editorial-kicker">
+            <span className="meta-label">
               {isEn ? 'LINE 03 · HERITAGE TOURISM & QUANTITATIVE RESEARCH' : 'LINE 03 · PHÂN TÍCH ĐỊNH LƯỢNG & DU LỊCH DI SẢN NHẬT BẢN'}
             </span>
-            <span className="text-xs font-mono text-slate-400 dark:text-slate-500">• JNTO & UNESCO TELEMETRY</span>
+            <span className="text-xs tabular-nums text-slate-400 dark:text-slate-500">• JNTO & UNESCO TELEMETRY</span>
           </div>
           
           <h1 className="editorial-section-title text-3xl sm:text-5xl lg:text-6xl font-extrabold sm:font-black leading-[1.18] tracking-normal text-slate-950 dark:text-white">
@@ -48,27 +48,27 @@ export function HeritageJapanHero({
           {/* 10% Bento Telemetry Matrix */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
             <div className="card-minimal p-4 space-y-1">
-              <span className="editorial-kicker text-xs block">
+              <span className="meta-label text-xs block">
                 {isEn ? 'RESEARCH SCOPE' : 'PHẠM VI NGHIÊN CỨU'}
               </span>
-              <p className="font-mono text-2xl font-bold text-slate-950 dark:text-white">2013 – 2023</p>
+              <p className="tabular-nums text-2xl font-bold text-slate-950 dark:text-white">2013 – 2023</p>
               <p className="text-[11px] text-slate-500">10-Year Inbound Growth & Crisis</p>
             </div>
 
             <div className="card-minimal p-4 space-y-1">
-              <span className="editorial-kicker text-xs block">
+              <span className="meta-label text-xs block">
                 {isEn ? 'WORLD HERITAGE SITES' : 'DI SẢN THẾ GIỚI'}
               </span>
-              <p className="font-mono text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">25 Điểm Đến</p>
+              <p className="tabular-nums text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">25 Điểm Đến</p>
               <p className="text-[11px] text-slate-500">20 Văn hóa · 5 Thiên nhiên</p>
             </div>
 
             <div className="card-minimal p-4 space-y-1 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA]">
-              <span className="editorial-kicker text-xs block text-[#0D7287] dark:text-[#9BE7FA]">
+              <span className="meta-label text-xs block text-[#0D7287] dark:text-[#9BE7FA]">
                 {isEn ? 'PEAK INBOUND VOLUME' : 'ĐỈNH DU KHÁCH (2019)'}
               </span>
-              <p className="font-mono text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">31.9 Triệu</p>
-              <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold">+513% Tăng trưởng từ 2003</p>
+              <p className="tabular-nums text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">31.9 Triệu</p>
+              <p className="text-[11px] tabular-nums text-emerald-600 dark:text-emerald-400 font-bold">+513% Tăng trưởng từ 2003</p>
             </div>
           </div>
 

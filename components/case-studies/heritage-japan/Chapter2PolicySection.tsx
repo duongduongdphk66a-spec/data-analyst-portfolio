@@ -18,7 +18,7 @@ export function Chapter2PolicySection({
   const { language } = useLanguage();
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
   return (
-    <section id="chuong-2" className="py-16 bg-ground border-b border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
+    <section id="chuong-2" className="py-16 bg-ground border-slate-200/80 dark:bg-[#0B0F17] dark:border-slate-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionHeader
           variant="stacked"
@@ -51,7 +51,7 @@ export function Chapter2PolicySection({
               </div>
 
               <div className="p-4 rounded-xl bg-ground border border-slate-200/80 shadow-xs dark:bg-slate-800/70 dark:border-slate-700/80">
-                <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+                <h4 className="font-black text-slate-900 text-sm mb-1.5 flex items-center gap-2 text-[#0D7287] dark:text-[#9BE7FA]">
                   <TrendingUp className="w-4 h-4" />
                   <span>2.1.2 Nới lỏng Visa, Hàng không LCC & Miễn thuế</span>
                 </h4>

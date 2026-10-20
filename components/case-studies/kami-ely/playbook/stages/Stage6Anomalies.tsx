@@ -2,12 +2,12 @@
 
 import React from 'react';
 import {
-  Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis,
+  Bar, BarChart, CartesianGrid, Cell, Label, Legend, Pie, PieChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';
 import {
   COLORS, categoryMatch, outlierDays, robustZ, sqlSnippets, storeFacts, treatmentComparison, zScoreSeries,
 } from '../playbookData';
-import { ChartCard, ChartTooltip, Chip, GRID_STROKE, StageSection, axisTick, legendFormatter, usePlaybookLang } from '../PlaybookUi';
+import { ChartCard, ChartTooltip, Chip, GRID_STROKE, StageSection, TEXT_FILL_CLASS, axisTick, legendFormatter, usePlaybookLang } from '../PlaybookUi';
 
 export default function Stage6Anomalies() {
   const { L, b, n } = usePlaybookLang();
@@ -49,10 +49,12 @@ export default function Stage6Anomalies() {
         height="h-72"
       >
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={zScoreSeries} margin={{ top: 12, right: 12, left: -18, bottom: 0 }}>
+          <BarChart data={zScoreSeries} margin={{ top: 22, right: 12, left: -18, bottom: 0 }}>
             <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
             <XAxis dataKey="label" interval={tickEvery} tick={axisTick} tickLine={false} axisLine={false} />
-            <YAxis tick={axisTick} tickLine={false} axisLine={false} domain={[-3, 6]} ticks={[-3, 0, 3, 6]} />
+            <YAxis tick={axisTick} tickLine={false} axisLine={false} domain={[-3, 6]} ticks={[-3, 0, 3, 6]} width={34}>
+              <Label value="(σ)" position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+            </YAxis>
             <Tooltip cursor={{ fill: 'rgba(155,231,250,0.15)' }} content={<ChartTooltip fmt={(v) => n(v, 2)} />} />
             <ReferenceLine y={3} stroke={COLORS.alert} strokeDasharray="5 4" />
             <ReferenceLine y={-3} stroke={COLORS.alert} strokeDasharray="5 4" />
@@ -72,11 +74,13 @@ export default function Stage6Anomalies() {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={treatmentComparison.map((t) => ({ ...t, name: b(t.label) }))}
-            margin={{ top: 8, right: 8, left: -12, bottom: 0 }}
+            margin={{ top: 22, right: 8, left: -4, bottom: 0 }}
           >
             <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
             <XAxis dataKey="name" tick={axisTick} tickLine={false} axisLine={false} />
-            <YAxis tick={axisTick} tickLine={false} axisLine={false} />
+            <YAxis tick={axisTick} tickLine={false} axisLine={false} width={38}>
+              <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+            </YAxis>
             <Tooltip
               cursor={{ fill: 'rgba(155,231,250,0.15)' }}
               content={<ChartTooltip fmt={(v) => `${n(v, 1)} ${L('Tr', 'M')}`} />}

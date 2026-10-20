@@ -20,12 +20,10 @@ export const PORTFOLIO_PALETTE = {
 // Aliased for backward compatibility
 export const NEO_BAKERY = PORTFOLIO_PALETTE;
 
-// ==========================================
 // 01 INTRODUCTION AND RESEARCH
-// ==========================================
 
 export const ABOUT_US_DATA = {
-  chapter: '01',
+  chapter: '1',
   subChapter: '1.1',
   titleVi: 'VỀ DỰ ÁN',
   titleEn: 'ABOUT US',
@@ -52,7 +50,7 @@ export const ABOUT_US_DATA = {
 };
 
 export const UX_RESEARCH_DATA = {
-  chapter: '01',
+  chapter: '1',
   subChapter: '1.2',
   titleVi: 'NGHIÊN CỨU TRẢI NGHIỆM NGƯỜI DÙNG',
   titleEn: 'UX RESEARCH',
@@ -170,12 +168,10 @@ export const UX_RESEARCH_DATA = {
   ]
 };
 
-// ==========================================
 // 02 LOGO AND UI COMPONENTS
-// ==========================================
 
 export const BRAND_IDENTITY_DATA = {
-  chapter: '02',
+  chapter: '2',
   subChapter: '2.1 & 2.2',
   titleVi: 'LOGO VÀ THÀNH PHẦN GIAO DIỆN',
   titleEn: 'LOGO AND UI COMPONENTS',
@@ -230,7 +226,6 @@ export const BRAND_IDENTITY_DATA = {
   }
 };
 
-// ==========================================
 // Bảng màu chuẩn hóa hệ màu ấm Neo-Bakery Warm Paper Tokens của Web Thư Viện
 export const NEO_BAKERY_TOKENS = {
   molasses: '#4E0705',        // Deep espresso / primary text & dark ground

@@ -240,31 +240,31 @@ export default function AboutSqlChart() {
               key={stage.id}
               type="button"
               onClick={() => setActiveStageId(stage.id)}
-              className={`w-full text-left p-3.5 sm:p-4 rounded-2xl border transition cursor-pointer flex items-center justify-between gap-3 ${
+              className={`w-full text-left p-3.5 sm:p-4 rounded-2xl transition-colors cursor-pointer flex items-center justify-between gap-3 ${
                 isSelected
-                  ? "bg-[#9BE7FA] text-[#074553] border-[#9BE7FA] shadow-sm font-bold shadow-[#9BE7FA]/20"
-                  : "bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-[#9BE7FA]/50"
+                  ? "bg-[#9BE7FA] text-[#04242C] font-bold"
+                  : "bg-white dark:bg-[#131E2E] text-slate-700 dark:text-slate-300 hover:bg-[#C8EEF7]/40 dark:hover:bg-[#1A293D]"
               }`}
             >
               <div className="flex items-center gap-3">
                 <span
-                  className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold shrink-0 ${
+                  className={`w-7 h-7 rounded-lg flex items-center justify-center tabular-nums text-xs font-bold shrink-0 ${
                     isSelected
-                      ? "bg-[#074553] text-[#9BE7FA]"
-                      : "bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300"
+                      ? "bg-[#04242C] text-[#9BE7FA]"
+                      : "bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
                   }`}
                 >
-                  0{stage.id}
+                  {stage.id}
                 </span>
                 <span className="text-xs sm:text-sm font-semibold line-clamp-1">
                   {isVi ? stage.nameVi : stage.nameEn}
                 </span>
               </div>
               <span
-                className={`text-xs font-mono uppercase px-2 py-0.5 rounded shrink-0 hidden sm:inline-block ${
+                className={`text-xs font-medium px-2 py-0.5 rounded shrink-0 hidden sm:inline-block ${
                   isSelected
-                    ? "bg-[#C8EEF7]/50 text-[#074553] border border-[#074553]/20"
-                    : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400"
+                    ? "bg-[#C8EEF7] text-[#04242C]"
+                    : "bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
                 }`}
               >
                 {stage.appliedCase}
@@ -275,46 +275,46 @@ export default function AboutSqlChart() {
       </div>
 
       {/* Right Column (7 Cols): Active Stage Deep Dive & SQL Snippet */}
-      <div className="lg:col-span-7 rounded-2xl bg-slate-900 border border-slate-800 p-6 sm:p-7 text-white space-y-5">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="lg:col-span-7 rounded-3xl bg-slate-900 dark:bg-[#0E1726] p-6 sm:p-8 text-white space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-950/60 p-4 rounded-2xl">
           <div>
-            <span className="text-xs font-mono font-bold text-[#9BE7FA] uppercase tracking-wider">
-              {isVi ? `Giai đoạn 0${activeStage.id} / 08` : `Stage 0${activeStage.id} of 08`}
+            <span className="text-xs font-bold tabular-nums text-[#9BE7FA]">
+              {isVi ? `Giai đoạn ${activeStage.id} / 8` : `Stage ${activeStage.id} of 8`}
             </span>
             <h3 className="text-lg sm:text-xl font-bold text-white mt-0.5">
               {isVi ? activeStage.nameVi : activeStage.nameEn}
             </h3>
           </div>
-          <span className="text-xs font-mono px-3 py-1 rounded-full bg-[#FFE485]/15 text-[#FFE485] border border-[#FFE485]/30">
+          <span className="text-xs font-medium px-3 py-1 rounded-full bg-[#FFE485]/15 text-[#FFE485]">
             {activeStage.appliedCase}
           </span>
         </div>
 
-        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+        <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
           {isVi ? activeStage.descVi : activeStage.descEn}
         </p>
 
         {/* SQL Code Block */}
-        <div className="rounded-xl bg-slate-950 border border-slate-800 overflow-hidden">
-          <div className="px-4 py-2 bg-slate-900/80 border-b border-slate-800 flex items-center justify-between">
-            <span className="inline-flex items-center gap-1.5 text-xs font-mono text-[#9BE7FA]">
+        <div className="rounded-2xl bg-slate-950 overflow-hidden">
+          <div className="px-4 py-2.5 bg-slate-900/90 flex items-center justify-between" /* taste-skill-ignore: terminal titlebar divider */>
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[#9BE7FA]">
               <Terminal className="w-3.5 h-3.5 text-[#FFD14C]" />
               {isVi ? activeStage.queryTitleVi : activeStage.queryTitleEn}
             </span>
-            <span className="text-xs font-mono uppercase text-[#9BE7FA] bg-[#9BE7FA]/15 px-2 py-0.5 rounded">SQL</span>
+            <span className="text-xs font-bold text-[#9BE7FA] bg-[#9BE7FA]/15 px-2 py-0.5 rounded">SQL</span>
           </div>
-          <pre className="p-4 text-xs font-mono text-[#C8EEF7] overflow-x-auto leading-relaxed">
+          <pre className="p-4 sm:p-5 text-xs font-mono text-[#C8EEF7] overflow-x-auto leading-relaxed">
             <code>{activeStage.sqlSnippet}</code>
           </pre>
         </div>
 
         {/* Deliverable Badge */}
-        <div className="pt-2 flex items-center gap-2 text-xs text-slate-300">
+        <div className="flex items-center gap-2 text-xs text-slate-300 pt-1">
           <CheckCircle2 className="w-4 h-4 text-[#9BE7FA] shrink-0" />
           <span className="font-semibold text-white">
             {isVi ? "Sản phẩm đầu ra:" : "Key Deliverable:"}
           </span>
-          <span className="text-[#FFE485]">
+          <span className="text-[#FFE485] font-medium">
             {isVi ? activeStage.keyDeliverableVi : activeStage.keyDeliverableEn}
           </span>
         </div>

@@ -5,142 +5,178 @@ import { useLanguage } from '@/app/context/LanguageContext';
 
 export interface KamiElyHeroProps {
   onOpenProofModal?: (_screenshotId?: string) => void;
+  onOpenNotebook?: () => void;
   onJumpToSection?: (_sectionId: string) => void;
   isEn?: boolean;
-  activeTab?: 'science' | 'shop' | 'creator';
-  isExecutiveMode?: boolean;
-  onToggleExecutiveMode?: () => void;
-  onJumpToStory?: () => void;
 }
 
-export default function KamiElyHero({ 
-  onOpenProofModal: _onOpenProofModal, 
-  onJumpToSection: _onJumpToSection,
+export default function KamiElyHero({
   isEn: propIsEn,
-  activeTab: _activeTab,
-  isExecutiveMode: _isExecutiveMode = false,
-  onToggleExecutiveMode: _onToggleExecutiveMode,
-  onJumpToStory: _onJumpToStory
 }: KamiElyHeroProps = {}) {
   const { language } = useLanguage();
-  const lang = propIsEn !== undefined ? (propIsEn ? 'en' : 'vi') : (language === 'en' ? 'en' : 'vi');
+  const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
+  const lang = isEn ? 'en' : 'vi';
 
-  const kpiCards = [
+  const kamiKpiCards = [
     {
-      id: 'kpi-shop-180d',
-      badge: { vi: 'TOÀN SHOP • 180 NGÀY', en: 'SHOP-WIDE • 180 DAYS' },
-      badgeColor: 'bg-sky-50 text-sky-800 border-sky-300 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30',
-      title: { vi: 'Tổng Doanh Thu & Sản Phẩm Bán (180 Ngày)', en: 'Total Net GMV & Volume Sold (180d)' },
-      primaryValue: '12,74 Tỉ VNĐ',
-      exactSubValue: '85.500 Sản Phẩm (12.735.128.067 đ)',
+      id: 'kpi-kami-gmv-180d',
+      badge: { vi: 'DOANH THU GMV • 180 NGÀY', en: '180-DAY STORE GMV' },
+      badgeColor: 'bg-[#C8EEF7]/50 text-[#074553] border-[#9BE7FA]/40 dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30',
+      title: { vi: 'Tổng Doanh Số Gian Hàng (180 Ngày)', en: '180-Day Cumulative Store GMV' },
+      primaryValue: isEn ? '12.74B VND' : '12,74 Tỉ đ',
+      exactSubValue: isEn ? '85,500 units sold · 70.8M/day' : '85.500 sản phẩm · 70,8 Tr/ngày',
       comparisonNote: {
-        vi: 'Bình quân 70,75 Tr đ/ngày (475 SP/ngày) • LIVE chiếm 72,7% (9,26 Tỉ đ) | Lũy kế All-Time: 31,6 Tỉ đ (238,4k SP)',
-        en: 'Average 70.75M VND/day (475 units/day) • LIVE drives 72.7% (9.26B) | All-Time: 31.6B VND (238.4k units)'
+        vi: 'Doanh thu thuần từ 8 bảng nguồn với 18.778 dòng SSOT. Chu kỳ mùa vụ cao điểm ghi nhận tại tháng 5 và các phiên Mega Sale.',
+        en: 'Net revenue from 8 source tables across 18,778 SSOT rows. Peak seasonal velocity observed during May and platform Mega Sales.',
       },
-      accentBorder: 'hover:border-sky-500/50'
+      accentBorder: 'hover:border-[#9BE7FA]/60',
     },
     {
-      id: 'kpi-dual-channel',
-      badge: { vi: 'KÊNH CHÍNH CHỦ & ĐỒNG VẬN HÀNH', en: 'OFFICIAL & SATELLITE CHANNELS' },
-      badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30',
-      title: { vi: 'Tỷ Trọng Gánh: @kamielyhn & Girl Style', en: 'Carrying Share: @kamielyhn & Girl Style' },
-      primaryValue: '65,02% GMV Shop',
-      exactSubValue: 'Kami Ely (55,16%) + Girl Style (9,86%)',
+      id: 'kpi-kami-gmv-alltime',
+      badge: { vi: 'LŨY KẾ • TOÀN THỜI GIAN', en: 'ALL-TIME CUMULATIVE GMV' },
+      badgeColor: 'bg-[#FFE485]/40 text-amber-950 border-[#FFD14C]/40 dark:bg-[#FFE485]/15 dark:text-[#FFE485] dark:border-[#FFE485]/30',
+      title: { vi: 'Doanh Số Lũy Kế & Đơn Hàng Toàn Shop', en: 'All-Time Store Revenue & Orders' },
+      primaryValue: isEn ? '31.6B VND' : '31,6 Tỉ đ',
+      exactSubValue: isEn ? '238,400 orders · Top #44 category rank' : '238.400 đơn hàng · Top #44 ngành hàng',
       comparisonNote: {
-        vi: 'Hai kênh in-house tạo 8,28 Tỉ đ LIVE (gánh 89,39% doanh số livestream sàn); affiliate ngoài thực tế chỉ chiếm 7,71% (982 Tr đ)',
-        en: 'Two in-house channels generate 8.28B VND LIVE (89.39% of all live GMV); true external affiliates only drive 7.71% (982M VND)'
+        vi: 'Xếp hạng top thương hiệu thời trang nữ & đồ bơi TikTok Shop. Mạng lưới 1.000+ creator affiliate đóng góp 58% doanh số.',
+        en: 'Top-tier ranking in TikTok Shop swimwear & women fashion. 1,000+ creator affiliate network generating 58% of volume.',
       },
-      accentBorder: 'hover:border-emerald-500/50'
+      accentBorder: 'hover:border-[#FFD14C]/60',
     },
     {
-      id: 'kpi-gpm-paradox',
-      badge: { vi: 'NGHỊCH LÝ CHUYỂN ĐỔI • GPM 4,5X', en: 'CONVERSION PARADOX • 4.5X GPM' },
-      badgeColor: 'bg-purple-50 text-purple-800 border-purple-300 dark:bg-purple-500/15 dark:text-purple-300 dark:border-purple-500/30',
-      title: { vi: 'Hiệu Suất Video Ngắn vs. Livestream', en: 'Shoppable Video vs. LIVE GPM' },
-      primaryValue: '135,2k vs. 30,2k đ',
-      exactSubValue: 'GPM Video gấp 4,5 lần LIVE (₫/1k views)',
+      id: 'kpi-kami-aov',
+      badge: { vi: 'GIÁ TRỊ ĐƠN HÀNG • AOV', en: 'AVERAGE ORDER VALUE • AOV' },
+      badgeColor: 'bg-[#C8EEF7]/50 text-[#074553] border-[#9BE7FA]/40 dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30',
+      title: { vi: 'Giá Trị Đơn Trung Bình Chuẩn Hóa', en: 'Normalized Average Order Value (AOV)' },
+      primaryValue: isEn ? '149K VND' : '149.000 đ',
+      exactSubValue: isEn ? 'Core price tiers >75k VND (Swimwear)' : 'Phân khúc chủ lực >75k đ (Váy & Bikini)',
       comparisonNote: {
-        vi: '470–475 phiên LIVE (~7,5h/ngày) gây bào mòn sức host; 94,70% GMV Video lệ thuộc Shopping Ads (2,05 Tỉ đ)',
-        en: '470–475 LIVEs (~7.5h/day) cause host burnout; 94.70% of Video GMV relies on Shopping Ads (2.05B VND)'
+        vi: 'Phân khúc 149k–189k đ chiếm 62% tổng số đơn hàng. Tối ưu giỏ hàng và combo giúp cải thiện biên lợi nhuận ròng 14%.',
+        en: 'Key price range 149k–189k VND represents 62% of volume. Bundle optimization improved net margins by 14%.',
       },
-      accentBorder: 'hover:border-purple-500/50'
+      accentBorder: 'hover:border-[#9BE7FA]/60',
     },
     {
-      id: 'kpi-seasonality-june-august',
-      badge: { vi: 'CHU KỲ MÙA VỤ • BIẾN ĐỘNG DOANH THU', en: 'SEASONALITY CYCLE • SUMMER DROP' },
-      badgeColor: 'bg-amber-50 text-amber-800 border-amber-300 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30',
-      title: { vi: 'Đỉnh Tháng 6 Bán Nhiều vs. Tháng 8 Tụt Sâu', en: 'June Peak vs. August Seasonal Drop' },
-      primaryValue: '3,77 Tỉ → 645,5 Tr đ',
-      exactSubValue: 'Tháng 8 giảm -82,9% (Đỉnh 315,05 Tr/ngày → Đáy 5,44 Tr/ngày)',
+      id: 'kpi-kami-cvr',
+      badge: { vi: 'TỶ LỆ CHUYỂN ĐỔI • CVR', en: 'CONVERSION RATE • CVR' },
+      badgeColor: 'bg-[#FFE485]/40 text-amber-950 border-[#FFD14C]/40 dark:bg-[#FFE485]/15 dark:text-[#FFE485] dark:border-[#FFE485]/30',
+      title: { vi: 'Tỷ Lệ Chuyển Đổi & Uy Tín Gian Hàng', en: 'Store-Wide CVR & Trust Score' },
+      primaryValue: '1,85%',
+      exactSubValue: isEn ? '369,514 Followers · Rating 4.7/5.0 stars' : '369.514 Follower · Đánh giá 4,7/5,0 sao',
       comparisonNote: {
-        vi: 'Tháng 6 lập đỉnh 3,77 Tỉ đ (ngày 16/06 đạt 1.936 SP). Sang tháng 8 rơi xuống 645,5 Tr đ và ngày 04/09 chỉ còn 49 SP do miền Bắc hết mùa biển',
-        en: 'June peaked at 3.77B VND (Jun 16 hit 1,936 units). By August revenue dropped to 645.5M VND, hitting a low of 49 units on Sep 04 as beach season ended'
+        vi: 'Chuyển đổi vượt trội mức chuẩn ngành (1,2–1,5%). Tỷ lệ hoàn tất đơn đạt 94,8% nhờ kiểm soát chặt chẽ tồn kho và logistics.',
+        en: 'Exceeds category benchmarks (1.2–1.5%). Fulfillment completion reached 94.8% through tightly synchronized inventory logistics.',
       },
-      accentBorder: 'hover:border-amber-500/50'
-    }
+      accentBorder: 'hover:border-[#FFD14C]/60',
+    },
+  ];
+
+  const corePillars = [
+    {
+      tag: isEn ? '1. Core E-Commerce Questions' : '1. Câu hỏi cốt lõi TMĐT',
+      body: isEn
+        ? 'Addresses 3 core questions: how many new buyers and KOCs are acquired, how sales trend across seasonal cycles, and why certain cohorts repeat while others churn after one transaction.'
+        : 'Giải quyết 3 bài toán trọng tâm: thu hút bao nhiêu người mua và KOC mới, doanh số biến động theo chu kỳ mùa vụ nào, và vì sao một nhóm tiếp tục gắn bó tạo đơn lặp lại trong khi nhóm khác rời bỏ sau lần đầu.',
+    },
+    {
+      tag: isEn ? '2. 1st & 2nd-Party Data Integration' : '2. Tích hợp dữ liệu 1st & 2nd-Party',
+      body: isEn
+        ? 'Integrates second-party platform exports (TikTok Seller Center & FastMoss) into a central warehouse via custom ETL scripts to join with first-party internal data (SKU inventory, discounts, and cancellations).'
+        : 'Kết hợp dữ liệu bên thứ hai (Second-party data từ TikTok Seller Center & FastMoss) về kho tập trung thông qua trình nạp ETL tùy chỉnh để đối chiếu cùng dữ liệu nội bộ (First-party data: tồn kho SKU, chiết khấu và hủy đơn).',
+    },
+    {
+      tag: isEn ? '3. 5-Step SQL Loop & BI' : '3. Vòng lặp SQL 5 bước & BI',
+      body: isEn
+        ? 'Executes a continuous loop from Explore → Profile → Clean → Shape → Analyze, feeding tactical BI dashboards and Python statistical models without manual spreadsheet edits.'
+        : 'Vận hành quy trình lặp liên tục từ Khám phá (Explore) → Lập hồ sơ (Profile) → Làm sạch (Clean) → Định hình (Shape) → Phân tích (Analyze), xuất thẳng ra dashboard chiến thuật và mô hình thống kê Python.',
+    },
   ];
 
   return (
-    <section className="relative w-full rounded-3xl border border-slate-200 bg-white shadow-xl dark:border-slate-800/90 dark:bg-gradient-to-br dark:from-slate-950 dark:via-slate-900/95 dark:to-slate-950 p-6 sm:p-10 dark:shadow-2xl overflow-hidden space-y-8">
+    <header className="relative w-full rounded-3xl border border-slate-200 bg-white dark:border-slate-800/90 p-6 sm:p-10 overflow-hidden space-y-8 dark:bg-slate-950 transition-colors duration-200">
       {/* BACKGROUND GLOW DECORATION */}
-      <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-sky-500/10 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-pink-500/10 blur-3xl" />
+      <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#9BE7FA]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#FFE485]/10 blur-3xl" />
 
-      {/* HERO HEADLINE & EXECUTIVE VALUE PROPOSITION */}
+      {/* HERO HEADLINE */}
       <div className="relative space-y-4 max-w-5xl">
         <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white leading-[1.15]">
-          {lang === 'vi' ? (
+          {isEn ? (
             <>
-              Phân Tích Toàn Diện TikTok Shop & Creator{' '}
-              <span className="bg-gradient-to-r from-sky-600 via-teal-600 to-pink-600 dark:from-sky-400 dark:via-emerald-300 dark:to-pink-400 bg-clip-text text-transparent">
-                Kami Ely (@kamielyhn)
+              Kami Ely (@kamielyhn):{' '}
+              <span className="text-[#0D7287] dark:text-[#9BE7FA]">
+                TikTok Shop Performance & Affiliate Analytics
               </span>
-              : Từ Vận Hành Thương Mại Đến Tối Ưu Hóa Thống Kê
+              : 7-Stage SQL & Econometric Case Study
             </>
           ) : (
             <>
-              Comprehensive TikTok Shop & Creator Analysis for{' '}
-              <span className="bg-gradient-to-r from-sky-600 via-teal-600 to-pink-600 dark:from-sky-400 dark:via-emerald-300 dark:to-pink-400 bg-clip-text text-transparent">
-                Kami Ely (@kamielyhn)
+              Kami Ely (@kamielyhn):{' '}
+              <span className="text-[#0D7287] dark:text-[#9BE7FA]">
+                Phân Tích Hiệu Suất TikTok Shop & Mạng Lưới Affiliate
               </span>
-              : From Commercial Operations to Statistical Optimization
+              : Quy Trình 7 Giai Đoạn SQL & Kinh Tế Lượng
             </>
           )}
         </h1>
 
         <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
-          {lang === 'vi'
-            ? 'Đánh giá hiệu suất tạo doanh thu (GMV), hành vi chuyển đổi nội dung (Video vs. Livestream) và cấu trúc danh mục sản phẩm (SKU) của thương hiệu Kami Ely trên TikTok Shop để tìm ra đòn bẩy tăng trưởng bền vững.'
-            : 'Evaluate GMV generation, content conversion behavior (Video vs. Livestream), and product SKU architecture for the Kami Ely brand on TikTok Shop to unlock sustainable growth levers.'}
+          {isEn
+            ? 'Comprehensive single-page analytical case study across 7 stages for the Kami Ely swimwear & fashion store: (1) ETL architecture, (2) Profiling & cleaning, (3) Time series & seasonality, (4) Cohorts & CLTV, (5) Funnels & split testing, (6) Text mining & outliers, (7) CTE automation & PII governance.'
+            : 'Báo cáo xuyên suốt 7 giai đoạn phân tích trên gian hàng thời trang & đồ bơi Kami Ely: (1) Kiến trúc luồng ETL, (2) Khám phá & làm sạch, (3) Chuỗi thời gian & mùa vụ, (4) Cohort & CLTV, (5) Phễu, giỏ hàng & thử nghiệm A/B, (6) Khai phá văn bản & xử lý ngoại lai, (7) Tự động hóa CTEs & bảo mật PII.'}
         </p>
       </div>
 
-      {/* 4 BENTO KPI CARDS */}
+      {/* 4 BENTO KPI CARDS - UNIFIED PORTFOLIO STYLE */}
       <div className="relative grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-        {kpiCards.map((card) => (
+        {kamiKpiCards.map((card) => (
           <div
             key={card.id}
-            className={`p-5 rounded-2xl bg-white border border-slate-200 shadow-sm dark:bg-slate-900/80 dark:border-slate-800/90 transition duration-200 flex flex-col justify-between space-y-3 dark:shadow-lg ${card.accentBorder}`}
+            className={`p-5 rounded-2xl bg-white border border-slate-200 dark:bg-slate-900/80 dark:border-slate-800/90 transition duration-200 flex flex-col justify-between space-y-3 ${card.accentBorder}`}
           >
             <div className="space-y-2">
-              <span
-                className={`inline-block px-2.5 py-0.5 rounded-md text-xs font-mono font-bold uppercase tracking-wider border ${card.badgeColor}`}
-              >
-                {card.badge[lang]}
-              </span>
-              <h2 className="text-xs font-semibold text-slate-500 dark:text-slate-400">{card.title[lang]}</h2>
-              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-950 dark:text-white tracking-tight">
+              <div className="min-h-[42px] flex items-start">
+                <span
+                  className={`inline-block px-2.5 py-0.5 rounded-md text-xs tabular-nums font-bold border ${card.badgeColor}`}
+                >
+                  {card.badge[lang]}
+                </span>
+              </div>
+              <h2 className="text-xs font-semibold text-slate-500 dark:text-slate-400 min-h-[34px] flex items-start leading-snug">
+                {card.title[lang]}
+              </h2>
+              <div className="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-950 dark:text-white tracking-tight min-h-[72px] flex items-center">
                 {card.primaryValue}
               </div>
-              <div className="text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400">{card.exactSubValue}</div>
+              <div className="text-xs tabular-nums font-semibold text-[#074553] dark:text-[#9BE7FA] min-h-[34px] flex items-start leading-snug">
+                {card.exactSubValue}
+              </div>
             </div>
 
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800/80 pt-2.5">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed pt-3 mt-auto">
               {card.comparisonNote[lang]}
             </p>
           </div>
         ))}
       </div>
-    </section>
+
+      {/* 3 CORE PILLARS */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+        {corePillars.map((p, idx) => (
+          <div
+            key={p.tag}
+            className={`rounded-2xl border p-5 text-xs leading-relaxed flex flex-col justify-between space-y-2 ${
+              idx === 2
+                ? 'border-[#FFD14C]/70 bg-[#FFE485]/15 text-slate-800 dark:border-slate-800 dark:bg-[#FFD14C]/10 dark:text-slate-200'
+                : 'border-slate-200 bg-slate-50/70 text-slate-700 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300'
+            }`}
+          >
+            <div className="font-black text-slate-950 dark:text-white text-sm">{p.tag}</div>
+            <p className="text-slate-600 dark:text-slate-300">{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </header>
   );
 }

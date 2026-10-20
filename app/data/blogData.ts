@@ -189,7 +189,7 @@ def evaluate_channel_gmv(df: pd.DataFrame, group_col: str, metric_col: str):
       "Community-facing digital products like Library Bus often suffer from a disconnect between frontend UX design and backend logistics data: How can readers reserve books for a moving bus stop while keeping physical inventory synchronized in real time?",
     processVi: [
       "Khảo sát hành trình người dùng (User Journey) và đối chiếu trực tiếp giữa bản vẽ Wireframe với giao diện UI hoàn chỉnh trên 20 màn hình Web & 34 màn hình Mobile.",
-      "Thiết kế máy trạng thái (State Machine) cho quy trình Mượn – Đặt trước – Quyên góp sách gắn liền với định vị lộ trình xe buýt.",
+      "Thiết kế máy trạng thái (State Machine) cho quy trình Mượn, Đặt trước và Quyên góp sách gắn liền với định vị lộ trình xe buýt.",
       "Xây dựng kiến trúc luồng dữ liệu (Analytics Dataflow) thu thập các chỉ số chuyển đổi phễu (Funnel Conversion), tỷ lệ hoàn thành phiếu mượn và mật độ nhu cầu theo từng điểm dừng.",
     ],
     processEn: [
@@ -198,7 +198,7 @@ def evaluate_channel_gmv(df: pd.DataFrame, group_col: str, metric_col: str):
       "Architected the Analytics Dataflow capturing funnel conversion rates, loan fulfillment velocity, and stop-level demand heatmaps.",
     ],
     findingsVi:
-      "Khi Data Analyst tham gia ngay từ khâu thiết kế Wireframe và kiến trúc hệ thống, doanh nghiệp không chỉ tối ưu hóa được trải nghiệm người dùng mà còn tránh được tình trạng 'thiếu log dữ liệu' khi cần đo lường hiệu quả sản phẩm.",
+      "Khi Data Analyst tham gia ngay từ khâu thiết kế Wireframe và kiến trúc hệ thống, doanh nghiệp vừa tối ưu hóa được trải nghiệm người dùng vừa đảm bảo đầy đủ log dữ liệu sạch khi đo lường hiệu quả sản phẩm.",
     findingsEn:
       "When data analysts participate early in wireframing and system architecture, teams eliminate user friction while guaranteeing clean, complete event telemetry for downstream BI dashboards.",
     codeLanguage: "sql",
@@ -240,18 +240,18 @@ ORDER BY fulfillment_rate_pct DESC;`,
     excerptEn:
       "How I standardize my analytical workflow from initial schema profiling to Cohort Retention, Time-Series Window Functions, and Query Optimization.",
     problemVi:
-      "Nhiều bản phân tích thất bại không phải vì thiếu công cụ trực quan hóa, mà vì bước chuẩn bị dữ liệu và đặt giả thuyết thiếu tính hệ thống. Tôi cần một khung xương sống chuẩn mực để áp dụng nhất quán cho mọi dự án trong portfolio.",
+      "Nhiều bản phân tích gặp sai sót do bước chuẩn bị dữ liệu và đặt giả thuyết thiếu tính hệ thống. Tôi xây dựng một khung quy trình chuẩn mực để áp dụng nhất quán cho mọi dự án trong portfolio.",
     problemEn:
-      "Many analytical projects fail not from a lack of charting tools, but from unstructured data preparation and ad-hoc querying. I needed a repeatable engineering backbone across every project in my portfolio.",
+      "Analytical projects often break down when data preparation and hypothesis formulation lack structure. I built a repeatable engineering framework to apply consistently across every project in my portfolio.",
     processVi: [
-      "Giai đoạn 1–2 (Profiling & Data Prep): Kiểm tra phân phối, xử lý NULL, chuẩn hóa kiểu dữ liệu và đối soát khóa ngoại.",
-      "Giai đoạn 3–5 (Time-Series, Cohorts & Text/Anomaly Analysis): Áp dụng Window Functions (LAG, LEAD, Rolling Averages) và phân tích giữ chân khách hàng.",
-      "Giai đoạn 6–8 (Experimentation, Complex Silos & Story-Driven Output): Kết hợp kết quả kiểm định thống kê vào bảng tổng hợp phục vụ trực tiếp cho Dashboard điều hành.",
+      "Giai đoạn 1-2 (Profiling & Data Prep): Kiểm tra phân phối, xử lý NULL, chuẩn hóa kiểu dữ liệu và đối soát khóa ngoại.",
+      "Giai đoạn 3-5 (Time-Series, Cohorts & Text/Anomaly Analysis): Áp dụng Window Functions (LAG, LEAD, Rolling Averages) và phân tích giữ chân khách hàng.",
+      "Giai đoạn 6-8 (Experimentation, Complex Silos & Story-Driven Output): Kết hợp kết quả kiểm định thống kê vào bảng tổng hợp phục vụ trực tiếp cho Dashboard điều hành.",
     ],
     processEn: [
-      "Stages 1–2 (Profiling & Data Prep): Auditing distributions, handling NULLs, standardizing types, and verifying relational keys.",
-      "Stages 3–5 (Time-Series, Cohorts & Anomaly Detection): Leveraging Window Functions (LAG, LEAD, Rolling Windows) and retention matrices.",
-      "Stages 6–8 (Experimentation, Complex Silos & Executive Output): Shaping validated statistical outputs into clean marts for interactive dashboards.",
+      "Stages 1-2 (Profiling & Data Prep): Auditing distributions, handling NULLs, standardizing types, and verifying relational keys.",
+      "Stages 3-5 (Time-Series, Cohorts & Anomaly Detection): Leveraging Window Functions (LAG, LEAD, Rolling Windows) and retention matrices.",
+      "Stages 6-8 (Experimentation, Complex Silos & Executive Output): Shaping validated statistical outputs into clean marts for interactive dashboards.",
     ],
     findingsVi:
       "Việc tuân thủ kỷ luật 8 giai đoạn giúp giảm hơn 60% thời gian gỡ lỗi số liệu khi lên báo cáo, đồng thời giúp mã nguồn SQL luôn minh bạch, dễ bảo trì và dễ kiểm chứng.",
@@ -282,9 +282,9 @@ export const TESTIMONIALS: TestimonialItem[] = [
     id: "academic-advisor",
     roleType: "academic",
     quoteVi:
-      "Hùng thể hiện tư duy nghiên cứu định lượng rất nghiêm túc và độc lập. Thay vì dừng lại ở các thống kê mô tả bề nổi, bạn chủ động kiểm toán nguồn dữ liệu, đặt câu hỏi phản biện về sự phân hóa vùng miền và sử dụng bằng chứng thống kê thuyết phục để bảo vệ luận điểm chính sách.",
+      "Hùng thể hiện tư duy nghiên cứu định lượng rất nghiêm túc và độc lập. Bên cạnh các thống kê mô tả, bạn chủ động kiểm toán nguồn dữ liệu, đặt câu hỏi phản biện về sự phân hóa vùng miền và sử dụng bằng chứng thống kê thuyết phục để bảo vệ luận điểm chính sách.",
     quoteEn:
-      "Hùng demonstrated exceptional quantitative rigor and independent research maturity. Rather than settling for surface-level descriptive statistics, he proactively audited raw data sources, questioned regional disparities, and used solid statistical evidence to defend policy conclusions.",
+      "Hùng demonstrated strong quantitative rigor and independent research maturity. Beyond descriptive statistics, he proactively audited raw data sources, questioned regional disparities, and used solid statistical evidence to defend policy conclusions.",
     authorVi: "Giảng viên Hướng dẫn Nghiên cứu Khoa học",
     authorEn: "Academic Research Advisor",
     titleVi: "Hội đồng Đánh giá Nghiên cứu Khoa học Sinh viên",

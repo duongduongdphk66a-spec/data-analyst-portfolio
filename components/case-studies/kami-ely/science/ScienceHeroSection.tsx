@@ -10,14 +10,14 @@ interface ScienceHeroSectionProps {
 
 export default function ScienceHeroSection({ isEn, onOpenNotebook }: ScienceHeroSectionProps) {
   return (
-    <section id="sec-hero" className="py-16 md:py-20 border-b border-slate-200/80 dark:border-slate-800 space-y-8">
+    <section id="sec-hero" className="py-16 md:py-20 border-slate-200/80 dark:border-slate-800 space-y-8">
       <div className="w-full space-y-6">
         {/* Editorial Kicker */}
         <div className="flex flex-wrap items-center gap-3">
-          <span className="editorial-kicker">
+          <span className="meta-label">
             {isEn ? 'APPLIED DATA SCIENCE · PERFORMANCE ANALYTICS' : 'KHOA HỌC DỮ LIỆU · PHÂN TÍCH HIỆU SUẤT THỰC NGHIỆM'}
           </span>
-          <span className="text-xs font-mono text-slate-400 dark:text-slate-500">
+          <span className="text-xs tabular-nums text-slate-400 dark:text-slate-500">
             • 180-DAY TIME-SERIES DECOMPOSITION
           </span>
         </div>
@@ -46,7 +46,7 @@ export default function ScienceHeroSection({ isEn, onOpenNotebook }: ScienceHero
             'Phân rã chuỗi thời gian 180 ngày', 
             'Python (scipy.stats, statsmodels)'
           ].map((tech) => (
-            <span key={tech} className="rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 px-2.5 py-1 font-mono text-[11px] text-slate-600 dark:text-slate-400">
+            <span key={tech} className="rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 px-2.5 py-1 tabular-nums text-[11px] text-slate-600 dark:text-slate-400">
               {tech}
             </span>
           ))}
@@ -56,11 +56,11 @@ export default function ScienceHeroSection({ isEn, onOpenNotebook }: ScienceHero
         <div className="grid grid-cols-1 gap-4 pt-4 sm:grid-cols-3">
           <div className="card-minimal p-5 flex flex-col justify-between h-full space-y-2">
             <div>
-              <span className="editorial-kicker text-[11px] min-h-[2.25rem] flex items-center">
+              <span className="meta-label text-[11px] min-h-[2.25rem] flex items-center">
                 {isEn ? 'Total Population Analyzed' : 'Quy Mô Quần Thể Phân Tích'}
               </span>
               <div className="flex items-baseline gap-2 mt-1">
-                <span className="font-mono text-3xl font-bold text-slate-950 dark:text-white">238.4k</span>
+                <span className="tabular-nums text-3xl font-bold text-slate-950 dark:text-white">238.4k</span>
                 <span className="text-xs text-slate-500 font-medium">{isEn ? 'Orders' : 'Đơn hàng'}</span>
               </div>
             </div>
@@ -74,11 +74,11 @@ export default function ScienceHeroSection({ isEn, onOpenNotebook }: ScienceHero
 
           <div className="card-minimal p-5 flex flex-col justify-between h-full space-y-2">
             <div>
-              <span className="editorial-kicker text-[11px] min-h-[2.25rem] flex items-center">
+              <span className="meta-label text-[11px] min-h-[2.25rem] flex items-center">
                 {isEn ? 'Livestream Mean GPM (470 Sessions)' : 'GPM Live Trung Bình (470 Phiên)'}
               </span>
               <div className="flex items-baseline gap-2 mt-1">
-                <span className="font-mono text-3xl font-bold text-slate-800 dark:text-slate-200">30,2k</span>
+                <span className="tabular-nums text-3xl font-bold text-slate-800 dark:text-slate-200">30,2k</span>
                 <span className="text-xs text-slate-500 font-medium">VNĐ / 1.000 Views</span>
               </div>
             </div>
@@ -94,16 +94,16 @@ export default function ScienceHeroSection({ isEn, onOpenNotebook }: ScienceHero
 
           <div className="card-minimal p-5 flex flex-col justify-between h-full space-y-2 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA]">
             <div>
-              <span className="editorial-kicker text-[11px] min-h-[2.25rem] flex items-center text-[#0D7287] dark:text-[#9BE7FA]">
+              <span className="meta-label text-[11px] min-h-[2.25rem] flex items-center text-[#0D7287] dark:text-[#9BE7FA]">
                 {isEn ? 'Shoppable Video GPM (551 Videos)' : 'GPM Video Mua Sắm (551 Videos)'}
               </span>
               <div className="flex items-baseline gap-2 mt-1">
-                <span className="font-mono text-3xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">135,2k</span>
+                <span className="tabular-nums text-3xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">135,2k</span>
                 <span className="text-xs text-slate-500 font-medium">VNĐ / 1.000 Views</span>
               </div>
             </div>
             <div className="space-y-2 pt-1">
-              <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold">
+              <p className="text-xs text-[#0D7287] dark:text-[#9BE7FA] font-bold">
                 {isEn ? '4.48x higher than Livestream' : 'Gấp 4.48 lần kênh Livestream'}
               </p>
               <div className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">

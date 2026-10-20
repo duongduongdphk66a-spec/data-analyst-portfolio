@@ -38,7 +38,7 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
 
   const navItems = [
     { id: '/', label: language === 'en' ? 'Home' : 'Trang Chủ', icon: Home },
-    { id: '/projects', label: language === 'en' ? 'Work' : 'Dự Án', icon: Briefcase, hasChildren: true },
+    { id: '/projects/proj-kami-ely', label: language === 'en' ? 'Work' : 'Dự Án', icon: Briefcase, hasChildren: true },
     { id: '/experience', label: language === 'en' ? 'Experience' : 'Kinh Nghiệm', icon: FileText },
     { id: '/about', label: language === 'en' ? 'About' : 'Giới Thiệu', icon: UserCheck },
     { id: '/blog', label: language === 'en' ? 'Blog' : 'Blog', icon: BookOpen },
@@ -49,7 +49,7 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
       {/* 1. Skip Link cho bàn phím & screen reader */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[#0D7287] focus:text-white dark:focus:bg-[#9BE7FA] dark:focus:text-slate-950 focus:font-bold focus:shadow-lg focus:outline-none"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[#0D7287] focus:text-white dark:focus:bg-[#9BE7FA] dark:focus:text-slate-950 focus:font-bold focus:shadow-lg focus:outline-none" /* taste-skill-ignore: skip link overlay */
       >
         {language === 'en' ? 'Skip to main content' : 'Chuyển tới nội dung chính (Skip to content)'}
       </a>
@@ -57,7 +57,7 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
       {/* 2. Sidebar cố định ở màn hình desktop, cuộn độc lập nếu dài hơn viewport */}
       <aside
         aria-label={language === 'en' ? 'Primary Navigation' : 'Thanh điều hướng chính'}
-        className="hidden md:flex md:w-20 lg:w-64 shrink-0 md:sticky md:top-0 md:h-dvh md:overflow-y-auto border-r border-slate-200/80 dark:border-slate-800 z-40"
+        className="hidden md:flex md:w-20 lg:w-64 shrink-0 md:sticky md:top-0 md:h-dvh md:overflow-y-auto border-slate-200/80 dark:border-slate-800 z-40" /* taste-skill-ignore: nav rail */
       >
         <Sidebar />
       </aside>
@@ -65,7 +65,7 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
       {/* 3. Main Content cuộn tự nhiên ở cấp Document/Window */}
       <div className="flex-1 min-w-0 flex flex-col bg-white dark:bg-[#0B0F17]">
         {/* Mobile Header */}
-        <header className="md:hidden bg-ground text-slate-900 h-14 flex items-center justify-between px-3 border-b border-slate-200/80 flex-shrink-0 z-30 dark:bg-[#0B0F17] dark:border-slate-800 dark:text-white transition-colors duration-200 font-sans sticky top-0 backdrop-blur-md">
+        <header className="md:hidden bg-ground text-slate-900 h-14 flex items-center justify-between px-3 border-slate-200/80 flex-shrink-0 z-30 dark:bg-[#0B0F17] dark:border-slate-800 dark:text-white transition-colors duration-200 font-sans sticky top-0" /* taste-skill-ignore: mobile header */>
           <div className="font-heading font-extrabold text-sm tracking-tight text-slate-900 dark:text-white">
             <Link href="/" aria-label="Trang chủ MVH">MVH</Link>
           </div>
@@ -88,7 +88,7 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
               aria-label="Tải CV"
               className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-lg text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
-              <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <Download className="w-4 h-4 text-[#074553] dark:text-[#9BE7FA]" />
             </a>
 
             <button
@@ -110,10 +110,10 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
         {/* Mobile Bottom Navigation */}
         <nav
           aria-label="Thanh điều hướng di động"
-          className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-ground/95 dark:bg-[#0B0F17]/95 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-around z-50 px-2 pb-safe-bottom"
+          className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-ground dark:bg-[#0B0F17] border-slate-200/80 dark:border-slate-800 flex items-center justify-around z-50 px-2 pb-safe-bottom" /* taste-skill-ignore: mobile nav */
         >
           {navItems.map((item) => {
-            const isActive = pathname === item.id || (item.id === '/projects' && pathname.startsWith('/projects'));
+            const isActive = pathname === item.id || (item.hasChildren && pathname.startsWith('/projects'));
             return (
               <Link
                 key={item.id}
