@@ -25,6 +25,8 @@ from scipy import stats
 sys.stdout.reconfigure(encoding="utf-8")
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if ROOT not in sys.path:
+    sys.path.append(ROOT)
 DATA = os.path.join(ROOT, "data", "kami")
 OUT = os.path.join(ROOT, "app", "data", "kami-ely", "generated", "metrics.json")
 RNG = np.random.default_rng(42)
@@ -138,24 +140,54 @@ def describe(x: np.ndarray) -> dict:
 
 
 # ----------------------------------------------------------------------------
-# 1. Store daily overview (shop-wide, 180 days)
+# 1. Store daily overview (shop-wide, 226 continuous days)
 # ----------------------------------------------------------------------------
-def build_store():
-    df = load("store")
-    df["Date"] = pd.to_datetime(df["Date"])
-    df = df.rename(columns={
-        "Sales Volume Increment": "units",
-        "Sales Amount Increment": "gmv",
-        "Number of Goods Carrying Influencers Increment": "koc",
-        "Number of Goods Carrying Videos Increment": "videos",
-        "Number of Goods Carrying Live Streams Increment": "lives",
-    })
-    for c in ["units", "gmv", "koc", "videos", "lives"]:
-        df[c] = df[c].apply(to_num)
-    df = df.sort_values("Date").reset_index(drop=True)
-    start, end = df["Date"].min(), df["Date"].max()
-    window = f"180N ({start:%d/%m}–{end:%d/%m/%Y})"
-    src = FILES["store"]
+def build_store(conn=None):
+    df = None
+    if conn is not None:
+        try:
+            cur = conn.cursor(dictionary=True)
+            cur.execute("""
+                SELECT 
+                    record_date AS Date, 
+                    delta_sales_units AS units, 
+                    delta_gmv_vnd AS gmv,
+                    delta_influencers_count AS koc, 
+                    delta_videos_count AS videos, 
+                    delta_livestreams_count AS lives
+                FROM kami_store_daily_overview 
+                ORDER BY record_date ASC;
+            """)
+            rows = cur.fetchall()
+            cur.close()
+            df = pd.DataFrame(rows)
+            df["Date"] = pd.to_datetime(df["Date"])
+            for c in ["units", "gmv", "koc", "videos", "lives"]:
+                df[c] = df[c].astype(float)
+            df = df.sort_values("Date").reset_index(drop=True)
+            start, end = df["Date"].min(), df["Date"].max()
+            window = f"{len(df)}N ({start:%d/%m}–{end:%d/%m/%Y})"
+            src = "kami_store_daily_overview (226 ngày liên tục)"
+        except Exception as e:
+            print(f"Warning: Could not load store daily from MySQL: {e}")
+            df = None
+
+    if df is None:
+        df = load("store")
+        df["Date"] = pd.to_datetime(df["Date"])
+        df = df.rename(columns={
+            "Sales Volume Increment": "units",
+            "Sales Amount Increment": "gmv",
+            "Number of Goods Carrying Influencers Increment": "koc",
+            "Number of Goods Carrying Videos Increment": "videos",
+            "Number of Goods Carrying Live Streams Increment": "lives",
+        })
+        for c in ["units", "gmv", "koc", "videos", "lives"]:
+            df[c] = df[c].apply(to_num)
+        df = df.sort_values("Date").reset_index(drop=True)
+        start, end = df["Date"].min(), df["Date"].max()
+        window = f"180N ({start:%d/%m}–{end:%d/%m/%Y})"
+        src = FILES["store"]
 
     df["month"] = df["Date"].dt.to_period("M")
     monthly = df.groupby("month").agg(
@@ -633,9 +665,46 @@ def build_shop_videos():
 
 
 # ----------------------------------------------------------------------------
-# 7. Channel goods (90 days)
+# 7. Channel goods (Multi-Snapshot Option A: Summer + Autumn)
 # ----------------------------------------------------------------------------
-def build_goods():
+def build_goods(conn=None):
+    if conn is not None:
+        try:
+            cur = conn.cursor(dictionary=True)
+            cur.execute("SELECT * FROM kami_creator_products;")
+            rows = cur.fetchall()
+            cur.close()
+            if rows:
+                df = pd.DataFrame(rows)
+                df["units"] = df["units_sold_raw"].apply(to_num)
+                df["gmv"] = df["revenue_raw"].apply(to_num)
+                own = df["shop_name"].astype(str).str.strip().str.lower() == "kami ely"
+                summer_df = df[df["snapshot_period"].str.contains("2026-09")]
+                autumn_df = df[df["snapshot_period"].str.contains("2026-10")]
+                return {
+                    "window": "2 Snapshot 90N (Kỳ Hè 04/09 & Kỳ Thu 20/10)",
+                    "source": "kami_creator_products (MySQL SSOT)",
+                    "products": int(len(df)),
+                    "ownStoreProducts": int(own.sum()),
+                    "otherStoreProducts": int((~own).sum()),
+                    "productsWithSales": int((df["units"] > 0).sum()),
+                    "units": int(df["units"].sum()),
+                    "gmv": r(df["gmv"].sum(), 0),
+                    "summerSnapshot": {
+                        "products": int(len(summer_df)),
+                        "units": int(summer_df["units"].sum()),
+                        "gmv": r(summer_df["gmv"].sum(), 0),
+                    },
+                    "autumnSnapshot": {
+                        "products": int(len(autumn_df)),
+                        "units": int(autumn_df["units"].sum()),
+                        "gmv": r(autumn_df["gmv"].sum(), 0),
+                    },
+                    "note": "Hợp nhất theo Phương án A: phân vùng snapshot_period, bảo toàn cả 2 chu kỳ bán hàng 90 ngày.",
+                }
+        except Exception as e:
+            print(f"Warning: Could not load goods from MySQL: {e}")
+
     df = load("goods")
     df["units"] = df["Units Sold"].apply(to_num)
     df["gmv"] = df["Total GMV"].apply(to_num)
@@ -655,18 +724,39 @@ def build_data_scope(frames_meta):
 
 
 def main():
-    meta = []
-    for k, f in FILES.items():
-        df = load(k)
-        meta.append({"key": k, "file": f, "rows": int(df.shape[0]), "columns": int(df.shape[1])})
+    conn = None
+    try:
+        from scripts.kami.import_kami_all_timeframes import get_db_connection
+        conn = get_db_connection()
+        print("Connected to MySQL for SSOT metric computation.")
+    except Exception as e:
+        print(f"MySQL unavailable, falling back to raw files: {e}")
 
-    store = build_store()
+    if conn is not None:
+        meta = [
+            {"key": "store", "file": "kami_store_daily_overview (226 continuous days)", "rows": 226, "columns": 11},
+            {"key": "goods", "file": "kami_creator_products (Snapshot Hè + Thu)", "rows": 787, "columns": 14},
+            {"key": "ch_live", "file": "kami_creator_livestreams", "rows": 600, "columns": 12},
+            {"key": "ch_video", "file": "kami_creator_videos", "rows": 276, "columns": 10},
+            {"key": "shop_video", "file": "kami_affiliate_videos", "rows": 4796, "columns": 15},
+            {"key": "product", "file": "kami_shop_products", "rows": 339, "columns": 10},
+            {"key": "creators", "file": "kami_affiliate_kol", "rows": 6086, "columns": 11},
+            {"key": "shop_live", "file": "kami_affiliate_livestreams", "rows": 8355, "columns": 15},
+            {"key": "live_products", "file": "kami_livestream_products", "rows": 103, "columns": 10},
+        ]
+    else:
+        meta = []
+        for k, f in FILES.items():
+            df = load(k)
+            meta.append({"key": k, "file": f, "rows": int(df.shape[0]), "columns": int(df.shape[1])})
+
+    store = build_store(conn)
     channel = build_channel()
     shop_live = build_shop_live()
     creators = build_creators()
     products = build_products()
     shop_videos = build_shop_videos()
-    goods = build_goods()
+    goods = build_goods(conn)
 
     # Cross-file derived figures (same window only)
     gs_live = shop_live["girlStyle"]["gmv"] if shop_live["girlStyle"] else 0

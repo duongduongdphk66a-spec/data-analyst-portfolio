@@ -8,8 +8,6 @@ import { trackVisitorAction } from '@/app/lib/visitorTracking';
 import KamiElyHero from '@/components/case-studies/kami-ely/KamiElyHero';
 import KamiElyNav from '@/components/case-studies/kami-ely/KamiElyNav';
 import KamiElyCommercialTab from '@/components/case-studies/kami-ely/commercial/KamiElyCommercialTab';
-import KamiElyScienceCaseStudy from '@/components/case-studies/kami-ely/science/KamiElyScienceCaseStudy';
-import KamiElySqlPlaybook from '@/components/case-studies/kami-ely/playbook/KamiElySqlPlaybook';
 
 import ScienceNotebookModal from '@/components/case-studies/kami-ely/science/ScienceNotebookModal';
 import CaseStudyFooter from './shared/CaseStudyFooter';
@@ -27,7 +25,7 @@ export default function KamiElyProject(props: KamiElyProjectProps = {}) {
   const { language } = useLanguage();
   const isEn = language === 'en';
 
-  const [activeSection, setActiveSection] = useState<string>('part-1-commercial');
+  const [activeSection, setActiveSection] = useState<string>('sec-stage-1-architecture');
 
   const [isNotebookModalOpen, setIsNotebookModalOpen] = useState(false);
   const [selectedSnippetIdx, setSelectedSnippetIdx] = useState(0);
@@ -41,15 +39,16 @@ export default function KamiElyProject(props: KamiElyProjectProps = {}) {
     );
   }, []);
 
-  // Update active section on scroll
+  // Update active section on scroll across 7 unified stages
   useEffect(() => {
     const sectionIds = [
-      'part-1-commercial',
-      'sec-stage-3-time-series',
-      'part-2-science',
-      'sec-stage-4-cohort-cltv',
-      'sec-stage-5-funnel-basket',
-      'part-3-playbook',
+      'sec-stage-1-architecture',
+      'sec-stage-2-profile-clean',
+      'sec-stage-3-timeseries',
+      'sec-stage-4-creator-cohorts',
+      'sec-stage-5-funnels-channels',
+      'sec-stage-6-anomalies',
+      'sec-stage-7-etl-pii',
     ];
 
     const handleScroll = () => {
@@ -94,24 +93,10 @@ export default function KamiElyProject(props: KamiElyProjectProps = {}) {
       />
 
       <main className="w-full space-y-12">
-        {/* PHẦN 1: KIẾN TRÚC DỮ LIỆU & CHUỖI THỜI GIAN */}
-        <div id="part-1-commercial" className="space-y-8 scroll-mt-28">
-          <KamiElyCommercialTab
-            isEn={isEn}
-          />
-        </div>
-
-        {/* PHẦN 2: KHOA HỌC DỮ LIỆU & THỬ NGHIỆM */}
-        <div id="part-2-science" className="space-y-8 scroll-mt-28">
-          <KamiElyScienceCaseStudy
-            onOpenNotebook={() => setIsNotebookModalOpen(true)}
-          />
-        </div>
-
-        {/* PHẦN 3: SỔ TAY SQL & BẢO MẬT DỮ LIỆU */}
-        <div id="part-3-playbook" className="space-y-8 scroll-mt-28">
-          <KamiElySqlPlaybook compactMode />
-        </div>
+        {/* TOÀN BỘ 7 GIAI ĐOẠN PHÂN TÍCH CHUẨN SSOT */}
+        <KamiElyCommercialTab
+          isEn={isEn}
+        />
       </main>
 
       {/* 3. UNIFIED CASE STUDY FOOTER */}
@@ -121,8 +106,8 @@ export default function KamiElyProject(props: KamiElyProjectProps = {}) {
         attribution={{
           datasetVi: 'TikTok Seller Center & FastMoss Telemetry',
           datasetEn: 'TikTok Seller Center & FastMoss Telemetry',
-          scopeVi: '180 ngày (09/03–04/09/2026) · 8 bảng · 18.778 dòng SSOT',
-          scopeEn: '180 days (Mar 09 – Sep 04, 2026) · 8 tables · 18,778 SSOT rows',
+          scopeVi: '226 ngày (09/03–20/10/2026) · 9 bảng · 21.569 dòng SSOT',
+          scopeEn: '226 days (Mar 09 – Oct 20, 2026) · 9 tables · 21,569 SSOT rows',
         }}
       />
 

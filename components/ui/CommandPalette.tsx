@@ -90,12 +90,12 @@ export default function CommandPalette({
           id: 'case-kami-ely',
           category: { vi: 'Dự Án Mũi Nhọn (Case Studies)', en: 'Featured Case Studies' },
           title: {
-            vi: 'TikTok Shop Kami Ely (@kamielyhn): 12,74 Tỉ VNĐ (180d)',
-            en: 'TikTok Shop Kami Ely (@kamielyhn): 12.74B VND (180d)'
+            vi: 'TikTok Shop Kami Ely (@kamielyhn): 14,84 Tỉ VNĐ (226d)',
+            en: 'TikTok Shop Kami Ely (@kamielyhn): 14.84B VND (226d)'
           },
           subtitle: {
-            vi: 'Phân tích 8 bảng dữ liệu (18.778 dòng), Phễu LIVE, Kệ hàng 1,17M views & What-If ROI',
-            en: '8 datasets (18,778 rows), LIVE Funnel, 1.17M Card views & What-If ROI Simulator'
+            vi: 'Phân tích 9 bảng dữ liệu (21.569 dòng), Phễu LIVE, Kệ hàng 1,17M views & What-If ROI',
+            en: '9 datasets (21,569 rows), LIVE Funnel, 1.17M Card views & What-If ROI Simulator'
           },
           keywords: 'kami ely tiktok shop ecommerce live video koc affiliate sql 180d 90d',
           icon: <ShoppingBag className="w-4 h-4 text-[#9BE7FA]" />,

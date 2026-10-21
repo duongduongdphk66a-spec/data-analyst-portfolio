@@ -1,171 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
-import { 
-  ArrowDown, 
-  CheckCircle2, 
-  Database, 
-  FileSpreadsheet, 
-  LayoutDashboard, 
-  PackageCheck, 
-  Target, 
-  TerminalSquare, 
-  TrendingUp, 
-  Users, 
-  Video 
-} from 'lucide-react';
+import React from 'react';
 import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  ComposedChart,
-  Label,
-  LabelList,
-  Legend,
-  Line,
-  ReferenceDot,
-  ReferenceLine,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
-import {
-  COLORS,
-  dailySeries,
-  dowSeries,
-  monthlySeries,
-  paretoCurve,
   pipelineMeta,
-  priceBands,
-  productFacts,
   sqlSnippets,
-  storeFacts,
-  tableRows,
 } from '../playbook/playbookData';
 import {
-  ChartCard,
-  ChartTooltip,
-  Chip,
-  GRID_STROKE,
-  TEXT_FILL_CLASS,
   UnifiedSection,
-  axisTick,
-  legendFormatter,
   usePlaybookLang,
 } from '../playbook/PlaybookUi';
+import Stage1BusinessAndDataArchitecture from './Stage1BusinessAndDataArchitecture';
+import Stage2ProfileAndCleanUpgrade from './Stage2ProfileAndCleanUpgrade';
+import Stage3TimeSeriesAndSeasonality from './Stage3TimeSeriesAndSeasonality';
+import Stage4CreatorCohortsAndLtv from './Stage4CreatorCohortsAndLtv';
+import Stage5FunnelsAndMarketingChannels from './Stage5FunnelsAndMarketingChannels';
+import Stage6TextAndAnomalies from './Stage6TextAndAnomalies';
+import Stage7EtlAutomationAndPii from './Stage7EtlAutomationAndPii';
 import type { KamiElyDataPayload } from '@/app/types/caseStudies';
-import type { KamiElyTabKey } from '../KamiElyTabsNav';
 
 export interface KamiElyCommercialTabProps {
   isEn?: boolean;
-  handleTabChange?: (_tab: KamiElyTabKey) => void;
   onOpenProofModal?: (_screenshotId?: string) => void;
   copyDeepLink?: (_id: string) => void;
   telemetryData?: KamiElyDataPayload | null;
 }
 
-const SQL_LOOP = ['Explore', 'Profile', 'Clean', 'Shape', 'Analyze'] as const;
-
 export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) {
-  const { L, b, n } = usePlaybookLang();
-  const [tsView, setTsView] = useState<'daily' | 'cumulative'>('daily');
-  const [seasonView, setSeasonView] = useState<'monthly' | 'dow'>('monthly');
-
-  const tableChartData = tableRows.map((t) => ({ name: b(t.label), rows: t.rows }));
-  const peak = dailySeries.find((d) => d.date === storeFacts.peakDay.date);
-  const maxDow = Math.max(...dowSeries.map((d) => d.medianGmv));
-  const tickEvery = Math.floor(dailySeries.length / 6);
-
-  const workflowSteps = [
-    {
-      icon: FileSpreadsheet,
-      title: L('1. Hệ thống nguồn (First & Second-Party)', '1. Source Systems (First & Second-Party)'),
-      sub: L(
-        '8 tệp xuất tự động từ TikTok Seller Center & FastMoss kết hợp tồn kho nội bộ',
-        '8 automated exports from TikTok Seller Center & FastMoss joined with internal inventory',
-      ),
-    },
-    {
-      icon: Database,
-      title: L('2. Kho dữ liệu tập trung (ELT Warehouse)', '2. Centralized Data Warehouse (ELT)'),
-      sub: L(
-        'Trình nạp Python điều phối lịch trình, kiểm tra kiểu dữ liệu và cảnh báo lỗi',
-        'Python ingestion orchestrating schedules, schema validation, and error alerts',
-      ),
-    },
-    {
-      icon: TerminalSquare,
-      title: L('3. Truy vấn & Phân tích (Vòng lặp 5 bước SQL)', '3. Queries & Analysis (5-Step SQL Loop)'),
-      sub: null,
-    },
-    {
-      icon: LayoutDashboard,
-      title: L('4. Trình bày kết quả (BI Dashboard & Python ML)', '4. Presentation (BI Dashboard & Python ML)'),
-      sub: L(
-        'Xuất trực tiếp ra biểu đồ chiến thuật và mô hình hồi quy/kiểm định thống kê',
-        'Feeds tactical BI charts and statistical regression/hypothesis models directly',
-      ),
-    },
-  ];
-
-  const businessProblems = [
-    {
-      icon: TrendingUp,
-      tag: L('Mùa vụ & Dòng tiền', 'Seasonality & Cashflow'),
-      title: L('Lệch pha Mùa vụ & Điểm rơi Doanh số', 'Seasonal Shifts & Saturation Troughs'),
-      context: L(
-        'GMV đạt đỉnh 125,6 Tr/ngày vào tháng 6 nhưng giảm 82,9% vào tháng 8 do phụ thuộc dòng bikini mùa hè.',
-        'GMV peaked at 125.6M/day in June but plunged 82.9% in August due to heavy reliance on summer swimwear.',
-      ),
-      objective: L(
-        'Phân tích chu kỳ thứ (DOW) & hàm LAG để xoay trục danh mục sang thời trang thu đông từ giữa tháng 7.',
-        'Analyze DOW cyclicality & LAG functions to pivot merchandising into autumn/winter lines by mid-July.',
-      ),
-    },
-    {
-      icon: Users,
-      tag: L('Mạng lưới KOC', 'Creator Network'),
-      title: L('Giữ chân KOC & Hiệu quả Hoa hồng', 'KOC Retention & Commission Optimization'),
-      context: L(
-        'Mạng lưới 1.000+ KOC đem lại 58% doanh số nhưng 83,2% chỉ bán 1 tháng rồi rời bỏ (tỷ lệ churn cao).',
-        '1,000+ affiliate KOCs generate 58% of GMV, but 83.2% churn after month 1 with zero repeat orders.',
-      ),
-      objective: L(
-        'Phân tích Cohort CLTV & phân tầng Creator để tối ưu hoa hồng, ưu tiên gửi mẫu cho KOC gắn bó cao.',
-        'Run cohort retention & tiering to optimize commissions and seed samples to high-LTV creators.',
-      ),
-    },
-    {
-      icon: Video,
-      tag: L('Phiên LIVE', 'Live Streams'),
-      title: L('Điểm bão hòa Thời lượng Phiên LIVE', 'Diminishing Returns on LIVE Duration'),
-      context: L(
-        'Tăng lên 106 phiên LIVE/ngày nhưng GMV không tăng tỷ lệ thuận; chi phí studio và ca đêm tăng cao.',
-        'Pushing up to 106 daily LIVEs showed flat returns while inflating studio and night-shift labor costs.',
-      ),
-      objective: L(
-        'Mô hình hóa doanh thu cận biên/giờ để chốt mốc tối ưu ~3,1h/phiên, cắt giảm các ca LIVE kém hiệu quả.',
-        'Model marginal revenue per hour to pinpoint ~3.1h optimal cut-off, eliminating wasteful overtime.',
-      ),
-    },
-    {
-      icon: PackageCheck,
-      tag: L('Danh mục SKU', 'Catalog & AOV'),
-      title: L('Xử lý 36,5% SKU "Đóng băng" & Nâng AOV', 'Liquidate 36.5% Dead Stock & Lift AOV'),
-      context: L(
-        '11,5% SKU gánh 80% GMV (Pareto), trong khi 124 SKU (36,5%) chưa từng có đơn, gây đọng vốn lưu động.',
-        'Top 11.5% SKUs drive 80% GMV, while 124 SKUs (36.5%) recorded zero orders, locking up capital.',
-      ),
-      objective: L(
-        'Gom nhóm dải giá CASE & đường cong Pareto để xả hàng tồn, ghép combo 149k–189k đ nhằm kéo AOV.',
-        'Use CASE price bins & Pareto curves to clear dead stock and bundle 149k–189k VND price anchors.',
-      ),
-    },
-  ];
+  const { L, n } = usePlaybookLang();
 
   return (
     <div className="w-full space-y-12">
@@ -174,149 +35,44 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
         id="sec-stage-1-architecture"
         badge="1"
         title={L(
-          'Xác định Bài toán Kinh doanh & Kiến trúc Luồng Dữ liệu',
-          'Business Problem Definition & Data Flow Architecture',
+          'Mục 1: Bài toán Kinh doanh & Kiến trúc Luồng Dữ liệu',
+          'Section 1: Business Problem Definition & Data Flow Architecture',
         )}
         takeaway={L(
-          `Giải quyết 4 bài toán kinh doanh trọng tâm của thương hiệu thời trang Kami Ely: biến động mùa vụ (-82,9% GMV tháng 8), tỷ lệ rời bỏ của 1.000+ KOC affiliate, điểm bão hòa ca LIVE (~3,1 giờ) và 36,5% SKU tồn đọng vốn. Hệ thống nạp ${pipelineMeta.tables} bảng (${n(pipelineMeta.rows)} dòng SSOT) từ TikTok Shop & FastMoss về kho tập trung để cung cấp căn cứ ra quyết định thương mại.`,
-          `Addresses 4 core commercial challenges for fashion brand Kami Ely: seasonal drop-offs (-82.9% GMV in August), 1,000+ affiliate KOC churn, diminishing returns beyond 3.1h LIVE sessions, and 36.5% dead stock. Custom ETL pipelines ingest ${pipelineMeta.tables} source tables (${n(pipelineMeta.rows)} SSOT rows) to inform tactical merchandising decisions.`,
+          `Thương hiệu thời trang đồ bơi Kami Ely đạt doanh thu lũy kế 31,6 tỷ VNĐ (14,84 tỷ VNĐ trong 226 ngày liên tục T3–T10/2026), tăng trưởng từ 0,95 tỷ (T3) lên đỉnh 3,77 tỷ (T6), hạ nhiệt trong T8-T9 (0,64-0,70 tỷ) và phục hồi mạnh mẽ trong T10 (1,45 tỷ/20 ngày). Dự án giải quyết câu hỏi trọng tâm về nguồn gốc doanh thu và các tín hiệu cảnh báo rủi ro chuyển mùa thông qua kho dữ liệu 3 lớp (raw, staging, mart) từ ${pipelineMeta.tables} bảng nguồn hợp nhất (${n(pipelineMeta.rows)} dòng SSOT).`,
+          `Cumulative revenue reaches 31.6B VND (14.84B in 226 continuous days Mar-Oct 2026), peaking at 3.77B (June), troughing in Aug-Sep (0.64-0.70B), and rebounding in Oct (1.45B/20 days). Resolves core commercial inquiries and seasonal transition risk signals via 3-tier warehouse architecture across ${pipelineMeta.tables} unified tables (${n(pipelineMeta.rows)} SSOT records).`,
         )}
         kpis={[
           {
-            value: `${pipelineMeta.tables} ${L('bảng nguồn', 'source tables')}`,
-            label: L('tích hợp Second-party & First-party', 'Second-party & First-party integration'),
-            sub: L('Bao phủ cấp độ cửa hàng, SKU, phiên LIVE, video và KOC', 'Covers store, SKU, LIVE session, video, and KOC grains'),
+            value: L('31,6 Tỷ đ', '31.6B VND'),
+            label: L('doanh thu lũy kế toàn shop', 'cumulative total GMV'),
+            sub: L('14,84 Tỷ đ trong 226 ngày phân tích SSOT (T3–T10/2026)', '14.84B VND across 226-day continuous SSOT window'),
           },
           {
-            value: n(pipelineMeta.rows),
-            label: L('dòng dữ liệu giao dịch & tương tác', 'transaction & interaction records'),
-            sub: L('Lưu trữ dạng bản chụp nhanh (snapshots) theo khung 28d/90d/180d', 'Stored as structured snapshots across 28d/90d/180d windows'),
+            value: `${pipelineMeta.tables} ${L('bảng dữ liệu', 'unified tables')}`,
+            label: L('nguồn dữ liệu second-party', 'second-party source tables'),
+            sub: L(`${n(pipelineMeta.rows)} dòng phân theo 5 mức chi tiết (data grains)`, `${n(pipelineMeta.rows)} rows mapped across 5 data grains`),
           },
           {
-            value: L('4 bước · 5 vòng lặp', '4 steps · 5 loops'),
-            label: L('quy trình phân tích khép kín', 'end-to-end analysis workflow'),
-            sub: L('Explore → Profile → Clean → Shape → Analyze', 'Explore → Profile → Clean → Shape → Analyze'),
+            value: L('5 câu hỏi con', '5 sub-questions'),
+            label: L('phục vụ quyết định của chủ shop', 'driving tactical owner decisions'),
+            sub: L('Phát hiện & đối soát 2 điểm lệch thực tế giữa các nguồn', 'Detects & reconciles 2 empirical cross-source variances'),
             tone: 'amber',
           },
         ]}
         finding={L(
-          'Dữ liệu bên thứ hai do nền tảng kiểm soát mô hình thường tách rời giữa báo cáo quảng cáo, danh mục hàng hóa và hiệu suất nhà sáng tạo.',
-          'Second-party platform exports isolate ad telemetry, product catalogs, and creator performance into separate schemas.',
+          'Dữ liệu hiện có ở mức tổng hợp (snapshots), không có mã khách hàng cá nhân hay giá vốn nội bộ (COGS), do đó câu hỏi về retention vi mô được chủ động loại bỏ để bảo toàn tính chuẩn xác.',
+          'Exports exist as aggregated snapshots lacking customer_id or internal COGS; micro retention inquiries were intentionally omitted to maintain analytical rigor.',
         )}
         action={L(
-          'Chuẩn hóa khóa định danh (sku_id, creator_handle, report_date) ngay tại tầng kho dữ liệu để liên kết tồn kho nội bộ với hành vi mua hàng.',
-          'Standardize entity keys (sku_id, creator_handle, report_date) at the warehouse layer to join internal inventory with buyer behavior.',
+          'Xây dựng quy trình nạp tự động qua Python, phân tầng kho 3 lớp (raw, staging, mart) và chuẩn hóa khóa định danh để sẵn sàng tích hợp với ERP nội bộ.',
+          'Deploy Python ingestion with 3-tier schemas (raw, staging, mart) and unified entity keys to ensure future-ready internal ERP integration.',
         )}
         codePeek={{ label: L('SQL (Giai đoạn 1)', 'SQL (Stage 1)'), code: sqlSnippets.s1 }}
       >
-        <ChartCard
-          className="lg:col-span-2"
-          height=""
-          title={L(
-            '4 Bài toán Kinh doanh Trọng tâm Cần Dữ liệu Giải quyết',
-            '4 Core Business Problems Addressed via Analytics',
-          )}
-          subtitle={L(
-            'Định hướng toàn bộ luồng xử lý ETL, truy vấn SQL và mô hình phân tích để hỗ trợ ra quyết định thương mại thực tế',
-            'Framing all ETL workflows, SQL queries, and econometric modeling to guide tactical commercial actions',
-          )}
-          badge={
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#C8EEF7]/60 px-2.5 py-1 text-[11px] font-bold text-[#074553] dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA]">
-              <Target className="h-3.5 w-3.5" />
-              4 BUSINESS PILLARS
-            </span>
-          }
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
-            {businessProblems.map((p) => {
-              const Icon = p.icon;
-              return (
-                <div
-                  key={p.title}
-                  className="rounded-2xl border border-slate-200/90 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900/60 flex flex-col justify-between space-y-3 transition-colors hover:border-[#9BE7FA]/80 dark:hover:border-[#9BE7FA]/40"
-                >
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#C8EEF7]/60 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA]">
-                        <Icon className="h-4 w-4" />
-                      </span>
-                      <span className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        {p.tag}
-                      </span>
-                    </div>
-                    <h5 className="text-sm font-bold text-slate-950 dark:text-white leading-snug">
-                      {p.title}
-                    </h5>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                      {p.context}
-                    </p>
-                  </div>
-                  <div className="rounded-xl border border-[#9BE7FA]/40 bg-[#C8EEF7]/25 p-2.5 text-[11px] leading-relaxed text-[#074553] dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-300">
-                    <strong className="font-bold text-[#074553] dark:text-[#9BE7FA] block mb-0.5">
-                      {L('Mục tiêu phân tích:', 'Analytics Objective:')}
-                    </strong>
-                    {p.objective}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </ChartCard>
-
-        <ChartCard
-          title={L('Quy mô bản ghi theo 8 bảng dữ liệu nguồn', 'Record volume across 8 source tables')}
-          subtitle={L('Kiểm đếm tự động toàn bộ các bảng nạp vào kho phân tích', 'Automated row count profiling across all ingested warehouse tables')}
-        >
-          <ResponsiveContainer width="100%" height="100%" minHeight={250}>
-            <BarChart data={tableChartData} layout="vertical" margin={{ top: 4, right: 44, left: 4, bottom: 0 }}>
-              <CartesianGrid stroke={GRID_STROKE} horizontal={false} strokeDasharray="3 3" />
-              <XAxis type="number" hide />
-              <YAxis type="category" dataKey="name" width={116} tick={axisTick} tickLine={false} axisLine={false} />
-              <Tooltip cursor={{ fill: 'rgba(155,231,250,0.15)' }} content={<ChartTooltip fmt={(v) => n(v)} />} />
-              <Bar dataKey="rows" name={L('Dòng', 'Rows')} fill={COLORS.cyan} radius={[0, 8, 8, 0]}>
-                <LabelList dataKey="rows" position="right" fontSize={11} className={TEXT_FILL_CLASS} formatter={(v: unknown) => n(Number(v))} />
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
-
-        <ChartCard
-          title={L('Quy trình phân tích 4 bước (Analysis Workflow)', '4-step SQL analysis workflow')}
-          subtitle={L('Luồng đi từ hệ thống nguồn qua vòng lặp 5 bước SQL đến trình bày BI', 'Pipeline from source systems through the 5-step SQL loop to BI presentation')}
-          height=""
-        >
-          <ol className="space-y-1">
-            {workflowSteps.map((s, i) => {
-              const Icon = s.icon;
-              return (
-                <li key={s.title}>
-                  <div className="flex items-center gap-3 rounded-2xl border border-[#9BE7FA]/60 bg-[#C8EEF7]/30 px-3.5 py-2.5 dark:border-slate-700 dark:bg-slate-800/60">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#9BE7FA] text-slate-950">
-                      <Icon className="h-4 w-4" aria-hidden="true" />
-                    </span>
-                    <div className="min-w-0">
-                      <div className="text-xs font-black text-slate-950 dark:text-white">{s.title}</div>
-                      {s.sub ? (
-                        <div className="text-[11px] text-slate-600 dark:text-slate-300">{s.sub}</div>
-                      ) : (
-                        <div className="mt-1 flex flex-wrap gap-1">
-                          {SQL_LOOP.map((x) => (
-                            <Chip key={x}>{x}</Chip>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  {i < workflowSteps.length - 1 && (
-                    <div className="flex justify-center py-0.5 text-[#0D7287] dark:text-[#9BE7FA]">
-                      <ArrowDown className="h-3.5 w-3.5" aria-hidden="true" />
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-        </ChartCard>
+        <div className="lg:col-span-2 w-full">
+          <Stage1BusinessAndDataArchitecture />
+        </div>
       </UnifiedSection>
 
       {/* Giai đoạn 2: Khám phá, Lập hồ sơ & Làm sạch Dữ liệu Gian hàng */}
@@ -328,127 +84,40 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
           'Explore, Profile Distributions & Clean Store Data',
         )}
         takeaway={L(
-          `Sử dụng mệnh đề CASE để gom nhóm dải giá (binning), hàm cửa sổ phân vị NTILE(10) để lập hồ sơ phân phối doanh thu và GROUP BY / HAVING để khử trùng lặp bản ghi. Kiểm tra LEFT JOIN và COALESCE(units_sold, 0) phát hiện ${productFacts.dead}/${productFacts.skus} mã SKU (${n(productFacts.deadPct, 1)}%) chưa phát sinh đơn hàng, trong khi ${productFacts.skusFor80} mã đầu bảng tạo ra 80% GMV.`,
-          `Uses CASE statements for price binning, NTILE(10) window functions to profile revenue distributions, and GROUP BY / HAVING to deduplicate tracking records. Checking LEFT JOIN and COALESCE(units_sold, 0) reveals ${productFacts.dead}/${productFacts.skus} SKUs (${n(productFacts.deadPct, 1)}%) with zero orders, while the top ${productFacts.skusFor80} SKUs generate 80% of GMV.`,
+          'Chạy kiểm thử thực tế trên 8 file nguồn phát hiện 197/331 SKU không có đơn, giải mã toán học triệt để chênh lệch 475 vs 470 phiên (+13 giờ múi giờ & 91.000 đ), xác lập 7 quy tắc làm sạch chuẩn hóa và đính chính 2 sai lệch nghiêm trọng từ báo cáo cũ (tăng trưởng T3→T4 là 98,5% thay vì 158,9%; bác bỏ ngụy biện KOC <5k follower).',
+          'Direct verification across 8 raw xlsx files reveals 197/331 zero-sale SKUs, mathematically solves the 475 vs 470 session variance (+13h lag & 91k VND delta), establishes 7 production cleaning standards, and corrects 2 critical legacy reporting flaws (March-April daily growth was 98.5% not 158.9%; debunks <5k follower KOC myth).',
         )}
         kpis={[
           {
-            value: '88,46%',
-            label: L('tỷ trọng GMV ở phân khúc giá >75k đ', 'GMV share in >75k VND price bins'),
-            sub: L('Dải chủ lực 75k–250k đ chiếm 86,4% GMV · nhóm <75k đ chiếm 11,5%', 'Core 75k–250k VND tier drives 86.4% GMV · <75k VND accounts for 11.5%'),
+            value: '134/331 SKU',
+            label: L('mã sản phẩm có phát sinh doanh số', 'active catalog SKUs with GMV > 0'),
+            sub: L('197 mã 0 đơn (59,5%) · Top 5 sản phẩm gánh 44,9% GMV', '197 dead SKUs (59.5%) · Top 5 SKUs generate 44.9% GMV'),
           },
           {
-            value: `${productFacts.dead} SKU (${n(productFacts.deadPct, 1)}%)`,
-            label: L('mã hàng mồ côi chưa phát sinh đơn', 'zero-sale SKUs flagged via COALESCE'),
-            sub: L('Phát hiện qua WHERE COALESCE(units_sold, 0) = 0', 'Identified via WHERE COALESCE(units_sold, 0) = 0'),
+            value: L('+13 Giờ Múi giờ', '+13h Timezone'),
+            label: L('giải mã khớp 470/470 phiên Shop LIVE', 'solves 470/470 Shop LIVE sessions'),
+            sub: L('190k đ (lệch phiên 06/05) − 99k đ (phiên 07/03) = 91k đ khớp 100%', '190k VND (May 06 delta) − 99k VND (Mar 07 session) = 91k VND exact math'),
+          },
+          {
+            value: '+98,5% (vs 158,9%)',
+            label: L('tăng trưởng thực tế ngày T3 → T4', 'true day-normalized March → April growth'),
+            sub: L('T3 chỉ có 23 ngày quan sát (41,3 Tr/ngày vs 82,0 Tr/ngày)', 'March tracked only 23 active days (41.3M/day vs 82.0M/day)'),
             tone: 'amber',
-          },
-          {
-            value: `Gini = ${n(productFacts.gini, 3)}`,
-            label: L('độ tập trung Pareto (39 SKU tạo 80% GMV)', 'Pareto concentration (39 SKUs = 80% GMV)'),
-            sub: L('6/6 quy tắc đối soát khóa ngoại & tổng bảng đạt chuẩn', '6/6 foreign-key & cross-table reconciliation rules pass'),
           },
         ]}
         finding={L(
-          'Nếu không khử trùng lặp (DISTINCT / GROUP BY) khi nối bảng sản phẩm với bảng video gắn giỏ nhiều-nhiều, doanh thu báo cáo sẽ bị nhân đôi sai lệch.',
-          'Without deduplicating (DISTINCT / GROUP BY) across many-to-many joins between products and shoppable videos, reported GMV is artificially inflated.',
+          'Báo cáo cũ mắc 2 sai lệch nghiêm trọng: tính tăng trưởng tháng tổng thổi phồng T3→T4 lên 158,9% (thực chất 98,5%) và nhận định sai lầm "KOC <5k follower gánh shop" do tài khoản đồng vận hành girlstyle.vn (3.215 follower) chiếm tới 79% nhóm này.',
+          'Legacy reports harbored 2 critical flaws: total-month growth inflated March-April to 158.9% (actually 98.5% day-normalized) and falsely claimed nano KOCs drove sales, masking that in-house co-op girlstyle.vn (3,215 followers) generated 79% of the 1k-5k tier.',
         )}
         action={L(
-          'Định hình dữ liệu chuẩn gọn gàng (tidy data) ở cấp độ từng SKU, gắn cờ high_value = true cho 39 mã đầu bảng để ưu tiên hiển thị và miễn phí vận chuyển.',
-          'Shape outputs into tidy SKU-level tables and flag high_value = true on the top 39 SKUs to prioritize inventory and discounted shipping offers.',
+          'Áp dụng 7 chuẩn làm sạch: chuẩn hóa UTC+7 (+13h cho Live, -1h cho UTC+8), unnest dải giá, gán cờ is_orphan, is_partial_month và tách bạch 3 nhóm kênh: Tự vận hành (63,9%), Nội bộ affiliate (15,5%) và KOC ngoài (20,6%).',
+          'Deploy 7 cleaning standards: normalize UTC+7 (+13h for Live, -1h for UTC+8), unnest price ranges, flag is_orphan & is_partial_month, and partition channels into Own Brand (63.9%), In-house Affiliate (15.5%), and External KOCs (20.6%).',
         )}
         codePeek={{ label: L('SQL (Giai đoạn 2)', 'SQL (Stage 2)'), code: sqlSnippets.s2 }}
       >
-        <ChartCard
-          title={L('Gom nhóm dải giá bằng CASE: tỷ trọng SKU, sản lượng & GMV (%)', 'CASE price binning: SKU, unit volume & GMV share (%)')}
-          subtitle={L('Xoay bảng (pivoting) đối chiếu cấu trúc danh mục và hiệu quả tạo tiền', 'Pivoted comparison between catalog listing share and revenue contribution')}
-        >
-          <ResponsiveContainer width="100%" height="100%" minHeight={250}>
-            <BarChart data={priceBands} margin={{ top: 22, right: 8, left: -18, bottom: 0 }}>
-              <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
-              <XAxis dataKey="band" tick={axisTick} tickLine={false} axisLine={false} />
-              <YAxis tick={axisTick} tickLine={false} axisLine={false}>
-                <Label value="(%)" position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
-              </YAxis>
-              <Tooltip cursor={{ fill: 'rgba(155,231,250,0.15)' }} content={<ChartTooltip fmt={(v) => `${n(v, 2)}%`} />} />
-              <Legend wrapperStyle={{ fontSize: 12 }} formatter={legendFormatter} />
-              <Bar dataKey="sku" name="SKU" fill={COLORS.teal} radius={[4, 4, 0, 0]} />
-              <Bar dataKey="units" name={L('Sản lượng', 'Units')} fill={COLORS.cyan} radius={[4, 4, 0, 0]} />
-              <Bar dataKey="gmv" name="GMV" fill={COLORS.amber} radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
-
-        <ChartCard
-          title={L('Đường cong phân vị Pareto (NTILE): % & Số lượng SKU vs % GMV tích lũy', 'Pareto quantile curve (NTILE): cumulative % & count of SKUs vs % GMV')}
-          subtitle={L(
-            `6,3% số mã sản phẩm (${productFacts.skusFor80}/${productFacts.skus} SKU) đóng góp 80% tổng doanh thu`,
-            `6.3% of listed products (${productFacts.skusFor80}/${productFacts.skus} SKUs) account for 80% of total revenue`,
-          )}
-          badge={
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#C8EEF7]/60 px-2.5 py-1 text-[11px] font-bold text-[#074553] dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA]">
-              <CheckCircle2 className="h-3.5 w-3.5" />
-              6/6 REC PASS
-            </span>
-          }
-        >
-          <ResponsiveContainer width="100%" height="100%" minHeight={250}>
-            <AreaChart data={paretoCurve} margin={{ top: 22, right: 12, left: -18, bottom: 18 }}>
-              <defs>
-                <linearGradient id="pbParetoTab1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={COLORS.cyan} stopOpacity={0.8} />
-                  <stop offset="95%" stopColor={COLORS.cyan} stopOpacity={0.05} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
-              <XAxis
-                type="number"
-                dataKey="sku"
-                domain={[0, 100]}
-                ticks={[0, 25, 50, 75, 100]}
-                interval={0}
-                tickLine={false}
-                axisLine={false}
-                tick={(props: { x?: number; y?: number; payload?: { value?: number | string } }) => {
-                  const { x = 0, y = 0, payload } = props;
-                  const v = Number(payload?.value ?? 0);
-                  const skuCount = Math.round((v * productFacts.skus) / 100);
-                  return (
-                    <g transform={`translate(${x},${y})`}>
-                      <text x={0} y={0} textAnchor="middle" fontSize={11} className={TEXT_FILL_CLASS}>
-                        <tspan x={0} dy={12}>{v}%</tspan>
-                        <tspan x={0} dy={14} fontSize={10} className="fill-slate-500 dark:fill-slate-400">({skuCount} SKU)</tspan>
-                      </text>
-                    </g>
-                  );
-                }}
-              />
-              <YAxis domain={[0, 100]} tick={axisTick} tickLine={false} axisLine={false}>
-                <Label value="(%)" position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
-              </YAxis>
-              <Tooltip
-                content={
-                  <ChartTooltip
-                    fmt={(v) => `${n(v, 1)}%`}
-                    head={(l) => {
-                      const pct = Number(l);
-                      const skus = Math.round((pct * productFacts.skus) / 100);
-                      return `${n(pct, 1)}% SKU (${skus}/${productFacts.skus} SKU)`;
-                    }}
-                  />
-                }
-              />
-              <ReferenceLine y={80} stroke={COLORS.amber} strokeDasharray="5 4" label={{ value: '80% GMV', position: 'insideBottomRight', fontSize: 11, className: TEXT_FILL_CLASS }} />
-              <ReferenceLine
-                x={productFacts.skusFor80Pct}
-                stroke={COLORS.teal}
-                strokeDasharray="5 4"
-                label={{ value: `${n(productFacts.skusFor80Pct, 1)}% (${productFacts.skusFor80} SKU)`, position: 'top', fontSize: 11, className: TEXT_FILL_CLASS }}
-              />
-              <Area type="monotone" dataKey="gmv" name={L('GMV tích lũy', 'Cumulative GMV')} stroke={COLORS.teal} strokeWidth={2.5} fill="url(#pbParetoTab1)" />
-            </AreaChart>
-          </ResponsiveContainer>
-        </ChartCard>
+        <div className="lg:col-span-2 w-full">
+          <Stage2ProfileAndCleanUpgrade />
+        </div>
       </UnifiedSection>
 
       {/* Giai đoạn 3: Phân tích Chuỗi thời gian: Xu hướng Doanh số & Lập lịch Khuyến mãi */}
@@ -456,157 +125,225 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
         id="sec-stage-3-timeseries"
         badge="3"
         title={L(
-          'Phân tích Chuỗi thời gian: Xu hướng Doanh số & Lập lịch Khuyến mãi',
-          'Time-Series Analysis: Sales Trends & Promotion Scheduling',
+          'Mục 3: Chuỗi Thời Gian & Mùa Vụ (Xu Hướng, Đỉnh & Điểm Gãy)',
+          'Section 3: Time-Series & Seasonality Analysis (Trends, Peak & Structural Breaks)',
         )}
         takeaway={L(
-          `Áp dụng hàm cửa sổ AVG() OVER (ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) để tính trung bình trượt 7 ngày (MA7) làm mượt nhiễu ngày, và SUM() OVER () để theo dõi doanh số lũy kế (YTD đạt 12,74 Tỉ đ). Kiểm tra với chiều thời gian (date_dim) xác nhận ${storeFacts.sparseDays}/${storeFacts.days} ngày thưa; phân tích cùng kỳ (LAG) chỉ ra đỉnh tháng 6 (125,6 Tr/ngày) và mức sụt giảm 82,9% vào tháng 8.`,
-          `Applies AVG() OVER (ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) for 7-day moving averages (MA7) to smooth daily noise, and SUM() OVER () for cumulative YTD tracking (12.74B VND). Joining against date_dim confirms ${storeFacts.sparseDays}/${storeFacts.days} sparse days; period-over-period LAG analysis highlights the June peak (125.6M/day) and 82.9% August drop.`,
+          'Chuỗi 180 ngày ghi nhận đỉnh doanh thu ngày 16/06 (315,0 Tr đ), đỉnh tuần W25 (1,06 Tỷ đ) và đỉnh tháng T6 (3,77 Tỷ đ). Tín hiệu cảnh báo sớm Giao cắt tử thần (MA7 cắt xuống MA28) xuất hiện ngày 26/06 (sớm 18 ngày trước khi GMV rơi thủng mức Tháng 4). Phân rã mức sụt giảm 82,9% giữa T6 và T8 chứng minh cả hai hiệu ứng tác động tương đương: số lượng phiên Live giảm 59% (góp 71,1% mức giảm) và hiệu suất GMV/ca Live rơi 58% (góp 70,3% mức giảm).',
+          '180-day series records peak day on Jun 16 (315.0M VND), peak week W25 (1.06B VND), and peak month June (3.77B VND). Early Warning Dead Cross (MA7 crossing below MA28) triggered on Jun 26 (18 days before GMV breached April floor). Decomposing the 82.9% drop between June and August proves dual causality: live volume fell 59% (71.1% of drop) and GMV per live plunged 58% (70.3% of drop).',
         )}
         kpis={[
           {
-            value: L('70,8 Tr/ngày', '70.8M/day'),
-            label: L('trung bình trượt toàn chu kỳ 180 ngày', '180-day rolling daily average'),
-            sub: L('Ngày đỉnh 09/06 đạt 321,1 Tr đ · lũy kế 12,74 Tỉ đ', 'Peak day Jun 09 hit 321.1M VND · cumulative 12.74B VND'),
+            value: '315,0 Tr đ',
+            label: L('ngày đỉnh cao nhất 16/06/2026', 'absolute peak day Jun 16'),
+            sub: L('1.936 sp · 7 ngày quanh đỉnh gánh 1,09 Tỷ đ (8,6% GMV)', '1,936 units · 7 days around peak = 1.09B VND (8.6% GMV)'),
           },
           {
-            value: `${storeFacts.sparseDays}/${storeFacts.days} ${L('ngày', 'days')}`,
-            label: L('kiểm tra dữ liệu thưa (sparse data = 0)', 'sparse days check via date_dim'),
-            sub: L('Liên tục phát sinh đơn hàng suốt 180 ngày quan sát', 'Continuous daily order activity across all 180 days'),
+            value: '26/06/2026',
+            label: L('tín hiệu Dead Cross (MA7 < MA28)', 'early Dead Cross signal'),
+            sub: L('Cảnh báo sớm 18 ngày trước khi thủng ngưỡng T4', 'Warned 18 days before breaching April baseline'),
+            tone: 'amber',
           },
           {
-            value: '-82,9%',
-            label: L('biến động Period-over-Period (T08 vs T06)', 'Period-over-Period drop (Aug vs Jun)'),
-            sub: L('Tính mùa vụ thứ trong tuần (DOW) đạt đỉnh vào Chủ Nhật', 'Day-of-week (DOW) median revenue peaks on Sundays'),
+            value: '-82,9% GMV',
+            label: L('phân rã sụt giảm giữa T6 và T8', 'decomposed drop between Jun & Aug'),
+            sub: L('71,1% do giảm ca Live · 70,3% do giảm GMV/ca', '71.1% volume drop · 70.3% efficiency drop'),
             tone: 'amber',
           },
         ]}
         finding={L(
-          'So sánh tháng-trên-tháng (MoM bằng hàm LAG) cho thấy tốc độ tăng trưởng đạt +96% vào tháng 6 nhưng đảo chiều -44% tháng 7 và -69% tháng 8 do phụ thuộc đồ bơi mùa hè.',
-          'Month-over-month LAG comparisons show +96% growth in June followed by -44% in July and -69% in August due to seasonal swimwear reliance.',
+          'Doanh thu và số phiên Live có tương quan thuận mạnh (r = 0,55, p < 0,001), đạt đỉnh tương quan chéo ở chu kỳ tuần. Tuy nhiên, sụt giảm tháng 8 không đơn thuần do thiếu nỗ lực livestream mà do hiệu suất mỗi phiên cũng rơi tự do (từ 2,42M xuống 1,01M/ca) do tính mùa vụ đồ bơi hạ nhiệt.',
+          'GMV and Live sessions strongly correlate (r = 0.55, p < 0.001), peaking cyclically at 7-day lag. However, August collapse was not merely reduced streaming effort; conversion per stream plummeted from 2.42M to 1.01M due to waning seasonal swimwear demand.',
         )}
         action={L(
-          'Sử dụng chu kỳ thứ trong tuần (DOW) để dồn ngân sách khuyến mãi và ca LIVE dài vào Thứ Bảy – Chủ Nhật, đồng thời nhập kho dòng sản phẩm thu đông từ giữa tháng 7.',
-          'Use day-of-week cyclicality to concentrate promo budgets on Saturday–Sunday peaks, while transitioning inventory to autumn/winter lines by mid-July.',
+          'Thiết lập hệ thống cảnh báo sớm dựa trên giao cắt MA7/MA28: ngay khi MA7 cắt xuống cuối tháng 6, lập tức ngừng ký cam kết booking KOC số lượng lớn và chuyển dịch danh mục sang thời trang thu đông từ giữa tháng 7.',
+          'Deploy early warning system based on MA7/MA28 crossover: once MA7 cross occurs in late June, immediately freeze bulk KOC commitments and pivot catalog toward autumn lines by mid-July.',
         )}
         codePeek={{ label: L('SQL (Giai đoạn 3)', 'SQL (Stage 3)'), code: sqlSnippets.s3 }}
       >
-        <ChartCard
-          title={
-            tsView === 'daily'
-              ? L('GMV theo ngày và trung bình trượt 7 ngày MA7 (triệu đ)', 'Daily GMV & 7-day moving average MA7 (M VND)')
-              : L('Doanh số lũy kế (Cumulative YTD) qua 180 ngày (tỉ đ)', '180-day cumulative GMV trajectory (B VND)')
-          }
-          subtitle={L('Sử dụng hàm cửa sổ trượt để tách xu hướng thực khỏi nhiễu ngắn hạn', 'Window functions smoothing daily volatility and tracking running totals')}
-          badge={
-            <div className="flex rounded-xl bg-[#C8EEF7]/40 p-1 dark:bg-slate-800">
-              {(['daily', 'cumulative'] as const).map((k) => (
-                <button
-                  key={k}
-                  type="button"
-                  onClick={() => setTsView(k)}
-                  className={`min-h-11 cursor-pointer rounded-lg px-2.5 text-xs font-bold transition-colors ${
-                    tsView === k ? 'bg-[#9BE7FA] text-slate-950' : 'text-slate-600 dark:text-slate-300'
-                  }`}
-                >
-                  {k === 'daily' ? L('MA7 ngày', 'Daily MA7') : L('Lũy kế', 'Cumulative')}
-                </button>
-              ))}
-            </div>
-          }
-        >
-          <ResponsiveContainer width="100%" height="100%" minHeight={250}>
-            {tsView === 'daily' ? (
-              <ComposedChart data={dailySeries} margin={{ top: 22, right: 12, left: -4, bottom: 0 }}>
-                <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
-                <XAxis dataKey="label" interval={tickEvery} tick={axisTick} tickLine={false} axisLine={false} />
-                <YAxis tick={axisTick} tickLine={false} axisLine={false} width={45}>
-                  <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
-                </YAxis>
-                <Tooltip cursor={{ fill: 'rgba(155,231,250,0.15)' }} content={<ChartTooltip fmt={(v) => `${n(v, 1)} ${L('Tr', 'M')}`} />} />
-                <Legend wrapperStyle={{ fontSize: 12 }} formatter={legendFormatter} />
-                <Bar dataKey="gmv" name="GMV" fill={COLORS.cyan} radius={[2, 2, 0, 0]} />
-                <Line dataKey="ma7" name={L('Trung bình 7 ngày', '7-day MA')} stroke={COLORS.deep} strokeWidth={2.5} dot={false} connectNulls={false} />
-                {peak && <ReferenceDot x={peak.label} y={peak.gmv} r={5} fill={COLORS.amber} stroke={COLORS.deep} strokeWidth={2} />}
-              </ComposedChart>
-            ) : (
-              <AreaChart data={dailySeries} margin={{ top: 22, right: 12, left: -4, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="pbCumTab1" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={COLORS.amber} stopOpacity={0.7} />
-                    <stop offset="95%" stopColor={COLORS.amber} stopOpacity={0.05} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
-                <XAxis dataKey="label" interval={tickEvery} tick={axisTick} tickLine={false} axisLine={false} />
-                <YAxis tick={axisTick} tickLine={false} axisLine={false} width={45}>
-                  <Label value={L('(Tỉ đ)', '(B VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
-                </YAxis>
-                <Tooltip content={<ChartTooltip fmt={(v) => `${n(v, 2)} ${L('Tỉ', 'B')}`} />} />
-                <Area type="monotone" dataKey="cumulativeB" name={L('GMV lũy kế', 'Cumulative GMV')} stroke={COLORS.deep} strokeWidth={2.5} fill="url(#pbCumTab1)" />
-              </AreaChart>
-            )}
-          </ResponsiveContainer>
-        </ChartCard>
+        <div className="lg:col-span-2 w-full">
+          <Stage3TimeSeriesAndSeasonality />
+        </div>
+      </UnifiedSection>
 
-        <ChartCard
-          title={
-            seasonView === 'monthly'
-              ? L('So sánh cùng kỳ theo tháng (MoM % với hàm LAG)', 'Month-over-Month comparison (LAG function)')
-              : L('Tính mùa vụ theo thứ trong tuần (DOW trung vị, triệu đ)', 'Day-of-week cyclicality (median GMV, M VND)')
-          }
-          subtitle={L('Phục vụ lập kế hoạch tồn kho và lịch chạy chiến dịch khuyến mãi', 'Guides seasonal inventory planning and weekly promotion scheduling')}
-          badge={
-            <div className="flex rounded-xl bg-[#C8EEF7]/40 p-1 dark:bg-slate-800">
-              {(['monthly', 'dow'] as const).map((k) => (
-                <button
-                  key={k}
-                  type="button"
-                  onClick={() => setSeasonView(k)}
-                  className={`min-h-11 cursor-pointer rounded-lg px-2.5 text-xs font-bold transition-colors ${
-                    seasonView === k ? 'bg-[#9BE7FA] text-slate-950' : 'text-slate-600 dark:text-slate-300'
-                  }`}
-                >
-                  {k === 'monthly' ? L('Theo tháng', 'Monthly') : L('Theo thứ', 'Day of Week')}
-                </button>
-              ))}
-            </div>
-          }
-        >
-          <ResponsiveContainer width="100%" height="100%" minHeight={250}>
-            {seasonView === 'monthly' ? (
-              <BarChart data={monthlySeries} margin={{ top: 22, right: 8, left: -4, bottom: 0 }}>
-                <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
-                <XAxis dataKey="label" tick={axisTick} tickLine={false} axisLine={false} />
-                <YAxis tick={axisTick} tickLine={false} axisLine={false} width={45}>
-                  <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
-                </YAxis>
-                <Tooltip cursor={{ fill: 'rgba(155,231,250,0.15)' }} content={<ChartTooltip fmt={(v) => `${n(v, 1)} ${L('Tr/ngày', 'M/day')}`} />} />
-                <Bar dataKey="gmvPerDay" name="GMV" radius={[6, 6, 0, 0]}>
-                  {monthlySeries.map((m) => (
-                    <Cell key={m.month} fill={m.month === '2026-06' ? COLORS.amber : COLORS.cyan} fillOpacity={m.isPartial ? 0.45 : 1} />
-                  ))}
-                  <LabelList dataKey="gmvPerDay" position="top" fontSize={11} className={TEXT_FILL_CLASS} formatter={(v: unknown) => n(Number(v), 1)} />
-                </Bar>
-              </BarChart>
-            ) : (
-              <BarChart data={dowSeries} margin={{ top: 22, right: 8, left: -4, bottom: 0 }}>
-                <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
-                <XAxis dataKey={L('day', 'dayEn')} tick={axisTick} tickLine={false} axisLine={false} />
-                <YAxis tick={axisTick} tickLine={false} axisLine={false} width={45}>
-                  <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
-                </YAxis>
-                <Tooltip cursor={{ fill: 'rgba(155,231,250,0.15)' }} content={<ChartTooltip fmt={(v) => `${n(v, 1)} ${L('Tr', 'M')}`} />} />
-                <Bar dataKey="medianGmv" name={L('Trung vị', 'Median')} radius={[6, 6, 0, 0]}>
-                  {dowSeries.map((d) => (
-                    <Cell key={d.day} fill={d.medianGmv === maxDow ? COLORS.amber : COLORS.cyan} />
-                  ))}
-                  <LabelList dataKey="medianGmv" position="top" fontSize={11} className={TEXT_FILL_CLASS} formatter={(v: unknown) => n(Number(v), 1)} />
-                </Bar>
-              </BarChart>
-            )}
-          </ResponsiveContainer>
-        </ChartCard>
+      {/* Giai đoạn 4: Cohort Creator, Retention và Giá Trị Vòng Đời */}
+      <UnifiedSection
+        id="sec-stage-4-creator-cohorts"
+        badge="4"
+        title={L(
+          'Mục 4: Cohort Creator, Retention & Giá Trị Vòng Đời (Affiliate Lifecycle)',
+          'Section 4: Creator Cohorts, Retention & Lifecycle Value (Affiliate Dynamics)',
+        )}
+        takeaway={L(
+          'Chuyển thể bài toán cohort từ khách hàng sang creator affiliate trên 250 nhà sáng tạo (6.571 phiên Live): Tỷ lệ giữ chân M+1 suy giảm liên tục từ 71,2% (Cohort T3) xuống 28,6% (Cohort T7), nguồn tuyển mới cạn dần từ T5 (80 → 37 → 30 → 14 người). 56,0% creator chưa từng bán được đơn nào. Tài khoản nội bộ girl style chi phối 56,1% GMV Live affiliate (1,26 Tỷ đ), khiến GMV Cohort T5 bị thổi phồng từ 207 Tr lên 1,46 Tỷ đ. Kích hoạt sớm 3 phiên đầu là yếu tố sống còn: creator có đơn ở phiên đầu sống thọ trung vị 59 ngày (gấp gần 6 lần nhóm 0 đơn).',
+          'Adapted cohort analysis from customers to creators across 250 affiliate streamers (6,571 sessions): M+1 retention eroded steadily from 71.2% (March) to 28.6% (July), while new recruits tapered off after April (80 → 37 → 30 → 14). 56.0% never generated a sale. In-house channel girl style commands 56.1% of affiliate live GMV (1.26B VND), artificially inflating Cohort May from 207M to 1.46B VND. First-3-session onboarding is decisive: creators with sales in session 1 boast a median lifespan of 59 days (nearly 6x longer than zero-sale peers).',
+        )}
+        kpis={[
+          {
+            value: '250 creator',
+            label: L('affiliate LIVE phân tích (6.571 phiên)', 'affiliate LIVE creators analyzed (6,571 sessions)'),
+            sub: L('110 creator từng có đơn (44%) · 140 creator 0 đơn (56%)', '110 active sellers (44%) · 140 zero-sale creators (56%)'),
+          },
+          {
+            value: '14,0 ngày',
+            label: L('trung vị khoảng cách phiên đầu đến cuối', 'median lifespan between first and last live'),
+            sub: L('22,8% chỉ live đúng 1 phiên · Chỉ 36,4% sống ≥ 30 ngày', '22.8% 1-session dropouts · Only 36.4% survive ≥ 30 days'),
+          },
+          {
+            value: '56,1% GMV',
+            label: L("doanh số affiliate tập trung ở 'girl style'", "affiliate GMV concentrated in 'girl style'"),
+            sub: L('1,26 / 2,24 Tỷ đ GMV affiliate · 98 ngày phát sóng trên 101 ngày tồn tại', '1.26 / 2.24B VND affiliate GMV · 98 streaming days over 101-day life'),
+            tone: 'amber',
+          },
+        ]}
+        finding={L(
+          'Mạng lưới KOC không hề phân tán bền vững: 56,1% GMV phụ thuộc vào đúng 1 kênh nội bộ girl style. Khi loại bỏ Girl Style, GMV các cohort giảm dần đều theo thời gian (T3: 439M, T4: 224M, T5: 207M, T6: 109M, T7: 3,1M). Tỷ lệ giữ chân M+1 rơi từ 71% xuống 29% phản ánh sự cạn kiệt hiệu ứng KOC hữu cơ và suy giảm chất lượng các đợt tuyển sau.',
+          'The KOC network is not organically resilient: 56.1% of GMV hinges on a single internal channel (girl style). Excluding Girl Style reveals monotonic cohort decay (T3: 439M, T4: 224M, T5: 207M, T6: 109M, T7: 3.1M). M+1 retention cratering from 71% to 29% exposes drying recruitment pipelines and degrading cohort quality.',
+        )}
+        action={L(
+          'Thiết lập "Quy tắc 3 phiên đầu": tập trung tài nguyên đẩy traffic và trợ giá voucher cho creator mới trong 3 phiên live đầu để kích hoạt đơn hàng sớm (giúp nâng thời gian sống từ 10 ngày lên 59 ngày); song song đó nhân bản mô hình phòng live nội bộ vệ tinh thay vì phụ thuộc vào việc tìm kiếm KOC bên ngoài.',
+          'Implement the "First-3-Sessions Rule": allocate promotional traffic and vouchers during a creator\'s first 3 livestreams to unlock early sales (extending median lifespan from 10 to 59 days); simultaneously replicate in-house satellite studio channels rather than relying on external KOC discovery.',
+        )}
+        codePeek={{ label: L('SQL (Giai đoạn 4)', 'SQL (Stage 4)'), code: sqlSnippets.s4 }}
+      >
+        <div className="lg:col-span-2 w-full">
+          <Stage4CreatorCohortsAndLtv />
+        </div>
+      </UnifiedSection>
+
+      {/* Giai đoạn 5: Phễu Nội Dung, Hiệu Suất Kênh & So Sánh Quảng Cáo vs Organic */}
+      <UnifiedSection
+        id="sec-stage-5-funnels-channels"
+        badge="5"
+        title={L(
+          'Mục 5: Phễu Nội Dung, Hiệu Suất Kênh & So Sánh Quảng Cáo vs Organic',
+          'Section 5: Content Funnel, Channel Efficiency & Ads vs Organic Comparison',
+        )}
+        takeaway={L(
+          'Chuyển thể từ phễu TMĐT truyền thống sang phễu nội dung: Live chính chủ đạt 96,4% ca có đơn và GMV/lượt xem cao gấp 34,3 lần affiliate (2.155 đ vs 63 đ). Phân tích 4.417 video giỏ hàng chứng minh Ads = YES tăng xác suất có đơn gấp 5,0 lần (26,2% vs 5,2%, Odds Ratio = 6,41, p < 0,001) và duy trì ưu thế +10,40% trong cùng creator; tuy nhiên GMV/1.000 lượt xem của Ads không cao hơn Organic trên toàn mẫu (71k vs 81k đ) do lệch cửa sổ 90 ngày của video cũ. Giải mã nghịch lý khung tối: GMV/view thấp (1.137 đ) do hoàn toàn thiếu vắng các ca live >8h (vốn đạt 3.103 đ/view nhờ thuật toán TikTok).',
+          'Adapted from e-com to content funnels: Own-brand Live delivers 96.4% converting sessions with 34.3x higher GMV per viewer than affiliates (2,155 vs 63 VND). Analyzing 4,417 shoppable videos confirms Ads = YES lifts order conversion 5.0x (26.2% vs 5.2%, Odds Ratio = 6.41, p < 0.001) and retains a +10.40% paired within-creator edge; however, Ads GMV per 1k views is not superior across the 180d sample (71k vs 81k VND) due to 90-day window truncation on older posts. Decodes evening anomaly: low conversion (1,137 VND/view) stems from zero >8h sessions (which average 3,103 VND/view via TikTok algorithmic boost).',
+        )}
+        kpis={[
+          {
+            value: '96,4% vs 26,1%',
+            label: L('tỷ lệ có đơn (Live Chính chủ vs Affiliate)', 'order rate (Own-brand vs Affiliate Live)'),
+            sub: L('Chính chủ 470 ca (7,02B) · Affiliate 6.576 ca (2,24B)', 'Own-brand 470 ses (7.02B) · Affiliate 6,576 ses (2.24B)'),
+          },
+          {
+            value: '2.155 đ vs 63 đ',
+            label: L('GMV / lượt xem (gấp 34,3 lần)', 'GMV / viewer (34.3x higher in Own-brand)'),
+            sub: L('Affiliate gánh 91,6% lượt xem nhưng chỉ 24,2% GMV', 'Affiliate drives 91.6% views but only 24.2% GMV'),
+          },
+          {
+            value: '26,2% vs 5,2%',
+            label: L('tỷ lệ video có đơn (Ads vs Organic)', 'video order conversion (Ads vs Organic)'),
+            sub: L('Odds Ratio = 6,41 · Chênh lệch trong cùng creator +10,40%', 'Odds Ratio = 6.41 · Within-creator paired uplift +10.40%'),
+            tone: 'amber',
+          },
+        ]}
+        finding={L(
+          'Affiliate đóng vai trò phễu mở đầu (nhận diện, 91,6% lượt xem), nhưng phòng Live chính chủ mới là cỗ máy chuyển đổi dòng tiền (89% GMV toàn shop). Quảng cáo (Ads = YES) hiệu quả trong việc phá băng đơn hàng và đẩy phân phối cho video (Odds Ratio = 2,68 sau khi kiểm soát lượt xem), nhưng không làm tăng giá trị đơn vị trên mỗi lượt xem nếu nội dung không đủ hấp dẫn.',
+          'Affiliates serve as top-of-funnel reach (91.6% views), whereas the own-brand live room acts as the primary monetization engine (89% GMV). Ads break conversion inertia and expand distribution (OR = 2.68 controlling for views), but do not enhance unit monetization per view without compelling organic creative quality.',
+        )}
+        action={L(
+          'Định vị lại ngân sách: Dồn ngân sách live cho các ca kéo dài >8h vào khung sáng (06h–12h) và chiều (12h–18h) để tận dụng lực đẩy thuật toán (đạt 2.800–3.800 đ/view); đối với Video, chỉ kích hoạt chạy Ads cho các video đã chứng minh được đà chuyển đổi tự nhiên (organic traction) nhằm tối ưu chi phí phân phối.',
+          'Strategic Budget Allocation: Concentrate streaming hours into >8h mega-sessions during morning (06h-12h) and afternoon (12h-18h) to maximize algorithmic boost (2,800-3,800 VND/view); for video, restrict paid ad boosts strictly to creative assets with proven organic traction to prevent unrecovered ad spend.',
+        )}
+        codePeek={{ label: L('SQL (Giai đoạn 5)', 'SQL (Stage 5)'), code: sqlSnippets.s5 }}
+      >
+        <div className="lg:col-span-2 w-full">
+          <Stage5FunnelsAndMarketingChannels />
+        </div>
+      </UnifiedSection>
+
+      {/* Giai đoạn 6: Phân Tích Văn Bản & Phát Hiện Bất Thường */}
+      <UnifiedSection
+        id="sec-stage-6-anomalies"
+        badge="6"
+        title={L(
+          'Mục 6: Phân Tích Văn Bản & Phát Hiện Bất Thường (Content Tags & Anomalies)',
+          'Section 6: Text Mining & Anomaly Detection (Content Tags & Outliers)',
+        )}
+        takeaway={L(
+          'Phân loại 4.417 tiêu đề video bằng regex xác nhận nhóm Bikini chiếm áp đảo 61,0% GMV và có tỷ lệ ra đơn cao nhất (26,1%). Hashtag sản phẩm (#bikini, #chanvay) mang lại tỷ lệ có đơn 28,6% so với 16,4% của hashtag chung (#xuhuong, #fyp). Kiểm tra bất thường chuỗi GMV ngày ghi nhận duy nhất ngày 16/06 vượt z > 3 (z = 5,57; MAD robust z = 5,61; GMV 315,0 Tr đ), nguyên nhân gốc rễ do 1 phiên Live chính chủ lớn (194,9 Tr) kết hợp 90 ca affiliate (77,3 Tr). Bác bỏ 2 ngụy biện cũ: Shoppable không có "spike view tháng 8" (thực tế chạm đáy ~333k view), và GMV/phiên của Girl Style (4,93 Tr) thấp hơn P99 toàn mạng (12,07 Tr) do P99 bị kéo lệch bởi KOC 1 phiên.',
+          'Regex classification on 4,417 shoppable video titles confirms Bikini commands 61.0% GMV with peak 26.1% order conversion. Product hashtags deliver 28.6% conversion vs 16.4% for generic tags. Time-series anomaly detection flags Jun 16 as the sole day exceeding z > 3 (z = 5.57, MAD robust z = 5.61, 315M GMV), driven by 1 mega brand live (194.9M) + 90 affiliate streams (77.3M). Debunks 2 legacy myths: August views did not spike (hit floor at ~333k), and Girl Style GMV/session (4.93M) sits below unclipped network P99 (12.07M) distorted by 1-session outliers.',
+        )}
+        kpis={[
+          {
+            value: '61,0% GMV',
+            label: L('danh mục Bikini từ tiêu đề video', 'Bikini category video GMV share'),
+            sub: L('1.590 video · 26,1% có đơn (1,32 Tỷ đ)', '1,590 videos · 26.1% conversion (1.32B VND)'),
+          },
+          {
+            value: 'z = 5,57 (16/06)',
+            label: L('ngày bất thường duy nhất vượt z > 3', 'sole outlier day exceeding z > 3'),
+            sub: L('MAD robust z = 5,61 · Live gánh 86,4% GMV ngày', 'MAD robust z = 5.61 · Live drove 86.4% daily GMV'),
+            tone: 'amber',
+          },
+          {
+            value: '28,6% vs 16,4%',
+            label: L('tỷ lệ có đơn (Tag Sản phẩm vs Chung)', 'order rate (Product vs Generic Tag)'),
+            sub: L('#bikini, #chanvay vượt xa #xuhuong, #fyp', 'Specific tags beat generic viral hooks'),
+          },
+        ]}
+        finding={L(
+          'Bất thường GMV ngày không đến từ đột biến số lượng KOC mà bắt nguồn từ 1 đến 2 phiên Live chính chủ lớn (ví dụ 16/06 đạt 315M với phiên chính chủ 194,9M; 19/06 đạt 171M dù chỉ có 4 KOC tham gia). Về creator, Girl Style chiếm 56,1% GMV Live affiliate nhưng GMV/phiên (4,93M) xếp hạng 5, thấp hơn P99 do P99 bị bóp méo bởi các KOC chỉ phát 1 phiên duy nhất. Kỹ thuật Winsorize tại P99 giúp kéo trung bình GMV/phiên từ 727k về 325k phản ánh đúng thực tế.',
+          'Daily GMV spikes originate from 1-2 massive own-brand live streams rather than surges in KOC headcount (e.g., Jun 16 hit 315M via a 194.9M brand stream; Jun 19 reached 171M with only 4 KOCs). While Girl Style commands 56.1% of affiliate Live GMV, its 4.93M/session ranks 5th, falling below raw P99 due to 1-session extreme outliers. Winsorizing at P99 compresses mean GMV/session from 727k to 325k.',
+        )}
+        action={L(
+          'Áp dụng Z-score theo cửa sổ trượt 28 ngày thay vì toàn kỳ để loại bỏ nhiễu xu hướng; phân tầng đánh giá creator tối thiểu từ 20 phiên trở lên và áp dụng Winsorize P99 cho các phân phối lệch nặng; ưu tiên gắn hashtag đặc thù sản phẩm cho nội dung video thay vì chỉ dùng hashtag generic.',
+          'Deploy 28-day centered rolling Z-scores instead of global metrics to remove trend artifacts; enforce a >=20 session threshold for creator rankings with P99 Winsorization on skewed metrics; mandate specific product hashtags across video metadata.',
+        )}
+        codePeek={{ label: L('SQL (Giai đoạn 6)', 'SQL (Stage 6)'), code: sqlSnippets.s6 }}
+      >
+        <div className="lg:col-span-2 w-full">
+          <Stage6TextAndAnomalies />
+        </div>
+      </UnifiedSection>
+
+      {/* Giai đoạn 7: Kiến Trúc ETL, Tự Động Hóa & Tuân Thủ PII */}
+      <UnifiedSection
+        id="sec-stage-7-etl-pii"
+        badge="7"
+        title={L(
+          'Mục 7: Kiến Trúc ETL, Tự Động Hóa & Tuân Thủ PII (ETL Pipeline & Data Governance)',
+          'Section 7: ETL Architecture, Automation & PII Compliance (Data Governance)',
+        )}
+        takeaway={L(
+          'Thiết kế pipeline ETL 3 lớp (raw → staging → mart) có khả năng tái lập tự động từ 8 tệp xlsx của FastMoss qua một lệnh duy nhất. Hệ thống thiết lập 8 cổng kiểm tra chất lượng dữ liệu (Data Quality Gates) với mức cảnh báo error/warn nghiêm ngặt, tự động đối soát chuỗi 180 ngày và khớp 100% doanh số 12,735 tỷ đ. Tuân thủ nghiêm ngặt Luật Bảo vệ dữ liệu cá nhân 2025 và Nghị định 356/2025/NĐ-CP (có hiệu lực từ 01/01/2026): áp dụng thuật toán Salted SHA-256 bí danh hóa creator_id, làm tròn dải GMV/follower cho bản công khai, và thiết lập vùng cách ly PII riêng biệt.',
+          'Engineered reproducible 3-tier ETL pipeline (raw → staging → mart) executing across 8 FastMoss xlsx exports via a single automated runner. Implemented 8 rigorous Data Quality Gates (error/warn severity) verifying 180 continuous days and matching 100% of 12.735B VND GMV. Full compliance with Vietnam Personal Data Protection Law 2025 and Decree 356/2025/NĐ-CP (effective Jan 1, 2026): applies Salted SHA-256 pseudonymization on creator handles, bucketizes GMV/followers for public release, and enforces air-gapped PII isolation.',
+        )}
+        kpis={[
+          {
+            value: '8/8 Cổng Đạt',
+            label: L('cổng kiểm tra chất lượng tự động', 'automated quality gates passed'),
+            sub: L('5 cổng error (chặn) + 3 cổng warn (cảnh báo)', '5 error gates (halt) + 3 warn gates (alert)'),
+          },
+          {
+            value: 'Salted SHA-256',
+            label: L('chuẩn bí danh hóa PII creator', 'creator handle pseudonymization'),
+            sub: L('Luật BV Dữ liệu cá nhân & NĐ 356/2025/NĐ-CP', 'Vietnam PDP Law & Decree 356/2025/NĐ-CP'),
+            tone: 'amber',
+          },
+          {
+            value: '100% Tự Động Hóa',
+            label: L('tái lập trọn vẹn từ tệp thô', 'reproducible from raw xlsx'),
+            sub: L('Không can thiệp thủ công (Zero manual touch)', 'Zero manual spreadsheet overrides'),
+          },
+        ]}
+        finding={L(
+          'Dữ liệu nguồn xuất từ FastMoss không chứa thông tin người mua (P2C) nhưng chứa thông tin định danh cá nhân của 5.713 creator (username, handle, follower, doanh số cá nhân). Mọi con số trong báo cáo đều được biên dịch tự động qua script Python/SQL với mã truy vấn định danh rõ ràng, loại bỏ hoàn toàn các sai số chủ quan từ việc đọc màn hình dashboard cũ.',
+          'Raw FastMoss exports lack consumer PII (P2C) but contain personal identifiers for 5,713 creators (usernames, handles, follower counts, individual GMV). Every analytical metric is generated deterministically via auditable Python/SQL pipelines with query signatures, eliminating subjective manual dashboard transcription errors.',
+        )}
+        action={L(
+          'Tách biệt hai phiên bản đầu ra: Bản riêng (Private Enterprise) lưu trữ nội bộ và bản công khai (Public Portfolio) đã qua quy trình bí danh hóa SHA-256 + băm dải doanh thu/follower; commit .gitignore loại trừ toàn bộ file xlsx gốc và bảo mật chuỗi Salt ngoài môi trường code.',
+          'Enforce strict dual-artifact release: Private Enterprise version for internal shop records and an Anonymized Public Portfolio with Salted SHA-256 handles and bucketized stats; commit .gitignore exclusion for raw xlsx files and keep cryptographic salts in secure environment variables.',
+        )}
+        codePeek={{ label: L('SQL (Giai đoạn 7)', 'SQL (Stage 7)'), code: sqlSnippets.s7 }}
+      >
+        <div className="lg:col-span-2 w-full">
+          <Stage7EtlAutomationAndPii />
+        </div>
       </UnifiedSection>
     </div>
   );

@@ -19,15 +19,15 @@ export default function KamiElyHero({
 
   const kamiKpiCards = [
     {
-      id: 'kpi-kami-gmv-180d',
-      badge: { vi: 'DOANH THU GMV • 180 NGÀY', en: '180-DAY STORE GMV' },
+      id: 'kpi-kami-gmv-226d',
+      badge: { vi: 'DOANH THU GMV • 226 NGÀY', en: '226-DAY STORE GMV' },
       badgeColor: 'bg-[#C8EEF7]/50 text-[#074553] border-[#9BE7FA]/40 dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30',
-      title: { vi: 'Tổng Doanh Số Gian Hàng (180 Ngày)', en: '180-Day Cumulative Store GMV' },
-      primaryValue: isEn ? '12.74B VND' : '12,74 Tỉ đ',
-      exactSubValue: isEn ? '85,500 units sold · 70.8M/day' : '85.500 sản phẩm · 70,8 Tr/ngày',
+      title: { vi: 'Tổng Doanh Số Gian Hàng (226 Ngày)', en: '226-Day Cumulative Store GMV' },
+      primaryValue: isEn ? '14.84B VND' : '14,84 Tỉ đ',
+      exactSubValue: isEn ? '100,669 units sold · 65.7M/day' : '100.669 sản phẩm · 65,7 Tr/ngày',
       comparisonNote: {
-        vi: 'Doanh thu thuần từ 8 bảng nguồn với 18.778 dòng SSOT. Chu kỳ mùa vụ cao điểm ghi nhận tại tháng 5 và các phiên Mega Sale.',
-        en: 'Net revenue from 8 source tables across 18,778 SSOT rows. Peak seasonal velocity observed during May and platform Mega Sales.',
+        vi: 'Doanh thu thuần từ 9 bảng dữ liệu hợp nhất với 21.569 dòng SSOT. Chu kỳ mùa vụ cao điểm ghi nhận tại tháng 6 và các đợt bùng nổ Mega Sale (06/05, 10/10).',
+        en: 'Net revenue from 9 unified tables across 21,569 SSOT rows. Peak seasonal velocity observed during June and Mega Sale spikes (06/05, 10/10).',
       },
       accentBorder: 'hover:border-[#9BE7FA]/60',
     },

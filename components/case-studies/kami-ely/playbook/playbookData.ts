@@ -55,14 +55,15 @@ const toM = (v: number): number => Math.round((v / 1e6) * 10) / 10;
 // Giai đoạn 1: kiến trúc dữ liệu
 // ---------------------------------------------------------------------------
 const TABLE_LABELS: Record<string, Bi> = {
-  store: { vi: 'Shop theo ngày', en: 'Store daily' },
-  goods: { vi: 'Danh sách hàng bán', en: 'Goods list' },
+  store: { vi: 'Shop theo ngày (226 ngày)', en: 'Store daily (226 days)' },
+  goods: { vi: 'Hàng bán (2 Snapshot Hè/Thu)', en: 'Goods list (2 snapshots)' },
   ch_live: { vi: 'LIVE chính chủ', en: 'Own LIVE' },
   ch_video: { vi: 'Video chính chủ', en: 'Own video' },
   shop_video: { vi: 'Video gắn SP (shop)', en: 'Shoppable video' },
   product: { vi: 'SKU sản phẩm', en: 'Product SKU' },
   creators: { vi: 'Creator', en: 'Creators' },
   shop_live: { vi: 'LIVE toàn shop', en: 'Shop-wide LIVE' },
+  live_products: { vi: 'SP gắn trong LIVE', en: 'Live-featured products' },
 };
 
 export const tableRows = m.dataScope
@@ -541,60 +542,90 @@ SELECT EXTRACT(DOW FROM report_date) AS dow,
        PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY daily_gmv) AS median_gmv
 FROM kami_store_daily_180d
 GROUP BY 1;`,
-  s4: `-- Đã dùng: tỷ lệ kích hoạt theo nhóm follower
-SELECT follower_tier, COUNT(*) AS creators,
-       100.0 * SUM(CASE WHEN gmv_vnd > 0 THEN 1 ELSE 0 END) / COUNT(*) AS activation_pct
-FROM kami_creators_merged_90d
-GROUP BY 1;
+  s4: `-- 1. Ma trận retention creator affiliate theo tuổi tháng (SQLite)
+WITH cm AS (                          -- creator x tháng hoạt động
+  SELECT creator_id, strftime('%Y-%m', start_ts) AS ym
+  FROM stg_live
+  WHERE live_type = 'Affiliate LIVE'
+  GROUP BY 1, 2
+),
+first_m AS (
+  SELECT creator_id, MIN(ym) AS cohort FROM cm GROUP BY 1
+),
+aged AS (
+  SELECT f.cohort,
+         (CAST(substr(c.ym,1,4) AS INT) - CAST(substr(f.cohort,1,4) AS INT)) * 12
+         + CAST(substr(c.ym,6,2) AS INT) - CAST(substr(f.cohort,6,2) AS INT) AS age,
+         c.creator_id
+  FROM cm c JOIN first_m f USING (creator_id)
+)
+SELECT cohort, age,
+       COUNT(DISTINCT creator_id) AS active,
+       ROUND(100.0 * COUNT(DISTINCT creator_id)
+         / FIRST_VALUE(COUNT(DISTINCT creator_id)) OVER (PARTITION BY cohort ORDER BY age), 1) AS retention_pct
+FROM aged
+WHERE cohort < '2026-09' AND (cohort || age <= '2026-08') -- loại bỏ các ô bị cắt phải (T9)
+GROUP BY cohort, age;`,
+  s5: `-- 1. So sánh Ads = YES vs NO trên Shoppable Videos (SQLite)
+SELECT ads,
+       COUNT(*) AS total_videos,
+       SUM(CASE WHEN "[90 days]GMV" > 0 THEN 1 ELSE 0 END) AS videos_with_orders,
+       ROUND(100.0 * SUM(CASE WHEN "[90 days]GMV" > 0 THEN 1 ELSE 0 END) / COUNT(*), 2) AS order_rate_pct,
+       ROUND(AVG(views), 0) AS mean_views,
+       ROUND(SUM("[90 days]GMV"), 0) AS total_gmv,
+       ROUND(1000.0 * SUM("[90 days]GMV") / SUM(views), 0) AS gmv_per_1k_views
+FROM stg_shoppable_videos
+GROUP BY ads;
 
--- Khi có order-level: đường giữ chân theo cohort tháng
-WITH first_order AS (
-  SELECT customer_id, DATE_TRUNC('month', MIN(order_date)) AS cohort_month
-  FROM orders GROUP BY 1
-), activity AS (
-  SELECT f.cohort_month,
-         (DATE_PART('year', o.order_date) - DATE_PART('year', f.cohort_month)) * 12
-         + DATE_PART('month', o.order_date) - DATE_PART('month', f.cohort_month) AS month_n,
-         COUNT(DISTINCT o.customer_id) AS buyers
-  FROM orders o JOIN first_order f USING (customer_id)
+-- 2. So sánh hiệu số tỷ lệ có đơn trong cùng creator (Paired Comparison)
+WITH creator_ads_perf AS (
+  SELECT "creator ID" AS creator_id, ads, COUNT(*) AS n_videos,
+         1.0 * SUM(CASE WHEN "[90 days]GMV" > 0 THEN 1 ELSE 0 END) / COUNT(*) AS pos_rate
+  FROM stg_shoppable_videos
   GROUP BY 1, 2
 )
-SELECT cohort_month, month_n,
-       buyers * 1.0 / FIRST_VALUE(buyers) OVER (PARTITION BY cohort_month ORDER BY month_n) AS pct_retained
-FROM activity;`,
-  s5: `-- Phễu video chính chủ
-SELECT COUNT(*) AS posted,
-       SUM(CASE WHEN is_shoppable THEN 1 ELSE 0 END) AS shoppable,
-       SUM(CASE WHEN gmv_vnd > 0 THEN 1 ELSE 0 END)  AS with_orders
-FROM kami_creator_video_180d;
-
--- Khi có order_detail: cặp sản phẩm mua cùng đơn
-SELECT a.product, b.product, COUNT(*) AS n
-FROM order_detail a
-JOIN order_detail b ON a.order_id = b.order_id AND b.product > a.product
-GROUP BY 1, 2 ORDER BY n DESC;`,
-  s6: `WITH s AS (
-  SELECT AVG(daily_gmv) AS mu, STDDEV(daily_gmv) AS sd,
-         PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY daily_gmv) AS p99
-  FROM kami_store_daily_180d
+SELECT y.creator_id, y.n_videos AS n_ads, o.n_videos AS n_organic,
+       ROUND(100.0 * (y.pos_rate - o.pos_rate), 2) AS diff_pos_rate_pct
+FROM creator_ads_perf y
+JOIN creator_ads_perf o
+  ON y.creator_id = o.creator_id AND y.ads = 'YES' AND o.ads = 'NO';`,
+  s6: `-- 1. Z-Score cục bộ theo cửa sổ trượt 28 ngày không cần STDDEV (SQLite)
+WITH w AS (
+  SELECT date, gmv,
+         AVG(gmv)        OVER win AS m,
+         AVG(gmv * gmv)  OVER win AS m2
+  FROM stg_store
+  WINDOW win AS (ORDER BY date ROWS BETWEEN 14 PRECEDING AND 13 FOLLOWING)
 )
-SELECT report_date, daily_gmv,
-       (daily_gmv - mu) / sd      AS z,
-       LEAST(daily_gmv, p99)      AS gmv_winsor
-FROM kami_store_daily_180d CROSS JOIN s
-WHERE ABS((daily_gmv - mu) / sd) > 3;
+SELECT date, gmv,
+       ROUND(m, 0) AS rolling_mean_28d,
+       ROUND(SQRT(NULLIF(m2 - m * m, 0)), 0) AS rolling_std_28d,
+       ROUND((gmv - m) / NULLIF(SQRT(m2 - m * m), 0), 2) AS z_local
+FROM w
+WHERE ABS((gmv - m) / NULLIF(SQRT(m2 - m * m), 0)) > 2.5
+ORDER BY ABS(z_local) DESC;
 
--- Khớp mẫu trên cột category
-SELECT SUM(gmv_vnd) FROM kami_product_data_90d WHERE category ILIKE '%swimwear%';`,
-  s7: `-- Lấy mẫu 10% nhất quán theo định danh
-SELECT * FROM kami_creators_merged_90d
-WHERE MOD(ABS(HASHTEXT(creator_handle)), 10) = 0;
+-- 2. Phân loại danh mục từ tiêu đề video
+SELECT CASE
+         WHEN LOWER(video_title) GLOB '*bikini*' OR LOWER(video_title) GLOB '*đồ bơi*' THEN 'Bikini / Đồ bơi'
+         WHEN LOWER(video_title) GLOB '*váy*' OR LOWER(video_title) GLOB '*đầm*' THEN 'Váy / Đầm'
+         ELSE 'Khác / Chưa phân loại'
+       END AS cat_label,
+       COUNT(*) AS n_videos,
+       ROUND(100.0 * SUM(CASE WHEN gmv_vnd > 0 THEN 1 ELSE 0 END) / COUNT(*), 1) AS conv_pct
+FROM stg_shoppable_videos GROUP BY 1;`,
+  s7: `-- 1. Kiểm tra 8 Cổng Chất Lượng Dữ Liệu Tự Động (Quality Gates)
+SELECT COUNT(DISTINCT date) AS active_days,
+       CASE WHEN COUNT(DISTINCT date) = 180 THEN 'PASSED' ELSE 'FAILED' END AS gate_1_180d,
+       SUM(units) AS store_units,
+       CASE WHEN SUM(units) = 85500 THEN 'PASSED (85.500 sp)' ELSE 'FAILED' END AS gate_2_units,
+       SUM(gmv) AS store_gmv,
+       CASE WHEN SUM(gmv) = 12735128067 THEN 'PASSED (12,735B)' ELSE 'FAILED' END AS gate_2_gmv
+FROM stg_store_daily;
 
--- Chỉ xuất nhóm đủ lớn (k >= ${K_MIN}), che định danh
-SELECT follower_tier, COUNT(*) AS creators
-FROM kami_creators_merged_90d
-GROUP BY 1
-HAVING COUNT(*) >= ${K_MIN};
-
-SELECT MD5(creator_handle) AS creator_key FROM kami_creators_merged_90d;`,
+-- 2. Bí danh hóa Creator PII (Salted SHA-256)
+SELECT SUBSTR(HEX(SHA256('KAMI_ELY_SALT_2026' || creator_id)), 1, 10) AS creator_key,
+       follower_tier,
+       ROUND(gmv_vnd / 1e6, 0) AS gmv_millions_rounded
+FROM stg_creators;`,
 } as const;

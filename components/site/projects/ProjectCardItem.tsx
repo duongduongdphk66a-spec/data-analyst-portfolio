@@ -56,8 +56,8 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
       en: '30s Pitch • 3-Min Scan'
     },
     oneLinePitch: {
-      vi: 'Kiểm toán 18.778 bản ghi SQL (8 bảng CSV + Seller Center) của gian hàng thời trang 31,6 Tỉ VNĐ để tìm lời giải cho cú rơi doanh số mùa vụ và sự quá tải của đội ngũ Livestream.',
-      en: 'Audited 18,778 SQL records (8 CSVs + Seller Center) for a 31.6B VND fashion brand to solve seasonal revenue decay and livestream host burnout.'
+      vi: 'Kiểm toán 21.569 bản ghi SQL (9 bảng CSV + Seller Center) của gian hàng thời trang 31,6 Tỉ VNĐ để tìm lời giải cho cú rơi doanh số mùa vụ và sự quá tải của đội ngũ Livestream.',
+      en: 'Audited 21,569 SQL records (9 CSVs + Seller Center) for a 31.6B VND fashion brand to solve seasonal revenue decay and livestream host burnout.'
     },
     paradoxHookTitle: {
       vi: 'Nghịch lý Dữ liệu Phát hiện (Tại sao làm nhiều hơn lại thu ít hơn?):',
@@ -72,8 +72,8 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
       en: 'Impact: Lifted LIVE velocity 3.16x (1.81M → 5.73M/hr) & Unlocked +1.18B VND/mo'
     },
     kpis: [
-      { label: { vi: 'GMV 180d / All-Time', en: '180d / All-Time GMV' }, value: '12,74 Tỉ / 31,6 Tỉ' },
-      { label: { vi: 'Kho Dữ Liệu SQL', en: 'SQL Warehouse' }, value: '18.778 Dòng' },
+      { label: { vi: 'GMV 226d / All-Time', en: '226d / All-Time GMV' }, value: '14,84 Tỉ / 31,6 Tỉ' },
+      { label: { vi: 'Kho Dữ Liệu SQL', en: 'SQL Warehouse' }, value: '21.569 Dòng' },
       { label: { vi: 'GPM Video vs LIVE', en: 'Video vs LIVE GPM' }, value: '135,2k (4,5x)' }
     ],
     miniBars: [

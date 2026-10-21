@@ -11,7 +11,6 @@ import {
   FileText, 
   ArrowRight, 
   ArrowUpRight, 
-  Globe, 
   Briefcase, 
   Clock, 
   User, 

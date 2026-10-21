@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
   FileText, 
-  Globe, 
   ArrowRight, 
   ChevronDown, 
   ChevronUp, 
@@ -40,14 +39,14 @@ interface SnapshotMetric {
 
 const SNAPSHOT_METRICS: Record<Lang, SnapshotMetric[]> = {
   vi: [
-    { label: 'Quy mô GMV Phân tích', value: '31,6 Tỉ đ', sub: '12,74 Tỉ (Chu kỳ 180d)' },
-    { label: 'Kho Dữ liệu SQL', value: '18.778 Dòng', sub: '8 Bảng • Star Schema' },
+    { label: 'Quy mô GMV Phân tích', value: '31,6 Tỉ đ', sub: '14,84 Tỉ (Chu kỳ 226d)' },
+    { label: 'Kho Dữ liệu SQL', value: '21.569 Dòng', sub: '9 Bảng • Star Schema' },
     { label: 'Mô hình & Kiểm định', value: 'R² = 0,84', sub: 'OLS • DiD • What-If ROI' },
     { label: 'Kiến trúc & Dashboard', value: '20 Cặp Màn hình', sub: 'End-to-End Dataflow' },
   ],
   en: [
-    { label: 'Audited GMV Scale', value: '31.6B VND', sub: '12.74B (180d Cycle)' },
-    { label: 'SQL Warehouse', value: '18,778 Rows', sub: '8 Tables • Star Schema' },
+    { label: 'Audited GMV Scale', value: '31.6B VND', sub: '14.84B (226d Cycle)' },
+    { label: 'SQL Warehouse', value: '21,569 Rows', sub: '9 Tables • Star Schema' },
     { label: 'Models & Econometrics', value: 'R² = 0.84', sub: 'OLS • DiD • What-If ROI' },
     { label: 'Systems & Dashboards', value: '20 Screen Pairs', sub: 'End-to-End Dataflow' },
   ],

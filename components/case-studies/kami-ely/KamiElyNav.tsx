@@ -11,7 +11,7 @@ export interface KamiElyNavProps {
 }
 
 export default function KamiElyNav({
-  activeSection = 'part-1-commercial',
+  activeSection = 'sec-stage-1-architecture',
   onSelectSection,
   onBack,
 }: KamiElyNavProps) {
@@ -19,12 +19,13 @@ export default function KamiElyNav({
   const lang = language === 'en' ? 'en' : 'vi';
 
   const sections = [
-    { id: 'part-1-commercial', label: { vi: '01. Kiến trúc & ETL (Ch.1–3)', en: '01. Architecture & ETL (Ch.1–3)' } },
-    { id: 'sec-stage-3-time-series', label: { vi: '1.3 Chuỗi thời gian & Mùa vụ', en: '1.3 Time Series & Seasonality' } },
-    { id: 'part-2-science', label: { vi: '02. Cohort, Phễu & A/B (Ch.4–5)', en: '02. Data Science (Ch.4–5)' } },
-    { id: 'sec-stage-4-cohort-cltv', label: { vi: '4. Phân tích Affiliate', en: '4. Affiliate Analysis' } },
-    { id: 'sec-stage-5-funnel-basket', label: { vi: '2.2 Phễu & Thử nghiệm A/B', en: '2.2 Funnels & Split Test' } },
-    { id: 'part-3-playbook', label: { vi: '03. Sổ tay SQL & PII (Ch.6–7)', en: '03. SQL Playbook & PII (Ch.6–7)' } },
+    { id: 'sec-stage-1-architecture', label: { vi: '1. Kiến trúc & Kho dữ liệu', en: '1. Architecture & Schema' } },
+    { id: 'sec-stage-2-profile-clean', label: { vi: '2. Lập hồ sơ & Làm sạch', en: '2. Profile & Clean' } },
+    { id: 'sec-stage-3-timeseries', label: { vi: '3. Chuỗi thời gian & Mùa vụ', en: '3. Time-Series & Seasonality' } },
+    { id: 'sec-stage-4-creator-cohorts', label: { vi: '4. Cohort Creator & LTV', en: '4. Creator Cohorts & LTV' } },
+    { id: 'sec-stage-5-funnels-channels', label: { vi: '5. Phễu nội dung & Ads', en: '5. Funnels, Channels & Ads' } },
+    { id: 'sec-stage-6-anomalies', label: { vi: '6. Văn bản & Bất thường', en: '6. Text & Anomalies' } },
+    { id: 'sec-stage-7-etl-pii', label: { vi: '7. ETL & Bảo mật PII', en: '7. ETL & PII Governance' } },
   ];
 
   const handleScrollTo = (id: string) => {

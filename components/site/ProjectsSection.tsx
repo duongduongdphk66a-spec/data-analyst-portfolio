@@ -13,8 +13,8 @@ const FALLBACK_FLAGSHIP_PROJECTS: ProjectCardData[] = [
       en: 'Multi-Source SQL Audit & Conversion Optimization: Kami Ely TikTok Shop'
     },
     description: {
-      vi: 'Phân tích 8 bảng dữ liệu thực nghiệm (18.778 bản ghi SQL, 12,74 Tỉ VNĐ trong 180 ngày & 31,6 Tỉ VNĐ All-Time). Giải mã Nghịch lý GPM Video gấp 4,5x LIVE, quy luật Pareto trên 5.713 Creators và xây dựng mô hình What-If ROI.',
-      en: 'Audited 8 empirical datasets (18,778 SQL rows, 12.74B VND in 180d & 31.6B VND All-Time). Uncovered the 4.5x Video vs LIVE GPM Paradox, Pareto concentration across 5,713 Creators, and built an interactive What-If ROI Optimizer.'
+      vi: 'Phân tích 9 bảng dữ liệu thực nghiệm (21.569 bản ghi SQL, 14,84 Tỉ VNĐ trong 226 ngày & 31,6 Tỉ VNĐ All-Time). Giải mã Nghịch lý GPM Video gấp 4,5x LIVE, quy luật Pareto trên 6.086 Creators và xây dựng mô hình What-If ROI.',
+      en: 'Audited 9 empirical datasets (21,569 SQL rows, 14.84B VND in 226d & 31.6B VND All-Time). Uncovered the 4.5x Video vs LIVE GPM Paradox, Pareto concentration across 6,086 Creators, and built an interactive What-If ROI Optimizer.'
     },
     tech: ['SQL (MySQL/Window Functions)', 'Python (SciPy/Stats)', 'Power BI Blueprint', 'What-If Simulator'],
     featured: true

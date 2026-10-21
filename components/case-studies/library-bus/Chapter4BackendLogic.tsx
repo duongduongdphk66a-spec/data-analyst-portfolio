@@ -259,14 +259,14 @@ export function Chapter4BackendLogic({
   const highlightEdgeInIframe = (
     iframe: HTMLIFrameElement | null,
     edge: FlowEdge,
-    type: 'workflow' | 'dataflow'
+    _type: 'workflow' | 'dataflow'
   ) => {
     try {
       const doc = iframe?.contentDocument;
       if (!doc) return;
 
       const highlightColor = resolvedTheme === 'dark' ? '#9BE7FA' : '#0D7287';
-      const glowColor = 'rgba(155, 231, 250, 0.9)';
+      const _glowColor = 'rgba(155, 231, 250, 0.9)';
 
       // Reset all edges
       const allPaths = doc.querySelectorAll('path[data-animate="edge"], path[data-edge-from]');

@@ -61,5 +61,7 @@ scripts/inspect_*.js
 # raw data files (data privacy)
 data/kami/*.xlsx
 data/kami/*.csv
+public/kami/*.xlsx
+public/kami/*.csv
 
 
