@@ -173,7 +173,7 @@ export const DEFAULT_DASHBOARD: DashboardData = {
       id: 'kpi-1',
       title: 'Tổng Doanh Thu (GMV)',
       value: '12,74 Tỉ VNĐ',
-      change: '12,74 Tỉ VNĐ GMV 180 ngày — TikTok Shop Kami Ely',
+      change: '12,74 Tỉ VNĐ GMV 180 ngày (TikTok Shop Kami Ely)',
       isPositive: true,
       icon: 'dollar'
     },
@@ -189,7 +189,7 @@ export const DEFAULT_DASHBOARD: DashboardData = {
       id: 'kpi-3',
       title: 'Mạng Lưới Creators',
       value: '5,700+',
-      change: '+18.4% KOC liên kết — Creator Network',
+      change: '+18.4% KOC liên kết (Creator Network)',
       isPositive: true,
       icon: 'users'
     },
@@ -197,7 +197,7 @@ export const DEFAULT_DASHBOARD: DashboardData = {
       id: 'kpi-4',
       title: 'Giá Trị Đơn Trung Bình (AOV)',
       value: '268,500 đ',
-      change: '+12.1% tăng trưởng — RFM Segmentation',
+      change: '+12.1% tăng trưởng (RFM Segmentation)',
       isPositive: true,
       icon: 'trending'
     }

@@ -124,8 +124,8 @@ export function Chapter3AnalyticsSection({
                 {isEn ? selectedVolumeMeta.nameEn : selectedVolumeMeta.nameVi}
               </h4>
               {liveData?.isLiveDb && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] tabular-nums font-bold bg-[#C8EEF7]/40 text-[#074553] dark:bg-[#074553]/60 dark:text-[#9BE7FA] border border-[#9BE7FA]/50">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C] animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs tabular-nums font-bold bg-[#C8EEF7]/40 text-[#074553] dark:bg-[#074553]/60 dark:text-[#9BE7FA] border border-[#9BE7FA]/50">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C]" />
                   MySQL Live
                 </span>
               )}
@@ -311,8 +311,8 @@ export function Chapter3AnalyticsSection({
                 {isEn ? selectedRevenueMeta.nameEn : selectedRevenueMeta.nameVi}
               </h4>
               {liveData?.isLiveDb && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] tabular-nums font-bold bg-[#C8EEF7]/40 text-[#074553] dark:bg-[#074553]/60 dark:text-[#9BE7FA] border border-[#9BE7FA]/50">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C] animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs tabular-nums font-bold bg-[#C8EEF7]/40 text-[#074553] dark:bg-[#074553]/60 dark:text-[#9BE7FA] border border-[#9BE7FA]/50">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C]" />
                   MySQL Live
                 </span>
               )}

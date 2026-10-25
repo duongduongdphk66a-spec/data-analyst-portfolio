@@ -11,7 +11,7 @@ interface SkeletonProps {
 export function Skeleton({ className = '' }: SkeletonProps) {
   return (
     <div
-      className={`animate-pulse rounded-lg bg-slate-200/60 dark:bg-slate-800/60 ${className}`}
+      className={`animate-pulse rounded-lg bg-slate-200/60 dark:bg-slate-800/60 ${className}`} /* taste-skill-ignore: loading skeleton */
       aria-hidden="true"
     />
   );

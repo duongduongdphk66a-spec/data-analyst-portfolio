@@ -1223,9 +1223,9 @@ export function buildStage5Data(): Stage5Payload {
       rows: [
         { metric: { vi: 'Số creator có cả 2 loại video', en: 'Creators with both video types' }, ads: '175 creator', organic: '175 creator', note: { vi: 'Mẫu đối chứng nội bộ chuẩn xác', en: 'Rigorous within-subject sample' } },
         { metric: { vi: 'Chênh lệch tỷ lệ có đơn TB (YES - NO)', en: 'Mean paired rate difference' }, ads: '+10,40%', organic: '0,00%', note: { vi: 'Wilcoxon signed-rank stat = 364 (p = 1,68e-5)', en: 'Wilcoxon signed-rank stat = 364 (p = 1.68e-5)' }, highlight: true },
-        { metric: { vi: 'Creator có Ads hiệu quả hơn Organic', en: 'Creators where Ads > Organic' }, ads: '53 creator (30,3%)', organic: '—', note: { vi: 'Tỷ lệ có đơn tăng rõ rệt', en: 'Marked positive uplift' } },
-        { metric: { vi: 'Creator có kết quả bằng nhau', en: 'Creators where Ads == Organic' }, ads: '113 creator (64,6%)', organic: '—', note: { vi: 'Đa số là 0% ở cả hai nhóm (chưa bán được)', en: 'Mostly 0% in both groups (unactivated)' } },
-        { metric: { vi: 'Creator có Organic tốt hơn Ads', en: 'Creators where Organic > Ads' }, ads: '9 creator (5,1%)', organic: '—', note: { vi: 'Chỉ thiểu số nhỏ bị giảm', en: 'Only a tiny minority saw drops' } },
+        { metric: { vi: 'Creator có Ads hiệu quả hơn Organic', en: 'Creators where Ads > Organic' }, ads: '53 creator (30,3%)', organic: '-', note: { vi: 'Tỷ lệ có đơn tăng rõ rệt', en: 'Marked positive uplift' } },
+        { metric: { vi: 'Creator có kết quả bằng nhau', en: 'Creators where Ads == Organic' }, ads: '113 creator (64,6%)', organic: '-', note: { vi: 'Đa số là 0% ở cả hai nhóm (chưa bán được)', en: 'Mostly 0% in both groups (unactivated)' } },
+        { metric: { vi: 'Creator có Organic tốt hơn Ads', en: 'Creators where Organic > Ads' }, ads: '9 creator (5,1%)', organic: '-', note: { vi: 'Chỉ thiểu số nhỏ bị giảm', en: 'Only a tiny minority saw drops' } },
       ],
     },
     tiers: {

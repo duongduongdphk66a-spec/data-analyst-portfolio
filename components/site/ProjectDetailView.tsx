@@ -40,7 +40,7 @@ export default function ProjectDetailView({
   if (isLoading) {
     return (
       <div className="min-h-[80vh] bg-ground flex flex-col items-center justify-center p-6 dark:bg-[#0B0F17]">
-        <div className="animate-pulse flex flex-col items-center">
+        <div className="flex flex-col items-center">
           <div className="w-12 h-12 rounded-full border-4 border-[#FFD14C] border-t-transparent animate-spin mb-4" />
           <p className="text-slate-600 font-medium text-sm dark:text-slate-300">
             {isEn ? 'Loading project details...' : 'Đang tải thông tin dự án...'}

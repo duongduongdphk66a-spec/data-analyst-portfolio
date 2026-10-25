@@ -78,10 +78,10 @@ export function Chapter2BrandIdentity({
           </div>
 
           {/* SVG Construction Grid */}
-          <div className="p-4 rounded-2xl bg-[#FFFDF9] dark:bg-[#170706] border border-dashed border-[#ED9040]/40 dark:border-[#FFC270]/30 relative flex flex-col items-center justify-center min-h-[160px] overflow-hidden">
+          <div data-ui="brand-construction-grid" className="p-4 rounded-2xl bg-[#FFFDF9] dark:bg-[#170706] border border-dashed border-[#ED9040]/40 dark:border-[#FFC270]/30 relative flex flex-col items-center justify-center min-h-[160px] overflow-hidden">
             {/* Safe distance boundary markers */}
             <div className="absolute inset-2 border border-dashed border-[#ED9040]/50 dark:border-[#FFC270]/30 rounded-xl pointer-events-none" />
-            <span className="absolute top-3 left-3 text-[10px] tabular-nums text-[#BD5705] dark:text-[#FFC270] font-bold">1.5X Safe</span>
+            <span className="absolute top-3 left-3 text-xs tabular-nums text-[#BD5705] dark:text-[#FFC270] font-bold">1.5X Safe</span>
 
             {/* Logo Center */}
             <div className="flex items-center gap-2.5 z-10">
@@ -94,7 +94,7 @@ export function Chapter2BrandIdentity({
               </div>
             </div>
 
-            <div className="mt-3 text-[11px] tabular-nums font-semibold text-slate-500 dark:text-slate-400 text-center">
+            <div className="mt-3 text-xs tabular-nums font-semibold text-slate-500 dark:text-slate-400 text-center">
               Tỷ lệ: 6.6X × 4X | Min: 42.5px
             </div>
           </div>
@@ -126,7 +126,7 @@ export function Chapter2BrandIdentity({
                 title={isEn ? `Copy ${col.hex}` : `Sao chép mã ${col.hex}`}
               >
                 <div className="flex justify-between items-start">
-                  <span className="text-[11px] font-extrabold truncate">{isEn ? col.nameEn : col.nameVi}</span>
+                  <span className="text-xs font-extrabold truncate">{isEn ? col.nameEn : col.nameVi}</span>
                   {copiedHex === col.hex ? (
                     <CheckCheck className="w-3.5 h-3.5 text-emerald-300 shrink-0" />
                   ) : (
@@ -134,7 +134,7 @@ export function Chapter2BrandIdentity({
                   )}
                 </div>
                 <div className="mt-1 tabular-nums text-xs font-black">{col.hex}</div>
-                <div className="text-[10px] opacity-80 tabular-nums">RGB({col.rgb})</div>
+                <div className="text-xs opacity-80 tabular-nums">RGB({col.rgb})</div>
               </button>
             ))}
           </div>
@@ -212,7 +212,7 @@ export function Chapter2BrandIdentity({
               title={`${item.label} (${item.desc})`}
             >
               <item.icon className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 transition-transform group-hover:scale-110" />
-              <span className="text-[10px] font-semibold text-slate-600 dark:text-slate-400 group-hover:text-[#BD5705] dark:group-hover:text-[#ED9040] truncate max-w-full">
+              <span className="text-xs font-semibold text-slate-600 dark:text-slate-400 group-hover:text-[#BD5705] dark:group-hover:text-[#ED9040] truncate max-w-full">
                 {isEn ? item.labelEn : item.label}
               </span>
             </div>

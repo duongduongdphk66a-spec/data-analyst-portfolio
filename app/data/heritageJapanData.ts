@@ -475,8 +475,8 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
     nameVi: 'Chi tiêu du lịch tại Nara (2013 – 2022)',
     nameEn: 'Tourism Expenditure in Nara (2013 – 2022)',
     imageSrc: '/heritage-japan/thesis-chart-3-6.png',
-    unitVi: 'Tỷ Yên (theo niên luận — nghi vấn, xem kiểm định)',
-    unitEn: 'Billion JPY (as labelled — disputed, see audit)',
+    unitVi: 'Tỷ Yên (theo niên luận: nghi vấn, xem kiểm định)',
+    unitEn: 'Billion JPY (as labelled: disputed, see audit)',
     pageInDoc: 34,
   },
 ];
@@ -686,8 +686,8 @@ export const DATA_AUDIT_FINDINGS: DataAuditFinding[] = [
     titleVi: 'Phát hiện Lỗi Nhập Liệu Điểm Dị Biệt (Outlier Typo) tại Kyoto 2020',
     titleEn: 'Data Typo & Outlier Detection: Kyoto 2020 Inbound Visitors',
     severity: 'high',
-    summaryVi: 'Cột năm 2020 trong đồ thị gốc ghi nhận 3,799 nghìn khách — mâu thuẫn hoàn toàn với thực tế toàn quốc mùa dịch.',
-    summaryEn: 'The 2020 bar in the original chart reads 3,799k visitors — a major logical contradiction during global lockdown.',
+    summaryVi: 'Cột năm 2020 trong đồ thị gốc ghi nhận 3,799 nghìn khách, mâu thuẫn hoàn toàn với thực tế toàn quốc mùa dịch.',
+    summaryEn: 'The 2020 bar in the original chart reads 3,799k visitors, a major logical contradiction during global lockdown.',
     originalInDoc: 'Biểu đồ 3.2 (trang 31): Giá trị cột năm 2020 vẽ cao chạm mốc 3,800 nghìn người (nhãn số: 3799).',
     auditExplanationVi: 'Năm 2020, đại dịch COVID-19 bùng phát khiến toàn bộ Nhật Bản chỉ đón 4.1 triệu khách quốc tế (giảm 87%). Một thành phố như Kyoto không thể đón tới 3.8 triệu khách (chiếm 92% toàn quốc). Thực tế theo DMO Kyoto (京都観光総合調査), số lượng khách lưu trú quốc tế năm 2020 là 379.9 nghìn khách. Tác giả niên luận đã gõ nhầm dấu chấm thập phân (3799 thay vì 379.9), khiến đồ thị Excel tự động vẽ cột cao bất thường.',
     auditExplanationEn: 'In 2020, nationwide inbound visitors plunged to 4.12M due to COVID border closures. Kyoto alone could not possibly account for 3.8M foreign visitors (92% of the national total). Official Kyoto DMO reports record 379.9 thousand international overnight visitors. The author evidently missed a decimal separator (3799 instead of 379.9), which skewed the Excel chart bar.',
@@ -718,7 +718,7 @@ export const DATA_AUDIT_FINDINGS: DataAuditFinding[] = [
     summaryEn: 'Inbound visitors to Nara grew 7.6x (2011–2019), but overnight stay share was <15%, creating high strain but low local spend.',
     originalInDoc: 'Niên luận so sánh số lượng khách Nara (3.3M năm 2019) và Kyoto (4.5M) nhưng chưa phân rã cơ cấu lưu trú.',
     auditExplanationVi: 'Nara cách Kyoto và Osaka chỉ 45 phút đi tàu nhanh Kintetsu/JR. Du khách thường lưu trú tại Osaka hoặc Kyoto rồi ghé công viên Nara ngắm hươu trong 3–4 tiếng rồi quay về. Hệ quả: Nara chịu toàn bộ ngoại ứng tiêu cực (rác thải, kẹt xe, ô nhiễm) nhưng không thu được thuế lưu trú hay chi tiêu khách sạn. Đây chính là lý do Tỉnh Nara ban hành Pháp lệnh lưu trú cao cấp (2020) để thu hút các chuỗi khách sạn sang (JW Marriott, Fufu Nara).',
-    auditExplanationEn: 'Nara is only 45 minutes by rapid train from Osaka and Kyoto. Over 85% of foreign visitors are day-trippers who feed the sacred deer for 3 hours and return to Osaka/Kyoto hotels. Nara absorbs municipal maintenance and trash costs without capturing lodging taxes — leading to the 2020 Luxury Accommodation Ordinance.',
+    auditExplanationEn: 'Nara is only 45 minutes by rapid train from Osaka and Kyoto. Over 85% of foreign visitors are day-trippers who feed the sacred deer for 3 hours and return to Osaka/Kyoto hotels. Nara absorbs municipal maintenance and trash costs without capturing lodging taxes, leading to the 2020 Luxury Accommodation Ordinance.',
     suggestedActionVi: 'Trình bày mô hình đối sánh cấu trúc chi tiêu và thời gian lưu trú giữa Kyoto và Nara.',
     suggestedActionEn: 'Present a comparative structural analysis of stay duration and expenditure per visitor.'
   }
@@ -746,8 +746,8 @@ export const POLICY_EVALUATION_MATRIX: PolicyEvaluationItem[] = [
     pillarEn: '1. Visa Deregulation & Low-Cost Carriers (LCC)',
     actionVi: 'Miễn visa ngắn hạn cho ASEAN (Thái Lan, Malaysia, Việt Nam, Philippines), cấp thị thực nhập cảnh nhiều lần, mở rộng slot bay giá rẻ tại Haneda & Kansai.',
     actionEn: 'Visa waivers for ASEAN, multiple-entry visas, expanded low-cost carrier slots at Kansai & Haneda airports.',
-    quantEvidenceVi: 'Khách quốc tế tăng từ 10.4M (2013) lên 31.9M (2019), tốc độ tăng trưởng kép CAGR đạt 20.6%/năm — mức tăng nhanh nhất lịch sử du lịch OECD.',
-    quantEvidenceEn: 'Foreign arrivals expanded from 10.4M (2013) to 31.9M (2019), a CAGR of 20.6%/yr — among the fastest in OECD tourism history.',
+    quantEvidenceVi: 'Khách quốc tế tăng từ 10.4M (2013) lên 31.9M (2019), tốc độ tăng trưởng kép CAGR đạt 20.6%/năm (mức tăng nhanh nhất lịch sử du lịch OECD).',
+    quantEvidenceEn: 'Foreign arrivals expanded from 10.4M (2013) to 31.9M (2019), a CAGR of 20.6%/yr (among the fastest in OECD tourism history).',
     impactScore: 5,
     unintendedCostVi: 'Tăng trưởng vượt quá ngưỡng chịu tải (Carrying Capacity) của các phương tiện công cộng tại Kyoto.',
     unintendedCostEn: 'Pushed tourist density far beyond the carrying capacity of municipal bus grids in Kyoto.'

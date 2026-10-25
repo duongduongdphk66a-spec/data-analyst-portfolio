@@ -81,7 +81,7 @@ export function DataAuditSection({
                 <h5 className="font-extrabold text-slate-900 dark:text-white text-xs sm:text-sm line-clamp-2 mb-1">
                   {isEn ? finding.titleEn : finding.titleVi}
                 </h5>
-                <p className="text-[11px] text-slate-500 line-clamp-2">
+                <p className="text-xs text-slate-500 line-clamp-2">
                   {isEn ? finding.summaryEn : finding.summaryVi}
                 </p>
               </button>
@@ -163,17 +163,17 @@ export function DataAuditSection({
               </h5>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
                 <div className="p-3 rounded-lg bg-[#FFE485]/15 border border-[#FFE485]/50 dark:bg-slate-900/60 dark:border-[#FFE485]/30">
-                  <span className="text-[11px] text-[#92400E] dark:text-[#FFE485] font-bold block">Ghi nhận trong Niên luận</span>
+                  <span className="text-xs text-[#92400E] dark:text-[#FFE485] font-bold block">Ghi nhận trong Niên luận</span>
                   <span className="text-2xl tabular-nums font-black text-[#B45309] dark:text-[#FFE485]">3,799 k</span>
                   <span className="text-xs text-slate-500 block">Lỗi typo (tương đương 3.8 triệu)</span>
                 </div>
                 <div className="p-3 rounded-lg bg-[#C8EEF7]/30 border border-[#9BE7FA]/50 dark:bg-slate-900/60 dark:border-[#9BE7FA]/30">
-                  <span className="text-[11px] text-[#074553] dark:text-[#9BE7FA] font-bold block">Thẩm tra DMO KYOTO chính thức</span>
+                  <span className="text-xs text-[#074553] dark:text-[#9BE7FA] font-bold block">Thẩm tra DMO KYOTO chính thức</span>
                   <span className="text-2xl tabular-nums font-black text-[#0D7287] dark:text-[#9BE7FA]">379.9 k</span>
                   <span className="text-xs text-slate-500 block">Đúng thực tế đại dịch (0.38 triệu)</span>
                 </div>
                 <div className="p-3 rounded-lg bg-slate-100 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-                  <span className="text-[11px] text-slate-600 font-bold block dark:text-slate-300">Khách quốc tế Toàn quốc 2020</span>
+                  <span className="text-xs text-slate-600 font-bold block dark:text-slate-300">Khách quốc tế Toàn quốc 2020</span>
                   <span className="text-2xl tabular-nums font-black text-slate-900 dark:text-white">4.12 M</span>
                   <span className="text-xs tabular-nums text-rose-600 dark:text-rose-400 font-bold block">Toàn Nhật Bản giảm -87.1%</span>
                 </div>
@@ -197,7 +197,7 @@ export function DataAuditSection({
                     <div className="bg-[#0D7287] h-full" style={{ width: '68%' }} title="Lưu trú qua đêm: 68%" />
                     <div className="bg-slate-300 h-full" style={{ width: '32%' }} title="Đi trong ngày: 32%" />
                   </div>
-                  <div className="flex justify-between text-[11px] text-slate-500">
+                  <div className="flex justify-between text-xs text-slate-500">
                     <span>Lưu trú qua đêm: ~68%</span>
                     <span>Chi tiêu bình quân: 290k ¥/khách</span>
                   </div>
@@ -212,7 +212,7 @@ export function DataAuditSection({
                     <div className="bg-amber-500 h-full" style={{ width: '14%' }} title="Lưu trú qua đêm: 14%" />
                     <div className="bg-amber-200 h-full" style={{ width: '86%' }} title="Đi trong ngày: 86%" />
                   </div>
-                  <div className="flex justify-between text-[11px] text-slate-500">
+                  <div className="flex justify-between text-xs text-slate-500">
                     <span>Lưu trú qua đêm: ~14%</span>
                     <span>Chi tiêu bình quân: 36k ¥/khách (thấp hơn 8 lần!)</span>
                   </div>

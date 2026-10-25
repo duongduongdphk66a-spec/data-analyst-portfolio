@@ -200,15 +200,15 @@ ORDER BY total_videos DESC;`,
             <div className="p-3 rounded-xl bg-[#F0F9FB] dark:bg-slate-800/60 border border-[#C8EEF7] dark:border-slate-800">
               <div className="text-xs font-semibold text-[#074553] dark:text-[#9BE7FA]">{L('Hashtag Sản Phẩm (#bikini, #chanvay...)', 'Product Tags (#bikini, #chanvay...)')}</div>
               <div className="text-xl font-bold text-slate-900 dark:text-white tabular-nums mt-1">28,6%</div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400">491/1.714 {L('video có đơn', 'videos converted')}</div>
-              <div className="mt-1.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">1,30 Tỷ đ GMV (60%)</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400">491/1.714 {L('video có đơn', 'videos converted')}</div>
+              <div className="mt-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">1,30 Tỷ đ GMV (60%)</div>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
               <div className="text-xs font-semibold text-slate-600 dark:text-slate-400">{L('Chỉ Dùng Hashtag Chung (#xuhuong, #fyp...)', 'Generic Tags Only (#xuhuong, #fyp...)')}</div>
               <div className="text-xl font-bold text-slate-700 dark:text-slate-300 tabular-nums mt-1">16,4%</div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400">356/2.175 {L('video có đơn', 'videos converted')}</div>
-              <div className="mt-1.5 text-[11px] font-semibold text-slate-500">640,7 Tr đ GMV (30%)</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400">356/2.175 {L('video có đơn', 'videos converted')}</div>
+              <div className="mt-1.5 text-xs font-semibold text-slate-500">640,7 Tr đ GMV (30%)</div>
             </div>
           </div>
 
@@ -218,7 +218,7 @@ ORDER BY total_videos DESC;`,
               {topHashtags.slice(0, 10).map((t, idx) => (
                 <span
                   key={idx}
-                  className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium ${
+                  className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ${
                     t.type === 'product'
                       ? 'bg-[#9BE7FA]/30 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/50'
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
@@ -269,8 +269,8 @@ ORDER BY total_videos DESC;`,
                   <td className="py-2 px-3 font-semibold text-slate-800 dark:text-slate-200">{item.type}</td>
                   <td className="py-2 px-3 font-medium text-[#074553] dark:text-[#9BE7FA]">{item.target}</td>
                   <td className="py-2 px-3 tabular-nums font-bold text-slate-900 dark:text-white">{item.metric}</td>
-                  <td className="py-2 px-3 text-[11px] leading-relaxed">{item.rootCause}</td>
-                  <td className="py-2 px-3 text-[11px] leading-relaxed text-slate-700 dark:text-slate-300 font-medium">{item.treatment}</td>
+                  <td className="py-2 px-3 text-xs leading-relaxed">{item.rootCause}</td>
+                  <td className="py-2 px-3 text-xs leading-relaxed text-slate-700 dark:text-slate-300 font-medium">{item.treatment}</td>
                 </tr>
               ))}
             </tbody>
@@ -335,7 +335,7 @@ ORDER BY total_videos DESC;`,
                 setCopiedIndex(activeSqlTab);
                 setTimeout(() => setCopiedIndex(null), 2000);
               }}
-              className="absolute top-3 right-3 flex items-center gap-1 rounded bg-slate-800 hover:bg-slate-700 px-2 py-1 text-[11px] text-slate-300 transition-colors cursor-pointer"
+              className="absolute top-3 right-3 flex items-center gap-1 rounded bg-slate-800 hover:bg-slate-700 px-2 py-1 text-xs text-slate-300 transition-colors cursor-pointer"
             >
               {copiedIndex === activeSqlTab ? (
                 <>

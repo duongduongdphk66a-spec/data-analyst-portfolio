@@ -5,7 +5,7 @@ import { WireframeBar, WireframeCrossBox, WireframePill } from './WireframeHelpe
 export const renderBookDetailWireframe = (sheetNum: 1 | 2) => {
   if (sheetNum === 1) {
     return (
-      <div className="space-y-3">
+      <div data-ui="wireframe-mock" className="space-y-3">
         <div className="flex justify-between items-center pb-2 border-slate-200">
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 rounded bg-slate-300" />
@@ -85,7 +85,7 @@ export const renderBookDetailWireframe = (sheetNum: 1 | 2) => {
   }
 
   return (
-    <div className="space-y-3">
+    <div data-ui="wireframe-mock" className="space-y-3">
       <div className="text-center py-1 border-slate-200">
         <WireframeBar w="w-16" h="h-2.5" className="mx-auto" />
       </div>
@@ -106,7 +106,7 @@ export const renderBookDetailWireframe = (sheetNum: 1 | 2) => {
           <WireframeBar w="w-20" h="h-2" />
           <WireframePill w="w-10" h="h-3" />
         </div>
-        <div className="p-2 border border-slate-200 rounded-lg space-y-1">
+        <div data-ui="wireframe-box" className="p-2 border border-slate-200 rounded-lg space-y-1">
           <WireframeBar w="w-24" h="h-2" />
           <WireframeBar w="w-full" h="h-1.5" />
           <WireframeBar w="w-5/6" h="h-1.5" />
@@ -117,7 +117,7 @@ export const renderBookDetailWireframe = (sheetNum: 1 | 2) => {
         <WireframeBar w="w-24" h="h-2" />
         <div className="grid grid-cols-4 gap-1.5">
           {[1, 2, 3, 4].map((item) => (
-            <div key={item} className="p-1 border border-slate-200 rounded space-y-1">
+            <div key={item} data-ui="wireframe-card" className="p-1 border border-slate-200 rounded space-y-1">
               <WireframeCrossBox aspect="aspect-square" className="w-full" />
               <WireframeBar w="w-full" h="h-1" />
               <WireframeBar w="w-2/3" h="h-1" />
@@ -176,7 +176,7 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
               <BookOpen className="w-4 h-4 text-[#9BE7FA] opacity-90" />
             </div>
             <div className="space-y-0.5 border-l-2 border-[#FFD14C] pl-2">
-              <div className="text-[11px] font-sans font-black tracking-wide text-white">ORIGIN</div>
+              <div className="text-xs font-sans font-black tracking-wide text-white">ORIGIN</div>
               <div className="text-xs font-sans text-[#FFE485]">DAN BROWN</div>
             </div>
             <div className="flex justify-between text-xs tabular-nums text-[#C8EEF7] border-white/20 pt-1">
@@ -221,7 +221,7 @@ export const renderBookDetailUI = (sheetNum: 1 | 2) => {
                     <Bus className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="font-bold text-[11px] text-slate-900 dark:text-white">{bus.name}</div>
+                    <div className="font-bold text-xs text-slate-900 dark:text-white">{bus.name}</div>
                     <div className="text-xs text-slate-500">Cách {bus.dist} • Dừng tiếp sau {bus.eta}</div>
                   </div>
                 </div>

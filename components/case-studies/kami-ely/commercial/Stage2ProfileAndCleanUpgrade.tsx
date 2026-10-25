@@ -171,7 +171,7 @@ GROUP BY 1;`,
                   <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                     <FileSpreadsheet className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA] shrink-0" />
                     <span>{t.name}</span>
-                    <span className="text-[10px] rounded px-1.5 py-0.2 border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    <span className="text-xs rounded px-1.5 py-0.2 border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                       {t.tag}
                     </span>
                   </td>
@@ -185,11 +185,11 @@ GROUP BY 1;`,
                     {b(t.grain)}
                   </td>
                   <td className="py-2.5 px-3">
-                    <code className="text-[11px] font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-[#074553] dark:text-[#9BE7FA]">
+                    <code className="text-xs font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-[#074553] dark:text-[#9BE7FA]">
                       {typeof t.joinKey === 'string' ? t.joinKey : b(t.joinKey)}
                     </code>
                   </td>
-                  <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-[11px]">
+                  <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-xs">
                     {b(t.desc)}
                   </td>
                 </tr>
@@ -250,7 +250,7 @@ GROUP BY 1;`,
                 </p>
               </div>
 
-              <div className="pt-2.5 mt-2 flex items-center justify-between text-[11px]">
+              <div className="pt-2.5 mt-2 flex items-center justify-between text-xs">
                 <span className="font-bold text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
                   {f.stat}
                 </span>
@@ -365,7 +365,7 @@ GROUP BY 1;`,
                   </td>
                   <td className="py-2.5 px-3 text-center">
                     <span
-                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${
                         c.status === 'pass'
                           ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'
                           : c.status === 'warn'
@@ -376,7 +376,7 @@ GROUP BY 1;`,
                       {b(c.statusLabel)}
                     </span>
                   </td>
-                  <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+                  <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                     {b(c.detail)}
                   </td>
                 </tr>
@@ -412,7 +412,7 @@ GROUP BY 1;`,
               <Coins className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('1. Chuẩn hóa Tiền tệ', '1. Currency Parsing')}
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
                 'Tách ký hiệu ₫, quy đổi hậu tố k (1e3), Tr (1e6), Tỉ (1e9). Với giá dạng khoảng ("249.192 ₫ - 271.949 ₫"), tách thành price_min và price_max.',
                 'Strip ₫ symbols, parse k/Tr/Tỉ suffixes. Unnest price ranges into price_min and price_max.',
@@ -425,7 +425,7 @@ GROUP BY 1;`,
               <Clock className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('2. Đồng bộ Múi giờ UTC+7', '2. Timezone UTC+7')}
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
                 'Đưa tất cả về UTC+7: Creator Live cộng thêm +13 giờ; các bản ghi bị lệch UTC+8 (27 dòng Shoppable) trừ 1 giờ.',
                 'Normalize all to UTC+7: Creator Live shifted +13 hours; 27 UTC+8 rows shifted -1 hour.',
@@ -438,7 +438,7 @@ GROUP BY 1;`,
               <Eye className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('3. Quy đổi Views rút gọn', '3. Views String Parsing')}
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
                 'Quy đổi "1.6k" thành 1.600 và "1.2m" thành 1.200.000 số nguyên, gắn chú thích metadata là giá trị nền tảng đã làm tròn.',
                 'Convert "1.6k" → 1,600 and "1.2m" → 1,200,000 as integers, annotating as platform-rounded values.',
@@ -451,7 +451,7 @@ GROUP BY 1;`,
               <Filter className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('4. Khử trùng lặp khóa tự nhiên', '4. Deduplication')}
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
                 'Giữ đúng 1 dòng cho mỗi bộ khóa tự nhiên: (creator_id, ngày đăng, tiêu đề) trong Shoppable; khử 4 dòng trùng.',
                 'Retain exactly 1 row per composite key: (creator_id, date, title) in Shoppable; remove 4 duplicates.',
@@ -464,7 +464,7 @@ GROUP BY 1;`,
               <ShieldAlert className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('5. Gắn cờ thay vì xóa bỏ', '5. Soft-Flagging')}
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
                 'Bản ghi mồ côi, ngoại lai gắn cờ (is_orphan, is_outlier_duration, followers_unknown), không xóa khỏi kho. Khi tính thời lượng trung bình thì loại ca > 24 giờ.',
                 'Anomalies flagged (is_orphan, is_outlier_duration, followers_unknown). Exclude >24h sessions for average durations.',
@@ -477,7 +477,7 @@ GROUP BY 1;`,
               <Calendar className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('6. Cờ tháng thiếu (Partial Month)', '6. Partial Month Flags')}
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
                 'Tháng 3 (23 ngày) và Tháng 9 (4 ngày) được gắn is_partial_month = true để tránh tính sai tốc độ tăng trưởng tháng tổng.',
                 'March (23 days) and Sept (4 days) tagged with is_partial_month = true to prevent distorted monthly growth metrics.',
@@ -490,7 +490,7 @@ GROUP BY 1;`,
               <Layers className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('7. Bảng tra cứu phân loại kênh (Channel Grouping Lookup)', '7. Channel Grouping Lookup Table')}
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
                 'Thêm cột channel_group vào bảng tra cứu: "kamielyhn" → Tự vận hành (63,9% GMV); "girlstyle.vn" → Nội bộ qua affiliate (15,5% GMV); các creator còn lại → Affiliate bên ngoài (20,6% GMV). Không viết cứng (hardcode) trong SQL truy vấn.',
                 'Add channel_group lookup table: "kamielyhn" → Own Brand (63.9% GMV); "girlstyle.vn" → In-house Co-op (15.5% GMV); others → External Affiliate (20.6% GMV). Avoids query hardcoding.',
@@ -506,7 +506,7 @@ GROUP BY 1;`,
               <TerminalSquare className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('Truy vấn SQL thực tế (Đã kiểm thử trên SQLite)', 'Empirical SQL Scripts (Tested in SQLite)')}
             </span>
-            <span className="text-[11px] text-slate-500 font-medium">SQLite Engine · 100% Verified</span>
+            <span className="text-xs text-slate-500 font-medium">SQLite Engine · 100% Verified</span>
           </div>
 
           <div className="flex flex-wrap gap-1.5 mb-2.5">
@@ -526,11 +526,11 @@ GROUP BY 1;`,
           </div>
 
           <div className="rounded-2xl bg-slate-950 p-4 border border-slate-800 text-xs relative">
-            <div data-ui className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800 text-slate-400 text-[11px]">
+            <div data-ui className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800 text-slate-400 text-xs">
               <span>{sqlSnippetsList[activeSqlTab].desc}</span>
               <button
                 onClick={() => handleCopyCode(sqlSnippetsList[activeSqlTab].sql, activeSqlTab)}
-                className="flex items-center gap-1 text-[11px] text-slate-300 hover:text-white transition-colors cursor-pointer"
+                className="flex items-center gap-1 text-xs text-slate-300 hover:text-white transition-colors cursor-pointer"
               >
                 <Copy className="h-3 w-3" />
                 {copiedIndex === activeSqlTab ? L('Đã chép!', 'Copied!') : L('Sao chép SQL', 'Copy SQL')}
@@ -598,7 +598,7 @@ GROUP BY 1;`,
               </div>
             </div>
 
-            <div className="text-[11px] text-slate-500 dark:text-slate-400 italic">
+            <div className="text-xs text-slate-500 dark:text-slate-400 italic">
               {L(
                 'Bài học kinh nghiệm: Luôn chuẩn hóa ngày quan sát (Day-Normalized Rate) trước khi tính tỷ lệ tăng trưởng cùng kỳ.',
                 'Data takeaway: Always normalize by calendar days before computing period-over-period growth rates.',
@@ -642,7 +642,7 @@ GROUP BY 1;`,
               </div>
             </div>
 
-            <div className="text-[11px] text-slate-500 dark:text-slate-400 italic">
+            <div className="text-xs text-slate-500 dark:text-slate-400 italic">
               {L(
                 'Kết luận: Nhận định "mô hình KOC nhỏ hiệu quả nhất" không có cơ sở; hiệu suất affiliate trung vị là 0 đ và tập trung cực đoan ở top 1%.',
                 'Conclusion: The claim that nano KOCs drive the store is unfounded; affiliate median is 0 VND and heavily skewed.',
@@ -678,7 +678,7 @@ GROUP BY 1;`,
                     <td className="py-2 px-3 text-right tabular-nums text-slate-500 line-through">
                       {n(row.dashPct, 1)}%
                     </td>
-                    <td className="py-2 px-3 text-slate-600 dark:text-slate-300 text-[11px]">
+                    <td className="py-2 px-3 text-slate-600 dark:text-slate-300 text-xs">
                       {row.note}
                     </td>
                   </tr>
@@ -687,7 +687,7 @@ GROUP BY 1;`,
                   <td className="py-2.5 px-3 text-slate-900 dark:text-white">{L('Tổng cộng', 'Total Sum')}</td>
                   <td className="py-2.5 px-3 text-right tabular-nums font-bold text-emerald-700 dark:text-emerald-400">100,0%</td>
                   <td className="py-2.5 px-3 text-right tabular-nums font-bold text-rose-600 dark:text-rose-400 line-through">140,8% (Lỗi)</td>
-                  <td className="py-2.5 px-3 text-slate-700 dark:text-slate-300 text-[11px]">
+                  <td className="py-2.5 px-3 text-slate-700 dark:text-slate-300 text-xs">
                     {L('Dashboard cũ bị trùng lặp bộ đếm dẫn đến tổng vượt 100%', 'Legacy dashboard double-counted overlapping tags')}
                   </td>
                 </tr>
@@ -726,7 +726,7 @@ GROUP BY 1;`,
             `Top 5 SKUs generate 44.9% GMV; ${productFacts.skusFor80}/${productFacts.skus} SKUs account for 80% of revenue`,
           )}
           badge={
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#C8EEF7]/60 px-2.5 py-1 text-[11px] font-bold text-[#074553] dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA]">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#C8EEF7]/60 px-2.5 py-1 text-xs font-bold text-[#074553] dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA]">
               <CheckCircle2 className="h-3.5 w-3.5" />
               Gini = {n(productFacts.gini, 3)}
             </span>

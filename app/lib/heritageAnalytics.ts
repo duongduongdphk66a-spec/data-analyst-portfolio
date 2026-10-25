@@ -1,5 +1,5 @@
 /**
- * Heritage Japan — pure analytics helpers.
+ * Heritage Japan: pure analytics helpers.
  * All functions are deterministic and side-effect free so every number shown
  * on the case-study page can be reproduced (and unit-tested).
  */
@@ -98,13 +98,13 @@ export function logLinearTrend(series: YearValue[], trainFrom: string, trainTo: 
 
 /** Format helpers (vi-VN uses comma decimals). */
 export function fmtPct(v: number, digits = 1, isEn = false): string {
-  if (!Number.isFinite(v)) return '—';
+  if (!Number.isFinite(v)) return '-';
   const s = (v * 100).toFixed(digits);
   return `${isEn ? s : s.replace('.', ',')}%`;
 }
 
 export function fmtNum(v: number, digits = 1, isEn = false): string {
-  if (!Number.isFinite(v)) return '—';
+  if (!Number.isFinite(v)) return '-';
   return v.toLocaleString(isEn ? 'en-US' : 'vi-VN', {
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,

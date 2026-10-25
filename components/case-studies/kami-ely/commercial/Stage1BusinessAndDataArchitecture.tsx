@@ -97,7 +97,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
             </p>
 
             <div className="rounded-2xl border-l-4 border-l-[#0D7287] bg-[#F0F9FB] p-3.5 dark:bg-slate-800/80 dark:border-l-[#9BE7FA]">
-              <div className="text-[11px] font-bold text-[#074553] dark:text-[#9BE7FA] mb-1 flex items-center gap-1.5">
+              <div className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA] mb-1 flex items-center gap-1.5">
                 <HelpCircle className="h-3.5 w-3.5" />
                 {L('Câu hỏi trọng tâm (Core Inquiry):', 'Core Business Inquiry:')}
               </div>
@@ -178,7 +178,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                 return (
                   <tr key={q.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors">
                     <td className="py-2.5 px-3 text-center font-bold text-slate-500">
-                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-[11px] mx-auto">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-xs mx-auto">
                         {q.id}
                       </span>
                     </td>
@@ -192,7 +192,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                       {L(q.metrics.vi, q.metrics.en)}
                     </td>
                     <td className="py-2.5 px-3">
-                      <code className="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 text-[11px] font-mono text-[#074553] dark:text-[#9BE7FA]">
+                      <code className="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 text-xs font-mono text-[#074553] dark:text-[#9BE7FA]">
                         {q.table}
                       </code>
                     </td>
@@ -234,7 +234,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                 <h4 className="text-sm font-black text-slate-950 dark:text-white">
                   {L('Phạm vi và Ràng buộc Phân tích', 'Analytical Scope & Technical Constraints')}
                 </h4>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   {L('Ba rào cản kỹ thuật cần nhận diện trước khi mô hình hóa', '3 technical boundaries acknowledged before modeling')}
                 </p>
               </div>
@@ -280,7 +280,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
             </ul>
           </div>
 
-          <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-2.5 text-[11px] text-slate-600 dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-300">
+          <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-2.5 text-xs text-slate-600 dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-300">
             <span className="font-bold text-slate-900 dark:text-white mr-1">
               {L('Thiếu hụt dữ liệu nội bộ (COGS):', 'Missing Internal Cost Data:')}
             </span>
@@ -302,7 +302,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                 <h4 className="text-sm font-black text-slate-950 dark:text-white">
                   {L('Phân loại Nguồn Dữ liệu theo Mức Chi Tiết (Data Grain)', 'Source Data Classification by Granularity')}
                 </h4>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   {L('Ánh xạ 5 cấp độ hạt nhân dữ liệu phục vụ liên kết SQL', 'Mapping 5 levels of analytical granularity for SQL joins')}
                 </p>
               </div>
@@ -319,11 +319,11 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                       <span className="h-1.5 w-1.5 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
                       {L(g.grain.vi, g.grain.en)}
                     </span>
-                    <code className="text-[10px] font-mono rounded bg-white px-1.5 py-0.5 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-[#0D7287] dark:text-[#9BE7FA]">
+                    <code className="text-xs font-mono rounded bg-white px-1.5 py-0.5 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-[#0D7287] dark:text-[#9BE7FA]">
                       {g.key}
                     </code>
                   </div>
-                  <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-snug">
                     <strong className="text-slate-800 dark:text-slate-200">{g.table}:</strong> {L(g.desc.vi, g.desc.en)}
                   </p>
                 </div>
@@ -331,7 +331,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
             </div>
           </div>
 
-          <div className="mt-3 flex items-center justify-between text-[11px] text-slate-500 pt-2">
+          <div className="mt-3 flex items-center justify-between text-xs text-slate-500 pt-2">
             <span>{L('5 Mức chi tiết hạt nhân', '5 Core Data Grains')}</span>
             <span className="tabular-nums font-semibold text-slate-700 dark:text-slate-300">
               {pipelineMeta.tables} {L('bảng nguồn hợp nhất', 'unified tables')}
@@ -373,7 +373,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                     <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#9BE7FA] font-black text-slate-950 text-xs">
                       {s.step}
                     </span>
-                    <span className="text-[10px] font-semibold text-slate-500 uppercase">
+                    <span className="text-xs font-semibold text-slate-500 uppercase">
                       {s.badge}
                     </span>
                   </div>
@@ -383,14 +383,14 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                       {L(s.title.vi, s.title.en)}
                     </h5>
                   </div>
-                  <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-snug">
                     {L(s.detail.vi, s.detail.en)}
                   </p>
                 </div>
 
                 {idx < 4 && (
                   <div className="hidden lg:block absolute -right-2 top-1/2 -translate-y-1/2 z-10">
-                    <div className="h-4 w-4 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-[10px] text-slate-400">
+                    <div className="h-4 w-4 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-xs text-slate-400">
                       →
                     </div>
                   </div>
@@ -407,7 +407,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
               <BarChart3 className="h-3.5 w-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('Quy mô Bản ghi Dữ liệu theo 9 Bảng Nguồn (Tổng cộng 21.569 dòng SSOT)', 'Data Record Volume across 9 Source Tables (21,569 SSOT Rows Total)')}
             </h5>
-            <span className="text-[11px] tabular-nums font-semibold text-slate-500">
+            <span className="text-xs tabular-nums font-semibold text-slate-500">
               {n(pipelineMeta.rows)} {L('dòng hợp nhất', 'records merged')}
             </span>
           </div>
@@ -488,7 +488,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                   </td>
                   <td className="py-2.5 px-3 text-center">
                     <span
-                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${
                         r.status === 'pass'
                           ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
                           : r.status === 'warn'
@@ -499,7 +499,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                       {L(r.statusLabel.vi, r.statusLabel.en)}
                     </span>
                   </td>
-                  <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+                  <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                     {L(r.note.vi, r.note.en)}
                   </td>
                 </tr>
@@ -540,7 +540,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
               </p>
             </div>
             <div className="mt-3 pt-2">
-              <span className="text-[11px] font-medium text-slate-500">7 Stages · 100% Validated</span>
+              <span className="text-xs font-medium text-slate-500">7 Stages · 100% Validated</span>
             </div>
           </div>
 
@@ -558,7 +558,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
               </p>
             </div>
             <div className="mt-3 pt-2">
-              <span className="text-[11px] font-medium text-slate-500">SQLite / DuckDB Schema</span>
+              <span className="text-xs font-medium text-slate-500">SQLite / DuckDB Schema</span>
             </div>
           </div>
 
@@ -576,7 +576,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
               </p>
             </div>
             <div className="mt-3 pt-2">
-              <span className="text-[11px] font-medium text-slate-500">Recharts · Responsive</span>
+              <span className="text-xs font-medium text-slate-500">Recharts · Responsive</span>
             </div>
           </div>
 
@@ -594,7 +594,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
               </p>
             </div>
             <div className="mt-3 pt-2">
-              <span className="text-[11px] font-medium text-slate-500">Action Plan & Limitations</span>
+              <span className="text-xs font-medium text-slate-500">Action Plan & Limitations</span>
             </div>
           </div>
         </div>

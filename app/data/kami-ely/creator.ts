@@ -615,8 +615,8 @@ export const creatorLiveDiagnosticsData = {
         roomEntryRatePct: 25.68,
         status: 'high-efficiency',
         diagnosis: {
-          vi: 'Chiếm 43% hiển thị với tỷ lệ vào phòng lên tới 25,68% — nguồn lưu lượng có ý định mua hàng cao nhất của kênh.',
-          en: 'Accounts for 43% of PV with a 25.68% room entry rate — the highest-intent traffic source for the channel.'
+          vi: 'Chiếm 43% hiển thị với tỷ lệ vào phòng lên tới 25,68%: nguồn lưu lượng có ý định mua hàng cao nhất của kênh.',
+          en: 'Accounts for 43% of PV with a 25.68% room entry rate: the highest-intent traffic source for the channel.'
         }
       },
       {
@@ -705,7 +705,7 @@ export const creatorLiveDiagnosticsData = {
         datasetSource: '[Kami Ely]-Creator\'s Live Streaming for Goods Promotion List (180 ngày)',
         sessionType: {
           vi: 'Mẫu Phiên Bùng Nổ Đòn Bẩy Ads (Tối ưu Search & Ads 3,2x - 3h36m)',
-          en: 'Ads-Scaled Session Profile (Search & 3.2x Ads Leverage - 3h36m)'
+          en: 'Ads-Scaled Session Profile (Search & 3.2x Paid Ads Scaling - 3h36m)'
         },
         duration: '3 giờ 36 phút 07 giây',
         totalGmv: '20.649.761 VNĐ',

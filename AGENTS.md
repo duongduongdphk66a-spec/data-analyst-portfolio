@@ -58,9 +58,9 @@ When implementing or refining interfaces, follow `ui-ux-pro-max` guidelines and 
    - Smooth 150-300ms transitions with easing.
    - Responsive layouts without horizontal scrolling (375px to 1440px).
 
-## Taste Skill & Anti-Slop Art Direction
+## Taste & Anti-Slop Art Direction
 
-Follow `taste-skill` standards (from `.agents/skills/taste-skill`) to eliminate generic AI styling patterns:
+Follow design standards to eliminate generic AI styling patterns:
 
 1. **Anti-Slop Visual Rules**:
    - Do not use decorative index numbering (`01`, `02`, `03`) as filler ornament.
@@ -76,8 +76,4 @@ Follow `taste-skill` standards (from `.agents/skills/taste-skill`) to eliminate 
    - Restrict paragraph width to readable bounds (`max-w-prose` or ~65 characters).
    - Use viewport-safe mobile sizing (`min-h-[100dvh]` or `100svh`, avoiding `100vh`).
    - Target properties explicitly in transitions (e.g. `transition-transform transition-opacity`) rather than blanket `transition-all`.
-
-3. **Validation**:
-   - Run `npm run taste:lint` to check project code for banned AI-design tells.
-   - Run `npm run taste:draw` to explore curated editorial directions for new pages.
 

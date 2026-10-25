@@ -445,8 +445,8 @@ export const sellerCenterShopData = {
         growthPct: 34.46,
         status: 'positive',
         insight: {
-          vi: 'Tăng 34,46% — sản phẩm được thuật toán TikTok đề xuất rất tốt và SEO từ khóa hiệu quả.',
-          en: 'Up 34.46% — strong algorithmic recommendation and effective keyword SEO.'
+          vi: 'Tăng 34,46%: sản phẩm được thuật toán TikTok đề xuất rất tốt và SEO từ khóa hiệu quả.',
+          en: 'Up 34.46%: strong algorithmic recommendation and effective keyword SEO.'
         }
       },
       {

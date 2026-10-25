@@ -669,7 +669,7 @@ export function Chapter4BackendLogic({
                       {isEn ? 'Edge Inspector: Select Active Flow Path' : 'Bộ kiểm tra đường nối: Chọn luồng xử lý trên biểu đồ'}
                     </span>
                   </div>
-                  <span className="text-[11px] tabular-nums text-[#0D7287] dark:text-[#9BE7FA] font-semibold">
+                  <span className="text-xs tabular-nums text-[#0D7287] dark:text-[#9BE7FA] font-semibold">
                     {isEn ? 'Interactive DOM Synced' : 'Đồng bộ sự kiện DOM'}
                   </span>
                 </div>
@@ -689,7 +689,7 @@ export function Chapter4BackendLogic({
                             : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-[#9BE7FA]'
                         }`}
                       >
-                        <span className={`px-1.5 py-0.5 rounded tabular-nums text-[10px] font-bold ${
+                        <span className={`px-1.5 py-0.5 rounded tabular-nums text-xs font-bold ${
                           isSelected ? 'bg-white/20 text-white dark:bg-slate-900/20 dark:text-slate-950' : 'bg-slate-100 dark:bg-slate-700 text-[#0D7287] dark:text-[#9BE7FA]'
                         }`}>
                           {edge.id}
@@ -711,7 +711,7 @@ export function Chapter4BackendLogic({
                         {isEn ? selectedWorkflowEdge.routeEn : selectedWorkflowEdge.routeVi}
                       </b>
                     </div>
-                    <code className="font-mono font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA] text-[11px] border border-slate-200 dark:border-slate-700">
+                    <code className="font-mono font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA] text-xs border border-slate-200 dark:border-slate-700">
                       {isEn ? selectedWorkflowEdge.techEn : selectedWorkflowEdge.techVi}
                     </code>
                   </div>
@@ -798,7 +798,7 @@ export function Chapter4BackendLogic({
                       {isEn ? 'Edge Inspector: Select Active Flow Path' : 'Bộ kiểm tra đường nối: Chọn luồng phân tích trên biểu đồ'}
                     </span>
                   </div>
-                  <span className="text-[11px] tabular-nums text-[#0D7287] dark:text-[#9BE7FA] font-semibold">
+                  <span className="text-xs tabular-nums text-[#0D7287] dark:text-[#9BE7FA] font-semibold">
                     {isEn ? 'Interactive DOM Synced' : 'Đồng bộ sự kiện DOM'}
                   </span>
                 </div>
@@ -818,7 +818,7 @@ export function Chapter4BackendLogic({
                             : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-[#9BE7FA]'
                         }`}
                       >
-                        <span className={`px-1.5 py-0.5 rounded tabular-nums text-[10px] font-bold ${
+                        <span className={`px-1.5 py-0.5 rounded tabular-nums text-xs font-bold ${
                           isSelected ? 'bg-white/20 text-white dark:bg-slate-900/20 dark:text-slate-950' : 'bg-slate-100 dark:bg-slate-700 text-[#0D7287] dark:text-[#9BE7FA]'
                         }`}>
                           {edge.id}
@@ -840,14 +840,14 @@ export function Chapter4BackendLogic({
                         {isEn ? selectedDataflowEdge.routeEn : selectedDataflowEdge.routeVi}
                       </b>
                     </div>
-                    <code className="font-mono font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA] text-[11px] border border-slate-200 dark:border-slate-700">
+                    <code className="font-mono font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA] text-xs border border-slate-200 dark:border-slate-700">
                       {isEn ? selectedDataflowEdge.techEn : selectedDataflowEdge.techVi}
                     </code>
                   </div>
 
                   {selectedDataflowEdge.mathFormula && (
                     <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/80 tabular-nums text-xs text-[#0D7287] dark:text-[#9BE7FA] border border-slate-200 dark:border-slate-700">
-                      <span className="font-sans font-bold text-slate-500 mr-2 text-[11px]">Công thức toán:</span>
+                      <span className="font-sans font-bold text-slate-500 mr-2 text-xs">Công thức toán:</span>
                       <code>{selectedDataflowEdge.techVi}</code>
                     </div>
                   )}
@@ -869,8 +869,8 @@ export function Chapter4BackendLogic({
 
       {/* FULLSCREEN MODAL (WHEN USER CLICKS MAXIMIZE ON ANY CHART) */}
       {fullscreenChart && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 dark:bg-black/85 backdrop-blur-md p-3 sm:p-6 flex flex-col justify-between animate-in fade-in duration-200">
-          <div className="flex items-center justify-between pb-3 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white bg-white/80 dark:bg-slate-900/80 px-4 py-2.5 rounded-2xl">
+        <div className="fixed inset-0 z-50 bg-slate-950/90 p-3 sm:p-6 flex flex-col justify-between animate-in fade-in duration-200">
+          <div data-ui="modal-header" className="flex items-center justify-between pb-3 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white bg-white dark:bg-slate-900 px-4 py-2.5 rounded-2xl">
             <div className="flex items-center gap-3">
               <span className="w-3 h-3 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
               <h3 className="font-bold text-base sm:text-xl">
@@ -960,7 +960,7 @@ export function Chapter4BackendLogic({
                     <code className="font-mono text-xs px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 block">
                       {isEn ? edge.techEn : edge.techVi}
                     </code>
-                    <span className="text-[11px] text-slate-500 block mt-1">
+                    <span className="text-xs text-slate-500 block mt-1">
                       {isEn ? edge.concurrencyEn : edge.concurrencyVi}
                     </span>
                   </td>
@@ -983,7 +983,7 @@ export function Chapter4BackendLogic({
                     <code className="font-mono text-xs px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 block">
                       {isEn ? edge.techEn : edge.techVi}
                     </code>
-                    <span className="text-[11px] text-slate-500 block mt-1">
+                    <span className="text-xs text-slate-500 block mt-1">
                       {isEn ? edge.concurrencyEn : edge.concurrencyVi}
                     </span>
                   </td>
@@ -1023,7 +1023,7 @@ export function Chapter4BackendLogic({
                 <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
                   <td className="p-3.5 align-top">
                     <span className="tabular-nums font-bold text-[#0D7287] dark:text-[#9BE7FA] block text-sm">{spec.fn}</span>
-                    <span className="tabular-nums text-[11px] text-slate-500 block mt-0.5">{spec.signature}</span>
+                    <span className="tabular-nums text-xs text-slate-500 block mt-0.5">{spec.signature}</span>
                   </td>
                   <td className="p-3.5 align-top space-y-1 text-slate-600 dark:text-slate-300">
                     {(isEn ? spec.paramsEn : spec.paramsVi).map((p, pIdx) => (

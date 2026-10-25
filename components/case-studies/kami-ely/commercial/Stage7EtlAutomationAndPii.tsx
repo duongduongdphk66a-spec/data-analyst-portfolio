@@ -272,11 +272,11 @@ LEFT JOIN (
                 {qualityGates.map((g, idx) => (
                   <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
                     <td className="py-2 px-3 font-semibold text-slate-800 dark:text-slate-200">{g.gate}</td>
-                    <td className="py-2 px-3 font-medium text-[11px]">{g.scope}</td>
+                    <td className="py-2 px-3 font-medium text-xs">{g.scope}</td>
                     <td className="py-2 px-3">{g.expected}</td>
                     <td className="py-2 px-3 tabular-nums font-bold text-slate-900 dark:text-white">{g.actual}</td>
                     <td className="py-2 px-3">
-                      <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${
+                      <span className={`px-1.5 py-0.5 rounded text-xs font-bold uppercase ${
                         g.level === 'error' ? 'bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300' : 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
                       }`}>
                         {g.level}
@@ -319,7 +319,7 @@ LEFT JOIN (
                 <span>1. RAW LAYER</span>
                 <Chip tone="rose">Append Only</Chip>
               </div>
-              <p className="text-slate-500 dark:text-slate-400 text-[11px] leading-relaxed">
+              <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">
                 {L('Đọc nguyên trạng 8 tệp xlsx; lưu source_file, sha256 checksum, loaded_at và as_of_date (04/09/2026).', 'Direct ingest of 8 xlsx files; tracks source_file, sha256, loaded_at, and as_of_date.')}
               </p>
             </div>
@@ -329,7 +329,7 @@ LEFT JOIN (
                 <span>2. STAGING LAYER</span>
                 <Chip tone="cyan">Cleaned</Chip>
               </div>
-              <p className="text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                 {L('Áp dụng 7 chuẩn làm sạch: dịch múi giờ +13h, unnest dải giá, gán cờ is_orphan, is_outlier_duration.', 'Applies 7 cleaning standards: +13h shift, unnest price ranges, flag orphans & outliers.')}
               </p>
             </div>
@@ -339,7 +339,7 @@ LEFT JOIN (
                 <span>3. MARTS LAYER</span>
                 <Chip tone="amber">SSOT</Chip>
               </div>
-              <p className="text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                 {L('Dựng các bảng phân tích mart_daily, mart_creator, mart_live, mart_video đảm bảo tính nhất quán 100%.', 'Builds analytical marts (mart_daily, mart_creator, mart_live, mart_video) for 100% SSOT parity.')}
               </p>
             </div>
@@ -349,7 +349,7 @@ LEFT JOIN (
                 <span>4. VIEWS LAYER</span>
                 <Chip tone="cyan">Dashboard</Chip>
               </div>
-              <p className="text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                 {L('Cung cấp các view tối ưu: v_daily_gmv, v_ads_compare, v_creator_summary chỉ đọc, không nhân bản dữ liệu.', 'Exposes lightweight read-only views for UI components without replicating underlying data.')}
               </p>
             </div>
@@ -424,7 +424,7 @@ LEFT JOIN (
                     <td className="py-2 px-3 font-semibold text-slate-800 dark:text-slate-200"><code>{item.field}</code></td>
                     <td className="py-2 px-3">{item.type}</td>
                     <td className="py-2 px-3 font-medium text-amber-700 dark:text-amber-400">{item.risk}</td>
-                    <td className="py-2 px-3 text-[11px] leading-relaxed text-slate-700 dark:text-slate-300">{item.treatment}</td>
+                    <td className="py-2 px-3 text-xs leading-relaxed text-slate-700 dark:text-slate-300">{item.treatment}</td>
                   </tr>
                 ))}
               </tbody>
@@ -438,7 +438,7 @@ LEFT JOIN (
                 <Lock className="h-3.5 w-3.5 text-amber-500" />
                 {L('Bản Báo Cáo Nội Bộ (Private NDA):', 'Internal Private Portfolio (NDA):')}
               </div>
-              <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
                 {L('Chỉ gửi cho nhà tuyển dụng/đối tác theo thỏa thuận bảo mật; giữ nguyên định danh để đối soát chất lượng dữ liệu với sự đồng thuận của chủ shop.', 'Shared exclusively under NDA with employers; retains handles to demonstrate auditing rigor with shop owner consent.')}
               </p>
             </div>
@@ -448,7 +448,7 @@ LEFT JOIN (
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
                 {L('Bản Công Khai (Public Open Source):', 'Public Open-Source Showcase:')}
               </div>
-              <p className="text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                 {L('Không commit tệp xlsx thô vào Git (.gitignore); toàn bộ creator được băm SHA-256 kèm muối; phân dải GMV/follower thành tier.', 'Excludes raw xlsx via .gitignore; salts and hashes all creator handles; generalizes metrics into follower tiers.')}
               </p>
             </div>
@@ -493,7 +493,7 @@ LEFT JOIN (
                 setCopiedIndex(activeSqlTab);
                 setTimeout(() => setCopiedIndex(null), 2000);
               }}
-              className="absolute top-3 right-3 flex items-center gap-1 rounded bg-slate-800 hover:bg-slate-700 px-2 py-1 text-[11px] text-slate-300 transition-colors cursor-pointer"
+              className="absolute top-3 right-3 flex items-center gap-1 rounded bg-slate-800 hover:bg-slate-700 px-2 py-1 text-xs text-slate-300 transition-colors cursor-pointer"
             >
               {copiedIndex === activeSqlTab ? (
                 <>

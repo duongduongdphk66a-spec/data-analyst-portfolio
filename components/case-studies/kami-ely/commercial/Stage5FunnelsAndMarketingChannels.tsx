@@ -73,9 +73,9 @@ export default function Stage5FunnelsAndMarketingChannels(props?: Stage5Props) {
       rows: [
         { metric: L('Số creator có cả 2 loại video', 'Creators with both video types'), ads: '175 creator', organic: '175 creator', note: L('Mẫu đối chứng nội bộ chuẩn xác', 'Rigorous within-subject sample') },
         { metric: L('Chênh lệch tỷ lệ có đơn TB (YES - NO)', 'Mean paired rate difference'), ads: '+10,40%', organic: '0,00%', note: L('Wilcoxon signed-rank stat = 364 (p = 1,68e-5)', 'Wilcoxon signed-rank stat = 364 (p = 1.68e-5)'), highlight: true },
-        { metric: L('Creator có Ads hiệu quả hơn Organic', 'Creators where Ads > Organic'), ads: '53 creator (30,3%)', organic: '—', note: L('Tỷ lệ có đơn tăng rõ rệt', 'Marked positive uplift') },
-        { metric: L('Creator có kết quả bằng nhau', 'Creators where Ads == Organic'), ads: '113 creator (64,6%)', organic: '—', note: L('Đa số là 0% ở cả hai nhóm (chưa bán được)', 'Mostly 0% in both groups (unactivated)') },
-        { metric: L('Creator có Organic tốt hơn Ads', 'Creators where Organic > Ads'), ads: '9 creator (5,1%)', organic: '—', note: L('Chỉ thiểu số nhỏ bị giảm', 'Only a tiny minority saw drops') },
+        { metric: L('Creator có Ads hiệu quả hơn Organic', 'Creators where Ads > Organic'), ads: '53 creator (30,3%)', organic: '-', note: L('Tỷ lệ có đơn tăng rõ rệt', 'Marked positive uplift') },
+        { metric: L('Creator có kết quả bằng nhau', 'Creators where Ads == Organic'), ads: '113 creator (64,6%)', organic: '-', note: L('Đa số là 0% ở cả hai nhóm (chưa bán được)', 'Mostly 0% in both groups (unactivated)') },
+        { metric: L('Creator có Organic tốt hơn Ads', 'Creators where Organic > Ads'), ads: '9 creator (5,1%)', organic: '-', note: L('Chỉ thiểu số nhỏ bị giảm', 'Only a tiny minority saw drops') },
       ],
     },
     tiers: {
@@ -287,14 +287,14 @@ ORDER BY time_slot, dur_tier;`,
               <div className="p-3 rounded-xl bg-[#F0F9FB] dark:bg-slate-800/60 border border-[#C8EEF7] dark:border-slate-800">
                 <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">{L('Chính Chủ (kamielyhn)', 'Own-Brand (kamielyhn)')}</div>
                 <div className="text-xl font-bold text-[#074553] dark:text-[#9BE7FA] tabular-nums mt-0.5">2.155 đ</div>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400">{L('GMV / lượt xem', 'GMV / viewer')}</div>
-                <div className="mt-2 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">96,4% {L('phiên có đơn', 'conversion rate')}</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400">{L('GMV / lượt xem', 'GMV / viewer')}</div>
+                <div className="mt-2 text-xs font-medium text-emerald-600 dark:text-emerald-400">96,4% {L('phiên có đơn', 'conversion rate')}</div>
               </div>
               <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
                 <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">{L('Affiliate Ngoài (6.576 ca)', 'Affiliate Live (6,576 ses)')}</div>
                 <div className="text-xl font-bold text-slate-700 dark:text-slate-300 tabular-nums mt-0.5">63 đ</div>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400">{L('GMV / lượt xem', 'GMV / viewer')}</div>
-                <div className="mt-2 text-[11px] font-medium text-rose-600 dark:text-rose-400">26,1% {L('phiên có đơn', 'conversion rate')}</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400">{L('GMV / lượt xem', 'GMV / viewer')}</div>
+                <div className="mt-2 text-xs font-medium text-rose-600 dark:text-rose-400">26,1% {L('phiên có đơn', 'conversion rate')}</div>
               </div>
             </div>
 
@@ -313,7 +313,7 @@ ORDER BY time_slot, dur_tier;`,
               </div>
             </div>
 
-            <div className="p-2.5 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-[11px] text-amber-800 dark:text-amber-300 flex items-start gap-1.5">
+            <div className="p-2.5 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-xs text-amber-800 dark:text-amber-300 flex items-start gap-1.5">
               <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
               <span>
                 {L(
@@ -474,7 +474,7 @@ ORDER BY time_slot, dur_tier;`,
                     <td className="py-2 px-3 text-slate-800 dark:text-slate-200">{r.metric}</td>
                     <td className="py-2 px-3 font-bold tabular-nums text-slate-900 dark:text-white">{r.ads}</td>
                     <td className="py-2 px-3 tabular-nums">{r.organic}</td>
-                    <td className="py-2 px-3 text-[11px] text-slate-500 dark:text-slate-400">{r.note}</td>
+                    <td className="py-2 px-3 text-xs text-slate-500 dark:text-slate-400">{r.note}</td>
                   </tr>
                 ))}
               </tbody>
@@ -582,7 +582,7 @@ ORDER BY time_slot, dur_tier;`,
                             <div className="text-[9px] opacity-75">({cell.n} {L('ca', 'ses')})</div>
                           </div>
                         ) : (
-                          '—'
+                          '-'
                         )}
                       </td>
                     ))}
@@ -592,7 +592,7 @@ ORDER BY time_slot, dur_tier;`,
             </table>
           </div>
 
-          <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed pt-1">
+          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pt-1">
             {L(
               '• Giải mã biến gây nhiễu: Khung tối (18h–23h) có GMV/view thấp (1.137 đ) không phải do người xem buổi tối không mua hàng, mà vì khung tối hoàn toàn KHÔNG CÓ ca live dài >8h (0 phiên). Trong khi đó, khung sáng có 68 ca và chiều có 36 ca >8h (đạt hiệu suất từ 2.833 đ đến 3.891 đ/view nhờ thuật toán TikTok đẩy đề xuất mạnh khi ca live kéo dài).',
               '• Confounding factor explained: Evening lives (18h-23h) show low conversion (1,137 VND/view) strictly because they featured ZERO >8h sessions. In contrast, morning and afternoon slots hosted 68 and 36 mega-sessions (>8h), driving 2,833 to 3,891 VND/view as the TikTok algorithm amplified streaming momentum.',
@@ -612,7 +612,7 @@ ORDER BY time_slot, dur_tier;`,
             <span className="text-2xl font-bold text-slate-900 dark:text-white tabular-nums">89,0%</span>
             <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">7,02 Tỷ / 7,89 Tỷ đ</span>
           </div>
-          <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
             {L('Doanh thu phụ thuộc gần như tuyệt đối vào livestream; video chính chủ đóng góp 11% (870 Tr đ).', 'Revenue hinges almost entirely on livestreaming; own videos contribute 11% (870M VND).')}
           </p>
         </div>
@@ -626,7 +626,7 @@ ORDER BY time_slot, dur_tier;`,
             <span className="text-2xl font-bold text-slate-900 dark:text-white tabular-nums">147.878 đ</span>
             <span className="text-xs text-slate-500 dark:text-slate-400">{L('Trung vị ngày từ Store', 'Daily median from Store')}</span>
           </div>
-          <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
             {L('Thay thế phân tích giỏ hàng: biên độ dao động từ 52k đ đến 193k đ, trung bình 139.281 đ/sp.', 'Proxy for basket value: spans 52k to 193k VND, averaging 139,281 VND per unit sold.')}
           </p>
         </div>
@@ -640,7 +640,7 @@ ORDER BY time_slot, dur_tier;`,
             <span className="text-2xl font-bold text-slate-900 dark:text-white tabular-nums">26,6%</span>
             <span className="text-xs text-slate-500 dark:text-slate-400">577,5 Tr / 2,17 Tỷ đ</span>
           </div>
-          <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
             {L('Chỉ 10 video xuất sắc nhất đã chiếm hơn 1/4 tổng GMV của 4.417 video gắn giỏ hàng affiliate.', 'Just top 10 videos drive over a quarter of total GMV across 4,417 affiliate shoppable videos.')}
           </p>
         </div>
@@ -683,7 +683,7 @@ ORDER BY time_slot, dur_tier;`,
                 setCopiedIndex(activeSqlTab);
                 setTimeout(() => setCopiedIndex(null), 2000);
               }}
-              className="absolute top-3 right-3 flex items-center gap-1 rounded bg-slate-800 hover:bg-slate-700 px-2 py-1 text-[11px] text-slate-300 transition-colors cursor-pointer"
+              className="absolute top-3 right-3 flex items-center gap-1 rounded bg-slate-800 hover:bg-slate-700 px-2 py-1 text-xs text-slate-300 transition-colors cursor-pointer"
             >
               {copiedIndex === activeSqlTab ? (
                 <>

@@ -87,12 +87,12 @@ export default function CaseStudyFooter({ isEn, currentProjectId, attribution }:
             <p className="font-bold text-slate-800 dark:text-slate-200">
               {isEn ? attribution.datasetEn : attribution.datasetVi}
             </p>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-xs text-slate-500">
               {isEn ? attribution.scopeEn : attribution.scopeVi}
             </p>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px] tabular-nums">
+          <div className="flex items-center gap-4 text-xs tabular-nums">
             <span>Ma Văn Hùng · Portfolio Data Analyst</span>
             <Link
               href="/"

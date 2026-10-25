@@ -78,7 +78,7 @@ export function PolicyEvaluationSection({
                 <BarChart3 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                 <span>Mô hình Đối chứng Tăng trưởng Khách Quốc tế (2003 – 2019)</span>
                 {isLiveDb && (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] tabular-nums font-bold bg-[#FFE485]/30 text-[#92400E] dark:bg-[#FFD14C]/15 dark:text-[#FFE485] border border-[#FFD14C]/40">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs tabular-nums font-bold bg-[#FFE485]/30 text-[#92400E] dark:bg-[#FFD14C]/15 dark:text-[#FFE485] border border-[#FFD14C]/40">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C]" />
                     MySQL Live
                   </span>

@@ -55,7 +55,7 @@ export default function ProjectsManagerTab({
             <FolderGit2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
             Danh sách Dự án Portfolio ({projectsForm.length})
           </h3>
-          <p className="text-[11px] text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Quản lý nội dung, hình ảnh, liên kết demo, github và iframe embed của từng dự án
           </p>
         </div>
@@ -117,7 +117,7 @@ export default function ProjectsManagerTab({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
-                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Tiêu đề Dự án
                 </label>
                 <input
@@ -129,7 +129,7 @@ export default function ProjectsManagerTab({
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Mô tả Ngắn (Summary Description)
                 </label>
                 <textarea
@@ -141,7 +141,7 @@ export default function ProjectsManagerTab({
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Ảnh Bìa URL (Image URL)
                 </label>
                 <input
@@ -154,7 +154,7 @@ export default function ProjectsManagerTab({
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Tags Phân loại (Ngăn cách bằng dấu phẩy)
                 </label>
                 <input
@@ -172,7 +172,7 @@ export default function ProjectsManagerTab({
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Demo / Report URL (hoặc file PDF)
                 </label>
                 <input
@@ -185,7 +185,7 @@ export default function ProjectsManagerTab({
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   GitHub Repository URL
                 </label>
                 <input
@@ -198,7 +198,7 @@ export default function ProjectsManagerTab({
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Iframe Embed URL (Trực quan hóa nhúng ngoài)
                 </label>
                 <input
@@ -211,7 +211,7 @@ export default function ProjectsManagerTab({
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Bài toán Kinh doanh (Problem)
                 </label>
                 <textarea
@@ -223,7 +223,7 @@ export default function ProjectsManagerTab({
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Phương pháp Xử lý (Methodology)
                 </label>
                 <textarea
@@ -235,7 +235,7 @@ export default function ProjectsManagerTab({
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Insight Giá Trị Đạt Được (Key Insight)
                 </label>
                 <textarea
@@ -247,7 +247,7 @@ export default function ProjectsManagerTab({
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Tài liệu Case Study Chi tiết (Markdown format)
                 </label>
                 <textarea

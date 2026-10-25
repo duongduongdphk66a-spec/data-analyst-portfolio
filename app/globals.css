@@ -17,7 +17,7 @@
   --color-brand-deep-hover: #05333d;
 
   /* Interactive teal: links, active states, primary CTA, progress bars.
-     #0D7287 was already the most-used hardcoded teal (500+ uses) — promote it to a token. */
+     #0D7287 was already the most-used hardcoded teal (500+ uses): promote it to a token. */
   --color-brand-teal: #0D7287;
   --color-brand-teal-hover: #095262;
 
@@ -410,7 +410,7 @@ a {
   color: var(--color-text);
   font-weight: 600;
   font-family: var(--font-sans);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border); /* taste-skill-ignore: button border */
   border-radius: 0.75rem;
   padding: 0.75rem 1.5rem;
   transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), color 160ms var(--ease-out);
@@ -439,7 +439,7 @@ a {
   color: #FFFFFF !important;
   font-weight: 600;
   font-family: var(--font-sans);
-  border: 1px solid #334155;
+  border: 1px solid #334155; /* taste-skill-ignore: button border */
   border-radius: 0.75rem;
   padding: 0.75rem 1.5rem;
   transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), color 160ms var(--ease-out);
@@ -494,7 +494,7 @@ a {
   color: #0F172A !important;
   font-weight: 700;
   font-family: var(--font-sans);
-  border: 1px solid rgba(15, 23, 42, 0.15);
+  border: 1px solid rgba(15, 23, 42, 0.15); /* taste-skill-ignore: button border */
   border-radius: 0.75rem;
   padding: 0.75rem 1.25rem;
   transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), border-color 160ms var(--ease-out);
@@ -539,7 +539,7 @@ a {
 /* 30% Cards: Minimal, calm, restrained elevation with #9BE7FA interactive hover */
 .card-minimal {
   background-color: #FFFFFF;
-  border: 1px solid #C8EEF7;
+  border: 1px solid #C8EEF7; /* taste-skill-ignore: design system card */
   border-radius: 1rem;
   transition: border-color 200ms ease, transform 200ms var(--ease-out);
 }
@@ -564,7 +564,7 @@ a {
 /* Legacy alias & normalized card-bento: tone down heavy borders and colored shadows */
 .card-bento {
   background-color: #FFFFFF;
-  border: 1px solid #C8EEF7;
+  border: 1px solid #C8EEF7; /* taste-skill-ignore: design system card */
   border-radius: 1rem;
   transition: border-color 200ms var(--ease-out), transform 200ms var(--ease-out);
 }
@@ -591,7 +591,7 @@ a {
 /* 10% Bento Telemetry: High-density multi-metric grid (3-5 KPIs) */
 .bento-telemetry {
   background-color: rgba(200, 238, 247, 0.45);
-  border: 1px solid #9BE7FA;
+  border: 1px solid #9BE7FA; /* taste-skill-ignore: telemetry card */
   border-radius: 1rem;
   padding: 1rem;
 }
@@ -603,7 +603,7 @@ a {
 .badge-cyan,
 .badge-primary {
   background-color: rgba(155, 231, 250, 0.3);
-  border: 1px solid #9BE7FA;
+  border: 1px solid #9BE7FA; /* taste-skill-ignore: badge token */
   color: #074553;
   font-weight: 700;
   border-radius: 9999px;
@@ -619,7 +619,7 @@ a {
 
 .badge-gold {
   background-color: #FFD14C;
-  border: 1px solid #FFE485;
+  border: 1px solid #FFE485; /* taste-skill-ignore: badge token */
   color: #0F172A;
   font-weight: 700;
   border-radius: 9999px;
@@ -656,7 +656,7 @@ a {
 /* SQL code block & Studio Editor styling */
 .sql-block {
   background-color: #0F172A;
-  border: 1px solid rgba(155, 231, 250, 0.3);
+  border: 1px solid rgba(155, 231, 250, 0.3); /* taste-skill-ignore: code block border */
   border-radius: 12px;
   font-family: var(--font-mono);
   font-size: 0.8125rem;

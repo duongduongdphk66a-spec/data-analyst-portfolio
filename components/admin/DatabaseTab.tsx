@@ -168,7 +168,7 @@ export default function DatabaseTab({
       <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
         <div className="flex items-center justify-between border-slate-100 dark:border-slate-800 pb-3">
           <div className="flex items-center gap-3">
-            <div className={`w-3 h-3 rounded-full ${dbStatus.connected ? 'bg-[#0D7287] dark:bg-[#9BE7FA] animate-pulse' : 'bg-amber-500'}`} />
+            <div className={`w-3 h-3 rounded-full ${dbStatus.connected ? 'bg-[#0D7287] dark:bg-[#9BE7FA]' : 'bg-amber-500'}`} />
             <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
               Trạng Thái Kết Nối Cơ Sở Dữ Liệu MySQL
             </h3>
@@ -191,7 +191,7 @@ export default function DatabaseTab({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60">
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold block mb-1">
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-bold block mb-1">
               Bảng Thông tin Cá nhân
             </span>
             <span className="text-xl font-extrabold text-slate-900 dark:text-white tabular-nums">
@@ -201,7 +201,7 @@ export default function DatabaseTab({
           </div>
 
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60">
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold block mb-1">
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-bold block mb-1">
               Bảng Đoạn Văn Bản (CMS)
             </span>
             <span className="text-xl font-extrabold text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
@@ -211,7 +211,7 @@ export default function DatabaseTab({
           </div>
 
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60">
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold block mb-1">
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-bold block mb-1">
               Bảng Dự Án
             </span>
             <span className="text-xl font-extrabold text-slate-900 dark:text-white tabular-nums">
@@ -221,7 +221,7 @@ export default function DatabaseTab({
           </div>
 
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60">
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold block mb-1">
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-bold block mb-1">
               Dữ Liệu TikTok Shop (8 bảng)
             </span>
             <span className="text-xl font-extrabold text-amber-500 dark:text-[#FFD14C] tabular-nums">
@@ -284,7 +284,7 @@ export default function DatabaseTab({
 
       {/* Danger Zone: Reset Confirmation Dialog */}
       {showResetConfirmModal && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
+        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/75 animate-in fade-in">
           <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full p-6 border border-red-200 dark:border-red-800 space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-red-100 dark:bg-red-950 text-red-600 flex items-center justify-center mx-auto">
               <RefreshCw className="w-6 h-6" />

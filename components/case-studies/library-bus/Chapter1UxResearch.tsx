@@ -394,7 +394,7 @@ export function Chapter1UxResearch({
                     <span className="w-2 h-2 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
                     <span>{isEn ? 'Click any box on Sitemap to scroll and open corresponding Wireframe & UI in Section 03' : 'Ấn vào bất kỳ ô nào trên Sitemap để cuộn xuống và mở ngay Wireframe & UI tương ứng ở Phần 03'}</span>
                   </div>
-                  <span className="tabular-nums text-[11px] text-slate-500 dark:text-slate-400">20/20 Screens Desktop</span>
+                  <span className="tabular-nums text-xs text-slate-500 dark:text-slate-400">20/20 Screens Desktop</span>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
@@ -436,10 +436,10 @@ export function Chapter1UxResearch({
                               className="px-2.5 sm:px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-[#9BE7FA] hover:text-[#0D7287] dark:hover:text-[#9BE7FA] text-slate-800 dark:text-slate-200 text-xs font-bold transition-colors text-left shadow-2xs hover:shadow-xs cursor-pointer flex items-center justify-between gap-2.5 whitespace-nowrap"
                             >
                               <div className="flex items-center gap-1.5">
-                                <span className="tabular-nums text-[10px] text-slate-400">0{idx + 1}.</span>
+                                <span className="tabular-nums text-xs text-slate-400">0{idx + 1}.</span>
                                 <span>{isEn ? item.nameEn : item.name}</span>
                               </div>
-                              <span className="tabular-nums text-[10px] px-1.5 py-0.5 rounded bg-slate-200/80 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-semibold">
+                              <span className="tabular-nums text-xs px-1.5 py-0.5 rounded bg-slate-200/80 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-semibold">
                                 #{item.screenId.replace('screen-', '')}
                               </span>
                             </button>
@@ -474,10 +474,10 @@ export function Chapter1UxResearch({
                               className="px-2.5 py-1 rounded-md border border-[#0D7287]/30 dark:border-[#9BE7FA]/30 bg-[#0D7287]/10 dark:bg-[#9BE7FA]/10 text-[#0D7287] dark:text-[#9BE7FA] font-extrabold hover:bg-[#0D7287] hover:text-white dark:hover:bg-[#9BE7FA] dark:hover:text-slate-950 transition cursor-pointer text-left shrink-0 text-xs flex items-center gap-1.5"
                             >
                               <span>{isEn ? group.parentEn : group.parent}</span>
-                              <span className="opacity-70 text-[10px] tabular-nums font-bold">#{group.screenId.replace('screen-', '')}</span>
+                              <span className="opacity-70 text-xs tabular-nums font-bold">#{group.screenId.replace('screen-', '')}</span>
                             </button>
                             <div className="w-3 border-t-2 border-slate-400 dark:border-slate-600 shrink-0" />
-                            <span className="text-[10px] tabular-nums text-slate-400 pl-1">
+                            <span className="text-xs tabular-nums text-slate-400 pl-1">
                               {group.children.length} {isEn ? 'nodes' : 'nhánh'}
                             </span>
                           </div>
@@ -491,7 +491,7 @@ export function Chapter1UxResearch({
                                   <button
                                     type="button"
                                     onClick={() => handleSitemapNodeClick(child.screenId)}
-                                    className="px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:border-[#9BE7FA] hover:text-[#0D7287] dark:hover:text-[#9BE7FA] text-[11px] font-medium transition text-left shadow-2xs cursor-pointer inline-flex items-center gap-1.5"
+                                    className="px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:border-[#9BE7FA] hover:text-[#0D7287] dark:hover:text-[#9BE7FA] text-xs font-medium transition text-left shadow-2xs cursor-pointer inline-flex items-center gap-1.5"
                                   >
                                     <span>•</span>
                                     <span>{isEn ? child.labelEn : child.label}</span>
@@ -510,7 +510,7 @@ export function Chapter1UxResearch({
                                         <button
                                           type="button"
                                           onClick={() => handleSitemapNodeClick(subItem.screenId)}
-                                          className="px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-[10px] text-slate-600 dark:text-slate-300 font-medium hover:border-[#9BE7FA] hover:text-[#0D7287] dark:hover:text-[#9BE7FA] hover:bg-[#C8EEF7]/20 transition cursor-pointer flex items-center gap-1"
+                                          className="px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-300 font-medium hover:border-[#9BE7FA] hover:text-[#0D7287] dark:hover:text-[#9BE7FA] hover:bg-[#C8EEF7]/20 transition cursor-pointer flex items-center gap-1"
                                         >
                                           <span>{isEn ? subItem.labelEn : subItem.label}</span>
                                           <span className="tabular-nums text-[9px] text-[#0D7287] dark:text-[#9BE7FA] font-bold">#{subItem.screenId.replace('screen-', '')}</span>
@@ -550,7 +550,7 @@ export function Chapter1UxResearch({
                   {/* Step 2 Decision */}
                   <div className="p-2.5 rounded-2xl bg-[#FFE485]/20 dark:bg-[#FFE485]/10 border border-[#FFD14C]/40 text-center shrink-0">
                     <span className="block font-bold text-slate-900 dark:text-white">Đã biết tên sách?</span>
-                    <div className="flex gap-1.5 mt-1 text-[11px]">
+                    <div className="flex gap-1.5 mt-1 text-xs">
                       <span className="px-2 py-0.5 rounded bg-[#C8EEF7] text-[#074553] font-bold">Có: Tìm kiếm</span>
                       <span className="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Không: Gợi ý</span>
                     </div>
@@ -568,7 +568,7 @@ export function Chapter1UxResearch({
                   {/* Step 4 Decision */}
                   <div className="p-2.5 rounded-2xl bg-[#FFE485]/20 dark:bg-[#FFE485]/10 border border-[#FFD14C]/40 text-center shrink-0">
                     <span className="block font-bold text-slate-900 dark:text-white">Còn sách trên xe?</span>
-                    <div className="flex gap-1.5 mt-1 text-[11px]">
+                    <div className="flex gap-1.5 mt-1 text-xs">
                       <span className="px-2 py-0.5 rounded bg-[#C8EEF7] text-[#074553] font-bold">Có: Mượn ngay</span>
                       <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700">Hết: Đặt trước</span>
                     </div>

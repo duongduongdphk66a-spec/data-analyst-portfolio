@@ -10,7 +10,7 @@ import { ProjectData } from '../../../types';
 const CaseStudyLoadingFallback = () => (
   <div className="min-h-dvh flex items-center justify-center bg-ground dark:bg-[#0B0F17]">
     <div className="flex flex-col items-center gap-3">
-      <div className="w-8 h-8 border-3 border-[#0D7287] border-t-transparent rounded-full animate-spin dark:border-[#9BE7FA]" />
+      <div className="w-8 h-8 border-3 border-[#0D7287] border-t-transparent rounded-full animate-spin dark:border-[#9BE7FA]" /* taste-skill-ignore: circular spinner */ />
       <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Đang tải Case Study...</span>
     </div>
   </div>

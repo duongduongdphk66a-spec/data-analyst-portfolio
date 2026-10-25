@@ -143,7 +143,7 @@ export default function HeritageJapanVisualSuite({ isEn: propIsEn }: HeritageJap
                 {lang === 'vi' ? 'Lượng Khách Quốc Tế JNTO (Triệu Lượt)' : 'JNTO Inbound Visitors (M)'}
               </span>
             </div>
-            <span className="text-slate-500 dark:text-slate-400 text-[11px]">
+            <span className="text-slate-500 dark:text-slate-400 text-xs">
               {lang === 'vi' ? 'Đơn vị: Tỉ Yên (B) / Triệu khách (M)' : 'Units: Billion JPY (B) / Million Visits (M)'}
             </span>
           </div>
@@ -162,7 +162,7 @@ export default function HeritageJapanVisualSuite({ isEn: propIsEn }: HeritageJap
                     onClick={() => setSelectedYearIdx(idx)}
                     className="flex flex-col items-center justify-end h-full cursor-pointer group"
                   >
-                    <div className="flex items-center justify-center gap-1 text-[11px] tabular-nums font-bold mb-1.5 whitespace-nowrap">
+                    <div className="flex items-center justify-center gap-1 text-xs tabular-nums font-bold mb-1.5 whitespace-nowrap">
                       <span
                         className={isSelected ? 'text-sky-600 dark:text-sky-400 font-black' : 'text-sky-700/80 dark:text-sky-400/80'}
                         title={`Ngân sách ACA: ${item.budgetB} Tỉ Yên`}
@@ -230,7 +230,7 @@ export default function HeritageJapanVisualSuite({ isEn: propIsEn }: HeritageJap
                 {timeSeriesData[selectedYearIdx].status[lang]}
               </span>
             </div>
-            <div className="pt-2 border-slate-200 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-600 dark:text-slate-400">
+            <div className="pt-2 border-slate-200 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-400">
               <span>
                 <strong>Nguồn Ngân Sách ACA:</strong> Cục Văn hóa Nhật Bản (<em>Agency for Cultural Affairs - Bunkachō 文化庁</em>, thuộc Bộ MEXT Nhật Bản).
               </span>
@@ -438,7 +438,7 @@ export default function HeritageJapanVisualSuite({ isEn: propIsEn }: HeritageJap
             >
               <div className="relative h-32 w-full bg-slate-50/80 dark:bg-slate-950/80 p-2 overflow-hidden flex items-center justify-center">
                 <ThesisCodedChart figure={fig} isThumbnail={true} lang={lang} />
-                <span className="absolute top-2 left-2 px-2 py-0.5 rounded text-[11px] tabular-nums font-bold bg-white/95 dark:bg-slate-900/95 text-sky-700 dark:text-sky-300 border border-slate-200 dark:border-slate-700 shadow-xs pointer-events-none">
+                <span className="absolute top-2 left-2 px-2 py-0.5 rounded text-xs tabular-nums font-bold bg-white/95 dark:bg-slate-900/95 text-sky-700 dark:text-sky-300 border border-slate-200 dark:border-slate-700 shadow-xs pointer-events-none">
                   {fig.code}
                 </span>
               </div>
@@ -446,7 +446,7 @@ export default function HeritageJapanVisualSuite({ isEn: propIsEn }: HeritageJap
                 <div className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-sky-600 dark:group-hover:text-sky-400">
                   {fig.shortTitle[lang]}
                 </div>
-                <div className="text-[11px] tabular-nums text-[#0D7287] dark:text-[#9BE7FA] truncate">
+                <div className="text-xs tabular-nums text-[#0D7287] dark:text-[#9BE7FA] truncate">
                   {fig.stat}
                 </div>
               </div>
@@ -460,7 +460,7 @@ export default function HeritageJapanVisualSuite({ isEn: propIsEn }: HeritageJap
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[95] flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm"
+          className="fixed inset-0 z-[95] flex items-center justify-center p-3 sm:p-4 bg-slate-950/85"
           onClick={() => setActiveChartModal(null)}
         >
           <div
@@ -473,7 +473,7 @@ export default function HeritageJapanVisualSuite({ isEn: propIsEn }: HeritageJap
                   <span className="text-xs tabular-nums text-sky-600 dark:text-sky-400 font-bold">
                     {thesisChartsGallery[activeChartModal].code}
                   </span>
-                  <span className="text-[11px] tabular-nums text-slate-500 dark:text-slate-400">
+                  <span className="text-xs tabular-nums text-slate-500 dark:text-slate-400">
                     (Luận văn trang {thesisChartsGallery[activeChartModal].pageInDoc})
                   </span>
                 </div>
@@ -535,7 +535,7 @@ export default function HeritageJapanVisualSuite({ isEn: propIsEn }: HeritageJap
                     alt={thesisChartsGallery[activeChartModal].title[lang]}
                     className="max-h-[62vh] w-auto object-contain mx-auto rounded-lg border border-slate-200 dark:border-slate-800"
                   />
-                  <span className="text-[11px] tabular-nums text-slate-500 dark:text-slate-400 mt-2">
+                  <span className="text-xs tabular-nums text-slate-500 dark:text-slate-400 mt-2">
                     Bản chụp quét từ tài liệu Luận văn cử nhân gốc (Trang {thesisChartsGallery[activeChartModal].pageInDoc})
                   </span>
                 </div>

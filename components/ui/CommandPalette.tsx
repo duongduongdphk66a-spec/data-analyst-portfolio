@@ -358,7 +358,7 @@ export default function CommandPalette({
           {/* BACKDROP */}
           <div
             onClick={closePalette}
-            className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity"
+            className="fixed inset-0 bg-slate-950/85 transition-opacity"
           />
 
           {/* DIALOG BOX */}
@@ -377,7 +377,7 @@ export default function CommandPalette({
                     : 'Search projects (Kami Ely, Japan, Library Bus), SQL Lab, or download CV...'
                 }
                 aria-label={lang === 'vi' ? 'Ô nhập từ khóa tìm kiếm' : 'Command search input'}
-                className="w-full bg-transparent text-sm text-white placeholder-slate-400 focus:outline-none"
+                className="w-full bg-transparent text-sm text-white placeholder-slate-400 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9BE7FA]/70"
               />
               <button
                 type="button"

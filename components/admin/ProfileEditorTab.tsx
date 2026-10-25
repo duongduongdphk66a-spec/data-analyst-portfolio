@@ -202,7 +202,7 @@ export default function ProfileEditorTab({
               <Sparkles className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               Danh sách Kỹ Năng & Công Cụ ({profileForm.skills?.length || 0})
             </h3>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Hiển thị tại phần About và thanh kỹ năng
             </p>
           </div>
@@ -254,7 +254,7 @@ export default function ProfileEditorTab({
                       newSkills[idx].category = e.target.value;
                       setProfileForm({ ...profileForm, skills: newSkills });
                     }}
-                    className="w-full text-[11px] px-2 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200"
+                    className="w-full text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200"
                   />
                 </div>
                 <div>
@@ -269,7 +269,7 @@ export default function ProfileEditorTab({
                       newSkills[idx].level = parseInt(e.target.value, 10) || 5;
                       setProfileForm({ ...profileForm, skills: newSkills });
                     }}
-                    className="w-full text-[11px] px-2 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200"
+                    className="w-full text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200"
                   />
                 </div>
               </div>
@@ -285,7 +285,7 @@ export default function ProfileEditorTab({
                     newSkills[idx].proficiencyNote = e.target.value;
                     setProfileForm({ ...profileForm, skills: newSkills });
                   }}
-                  className="w-full text-[11px] px-2 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200"
+                  className="w-full text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200"
                 />
               </div>
             </div>
@@ -301,7 +301,7 @@ export default function ProfileEditorTab({
               <FileText className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               Kinh Nghiệm & Học Vấn ({profileForm.experiences?.length || 0})
             </h3>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Hiển thị tại dòng thời gian mục CV & Experience
             </p>
           </div>

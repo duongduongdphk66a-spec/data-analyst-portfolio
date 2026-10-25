@@ -123,8 +123,8 @@ export function Chapter1HeritageSection({
                       <span className="text-slate-400 tabular-nums text-xs">{site.prefecture}</span>
                     </div>
                     <p className="font-extrabold text-slate-900 mb-0.5 dark:text-white">{site.nameVi}</p>
-                    <p className="text-[11px] text-slate-500 font-japanese mb-1.5 dark:text-slate-400">{site.nameJa}</p>
-                    <p className="text-slate-600 leading-normal text-[11px] dark:text-slate-300">{site.highlight}</p>
+                    <p className="text-xs text-slate-500 font-japanese mb-1.5 dark:text-slate-400">{site.nameJa}</p>
+                    <p className="text-slate-600 leading-normal text-xs dark:text-slate-300">{site.highlight}</p>
                   </div>
                 ))}
               </div>

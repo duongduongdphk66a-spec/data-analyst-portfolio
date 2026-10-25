@@ -79,7 +79,7 @@ export function Kpi({
     <div className={`rounded-2xl border px-4 py-3 ${toneClass}`}>
       <div className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tabular-nums">{value}</div>
       <div className="text-xs font-bold text-slate-700 dark:text-slate-200 mt-0.5">{label}</div>
-      {sub && <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{sub}</div>}
+      {sub && <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{sub}</div>}
     </div>
   );
 }

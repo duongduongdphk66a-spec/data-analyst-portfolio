@@ -314,7 +314,7 @@ export const TESTIMONIALS: TestimonialItem[] = [
     quoteVi:
       "Làm việc cùng Hùng rất hiệu quả vì bạn vừa hiểu sâu về cấu trúc cơ sở dữ liệu (SQL), vừa có tư duy trải nghiệm người dùng (UX). Bạn luôn biết cách giải thích các thuật toán và luồng dữ liệu phức tạp thành ngôn ngữ trực quan mà mọi thành viên trong nhóm đều nắm bắt được.",
     quoteEn:
-      "Collaborating with Hùng is seamless because he bridges deep SQL/data architecture knowledge with strong UX intuition. He consistently translates complex data pipelines and statistical logic into visual stories that everyone on the team can immediately understand.",
+      "Collaborating with Hùng is highly effective and direct because he bridges deep SQL/data architecture knowledge with strong UX intuition. He consistently translates complex data pipelines and statistical logic into visual stories that everyone on the team can immediately understand.",
     authorVi: "Cộng sự Thiết kế & Phát triển Hệ thống",
     authorEn: "Product & Systems Collaborator",
     titleVi: "Nhóm Dự án Sản phẩm & Kiến trúc Dữ liệu",

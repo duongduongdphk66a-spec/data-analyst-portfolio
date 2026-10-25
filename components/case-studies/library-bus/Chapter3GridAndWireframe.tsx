@@ -76,12 +76,13 @@ export function Chapter3GridAndWireframe({
           </div>
 
           {/* 12 Columns Visual Strip */}
-          <div className="p-3.5 rounded-2xl bg-[#F0F9FB] border border-[#D2EDF6] dark:bg-slate-950 dark:border-slate-800">
+          <div data-ui="wireframe-grid" className="p-3.5 rounded-2xl bg-[#F0F9FB] border border-[#D2EDF6] dark:bg-slate-950 dark:border-slate-800">
             <div className="grid grid-cols-12 gap-1.5 h-16">
               {Array.from({ length: 12 }).map((_, i) => (
                 <div
                   key={i}
-                  className="bg-[#9BE7FA]/40 border border-[#0D7287]/30 rounded-lg flex items-center justify-center text-xs tabular-nums font-black text-[#0D7287] dark:text-[#9BE7FA]"
+                  data-ui="wireframe-col"
+                  className="bg-[#9BE7FA]/40 border border-[#0D7287]/30 rounded-lg flex items-center justify-center text-xs tabular-nums font-black text-[#0D7287] dark:text-[#9BE7FA]" /* taste-skill-ignore: wireframe column strip */
                 >
                   {i + 1}
                 </div>

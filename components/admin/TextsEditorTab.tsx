@@ -153,7 +153,7 @@ export default function TextsEditorTab({
                     <span className="px-2 py-0.5 rounded-md bg-cyan-100 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 tabular-nums text-xs font-bold">
                       {item.key}
                     </span>
-                    <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                       • {item.sectionLabel}
                     </span>
                   </div>

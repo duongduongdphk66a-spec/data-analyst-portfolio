@@ -297,7 +297,7 @@ export const translations = {
 
     // TikTok Shop Kami Ely Minto Pyramid Sections
     kami_minto_header_title: 'Comprehensive TikTok Shop & Creator Analysis for Kami Ely: From Commercial Operations to Statistical Optimization',
-    kami_minto_header_context: 'Evaluate GMV generation, content conversion behavior (Video vs. Livestream), and product SKU architecture for the Kami Ely brand on TikTok Shop to unlock sustainable growth levers.',
+    kami_minto_header_context: 'Evaluate GMV generation, content conversion behavior (Video vs. Livestream), and product SKU architecture for the Kami Ely brand on TikTok Shop to identify sustainable growth levers.',
     kami_minto_header_conclusion: 'Revenue relies heavily on short-term campaign surges and core Pareto 80/20 SKUs. Short-form video maintains more stable conversion efficiency than Livestream, while portfolio optimization improves expected GMV without proportionally increasing posting cadence.',
     kami_minto_proof_cta: 'View 19 FastMoss Proof Screenshots & Reconciliation Telemetry',
     kami_minto_tab1_title: 'Commercial & Content Performance',

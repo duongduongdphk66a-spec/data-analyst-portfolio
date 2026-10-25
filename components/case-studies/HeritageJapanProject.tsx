@@ -169,7 +169,7 @@ export default function HeritageJapanProject({
                   </div>
                 </div>
 
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed pt-3 mt-auto">
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed pt-3 mt-auto">
                   {card.comparisonNote[lang]}
                 </p>
               </div>
@@ -263,7 +263,7 @@ export default function HeritageJapanProject({
                     const isPeak = d.year === '2019';
                     return (
                       <div key={d.year} className="flex-1 flex flex-col items-center justify-end h-full group">
-                        <span className="text-[10px] sm:text-xs font-bold tabular-nums text-slate-700 dark:text-slate-200 mb-1.5 transition-transform group-hover:scale-110 select-none">
+                        <span className="text-xs sm:text-xs font-bold tabular-nums text-slate-700 dark:text-slate-200 mb-1.5 transition-transform group-hover:scale-110 select-none">
                           {d.value}
                         </span>
                         <div
@@ -286,7 +286,7 @@ export default function HeritageJapanProject({
                   {synchronizedVisitors.map((d) => (
                     <div key={d.year} className="flex-1 text-center">
                       <span
-                        className={`text-[10px] sm:text-xs font-semibold tabular-nums block truncate ${
+                        className={`text-xs sm:text-xs font-semibold tabular-nums block truncate ${
                           d.year === '2019'
                             ? 'text-slate-950 dark:text-[#FFD14C] font-extrabold'
                             : 'text-slate-500 dark:text-slate-400'
@@ -347,7 +347,7 @@ export default function HeritageJapanProject({
                     const isBoom = Number(d.year) >= 2013 && Number(d.year) < 2019;
                     return (
                       <div key={d.year} className="flex-1 flex flex-col items-center justify-end h-full group">
-                        <span className="text-[10px] sm:text-xs font-bold tabular-nums text-slate-700 dark:text-slate-200 mb-1.5 transition-transform group-hover:scale-110 select-none">
+                        <span className="text-xs sm:text-xs font-bold tabular-nums text-slate-700 dark:text-slate-200 mb-1.5 transition-transform group-hover:scale-110 select-none">
                           {d.value}
                         </span>
                         <div
@@ -370,7 +370,7 @@ export default function HeritageJapanProject({
                   {synchronizedSpending.map((d) => (
                     <div key={d.year} className="flex-1 text-center">
                       <span
-                        className={`text-[10px] sm:text-xs font-semibold tabular-nums block truncate ${
+                        className={`text-xs sm:text-xs font-semibold tabular-nums block truncate ${
                           d.year === '2019'
                             ? 'text-slate-950 dark:text-[#FFD14C] font-extrabold'
                             : 'text-slate-500 dark:text-slate-400'
@@ -436,7 +436,7 @@ export default function HeritageJapanProject({
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div className="space-y-1">
-                      <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                      <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
                         <span>Toàn quốc</span>
                         <span className="font-bold">{row.japan}</span>
                       </div>
@@ -448,7 +448,7 @@ export default function HeritageJapanProject({
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <div className="flex justify-between text-[11px] text-[#074553] dark:text-[#9BE7FA]">
+                      <div className="flex justify-between text-xs text-[#074553] dark:text-[#9BE7FA]">
                         <span>Cố đô Kyoto</span>
                         <span className="font-bold">{row.kyoto}</span>
                       </div>
@@ -460,7 +460,7 @@ export default function HeritageJapanProject({
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <div className="flex justify-between text-[11px] text-amber-700 dark:text-[#FFE485]">
+                      <div className="flex justify-between text-xs text-amber-700 dark:text-[#FFE485]">
                         <span>Cố đô Nara</span>
                         <span className="font-bold">{row.nara}</span>
                       </div>
@@ -534,7 +534,7 @@ export default function HeritageJapanProject({
 
               {/* Thang đo chung trục Y */}
               <div className="w-full pt-2">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 mb-2 px-1">
+                <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2 px-1">
                   <span className="font-medium">Thang đo trục Y (Nghìn người)</span>
                   <span className="font-bold text-[#0D7287] dark:text-[#9BE7FA] bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/15 px-2 py-0.5 rounded-md">
                     Thang chuẩn: Mốc 1.000 nghìn = 36px (Đồng nhất 2 biểu đồ)
@@ -573,7 +573,7 @@ export default function HeritageJapanProject({
                       return (
                         <div key={d.year} className="flex-1 flex flex-col items-center justify-end h-full group min-w-0">
                           <span
-                            className={`text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-1 transition-transform group-hover:scale-110 select-none tabular-nums truncate max-w-full ${
+                            className={`text-[8px] sm:text-[9px] lg:text-xs font-bold mb-1 transition-transform group-hover:scale-110 select-none tabular-nums truncate max-w-full ${
                               isPeak
                                 ? 'text-[#92400E] dark:text-[#FFD14C] font-black'
                                 : 'text-slate-700 dark:text-slate-200'
@@ -602,7 +602,7 @@ export default function HeritageJapanProject({
                     {HERITAGE_JAPAN_DATA.kyotoVisitors.map((d) => (
                       <div key={d.year} className="flex-1 text-center min-w-0">
                         <span
-                          className={`text-[9px] sm:text-[10px] lg:text-[11px] font-medium block truncate ${
+                          className={`text-[9px] sm:text-xs lg:text-xs font-medium block truncate ${
                             d.year === '2019'
                               ? 'text-slate-950 dark:text-[#FFD14C] font-extrabold'
                               : 'text-slate-500 dark:text-slate-400'
@@ -651,7 +651,7 @@ export default function HeritageJapanProject({
 
               {/* Thang đo chung trục Y */}
               <div className="w-full pt-2">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 mb-2 px-1">
+                <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2 px-1">
                   <span className="font-medium">Thang đo trục Y (Nghìn người)</span>
                   <span className="font-bold text-[#0D7287] dark:text-[#9BE7FA] bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/15 px-2 py-0.5 rounded-md">
                     Thang chuẩn: Mốc 1.000 nghìn = 36px (Đồng nhất 2 biểu đồ)
@@ -690,7 +690,7 @@ export default function HeritageJapanProject({
                       return (
                         <div key={d.year} className="flex-1 flex flex-col items-center justify-end h-full group min-w-0">
                           <span
-                            className={`text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-1 transition-transform group-hover:scale-110 select-none tabular-nums truncate max-w-full ${
+                            className={`text-[8px] sm:text-[9px] lg:text-xs font-bold mb-1 transition-transform group-hover:scale-110 select-none tabular-nums truncate max-w-full ${
                               isPeak
                                 ? 'text-[#92400E] dark:text-[#FFD14C] font-black'
                                 : 'text-slate-700 dark:text-slate-200'
@@ -719,7 +719,7 @@ export default function HeritageJapanProject({
                     {HERITAGE_JAPAN_DATA.naraVisitors.map((d) => (
                       <div key={d.year} className="flex-1 text-center min-w-0">
                         <span
-                          className={`text-[9px] sm:text-[10px] lg:text-[11px] font-medium block truncate ${
+                          className={`text-[9px] sm:text-xs lg:text-xs font-medium block truncate ${
                             d.year === '2019'
                               ? 'text-slate-950 dark:text-[#FFD14C] font-extrabold'
                               : 'text-slate-500 dark:text-slate-400'
@@ -778,7 +778,7 @@ export default function HeritageJapanProject({
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <div className="flex justify-between text-[11px] text-[#074553] dark:text-[#9BE7FA]">
+                      <div className="flex justify-between text-xs text-[#074553] dark:text-[#9BE7FA]">
                         <span>Kyoto</span>
                         <span className="font-bold">{kVal} tỷ ¥</span>
                       </div>
@@ -790,7 +790,7 @@ export default function HeritageJapanProject({
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <div className="flex justify-between text-[11px] text-amber-700 dark:text-[#FFE485]">
+                      <div className="flex justify-between text-xs text-amber-700 dark:text-[#FFE485]">
                         <span>Nara</span>
                         <span className="font-bold">{nVal} tỷ ¥</span>
                       </div>

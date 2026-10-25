@@ -55,7 +55,7 @@ function ToastItem({ toast, onRemove }: { toast: ToastMessage; onRemove: () => v
   }, [toast, onRemove]);
 
   return (
-    <div className="pointer-events-auto flex items-center justify-between gap-3 px-4 py-3 bg-ground-alt/95 dark:bg-slate-900/95 border border-border-subtle dark:border-slate-800 rounded-xl animate-fade-in-up text-ink dark:text-white font-heading text-xs sm:text-sm">
+    <div data-ui="toast" className="pointer-events-auto flex items-center justify-between gap-3 px-4 py-3 bg-ground-alt/95 dark:bg-slate-900/95 border border-border-subtle dark:border-slate-800 rounded-xl animate-fade-in-up text-ink dark:text-white font-heading text-xs sm:text-sm">
       <div className="flex items-center gap-2.5">
         {toast.type === 'success' && <CheckCircle2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA] shrink-0" />}
         {toast.type === 'error' && <AlertCircle className="w-4 h-4 text-[#B45309] dark:text-[#FFD14C] shrink-0" />}

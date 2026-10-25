@@ -9,7 +9,7 @@ export function WireframeCrossBox({
   aspect?: string; 
 }) {
   return (
-    <div className={`relative bg-[#E8EAEF] border border-[#CBD5E1] rounded overflow-hidden flex items-center justify-center ${aspect} ${className}`}>
+    <div data-ui="wireframe-cross-box" className={`relative bg-[#E8EAEF] border border-[#CBD5E1] rounded overflow-hidden flex items-center justify-center ${aspect} ${className}`}>
       <svg className="absolute inset-0 w-full h-full text-[#CBD5E1] stroke-current" viewBox="0 0 100 100" preserveAspectRatio="none">
         <line x1="0" y1="0" x2="100" y2="100" strokeWidth="0.8" />
         <line x1="100" y1="0" x2="0" y2="100" strokeWidth="0.8" />

@@ -181,7 +181,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
               <Calendar className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('1. Bảng lịch dim_date', '1. Calendar dim_date')}
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
                 'Tạo đủ 226 ngày (09/03 – 20/10/2026). LEFT JOIN xác nhận Store Detail không bị khuyết ngày nào (min 49 sp/ngày). Gắn cờ is_partial_month cho T3 (23 ngày) và T10 (20 ngày).',
                 'Full 226 continuous days mapped (09/03 - 20/10/2026). LEFT JOIN verifies Store Detail has 0 missing days (min 49 units/day). Partial month flags for Mar (23d) & Oct (20d).',
@@ -194,7 +194,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
               <Clock className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('2. Thống nhất UTC+7', '2. Unified UTC+7')}
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
                 'Dịch chuyển giờ (+13h cho Creator Live, -1h cho dòng UTC+8) trước khi gom nhóm theo ngày. Tránh việc các ca Live kéo dài qua nửa đêm bị cắt sai ngày.',
                 'Shift timestamps (+13h for Creator Live, -1h for UTC+8) prior to daily aggregation to avoid cross-midnight session date misallocation.',
@@ -207,7 +207,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
               <Table className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('3. Quy ước ngày thưa = 0', '3. Zero Filling for Sparse Days')}
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
                 'Khi dựng chuỗi Live/Video từ Shop LIVE và Shoppable, ngày không có hoạt động phải điền 0 (không để NULL), vì NULL sẽ làm sai lệch các hàm cửa sổ trượt AVG() OVER.',
                 'Fill sparse days with 0 instead of NULL when rolling up Shop LIVE/Shoppable to avoid breaking AVG() OVER window calculations.',
@@ -220,7 +220,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
               <Scale className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('4. Chuẩn hóa GMV/ngày', '4. Day-Normalized Metric')}
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
                 'Tuyệt đối không so sánh tổng GMV tháng khi số ngày quan sát không đồng đều. Luôn dùng GMV bình quân ngày (GMV/ngày) để đo lường MoM chuẩn xác.',
                 'Never compare raw monthly GMV sums when day counts differ. Standardize on daily average GMV (GMV/day) for rigorous MoM growth tracking.',
@@ -284,7 +284,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                     {m.ym === '2026-06' && <Flame className="h-3.5 w-3.5 text-amber-500" />}
                     <span>{m.label}</span>
                     {m.isPartial && (
-                      <span className="text-[10px] rounded px-1.5 py-0.2 bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 not-italic">
+                      <span className="text-xs rounded px-1.5 py-0.2 bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 not-italic">
                         {m.days}N
                       </span>
                     )}
@@ -302,7 +302,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                   <td className="py-2.5 px-2.5 text-right tabular-nums">{n(m.units)}</td>
                   <td className="py-2.5 px-3 text-right tabular-nums">{n(m.aov)}</td>
                   <td className="py-2.5 px-3 text-right tabular-nums text-slate-500">
-                    {m.momRaw !== null ? `${m.momRaw > 0 ? '+' : ''}${m.momRaw}%` : '—'}
+                    {m.momRaw !== null ? `${m.momRaw > 0 ? '+' : ''}${m.momRaw}%` : '-'}
                   </td>
                   <td className="py-2.5 px-3 text-right font-bold tabular-nums">
                     {m.momDay !== null ? (
@@ -310,7 +310,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                         {m.momDay > 0 ? '+' : ''}{m.momDay}%
                       </span>
                     ) : (
-                      '—'
+                      '-'
                     )}
                   </td>
                 </tr>
@@ -395,7 +395,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                 <h4 className="text-sm font-black text-slate-950 dark:text-white">
                   {L('Đỉnh Doanh Thu 16/06 & Độ Rộng Vùng Đỉnh', 'June 16 Peak Day & Peak Window Concentration')}
                 </h4>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   {L('Đo lường mức độ tập trung doanh thu quanh thời điểm cực đại', 'Quantifying revenue clustering around seasonal apex')}
                 </p>
               </div>
@@ -407,25 +407,25 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                   <span className="text-slate-600 dark:text-slate-400">{L('Ngày đỉnh tuyệt đối:', 'Absolute Peak Day:')}</span>
                   <span className="font-bold text-[#074553] dark:text-[#9BE7FA] tabular-nums text-sm">16/06/2026 (315,0 Tr đ)</span>
                 </div>
-                <p className="text-[11px] text-slate-600 dark:text-slate-300">
+                <p className="text-xs text-slate-600 dark:text-slate-300">
                   {L('Doanh số 1.936 sản phẩm trong duy nhất 1 ngày nhờ sự bùng nổ của chiến dịch Live giữa hè.', '1,936 units sold in a single day fueled by peak midsummer live streams.')}
                 </p>
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="p-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-50/70 dark:bg-slate-800/40">
-                  <span className="text-[11px] text-slate-500 block mb-0.5">{L('7 Ngày quanh đỉnh (13–19/06):', '7 Days around Peak:')}</span>
+                  <span className="text-xs text-slate-500 block mb-0.5">{L('7 Ngày quanh đỉnh (13–19/06):', '7 Days around Peak:')}</span>
                   <span className="tabular-nums font-bold text-slate-900 dark:text-white text-sm">1,09 Tỷ đ</span>
-                  <span className="text-[11px] text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">7,34% {L('tổng 226 ngày', 'of 226d total')}</span>
+                  <span className="text-xs text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">7,34% {L('tổng 226 ngày', 'of 226d total')}</span>
                 </div>
                 <div className="p-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-50/70 dark:bg-slate-800/40">
-                  <span className="text-[11px] text-slate-500 block mb-0.5">{L('14 Ngày quanh đỉnh:', '14 Days Window:')}</span>
+                  <span className="text-xs text-slate-500 block mb-0.5">{L('14 Ngày quanh đỉnh:', '14 Days Window:')}</span>
                   <span className="tabular-nums font-bold text-slate-900 dark:text-white text-sm">1,90 Tỷ đ</span>
-                  <span className="text-[11px] text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">12,80% {L('tổng 226 ngày', 'of 226d total')}</span>
+                  <span className="text-xs text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">12,80% {L('tổng 226 ngày', 'of 226d total')}</span>
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-amber-50 dark:bg-slate-800/80 border border-amber-200 dark:border-slate-700 text-[11px] leading-relaxed text-slate-700 dark:text-slate-300">
+              <div className="p-3 rounded-xl bg-amber-50 dark:bg-slate-800/80 border border-amber-200 dark:border-slate-700 text-xs leading-relaxed text-slate-700 dark:text-slate-300">
                 <strong>{L('Pha rơi sau đỉnh:', 'Post-Peak Drop:')}</strong> {L(
                   'Đường MA7 rơi xuống dưới mức bình quân ngày của Tháng 4 (82,0 Tr/ngày) vào ngày 13/07/2026 (MA7 = 78,8 Tr). Toàn bộ đợt cao điểm mùa hè chỉ kéo dài khoảng 6 tuần.',
                   'MA7 collapsed below April daily average (82.0M/day) on July 13 (MA7 = 78.8M). The true peak summer window spanned merely 6 weeks.',
@@ -446,7 +446,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                 <h4 className="text-sm font-black text-slate-950 dark:text-white">
                   {L('Tín Hiệu Cảnh Báo Sớm: Giao Cắt Tử Thần (Dead Cross 26/06)', 'Early Warning Signal: MA7 vs MA28 Dead Cross (Jun 26)')}
                 </h4>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   {L('Tín hiệu kỹ thuật xuất hiện 18 ngày trước khi doanh thu rơi thủng đáy', 'Technical warning appearing 18 days before revenue pierced April floor')}
                 </p>
               </div>
@@ -455,11 +455,11 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
             <div className="space-y-3 text-xs leading-relaxed text-slate-800 dark:text-slate-200">
               <div className="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                 <div>
-                  <span className="text-[11px] text-slate-500 block">{L('Ngày xuất hiện Dead Cross:', 'Dead Cross Trigger Date:')}</span>
+                  <span className="text-xs text-slate-500 block">{L('Ngày xuất hiện Dead Cross:', 'Dead Cross Trigger Date:')}</span>
                   <span className="font-bold text-base text-rose-600 dark:text-rose-400 tabular-nums">26/06/2026</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[11px] text-slate-500 block">MA7 vs MA28:</span>
+                  <span className="text-xs text-slate-500 block">MA7 vs MA28:</span>
                   <span className="tabular-nums font-bold text-slate-900 dark:text-white">120,7 Tr &lt; 125,9 Tr đ</span>
                 </div>
               </div>
@@ -471,7 +471,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                 )}
               </p>
 
-              <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-[11px]">
+              <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-xs">
                 <strong>{L('Ý nghĩa ứng dụng vận hành (Phục vụ Mục 8):', 'Operational Actionable Insight:')}</strong> {L(
                   'Nếu theo dõi giao cắt MA7/MA28 hằng tuần, đội vận hành đã có thể ngừng nhập hàng đồ bơi và cắt giảm ngân sách booking KOC ngay từ tuần cuối tháng 6, tránh ôm tồn kho 645 triệu đ ở tháng 8.',
                   'Tracking MA7/MA28 weekly enables teams to halt swimwear POs and slash KOC booking fees by late June, preventing 645M VND dead stock in August.',
@@ -595,9 +595,9 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                 <LineChartIcon className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                 {L('Tương quan chéo theo độ trễ (Lag 0 – 7 Ngày)', 'Cross-Correlation by Lag (0 to 7 Days)')}
               </span>
-              <span className="text-[11px] text-slate-500 font-medium">Pearson r</span>
+              <span className="text-xs text-slate-500 font-medium">Pearson r</span>
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
               {L(
                 'Kiểm tra giả thuyết "Marketing đi trước Doanh thu". Tương quan đạt đỉnh ở Lag 7 ngày (r = 0,446 với Live; r = 0,381 với KOC) phản ánh tính chu kỳ theo tuần hoàn toàn trùng khớp.',
                 'Testing the lead-lag hypothesis. Peak correlation at Lag 7 days (r = 0.446 for Live; r = 0.381 for KOC) reflects synchronous weekly operational cycles.',
@@ -627,9 +627,9 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                   <TrendingDown className="h-4 w-4 text-rose-500" />
                   {L('Phân rã thay đổi GMV: Số lượng vs Hiệu suất', 'Decomposition: Volume vs Efficiency (T6 vs T8)')}
                 </span>
-                <span className="text-[11px] tabular-nums text-rose-600 dark:text-rose-400 font-bold">-82,9% GMV (-3,13 Tỷ đ)</span>
+                <span className="text-xs tabular-nums text-rose-600 dark:text-rose-400 font-bold">-82,9% GMV (-3,13 Tỷ đ)</span>
               </div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
                 {L(
                   'Giải đáp câu hỏi: Doanh thu rơi do ít ca Live hơn hay do mỗi ca kém hiệu quả hơn? Kết quả phân rã toán học chỉ ra cả hai hiệu ứng tác động tương đương nhau:',
                   'Answering whether GMV dropped due to fewer live streams or lower stream conversion. Mathematical decomposition proves both factors drove the collapse equally:',
@@ -652,7 +652,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
               </div>
             </div>
 
-            <div className="mt-3 p-2.5 rounded-xl bg-amber-50 dark:bg-slate-800/80 border border-amber-200 dark:border-slate-700 text-[11px] text-slate-700 dark:text-slate-300">
+            <div className="mt-3 p-2.5 rounded-xl bg-amber-50 dark:bg-slate-800/80 border border-amber-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
               <strong>{L('Kết luận cốt lõi:', 'Key Takeaway:')}</strong> {L(
                 'Mùa vụ đồ bơi quyết định sức mua của thị trường; khi người mua không còn nhu cầu đi biển ở tháng 8, dù giữ nguyên số ca Live thì doanh số mỗi ca cũng đã rơi hơn 58%.',
                 'Swimwear seasonality dictates baseline buyer demand; as vacation intent faded in August, revenue per stream plummeted 58% regardless of broadcast frequency.',
@@ -731,7 +731,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                   {L('Kỹ Thuật SQL Chuỗi Thời Gian Thực Nghiệm', 'Time-Series SQL Engineering')}
                 </h4>
               </div>
-              <span className="text-[11px] text-slate-500 font-medium">Window Functions</span>
+              <span className="text-xs text-slate-500 font-medium">Window Functions</span>
             </div>
 
             <div className="flex flex-wrap gap-1.5 mb-2.5">
@@ -752,7 +752,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
             </div>
 
             <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950 p-3.5 text-slate-100 relative">
-              <div data-ui className="flex items-center justify-between text-[11px] text-slate-400 pb-1.5 mb-1.5 border-b border-slate-800">
+              <div data-ui className="flex items-center justify-between text-xs text-slate-400 pb-1.5 mb-1.5 border-b border-slate-800">
                 <span>{sqlSnippets[activeSqlTab].desc}</span>
                 <button
                   type="button"
@@ -789,7 +789,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
               <h4 className="text-sm font-black text-slate-950 dark:text-white">
                 {L('6 Giới Hạn Khoa Học Bắt Buộc Phải Nêu Rõ', '6 Mandatory Scientific Limitations')}
               </h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 {L('Tính trung thực học thuật & ranh giới dữ liệu khi trình bày với hội đồng', 'Academic integrity and methodological boundaries for hiring panels')}
               </p>
             </div>

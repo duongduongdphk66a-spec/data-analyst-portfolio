@@ -70,7 +70,7 @@ export default function AdminLoginView({ onLoginSuccess }: AdminLoginViewProps) 
         Vui lòng nhập thông tin xác thực để mở quyền chỉnh sửa thông tin hồ sơ, quản lý dự án và cấu hình cơ sở dữ liệu.
       </p>
 
-      <form onSubmit={handleLogin} className="w-full space-y-4">
+      <form data-ui="admin-form" onSubmit={handleLogin} className="w-full space-y-4">
         {/* Password Field */}
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -106,7 +106,8 @@ export default function AdminLoginView({ onLoginSuccess }: AdminLoginViewProps) 
             onChange={(e) => setVerifyCodeInput(e.target.value)}
             placeholder="Mã xác nhận bảo mật..."
             disabled={isLoggingIn}
-            className="w-full pl-10 pr-10 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition"
+            data-ui="admin-input"
+            className="w-full pl-10 pr-10 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition" /* taste-skill-ignore: form input */
           />
           <button
             type="button"
@@ -119,7 +120,7 @@ export default function AdminLoginView({ onLoginSuccess }: AdminLoginViewProps) 
         </div>
 
         {authError && (
-          <div className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 rounded-xl text-xs text-red-600 dark:text-red-300 text-left leading-relaxed">
+          <div data-ui="admin-error" className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 rounded-xl text-xs text-red-600 dark:text-red-300 text-left leading-relaxed">
             {authError}
           </div>
         )}

@@ -429,11 +429,11 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                         <h4 className="text-xs sm:text-sm font-bold tracking-tight text-slate-800 dark:text-slate-200">
                           {isEn ? cohort.nameEn : cohort.nameVi}
                         </h4>
-                        <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                        <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
                           {cohort.heightRange}
                         </span>
                       </div>
-                      <span className="text-[11px] tabular-nums font-semibold text-slate-500">
+                      <span className="text-xs tabular-nums font-semibold text-slate-500">
                         {screensInCohort.length} {isEn ? 'screens' : 'màn hình'}
                       </span>
                     </div>
@@ -468,11 +468,11 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                                 </h3>
                               </div>
                               <div className="flex items-center gap-1.5">
-                                <span className="text-[11px] tabular-nums font-bold px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA]">
+                                <span className="text-xs tabular-nums font-bold px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA]">
                                   {platformTab === 'desktop' ? `Web #${s.id}` : `Mob #${s.mobId}`}
                                 </span>
                                 {screenHeight && (
-                                  <span className="text-[11px] tabular-nums font-medium px-2 py-0.5 rounded-lg bg-slate-100/80 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400">
+                                  <span className="text-xs tabular-nums font-medium px-2 py-0.5 rounded-lg bg-slate-100/80 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400">
                                     {screenHeight}px
                                   </span>
                                 )}
@@ -499,7 +499,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                                   </button>
                                 </div>
                                 <div 
-                                  className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-950 cursor-zoom-in group relative flex-1 flex items-start"
+                                  data-ui="image-frame" className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-950 cursor-zoom-in group relative flex-1 flex items-start"
                                   onClick={() => handleOpenLightbox(
                                     currentPair.wf,
                                     `${s.num}. ${s.nameVi} - Wireframe`,
@@ -534,7 +534,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                                   </button>
                                 </div>
                                 <div 
-                                  className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-950 shadow-2xs cursor-zoom-in group relative flex-1 flex items-start"
+                                  data-ui="image-frame" className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-950 cursor-zoom-in group relative flex-1 flex items-start"
                                   onClick={() => handleOpenLightbox(
                                     currentPair.ui,
                                     `${s.num}. ${s.nameVi} - UI Design`,
@@ -589,11 +589,11 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                         </h3>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[11px] tabular-nums font-bold px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA]">
+                        <span className="text-xs tabular-nums font-bold px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA]">
                           {platformTab === 'desktop' ? `Web #${s.id}` : `Mob #${s.mobId}`}
                         </span>
                         {screenHeight && (
-                          <span className="text-[11px] tabular-nums font-medium px-2 py-0.5 rounded-lg bg-slate-100/80 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400">
+                          <span className="text-xs tabular-nums font-medium px-2 py-0.5 rounded-lg bg-slate-100/80 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400">
                             {screenHeight}px
                           </span>
                         )}
@@ -620,7 +620,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                           </button>
                         </div>
                         <div 
-                          className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-950 cursor-zoom-in group relative flex-1 flex items-start"
+                          data-ui="image-frame" className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-950 cursor-zoom-in group relative flex-1 flex items-start"
                           onClick={() => handleOpenLightbox(
                             currentPair.wf,
                             `${s.num}. ${s.nameVi} - Wireframe`,
@@ -655,7 +655,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                           </button>
                         </div>
                         <div 
-                          className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-950 shadow-2xs cursor-zoom-in group relative flex-1 flex items-start"
+                          data-ui="image-frame" className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-950 cursor-zoom-in group relative flex-1 flex items-start"
                           onClick={() => handleOpenLightbox(
                             currentPair.ui,
                             `${s.num}. ${s.nameVi} - UI Design`,
@@ -774,7 +774,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                 <div>
                   <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-slate-400" />
-                    <span>3.2 Wireframe — {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
+                    <span>3.2 Wireframe: {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
                   </h3>
                   <p className="text-xs text-slate-500">Khung xám chuẩn cấu trúc giao diện</p>
                 </div>
@@ -819,7 +819,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                 <div>
                   <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
-                    <span className="text-slate-900 dark:text-white">3.3 UI Design — {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
+                    <span className="text-slate-900 dark:text-white">3.3 UI Design: {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
                   </h3>
                   <p className="text-xs text-slate-500">Giao diện hoàn chỉnh màu sắc thương hiệu</p>
                 </div>
@@ -864,7 +864,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
       {/* Internal Fallback Lightbox Modal */}
       {lightboxImg && (
         <div 
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-4 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-black/90 flex flex-col items-center justify-center p-4 animate-in fade-in duration-200"
           onClick={() => setLightboxImg(null)}
         >
           <div 

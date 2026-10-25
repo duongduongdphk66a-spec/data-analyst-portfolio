@@ -153,7 +153,7 @@ ORDER BY 1;`,
                 <td className="py-2.5 px-3 font-bold text-[#0D7287] dark:text-[#9BE7FA]">
                   {L('Cohort tháng livestream đầu tiên', 'First Live Streaming Month')}
                 </td>
-                <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+                <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                   {L('Không có mã đơn hay khách hàng cá nhân; gom cohort theo tháng phát sinh ca Live/video đầu.', 'No customer_id available; cohort creators by month of initial live stream or video upload.')}
                 </td>
               </tr>
@@ -164,7 +164,7 @@ ORDER BY 1;`,
                 <td className="py-2.5 px-3 font-bold text-[#0D7287] dark:text-[#9BE7FA]">
                   {L('Tỷ lệ affiliate còn xuất hiện / còn ra đơn', 'Affiliate Active & Seller Retention')}
                 </td>
-                <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+                <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                   {L('Theo dõi đồng thời 2 định nghĩa: "còn xuất hiện" (có ca live) và "còn bán được" (có GMV > 0).', 'Track two definitions in parallel: "appeared" (streamed) and "active seller" (GMV > 0).')}
                 </td>
               </tr>
@@ -175,7 +175,7 @@ ORDER BY 1;`,
                 <td className="py-2.5 px-3 font-bold text-[#0D7287] dark:text-[#9BE7FA]">
                   {L('Giá trị GMV vòng đời creator lũy kế', 'Cumulative GMV Lifecycle Value')}
                 </td>
-                <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+                <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                   {L('Gọi chính xác là GMV vòng đời, không gọi CLTV vì thiếu dữ liệu biên lợi nhuận ròng và COGS.', 'Reported strictly as GMV lifecycle value rather than CLTV due to absence of net COGS/margins.')}
                 </td>
               </tr>
@@ -186,7 +186,7 @@ ORDER BY 1;`,
                 <td className="py-2.5 px-3 font-bold text-[#0D7287] dark:text-[#9BE7FA]">
                   {L('Ngưỡng ngừng hoạt động 30 ngày', '30-Day Stream Inactivity Threshold')}
                 </td>
-                <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
+                <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                   {L('Coi creator đã churn khi không có bất kỳ phiên Live nào trong 30 ngày liên tiếp.', 'Creator is classified as churned when zero live sessions occur within 30 consecutive days.')}
                 </td>
               </tr>
@@ -253,7 +253,7 @@ ORDER BY 1;`,
                     <td className="py-2 px-2.5 text-right tabular-nums font-bold text-[#0D7287] dark:text-[#9BE7FA]">{r.newCreators}</td>
                     <td className="py-2 px-2.5 text-right tabular-nums font-bold text-slate-900 dark:text-white">{r.activeAppear}</td>
                     <td className="py-2 px-2.5 text-right tabular-nums font-bold text-amber-700 dark:text-amber-400">{r.activeSales}</td>
-                    <td className="py-2 px-3 text-slate-600 dark:text-slate-400 text-[11px]">{typeof r.note === 'string' ? r.note : L(r.note.vi, r.note.en)}</td>
+                    <td className="py-2 px-3 text-slate-600 dark:text-slate-400 text-xs">{typeof r.note === 'string' ? r.note : L(r.note.vi, r.note.en)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -344,7 +344,7 @@ ORDER BY 1;`,
                       if (!cell) {
                         return (
                           <td key={idx} className="py-2 px-2.5 text-slate-300 dark:text-slate-700">
-                            —
+                            -
                           </td>
                         );
                       }
@@ -367,7 +367,7 @@ ORDER BY 1;`,
           </table>
         </div>
 
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500 dark:text-slate-400">
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
           <div className="flex items-center gap-1.5">
             <span className="font-bold text-amber-600 dark:text-amber-400">* Ghi chú cắt phải (Right-censoring):</span>
             {L('Các ô có dấu * rơi vào Tháng 9 (chỉ có 4 ngày), không được xem là retention hoàn chỉnh.', 'Cells with * fall into September (4 days) and represent incomplete truncated periods.')}
@@ -391,7 +391,7 @@ ORDER BY 1;`,
                 <h4 className="text-sm font-black text-slate-950 dark:text-white">
                   {L('Thời Gian Sống & Tỷ Lệ Tồn Tại Của Creator', 'Creator Lifespan & Survival Dynamics')}
                 </h4>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   {L('Đo lường khoảng cách từ phiên đầu đến phiên cuối (ngưỡng churn 30 ngày)', 'Measuring duration from first to last session with 30-day inactivity churn')}
                 </p>
               </div>
@@ -400,18 +400,18 @@ ORDER BY 1;`,
             <div className="space-y-3 text-xs leading-relaxed text-slate-700 dark:text-slate-300">
               <div className="grid grid-cols-2 gap-2">
                 <div className="p-3 rounded-2xl bg-[#F0F9FB] dark:bg-slate-800/60 border border-[#C8EEF7] dark:border-slate-800">
-                  <span className="text-[11px] text-slate-500 block mb-0.5">{L('Trung vị thời gian sống:', 'Median Lifespan:')}</span>
+                  <span className="text-xs text-slate-500 block mb-0.5">{L('Trung vị thời gian sống:', 'Median Lifespan:')}</span>
                   <span className="tabular-nums font-bold text-[#074553] dark:text-[#9BE7FA] text-base">14,0 {L('ngày', 'days')}</span>
-                  <span className="text-[10px] text-slate-500 block mt-0.5">Mean = 35,7 {L('ngày', 'days')}</span>
+                  <span className="text-xs text-slate-500 block mt-0.5">Mean = 35,7 {L('ngày', 'days')}</span>
                 </div>
                 <div className="p-3 rounded-2xl bg-amber-50 dark:bg-slate-800/60 border border-amber-200 dark:border-slate-800">
-                  <span className="text-[11px] text-slate-500 block mb-0.5">{L('Creator live đúng 1 phiên:', '1-Session Only Creators:')}</span>
+                  <span className="text-xs text-slate-500 block mb-0.5">{L('Creator live đúng 1 phiên:', '1-Session Only Creators:')}</span>
                   <span className="tabular-nums font-bold text-amber-800 dark:text-amber-300 text-base">22,8% (57/250)</span>
-                  <span className="text-[10px] text-slate-500 block mt-0.5">{L('Bỏ cuộc ngay sau ca đầu', 'Abandoned immediately')}</span>
+                  <span className="text-xs text-slate-500 block mt-0.5">{L('Bỏ cuộc ngay sau ca đầu', 'Abandoned immediately')}</span>
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-50/70 dark:bg-slate-800/40 space-y-1.5 text-[11px]">
+              <div className="p-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-50/70 dark:bg-slate-800/40 space-y-1.5 text-xs">
                 <div className="flex justify-between">
                   <span>{L('Tồn tại từ 30 ngày trở lên:', 'Survived >= 30 days:')}</span>
                   <span className="font-bold tabular-nums text-slate-900 dark:text-white">36,4% (91/250 creator)</span>
@@ -436,7 +436,7 @@ ORDER BY 1;`,
                 <h4 className="text-sm font-black text-slate-950 dark:text-white">
                   {L('Kích Hoạt Phiên Đầu Tiên & Quy Tắc 3 Phiên', 'First Session Activation & The 3-Session Rule')}
                 </h4>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   {L('Hành vi ra đơn sớm quyết định khả năng gắn bó và hiệu suất lâu dài', 'Early order conversion dictates affiliate longevity and lifetime output')}
                 </p>
               </div>
@@ -454,14 +454,14 @@ ORDER BY 1;`,
                 </div>
               </div>
 
-              <p className="text-[11px]">
+              <p className="text-xs">
                 {L(
                   'Phân tích ngược cho thấy hơn một nửa mạng lưới (56%) không bao giờ phát sinh doanh số. Những KOC có đơn ngay trong 3 phiên đầu tiên có xác suất gắn bó qua 30 ngày cao gấp 2,8 lần nhóm không ra đơn.',
                   'Forensic checks reveal over half the network (56%) never generated a single order. KOCs securing sales within their first 3 sessions exhibit 2.8x higher probability of surviving past 30 days.',
                 )}
               </p>
 
-              <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-[11px]">
+              <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-xs">
                 <strong>{L('Quy tắc hành động (Phục vụ Mục 8):', 'Action Rule for Section 8:')}</strong> {L(
                   'Tập trung hỗ trợ mẫu sản phẩm (seeding) và voucher đẩy view cho KOC trong đúng 3 ca Live đầu tiên. Nếu sau 3 ca vẫn 0 đơn, tỷ lệ bỏ cuộc lên tới trên 80%.',
                   'Focus sample seeding and promo vouchers exclusively on a KOC’s first 3 streams. Inactivity abandonment exceeds 80% if zero sales occur by stream 3.',
@@ -565,7 +565,7 @@ ORDER BY 1;`,
                     <td className="py-2 px-2.5 text-right text-slate-700 dark:text-slate-300">{r.size}</td>
                     <td className="py-2 px-3 text-right text-amber-700 dark:text-amber-400 font-bold">{n(r.withGs, 1)}M</td>
                     <td className="py-2 px-3 text-right text-[#0D7287] dark:text-[#9BE7FA] font-bold">{n(r.withoutGs, 1)}M</td>
-                    <td className="py-2 px-3 font-sans text-slate-600 dark:text-slate-400 text-[11px]">{typeof r.note === 'string' ? r.note : L(r.note.vi, r.note.en)}</td>
+                    <td className="py-2 px-3 font-sans text-slate-600 dark:text-slate-400 text-xs">{typeof r.note === 'string' ? r.note : L(r.note.vi, r.note.en)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -628,7 +628,7 @@ ORDER BY 1;`,
                 </li>
               </ul>
             </div>
-            <div className="mt-3 text-[11px] text-slate-500 italic">
+            <div className="mt-3 text-xs text-slate-500 italic">
               {L('Tỷ lệ kích hoạt chỉ 5,1%; 94,9% creator liên kết không tạo ra đồng nào.', 'Activation rate is only 5.1%; 94.9% of linked creators produced zero revenue.')}
             </div>
           </div>
@@ -657,7 +657,7 @@ ORDER BY 1;`,
                 </li>
               </ul>
             </div>
-            <div className="mt-3 text-[11px] text-slate-500 italic">
+            <div className="mt-3 text-xs text-slate-500 italic">
               {L('56% creator live chưa từng ra đơn; chỉ 20,4% duy trì hoạt động đến cuối mùa.', '56% of live creators never sold; only 20.4% sustained streams to season end.')}
             </div>
           </div>
@@ -686,7 +686,7 @@ ORDER BY 1;`,
                 </li>
               </ul>
             </div>
-            <div className="mt-3 text-[11px] text-slate-500 italic">
+            <div className="mt-3 text-xs text-slate-500 italic">
               {L('78,3% video giỏ hàng không ra đơn; số creator đăng video giảm từ 724 (T4) về 195 (T8).', '78.3% of videos had 0 orders; active video creators fell from 724 (Apr) to 195 (Aug).')}
             </div>
           </div>
@@ -705,7 +705,7 @@ ORDER BY 1;`,
                   {L('Kỹ Thuật SQL Cohort & Bóc Tách Kênh', 'Cohort & Sensitivity SQL Engineering')}
                 </h4>
               </div>
-              <span className="text-[11px] text-slate-500 font-medium">SQLite Engine</span>
+              <span className="text-xs text-slate-500 font-medium">SQLite Engine</span>
             </div>
 
             <div className="flex flex-wrap gap-1.5 mb-2.5">
@@ -726,7 +726,7 @@ ORDER BY 1;`,
             </div>
 
             <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950 p-3.5 text-slate-100 relative">
-              <div className="flex items-center justify-between text-[11px] text-slate-400 pb-1.5 mb-1.5 border-b border-slate-800" data-ui="code-header">
+              <div className="flex items-center justify-between text-xs text-slate-400 pb-1.5 mb-1.5 border-b border-slate-800" data-ui="code-header">
                 <span>{stage4Sql[activeSqlTab].desc}</span>
                 <button
                   type="button"
@@ -763,7 +763,7 @@ ORDER BY 1;`,
               <h4 className="text-sm font-black text-slate-950 dark:text-white">
                 {L('Kiểm Duyệt Dữ Liệu & Ranh Giới Phương Pháp Luận', 'Data Censoring & Methodological Boundaries')}
               </h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 {L('Xử lý sai lệch cắt trái (Left-censoring) và cắt phải (Right-censoring)', 'Handling left-censoring and right-censoring biases strictly')}
               </p>
             </div>

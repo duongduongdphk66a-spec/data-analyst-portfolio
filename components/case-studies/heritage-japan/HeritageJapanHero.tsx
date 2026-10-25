@@ -52,7 +52,7 @@ export function HeritageJapanHero({
                 {isEn ? 'RESEARCH SCOPE' : 'PHẠM VI NGHIÊN CỨU'}
               </span>
               <p className="tabular-nums text-2xl font-bold text-slate-950 dark:text-white">2013 – 2023</p>
-              <p className="text-[11px] text-slate-500">10-Year Inbound Growth & Crisis</p>
+              <p className="text-xs text-slate-500">10-Year Inbound Growth & Crisis</p>
             </div>
 
             <div className="card-minimal p-4 space-y-1">
@@ -60,7 +60,7 @@ export function HeritageJapanHero({
                 {isEn ? 'WORLD HERITAGE SITES' : 'DI SẢN THẾ GIỚI'}
               </span>
               <p className="tabular-nums text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">25 Điểm Đến</p>
-              <p className="text-[11px] text-slate-500">20 Văn hóa · 5 Thiên nhiên</p>
+              <p className="text-xs text-slate-500">20 Văn hóa · 5 Thiên nhiên</p>
             </div>
 
             <div className="card-minimal p-4 space-y-1 border-l-4 border-l-[#0D7287] dark:border-l-[#9BE7FA]">
@@ -68,7 +68,7 @@ export function HeritageJapanHero({
                 {isEn ? 'PEAK INBOUND VOLUME' : 'ĐỈNH DU KHÁCH (2019)'}
               </span>
               <p className="tabular-nums text-2xl font-bold text-[#0D7287] dark:text-[#9BE7FA]">31.9 Triệu</p>
-              <p className="text-[11px] tabular-nums text-emerald-600 dark:text-emerald-400 font-bold">+513% Tăng trưởng từ 2003</p>
+              <p className="text-xs tabular-nums text-emerald-600 dark:text-emerald-400 font-bold">+513% Tăng trưởng từ 2003</p>
             </div>
           </div>
 

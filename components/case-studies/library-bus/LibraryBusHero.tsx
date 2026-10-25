@@ -132,7 +132,7 @@ export function LibraryBusHero({
               </div>
             </div>
 
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed pt-3 mt-auto">
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed pt-3 mt-auto">
               {card.comparisonNote[lang]}
             </p>
           </div>

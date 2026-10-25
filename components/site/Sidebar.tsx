@@ -222,7 +222,7 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer Controls */}
-      <div className="p-2 lg:p-4 pt-4 space-y-3 relative z-10 bg-slate-100/60 dark:bg-slate-900/60 backdrop-blur-xs">
+      <div className="p-2 lg:p-4 pt-4 space-y-3 relative z-10 bg-slate-100 dark:bg-slate-900">
         {/* Social Links & Controls Row */}
         <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-2.5 lg:gap-0">
           {/* Social Links */}

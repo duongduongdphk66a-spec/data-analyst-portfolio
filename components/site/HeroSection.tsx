@@ -175,7 +175,7 @@ const CONTENT: Record<Lang, ContentType> = {
     outcomes: [
       {
         metric: 'Revenue Optimization',
-        detail: 'Uncovering SKU matrices, creator performance, and conversion bottlenecks to unlock growth.',
+        detail: 'Uncovering SKU matrices, creator performance, and conversion bottlenecks to drive incremental GMV.',
       },
       {
         metric: 'Operational Clarity',

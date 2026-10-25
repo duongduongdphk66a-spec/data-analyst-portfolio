@@ -481,7 +481,7 @@ export default function ExperiencePage() {
         })}
       </section>
 
-      {/* 6. BOTTOM CTA: Seamless Bridge to Projects & Interactive SQL Lab */}
+      {/* 6. BOTTOM CTA: Direct Bridge to Projects & Interactive SQL Lab */}
       <section className="p-6 sm:p-8 rounded-3xl bg-[#F0F9FB] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-1.5 max-w-2xl">
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">

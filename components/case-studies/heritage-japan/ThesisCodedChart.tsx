@@ -453,7 +453,7 @@ function ThumbnailChart({ figure }: { figure: ThesisFigureItem }) {
           x={padLeft}
           y={h - 4}
           textAnchor="start"
-          className="fill-slate-500 dark:fill-slate-400 text-[11px] tabular-nums font-medium"
+          className="fill-slate-500 dark:fill-slate-400 text-xs tabular-nums font-medium"
         >
           &apos;{firstYear}
         </text>
@@ -462,7 +462,7 @@ function ThumbnailChart({ figure }: { figure: ThesisFigureItem }) {
           x={w / 2}
           y={h - 4}
           textAnchor="middle"
-          className="fill-cyan-600 dark:fill-cyan-400 text-[11px] tabular-nums font-bold"
+          className="fill-cyan-600 dark:fill-cyan-400 text-xs tabular-nums font-bold"
         >
           Đỉnh &apos;{peakItem.label.slice(-2)}: {peakItem.value.toLocaleString('vi-VN')}
         </text>
@@ -471,7 +471,7 @@ function ThumbnailChart({ figure }: { figure: ThesisFigureItem }) {
           x={w - padRight}
           y={h - 4}
           textAnchor="end"
-          className="fill-slate-500 dark:fill-slate-400 text-[11px] tabular-nums font-medium"
+          className="fill-slate-500 dark:fill-slate-400 text-xs tabular-nums font-medium"
         >
           &apos;{lastYear}
         </text>
@@ -569,7 +569,7 @@ function FullModalChart({
                   x={padLeft - 10}
                   y={y + 3.5}
                   textAnchor="end"
-                  className="fill-slate-500 dark:fill-slate-400 text-[11px] tabular-nums font-medium"
+                  className="fill-slate-500 dark:fill-slate-400 text-xs tabular-nums font-medium"
                 >
                   {tick.toLocaleString('vi-VN')}
                 </text>
@@ -644,7 +644,7 @@ function FullModalChart({
                       x={x + barW / 2}
                       y={y - 5}
                       textAnchor="middle"
-                      className={`text-[11px] tabular-nums font-bold ${
+                      className={`text-xs tabular-nums font-bold ${
                         d.isPeak
                            ? 'fill-[#92400E] dark:fill-[#FFD14C]'
                           : d.isTrough || d.isCovid
@@ -660,7 +660,7 @@ function FullModalChart({
                       x={x + barW / 2}
                       y={padTop + plotH + 16}
                       textAnchor="middle"
-                      className={`text-[11px] tabular-nums ${
+                      className={`text-xs tabular-nums ${
                         isHovered
                           ? 'fill-sky-600 dark:fill-sky-300 font-bold'
                           : d.isPeak
@@ -762,7 +762,7 @@ function FullModalChart({
                           x={pt.x}
                           y={pt.y - 9}
                           textAnchor="middle"
-                          className={`text-[11px] tabular-nums font-bold ${
+                          className={`text-xs tabular-nums font-bold ${
                             pt.isPeak
                               ? 'fill-[#92400E] dark:fill-[#FFD14C]'
                               : pt.isTrough || pt.isCovid
@@ -778,7 +778,7 @@ function FullModalChart({
                           x={pt.x}
                           y={padTop + plotH + 16}
                           textAnchor="middle"
-                          className={`text-[11px] tabular-nums ${
+                          className={`text-xs tabular-nums ${
                             isHovered
                               ? 'fill-sky-600 dark:fill-sky-300 font-bold'
                               : pt.isPeak
@@ -799,7 +799,7 @@ function FullModalChart({
 
         {/* Hover Tooltip Float */}
         {activePoint && (
-          <div className="absolute top-4 right-4 bg-slate-900/95 dark:bg-slate-950/95 text-white border border-slate-700 rounded-lg p-2.5 text-xs space-y-1 z-10 pointer-events-none">
+          <div data-ui="chart-tooltip" className="absolute top-4 right-4 bg-slate-900/95 dark:bg-slate-950/95 text-white border border-slate-700 rounded-lg p-2.5 text-xs space-y-1 z-10 pointer-events-none">
             <div className="flex items-center justify-between gap-4 border-slate-700 pb-1">
               <span className="tabular-nums text-sky-400 font-bold">Năm {activePoint.label}</span>
               <span className="tabular-nums text-[#9BE7FA] font-bold">
@@ -810,7 +810,10 @@ function FullModalChart({
               <div className="text-amber-300 font-medium">{activePoint.event}</div>
             )}
             {activePoint.note && (
-              <div className="text-slate-400 text-[11px]">ℹ️ {activePoint.note}</div>
+              <div className="text-slate-400 text-xs flex items-center gap-1">
+                <span className="text-sky-400 font-bold">•</span>
+                <span>{activePoint.note}</span>
+              </div>
             )}
             {activePoint.isPeak && (
               <div className="text-[#FFD14C] font-semibold">Điểm cao nhất trong chuỗi thời gian</div>
@@ -831,7 +834,7 @@ function FullModalChart({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] tabular-nums text-slate-500 dark:text-slate-400 pt-1 border-slate-200 dark:border-slate-800">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums text-slate-500 dark:text-slate-400 pt-1 border-slate-200 dark:border-slate-800">
           <span>{figure.source}</span>
           <span>Luận văn: Chương 3, Trang {figure.pageInDoc}</span>
         </div>

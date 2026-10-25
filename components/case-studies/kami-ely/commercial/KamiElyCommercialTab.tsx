@@ -204,7 +204,7 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
         )}
         action={L(
           'Thiết lập "Quy tắc 3 phiên đầu": tập trung tài nguyên đẩy traffic và trợ giá voucher cho creator mới trong 3 phiên live đầu để kích hoạt đơn hàng sớm (giúp nâng thời gian sống từ 10 ngày lên 59 ngày); song song đó nhân bản mô hình phòng live nội bộ vệ tinh thay vì phụ thuộc vào việc tìm kiếm KOC bên ngoài.',
-          'Implement the "First-3-Sessions Rule": allocate promotional traffic and vouchers during a creator\'s first 3 livestreams to unlock early sales (extending median lifespan from 10 to 59 days); simultaneously replicate in-house satellite studio channels rather than relying on external KOC discovery.',
+          'Implement the "First-3-Sessions Rule": allocate promotional traffic and vouchers during a creator\'s first 3 livestreams to activate early sales (extending median lifespan from 10 to 59 days); simultaneously replicate in-house satellite studio channels rather than relying on external KOC discovery.',
         )}
         codePeek={{ label: L('SQL (Giai đoạn 4)', 'SQL (Stage 4)'), code: sqlSnippets.s4 }}
       >
@@ -267,8 +267,8 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
           'Section 6: Text Mining & Anomaly Detection (Content Tags & Outliers)',
         )}
         takeaway={L(
-          'Phân loại 4.417 tiêu đề video bằng regex xác nhận nhóm Bikini chiếm áp đảo 61,0% GMV và có tỷ lệ ra đơn cao nhất (26,1%). Hashtag sản phẩm (#bikini, #chanvay) mang lại tỷ lệ có đơn 28,6% so với 16,4% của hashtag chung (#xuhuong, #fyp). Kiểm tra bất thường chuỗi GMV ngày ghi nhận duy nhất ngày 16/06 vượt z > 3 (z = 5,57; MAD robust z = 5,61; GMV 315,0 Tr đ), nguyên nhân gốc rễ do 1 phiên Live chính chủ lớn (194,9 Tr) kết hợp 90 ca affiliate (77,3 Tr). Bác bỏ 2 ngụy biện cũ: Shoppable không có "spike view tháng 8" (thực tế chạm đáy ~333k view), và GMV/phiên của Girl Style (4,93 Tr) thấp hơn P99 toàn mạng (12,07 Tr) do P99 bị kéo lệch bởi KOC 1 phiên.',
-          'Regex classification on 4,417 shoppable video titles confirms Bikini commands 61.0% GMV with peak 26.1% order conversion. Product hashtags deliver 28.6% conversion vs 16.4% for generic tags. Time-series anomaly detection flags Jun 16 as the sole day exceeding z > 3 (z = 5.57, MAD robust z = 5.61, 315M GMV), driven by 1 mega brand live (194.9M) + 90 affiliate streams (77.3M). Debunks 2 legacy myths: August views did not spike (hit floor at ~333k), and Girl Style GMV/session (4.93M) sits below unclipped network P99 (12.07M) distorted by 1-session outliers.',
+          'Phân loại 4.417 tiêu đề video bằng regex xác nhận nhóm Bikini chiếm áp đảo 61,0% GMV và có tỷ lệ ra đơn cao nhất (26,1%). Hashtag sản phẩm (#bikini, #chanvay) mang lại tỷ lệ có đơn 28,6% so với 16,4% của hashtag chung (#xuhuong, #fyp). Kiểm tra bất thường chuỗi GMV ngày ghi nhận duy nhất ngày 16/06 vượt z > 3 (z = 5,57; MAD z = 5,61; GMV 315,0 Tr đ), nguyên nhân gốc rễ do 1 phiên Live chính chủ lớn (194,9 Tr) kết hợp 90 ca affiliate (77,3 Tr). Bác bỏ 2 ngụy biện cũ: Shoppable không có "spike view tháng 8" (thực tế chạm đáy ~333k view), và GMV/phiên của Girl Style (4,93 Tr) thấp hơn P99 toàn mạng (12,07 Tr) do P99 bị kéo lệch bởi KOC 1 phiên.',
+          'Regex classification on 4,417 shoppable video titles confirms Bikini commands 61.0% GMV with peak 26.1% order conversion. Product hashtags deliver 28.6% conversion vs 16.4% for generic tags. Time-series anomaly detection flags Jun 16 as the sole day exceeding z > 3 (z = 5.57, MAD z = 5.61, 315M GMV), driven by 1 mega brand live (194.9M) + 90 affiliate streams (77.3M). Debunks 2 legacy myths: August views did not spike (hit floor at ~333k), and Girl Style GMV/session (4.93M) sits below unclipped network P99 (12.07M) distorted by 1-session outliers.',
         )}
         kpis={[
           {
@@ -279,7 +279,7 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
           {
             value: 'z = 5,57 (16/06)',
             label: L('ngày bất thường duy nhất vượt z > 3', 'sole outlier day exceeding z > 3'),
-            sub: L('MAD robust z = 5,61 · Live gánh 86,4% GMV ngày', 'MAD robust z = 5.61 · Live drove 86.4% daily GMV'),
+            sub: L('MAD z = 5,61 · Live gánh 86,4% GMV ngày', 'MAD z = 5.61 · Live drove 86.4% daily GMV'),
             tone: 'amber',
           },
           {

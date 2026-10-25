@@ -106,7 +106,7 @@ export default function ExecutiveSummary({
                   <div className="text-lg sm:text-xl font-black text-slate-950 dark:text-white tabular-nums leading-tight">
                     {metric.value}
                   </div>
-                  <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 leading-snug">
+                  <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 leading-snug">
                     {metric.label}
                   </div>
                   {metric.change && (
@@ -132,7 +132,7 @@ export default function ExecutiveSummary({
               {tools.map((tool) => (
                 <span
                   key={tool}
-                  className="px-2.5 py-1 rounded-lg bg-[#C8EEF7]/30 dark:bg-slate-800 border border-[#9BE7FA]/30 dark:border-slate-700 text-[11px] tabular-nums font-semibold text-slate-700 dark:text-slate-300"
+                  className="px-2.5 py-1 rounded-lg bg-[#C8EEF7]/30 dark:bg-slate-800 border border-[#9BE7FA]/30 dark:border-slate-700 text-xs tabular-nums font-semibold text-slate-700 dark:text-slate-300"
                 >
                   {tool}
                 </span>
