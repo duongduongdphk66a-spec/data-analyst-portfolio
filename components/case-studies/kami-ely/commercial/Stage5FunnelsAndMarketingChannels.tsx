@@ -220,8 +220,8 @@ ORDER BY time_slot, dur_tier;`,
   return (
     <div className="space-y-8">
       {/* 5.1 & 5.2: Khung Phương Pháp Luận & Chuyển Thể */}
-      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#9BE7FA] text-slate-950 font-bold text-xs">
               5.1
@@ -245,15 +245,15 @@ ORDER BY time_slot, dur_tier;`,
 
         {/* Bảng đối chiếu chuyển thể */}
         <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-[#F0F9FB] dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800">
+          <table className="w-full text-left text-xs" data-ui="table">
+            <thead className="bg-[#F0F9FB] dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800" data-ui="thead">
               <tr>
                 <th className="py-2.5 px-3">{L('Dàn ý lý thuyết ban đầu', 'Theoretical Outline')}</th>
                 <th className="py-2.5 px-3">{L('Khả thi trên dữ liệu', 'Data Feasibility')}</th>
                 <th className="py-2.5 px-3">{L('Giải pháp chuyển thể thực chứng SSOT', 'Empirical SSOT Adaptation')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400" data-ui="tbody">
               <tr>
                 <td className="py-2 px-3 font-medium text-slate-800 dark:text-slate-200">{L('Phễu TMĐT (Xem → Giỏ → Mua)', 'E-com Funnel (View → Cart → Pay)')}</td>
                 <td className="py-2 px-3"><Chip tone="rose">{L('Không có mã đơn', 'No order logs')}</Chip></td>
@@ -298,16 +298,16 @@ ORDER BY time_slot, dur_tier;`,
               </div>
             </div>
 
-            <div className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-              <div className="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-slate-800">
+            <div className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
+              <div className="flex justify-between items-center py-1">
                 <span>{L('Tỷ trọng lượt xem (Views Share):', 'Views Share:')}</span>
                 <span className="font-bold tabular-nums">Affiliate 91,6% (35,6M) vs Chính chủ 8,4% (3,26M)</span>
               </div>
-              <div className="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex justify-between items-center py-1">
                 <span>{L('Tỷ trọng GMV tạo ra:', 'GMV Contribution:')}</span>
                 <span className="font-bold tabular-nums text-[#074553] dark:text-[#9BE7FA]">Chính chủ 75,8% (7,02B) vs Affiliate 24,2% (2,24B)</span>
               </div>
-              <div className="flex justify-between items-center py-1.5">
+              <div className="flex justify-between items-center py-1">
                 <span>{L('Chuyển đổi sản phẩm trong phiên:', 'Within-Session Product Conversion:')}</span>
                 <span className="font-bold tabular-nums">17.504 sp quảng bá → 6.233 sp có đơn (35,6%)</span>
               </div>
@@ -375,8 +375,8 @@ ORDER BY time_slot, dur_tier;`,
       </div>
 
       {/* 5.3.E: So Sánh Quảng Cáo (Ads) vs Tự Nhiên (Organic) trên Shoppable Videos */}
-      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-5">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-5">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FFE485] text-slate-950 font-bold text-xs">
               5.3.E
@@ -397,7 +397,7 @@ ORDER BY time_slot, dur_tier;`,
               onClick={() => setAdsTab('overall')}
               className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
                 adsTab === 'overall'
-                  ? 'bg-white dark:bg-slate-900 text-[#074553] dark:text-[#9BE7FA] shadow-xs'
+                  ? 'bg-white dark:bg-slate-900 text-[#074553] dark:text-[#9BE7FA]'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
@@ -407,7 +407,7 @@ ORDER BY time_slot, dur_tier;`,
               onClick={() => setAdsTab('within_creator')}
               className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
                 adsTab === 'within_creator'
-                  ? 'bg-white dark:bg-slate-900 text-[#074553] dark:text-[#9BE7FA] shadow-xs'
+                  ? 'bg-white dark:bg-slate-900 text-[#074553] dark:text-[#9BE7FA]'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
@@ -417,7 +417,7 @@ ORDER BY time_slot, dur_tier;`,
               onClick={() => setAdsTab('tiers')}
               className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
                 adsTab === 'tiers'
-                  ? 'bg-white dark:bg-slate-900 text-[#074553] dark:text-[#9BE7FA] shadow-xs'
+                  ? 'bg-white dark:bg-slate-900 text-[#074553] dark:text-[#9BE7FA]'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
@@ -427,7 +427,7 @@ ORDER BY time_slot, dur_tier;`,
               onClick={() => setAdsTab('ex_dominant')}
               className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
                 adsTab === 'ex_dominant'
-                  ? 'bg-white dark:bg-slate-900 text-[#074553] dark:text-[#9BE7FA] shadow-xs'
+                  ? 'bg-white dark:bg-slate-900 text-[#074553] dark:text-[#9BE7FA]'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
@@ -437,7 +437,7 @@ ORDER BY time_slot, dur_tier;`,
               onClick={() => setAdsTab('last_90d')}
               className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
                 adsTab === 'last_90d'
-                  ? 'bg-white dark:bg-slate-900 text-[#074553] dark:text-[#9BE7FA] shadow-xs'
+                  ? 'bg-white dark:bg-slate-900 text-[#074553] dark:text-[#9BE7FA]'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
@@ -459,8 +459,8 @@ ORDER BY time_slot, dur_tier;`,
           </div>
 
           <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-[#F0F9FB] dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-xs" data-ui="table">
+              <thead className="bg-[#F0F9FB] dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800" data-ui="thead">
                 <tr>
                   <th className="py-2.5 px-3">{L('Chỉ số đo lường', 'Metric')}</th>
                   <th className="py-2.5 px-3 text-[#074553] dark:text-[#9BE7FA] font-bold">Ads = YES (Quảng Cáo)</th>
@@ -468,7 +468,7 @@ ORDER BY time_slot, dur_tier;`,
                   <th className="py-2.5 px-3">{L('Đánh giá thống kê / Chú thích kiểm định', 'Statistical Interpretation / Note')}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400" data-ui="tbody">
                 {adsComparisonCards[adsTab].rows.map((r, i) => (
                   <tr key={i} className={r.highlight ? 'bg-[#9BE7FA]/10 dark:bg-[#074553]/20 font-medium' : ''}>
                     <td className="py-2 px-3 text-slate-800 dark:text-slate-200">{r.metric}</td>
@@ -540,8 +540,8 @@ ORDER BY time_slot, dur_tier;`,
         </ChartCard>
 
         {/* Heatmap Matrix: Khung giờ x Độ dài phiên */}
-        <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-3">
-          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+        <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-3">
+          <div className="flex items-center justify-between pb-2 mb-2">
             <div>
               <h4 className="text-sm font-bold text-slate-900 dark:text-white">
                 {L('Ma Trận Khung Giờ × Độ Dài Phiên (GMV / Lượt Xem)', 'Time Slot × Session Duration Heatmap (GMV / Viewer)')}
@@ -554,9 +554,9 @@ ORDER BY time_slot, dur_tier;`,
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-center text-xs tabular-nums">
+            <table className="w-full text-center text-xs tabular-nums" data-ui="table">
               <thead>
-                <tr className="text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
+                <tr className="text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800" data-ui="tr">
                   <th className="py-2 px-2 text-left">{L('Khung giờ (UTC+7)', 'Time Slot (UTC+7)')}</th>
                   <th className="py-2 px-2">≤ 2 Giờ</th>
                   <th className="py-2 px-2">2h – 4h</th>
@@ -564,7 +564,7 @@ ORDER BY time_slot, dur_tier;`,
                   <th className="py-2 px-2">&gt; 8 Giờ</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800" data-ui="tbody">
                 {heatmapMatrix.map((row, idx) => (
                   <tr key={idx}>
                     <td className="py-2 px-2 text-left font-semibold text-slate-800 dark:text-slate-200">
@@ -603,7 +603,7 @@ ORDER BY time_slot, dur_tier;`,
 
       {/* 5.3.D & G: So Sánh Kênh & Giá Trị Đơn Vị (Unit Economics) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
           <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
             <Video className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
             {L('Cơ cấu Live vs Video (Chính chủ)', 'Live vs Video Split (Own-Brand)')}
@@ -617,7 +617,7 @@ ORDER BY time_slot, dur_tier;`,
           </p>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
           <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
             <Coins className="h-4 w-4 text-[#FFD14C]" />
             {L('Giá Trị Trung Bình / Sản Phẩm (ASP)', 'Average Selling Price (ASP Proxy)')}
@@ -631,7 +631,7 @@ ORDER BY time_slot, dur_tier;`,
           </p>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
           <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
             <Sparkles className="h-4 w-4 text-emerald-500" />
             {L('Top 10 Video Shoppable Affiliate', 'Top 10 Affiliate Shoppable Videos')}
@@ -647,8 +647,8 @@ ORDER BY time_slot, dur_tier;`,
       </div>
 
       {/* 5.4: Truy Vấn SQL Chuẩn Hóa Mục 5 */}
-      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2">
             <TerminalSquare className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
             <h4 className="text-sm font-bold text-slate-900 dark:text-white">
@@ -676,7 +676,7 @@ ORDER BY time_slot, dur_tier;`,
           <p className="text-xs text-slate-600 dark:text-slate-400 italic">
             {stage5Sql[activeSqlTab].desc}
           </p>
-          <div className="relative rounded-xl bg-slate-950 p-4 font-mono text-xs text-slate-200 overflow-x-auto">
+          <div className="relative rounded-xl bg-slate-950 p-4 text-xs text-slate-200 overflow-x-auto">
             <button
               onClick={() => {
                 navigator.clipboard.writeText(stage5Sql[activeSqlTab].sql);
@@ -697,7 +697,7 @@ ORDER BY time_slot, dur_tier;`,
                 </>
               )}
             </button>
-            <pre className="pr-16 text-slate-300 leading-relaxed">
+            <pre className="font-mono pr-16 text-slate-300 leading-relaxed">
               <code>{stage5Sql[activeSqlTab].sql}</code>
             </pre>
           </div>

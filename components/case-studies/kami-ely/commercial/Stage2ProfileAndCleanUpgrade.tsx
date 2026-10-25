@@ -130,7 +130,7 @@ GROUP BY 1;`,
     <div className="space-y-6">
       {/* 2.1: Khám phá mô hình dữ liệu (8 File XLSX Thực tế) */}
       <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               2.1
@@ -156,7 +156,7 @@ GROUP BY 1;`,
         <div className="mt-4 overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
+              <tr data-ui className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
                 <th className="py-2.5 px-3 min-w-[190px]">{L('Tên bảng dữ liệu', 'Source Table')}</th>
                 <th className="py-2.5 px-2.5 text-right w-24">{L('Số dòng', 'Rows')}</th>
                 <th className="py-2.5 px-3 min-w-[120px]">{L('Khung thời gian', 'Window')}</th>
@@ -165,7 +165,7 @@ GROUP BY 1;`,
                 <th className="py-2.5 px-3 min-w-[220px]">{L('Bản chất nghiệp vụ', 'Business Context')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+            <tbody data-ui className="divide-y divide-slate-100 dark:divide-slate-800">
               {dataModelTables.map((t, idx) => (
                 <tr key={idx} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors">
                   <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-white flex items-center gap-2">
@@ -175,7 +175,7 @@ GROUP BY 1;`,
                       {t.tag}
                     </span>
                   </td>
-                  <td className="py-2.5 px-2.5 text-right font-mono font-bold text-slate-900 dark:text-white tabular-nums">
+                  <td className="py-2.5 px-2.5 text-right font-bold text-slate-900 dark:text-white tabular-nums">
                     {n(t.rows)}
                   </td>
                   <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300">
@@ -215,7 +215,7 @@ GROUP BY 1;`,
 
       {/* 2.2: Lập hồ sơ: Kết quả kiểm tra (Profiling Discoveries) */}
       <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               2.2
@@ -250,7 +250,7 @@ GROUP BY 1;`,
                 </p>
               </div>
 
-              <div className="pt-2.5 border-t border-slate-200/70 dark:border-slate-700/60 flex items-center justify-between text-[11px]">
+              <div className="pt-2.5 mt-2 flex items-center justify-between text-[11px]">
                 <span className="font-bold text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
                   {f.stat}
                 </span>
@@ -265,7 +265,7 @@ GROUP BY 1;`,
 
       {/* 2.3: Đối chiếu chéo & Lời giải cho chỗ lệch 475 so với 470 phiên */}
       <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               2.3
@@ -341,26 +341,26 @@ GROUP BY 1;`,
         </div>
 
         {/* Bảng các phép đối chiếu chéo khác */}
-        <h5 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2.5">
+        <h5 className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-2.5">
           {L('Các Phép Kiểm Tra Đối Chiếu Chéo Khác', 'Other Cross-Table Reconciliation Checks')}
         </h5>
         <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
+              <tr data-ui className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
                 <th className="py-2.5 px-3 min-w-[200px]">{L('Phép kiểm tra', 'Test Case')}</th>
                 <th className="py-2.5 px-3 min-w-[140px]">{L('Kết quả đối chiếu', 'Result')}</th>
                 <th className="py-2.5 px-3 text-center w-28">{L('Trạng thái', 'Status')}</th>
                 <th className="py-2.5 px-3 min-w-[280px]">{L('Phân tích nguyên nhân & Xử lý', 'Audit Analysis & Resolution')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+            <tbody data-ui className="divide-y divide-slate-100 dark:divide-slate-800">
               {crossReconciliations.map((c, i) => (
                 <tr key={i} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors">
                   <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-white">
                     {b(c.test)}
                   </td>
-                  <td className="py-2.5 px-3 font-mono font-bold text-slate-900 dark:text-white">
+                  <td className="py-2.5 px-3 tabular-nums font-bold text-slate-900 dark:text-white">
                     {c.metric}
                   </td>
                   <td className="py-2.5 px-3 text-center">
@@ -388,7 +388,7 @@ GROUP BY 1;`,
 
       {/* 2.4: Quy tắc làm sạch và định hình + Truy vấn SQLite */}
       <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               2.4
@@ -506,7 +506,7 @@ GROUP BY 1;`,
               <TerminalSquare className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('Truy vấn SQL thực tế (Đã kiểm thử trên SQLite)', 'Empirical SQL Scripts (Tested in SQLite)')}
             </span>
-            <span className="text-[11px] text-slate-500 font-mono">SQLite Engine · 100% Verified</span>
+            <span className="text-[11px] text-slate-500 font-medium">SQLite Engine · 100% Verified</span>
           </div>
 
           <div className="flex flex-wrap gap-1.5 mb-2.5">
@@ -525,8 +525,8 @@ GROUP BY 1;`,
             ))}
           </div>
 
-          <div className="rounded-2xl bg-slate-950 p-4 border border-slate-800 text-xs font-mono relative">
-            <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800 text-slate-400 text-[11px]">
+          <div className="rounded-2xl bg-slate-950 p-4 border border-slate-800 text-xs relative">
+            <div data-ui className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800 text-slate-400 text-[11px]">
               <span>{sqlSnippetsList[activeSqlTab].desc}</span>
               <button
                 onClick={() => handleCopyCode(sqlSnippetsList[activeSqlTab].sql, activeSqlTab)}
@@ -536,7 +536,7 @@ GROUP BY 1;`,
                 {copiedIndex === activeSqlTab ? L('Đã chép!', 'Copied!') : L('Sao chép SQL', 'Copy SQL')}
               </button>
             </div>
-            <pre className="text-emerald-400 overflow-x-auto leading-relaxed">
+            <pre className="text-emerald-400 font-mono overflow-x-auto leading-relaxed">
               <code>{sqlSnippetsList[activeSqlTab].sql}</code>
             </pre>
           </div>
@@ -545,7 +545,7 @@ GROUP BY 1;`,
 
       {/* 2.5: Đính chính 2 sai lệch nghiêm trọng */}
       <div className="rounded-3xl border border-amber-300/80 bg-amber-50/50 p-5 sm:p-6 dark:border-amber-900/60 dark:bg-amber-950/20 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-amber-200/80 dark:border-amber-900/60 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400 font-black text-slate-950 text-sm">
               2.5
@@ -585,15 +585,15 @@ GROUP BY 1;`,
               <div className="p-3 rounded-xl bg-amber-50 dark:bg-slate-800/80 border border-amber-200 dark:border-slate-700 text-xs space-y-1.5 mb-3">
                 <div className="flex justify-between">
                   <span className="text-slate-600 dark:text-slate-400">{L('GMV bình quân ngày T3 (23 ngày):', 'Daily Avg GMV March (23d):')}</span>
-                  <span className="font-mono font-bold text-slate-900 dark:text-white">~41,3 {L('triệu đ/ngày', 'M VND/day')}</span>
+                  <span className="tabular-nums font-bold text-slate-900 dark:text-white">~41,3 {L('triệu đ/ngày', 'M VND/day')}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-600 dark:text-slate-400">{L('GMV bình quân ngày T4 (30 ngày):', 'Daily Avg GMV April (30d):')}</span>
-                  <span className="font-mono font-bold text-slate-900 dark:text-white">~82,0 {L('triệu đ/ngày', 'M VND/day')}</span>
+                  <span className="tabular-nums font-bold text-slate-900 dark:text-white">~82,0 {L('triệu đ/ngày', 'M VND/day')}</span>
                 </div>
-                <div className="flex justify-between pt-1 border-t border-amber-200 dark:border-slate-700 font-bold">
+                <div className="flex justify-between pt-1 font-bold">
                   <span className="text-[#074553] dark:text-[#9BE7FA]">{L('Tăng trưởng thực tế theo ngày:', 'True Day-Normalized Growth:')}</span>
-                  <span className="text-emerald-700 dark:text-emerald-400 font-mono text-sm">+98,5% {L('(thay vì 158,9%)', '(not 158.9%)')}</span>
+                  <span className="text-emerald-700 dark:text-emerald-400 tabular-nums font-bold text-sm">+98,5% {L('(thay vì 158,9%)', '(not 158.9%)')}</span>
                 </div>
               </div>
             </div>
@@ -629,15 +629,15 @@ GROUP BY 1;`,
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-600 dark:text-slate-400">{L('Nhóm 1k-5k khi bỏ Girl Style:', '1k-5k tier excluding Girl Style:')}</span>
-                  <span className="font-mono font-bold text-rose-600 dark:text-rose-400">~19,7% {L('GMV affiliate ngoài', 'of external GMV')}</span>
+                  <span className="tabular-nums font-bold text-rose-600 dark:text-rose-400">~19,7% {L('GMV affiliate ngoài', 'of external GMV')}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-600 dark:text-slate-400">{L('Mức tập trung Top 1% affiliate ngoài:', 'Top 1% External Affiliate Share:')}</span>
-                  <span className="font-mono font-bold text-slate-900 dark:text-white">85,4% GMV</span>
+                  <span className="tabular-nums font-bold text-slate-900 dark:text-white">85,4% GMV</span>
                 </div>
-                <div className="flex justify-between pt-1 border-t border-amber-200 dark:border-slate-700">
+                <div className="flex justify-between pt-1">
                   <span className="text-slate-600 dark:text-slate-400">{L('Hiệu suất Girl Style / phiên:', 'Girl Style per session:')}</span>
-                  <span className="font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">4,93 Tr đ ({L('gấp ~32 lần', '~32x')} 155k đ)</span>
+                  <span className="tabular-nums font-bold text-[#0D7287] dark:text-[#9BE7FA]">4,93 Tr đ ({L('gấp ~32 lần', '~32x')} 155k đ)</span>
                 </div>
               </div>
             </div>
@@ -653,29 +653,29 @@ GROUP BY 1;`,
 
         {/* Bảng so sánh % GMV giữa Tính từ File và Dashboard ghi */}
         <div className="mt-5">
-          <h5 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
+          <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
             {L('Đối chiếu % GMV Affiliate Ngoài theo Nhóm Follower: Tính từ File vs Dashboard Cũ', 'Follower Tier GMV Share: Calculated from File vs Legacy Dashboard')}
           </h5>
           <div className="overflow-x-auto rounded-2xl border border-amber-200 dark:border-slate-800 bg-white dark:bg-slate-900">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-amber-100/60 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold border-b border-amber-200 dark:border-slate-700">
+                <tr data-ui className="bg-amber-100/60 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold border-b border-amber-200 dark:border-slate-700">
                   <th className="py-2.5 px-3 min-w-[120px]">{L('Nhóm Follower', 'Follower Tier')}</th>
                   <th className="py-2.5 px-3 text-right min-w-[150px]">{L('% GMV (Tính từ File)', '% GMV (From File)')}</th>
                   <th className="py-2.5 px-3 text-right min-w-[150px]">{L('Dashboard Cũ Ghi', 'Legacy Dashboard')}</th>
                   <th className="py-2.5 px-3 min-w-[280px]">{L('Phân tích bản chất & Ghi chú', 'Context & Empirical Reality')}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody data-ui className="divide-y divide-slate-100 dark:divide-slate-800">
                 {kocCorrectionData.map((row, i) => (
                   <tr key={i} className="hover:bg-amber-50/50 dark:hover:bg-slate-800/40 transition-colors">
                     <td className="py-2 px-3 font-bold text-slate-900 dark:text-white">
                       {row.tier}
                     </td>
-                    <td className="py-2 px-3 text-right font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                    <td className="py-2 px-3 text-right tabular-nums font-bold text-[#0D7287] dark:text-[#9BE7FA]">
                       {n(row.filePct, 1)}%
                     </td>
-                    <td className="py-2 px-3 text-right font-mono text-slate-500 line-through">
+                    <td className="py-2 px-3 text-right tabular-nums text-slate-500 line-through">
                       {n(row.dashPct, 1)}%
                     </td>
                     <td className="py-2 px-3 text-slate-600 dark:text-slate-300 text-[11px]">
@@ -683,10 +683,10 @@ GROUP BY 1;`,
                     </td>
                   </tr>
                 ))}
-                <tr className="bg-amber-100/40 dark:bg-slate-800/60 font-black border-t-2 border-amber-300 dark:border-slate-700">
+                <tr data-ui className="bg-amber-100/40 dark:bg-slate-800/60 font-black border-t-2 border-amber-300 dark:border-slate-700">
                   <td className="py-2.5 px-3 text-slate-900 dark:text-white">{L('Tổng cộng', 'Total Sum')}</td>
-                  <td className="py-2.5 px-3 text-right font-mono text-emerald-700 dark:text-emerald-400">100,0%</td>
-                  <td className="py-2.5 px-3 text-right font-mono text-rose-600 dark:text-rose-400 line-through">140,8% (Lỗi)</td>
+                  <td className="py-2.5 px-3 text-right tabular-nums font-bold text-emerald-700 dark:text-emerald-400">100,0%</td>
+                  <td className="py-2.5 px-3 text-right tabular-nums font-bold text-rose-600 dark:text-rose-400 line-through">140,8% (Lỗi)</td>
                   <td className="py-2.5 px-3 text-slate-700 dark:text-slate-300 text-[11px]">
                     {L('Dashboard cũ bị trùng lặp bộ đếm dẫn đến tổng vượt 100%', 'Legacy dashboard double-counted overlapping tags')}
                   </td>

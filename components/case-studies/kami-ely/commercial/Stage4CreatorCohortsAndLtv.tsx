@@ -111,8 +111,8 @@ ORDER BY 1;`,
   return (
     <div className="space-y-6">
       {/* 4.1 & 4.2: Bối cảnh, Chuyển thể & Chuẩn bị phương pháp luận */}
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+      <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               4.1 & 4.2
@@ -137,15 +137,15 @@ ORDER BY 1;`,
 
         {/* Bảng chuyển thể phương pháp luận */}
         <div className="mt-4 overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
-          <table className="w-full text-left border-collapse text-xs">
+          <table className="w-full text-left border-collapse text-xs" data-ui="table">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
+              <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold" data-ui="tr">
                 <th className="py-2.5 px-3 min-w-[150px]">{L('Khái niệm gốc (E-commerce)', 'Standard E-comm Concept')}</th>
                 <th className="py-2.5 px-3 min-w-[200px]">{L('Chuyển thể thực tế (TikTok Shop)', 'Practical TikTok Shop Adaptation')}</th>
                 <th className="py-2.5 px-3 min-w-[280px]">{L('Lý do & Nguyên tắc kiểm soát sai lệch', 'Rationale & Bias Controls')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800" data-ui="tbody">
               <tr className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
                 <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-white">
                   {L('Cohort tháng mua đầu', 'First Purchase Cohort')}
@@ -196,8 +196,8 @@ ORDER BY 1;`,
       </div>
 
       {/* 4.3.A: Quy mô Tuyển mới vs Hoạt động theo tháng */}
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+      <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               4.3.A
@@ -236,9 +236,9 @@ ORDER BY 1;`,
 
           {/* Bảng số liệu chi tiết quy mô */}
           <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
-            <table className="w-full text-left border-collapse text-xs">
+            <table className="w-full text-left border-collapse text-xs" data-ui="table">
               <thead>
-                <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
+                <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold" data-ui="tr">
                   <th className="py-2 px-3">{L('Tháng', 'Month')}</th>
                   <th className="py-2 px-2.5 text-right">{L('Tuyển mới', 'New')}</th>
                   <th className="py-2 px-2.5 text-right">{L('Xuất hiện', 'Appeared')}</th>
@@ -246,13 +246,13 @@ ORDER BY 1;`,
                   <th className="py-2 px-3">{L('Đặc điểm thực tế', 'Context Note')}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800" data-ui="tbody">
                 {cohortScaleData.map((r, i) => (
                   <tr key={i} className={`hover:bg-slate-50/70 dark:hover:bg-slate-800/40 ${r.ym === 'T4/2026' ? 'bg-[#C8EEF7]/25 font-semibold' : ''}`}>
                     <td className="py-2 px-3 font-medium text-slate-900 dark:text-white">{r.ym}</td>
-                    <td className="py-2 px-2.5 text-right font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">{r.newCreators}</td>
-                    <td className="py-2 px-2.5 text-right font-mono font-bold text-slate-900 dark:text-white">{r.activeAppear}</td>
-                    <td className="py-2 px-2.5 text-right font-mono font-bold text-amber-700 dark:text-amber-400">{r.activeSales}</td>
+                    <td className="py-2 px-2.5 text-right tabular-nums font-bold text-[#0D7287] dark:text-[#9BE7FA]">{r.newCreators}</td>
+                    <td className="py-2 px-2.5 text-right tabular-nums font-bold text-slate-900 dark:text-white">{r.activeAppear}</td>
+                    <td className="py-2 px-2.5 text-right tabular-nums font-bold text-amber-700 dark:text-amber-400">{r.activeSales}</td>
                     <td className="py-2 px-3 text-slate-600 dark:text-slate-400 text-[11px]">{typeof r.note === 'string' ? r.note : L(r.note.vi, r.note.en)}</td>
                   </tr>
                 ))}
@@ -263,8 +263,8 @@ ORDER BY 1;`,
       </div>
 
       {/* 4.3.B: Ma trận Retention (Heatmap Cohort x Tháng tuổi) */}
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+      <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               4.3.B
@@ -308,9 +308,9 @@ ORDER BY 1;`,
 
         {/* Bảng Heatmap Retention */}
         <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
-          <table className="w-full text-center border-collapse text-xs">
+          <table className="w-full text-center border-collapse text-xs" data-ui="table">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
+              <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold" data-ui="tr">
                 <th className="py-2.5 px-3 text-left min-w-[90px]">{L('Cohort', 'Cohort')}</th>
                 <th className="py-2.5 px-2.5 w-16">{L('Quy mô', 'Size')}</th>
                 <th className="py-2.5 px-2.5 w-16">M+0</th>
@@ -321,7 +321,7 @@ ORDER BY 1;`,
                 <th className="py-2.5 px-2.5 w-16">M+5</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-mono">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 tabular-nums" data-ui="tbody">
               {retentionMatrix.map((row, i) => {
                 const getHeatCls = (pct: number, censored?: boolean) => {
                   if (censored) return 'bg-slate-100/70 text-slate-400 dark:bg-slate-800/40 dark:text-slate-500 italic';
@@ -381,9 +381,9 @@ ORDER BY 1;`,
       {/* 4.3.C & 4.3.D: Thời gian sống & Kích hoạt phiên đầu */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Thời gian sống (Kaplan-Meier Survival) */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs flex flex-col justify-between">
+        <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
+            <div className="flex items-center gap-2.5 pb-3 mb-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
                 4.3.C
               </span>
@@ -401,12 +401,12 @@ ORDER BY 1;`,
               <div className="grid grid-cols-2 gap-2">
                 <div className="p-3 rounded-2xl bg-[#F0F9FB] dark:bg-slate-800/60 border border-[#C8EEF7] dark:border-slate-800">
                   <span className="text-[11px] text-slate-500 block mb-0.5">{L('Trung vị thời gian sống:', 'Median Lifespan:')}</span>
-                  <span className="font-mono font-bold text-[#074553] dark:text-[#9BE7FA] text-base">14,0 {L('ngày', 'days')}</span>
+                  <span className="tabular-nums font-bold text-[#074553] dark:text-[#9BE7FA] text-base">14,0 {L('ngày', 'days')}</span>
                   <span className="text-[10px] text-slate-500 block mt-0.5">Mean = 35,7 {L('ngày', 'days')}</span>
                 </div>
                 <div className="p-3 rounded-2xl bg-amber-50 dark:bg-slate-800/60 border border-amber-200 dark:border-slate-800">
                   <span className="text-[11px] text-slate-500 block mb-0.5">{L('Creator live đúng 1 phiên:', '1-Session Only Creators:')}</span>
-                  <span className="font-mono font-bold text-amber-800 dark:text-amber-300 text-base">22,8% (57/250)</span>
+                  <span className="tabular-nums font-bold text-amber-800 dark:text-amber-300 text-base">22,8% (57/250)</span>
                   <span className="text-[10px] text-slate-500 block mt-0.5">{L('Bỏ cuộc ngay sau ca đầu', 'Abandoned immediately')}</span>
                 </div>
               </div>
@@ -414,11 +414,11 @@ ORDER BY 1;`,
               <div className="p-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-50/70 dark:bg-slate-800/40 space-y-1.5 text-[11px]">
                 <div className="flex justify-between">
                   <span>{L('Tồn tại từ 30 ngày trở lên:', 'Survived >= 30 days:')}</span>
-                  <span className="font-bold font-mono text-slate-900 dark:text-white">36,4% (91/250 creator)</span>
+                  <span className="font-bold tabular-nums text-slate-900 dark:text-white">36,4% (91/250 creator)</span>
                 </div>
                 <div className="flex justify-between">
                   <span>{L('Còn hoạt động trong 30 ngày cuối:', 'Active in last 30 days:')}</span>
-                  <span className="font-bold font-mono text-[#0D7287] dark:text-[#9BE7FA]">20,4% (51/250 creator)</span>
+                  <span className="font-bold tabular-nums text-[#0D7287] dark:text-[#9BE7FA]">20,4% (51/250 creator)</span>
                 </div>
               </div>
             </div>
@@ -426,9 +426,9 @@ ORDER BY 1;`,
         </div>
 
         {/* Kích hoạt phiên đầu tiên (Session 1 Activation) */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs flex flex-col justify-between">
+        <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
+            <div className="flex items-center gap-2.5 pb-3 mb-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400 font-black text-slate-950 text-sm">
                 4.3.D
               </span>
@@ -446,11 +446,11 @@ ORDER BY 1;`,
               <div className="p-3 rounded-2xl bg-amber-50 dark:bg-slate-800/80 border border-amber-200 dark:border-slate-700 text-xs">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-slate-600 dark:text-slate-400">{L('Tỷ lệ có đơn ngay phiên đầu:', 'Session 1 Conversion Rate:')}</span>
-                  <span className="font-mono font-bold text-amber-800 dark:text-amber-300">14,8% (37/250 creator)</span>
+                  <span className="tabular-nums font-bold text-amber-800 dark:text-amber-300">14,8% (37/250 creator)</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-600 dark:text-slate-400">{L('Tỷ lệ chưa từng bán được đơn nào:', 'Never Sold Any Orders:')}</span>
-                  <span className="font-mono font-bold text-rose-600 dark:text-rose-400">56,0% (140/250 creator)</span>
+                  <span className="tabular-nums font-bold text-rose-600 dark:text-rose-400">56,0% (140/250 creator)</span>
                 </div>
               </div>
 
@@ -473,8 +473,8 @@ ORDER BY 1;`,
       </div>
 
       {/* 4.3.E & 4.3.F: Giá trị vòng đời GMV & Thử nghiệm bóc tách Girl Style */}
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+      <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               4.3.E & 4.3.F
@@ -548,9 +548,9 @@ ORDER BY 1;`,
 
           {/* Bảng so sánh GMV Cohort */}
           <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
-            <table className="w-full text-left border-collapse text-xs">
+            <table className="w-full text-left border-collapse text-xs" data-ui="table">
               <thead>
-                <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
+                <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold" data-ui="tr">
                   <th className="py-2 px-3">{L('Cohort', 'Cohort')}</th>
                   <th className="py-2 px-2.5 text-right">{L('Số creator', 'Size')}</th>
                   <th className="py-2 px-3 text-right">{L('Có Girl Style', 'With GS')}</th>
@@ -558,7 +558,7 @@ ORDER BY 1;`,
                   <th className="py-2 px-3">{L('Đánh giá thực chất', 'Evaluation')}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-mono">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 tabular-nums" data-ui="tbody">
                 {cohortGmvData.map((r, i) => (
                   <tr key={i} className={`hover:bg-slate-50/70 dark:hover:bg-slate-800/40 ${r.cohort === 'T5/2026' ? 'bg-[#FFE485]/15 font-semibold' : ''}`}>
                     <td className="py-2 px-3 font-sans font-medium text-slate-900 dark:text-white">{r.cohort}</td>
@@ -582,8 +582,8 @@ ORDER BY 1;`,
       </div>
 
       {/* 4.3.G: Phễu kích hoạt kép & Shoppable Videos */}
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+      <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               4.3.G
@@ -616,15 +616,15 @@ ORDER BY 1;`,
               <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
                 <li className="flex justify-between items-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                   <span>{L('Creator liên kết:', 'Linked Creators:')}</span>
-                  <span className="font-mono font-bold">5.713</span>
+                  <span className="tabular-nums font-bold">5.713</span>
                 </li>
                 <li className="flex justify-between items-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                   <span>{L('Có phát sinh doanh thu:', 'Active with Sales:')}</span>
-                  <span className="font-mono font-bold text-amber-700 dark:text-amber-400">292 (5,1%)</span>
+                  <span className="tabular-nums font-bold text-amber-700 dark:text-amber-400">292 (5,1%)</span>
                 </li>
                 <li className="flex justify-between items-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                   <span>{L('Gánh 91% GMV mạng lưới:', 'Drive 91% GMV:')}</span>
-                  <span className="font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">58 creator (1,0%)</span>
+                  <span className="tabular-nums font-bold text-[#0D7287] dark:text-[#9BE7FA]">58 creator (1,0%)</span>
                 </li>
               </ul>
             </div>
@@ -645,15 +645,15 @@ ORDER BY 1;`,
               <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
                 <li className="flex justify-between items-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                   <span>{L('Từng livestream gắn giỏ:', 'Ever Streamed Live:')}</span>
-                  <span className="font-mono font-bold">250</span>
+                  <span className="tabular-nums font-bold">250</span>
                 </li>
                 <li className="flex justify-between items-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                   <span>{L('Từng có GMV > 0:', 'Ever Sold (GMV > 0):')}</span>
-                  <span className="font-mono font-bold text-amber-700 dark:text-amber-400">110 (44,0%)</span>
+                  <span className="tabular-nums font-bold text-amber-700 dark:text-amber-400">110 (44,0%)</span>
                 </li>
                 <li className="flex justify-between items-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                   <span>{L('Còn hoạt động 30 ngày cuối:', 'Active in Last 30 Days:')}</span>
-                  <span className="font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">51 (20,4%)</span>
+                  <span className="tabular-nums font-bold text-[#0D7287] dark:text-[#9BE7FA]">51 (20,4%)</span>
                 </li>
               </ul>
             </div>
@@ -674,15 +674,15 @@ ORDER BY 1;`,
               <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
                 <li className="flex justify-between items-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                   <span>{L('Tổng số video gắn giỏ:', 'Total Shoppable Videos:')}</span>
-                  <span className="font-mono font-bold">4.417</span>
+                  <span className="tabular-nums font-bold">4.417</span>
                 </li>
                 <li className="flex justify-between items-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                   <span>{L('Creator đăng video:', 'Distinct Video Creators:')}</span>
-                  <span className="font-mono font-bold">1.847</span>
+                  <span className="tabular-nums font-bold">1.847</span>
                 </li>
                 <li className="flex justify-between items-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                   <span>{L('Video có ra đơn (GMV>0):', 'Videos with GMV > 0:')}</span>
-                  <span className="font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">960 (21,7%)</span>
+                  <span className="tabular-nums font-bold text-[#0D7287] dark:text-[#9BE7FA]">960 (21,7%)</span>
                 </li>
               </ul>
             </div>
@@ -696,16 +696,16 @@ ORDER BY 1;`,
       {/* 4.4: Kỹ thuật SQL & 4.6: Hạn chế kiểm duyệt (Censoring) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* SQL mẫu */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs flex flex-col justify-between">
+        <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
+            <div className="flex items-center justify-between pb-3 mb-3">
               <div className="flex items-center gap-2">
                 <TerminalSquare className="h-5 w-5 text-[#0D7287] dark:text-[#9BE7FA]" />
                 <h4 className="text-sm font-black text-slate-950 dark:text-white">
                   {L('Kỹ Thuật SQL Cohort & Bóc Tách Kênh', 'Cohort & Sensitivity SQL Engineering')}
                 </h4>
               </div>
-              <span className="text-[11px] text-slate-500 font-mono">SQLite Engine</span>
+              <span className="text-[11px] text-slate-500 font-medium">SQLite Engine</span>
             </div>
 
             <div className="flex flex-wrap gap-1.5 mb-2.5">
@@ -714,9 +714,9 @@ ORDER BY 1;`,
                   key={idx}
                   type="button"
                   onClick={() => setActiveSqlTab(idx)}
-                  className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all min-h-8 cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-colors min-h-8 cursor-pointer ${
                     activeSqlTab === idx
-                      ? 'bg-[#9BE7FA] text-slate-950 shadow-xs'
+                      ? 'bg-[#9BE7FA] text-slate-950'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
                   }`}
                 >
@@ -726,7 +726,7 @@ ORDER BY 1;`,
             </div>
 
             <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950 p-3.5 text-slate-100 relative">
-              <div className="flex items-center justify-between text-[11px] text-slate-400 pb-1.5 mb-1.5 border-b border-slate-800">
+              <div className="flex items-center justify-between text-[11px] text-slate-400 pb-1.5 mb-1.5 border-b border-slate-800" data-ui="code-header">
                 <span>{stage4Sql[activeSqlTab].desc}</span>
                 <button
                   type="button"
@@ -754,8 +754,8 @@ ORDER BY 1;`,
         </div>
 
         {/* 4.6: Hạn chế kiểm duyệt dữ liệu bắt buộc */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-          <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
+        <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900">
+          <div className="flex items-center gap-2.5 pb-3 mb-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400 font-black text-slate-950 text-sm">
               4.6
             </span>

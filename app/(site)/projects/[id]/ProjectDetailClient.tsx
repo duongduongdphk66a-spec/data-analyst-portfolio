@@ -29,10 +29,16 @@ const LibraryBusProject = dynamic(() => import('@/components/case-studies/Librar
 const CASE_STUDY_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'proj-kami-ely': KamiElyProject,
   'kami-ely': KamiElyProject,
+  'proj_kami_ely': KamiElyProject,
+  'kami_ely': KamiElyProject,
   'proj-heritage-japan': HeritageJapanProject,
   'heritage-japan': HeritageJapanProject,
+  'proj_heritage_japan': HeritageJapanProject,
+  'heritage_japan': HeritageJapanProject,
   'proj-library-bus': LibraryBusProject,
   'library-bus': LibraryBusProject,
+  'proj_library_bus': LibraryBusProject,
+  'library_bus': LibraryBusProject,
 };
 
 export default function ProjectDetailClient({ 
@@ -56,11 +62,14 @@ export default function ProjectDetailClient({
     }
   }, [id]);
 
-  const SpecialComponent = CASE_STUDY_COMPONENTS[id];
+  const cleanId = id.replace(/_/g, '-');
+  const normalizedId = cleanId.startsWith('proj-') ? cleanId : `proj-${cleanId}`;
+
+  const SpecialComponent = CASE_STUDY_COMPONENTS[id] || CASE_STUDY_COMPONENTS[normalizedId] || CASE_STUDY_COMPONENTS[cleanId];
 
   // 1. Prioritize prop from server, then context, then default
   const allProjects = contextProjects && contextProjects.length > 0 ? contextProjects : DEFAULT_PROJECTS;
-  const activeProject = project || allProjects.find((p) => p.id === id);
+  const activeProject = project || allProjects.find((p) => p.id === id || p.id === normalizedId || p.id === cleanId);
 
   // 2. Render rich interactive case study if registered for this project ID
   if (SpecialComponent) {

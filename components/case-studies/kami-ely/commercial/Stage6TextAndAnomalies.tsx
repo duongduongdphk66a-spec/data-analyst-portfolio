@@ -102,8 +102,8 @@ ORDER BY total_videos DESC;`,
   return (
     <div className="space-y-8">
       {/* 6.1: Khung Phương Pháp Luận & Đính Chính Dàn Ý Cũ */}
-      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#9BE7FA] text-slate-950 font-bold text-xs">
               6.1
@@ -124,15 +124,15 @@ ORDER BY total_videos DESC;`,
 
         {/* Hai điểm điều chỉnh so với dàn ý cũ */}
         <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-[#F0F9FB] dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800">
+          <table className="w-full text-left text-xs" data-ui="table">
+            <thead className="bg-[#F0F9FB] dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800" data-ui="thead">
               <tr>
                 <th className="py-2.5 px-3">{L('Dàn ý lý thuyết ban đầu', 'Theoretical Claim')}</th>
                 <th className="py-2.5 px-3">{L('Kết quả kiểm tra dữ liệu thật (SSOT)', 'Empirical Reality (SSOT)')}</th>
                 <th className="py-2.5 px-3">{L('Xử lý chuẩn xác trong báo cáo', 'Methodological Correction')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400" data-ui="tbody">
               <tr>
                 <td className="py-2.5 px-3 font-medium text-slate-800 dark:text-slate-200">{L('"Spike view tháng 8"', '"August View Spike"')}</td>
                 <td className="py-2.5 px-3 text-rose-600 dark:text-rose-400 font-semibold">
@@ -182,8 +182,8 @@ ORDER BY total_videos DESC;`,
         </ChartCard>
 
         {/* 6.2.C: Phân tích Hashtag Sản phẩm vs Hashtag Chung */}
-        <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+        <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-4">
+          <div className="flex items-center justify-between pb-2 mb-2">
             <div>
               <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                 <Hash className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
@@ -233,8 +233,8 @@ ORDER BY total_videos DESC;`,
       </div>
 
       {/* 6.3: Phân Tích Dị Biệt (Anomalies) */}
-      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-5">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-5">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FFD14C] text-slate-950 font-bold text-xs">
               6.3
@@ -253,8 +253,8 @@ ORDER BY total_videos DESC;`,
 
         {/* Bảng Registry */}
         <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-[#F0F9FB] dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800">
+          <table className="w-full text-left text-xs" data-ui="table">
+            <thead className="bg-[#F0F9FB] dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800" data-ui="thead">
               <tr>
                 <th className="py-2.5 px-3">{L('Loại dị biệt', 'Anomaly Type')}</th>
                 <th className="py-2.5 px-3">{L('Đối tượng / Thời điểm', 'Subject / Timestamp')}</th>
@@ -263,7 +263,7 @@ ORDER BY total_videos DESC;`,
                 <th className="py-2.5 px-3">{L('Phương án xử lý dữ liệu', 'Treatment Protocol')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400" data-ui="tbody">
               {anomalyRegistry.map((item, idx) => (
                 <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
                   <td className="py-2 px-3 font-semibold text-slate-800 dark:text-slate-200">{item.type}</td>
@@ -299,8 +299,8 @@ ORDER BY total_videos DESC;`,
       </div>
 
       {/* 6.4: Kỹ Thuật SQL Cho Mục 6 */}
-      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2">
             <TerminalSquare className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
             <h4 className="text-sm font-bold text-slate-900 dark:text-white">
@@ -328,7 +328,7 @@ ORDER BY total_videos DESC;`,
           <p className="text-xs text-slate-600 dark:text-slate-400 italic">
             {stage6Sql[activeSqlTab].desc}
           </p>
-          <div className="relative rounded-xl bg-slate-950 p-4 font-mono text-xs text-slate-200 overflow-x-auto">
+          <div className="relative rounded-xl bg-slate-950 p-4 text-xs text-slate-200 overflow-x-auto">
             <button
               onClick={() => {
                 navigator.clipboard.writeText(stage6Sql[activeSqlTab].sql);
@@ -349,7 +349,7 @@ ORDER BY total_videos DESC;`,
                 </>
               )}
             </button>
-            <pre className="pr-16 text-slate-300 leading-relaxed">
+            <pre className="font-mono pr-16 text-slate-300 leading-relaxed">
               <code>{stage6Sql[activeSqlTab].sql}</code>
             </pre>
           </div>

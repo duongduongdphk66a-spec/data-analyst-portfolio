@@ -67,7 +67,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
     <div className="space-y-6">
       {/* 1.1: Bối cảnh và Bài toán Trọng tâm */}
       <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               1.1
@@ -97,7 +97,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
             </p>
 
             <div className="rounded-2xl border-l-4 border-l-[#0D7287] bg-[#F0F9FB] p-3.5 dark:bg-slate-800/80 dark:border-l-[#9BE7FA]">
-              <div className="text-[11px] font-black uppercase tracking-wider text-[#074553] dark:text-[#9BE7FA] mb-1 flex items-center gap-1.5">
+              <div className="text-[11px] font-bold text-[#074553] dark:text-[#9BE7FA] mb-1 flex items-center gap-1.5">
                 <HelpCircle className="h-3.5 w-3.5" />
                 {L('Câu hỏi trọng tâm (Core Inquiry):', 'Core Business Inquiry:')}
               </div>
@@ -112,7 +112,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
 
           <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-3.5 dark:border-slate-800 dark:bg-slate-950/60 flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-1.5 text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider mb-2">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900 dark:text-white mb-2">
                 <Users className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                 {L('Đối tượng thụ hưởng', 'Target Decision Makers')}
               </div>
@@ -164,7 +164,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
         <div className="mt-3 overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
+              <tr data-ui className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
                 <th className="py-2.5 px-3 w-10 text-center">#</th>
                 <th className="py-2.5 px-3 min-w-[200px]">{L('Câu hỏi phân tích', 'Sub-Question')}</th>
                 <th className="py-2.5 px-3 min-w-[170px]">{L('Chỉ số đo lường', 'Core Metric')}</th>
@@ -172,7 +172,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                 <th className="py-2.5 px-3 min-w-[180px]">{L('Quyết định phục vụ', 'Decision Served')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+            <tbody data-ui className="divide-y divide-slate-100 dark:divide-slate-800">
               {subQuestions.map((q) => {
                 const Icon = ICON_MAP[q.iconName] || Calendar;
                 return (
@@ -226,7 +226,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
         {/* 1.3: Phạm vi & Ràng buộc */}
         <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
+            <div className="flex items-center gap-2.5 pb-3 mb-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
                 1.3
               </span>
@@ -294,7 +294,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
         {/* 1.4: Phân loại Nguồn Dữ liệu theo Mức chi tiết */}
         <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
+            <div className="flex items-center gap-2.5 pb-3 mb-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
                 1.4
               </span>
@@ -331,9 +331,9 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
             </div>
           </div>
 
-          <div className="mt-3 flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-100 dark:border-slate-800">
+          <div className="mt-3 flex items-center justify-between text-[11px] text-slate-500 pt-2">
             <span>{L('5 Mức chi tiết hạt nhân', '5 Core Data Grains')}</span>
-            <span className="font-mono text-slate-700 dark:text-slate-300">
+            <span className="tabular-nums font-semibold text-slate-700 dark:text-slate-300">
               {pipelineMeta.tables} {L('bảng nguồn hợp nhất', 'unified tables')}
             </span>
           </div>
@@ -342,7 +342,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
 
       {/* 1.5: Luồng kiến trúc dữ liệu 5 bước (Pipeline Diagram) */}
       <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               1.5
@@ -373,7 +373,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                     <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#9BE7FA] font-black text-slate-950 text-xs">
                       {s.step}
                     </span>
-                    <span className="text-[10px] font-mono font-semibold text-slate-500 uppercase">
+                    <span className="text-[10px] font-semibold text-slate-500 uppercase">
                       {s.badge}
                     </span>
                   </div>
@@ -407,7 +407,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
               <BarChart3 className="h-3.5 w-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
               {L('Quy mô Bản ghi Dữ liệu theo 9 Bảng Nguồn (Tổng cộng 21.569 dòng SSOT)', 'Data Record Volume across 9 Source Tables (21,569 SSOT Rows Total)')}
             </h5>
-            <span className="text-[11px] font-mono text-slate-500">
+            <span className="text-[11px] tabular-nums font-semibold text-slate-500">
               {n(pipelineMeta.rows)} {L('dòng hợp nhất', 'records merged')}
             </span>
           </div>
@@ -446,7 +446,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
 
       {/* 1.6: Bảng đối soát dữ liệu (Reconciliation Matrix) */}
       <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-3">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               1.6
@@ -466,7 +466,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
         <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
+              <tr data-ui className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
                 <th className="py-2.5 px-3 min-w-[200px]">{L('Hạng mục đối soát', 'Reconciliation Scope')}</th>
                 <th className="py-2.5 px-3 min-w-[130px]">{L('Kỳ vọng lý thuyết', 'Expected Value')}</th>
                 <th className="py-2.5 px-3 min-w-[160px]">{L('Thực tế ghi nhận', 'Actual Value')}</th>
@@ -474,16 +474,16 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                 <th className="py-2.5 px-3 min-w-[240px]">{L('Giải trình kỹ thuật', 'Technical Resolution')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+            <tbody data-ui className="divide-y divide-slate-100 dark:divide-slate-800">
               {reconciliationRules.map((r, idx) => (
                 <tr key={idx} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors">
                   <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-white">
                     {L(r.check.vi, r.check.en)}
                   </td>
-                  <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 font-mono">
+                  <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 tabular-nums">
                     {L(r.expected.vi, r.expected.en)}
                   </td>
-                  <td className="py-2.5 px-3 font-mono font-bold text-slate-900 dark:text-white">
+                  <td className="py-2.5 px-3 tabular-nums font-bold text-slate-900 dark:text-white">
                     {L(r.actual.vi, r.actual.en)}
                   </td>
                   <td className="py-2.5 px-3 text-center">
@@ -511,7 +511,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
 
       {/* 1.7: Kết quả đầu ra của dự án (Project Deliverables) */}
       <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+        <div className="flex items-center gap-2.5 pb-3 mb-4">
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
             1.7
           </span>
@@ -528,7 +528,7 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <div className="rounded-2xl border border-slate-200/80 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-800/60 flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-2 text-xs font-bold text-[#074553] dark:text-[#9BE7FA] uppercase tracking-wider mb-2">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#074553] dark:text-[#9BE7FA] mb-2">
                 <TerminalSquare className="h-4 w-4" />
                 SQL Playbook
               </div>
@@ -539,14 +539,14 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                 {L('7 giai đoạn SQL khép kín từ nạp ETL, xử lý PII, khử trùng lặp đến kiểm định thống kê.', '7-stage modular SQL suite covering ETL, PII masking, deduplication, and statistical tests.')}
               </p>
             </div>
-            <div className="mt-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
-              <span className="text-[11px] font-mono text-slate-500">7 Stages · 100% Validated</span>
+            <div className="mt-3 pt-2">
+              <span className="text-[11px] font-medium text-slate-500">7 Stages · 100% Validated</span>
             </div>
           </div>
 
           <div className="rounded-2xl border border-slate-200/80 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-800/60 flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-2 text-xs font-bold text-[#074553] dark:text-[#9BE7FA] uppercase tracking-wider mb-2">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#074553] dark:text-[#9BE7FA] mb-2">
                 <Database className="h-4 w-4" />
                 CSDL Đã Dựng Sẵn
               </div>
@@ -557,14 +557,14 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                 {L('CSDL SQLite / DuckDB dựng sẵn phân tách raw, staging và mart, sẵn sàng nạp tự động.', 'Pre-built SQLite/DuckDB schemas partitioned into raw, staging, and mart layers.')}
               </p>
             </div>
-            <div className="mt-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
-              <span className="text-[11px] font-mono text-slate-500">SQLite / DuckDB Schema</span>
+            <div className="mt-3 pt-2">
+              <span className="text-[11px] font-medium text-slate-500">SQLite / DuckDB Schema</span>
             </div>
           </div>
 
           <div className="rounded-2xl border border-slate-200/80 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-800/60 flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-2 text-xs font-bold text-[#074553] dark:text-[#9BE7FA] uppercase tracking-wider mb-2">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#074553] dark:text-[#9BE7FA] mb-2">
                 <BarChart3 className="h-4 w-4" />
                 5 Câu Hỏi Con
               </div>
@@ -575,14 +575,14 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                 {L('Bộ biểu đồ tương tác thời gian thực giải quyết triệt để 5 câu hỏi trọng tâm thương mại.', 'Dynamic charts resolving all 5 core commercial sub-questions.')}
               </p>
             </div>
-            <div className="mt-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
-              <span className="text-[11px] font-mono text-slate-500">Recharts · Responsive</span>
+            <div className="mt-3 pt-2">
+              <span className="text-[11px] font-medium text-slate-500">Recharts · Responsive</span>
             </div>
           </div>
 
           <div className="rounded-2xl border border-slate-200/80 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-800/60 flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-2 text-xs font-bold text-[#074553] dark:text-[#9BE7FA] uppercase tracking-wider mb-2">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#074553] dark:text-[#9BE7FA] mb-2">
                 <FileCheck2 className="h-4 w-4" />
                 Chiến Lược & Hạn Chế
               </div>
@@ -593,8 +593,8 @@ export default function Stage1BusinessAndDataArchitecture({ data }: Stage1Props)
                 {L('Báo cáo hành động thực tế cho chủ shop kèm hồ sơ hạn chế dữ liệu phục vụ mở rộng.', 'Actionable executive report for shop owners alongside documented data constraints.')}
               </p>
             </div>
-            <div className="mt-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
-              <span className="text-[11px] font-mono text-slate-500">Action Plan & Limitations</span>
+            <div className="mt-3 pt-2">
+              <span className="text-[11px] font-medium text-slate-500">Action Plan & Limitations</span>
             </div>
           </div>
         </div>

@@ -124,7 +124,7 @@ WITH summary AS (
     SUM(live_sessions) AS total_lives,
     SUM(gmv) * 1.0 / SUM(live_sessions) AS gmv_per_live
   FROM stg_store
-  WHERE strftime('%m', date) IN ('06', '08')
+  WHERE CAST(strftime('%m', date) AS INT) IN (6, 8)
   GROUP BY 1
 )
 SELECT 
@@ -136,8 +136,8 @@ SELECT
   j.total_lives * (a.gmv_per_live - j.gmv_per_live) AS efficiency_effect,
   -- Interaction
   (a.total_lives - j.total_lives) * (a.gmv_per_live - j.gmv_per_live) AS interaction
-FROM (SELECT * FROM summary WHERE m = '06') j
-JOIN (SELECT * FROM summary WHERE m = '08') a;`,
+FROM (SELECT * FROM summary WHERE CAST(m AS INT) = 6) j
+JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
     },
   ];
 
@@ -151,7 +151,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
     <div className="space-y-6">
       {/* 3.1 & 3.2: Bối cảnh, Bảng Lịch & Tiền xử lý */}
       <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               3.1 & 3.2
@@ -232,7 +232,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
 
       {/* 3.3.A: Bức tranh tổng thể & Bảng phân tích 7 tháng */}
       <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               3.3.A
@@ -256,7 +256,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
         <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800 mb-5">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
+              <tr data-ui className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
                 <th className="py-2.5 px-3 min-w-[90px]">{L('Tháng', 'Month')}</th>
                 <th className="py-2.5 px-2.5 text-center w-20">{L('Số ngày', 'Days')}</th>
                 <th className="py-2.5 px-3 text-right min-w-[130px]">{L('Tổng GMV (đ)', 'Total GMV')}</th>
@@ -268,7 +268,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
                 <th className="py-2.5 px-3 text-right min-w-[140px]">{L('MoM Bình Quân Ngày', 'Day-Normalized MoM')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+            <tbody data-ui className="divide-y divide-slate-100 dark:divide-slate-800">
               {monthlyTable.map((m, idx) => (
                 <tr
                   key={idx}
@@ -289,22 +289,22 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
                       </span>
                     )}
                   </td>
-                  <td className="py-2.5 px-2.5 text-center font-mono tabular-nums">{m.days}</td>
-                  <td className="py-2.5 px-3 text-right font-mono font-bold text-slate-900 dark:text-white tabular-nums">
+                  <td className="py-2.5 px-2.5 text-center tabular-nums">{m.days}</td>
+                  <td className="py-2.5 px-3 text-right font-bold text-slate-900 dark:text-white tabular-nums">
                     {n(m.gmv)}
                   </td>
-                  <td className="py-2.5 px-2.5 text-right font-mono tabular-nums text-slate-600 dark:text-slate-400">
+                  <td className="py-2.5 px-2.5 text-right tabular-nums text-slate-600 dark:text-slate-400">
                     {m.share}%
                   </td>
-                  <td className="py-2.5 px-3 text-right font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
+                  <td className="py-2.5 px-3 text-right font-bold text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
                     {n(m.gmvPerDay)}
                   </td>
-                  <td className="py-2.5 px-2.5 text-right font-mono tabular-nums">{n(m.units)}</td>
-                  <td className="py-2.5 px-3 text-right font-mono tabular-nums">{n(m.aov)}</td>
-                  <td className="py-2.5 px-3 text-right font-mono tabular-nums text-slate-500">
+                  <td className="py-2.5 px-2.5 text-right tabular-nums">{n(m.units)}</td>
+                  <td className="py-2.5 px-3 text-right tabular-nums">{n(m.aov)}</td>
+                  <td className="py-2.5 px-3 text-right tabular-nums text-slate-500">
                     {m.momRaw !== null ? `${m.momRaw > 0 ? '+' : ''}${m.momRaw}%` : '—'}
                   </td>
-                  <td className="py-2.5 px-3 text-right font-mono font-bold tabular-nums">
+                  <td className="py-2.5 px-3 text-right font-bold tabular-nums">
                     {m.momDay !== null ? (
                       <span className={m.momDay > 0 ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}>
                         {m.momDay > 0 ? '+' : ''}{m.momDay}%
@@ -387,7 +387,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
         {/* Hộp phân tích đỉnh & độ rộng */}
         <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
+            <div className="flex items-center gap-2.5 pb-3 mb-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
                 3.3.B
               </span>
@@ -405,7 +405,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
               <div className="p-3 rounded-2xl bg-[#F0F9FB] dark:bg-slate-800/60 border border-[#C8EEF7] dark:border-slate-800">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-slate-600 dark:text-slate-400">{L('Ngày đỉnh tuyệt đối:', 'Absolute Peak Day:')}</span>
-                  <span className="font-bold text-[#074553] dark:text-[#9BE7FA] font-mono text-sm">16/06/2026 (315,0 Tr đ)</span>
+                  <span className="font-bold text-[#074553] dark:text-[#9BE7FA] tabular-nums text-sm">16/06/2026 (315,0 Tr đ)</span>
                 </div>
                 <p className="text-[11px] text-slate-600 dark:text-slate-300">
                   {L('Doanh số 1.936 sản phẩm trong duy nhất 1 ngày nhờ sự bùng nổ của chiến dịch Live giữa hè.', '1,936 units sold in a single day fueled by peak midsummer live streams.')}
@@ -415,12 +415,12 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
               <div className="grid grid-cols-2 gap-2">
                 <div className="p-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-50/70 dark:bg-slate-800/40">
                   <span className="text-[11px] text-slate-500 block mb-0.5">{L('7 Ngày quanh đỉnh (13–19/06):', '7 Days around Peak:')}</span>
-                  <span className="font-mono font-bold text-slate-900 dark:text-white text-sm">1,09 Tỷ đ</span>
+                  <span className="tabular-nums font-bold text-slate-900 dark:text-white text-sm">1,09 Tỷ đ</span>
                   <span className="text-[11px] text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">7,34% {L('tổng 226 ngày', 'of 226d total')}</span>
                 </div>
                 <div className="p-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-50/70 dark:bg-slate-800/40">
                   <span className="text-[11px] text-slate-500 block mb-0.5">{L('14 Ngày quanh đỉnh:', '14 Days Window:')}</span>
-                  <span className="font-mono font-bold text-slate-900 dark:text-white text-sm">1,90 Tỷ đ</span>
+                  <span className="tabular-nums font-bold text-slate-900 dark:text-white text-sm">1,90 Tỷ đ</span>
                   <span className="text-[11px] text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">12,80% {L('tổng 226 ngày', 'of 226d total')}</span>
                 </div>
               </div>
@@ -438,7 +438,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
         {/* Hộp Tín hiệu cảnh báo sớm: Giao cắt tử thần MA7 vs MA28 */}
         <div className="rounded-3xl border-2 border-[#9BE7FA] bg-[#F0F9FB] p-5 sm:p-6 dark:border-[#9BE7FA]/40 dark:bg-slate-900 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2.5 pb-3 border-b border-[#C8EEF7] dark:border-slate-800 mb-3">
+            <div className="flex items-center gap-2.5 pb-3 mb-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400 font-black text-slate-950 text-sm">
                 3.3.F
               </span>
@@ -456,11 +456,11 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
               <div className="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                 <div>
                   <span className="text-[11px] text-slate-500 block">{L('Ngày xuất hiện Dead Cross:', 'Dead Cross Trigger Date:')}</span>
-                  <span className="font-bold text-base text-rose-600 dark:text-rose-400 font-mono">26/06/2026</span>
+                  <span className="font-bold text-base text-rose-600 dark:text-rose-400 tabular-nums">26/06/2026</span>
                 </div>
                 <div className="text-right">
                   <span className="text-[11px] text-slate-500 block">MA7 vs MA28:</span>
-                  <span className="font-mono font-bold text-slate-900 dark:text-white">120,7 Tr &lt; 125,9 Tr đ</span>
+                  <span className="tabular-nums font-bold text-slate-900 dark:text-white">120,7 Tr &lt; 125,9 Tr đ</span>
                 </div>
               </div>
 
@@ -484,7 +484,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
 
       {/* 3.3.C: Chu kỳ theo thứ trong tuần & Phân kỳ giai đoạn */}
       <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               3.3.C
@@ -526,7 +526,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
           <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
+                <tr data-ui className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold">
                   <th className="py-2.5 px-3">{L('Thứ', 'Day')}</th>
                   <th className="py-2.5 px-3 text-right">{L('Chỉ số mùa vụ', 'Index')}</th>
                   <th className="py-2.5 px-3 text-right">{L('Tăng (T3–T5)', 'Growth')}</th>
@@ -534,23 +534,23 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
                   <th className="py-2.5 px-3 text-right">{L('Giảm (T7–T9)', 'Decline')}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody data-ui className="divide-y divide-slate-100 dark:divide-slate-800">
                 {dowSeasonality.map((r, i) => (
                   <tr key={i} className={`hover:bg-slate-50/70 dark:hover:bg-slate-800/40 ${r.dow === 'Thứ 5' ? 'bg-[#FFE485]/15 dark:bg-[#FFD14C]/5 font-semibold' : ''}`}>
                     <td className="py-2 px-3 font-medium text-slate-900 dark:text-white flex items-center gap-1">
                       {r.dow === 'Thứ 5' && <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />}
                       {r.dow}
                     </td>
-                    <td className="py-2 px-3 text-right font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                    <td className="py-2 px-3 text-right tabular-nums font-bold text-[#0D7287] dark:text-[#9BE7FA]">
                       {r.index}%
                     </td>
-                    <td className="py-2 px-3 text-right font-mono text-slate-600 dark:text-slate-300">
+                    <td className="py-2 px-3 text-right tabular-nums text-slate-600 dark:text-slate-300">
                       {r.growthMed}M
                     </td>
-                    <td className="py-2 px-3 text-right font-mono font-bold text-slate-900 dark:text-white">
+                    <td className="py-2 px-3 text-right tabular-nums font-bold text-slate-900 dark:text-white">
                       {r.peakMed}M
                     </td>
-                    <td className="py-2 px-3 text-right font-mono text-slate-500">
+                    <td className="py-2 px-3 text-right tabular-nums text-slate-500">
                       {r.declineMed}M
                     </td>
                   </tr>
@@ -563,7 +563,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
 
       {/* 3.3.D & 3.3.E: Cường độ marketing vs Doanh thu & Phân rã hiệu suất */}
       <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#9BE7FA] font-black text-slate-950 text-sm">
               3.3.D & 3.3.E
@@ -595,7 +595,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
                 <LineChartIcon className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                 {L('Tương quan chéo theo độ trễ (Lag 0 – 7 Ngày)', 'Cross-Correlation by Lag (0 to 7 Days)')}
               </span>
-              <span className="text-[11px] text-slate-500 font-mono">Pearson r</span>
+              <span className="text-[11px] text-slate-500 font-medium">Pearson r</span>
             </div>
             <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
               {L(
@@ -627,7 +627,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
                   <TrendingDown className="h-4 w-4 text-rose-500" />
                   {L('Phân rã thay đổi GMV: Số lượng vs Hiệu suất', 'Decomposition: Volume vs Efficiency (T6 vs T8)')}
                 </span>
-                <span className="text-[11px] font-mono text-rose-600 dark:text-rose-400 font-bold">-82,9% GMV (-3,13 Tỷ đ)</span>
+                <span className="text-[11px] tabular-nums text-rose-600 dark:text-rose-400 font-bold">-82,9% GMV (-3,13 Tỷ đ)</span>
               </div>
               <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
                 {L(
@@ -639,15 +639,15 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
               <div className="space-y-2 text-xs">
                 <div className="flex justify-between items-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                   <span className="text-slate-600 dark:text-slate-400">{L('1. Hiệu ứng Số lượng (Giảm ca Live 1.560 → 640):', '1. Volume Effect (1,560 → 640 Lives):')}</span>
-                  <span className="font-mono font-bold text-amber-700 dark:text-amber-400">-2,22 Tỷ đ (71,1%)</span>
+                  <span className="tabular-nums font-bold text-amber-700 dark:text-amber-400">-2,22 Tỷ đ (71,1%)</span>
                 </div>
                 <div className="flex justify-between items-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                   <span className="text-slate-600 dark:text-slate-400">{L('2. Hiệu ứng Hiệu suất (GMV/ca 2,42M → 1,01M):', '2. Efficiency Effect (2.42M → 1.01M/Live):')}</span>
-                  <span className="font-mono font-bold text-rose-600 dark:text-rose-400">-2,20 Tỷ đ (70,3%)</span>
+                  <span className="tabular-nums font-bold text-rose-600 dark:text-rose-400">-2,20 Tỷ đ (70,3%)</span>
                 </div>
                 <div className="flex justify-between items-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                   <span className="text-slate-600 dark:text-slate-400">{L('3. Tác động tương tác bù trừ:', '3. Interaction Effect:')}</span>
-                  <span className="font-mono text-slate-500">+1,30 Tỷ đ (+41,5%)</span>
+                  <span className="tabular-nums text-slate-500 font-medium">+1,30 Tỷ đ (+41,5%)</span>
                 </div>
               </div>
             </div>
@@ -724,14 +724,14 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
         {/* Truy vấn SQL mẫu */}
         <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
+            <div className="flex items-center justify-between pb-3 mb-3">
               <div className="flex items-center gap-2">
                 <TerminalSquare className="h-5 w-5 text-[#0D7287] dark:text-[#9BE7FA]" />
                 <h4 className="text-sm font-black text-slate-950 dark:text-white">
                   {L('Kỹ Thuật SQL Chuỗi Thời Gian Thực Nghiệm', 'Time-Series SQL Engineering')}
                 </h4>
               </div>
-              <span className="text-[11px] text-slate-500 font-mono">Window Functions</span>
+              <span className="text-[11px] text-slate-500 font-medium">Window Functions</span>
             </div>
 
             <div className="flex flex-wrap gap-1.5 mb-2.5">
@@ -740,9 +740,9 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
                   key={idx}
                   type="button"
                   onClick={() => setActiveSqlTab(idx)}
-                  className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all min-h-8 cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-colors min-h-8 cursor-pointer ${
                     activeSqlTab === idx
-                      ? 'bg-[#9BE7FA] text-slate-950 shadow-xs'
+                      ? 'bg-[#9BE7FA] text-slate-950'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
                   }`}
                 >
@@ -752,7 +752,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
             </div>
 
             <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950 p-3.5 text-slate-100 relative">
-              <div className="flex items-center justify-between text-[11px] text-slate-400 pb-1.5 mb-1.5 border-b border-slate-800">
+              <div data-ui className="flex items-center justify-between text-[11px] text-slate-400 pb-1.5 mb-1.5 border-b border-slate-800">
                 <span>{sqlSnippets[activeSqlTab].desc}</span>
                 <button
                   type="button"
@@ -781,7 +781,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
 
         {/* 3.6: 6 Hạn chế bắt buộc phải nêu rõ */}
         <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-          <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
+          <div className="flex items-center gap-2.5 pb-3 mb-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400 font-black text-slate-950 text-sm">
               3.6
             </span>

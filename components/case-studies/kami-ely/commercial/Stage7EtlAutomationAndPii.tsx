@@ -179,8 +179,8 @@ LEFT JOIN (
   return (
     <div className="space-y-8">
       {/* 7.1: Mục Tiêu & Khẳng Định Nguồn Dữ Liệu Bên Thứ Ba */}
-      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#9BE7FA] text-slate-950 font-bold text-xs">
               7.1
@@ -203,12 +203,12 @@ LEFT JOIN (
         </p>
 
         {/* Navigation Tabs for Stage 7 */}
-        <div className="flex flex-wrap gap-2 pt-1 border-t border-slate-100 dark:border-slate-800">
+        <div className="flex flex-wrap gap-2 pt-1 mt-3">
           <button
             onClick={() => setActiveTab('quality_gates')}
             className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
               activeTab === 'quality_gates'
-                ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs'
+                ? 'bg-[#9BE7FA] text-slate-950 font-bold'
                 : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900'
             }`}
           >
@@ -219,7 +219,7 @@ LEFT JOIN (
             onClick={() => setActiveTab('pipeline')}
             className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
               activeTab === 'pipeline'
-                ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs'
+                ? 'bg-[#9BE7FA] text-slate-950 font-bold'
                 : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900'
             }`}
           >
@@ -230,7 +230,7 @@ LEFT JOIN (
             onClick={() => setActiveTab('pii_compliance')}
             className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
               activeTab === 'pii_compliance'
-                ? 'bg-[#9BE7FA] text-slate-950 font-bold shadow-xs'
+                ? 'bg-[#9BE7FA] text-slate-950 font-bold'
                 : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900'
             }`}
           >
@@ -242,8 +242,8 @@ LEFT JOIN (
 
       {/* Tab 1: 8 Cổng Kiểm Tra Chất Lượng Dữ Liệu */}
       {activeTab === 'quality_gates' && (
-        <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-4">
+          <div className="flex items-center justify-between pb-3 mb-4">
             <div>
               <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 text-emerald-500" />
@@ -257,8 +257,8 @@ LEFT JOIN (
           </div>
 
           <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-[#F0F9FB] dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-xs" data-ui="table">
+              <thead className="bg-[#F0F9FB] dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800" data-ui="thead">
                 <tr>
                   <th className="py-2.5 px-3">{L('Tên cổng kiểm tra', 'Quality Gate')}</th>
                   <th className="py-2.5 px-3">{L('Phạm vi', 'Scope')}</th>
@@ -268,11 +268,11 @@ LEFT JOIN (
                   <th className="py-2.5 px-3">{L('Trạng thái', 'Status')}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400" data-ui="tbody">
                 {qualityGates.map((g, idx) => (
                   <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
                     <td className="py-2 px-3 font-semibold text-slate-800 dark:text-slate-200">{g.gate}</td>
-                    <td className="py-2 px-3 font-mono text-[11px]">{g.scope}</td>
+                    <td className="py-2 px-3 font-medium text-[11px]">{g.scope}</td>
                     <td className="py-2 px-3">{g.expected}</td>
                     <td className="py-2 px-3 tabular-nums font-bold text-slate-900 dark:text-white">{g.actual}</td>
                     <td className="py-2 px-3">
@@ -298,8 +298,8 @@ LEFT JOIN (
 
       {/* Tab 2: Kiến Trúc ETL 3 Tầng & Ranh Giới Tự Động Hóa */}
       {activeTab === 'pipeline' && (
-        <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-5">
-          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-5">
+          <div className="flex items-center justify-between pb-3 mb-4">
             <div>
               <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                 <Layers className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
@@ -379,8 +379,8 @@ LEFT JOIN (
 
       {/* Tab 3: Creator PII & Nghị Định 356/2025/NĐ-CP */}
       {activeTab === 'pii_compliance' && (
-        <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-5">
-          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-5">
+          <div className="flex items-center justify-between pb-3 mb-4">
             <div>
               <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                 <FolderLock className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
@@ -409,8 +409,8 @@ LEFT JOIN (
 
           {/* Bảng kiểm kê PII */}
           <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-[#F0F9FB] dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800">
+            <table className="w-full text-left text-xs" data-ui="table">
+              <thead className="bg-[#F0F9FB] dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-800" data-ui="thead">
                 <tr>
                   <th className="py-2.5 px-3">{L('Trường dữ liệu', 'Data Field')}</th>
                   <th className="py-2.5 px-3">{L('Bản chất thông tin', 'Entity Type')}</th>
@@ -418,10 +418,10 @@ LEFT JOIN (
                   <th className="py-2.5 px-3">{L('Chiến lược ẩn danh hóa & Bảo vệ', 'Pseudonymization Strategy')}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400" data-ui="tbody">
                 {piiInventory.map((item, idx) => (
                   <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
-                    <td className="py-2 px-3 font-mono font-bold text-slate-800 dark:text-slate-200">{item.field}</td>
+                    <td className="py-2 px-3 font-semibold text-slate-800 dark:text-slate-200"><code>{item.field}</code></td>
                     <td className="py-2 px-3">{item.type}</td>
                     <td className="py-2 px-3 font-medium text-amber-700 dark:text-amber-400">{item.risk}</td>
                     <td className="py-2 px-3 text-[11px] leading-relaxed text-slate-700 dark:text-slate-300">{item.treatment}</td>
@@ -457,8 +457,8 @@ LEFT JOIN (
       )}
 
       {/* 7.4: Truy Vấn SQL Cho Mục 7 */}
-      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 shadow-sm space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/90 p-5 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4">
           <div className="flex items-center gap-2">
             <TerminalSquare className="h-4 w-4 text-[#0D7287] dark:text-[#9BE7FA]" />
             <h4 className="text-sm font-bold text-slate-900 dark:text-white">
@@ -486,7 +486,7 @@ LEFT JOIN (
           <p className="text-xs text-slate-600 dark:text-slate-400 italic">
             {stage7Sql[activeSqlTab].desc}
           </p>
-          <div className="relative rounded-xl bg-slate-950 p-4 font-mono text-xs text-slate-200 overflow-x-auto">
+          <div className="relative rounded-xl bg-slate-950 p-4 text-xs text-slate-200 overflow-x-auto">
             <button
               onClick={() => {
                 navigator.clipboard.writeText(stage7Sql[activeSqlTab].sql);
@@ -507,7 +507,7 @@ LEFT JOIN (
                 </>
               )}
             </button>
-            <pre className="pr-16 text-slate-300 leading-relaxed">
+            <pre className="font-mono pr-16 text-slate-300 leading-relaxed">
               <code>{stage7Sql[activeSqlTab].sql}</code>
             </pre>
           </div>

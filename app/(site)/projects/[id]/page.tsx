@@ -51,17 +51,21 @@ const PROJECT_METADATA: Record<string, { title: string; desc: string; keywords?:
   },
 };
 
+import { redirect } from 'next/navigation';
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
+  const cleanId = id.replace(/_/g, '-');
+  const normalizedId = cleanId.startsWith('proj-') ? cleanId : `proj-${cleanId}`;
 
   let project = await getProjectByIdWithFallback(id);
 
   if (!project) {
-    const customMeta = PROJECT_METADATA[id];
+    const customMeta = PROJECT_METADATA[normalizedId] || PROJECT_METADATA[cleanId] || PROJECT_METADATA[id];
     if (customMeta) {
       return {
         title: customMeta.title,
@@ -102,11 +106,18 @@ export default async function ProjectDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const cleanId = id.replace(/_/g, '-');
+  const normalizedId = cleanId.startsWith('proj-') ? cleanId : `proj-${cleanId}`;
+
+  // Redirect non-canonical variations (like proj_heritage_japan) to canonical kebab-case URL
+  if (id !== normalizedId && (normalizedId === 'proj-kami-ely' || normalizedId === 'proj-heritage-japan' || normalizedId === 'proj-library-bus')) {
+    redirect(`/projects/${normalizedId}`);
+  }
+
   const project = await getProjectByIdWithFallback(id);
 
   let initialCaseStudyData: any = null;
   try {
-    const normalizedId = id.startsWith('proj-') ? id : `proj-${id}`;
     if (normalizedId === 'proj-kami-ely') {
       initialCaseStudyData = await getKamiElyDataWithFallback();
     } else if (normalizedId === 'proj-heritage-japan') {

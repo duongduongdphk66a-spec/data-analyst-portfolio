@@ -151,7 +151,10 @@ export async function getProjectsWithFallback(): Promise<ProjectData[]> {
  * Fetch single project by ID from MySQL with fallback to DEFAULT_PROJECTS.
  */
 export async function getProjectByIdWithFallback(id: string): Promise<ProjectData | undefined> {
-  const cacheKey = `project:${id}`;
+  const cleanId = id.replace(/_/g, '-');
+  const normalizedId = cleanId.startsWith('proj-') ? cleanId : `proj-${cleanId}`;
+
+  const cacheKey = `project:${normalizedId}`;
   try {
     const cached = await getApiCacheAsync<ProjectData>(cacheKey);
     if (cached) return cached;
@@ -162,7 +165,10 @@ export async function getProjectByIdWithFallback(id: string): Promise<ProjectDat
   try {
     const pool = getDbPool();
     if (pool) {
-      const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM portfolio_projects WHERE id = ? LIMIT 1', [id]);
+      const [rows] = await pool.query<RowDataPacket[]>(
+        'SELECT * FROM portfolio_projects WHERE id = ? OR id = ? OR id = ? LIMIT 1',
+        [id, cleanId, normalizedId]
+      );
       if (rows && rows.length > 0) {
         const project = mapRowToProject(rows[0]);
         setApiCacheAsync(cacheKey, project).catch(() => {});
@@ -173,8 +179,10 @@ export async function getProjectByIdWithFallback(id: string): Promise<ProjectDat
     const msg = err instanceof Error ? err.message : String(err);
     console.warn(`[ServerData] MySQL unavailable, fallback for project ${id} (${msg})`);
   }
-  const normalizedId = id.startsWith('proj-') ? id : `proj-${id}`;
-  const fallback = DEFAULT_PROJECTS.find((p) => p.id === id || p.id === normalizedId);
+
+  const fallback = DEFAULT_PROJECTS.find(
+    (p) => p.id === id || p.id === cleanId || p.id === normalizedId
+  );
   if (fallback) {
     setApiCacheAsync(cacheKey, fallback, 15000).catch(() => {});
   }
