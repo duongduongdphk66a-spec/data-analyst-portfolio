@@ -28,116 +28,24 @@ import {
   legendFormatter,
   usePlaybookLang,
 } from '../playbook/PlaybookUi';
+import type { Stage4Payload } from '@/app/types/caseStudies';
+import { buildStage4Data } from '@/app/lib/kamiElyStagesData';
 
-export default function Stage4CreatorCohortsAndLtv() {
+export interface Stage4Props {
+  data?: Stage4Payload;
+}
+
+export default function Stage4CreatorCohortsAndLtv(props?: Stage4Props) {
   const { L, n } = usePlaybookLang();
   const [girlStyleScope, setGirlStyleScope] = useState<'with' | 'without'>('without');
   const [retentionMetric, setRetentionMetric] = useState<'pct' | 'count'>('pct');
   const [activeSqlTab, setActiveSqlTab] = useState<number>(0);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  // 4.3.A: Quy mô tuyển mới và hoạt động theo tháng
-  const cohortScaleData = [
-    { ym: 'T3/2026', newCreators: 66, activeAppear: 66, activeSales: 16, note: L('Tháng mở màn (tính từ 09/03)', 'Opening cohort (from Mar 09)') },
-    { ym: 'T4/2026', newCreators: 80, activeAppear: 127, activeSales: 55, note: L('Đỉnh điểm tuyển mới & người xuất hiện', 'Peak recruitment & appearance month') },
-    { ym: 'T5/2026', newCreators: 37, activeAppear: 104, activeSales: 54, note: L('Tuyển mới giảm 54% so với T4', 'New recruitment fell 54% vs Apr') },
-    { ym: 'T6/2026', newCreators: 30, activeAppear: 95, activeSales: 61, note: L('Đỉnh người bán được hàng (61 creator)', 'Peak selling creators (61 active sellers)') },
-    { ym: 'T7/2026', newCreators: 14, activeAppear: 64, activeSales: 33, note: L('Quy mô hoạt động thu hẹp nhanh', 'Active base shrinking rapidly') },
-    { ym: 'T8/2026', newCreators: 18, activeAppear: 49, activeSales: 15, note: L('Chỉ còn 15 creator ra đơn', 'Only 15 active selling creators') },
-    { ym: 'T9/2026', newCreators: 5, activeAppear: 20, activeSales: 4, note: L('Bị cắt phải (chỉ 4 ngày đầu tháng)', 'Right-censored (only 4 days)') },
-  ];
-
-  interface RetentionCell {
-    count: number;
-    pct: number;
-    censored?: boolean;
-  }
-
-  interface CohortRow {
-    cohort: string;
-    size: number;
-    m0: RetentionCell | null;
-    m1: RetentionCell | null;
-    m2: RetentionCell | null;
-    m3: RetentionCell | null;
-    m4: RetentionCell | null;
-    m5: RetentionCell | null;
-  }
-
-  // 4.3.B: Ma trận Retention (Cohort x Tháng tuổi)
-  // cal_age 0..5. Với T9 là censored, các ô rơi vào T9 được đánh dấu là censored
-  const retentionMatrix: CohortRow[] = [
-    {
-      cohort: 'T3/2026',
-      size: 66,
-      m0: { count: 66, pct: 100 },
-      m1: { count: 47, pct: 71.2 },
-      m2: { count: 31, pct: 47.0 },
-      m3: { count: 27, pct: 40.9 },
-      m4: { count: 17, pct: 25.8 },
-      m5: { count: 10, pct: 15.2 },
-    },
-    {
-      cohort: 'T4/2026',
-      size: 80,
-      m0: { count: 80, pct: 100 },
-      m1: { count: 36, pct: 45.0 },
-      m2: { count: 20, pct: 25.0 },
-      m3: { count: 15, pct: 18.8 },
-      m4: { count: 6, pct: 7.5 },
-      m5: { count: 2, pct: 2.5, censored: true }, // Rơi vào T9
-    },
-    {
-      cohort: 'T5/2026',
-      size: 37,
-      m0: { count: 37, pct: 100 },
-      m1: { count: 18, pct: 48.6 },
-      m2: { count: 8, pct: 21.6 },
-      m3: { count: 5, pct: 13.5 },
-      m4: { count: 1, pct: 2.7, censored: true }, // Rơi vào T9
-      m5: null,
-    },
-    {
-      cohort: 'T6/2026',
-      size: 30,
-      m0: { count: 30, pct: 100 },
-      m1: { count: 10, pct: 33.3 },
-      m2: { count: 6, pct: 20.0 },
-      m3: { count: 2, pct: 6.7, censored: true }, // Rơi vào T9
-      m4: null,
-      m5: null,
-    },
-    {
-      cohort: 'T7/2026',
-      size: 14,
-      m0: { count: 14, pct: 100 },
-      m1: { count: 4, pct: 28.6 },
-      m2: { count: 1, pct: 7.1, censored: true }, // Rơi vào T9
-      m3: null,
-      m4: null,
-      m5: null,
-    },
-    {
-      cohort: 'T8/2026',
-      size: 18,
-      m0: { count: 18, pct: 100 },
-      m1: { count: 3, pct: 16.7, censored: true }, // Rơi vào T9
-      m2: null,
-      m3: null,
-      m4: null,
-      m5: null,
-    },
-  ];
-
-  // 4.3.E & F: GMV Cohort có và không có Girl Style
-  const cohortGmvData = [
-    { cohort: 'T3/2026', withGs: 438.6, withoutGs: 438.6, size: 66, note: L('Chưa có Girl Style', 'Pre-Girl Style') },
-    { cohort: 'T4/2026', withGs: 224.4, withoutGs: 224.4, size: 80, note: L('Chưa có Girl Style', 'Pre-Girl Style') },
-    { cohort: 'T5/2026', withGs: 1463.1, withoutGs: 206.8, size: 37, note: L('Girl Style kéo 1,26 Tỷ đ (86%)!', 'Girl Style drives 1.26B VND (86%)!') },
-    { cohort: 'T6/2026', withGs: 109.4, withoutGs: 109.4, size: 30, note: L('Không có Girl Style', 'External KOCs only') },
-    { cohort: 'T7/2026', withGs: 3.1, withoutGs: 3.1, size: 14, note: L('Thoái trào hè', 'Late season contraction') },
-    { cohort: 'T8/2026', withGs: 0.14, withoutGs: 0.14, size: 18, note: L('Chỉ 143k đ', 'Only 143k VND') },
-  ];
+  const stageData = props?.data || buildStage4Data();
+  const cohortScaleData = stageData.cohortScaleData;
+  const retentionMatrix = stageData.retentionMatrix;
+  const cohortGmvData = stageData.cohortGmvData;
 
   // SQL mẫu cho Mục 4
   const stage4Sql = [
@@ -345,7 +253,7 @@ ORDER BY 1;`,
                     <td className="py-2 px-2.5 text-right font-mono font-bold text-[#0D7287] dark:text-[#9BE7FA]">{r.newCreators}</td>
                     <td className="py-2 px-2.5 text-right font-mono font-bold text-slate-900 dark:text-white">{r.activeAppear}</td>
                     <td className="py-2 px-2.5 text-right font-mono font-bold text-amber-700 dark:text-amber-400">{r.activeSales}</td>
-                    <td className="py-2 px-3 text-slate-600 dark:text-slate-400 text-[11px]">{r.note}</td>
+                    <td className="py-2 px-3 text-slate-600 dark:text-slate-400 text-[11px]">{typeof r.note === 'string' ? r.note : L(r.note.vi, r.note.en)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -657,7 +565,7 @@ ORDER BY 1;`,
                     <td className="py-2 px-2.5 text-right text-slate-700 dark:text-slate-300">{r.size}</td>
                     <td className="py-2 px-3 text-right text-amber-700 dark:text-amber-400 font-bold">{n(r.withGs, 1)}M</td>
                     <td className="py-2 px-3 text-right text-[#0D7287] dark:text-[#9BE7FA] font-bold">{n(r.withoutGs, 1)}M</td>
-                    <td className="py-2 px-3 font-sans text-slate-600 dark:text-slate-400 text-[11px]">{r.note}</td>
+                    <td className="py-2 px-3 font-sans text-slate-600 dark:text-slate-400 text-[11px]">{typeof r.note === 'string' ? r.note : L(r.note.vi, r.note.en)}</td>
                   </tr>
                 ))}
               </tbody>

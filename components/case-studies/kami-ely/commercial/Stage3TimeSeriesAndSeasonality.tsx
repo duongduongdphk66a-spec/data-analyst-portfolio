@@ -31,10 +31,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import {
-  COLORS,
-  dailySeries,
-} from '../playbook/playbookData';
+import { COLORS } from '../playbook/playbookData';
 import {
   ChartCard,
   ChartTooltip,
@@ -45,78 +42,26 @@ import {
   legendFormatter,
   usePlaybookLang,
 } from '../playbook/PlaybookUi';
+import type { Stage3Payload } from '@/app/types/caseStudies';
+import { buildStage3Data } from '@/app/lib/kamiElyStagesData';
 
-// 26 Tuần thực tế trích xuất từ 180 ngày nguồn
-const WEEKLY_SERIES = [
-  { label: 'W11 (09/03)', gmv: 265.3, lives: 78, koc: 10.1, gmvPerLive: 3402 },
-  { label: 'W12 (16/03)', gmv: 257.7, lives: 236, koc: 21.4, gmvPerLive: 1092 },
-  { label: 'W13 (23/03)', gmv: 366.8, lives: 176, koc: 33.0, gmvPerLive: 2084 },
-  { label: 'W14 (30/03)', gmv: 486.8, lives: 427, koc: 71.4, gmvPerLive: 1140 },
-  { label: 'W15 (06/04)', gmv: 500.9, lives: 651, koc: 88.6, gmvPerLive: 769 },
-  { label: 'W16 (13/04)', gmv: 650.0, lives: 427, koc: 64.3, gmvPerLive: 1522 },
-  { label: 'W17 (20/04)', gmv: 655.2, lives: 334, koc: 56.6, gmvPerLive: 1962 },
-  { label: 'W18 (27/04)', gmv: 400.0, lives: 333, koc: 32.6, gmvPerLive: 1201 },
-  { label: 'W19 (04/05)', gmv: 554.7, lives: 353, koc: 32.9, gmvPerLive: 1571 },
-  { label: 'W20 (11/05)', gmv: 630.4, lives: 332, koc: 29.7, gmvPerLive: 1899 },
-  { label: 'W21 (18/05)', gmv: 643.8, lives: 160, koc: 35.9, gmvPerLive: 4024 },
-  { label: 'W22 (25/05)', gmv: 744.6, lives: 392, koc: 54.3, gmvPerLive: 1900 },
-  { label: 'W23 (01/06)', gmv: 709.9, lives: 447, koc: 52.6, gmvPerLive: 1588 },
-  { label: 'W24 (08/06)', gmv: 952.3, lives: 438, koc: 38.1, gmvPerLive: 2174 },
-  { label: 'W25 (15/06)', gmv: 1058.2, lives: 283, koc: 25.6, gmvPerLive: 3739 }, // ĐỈNH TUẦN
-  { label: 'W26 (22/06)', gmv: 850.2, lives: 301, koc: 30.1, gmvPerLive: 2824 },
-  { label: 'W27 (29/06)', gmv: 640.1, lives: 177, koc: 18.9, gmvPerLive: 3616 },
-  { label: 'W28 (06/07)', gmv: 594.2, lives: 203, koc: 22.0, gmvPerLive: 2927 },
-  { label: 'W29 (13/07)', gmv: 469.1, lives: 237, koc: 29.1, gmvPerLive: 1979 },
-  { label: 'W30 (20/07)', gmv: 400.6, lives: 178, koc: 21.4, gmvPerLive: 2250 },
-  { label: 'W31 (27/07)', gmv: 289.0, lives: 179, koc: 18.3, gmvPerLive: 1615 },
-  { label: 'W32 (03/08)', gmv: 204.2, lives: 162, koc: 15.7, gmvPerLive: 1261 },
-  { label: 'W33 (10/08)', gmv: 143.9, lives: 112, koc: 12.4, gmvPerLive: 1285 },
-  { label: 'W34 (17/08)', gmv: 114.3, lives: 146, koc: 16.1, gmvPerLive: 783 },
-  { label: 'W35 (24/08)', gmv: 111.2, lives: 153, koc: 22.7, gmvPerLive: 727 },
-  { label: 'W36 (31/08)', gmv: 41.7, lives: 99, koc: 23.4, gmvPerLive: 421 },
-];
+export interface Stage3Props {
+  data?: Stage3Payload;
+}
 
-export default function Stage3TimeSeriesAndSeasonality() {
+export default function Stage3TimeSeriesAndSeasonality(props?: Stage3Props) {
   const { L, n } = usePlaybookLang();
   const [dailyView, setDailyView] = useState<'daily' | 'cumulative'>('daily');
   const [weeklyView, setWeeklyView] = useState<'gmv_lives' | 'efficiency'>('gmv_lives');
   const [activeSqlTab, setActiveSqlTab] = useState<number>(0);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  // Bảng phân tích 8 tháng thực tế (Đối chiếu Mục 3.3.A)
-  const monthlyTable = [
-    { ym: '2026-03', label: 'T3', days: 23, isPartial: true, gmv: 949812912, share: 6.4, gmvPerDay: 41296214, units: 8039, aov: 118151, momRaw: null, momDay: null },
-    { ym: '2026-04', label: 'T4', days: 30, isPartial: false, gmv: 2459105727, share: 16.6, gmvPerDay: 81970191, units: 17358, aov: 141670, momRaw: 158.9, momDay: 98.5 },
-    { ym: '2026-05', label: 'T5', days: 31, isPartial: false, gmv: 2747315221, share: 18.5, gmvPerDay: 88623072, units: 17267, aov: 159108, momRaw: 11.7, momDay: 8.1 },
-    { ym: '2026-06', label: 'T6 (Đỉnh)', days: 30, isPartial: false, gmv: 3772428748, share: 25.4, gmvPerDay: 125747625, units: 22096, aov: 170729, momRaw: 37.3, momDay: 41.9 },
-    { ym: '2026-07', label: 'T7', days: 31, isPartial: false, gmv: 2125850482, share: 14.3, gmvPerDay: 68575822, units: 13358, aov: 159144, momRaw: -43.6, momDay: -45.5 },
-    { ym: '2026-08', label: 'T8', days: 31, isPartial: false, gmv: 636689605, share: 4.3, gmvPerDay: 20538374, units: 6622, aov: 96148, momRaw: -70.1, momDay: -70.1 },
-    { ym: '2026-09', label: 'T9', days: 30, isPartial: false, gmv: 701005244, share: 4.7, gmvPerDay: 23366841, units: 5841, aov: 120015, momRaw: 10.1, momDay: 13.8 },
-    { ym: '2026-10', label: 'T10', days: 20, isPartial: true, gmv: 1450389823, share: 9.8, gmvPerDay: 72519491, units: 10088, aov: 143774, momRaw: 106.9, momDay: 210.4 },
-  ];
-
-  // Chỉ số mùa vụ theo thứ trong tuần (Mục 3.3.C)
-  const dowSeasonality = [
-    { dow: 'Thứ 2', mean: 65.9, median: 62.8, index: 93.1, growthMed: 71.2, peakMed: 85.4, declineMed: 25.1 },
-    { dow: 'Thứ 3', mean: 69.6, median: 60.1, index: 98.3, growthMed: 60.1, peakMed: 147.2, declineMed: 28.5 },
-    { dow: 'Thứ 4', mean: 67.5, median: 65.2, index: 95.4, growthMed: 67.8, peakMed: 118.9, declineMed: 40.9 },
-    { dow: 'Thứ 5', mean: 79.6, median: 76.3, index: 112.6, growthMed: 83.3, peakMed: 162.7, declineMed: 38.6 }, // ĐỈNH TUẦN
-    { dow: 'Thứ 6', mean: 72.3, median: 68.8, index: 102.3, growthMed: 75.4, peakMed: 135.2, declineMed: 35.2 },
-    { dow: 'Thứ 7', mean: 71.0, median: 68.7, index: 100.4, growthMed: 73.1, peakMed: 140.6, declineMed: 36.8 },
-    { dow: 'Chủ Nhật', mean: 69.3, median: 66.9, index: 97.9, growthMed: 74.5, peakMed: 132.8, declineMed: 37.1 },
-  ];
-
-  // Tương quan chéo (Cross-correlation với lag 0-7 ngày) (Mục 3.3.D)
-  const lagData = [
-    { lag: 'Lag 0d', rLives: 0.412, rKoc: 0.326, desc: L('Cùng ngày', 'Same day') },
-    { lag: 'Lag 1d', rLives: 0.386, rKoc: 0.350, desc: L('GMV sau marketing 1 ngày', 'GMV lags marketing 1 day') },
-    { lag: 'Lag 2d', rLives: 0.415, rKoc: 0.357, desc: L('Đỉnh tương quan ngắn', 'Short-term peak') },
-    { lag: 'Lag 3d', rLives: 0.409, rKoc: 0.342, desc: L('Dư chấn ngày thứ 3', 'Day 3 residual') },
-    { lag: 'Lag 4d', rLives: 0.405, rKoc: 0.335, desc: L('Giảm dần', 'Diminishing') },
-    { lag: 'Lag 5d', rLives: 0.400, rKoc: 0.333, desc: L('Duy trì ổn định', 'Stable') },
-    { lag: 'Lag 6d', rLives: 0.407, rKoc: 0.363, desc: L('Chu kỳ tuần hoàn', 'Weekly cycle') },
-    { lag: 'Lag 7d', rLives: 0.446, rKoc: 0.381, desc: L('Tương quan chu kỳ tuần', 'Full 7-day cyclical peak') },
-  ];
+  const stageData = props?.data || buildStage3Data();
+  const weeklySeries = stageData.weeklySeries;
+  const monthlyTable = stageData.monthlyTable;
+  const dowSeasonality = stageData.dowSeasonality;
+  const lagData = stageData.lagData;
+  const dailySeries = stageData.dailySeries;
 
   // SQL Truy vấn mẫu thực nghiệm
   const sqlSnippets = [
@@ -743,7 +688,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
         >
           <ResponsiveContainer width="100%" height="100%" minHeight={270}>
             {weeklyView === 'gmv_lives' ? (
-              <ComposedChart data={WEEKLY_SERIES} margin={{ top: 22, right: 28, left: -4, bottom: 0 }}>
+              <ComposedChart data={weeklySeries} margin={{ top: 22, right: 28, left: -4, bottom: 0 }}>
                 <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
                 <XAxis dataKey="label" interval={3} tick={axisTick} tickLine={false} axisLine={false} />
                 <YAxis yAxisId="left" tick={axisTick} tickLine={false} axisLine={false} width={45}>
@@ -758,7 +703,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
                 <Line yAxisId="right" dataKey="lives" name={L('Số ca Live', 'Lives Count')} stroke={COLORS.amber} strokeWidth={2.5} dot={false} />
               </ComposedChart>
             ) : (
-              <ComposedChart data={WEEKLY_SERIES} margin={{ top: 22, right: 12, left: -4, bottom: 0 }}>
+              <ComposedChart data={weeklySeries} margin={{ top: 22, right: 12, left: -4, bottom: 0 }}>
                   <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
                   <XAxis dataKey="label" interval={3} tick={axisTick} tickLine={false} axisLine={false} />
                   <YAxis tick={axisTick} tickLine={false} axisLine={false} width={45}>

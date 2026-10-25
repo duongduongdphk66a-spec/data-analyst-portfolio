@@ -96,6 +96,7 @@ export default function KamiElyProject(props: KamiElyProjectProps = {}) {
         {/* TOÀN BỘ 7 GIAI ĐOẠN PHÂN TÍCH CHUẨN SSOT */}
         <KamiElyCommercialTab
           isEn={isEn}
+          telemetryData={props.initialData}
         />
       </main>
 

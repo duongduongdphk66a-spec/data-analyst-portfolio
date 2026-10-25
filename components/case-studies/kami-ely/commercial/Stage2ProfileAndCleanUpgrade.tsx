@@ -30,12 +30,9 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import {
-  COLORS,
-  paretoCurve,
-  priceBands,
-  productFacts,
-} from '../playbook/playbookData';
+import { COLORS } from '../playbook/playbookData';
+import { buildStage2Data } from '@/app/lib/kamiElyStagesData';
+import type { Stage2Payload } from '@/app/types/caseStudies';
 import {
   ChartCard,
   ChartTooltip,
@@ -47,211 +44,26 @@ import {
   usePlaybookLang,
 } from '../playbook/PlaybookUi';
 
-export default function Stage2ProfileAndCleanUpgrade() {
-  const { L, n } = usePlaybookLang();
+export interface Stage2Props {
+  data?: Stage2Payload;
+}
+
+export default function Stage2ProfileAndCleanUpgrade({ data }: Stage2Props) {
+  const { L, n, b } = usePlaybookLang();
   const [activeSqlTab, setActiveSqlTab] = useState<number>(0);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  // 2.1: Khám phá mô hình dữ liệu (9 Bảng hợp nhất)
-  const dataModelTables = [
-    {
-      name: 'Store Detail (Daily Overview)',
-      window: L('226 ngày liên tục', '226 continuous days'),
-      rows: 226,
-      grain: L('Ngày', 'Daily'),
-      joinKey: 'record_date',
-      desc: L('Dữ liệu tổng hợp theo ngày toàn gian hàng (T3–T10/2026)', 'Store-level daily performance (Mar-Oct 2026)'),
-      tag: 'SSOT',
-    },
-    {
-      name: 'Shop Products (Catalog)',
-      window: L('Toàn shop', 'Catalog-wide'),
-      rows: 339,
-      grain: L('Sản phẩm', 'Product SKU'),
-      joinKey: 'product_name',
-      desc: L('Danh mục 339 SKU, giá niêm yết và doanh số tích lũy', 'Product catalog of 339 SKUs & cumulative sales'),
-      tag: 'Catalog',
-    },
-    {
-      name: 'Affiliate KOL Network',
-      window: L('Hợp nhất 2 kỳ', '2-Snapshot Merged'),
-      rows: 6086,
-      grain: 'Creator',
-      joinKey: 'creator_id',
-      desc: L('6.086 Creator liên kết tiếp thị & hoa hồng', '6,086 Affiliate creators & commission tiers'),
-      tag: 'Affiliate',
-    },
-    {
-      name: 'Goods for Sale (Multi-Snapshot)',
-      window: L('Kỳ Hè + Kỳ Thu', 'Summer + Autumn Snapshots'),
-      rows: 787,
-      grain: L('SP × Gian hàng × Kỳ', 'Product × Shop × Period'),
-      joinKey: L('Tên SP + Shop + Kỳ', 'Product + Shop + Period'),
-      desc: L('Phương án A: Phân vùng 2 kỳ đo lường 90 ngày (392 hè + 395 thu)', 'Option A: 2-snapshot partitioning (392 summer + 395 autumn)'),
-      tag: 'Snapshot',
-    },
-    {
-      name: 'Creator Live Sessions',
-      window: L('Hợp nhất 2 kỳ', '2-Snapshot Merged'),
-      rows: 600,
-      grain: L('Phiên Live chính chủ', 'Own LIVE Session'),
-      joinKey: 'start_time',
-      desc: L('600 ca phát sóng trực tiếp từ tài khoản chính', '600 Direct live sessions from main account'),
-      tag: 'Brand LIVE',
-    },
-    {
-      name: 'Creator Videos',
-      window: L('Hợp nhất 2 kỳ', '2-Snapshot Merged'),
-      rows: 276,
-      grain: L('Video chính chủ', 'Own Video'),
-      joinKey: 'publish_time',
-      desc: L('276 video ngắn xuất bản từ kênh chính chủ', '276 Short-form videos published by brand channel'),
-      tag: 'Brand Video',
-    },
-    {
-      name: 'Affiliate Shoppable Videos',
-      window: L('Hợp nhất 2 kỳ', '2-Snapshot Merged'),
-      rows: 4796,
-      grain: L('Video gắn link', 'Shoppable Video'),
-      joinKey: 'title + publisher',
-      desc: L('4.796 video từ mạng lưới creator toàn thị trường', '4,796 Shoppable videos across affiliate network'),
-      tag: 'Affiliate Video',
-    },
-    {
-      name: 'Shop-wide Affiliate LIVE',
-      window: L('Hợp nhất 2 kỳ', '2-Snapshot Merged'),
-      rows: 8355,
-      grain: L('Phiên Live toàn shop', 'Shop LIVE Session'),
-      joinKey: 'session_id + start_time',
-      desc: L('8.355 phiên live có gắn giỏ hàng sản phẩm shop', '8,355 LIVE sessions tagging store products'),
-      tag: 'Shop LIVE',
-    },
-    {
-      name: 'Livestream Featured Products',
-      window: L('Live Details', 'Live Product List'),
-      rows: 103,
-      grain: L('SP trong phiên LIVE', 'Live Product Item'),
-      joinKey: 'product_name + session',
-      desc: L('103 lượt sản phẩm gắn ghim trực tiếp trong các ca LIVE', '103 featured items pinned during live broadcasts'),
-      tag: 'Live Goods',
-    },
-  ];
+  const stageData = data || buildStage2Data();
 
-  // 2.2: Kết quả lập hồ sơ kiểm tra chi tiết
-  const profilingFindings = [
-    {
-      entity: 'Store Detail (226d)',
-      badge: L('226/226 ngày hợp lệ', '226/226 days valid'),
-      tone: 'cyan' as const,
-      finding: L(
-        'Đủ 226/226 ngày liên tục, không ngày nào 0 đơn (thấp nhất 49 sp/ngày). Tổng khớp: 100.669 sản phẩm, 14.842.597.762 VNĐ. Bao phủ trọn vẹn từ 09/03/2026 đến 20/10/2026.',
-        'Full 226/226 continuous days recorded, zero zero-order days (minimum 49 units/day). Total exact match: 100,669 units, 14,842,597,762 VND. Continuous coverage from Mar 09, 2026 to Oct 20, 2026.',
-      ),
-      stat: '14,84 Tỷ đ · 100.669 sp',
-      detail: L('Mốc chuỗi thời gian nền tảng (SSOT)', 'Foundational time-series benchmark'),
-    },
-    {
-      entity: 'Product Data (90d)',
-      badge: L('134/331 SP có GMV', '134/331 active SKUs'),
-      tone: 'amber' as const,
-      finding: L(
-        '331 dòng nhưng chỉ 134 sản phẩm có GMV > 0 (197 dòng bằng 0). 3 tên sản phẩm bị trùng lặp. 15 giá ở dạng khoảng ("249.192 ₫ - 271.949 ₫"). Top 5 sản phẩm chiếm 44,9% GMV của 134 sản phẩm đang bán.',
-        '331 rows but only 134 SKUs have GMV > 0 (197 rows zero sales). 3 duplicate titles. 15 price ranges ("249,192 ₫ - 271,949 ₫"). Top 5 SKUs generate 44.9% of active catalog GMV.',
-      ),
-      stat: 'Top 5 = 44,9% GMV',
-      detail: L('Cần tách dải giá min-max & gán cờ tồn kho chết', 'Requires price unnesting & zero-sale flags'),
-    },
-    {
-      entity: 'Creators Merged (90d)',
-      badge: L('292 creator ra đơn', '292 active creators'),
-      tone: 'cyan' as const,
-      finding: L(
-        'Tổng khớp 31.599 sản phẩm / 4.734.186.743 VNĐ. Có 292 creator có doanh thu (gồm cả kênh chính chủ, tức 291/5.712 affiliate). 1 ID bị rỗng, 46 creator có số follower ≤ 0.',
-        'Exact match: 31,599 units / 4,734,186,743 VND. 292 creators produced revenue (including own brand channel, i.e., 291/5,712 affiliates). 1 blank ID, 46 creators with followers ≤ 0.',
-      ),
-      stat: '291 affiliate active / 5.712',
-      detail: L('Tỷ lệ kích hoạt affiliate chỉ đạt 5,1%', 'Affiliate activation rate is only 5.1%'),
-    },
-    {
-      entity: 'Goods for Sale (90d)',
-      badge: L('278 dòng Kami Ely', '278 Kami Ely rows'),
-      tone: 'amber' as const,
-      finding: L(
-        '394 dòng đến từ 4 gian hàng: Kami Ely (278 dòng, gánh toàn bộ 20.027 sản phẩm), còn 3 gian hàng Havi Bikini, KamiBiki, KamiBiii (116 dòng) đều có 0 sản phẩm. GMV lưu dạng chữ làm tròn ("500,2Tr ₫").',
-        '394 rows across 4 storefronts: Kami Ely (278 rows, holding all 20,027 units), while Havi Bikini, KamiBiki, KamiBiii (116 rows) record 0 units. GMV stored as rounded text ("500.2Tr ₫").',
-      ),
-      stat: '20.027 sp trên 1 gian hàng',
-      detail: L('3 gian phụ không phát sinh doanh số thực', '3 satellite storefronts have 0 sales'),
-    },
-    {
-      entity: 'Live Sessions (180d)',
-      badge: L('69,2% ca 0 GMV', '69.2% zero-GMV sessions'),
-      tone: 'rose' as const,
-      finding: L(
-        '69,2% phiên có GMV = 0 (kênh chính chủ 3,6%, affiliate 73,9%). 15 phiên dài hơn 24 giờ (dài nhất 269 giờ - treo máy), 69 phiên thời lượng bằng 0, 1.012 phiên bị thiếu tiêu đề.',
-        '69.2% of sessions have zero GMV (brand channel 3.6%, affiliate network 73.9%). 15 sessions exceeded 24 hours (longest 269h - idle live stream), 69 zero-duration sessions, 1,012 missing titles.',
-      ),
-      stat: '15 ca outlier > 24 giờ',
-      detail: L('Cần loại bỏ ca >24h khi tính thời lượng trung bình', 'Exclude >24h idle sessions for duration averages'),
-    },
-    {
-      entity: 'Shoppable Videos (180d)',
-      badge: L('21,7% video ra đơn', '21.7% video conversion'),
-      tone: 'rose' as const,
-      finding: L(
-        '4 dòng trùng khóa (creator, ngày, tiêu đề). Mốc giờ bị lẫn giữa UTC+7 (4.380 dòng) và UTC+8 (27 dòng). Lượt xem lưu dạng chữ ("1.6k", "1.2m" ở 1.420 dòng). Cột Likes, Units sold, GMV lưu theo cửa sổ lăn [90 days] của nền tảng (chỉ 960/4.417 video có GMV > 0 trong 90 ngày).',
-        '4 duplicate key rows (creator, date, title). Mixed timestamps between UTC+7 (4,380 rows) and UTC+8 (27 rows). Views stored as strings ("1.6k", "1.2m" across 1,420 rows). Likes, Units sold, GMV reflect [90 days] rolling window (only 960/4,417 videos with GMV > 0 in 90d).',
-      ),
-      stat: 'Lẫn UTC+7 & UTC+8',
-      detail: L('Chuyển đổi chuỗi chữ số & chuẩn hóa múi giờ', 'String-to-numeric parser & UTC+7 normalization'),
-    },
-  ];
+  const {
+    dataModelTables,
+    profilingFindings,
+    crossReconciliations,
+    priceBands,
+    paretoCurve,
+    productFacts,
+  } = stageData;
 
-  // 2.3: Các phép đối chiếu chéo & Đối soát
-  const crossReconciliations = [
-    {
-      test: L('Goods for Sale vs Creators Merged', 'Goods for Sale vs Creators Merged'),
-      metric: L('20.027 sp khớp tuyệt đối', '20,027 units exact match'),
-      detail: L(
-        'GMV: 3.026.020.300 đ (parse từ dạng chữ "3,026 Tỉ") so với 3.026.026.869 đ (chính xác), lệch 6.569 đ do làm tròn chuỗi hiển thị. Quy chuẩn lấy Creators Merged làm mốc.',
-        'GMV: 3,026,020,300 VND (parsed string) vs 3,026,026,869 VND (exact), 6,569 VND string rounding delta. Standardized on Creators Merged as truth.',
-      ),
-      status: 'pass' as const,
-      statusLabel: L('Khớp 100% Sản lượng', 'Units Match 100%'),
-    },
-    {
-      test: L('Số phiên Live: Store Detail (tổng ngày) vs Shop LIVE', 'Live Session Count: Store Detail daily sum vs Shop LIVE'),
-      metric: '7.014 vs 7.046 ' + L('phiên', 'sessions'),
-      detail: L(
-        'Chênh lệch 32 phiên (lệch 0,45%). Do cách định nghĩa ca Live vắt qua nửa đêm (cross-midnight) giữa báo cáo ngày và nhật ký phiên.',
-        '32 sessions variance (0.45% diff). Caused by cross-midnight session attribution differences between daily rollup and session log.',
-      ),
-      status: 'info' as const,
-      statusLabel: L('Lệch 0,45%', '0.45% diff'),
-    },
-    {
-      test: L('Số video: Store vs Shoppable vs Dashboard', 'Video Counts: Store vs Shoppable vs Dashboard'),
-      metric: '2.443 vs 4.417 vs 4,8k ' + L('video', 'videos'),
-      detail: L(
-        'Ba nguồn cho 3 con số khác biệt do 3 định nghĩa kỹ thuật khác nhau: video có phát sinh đơn trong ngày, video đã từng đăng và video đang hoạt động trên hệ thống. Đưa vào danh mục giới hạn dữ liệu.',
-        'Three disparate figures reflecting 3 differing platform criteria: active daily converting videos, total uploaded catalog, and live published assets. Documented under data constraints.',
-      ),
-      status: 'warn' as const,
-      statusLabel: L('Khác định nghĩa', 'Def Split'),
-    },
-    {
-      test: L('Creator ID trong Shop LIVE không có trong Creators Merged', 'Shop LIVE Creator IDs missing from Creators Merged'),
-      metric: '4/251 ID ' + L('mồ côi', 'orphan IDs'),
-      detail: L(
-        '4 creator có phát sóng trực tiếp nhưng không xuất hiện trong bảng danh sách 90 ngày (do phiên nằm ngoài cửa sổ 90 ngày hoặc tài khoản đã đổi handle/bị xóa). Đã gắn cờ is_orphan.',
-        '4 creators streamed live but are absent from the 90-day creators export (streamed outside 90d window or deactivated handle). Flagged via is_orphan.',
-      ),
-      status: 'warn' as const,
-      statusLabel: L('Gắn cờ mồ côi', 'Flagged Orphan'),
-    },
-  ];
-
-  // 2.4: Mẫu truy vấn SQL trên SQLite
   const sqlSnippetsList = [
     {
       title: L('1. Phát hiện trùng khóa trong Shoppable', '1. Deduplicate Shoppable Videos'),
@@ -299,7 +111,6 @@ GROUP BY 1;`,
     },
   ];
 
-  // 2.5: Bảng đính chính phân khúc KOC (File vs Dashboard)
   const kocCorrectionData = [
     { tier: '≤ 1k', filePct: 2.9, dashPct: 43.4, note: L('Thực tế chỉ 2,9%, dashboard ghi ảo 43,4%', 'Actual only 2.9%, inflated to 43.4% on dashboard') },
     { tier: '1k–5k', filePct: 54.2, dashPct: 52.7, note: L('Chiếm 54,2% nhưng Girl Style gánh tới 79% nhóm này!', 'Accounts for 54.2% but Girl Style carries 79% of this tier!') },
@@ -368,18 +179,18 @@ GROUP BY 1;`,
                     {n(t.rows)}
                   </td>
                   <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300">
-                    {t.window}
+                    {b(t.window)}
                   </td>
                   <td className="py-2.5 px-3 font-medium text-slate-800 dark:text-slate-200">
-                    {t.grain}
+                    {b(t.grain)}
                   </td>
                   <td className="py-2.5 px-3">
                     <code className="text-[11px] font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-[#074553] dark:text-[#9BE7FA]">
-                      {t.joinKey}
+                      {typeof t.joinKey === 'string' ? t.joinKey : b(t.joinKey)}
                     </code>
                   </td>
                   <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-[11px]">
-                    {t.desc}
+                    {b(t.desc)}
                   </td>
                 </tr>
               ))}
@@ -432,10 +243,10 @@ GROUP BY 1;`,
                   <span className="font-bold text-xs text-slate-900 dark:text-white">
                     {f.entity}
                   </span>
-                  <Chip tone={f.tone}>{f.badge}</Chip>
+                  <Chip tone={f.tone}>{b(f.badge)}</Chip>
                 </div>
                 <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">
-                  {f.finding}
+                  {b(f.finding)}
                 </p>
               </div>
 
@@ -444,7 +255,7 @@ GROUP BY 1;`,
                   {f.stat}
                 </span>
                 <span className="text-slate-500 dark:text-slate-400">
-                  {f.detail}
+                  {b(f.detail)}
                 </span>
               </div>
             </div>
@@ -547,7 +358,7 @@ GROUP BY 1;`,
               {crossReconciliations.map((c, i) => (
                 <tr key={i} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors">
                   <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-white">
-                    {c.test}
+                    {b(c.test)}
                   </td>
                   <td className="py-2.5 px-3 font-mono font-bold text-slate-900 dark:text-white">
                     {c.metric}
@@ -562,11 +373,11 @@ GROUP BY 1;`,
                           : 'bg-cyan-500/15 text-cyan-800 dark:text-cyan-300'
                       }`}
                     >
-                      {c.statusLabel}
+                      {b(c.statusLabel)}
                     </span>
                   </td>
                   <td className="py-2.5 px-3 text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
-                    {c.detail}
+                    {b(c.detail)}
                   </td>
                 </tr>
               ))}
@@ -702,12 +513,11 @@ GROUP BY 1;`,
             {sqlSnippetsList.map((snip, idx) => (
               <button
                 key={idx}
-                type="button"
                 onClick={() => setActiveSqlTab(idx)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all min-h-9 cursor-pointer ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
                   activeSqlTab === idx
-                    ? 'bg-[#9BE7FA] text-slate-950 shadow-xs'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+                    ? 'bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950'
+                    : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
                 {snip.title}
@@ -715,37 +525,27 @@ GROUP BY 1;`,
             ))}
           </div>
 
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950 p-4 text-slate-100 relative">
-            <div className="flex items-center justify-between text-[11px] text-slate-400 pb-2 mb-2 border-b border-slate-800">
+          <div className="rounded-2xl bg-slate-950 p-4 border border-slate-800 text-xs font-mono relative">
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800 text-slate-400 text-[11px]">
               <span>{sqlSnippetsList[activeSqlTab].desc}</span>
               <button
-                type="button"
                 onClick={() => handleCopyCode(sqlSnippetsList[activeSqlTab].sql, activeSqlTab)}
-                className="flex items-center gap-1 hover:text-[#9BE7FA] transition-colors cursor-pointer text-xs"
+                className="flex items-center gap-1 text-[11px] text-slate-300 hover:text-white transition-colors cursor-pointer"
               >
-                {copiedIndex === activeSqlTab ? (
-                  <>
-                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                    <span className="text-emerald-400 font-bold">{L('Đã chép', 'Copied')}</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-3.5 w-3.5" />
-                    <span>Copy SQL</span>
-                  </>
-                )}
+                <Copy className="h-3 w-3" />
+                {copiedIndex === activeSqlTab ? L('Đã chép!', 'Copied!') : L('Sao chép SQL', 'Copy SQL')}
               </button>
             </div>
-            <pre className="font-mono text-xs overflow-x-auto text-[#9BE7FA] leading-relaxed">
+            <pre className="text-emerald-400 overflow-x-auto leading-relaxed">
               <code>{sqlSnippetsList[activeSqlTab].sql}</code>
             </pre>
           </div>
         </div>
       </div>
 
-      {/* 2.5: Hai chỗ sai cần sửa trong báo cáo cũ */}
-      <div className="rounded-3xl border-2 border-amber-300 bg-amber-50/30 p-5 sm:p-6 dark:border-amber-500/30 dark:bg-amber-950/10 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-amber-200 dark:border-amber-800 mb-4">
+      {/* 2.5: Đính chính 2 sai lệch nghiêm trọng */}
+      <div className="rounded-3xl border border-amber-300/80 bg-amber-50/50 p-5 sm:p-6 dark:border-amber-900/60 dark:bg-amber-950/20 shadow-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-amber-200/80 dark:border-amber-900/60 mb-4">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400 font-black text-slate-950 text-sm">
               2.5
@@ -897,7 +697,7 @@ GROUP BY 1;`,
         </div>
       </div>
 
-      {/* Trực quan hóa cấu trúc danh mục: Dải giá & Đường cong Pareto (Tích hợp nguyên vẹn) */}
+      {/* Trực quan hóa cấu trúc danh mục: Dải giá & Đường cong Pareto */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ChartCard
           title={L('Gom nhóm dải giá bằng CASE: tỷ trọng SKU, sản lượng & GMV (%)', 'CASE price binning: SKU, unit volume & GMV share (%)')}
