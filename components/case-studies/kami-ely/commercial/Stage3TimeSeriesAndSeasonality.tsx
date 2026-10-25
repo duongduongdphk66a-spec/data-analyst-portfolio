@@ -183,8 +183,8 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
             </div>
             <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
-                'Tạo đủ 180 ngày (09/03 – 04/09/2026). LEFT JOIN xác nhận Store Detail không bị khuyết ngày nào (min 49 sp/ngày). Gắn cờ is_partial_month cho T3 (23 ngày) và T9 (4 ngày).',
-                'Full 180 days mapped. LEFT JOIN verifies Store Detail has 0 missing days (min 49 units/day). Partial month flags for Mar (23d) & Sep (4d).',
+                'Tạo đủ 226 ngày (09/03 – 20/10/2026). LEFT JOIN xác nhận Store Detail không bị khuyết ngày nào (min 49 sp/ngày). Gắn cờ is_partial_month cho T3 (23 ngày) và T10 (20 ngày).',
+                'Full 226 continuous days mapped (09/03 - 20/10/2026). LEFT JOIN verifies Store Detail has 0 missing days (min 49 units/day). Partial month flags for Mar (23d) & Oct (20d).',
               )}
             </p>
           </div>
@@ -574,8 +574,8 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
               </h4>
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 {L(
-                  'Tương quan 26 tuần (Pearson/Spearman) và phân rã nguyên nhân GMV rơi 82,9%',
-                  '26-week correlation suite and causal decomposition of the 82.9% GMV collapse',
+                  'Tương quan chuỗi tuần 226 ngày (Pearson/Spearman) và phân rã nguyên nhân GMV rơi 82,9%',
+                  '226-day weekly correlation suite and causal decomposition of the 82.9% GMV collapse',
                 )}
               </p>
             </div>
@@ -661,14 +661,14 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
           </div>
         </div>
 
-        {/* Biểu đồ 26 tuần: GMV vs Live vs Hiệu suất */}
+        {/* Biểu đồ 33 tuần (226 ngày): GMV vs Live vs Hiệu suất */}
         <ChartCard
           title={
             weeklyView === 'gmv_lives'
-              ? L('Theo dõi 26 tuần: Doanh thu GMV tuần (triệu đ) vs Số ca Live tuần', '26-Week Tracking: Weekly GMV (M VND) vs Weekly Live Sessions')
-              : L('Theo dõi 26 tuần: Hiệu suất GMV trung bình trên mỗi ca Live (nghìn đ/ca)', '26-Week Tracking: Average GMV per Live Session (k VND/session)')
+              ? L(`Theo dõi ${weeklySeries.length} tuần (226 ngày): Doanh thu GMV tuần (triệu đ) vs Số ca Live tuần`, `${weeklySeries.length}-Week Tracking (226 Days): Weekly GMV (M VND) vs Weekly Live Sessions`)
+              : L(`Theo dõi ${weeklySeries.length} tuần (226 ngày): Hiệu suất GMV trung bình trên mỗi ca Live (nghìn đ/ca)`, `${weeklySeries.length}-Week Tracking (226 Days): Average GMV per Live Session (k VND/session)`)
           }
-          subtitle={L('Bắt trọn đỉnh điểm Tuần 25 (15–21/06 đạt 1,06 Tỷ đ) và pha thoái trào liên tục ở Quý 3', 'Capturing Week 25 peak (1.06B VND) followed by Q3 seasonal collapse')}
+          subtitle={L('Bao phủ trọn vẹn 226 ngày: đỉnh điểm Tuần 25 (15–21/06 đạt 1,06 Tỷ đ), pha hạ nhiệt Quý 3 và chu kỳ phục hồi trở lại vào Tháng 10', 'Full 226-day coverage: Week 25 peak (1.06B VND), Q3 seasonal cooling, and October rebound')}
           badge={
             <div className="flex rounded-xl bg-[#C8EEF7]/40 p-1 dark:bg-slate-800">
               {(['gmv_lives', 'efficiency'] as const).map((k) => (
@@ -808,18 +808,18 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
             <li className="flex items-start gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
               <div>
-                <strong>{L('2. Cỡ mẫu tuần nhỏ (26 tuần):', '2. Small Weekly Sample (26 Weeks):')}</strong> {L(
-                  '26 quan sát tuần khiến khoảng tin cậy (Confidence Interval) của tương quan Pearson/Spearman còn rộng.',
-                  '26 weekly observations yield wider confidence intervals on Pearson and Spearman coefficients.',
+                <strong>{L('2. Cỡ mẫu tuần (33 tuần):', '2. Weekly Sample Size (33 Weeks):')}</strong> {L(
+                  '33 tuần quan sát phủ đủ 226 ngày từ T3 đến T10/2026, phản ánh đầy đủ cả pha tăng trưởng, thoái trào hè và phục hồi thu đông.',
+                  '33 weekly observations cover all 226 continuous days from Mar to Oct 2026, capturing growth, summer contraction, and autumn recovery.',
                 )}
               </div>
             </li>
             <li className="flex items-start gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
               <div>
-                <strong>{L('3. Tháng thiếu ngày:', '3. Partial Months:')}</strong> {L(
-                  'Tháng 3 (23 ngày) và Tháng 9 (4 ngày) bắt buộc phải so sánh bằng GMV bình quân ngày; dữ liệu Tháng 9 quá ngắn để làm đại diện.',
-                  'March (23d) and September (4d) require day-normalized comparison; September is insufficient for standalone inference.',
+                <strong>{L('3. Tháng biên chu kỳ:', '3. Boundary Partial Months:')}</strong> {L(
+                  'Tháng 3 (23 ngày) và Tháng 10 (20 ngày tại thời điểm snapshot) được chuẩn hóa theo GMV bình quân ngày để đảm bảo tính so sánh công bằng.',
+                  'March (23d) and October (20d at snapshot date) are day-normalized to ensure fair period comparison.',
                 )}
               </div>
             </li>

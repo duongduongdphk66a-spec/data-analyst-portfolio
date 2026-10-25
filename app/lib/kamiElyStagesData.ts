@@ -809,34 +809,59 @@ export function buildStage3Data(): Stage3Payload {
     };
   });
 
-  const weeklySeries = [
-    { label: 'W11 (09/03)', gmv: 265.3, lives: 78, koc: 10.1, gmvPerLive: 3402 },
-    { label: 'W12 (16/03)', gmv: 257.7, lives: 236, koc: 21.4, gmvPerLive: 1092 },
-    { label: 'W13 (23/03)', gmv: 366.8, lives: 176, koc: 33.0, gmvPerLive: 2084 },
-    { label: 'W14 (30/03)', gmv: 486.8, lives: 427, koc: 71.4, gmvPerLive: 1140 },
-    { label: 'W15 (06/04)', gmv: 500.9, lives: 651, koc: 88.6, gmvPerLive: 769 },
-    { label: 'W16 (13/04)', gmv: 650.0, lives: 427, koc: 64.3, gmvPerLive: 1522 },
-    { label: 'W17 (20/04)', gmv: 655.2, lives: 334, koc: 56.6, gmvPerLive: 1962 },
-    { label: 'W18 (27/04)', gmv: 400.0, lives: 333, koc: 32.6, gmvPerLive: 1201 },
-    { label: 'W19 (04/05)', gmv: 554.7, lives: 353, koc: 32.9, gmvPerLive: 1571 },
-    { label: 'W20 (11/05)', gmv: 630.4, lives: 332, koc: 29.7, gmvPerLive: 1899 },
-    { label: 'W21 (18/05)', gmv: 643.8, lives: 160, koc: 35.9, gmvPerLive: 4024 },
-    { label: 'W22 (25/05)', gmv: 744.6, lives: 392, koc: 54.3, gmvPerLive: 1900 },
-    { label: 'W23 (01/06)', gmv: 709.9, lives: 447, koc: 52.6, gmvPerLive: 1588 },
-    { label: 'W24 (08/06)', gmv: 952.3, lives: 438, koc: 38.1, gmvPerLive: 2174 },
-    { label: 'W25 (15/06)', gmv: 1058.2, lives: 283, koc: 25.6, gmvPerLive: 3739 },
-    { label: 'W26 (22/06)', gmv: 850.2, lives: 301, koc: 30.1, gmvPerLive: 2824 },
-    { label: 'W27 (29/06)', gmv: 640.1, lives: 177, koc: 18.9, gmvPerLive: 3616 },
-    { label: 'W28 (06/07)', gmv: 594.2, lives: 203, koc: 22.0, gmvPerLive: 2927 },
-    { label: 'W29 (13/07)', gmv: 469.1, lives: 237, koc: 29.1, gmvPerLive: 1979 },
-    { label: 'W30 (20/07)', gmv: 400.6, lives: 178, koc: 21.4, gmvPerLive: 2250 },
-    { label: 'W31 (27/07)', gmv: 289.0, lives: 179, koc: 18.3, gmvPerLive: 1615 },
-    { label: 'W32 (03/08)', gmv: 204.2, lives: 162, koc: 15.7, gmvPerLive: 1261 },
-    { label: 'W33 (10/08)', gmv: 143.9, lives: 112, koc: 12.4, gmvPerLive: 1285 },
-    { label: 'W34 (17/08)', gmv: 114.3, lives: 146, koc: 16.1, gmvPerLive: 783 },
-    { label: 'W35 (24/08)', gmv: 111.2, lives: 153, koc: 22.7, gmvPerLive: 727 },
-    { label: 'W36 (31/08)', gmv: 41.7, lives: 99, koc: 23.4, gmvPerLive: 421 },
-  ];
+  // Chuỗi theo dõi theo tuần (33 tuần) tổng hợp từ 226 ngày liên tục (09/03 – 20/10/2026)
+  const weeklyMap = new Map<string, {
+    week: number;
+    mon: string;
+    label: string;
+    gmv: number;
+    lives: number;
+    kocs: number[];
+  }>();
+
+  for (const d of daily) {
+    const dt = new Date(d.date + 'T00:00:00Z');
+    const day = dt.getUTCDay();
+    const diff = (day === 0 ? -6 : 1 - day);
+    const monDt = new Date(dt);
+    monDt.setUTCDate(dt.getUTCDate() + diff);
+    const monStr = monDt.toISOString().slice(0, 10);
+
+    const target = new Date(dt);
+    const targetDay = target.getUTCDay() || 7;
+    target.setUTCDate(target.getUTCDate() + 4 - targetDay);
+    const yearStart = new Date(Date.UTC(target.getUTCFullYear(), 0, 1));
+    const week = Math.ceil((((target.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+
+    const key = `W${week}`;
+    if (!weeklyMap.has(key)) {
+      weeklyMap.set(key, {
+        week,
+        mon: monStr,
+        label: `W${week} (${monStr.slice(8, 10)}/${monStr.slice(5, 7)})`,
+        gmv: 0,
+        lives: 0,
+        kocs: [],
+      });
+    }
+    const item = weeklyMap.get(key)!;
+    item.gmv += d.gmv;
+    item.lives += d.lives;
+    item.kocs.push(d.koc);
+  }
+
+  const weeklySeries = Array.from(weeklyMap.values()).map((w) => {
+    const gmvM = Math.round((w.gmv / 1e6) * 10) / 10;
+    const avgKoc = Math.round((w.kocs.reduce((a, b) => a + b, 0) / w.kocs.length) * 10) / 10;
+    const gmvPerLive = w.lives > 0 ? Math.round(w.gmv / w.lives / 1e3) : 0;
+    return {
+      label: w.label,
+      gmv: gmvM,
+      lives: w.lives,
+      koc: avgKoc,
+      gmvPerLive,
+    };
+  });
 
   const monthlyTable = [
     { ym: '2026-03', label: 'T3', days: 23, isPartial: true, gmv: 949812912, share: 6.4, gmvPerDay: 41296214, units: 8039, aov: 118151, momRaw: null, momDay: null },
