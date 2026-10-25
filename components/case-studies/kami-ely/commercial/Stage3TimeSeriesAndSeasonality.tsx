@@ -169,7 +169,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Chip tone="cyan">180/180 Ngày Có Đơn</Chip>
+            <Chip tone="cyan">226/226 Ngày Có Đơn</Chip>
             <Chip tone="amber">Chuẩn hóa GMV/Ngày</Chip>
           </div>
         </div>
@@ -324,7 +324,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
           title={
             dailyView === 'daily'
               ? L('GMV theo ngày, Đường trung bình trượt 7 ngày MA7 & Điểm đỉnh 16/06 (triệu đ)', 'Daily GMV, 7-day Moving Average MA7 & Peak Day (M VND)')
-              : L('Doanh số lũy kế 180 ngày và quỹ đạo tích lũy (tỉ đ)', '180-day Cumulative GMV Trajectory (B VND)')
+              : L('Doanh số lũy kế 226 ngày và quỹ đạo tích lũy (tỉ đ)', '226-day Cumulative GMV Trajectory (B VND)')
           }
           subtitle={L(
             'Làm mượt nhiễu dao động ngày bằng hàm cửa sổ AVG() OVER; ngày đỉnh 16/06 chạm 315,0 triệu đ',
@@ -416,12 +416,12 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
                 <div className="p-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-50/70 dark:bg-slate-800/40">
                   <span className="text-[11px] text-slate-500 block mb-0.5">{L('7 Ngày quanh đỉnh (13–19/06):', '7 Days around Peak:')}</span>
                   <span className="font-mono font-bold text-slate-900 dark:text-white text-sm">1,09 Tỷ đ</span>
-                  <span className="text-[11px] text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">8,56% {L('tổng 180 ngày', 'of total')}</span>
+                  <span className="text-[11px] text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">7,34% {L('tổng 226 ngày', 'of 226d total')}</span>
                 </div>
                 <div className="p-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-50/70 dark:bg-slate-800/40">
                   <span className="text-[11px] text-slate-500 block mb-0.5">{L('14 Ngày quanh đỉnh:', '14 Days Window:')}</span>
                   <span className="font-mono font-bold text-slate-900 dark:text-white text-sm">1,90 Tỷ đ</span>
-                  <span className="text-[11px] text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">14,95% {L('tổng 180 ngày', 'of total')}</span>
+                  <span className="text-[11px] text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">12,80% {L('tổng 226 ngày', 'of 226d total')}</span>
                 </div>
               </div>
 
@@ -498,7 +498,7 @@ JOIN (SELECT * FROM summary WHERE m = '08') a;`,
               </p>
             </div>
           </div>
-          <Chip tone="amber">Thứ 5 Đạt Đỉnh 112,6%</Chip>
+          <Chip tone="amber">Thứ 5 Đạt Đỉnh 112,1%</Chip>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">

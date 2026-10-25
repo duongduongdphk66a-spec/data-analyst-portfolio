@@ -28,76 +28,33 @@ import {
   axisTick,
   usePlaybookLang,
 } from '../playbook/PlaybookUi';
+import type { Stage6Payload } from '@/app/types/caseStudies';
+import { buildStage6Data } from '@/app/lib/kamiElyStagesData';
 
-export default function Stage6TextAndAnomalies() {
+export interface Stage6Props {
+  data?: Stage6Payload;
+}
+
+export default function Stage6TextAndAnomalies(props?: Stage6Props) {
   const { L, n } = usePlaybookLang();
   const [activeSqlTab, setActiveSqlTab] = useState<number>(0);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  // 6.2.B: Phân loại nhóm hàng theo tiêu đề video (Shoppable Videos)
-  const categoryData = [
-    { name: L('Bikini / Đồ bơi', 'Bikini / Swimwear'), n: 1590, orderRate: 26.1, gmvM: 1324.2, gmvShare: 61.0, color: COLORS.cyan },
-    { name: L('Váy / Đầm', 'Dresses / Skirts'), n: 1095, orderRate: 22.1, gmvM: 155.3, gmvShare: 7.2, color: COLORS.teal },
-    { name: L('Khác / Chưa phân loại', 'Other / Unclassified'), n: 1060, orderRate: 21.7, gmvM: 496.5, gmvShare: 22.9, color: '#94A3B8' },
-    { name: L('Set trang phục', 'Co-ord Sets'), n: 364, orderRate: 9.1, gmvM: 76.2, gmvShare: 3.5, color: COLORS.butter },
-    { name: L('Áo / Croptop', 'Tops / Croptops'), n: 242, orderRate: 13.6, gmvM: 81.5, gmvShare: 3.8, color: COLORS.amber },
-    { name: L('Quần / Quần gió', 'Pants / Shorts'), n: 66, orderRate: 10.6, gmvM: 36.8, gmvShare: 1.7, color: '#F43F5E' },
-  ];
+  const stageData = props?.data || buildStage6Data();
 
-  // 6.2.C: Top Hashtag
-  const topHashtags = [
-    { tag: '#xuhuong', count: 1163, type: 'generic' },
-    { tag: '#bikini', count: 1076, type: 'product' },
-    { tag: '#thoitrangnu', count: 738, type: 'generic' },
-    { tag: '#viral', count: 462, type: 'generic' },
-    { tag: '#chanvay', count: 400, type: 'product' },
-    { tag: '#xuhuongtiktok', count: 395, type: 'generic' },
-    { tag: '#xh', count: 393, type: 'generic' },
-    { tag: '#fyp', count: 369, type: 'generic' },
-    { tag: '#dodibien', count: 297, type: 'product' },
-    { tag: '#chanvayxinh', count: 287, type: 'product' },
-    { tag: '#outfit', count: 287, type: 'generic' },
-    { tag: '#chanvayngan', count: 264, type: 'product' },
-    { tag: '#capcut', count: 255, type: 'generic' },
-    { tag: '#thoitrang', count: 234, type: 'generic' },
-    { tag: '#setdibien', count: 226, type: 'product' },
-  ];
+  const categoryData = stageData.categoryData.map((c) => ({
+    ...c,
+    name: typeof c.name === 'string' ? c.name : L(c.name.vi, c.name.en),
+  }));
 
-  // 6.3.B & C: Bảng tổng hợp dị biệt Creator và Dị biệt Dữ liệu
-  const anomalyRegistry = [
-    {
-      type: L('Dị biệt GMV Ngày', 'Daily GMV Outlier'),
-      target: '16/06/2026',
-      metric: '315,0 Tr đ (z = 5,57)',
-      rootCause: L('1 ca Live chính chủ (194,9M) + 90 ca affiliate (77,3M) chiếm 86% GMV ngày', '1 own-brand live (194.9M) + 90 affiliate lives (77.3M) = 86% daily GMV'),
-      treatment: L('Giữ nguyên, không loại bỏ; dùng z trượt 28 ngày để nhận diện đỉnh cục bộ', 'Retain; employ 28-day rolling z-score to isolate local surges'),
-      status: 'verified',
-    },
-    {
-      type: L('Creator Ngoại lai', 'Creator Outlier'),
-      target: 'girlstyle.vn (Girl Style)',
-      metric: '1,26 Tỷ đ (56,1% GMV Live Affiliate)',
-      rootCause: L('Kênh vệ tinh nội bộ in-house do chủ shop vận hành, phát 98/101 ngày tồn tại', 'Internal in-house satellite channel operated by shop, streaming 98/101 active days'),
-      treatment: L('Tách bạch 2 bản phân tích: Có và Không có Girl Style; Winsorize ở P99', 'Dual reporting (With vs Excl Girl Style); Winsorize at P99 for KOC benchmarks'),
-      status: 'isolated',
-    },
-    {
-      type: L('Dị biệt Thời lượng', 'Session Duration Outlier'),
-      target: '15 phiên Live > 24 Giờ',
-      metric: 'Dài nhất 269,1 giờ (~11 ngày liên tục)',
-      rootCause: L('KOC treo máy live lặp video (6 ca thuộc vayxinhchery888), tổng GMV chỉ 25,5M', 'Looped automated streams (6 from vayxinhchery888); total GMV only 25.5M VND'),
-      treatment: L('Gắn cờ is_outlier_duration = 1; loại khỏi tính toán thời lượng trung bình', 'Flag is_outlier_duration = 1; exclude from mean duration metrics'),
-      status: 'flagged',
-    },
-    {
-      type: L('Chất lượng Dữ liệu', 'Zero-Duration Sessions'),
-      target: '69 phiên Live thời lượng = 0',
-      metric: '0 giờ phát sóng, 0 GMV',
-      rootCause: L('Phiên live bị lỗi kết nối hoặc tắt ngay sau khi bật', 'Connection drops or immediate cancellations upon launch'),
-      treatment: L('Gắn cờ is_zero_duration; lọc khi tính hiệu suất ca live', 'Flag is_zero_duration; filter out when computing stream efficiency'),
-      status: 'flagged',
-    },
-  ];
+  const topHashtags = stageData.topHashtags;
+
+  const anomalyRegistry = stageData.anomalyRegistry.map((a) => ({
+    ...a,
+    type: typeof a.type === 'string' ? a.type : L(a.type.vi, a.type.en),
+    rootCause: typeof a.rootCause === 'string' ? a.rootCause : L(a.rootCause.vi, a.rootCause.en),
+    treatment: typeof a.treatment === 'string' ? a.treatment : L(a.treatment.vi, a.treatment.en),
+  }));
 
   // SQL snippets
   const stage6Sql = [

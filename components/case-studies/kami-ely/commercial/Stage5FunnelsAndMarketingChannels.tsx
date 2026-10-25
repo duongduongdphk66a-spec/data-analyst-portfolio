@@ -37,22 +37,21 @@ import {
   legendFormatter,
   usePlaybookLang,
 } from '../playbook/PlaybookUi';
+import type { Stage5Payload } from '@/app/types/caseStudies';
+import { buildStage5Data } from '@/app/lib/kamiElyStagesData';
 
-export default function Stage5FunnelsAndMarketingChannels() {
+export interface Stage5Props {
+  data?: Stage5Payload;
+}
+
+export default function Stage5FunnelsAndMarketingChannels(props?: Stage5Props) {
   const { L, n } = usePlaybookLang();
   const [adsTab, setAdsTab] = useState<'overall' | 'within_creator' | 'tiers' | 'ex_dominant' | 'last_90d'>('overall');
   const [activeSqlTab, setActiveSqlTab] = useState<number>(0);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  // 5.3.A: Phễu LIVE theo tháng của kênh chính chủ (Creator Live List +13h UTC+7)
-  const monthlyOwnLiveFunnel = [
-    { ym: 'T3/2026', sessions: 52, orderRate: 90.4, avgViewers: 3385, unitsPer1k: 5.7, gmvPerView: 643, gmvM: 113.1 },
-    { ym: 'T4/2026', sessions: 112, orderRate: 97.3, avgViewers: 8869, unitsPer1k: 6.3, gmvPerView: 846, gmvM: 840.8 },
-    { ym: 'T5/2026', sessions: 92, orderRate: 100.0, avgViewers: 8703, unitsPer1k: 12.6, gmvPerView: 1810, gmvM: 1449.1 },
-    { ym: 'T6/2026', sessions: 51, orderRate: 98.0, avgViewers: 15015, unitsPer1k: 34.0, gmvPerView: 4888, gmvM: 3742.7 },
-    { ym: 'T7/2026', sessions: 77, orderRate: 92.2, avgViewers: 4971, unitsPer1k: 11.4, gmvPerView: 1729, gmvM: 661.8 },
-    { ym: 'T8/2026', sessions: 85, orderRate: 95.3, avgViewers: 2004, unitsPer1k: 11.9, gmvPerView: 1266, gmvM: 215.6 },
-  ];
+  const stageData = props?.data || buildStage5Data();
+  const monthlyOwnLiveFunnel = stageData.monthlyOwnLiveFunnel;
 
   // 5.3.E: Phân tích Ads vs Organic trên Shoppable Videos
   const adsComparisonCards = {
@@ -279,7 +278,7 @@ ORDER BY time_slot, dur_tier;`,
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ChartCard
           title={L('5.3.A. Hiệu Suất Phễu LIVE: Chính Chủ vs Affiliate', '5.3.A. LIVE Funnel: Own-Brand vs Affiliate Streamers')}
-          subtitle={L('So sánh 470 phiên chính chủ với 6.576 phiên affiliate trong 180 ngày', 'Comparison across 470 own-brand lives and 6,576 affiliate lives over 180 days')}
+          subtitle={L('So sánh 470 phiên chính chủ với 6.576 phiên affiliate trong 226 ngày', 'Comparison across 470 own-brand lives and 6,576 affiliate lives over 226 days')}
           badge={<Chip tone="cyan">{L('GMV/Viewer gấp 34,3 lần', '34.3x GMV/Viewer')}</Chip>}
           height=""
         >
@@ -497,8 +496,8 @@ ORDER BY time_slot, dur_tier;`,
           </p>
           <p>
             {L(
-              '• Tuy nhiên, trên toàn bộ dữ liệu 180 ngày, GMV trên mỗi 1.000 lượt xem (GPM) của Ads lại thấp hơn Organic (71.103 đ vs 80.874 đ). Điều này xảy ra do video cũ bị cắt cửa sổ GMV 90 ngày. Khi chuẩn hóa chỉ xét video đăng trong 90 ngày gần nhất, GPM của Ads đạt 89.027 đ (cao gấp gần 4 lần mức 22.468 đ của Organic).',
-              '• However, across the unadjusted 180-day sample, GMV per 1,000 views (GPM) for Ads is lower than Organic (71,103 vs 80,874 VND) due to 90-day GMV cutoff on older videos. Filtering for videos posted in the last 90 days reveals Ads GPM is actually 89,027 VND (nearly 4x higher than Organic 22,468 VND).',
+              '• Tuy nhiên, trên toàn bộ dữ liệu 226 ngày, GMV trên mỗi 1.000 lượt xem (GPM) của Ads lại thấp hơn Organic (71.103 đ vs 80.874 đ). Điều này xảy ra do video cũ bị cắt cửa sổ GMV 90 ngày. Khi chuẩn hóa chỉ xét video đăng trong 90 ngày gần nhất, GPM của Ads đạt 89.027 đ (cao gấp gần 4 lần mức 22.468 đ của Organic).',
+              '• However, across the unadjusted 226-day sample, GMV per 1,000 views (GPM) for Ads is lower than Organic (71,103 vs 80,874 VND) due to 90-day GMV cutoff on older videos. Filtering for videos posted in the last 90 days reveals Ads GPM is actually 89,027 VND (nearly 4x higher than Organic 22,468 VND).',
             )}
           </p>
           <p className="text-rose-600 dark:text-rose-400 font-semibold">
@@ -725,8 +724,8 @@ ORDER BY time_slot, dur_tier;`,
           <li className="flex items-start gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
             <div>
-              <strong>{L('2. Lệch cửa sổ 90 ngày vs 180 ngày trong Shoppable Videos:', '2. 90-Day vs 180-Day Window Lag in Shoppable Videos:')}</strong> {L(
-                'Cột GMV và Units sold trong bảng Shoppable Videos chỉ tính trong 90 ngày gần nhất dù video đăng trong 180 ngày. Video đăng trước tháng 6 bị cắt ngắn doanh số, khiến GMV/views bị kéo giảm nhân tạo nếu không lọc 90 ngày cuối.',
+              <strong>{L('2. Lệch cửa sổ 90 ngày vs 226 ngày trong Shoppable Videos:', '2. 90-Day vs 226-Day Window Lag in Shoppable Videos:')}</strong> {L(
+                'Cột GMV và Units sold trong bảng Shoppable Videos chỉ tính trong 90 ngày gần nhất dù video đăng trong 226 ngày. Video đăng trước tháng 6 bị cắt ngắn doanh số, khiến GMV/views bị kéo giảm nhân tạo nếu không lọc 90 ngày cuối.',
                 'Shoppable Videos GMV captures only the last 90 rolling days. Pre-June videos suffer truncation; always verify with normalized 90-day subsets.'
               )}
             </div>

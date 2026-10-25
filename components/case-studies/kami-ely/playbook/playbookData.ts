@@ -91,7 +91,7 @@ export const modSampleMaxDevPct = Math.max(...modSamples.map((s) => Math.abs(s.d
 
 export const sqlSnippets = {
   s1: `-- minh họa, tên cột rút gọn
-SELECT 'store_daily' AS tbl, COUNT(*) AS n FROM kami_store_daily_180d
+SELECT 'store_daily' AS tbl, COUNT(*) AS n FROM kami_store_daily_226d
 UNION ALL SELECT 'product',  COUNT(*) FROM kami_product_data_90d
 UNION ALL SELECT 'creators', COUNT(*) FROM kami_creators_merged_90d;
 -- 5 bảng còn lại làm tương tự`,
@@ -111,12 +111,12 @@ SELECT COUNT(*) FROM kami_product_data_90d WHERE COALESCE(units_sold, 0) = 0;`,
        AVG(daily_gmv) OVER (ORDER BY report_date
             ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS ma7,
        SUM(daily_gmv) OVER (ORDER BY report_date)      AS cumulative_gmv
-FROM kami_store_daily_180d;
+FROM kami_store_daily_226d;
 
 -- Mùa vụ theo thứ trong tuần
 SELECT EXTRACT(DOW FROM report_date) AS dow,
        PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY daily_gmv) AS median_gmv
-FROM kami_store_daily_180d
+FROM kami_store_daily_226d
 GROUP BY 1;`,
   s4: `-- 1. Ma trận retention creator affiliate theo tuổi tháng (SQLite)
 WITH cm AS (                          -- creator x tháng hoạt động
@@ -192,11 +192,11 @@ SELECT CASE
 FROM stg_shoppable_videos GROUP BY 1;`,
   s7: `-- 1. Kiểm tra 8 Cổng Chất Lượng Dữ Liệu Tự Động (Quality Gates)
 SELECT COUNT(DISTINCT date) AS active_days,
-       CASE WHEN COUNT(DISTINCT date) = 180 THEN 'PASSED' ELSE 'FAILED' END AS gate_1_180d,
+       CASE WHEN COUNT(DISTINCT date) = 226 THEN 'PASSED' ELSE 'FAILED' END AS gate_1_226d,
        SUM(units) AS store_units,
-       CASE WHEN SUM(units) = 85500 THEN 'PASSED (85.500 sp)' ELSE 'FAILED' END AS gate_2_units,
+       CASE WHEN SUM(units) = 100669 THEN 'PASSED (100.669 sp)' ELSE 'FAILED' END AS gate_2_units,
        SUM(gmv) AS store_gmv,
-       CASE WHEN SUM(gmv) = 12735128067 THEN 'PASSED (12,735B)' ELSE 'FAILED' END AS gate_2_gmv
+       CASE WHEN SUM(gmv) = 14842597762 THEN 'PASSED (14,843B)' ELSE 'FAILED' END AS gate_2_gmv
 FROM stg_store_daily;
 
 -- 2. Bí danh hóa Creator PII (Salted SHA-256)

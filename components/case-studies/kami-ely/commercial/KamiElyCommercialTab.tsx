@@ -17,6 +17,7 @@ import Stage5FunnelsAndMarketingChannels from './Stage5FunnelsAndMarketingChanne
 import Stage6TextAndAnomalies from './Stage6TextAndAnomalies';
 import Stage7EtlAutomationAndPii from './Stage7EtlAutomationAndPii';
 import type { KamiElyDataPayload } from '@/app/types/caseStudies';
+import { buildKamiEly7StagesPayload } from '@/app/lib/kamiElyStagesData';
 
 export interface KamiElyCommercialTabProps {
   isEn?: boolean;
@@ -27,6 +28,7 @@ export interface KamiElyCommercialTabProps {
 
 export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) {
   const { L, n } = usePlaybookLang();
+  const commercialStages = buildKamiEly7StagesPayload();
 
   return (
     <div className="w-full space-y-12">
@@ -71,7 +73,7 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
         codePeek={{ label: L('SQL (Giai đoạn 1)', 'SQL (Stage 1)'), code: sqlSnippets.s1 }}
       >
         <div className="lg:col-span-2 w-full">
-          <Stage1BusinessAndDataArchitecture />
+          <Stage1BusinessAndDataArchitecture data={commercialStages.stage1} />
         </div>
       </UnifiedSection>
 
@@ -116,7 +118,7 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
         codePeek={{ label: L('SQL (Giai đoạn 2)', 'SQL (Stage 2)'), code: sqlSnippets.s2 }}
       >
         <div className="lg:col-span-2 w-full">
-          <Stage2ProfileAndCleanUpgrade />
+          <Stage2ProfileAndCleanUpgrade data={commercialStages.stage2} />
         </div>
       </UnifiedSection>
 
@@ -129,14 +131,14 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
           'Section 3: Time-Series & Seasonality Analysis (Trends, Peak & Structural Breaks)',
         )}
         takeaway={L(
-          'Chuỗi 180 ngày ghi nhận đỉnh doanh thu ngày 16/06 (315,0 Tr đ), đỉnh tuần W25 (1,06 Tỷ đ) và đỉnh tháng T6 (3,77 Tỷ đ). Tín hiệu cảnh báo sớm Giao cắt tử thần (MA7 cắt xuống MA28) xuất hiện ngày 26/06 (sớm 18 ngày trước khi GMV rơi thủng mức Tháng 4). Phân rã mức sụt giảm 82,9% giữa T6 và T8 chứng minh cả hai hiệu ứng tác động tương đương: số lượng phiên Live giảm 59% (góp 71,1% mức giảm) và hiệu suất GMV/ca Live rơi 58% (góp 70,3% mức giảm).',
-          '180-day series records peak day on Jun 16 (315.0M VND), peak week W25 (1.06B VND), and peak month June (3.77B VND). Early Warning Dead Cross (MA7 crossing below MA28) triggered on Jun 26 (18 days before GMV breached April floor). Decomposing the 82.9% drop between June and August proves dual causality: live volume fell 59% (71.1% of drop) and GMV per live plunged 58% (70.3% of drop).',
+          'Chuỗi 226 ngày ghi nhận đỉnh doanh thu ngày 16/06 (315,0 Tr đ), đỉnh tuần W25 (1,06 Tỷ đ) và đỉnh tháng T6 (3,77 Tỷ đ). Tín hiệu cảnh báo sớm Giao cắt tử thần (MA7 cắt xuống MA28) xuất hiện ngày 26/06 (sớm 18 ngày trước khi GMV rơi thủng mức Tháng 4). Phân rã mức sụt giảm 82,9% giữa T6 và T8 chứng minh cả hai hiệu ứng tác động tương đương: số lượng phiên Live giảm 59% (góp 71,1% mức giảm) và hiệu suất GMV/ca Live rơi 58% (góp 70,3% mức giảm).',
+          '226-day series records peak day on Jun 16 (315.0M VND), peak week W25 (1.06B VND), and peak month June (3.77B VND). Early Warning Dead Cross (MA7 crossing below MA28) triggered on Jun 26 (18 days before GMV breached April floor). Decomposing the 82.9% drop between June and August proves dual causality: live volume fell 59% (71.1% of drop) and GMV per live plunged 58% (70.3% of drop).',
         )}
         kpis={[
           {
             value: '315,0 Tr đ',
             label: L('ngày đỉnh cao nhất 16/06/2026', 'absolute peak day Jun 16'),
-            sub: L('1.936 sp · 7 ngày quanh đỉnh gánh 1,09 Tỷ đ (8,6% GMV)', '1,936 units · 7 days around peak = 1.09B VND (8.6% GMV)'),
+            sub: L('1.936 sp · 7 ngày quanh đỉnh gánh 1,09 Tỷ đ (7,3% GMV 226 ngày)', '1,936 units · 7 days around peak = 1.09B VND (7.3% of 226d GMV)'),
           },
           {
             value: '26/06/2026',
@@ -162,7 +164,7 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
         codePeek={{ label: L('SQL (Giai đoạn 3)', 'SQL (Stage 3)'), code: sqlSnippets.s3 }}
       >
         <div className="lg:col-span-2 w-full">
-          <Stage3TimeSeriesAndSeasonality />
+          <Stage3TimeSeriesAndSeasonality data={commercialStages.stage3} />
         </div>
       </UnifiedSection>
 
@@ -207,7 +209,7 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
         codePeek={{ label: L('SQL (Giai đoạn 4)', 'SQL (Stage 4)'), code: sqlSnippets.s4 }}
       >
         <div className="lg:col-span-2 w-full">
-          <Stage4CreatorCohortsAndLtv />
+          <Stage4CreatorCohortsAndLtv data={commercialStages.stage4} />
         </div>
       </UnifiedSection>
 
@@ -221,7 +223,7 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
         )}
         takeaway={L(
           'Chuyển thể từ phễu TMĐT truyền thống sang phễu nội dung: Live chính chủ đạt 96,4% ca có đơn và GMV/lượt xem cao gấp 34,3 lần affiliate (2.155 đ vs 63 đ). Phân tích 4.417 video giỏ hàng chứng minh Ads = YES tăng xác suất có đơn gấp 5,0 lần (26,2% vs 5,2%, Odds Ratio = 6,41, p < 0,001) và duy trì ưu thế +10,40% trong cùng creator; tuy nhiên GMV/1.000 lượt xem của Ads không cao hơn Organic trên toàn mẫu (71k vs 81k đ) do lệch cửa sổ 90 ngày của video cũ. Giải mã nghịch lý khung tối: GMV/view thấp (1.137 đ) do hoàn toàn thiếu vắng các ca live >8h (vốn đạt 3.103 đ/view nhờ thuật toán TikTok).',
-          'Adapted from e-com to content funnels: Own-brand Live delivers 96.4% converting sessions with 34.3x higher GMV per viewer than affiliates (2,155 vs 63 VND). Analyzing 4,417 shoppable videos confirms Ads = YES lifts order conversion 5.0x (26.2% vs 5.2%, Odds Ratio = 6.41, p < 0.001) and retains a +10.40% paired within-creator edge; however, Ads GMV per 1k views is not superior across the 180d sample (71k vs 81k VND) due to 90-day window truncation on older posts. Decodes evening anomaly: low conversion (1,137 VND/view) stems from zero >8h sessions (which average 3,103 VND/view via TikTok algorithmic boost).',
+          'Adapted from e-com to content funnels: Own-brand Live delivers 96.4% converting sessions with 34.3x higher GMV per viewer than affiliates (2,155 vs 63 VND). Analyzing 4,417 shoppable videos confirms Ads = YES lifts order conversion 5.0x (26.2% vs 5.2%, Odds Ratio = 6.41, p < 0.001) and retains a +10.40% paired within-creator edge; however, Ads GMV per 1k views is not superior across the 226d sample (71k vs 81k VND) due to 90-day window truncation on older posts. Decodes evening anomaly: low conversion (1,137 VND/view) stems from zero >8h sessions (which average 3,103 VND/view via TikTok algorithmic boost).',
         )}
         kpis={[
           {
@@ -252,7 +254,7 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
         codePeek={{ label: L('SQL (Giai đoạn 5)', 'SQL (Stage 5)'), code: sqlSnippets.s5 }}
       >
         <div className="lg:col-span-2 w-full">
-          <Stage5FunnelsAndMarketingChannels />
+          <Stage5FunnelsAndMarketingChannels data={commercialStages.stage5} />
         </div>
       </UnifiedSection>
 
@@ -297,7 +299,7 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
         codePeek={{ label: L('SQL (Giai đoạn 6)', 'SQL (Stage 6)'), code: sqlSnippets.s6 }}
       >
         <div className="lg:col-span-2 w-full">
-          <Stage6TextAndAnomalies />
+          <Stage6TextAndAnomalies data={commercialStages.stage6} />
         </div>
       </UnifiedSection>
 
@@ -310,8 +312,8 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
           'Section 7: ETL Architecture, Automation & PII Compliance (Data Governance)',
         )}
         takeaway={L(
-          'Thiết kế pipeline ETL 3 lớp (raw → staging → mart) có khả năng tái lập tự động từ 8 tệp xlsx của FastMoss qua một lệnh duy nhất. Hệ thống thiết lập 8 cổng kiểm tra chất lượng dữ liệu (Data Quality Gates) với mức cảnh báo error/warn nghiêm ngặt, tự động đối soát chuỗi 180 ngày và khớp 100% doanh số 12,735 tỷ đ. Tuân thủ nghiêm ngặt Luật Bảo vệ dữ liệu cá nhân 2025 và Nghị định 356/2025/NĐ-CP (có hiệu lực từ 01/01/2026): áp dụng thuật toán Salted SHA-256 bí danh hóa creator_id, làm tròn dải GMV/follower cho bản công khai, và thiết lập vùng cách ly PII riêng biệt.',
-          'Engineered reproducible 3-tier ETL pipeline (raw → staging → mart) executing across 8 FastMoss xlsx exports via a single automated runner. Implemented 8 rigorous Data Quality Gates (error/warn severity) verifying 180 continuous days and matching 100% of 12.735B VND GMV. Full compliance with Vietnam Personal Data Protection Law 2025 and Decree 356/2025/NĐ-CP (effective Jan 1, 2026): applies Salted SHA-256 pseudonymization on creator handles, bucketizes GMV/followers for public release, and enforces air-gapped PII isolation.',
+          'Thiết kế pipeline ETL 3 lớp (raw → staging → mart) có khả năng tái lập tự động từ 8 tệp xlsx của FastMoss qua một lệnh duy nhất. Hệ thống thiết lập 8 cổng kiểm tra chất lượng dữ liệu (Data Quality Gates) với mức cảnh báo error/warn nghiêm ngặt, tự động đối soát chuỗi 226 ngày và khớp 100% doanh số 14,843 tỷ đ. Tuân thủ nghiêm ngặt Luật Bảo vệ dữ liệu cá nhân 2025 và Nghị định 356/2025/NĐ-CP (có hiệu lực từ 01/01/2026): áp dụng thuật toán Salted SHA-256 bí danh hóa creator_id, làm tròn dải GMV/follower cho bản công khai, và thiết lập vùng cách ly PII riêng biệt.',
+          'Engineered reproducible 3-tier ETL pipeline (raw → staging → mart) executing across 8 FastMoss xlsx exports via a single automated runner. Implemented 8 rigorous Data Quality Gates (error/warn severity) verifying 226 continuous days and matching 100% of 14.843B VND GMV. Full compliance with Vietnam Personal Data Protection Law 2025 and Decree 356/2025/NĐ-CP (effective Jan 1, 2026): applies Salted SHA-256 pseudonymization on creator handles, bucketizes GMV/followers for public release, and enforces air-gapped PII isolation.',
         )}
         kpis={[
           {
@@ -342,7 +344,7 @@ export default function KamiElyCommercialTab(_props: KamiElyCommercialTabProps) 
         codePeek={{ label: L('SQL (Giai đoạn 7)', 'SQL (Stage 7)'), code: sqlSnippets.s7 }}
       >
         <div className="lg:col-span-2 w-full">
-          <Stage7EtlAutomationAndPii />
+          <Stage7EtlAutomationAndPii data={commercialStages.stage7} />
         </div>
       </UnifiedSection>
     </div>

@@ -17,12 +17,20 @@ import {
   Chip,
   usePlaybookLang,
 } from '../playbook/PlaybookUi';
+import type { Stage7Payload } from '@/app/types/caseStudies';
+import { buildStage7Data } from '@/app/lib/kamiElyStagesData';
 
-export default function Stage7EtlAutomationAndPii() {
+export interface Stage7Props {
+  data?: Stage7Payload;
+}
+
+export default function Stage7EtlAutomationAndPii(props?: Stage7Props) {
   const { L } = usePlaybookLang();
   const [activeTab, setActiveTab] = useState<'pipeline' | 'quality_gates' | 'pii_compliance'>('quality_gates');
   const [activeSqlTab, setActiveSqlTab] = useState<number>(0);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  const _stageData = props?.data || buildStage7Data();
 
   // 7.2: Bảng 8 Cổng Kiểm Tra Chất Lượng Dữ Liệu (Data Quality Gates)
   const qualityGates = [
@@ -123,11 +131,11 @@ export default function Stage7EtlAutomationAndPii() {
     {
       title: L('1. Cổng Kiểm Tra Chất Lượng Dữ Liệu Tự Động (Data Quality Gates)', '1. Automated Quality Gates Verification'),
       desc: L('Kiểm tra tính liên tục của chuỗi ngày và đối soát sản lượng chính chủ trước khi build Marts', 'Verifies date continuity and cross-table own-brand volume parity before mart build'),
-      sql: `-- Kiểm tra Cổng 1: 180 ngày liên tục không thiếu ngày
+      sql: `-- Kiểm tra Cổng 1: 226 ngày liên tục không thiếu ngày
 SELECT COUNT(DISTINCT date) AS active_days,
        MIN(date) AS start_date,
        MAX(date) AS end_date,
-       CASE WHEN COUNT(DISTINCT date) = 180 THEN 'PASSED' ELSE 'FAILED' END AS gate_1_status
+       CASE WHEN COUNT(DISTINCT date) = 226 THEN 'PASSED' ELSE 'FAILED' END AS gate_1_status
 FROM stg_store_daily;
 
 -- Kiểm tra Cổng 4: Đối soát sản lượng kamielyhn giữa Creators và Goods (90 ngày)

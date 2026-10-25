@@ -594,8 +594,8 @@ ORDER BY 1;`,
               </h4>
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 {L(
-                  'Tách bạch 2 phễu vì khung thời gian khác nhau (90 ngày vs 180 ngày) để tránh kết luận ngụy biện',
-                  'Separating 2 funnels due to disparate observation windows (90d vs 180d) to maintain rigor',
+                  'Tách bạch 2 phễu vì khung thời gian khác nhau (90 ngày vs 226 ngày) để tránh kết luận ngụy biện',
+                  'Separating 2 funnels due to disparate observation windows (90d vs 226d) to maintain rigor',
                 )}
               </p>
             </div>
@@ -638,7 +638,7 @@ ORDER BY 1;`,
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="font-bold text-xs text-slate-900 dark:text-white">
-                  {L('Phễu 2: Affiliate LIVE (180 ngày)', 'Funnel 2: Live Affiliate (180d)')}
+                  {L('Phễu 2: Affiliate LIVE (226 ngày)', 'Funnel 2: Live Affiliate (226d)')}
                 </span>
                 <Chip tone="amber">Shop LIVE</Chip>
               </div>
@@ -667,7 +667,7 @@ ORDER BY 1;`,
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="font-bold text-xs text-slate-900 dark:text-white">
-                  {L('Đối chiếu: Shoppable Videos (180 ngày)', 'Shoppable Videos (180d)')}
+                  {L('Đối chiếu: Shoppable Videos (226 ngày)', 'Shoppable Videos (226d)')}
                 </span>
                 <Chip tone="cyan">Shoppable Videos</Chip>
               </div>

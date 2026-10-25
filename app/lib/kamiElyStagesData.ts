@@ -874,15 +874,42 @@ export function buildStage3Data(): Stage3Payload {
     { ym: '2026-10', label: 'T10', days: 20, isPartial: true, gmv: 1450389823, share: 9.8, gmvPerDay: 72519491, units: 10088, aov: 143774, momRaw: 106.9, momDay: 210.4 },
   ];
 
-  const dowSeasonality = [
-    { dow: 'Thứ 2', mean: 65.9, median: 62.8, index: 93.1, growthMed: 71.2, peakMed: 85.4, declineMed: 25.1 },
-    { dow: 'Thứ 3', mean: 67.2, median: 64.1, index: 95.0, growthMed: 73.5, peakMed: 88.0, declineMed: 26.3 },
-    { dow: 'Thứ 4', mean: 68.8, median: 65.5, index: 97.1, growthMed: 75.1, peakMed: 91.2, declineMed: 27.0 },
-    { dow: 'Thứ 5', mean: 71.4, median: 68.2, index: 101.1, growthMed: 78.4, peakMed: 95.8, declineMed: 28.5 },
-    { dow: 'Thứ 6', mean: 74.5, median: 71.0, index: 105.2, growthMed: 82.0, peakMed: 102.4, declineMed: 30.2 },
-    { dow: 'Thứ 7', mean: 76.8, median: 73.5, index: 108.9, growthMed: 85.6, peakMed: 108.9, declineMed: 32.1 },
-    { dow: 'Chủ nhật', mean: 69.1, median: 66.0, index: 97.8, growthMed: 76.2, peakMed: 94.5, declineMed: 27.8 },
-  ];
+  // Tính chỉ số mùa vụ theo thứ trong tuần (DOW Seasonality) từ 226 ngày liên tục
+  const DOW_NAMES = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
+  const DOW_ORDER = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];
+  const overallDailyMean = gmvSeries.reduce((s, x) => s + x, 0) / (daily.length || 1);
+
+  const dowBuckets: Record<string, { all: number[]; growth: number[]; peak: number[]; decline: number[] }> = {};
+  for (const name of DOW_ORDER) {
+    dowBuckets[name] = { all: [], growth: [], peak: [], decline: [] };
+  }
+
+  for (const d of daily) {
+    const dt = new Date(d.date + 'T00:00:00Z');
+    const dowName = DOW_NAMES[dt.getUTCDay()];
+    dowBuckets[dowName].all.push(d.gmv);
+
+    const ym = d.date.slice(0, 7);
+    if (ym >= '2026-03' && ym <= '2026-05') dowBuckets[dowName].growth.push(d.gmv);
+    else if (ym === '2026-06') dowBuckets[dowName].peak.push(d.gmv);
+    else if (ym >= '2026-07' && ym <= '2026-09') dowBuckets[dowName].decline.push(d.gmv);
+  }
+
+  const dowSeasonality = DOW_ORDER.map((name) => {
+    const b = dowBuckets[name];
+    const meanVal = b.all.length ? b.all.reduce((s, x) => s + x, 0) / b.all.length : 0;
+    const medianVal = percentile(b.all, 0.5);
+    const index = overallDailyMean > 0 ? (meanVal / overallDailyMean) * 100 : 100;
+    return {
+      dow: name,
+      mean: Math.round((meanVal / 1e6) * 10) / 10,
+      median: Math.round((medianVal / 1e6) * 10) / 10,
+      index: Math.round(index * 10) / 10,
+      growthMed: Math.round((percentile(b.growth, 0.5) / 1e6) * 10) / 10,
+      peakMed: Math.round((percentile(b.peak, 0.5) / 1e6) * 10) / 10,
+      declineMed: Math.round((percentile(b.decline, 0.5) / 1e6) * 10) / 10,
+    };
+  });
 
   const monthlySeries = m.store.monthly.map((x) => ({
     month: x.month,
@@ -1173,6 +1200,8 @@ export function buildStage5Data(): Stage5Payload {
     { ym: 'T6/2026', sessions: 51, orderRate: 98.0, avgViewers: 15015, unitsPer1k: 34.0, gmvPerView: 4888, gmvM: 3742.7 },
     { ym: 'T7/2026', sessions: 77, orderRate: 92.2, avgViewers: 4971, unitsPer1k: 11.4, gmvPerView: 1729, gmvM: 661.8 },
     { ym: 'T8/2026', sessions: 85, orderRate: 95.3, avgViewers: 2004, unitsPer1k: 11.9, gmvPerView: 1266, gmvM: 215.6 },
+    { ym: 'T9/2026', sessions: 80, orderRate: 90.0, avgViewers: 1870, unitsPer1k: 10.9, gmvPerView: 1262, gmvM: 188.8 },
+    { ym: 'T10/2026', sessions: 51, orderRate: 86.3, avgViewers: 2069, unitsPer1k: 25.5, gmvPerView: 3608, gmvM: 380.8 },
   ];
 
   const adsComparisonCards = {
