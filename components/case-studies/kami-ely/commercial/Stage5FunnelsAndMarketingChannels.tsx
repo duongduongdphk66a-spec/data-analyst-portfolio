@@ -90,7 +90,7 @@ export default function Stage5FunnelsAndMarketingChannels(props?: Stage5Props) {
       ],
     },
     ex_dominant: {
-      title: L('4. Loại bỏ 3 Creator chi phối (kamielyhn, _thzy.tien, girlstyle.vn)', '4. Excluding 3 Dominant Creators'),
+      title: L('4. Loại bỏ 3 Creator chi phối (kamielyhn, @koc_vid01, girlstyle.vn)', '4. Excluding 3 Dominant Creators'),
       desc: L('Loại trừ các tài khoản gánh phần lớn GMV để kiểm tra tính đại diện cho toàn bộ mạng lưới KOC ngoài.', 'Excludes top revenue-driving accounts to verify true external KOC representativeness.'),
       rows: [
         { metric: L('Số lượng video còn lại', 'Remaining Videos'), ads: '3.132', organic: '933', note: L('Loại 352 video của top 3 tài khoản', 'Excluded 352 videos from top 3 accounts') },
@@ -336,10 +336,10 @@ ORDER BY time_slot, dur_tier;`,
               <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
               <XAxis dataKey="ym" tick={axisTick} tickLine={false} axisLine={false} />
               <YAxis yAxisId="views" tick={axisTick} tickLine={false} axisLine={false} width={40}>
-                <Label value={L('Views/ca', 'Views/ses')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={10} />
+                <Label value={L('Views/ca', 'Views/ses')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={12} />
               </YAxis>
               <YAxis yAxisId="conv" orientation="right" tick={axisTick} tickLine={false} axisLine={false} width={35}>
-                <Label value={L('SP/1k views', 'Units/1k views')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={10} />
+                <Label value={L('SP/1k views', 'Units/1k views')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={12} />
               </YAxis>
               <Tooltip
                 cursor={{ fill: 'rgba(155,231,250,0.15)' }}
@@ -353,7 +353,7 @@ ORDER BY time_slot, dur_tier;`,
                   />
                 }
               />
-              <Legend wrapperStyle={{ fontSize: 11 }} formatter={legendFormatter} />
+              <Legend wrapperStyle={{ fontSize: 16 }} formatter={legendFormatter} />
               <Bar
                 yAxisId="views"
                 dataKey="avgViewers"
@@ -521,7 +521,7 @@ ORDER BY time_slot, dur_tier;`,
               <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
               <XAxis dataKey="slot" tick={axisTick} tickLine={false} axisLine={false} />
               <YAxis tick={axisTick} tickLine={false} axisLine={false} width={40}>
-                <Label value="(VNĐ/view)" position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={10} />
+                <Label value="(VNĐ/view)" position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={12} />
               </YAxis>
               <Tooltip
                 cursor={{ fill: 'rgba(155,231,250,0.15)' }}
@@ -533,7 +533,7 @@ ORDER BY time_slot, dur_tier;`,
                 }
               />
               <Bar dataKey="gmvPerViewer" name={L('GMV / Lượt xem (đ)', 'GMV / Viewer (VND)')} fill={COLORS.cyan} radius={[6, 6, 0, 0]}>
-                <LabelList dataKey="gmvPerViewer" position="top" fontSize={11} className={TEXT_FILL_CLASS} formatter={(v: unknown) => `${n(Number(v))} đ`} />
+                <LabelList dataKey="gmvPerViewer" position="top" fontSize={13} className={TEXT_FILL_CLASS} formatter={(v: unknown) => `${n(Number(v))} đ`} />
               </Bar>
             </BarChart>
           </ResponsiveContainer>

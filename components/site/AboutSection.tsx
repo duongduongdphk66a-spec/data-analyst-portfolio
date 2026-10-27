@@ -210,10 +210,10 @@ export default function AboutSection() {
         {/* Right Column: Editorial "About Me" Introduction */}
         <div className="lg:col-span-8 p-6 sm:p-10 lg:p-14 flex flex-col justify-center">
           <span className="text-sm font-semibold text-[#074553] dark:text-[#9BE7FA] mb-2">
-            {isVi ? "Giới thiệu bản thân" : "Who I am, what I do & why it matters"}
+            {isVi ? "Hồ sơ năng lực & Định hướng nghề nghiệp" : "Who I am, what I do & why it matters"}
           </span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6">
-            About Me
+            {isVi ? "Giới Thiệu Bản Thân" : "About Me"}
           </h1>
 
           <div className="space-y-4 text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-200">
@@ -272,7 +272,7 @@ export default function AboutSection() {
           </h2>
           <p className="mt-2 text-slate-600 dark:text-slate-400 text-sm sm:text-base">
             {isVi
-              ? "Ba mắt xích liền mạch được chuẩn hóa qua các dự án phân tích thực chiến."
+              ? "Ba mắt xích liền mạch được chuẩn hóa qua các dự án phân tích dữ liệu."
               : "Three continuous phases validated across real-world analytical case studies."}
           </p>
         </div>
@@ -652,7 +652,7 @@ export default function AboutSection() {
                           : "Academic Research"
                         : item.roleType === "business"
                         ? isVi
-                          ? "Vận hành Thực chiến"
+                          ? "Vận hành Doanh nghiệp"
                           : "Business Operations"
                         : isVi
                         ? "Phát triển Sản phẩm"

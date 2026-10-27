@@ -37,8 +37,8 @@ export default function Stage7EtlAutomationAndPii(props?: Stage7Props) {
     {
       gate: L('1. Chuỗi ngày liên tục', '1. Continuous Date Range'),
       scope: 'stg_store',
-      expected: L('Đủ 226 ngày không đứt đoạn (09/03 – 20/10/2026)', '226 uninterrupted days (Mar 09 - Oct 20)'),
-      actual: '226/226 ngày',
+      expected: L('Đủ 231 ngày không đứt đoạn (09/03 – 25/10/2026)', '231 uninterrupted days (Mar 09 - Oct 25)'),
+      actual: '231/231 ngày',
       level: 'error',
       status: 'passed',
       note: L('Đảm bảo tính toàn vẹn chuỗi thời gian', 'Guarantees time-series continuity'),
@@ -46,8 +46,8 @@ export default function Stage7EtlAutomationAndPii(props?: Stage7Props) {
     {
       gate: L('2. Kiểm soát tổng doanh số', '2. Total Sales Reconciliation'),
       scope: 'stg_store',
-      expected: '100.669 sp · 14.842.597.762 VNĐ',
-      actual: '100.669 sp · 14.842.597.762 VNĐ',
+      expected: '101.896 sp · 15.009.083.662 VNĐ',
+      actual: '101.896 sp · 15.009.083.662 VNĐ',
       level: 'error',
       status: 'passed',
       note: L('Khớp tuyệt đối 100% không lệch 1 xu', '100% exact currency reconciliation'),
@@ -131,11 +131,11 @@ export default function Stage7EtlAutomationAndPii(props?: Stage7Props) {
     {
       title: L('1. Cổng Kiểm Tra Chất Lượng Dữ Liệu Tự Động (Data Quality Gates)', '1. Automated Quality Gates Verification'),
       desc: L('Kiểm tra tính liên tục của chuỗi ngày và đối soát sản lượng chính chủ trước khi build Marts', 'Verifies date continuity and cross-table own-brand volume parity before mart build'),
-      sql: `-- Kiểm tra Cổng 1: 226 ngày liên tục không thiếu ngày
+      sql: `-- Kiểm tra Cổng 1: 231 ngày liên tục không thiếu ngày
 SELECT COUNT(DISTINCT date) AS active_days,
        MIN(date) AS start_date,
        MAX(date) AS end_date,
-       CASE WHEN COUNT(DISTINCT date) = 226 THEN 'PASSED' ELSE 'FAILED' END AS gate_1_status
+       CASE WHEN COUNT(DISTINCT date) = 231 THEN 'PASSED' ELSE 'FAILED' END AS gate_1_status
 FROM stg_store_daily;
 
 -- Kiểm tra Cổng 4: Đối soát sản lượng kamielyhn giữa Creators và Goods (90 ngày)

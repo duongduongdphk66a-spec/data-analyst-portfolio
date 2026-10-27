@@ -121,18 +121,18 @@ export function LibraryBusHero({
                   {card.badge[lang]}
                 </span>
               </div>
-              <h2 className="text-xs font-semibold text-slate-500 dark:text-slate-400 min-h-[34px] flex items-start leading-snug">
+              <h2 className="text-sm font-semibold text-slate-500 dark:text-slate-400 min-h-[34px] flex items-start leading-snug">
                 {card.title[lang]}
               </h2>
               <div className="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-950 dark:text-white tracking-tight min-h-[72px] flex items-center">
                 {card.primaryValue}
               </div>
-              <div className="text-xs tabular-nums font-semibold text-[#074553] dark:text-[#9BE7FA] min-h-[34px] flex items-start leading-snug">
+              <div className="text-sm tabular-nums font-bold text-[#074553] dark:text-[#9BE7FA] min-h-[34px] flex items-start leading-snug">
                 {card.exactSubValue}
               </div>
             </div>
 
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed pt-3 mt-auto">
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed pt-3 mt-auto">
               {card.comparisonNote[lang]}
             </p>
           </div>

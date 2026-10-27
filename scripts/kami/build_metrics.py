@@ -167,7 +167,7 @@ def build_store(conn=None):
             df = df.sort_values("Date").reset_index(drop=True)
             start, end = df["Date"].min(), df["Date"].max()
             window = f"{len(df)}N ({start:%d/%m}–{end:%d/%m/%Y})"
-            src = "kami_store_daily_overview (226 ngày liên tục)"
+            src = f"kami_store_daily_overview ({len(df)} ngày liên tục)"
         except Exception as e:
             print(f"Warning: Could not load store daily from MySQL: {e}")
             df = None
@@ -733,8 +733,12 @@ def main():
         print(f"MySQL unavailable, falling back to raw files: {e}")
 
     if conn is not None:
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM kami_store_daily_overview;")
+        store_rows = int(cur.fetchone()[0])
+        cur.close()
         meta = [
-            {"key": "store", "file": "kami_store_daily_overview (226 continuous days)", "rows": 226, "columns": 11},
+            {"key": "store", "file": f"kami_store_daily_overview ({store_rows} continuous days)", "rows": store_rows, "columns": 11},
             {"key": "goods", "file": "kami_creator_products (Snapshot Hè + Thu)", "rows": 787, "columns": 14},
             {"key": "ch_live", "file": "kami_creator_livestreams", "rows": 600, "columns": 12},
             {"key": "ch_video", "file": "kami_creator_videos", "rows": 276, "columns": 10},

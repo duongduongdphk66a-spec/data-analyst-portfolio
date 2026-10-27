@@ -6,7 +6,7 @@ import { useLanguage } from '@/app/context/LanguageContext';
 import { trackVisitorAction } from '@/app/lib/visitorTracking';
 
 import KamiElyHero from '@/components/case-studies/kami-ely/KamiElyHero';
-import KamiElyNav from '@/components/case-studies/kami-ely/KamiElyNav';
+import KamiElyNav, { KAMI_SECTION_IDS } from '@/components/case-studies/kami-ely/KamiElyNav';
 import KamiElyCommercialTab from '@/components/case-studies/kami-ely/commercial/KamiElyCommercialTab';
 
 import ScienceNotebookModal from '@/components/case-studies/kami-ely/science/ScienceNotebookModal';
@@ -25,42 +25,27 @@ export default function KamiElyProject(props: KamiElyProjectProps = {}) {
   const { language } = useLanguage();
   const isEn = language === 'en';
 
-  const [activeSection, setActiveSection] = useState<string>('sec-stage-1-architecture');
-
+  const [activeSection, setActiveSection] = useState<string>('sec-exec-summary');
   const [isNotebookModalOpen, setIsNotebookModalOpen] = useState(false);
   const [selectedSnippetIdx, setSelectedSnippetIdx] = useState(0);
   const [copiedCode, setCopiedCode] = useState(false);
 
   useEffect(() => {
     trackVisitorAction(
-      'Xem chi tiết dự án: Kami Ely (@kamielyhn) E-Commerce & Affiliate Analytics (Ma Văn Hùng)',
+      'Xem chi tiết dự án: Kami Ely E-Commerce & Affiliate Analytics (Ma Văn Hùng)',
       'proj-kami-ely',
       'project'
     );
   }, []);
 
-  // Update active section on scroll across 7 unified stages
   useEffect(() => {
-    const sectionIds = [
-      'sec-stage-1-architecture',
-      'sec-stage-2-profile-clean',
-      'sec-stage-3-timeseries',
-      'sec-stage-4-creator-cohorts',
-      'sec-stage-5-funnels-channels',
-      'sec-stage-6-anomalies',
-      'sec-stage-7-etl-pii',
-    ];
-
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 140;
-      for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sectionIds[i]);
-        if (el) {
-          const top = el.offsetTop;
-          if (scrollPosition >= top) {
-            setActiveSection(sectionIds[i]);
-            break;
-          }
+      for (let i = KAMI_SECTION_IDS.length - 1; i >= 0; i--) {
+        const el = document.getElementById(KAMI_SECTION_IDS[i]);
+        if (el && scrollPosition >= el.offsetTop) {
+          setActiveSection(KAMI_SECTION_IDS[i]);
+          break;
         }
       }
     };
@@ -77,42 +62,51 @@ export default function KamiElyProject(props: KamiElyProjectProps = {}) {
     }
   };
 
+  const handleJumpToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    const el = document.getElementById(sectionId);
+    if (el) {
+      if (sectionId === 'sec-appendix') {
+        el.dispatchEvent(new CustomEvent('kami-open-appendix'));
+      }
+      const y = el.getBoundingClientRect().top + window.scrollY - 92;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8 min-h-[100dvh] bg-ground font-sans text-slate-900 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
-      {/* 1. HERO SECTION */}
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-5 min-h-[100dvh] bg-ground font-sans text-slate-900 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-200">
       <KamiElyHero
         isEn={isEn}
         onOpenNotebook={() => setIsNotebookModalOpen(true)}
+        onJumpToSection={handleJumpToSection}
       />
 
-      {/* 2. STICKY NAVIGATION */}
       <KamiElyNav
         activeSection={activeSection}
         onSelectSection={setActiveSection}
         onBack={handleBack}
       />
 
-      <main className="w-full space-y-12">
-        {/* TOÀN BỘ 7 GIAI ĐOẠN PHÂN TÍCH CHUẨN SSOT */}
+      <main className="w-full">
         <KamiElyCommercialTab
           isEn={isEn}
           telemetryData={props.initialData}
+          onOpenNotebook={() => setIsNotebookModalOpen(true)}
         />
       </main>
 
-      {/* 3. UNIFIED CASE STUDY FOOTER */}
       <CaseStudyFooter
         isEn={isEn}
         currentProjectId="proj-kami-ely"
         attribution={{
-          datasetVi: 'TikTok Seller Center & FastMoss Telemetry',
-          datasetEn: 'TikTok Seller Center & FastMoss Telemetry',
-          scopeVi: '226 ngày (09/03–20/10/2026) · 9 bảng · 21.569 dòng SSOT',
-          scopeEn: '226 days (Mar 09 – Oct 20, 2026) · 9 tables · 21,569 SSOT rows',
+          datasetVi: 'Dữ liệu ước tính bên thứ ba (FastMoss Market Intelligence)',
+          datasetEn: 'Third-party Market Intelligence Estimate (FastMoss)',
+          scopeVi: '231 ngày (09/03 - 25/10/2026) · 9 bảng chính + 1 bảng phụ trợ SKU · Đã giả danh hóa PII KOC',
+          scopeEn: '231 days (Mar 09 - Oct 25, 2026) · 9 core + 1 SKU panel tables · Pseudonymized creator IDs',
         }}
       />
 
-      {/* MODALS */}
       <ScienceNotebookModal
         isOpen={isNotebookModalOpen}
         onClose={() => setIsNotebookModalOpen(false)}

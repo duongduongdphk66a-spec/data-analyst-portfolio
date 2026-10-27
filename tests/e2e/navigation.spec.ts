@@ -22,7 +22,7 @@ test.describe('Navigation and Core Interactions', () => {
 
   test('should navigate to case study via Projects tab', async ({ page }) => {
     // The link text is usually "Work" or "Dự Án"
-    const projectsTab = page.locator('a[href="/projects"]').first();
+    const projectsTab = page.locator('a[href*="/projects"]').first();
     if (await projectsTab.count() > 0) {
       await projectsTab.click({ force: true });
       await page.waitForTimeout(500); // let UI update

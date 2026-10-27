@@ -226,7 +226,7 @@ ORDER BY 1;`,
                 <XAxis dataKey="ym" tick={axisTick} tickLine={false} axisLine={false} />
                 <YAxis tick={axisTick} tickLine={false} axisLine={false} width={38} />
                 <Tooltip cursor={{ fill: 'rgba(155,231,250,0.15)' }} content={<ChartTooltip fmt={(v) => `${n(v)} creator`} />} />
-                <Legend wrapperStyle={{ fontSize: 11 }} formatter={legendFormatter} />
+                <Legend wrapperStyle={{ fontSize: 16 }} formatter={legendFormatter} />
                 <Bar dataKey="newCreators" name={L('Tuyển mới', 'New Recruited')} fill={COLORS.cyan} radius={[4, 4, 0, 0]} />
                 <Bar dataKey="activeAppear" name={L('Còn xuất hiện', 'Active Appeared')} fill={COLORS.amber} radius={[4, 4, 0, 0]} />
                 <Bar dataKey="activeSales" name={L('Có ra đơn (GMV>0)', 'Active Sellers')} fill={COLORS.teal} radius={[4, 4, 0, 0]} />
@@ -524,10 +524,10 @@ ORDER BY 1;`,
                 <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
                 <XAxis dataKey="cohort" tick={axisTick} tickLine={false} axisLine={false} />
                 <YAxis tick={axisTick} tickLine={false} axisLine={false} width={45}>
-                  <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+                  <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={16} />
                 </YAxis>
                 <Tooltip cursor={{ fill: 'rgba(155,231,250,0.15)' }} content={<ChartTooltip fmt={(v) => `${n(v, 1)} Tr đ`} />} />
-                <Legend wrapperStyle={{ fontSize: 11 }} formatter={legendFormatter} />
+                <Legend wrapperStyle={{ fontSize: 16 }} formatter={legendFormatter} />
                 <Bar
                   dataKey={girlStyleScope === 'with' ? 'withGs' : 'withoutGs'}
                   name={girlStyleScope === 'with' ? L('GMV (Có Girl Style)', 'GMV (With GS)') : L('GMV (Không có Girl Style)', 'GMV (Excl. GS)')}
@@ -537,7 +537,7 @@ ORDER BY 1;`,
                   <LabelList
                     dataKey={girlStyleScope === 'with' ? 'withGs' : 'withoutGs'}
                     position="top"
-                    fontSize={10}
+                    fontSize={12}
                     className={TEXT_FILL_CLASS}
                     formatter={(v: unknown) => `${n(Number(v), 0)}M`}
                   />

@@ -25,26 +25,7 @@ CREATE TABLE IF NOT EXISTS `kami_store_daily_overview` (
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 2. Table: kami_livestream_products (Products in Livestreams)
-CREATE TABLE IF NOT EXISTS `kami_livestream_products` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `product_name` VARCHAR(500) NOT NULL,
-  `price_raw` VARCHAR(100) DEFAULT '',
-  `region` VARCHAR(50) DEFAULT '',
-  `category` VARCHAR(255) DEFAULT '',
-  `shop_name` VARCHAR(255) DEFAULT '',
-  `shop_total_units_sold` INT DEFAULT 0,
-  `live_units_sold` INT DEFAULT 0,
-  `live_revenue_vnd` DECIMAL(15,2) DEFAULT 0.00,
-  `commission_rate` VARCHAR(50) DEFAULT '',
-  `row_hash` CHAR(64) NOT NULL UNIQUE,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  INDEX `idx_product_name` (`product_name`(255)),
-  INDEX `idx_shop_name` (`shop_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- 3. Table: kami_creator_livestreams (Main Creator Livestream Sessions)
+-- 2. Table: kami_creator_livestreams (Main Creator Livestream Sessions)
 CREATE TABLE IF NOT EXISTS `kami_creator_livestreams` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(500) NOT NULL,
@@ -64,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `kami_creator_livestreams` (
   INDEX `idx_title` (`title`(255))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 4. Table: kami_creator_products (Main Creator Goods for Sale - Multi-Snapshot Partitioning)
+-- 3. Table: kami_creator_products (Main Creator Goods for Sale - Multi-Snapshot Partitioning)
 CREATE TABLE IF NOT EXISTS `kami_creator_products` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `product_name` VARCHAR(500) NOT NULL,
@@ -88,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `kami_creator_products` (
   UNIQUE KEY `uk_prod_shop_period` (`product_name`(255), `shop_name`, `snapshot_period`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 5. Table: kami_creator_videos (Main Creator Short Videos)
+-- 4. Table: kami_creator_videos (Main Creator Short Videos)
 CREATE TABLE IF NOT EXISTS `kami_creator_videos` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `title` TEXT,
@@ -106,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `kami_creator_videos` (
   UNIQUE KEY `uk_publish_time` (`publish_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 6. Table: kami_affiliate_videos (Shoppable Videos LKTT Network)
+-- 5. Table: kami_affiliate_videos (Shoppable Videos LKTT Network)
 CREATE TABLE IF NOT EXISTS `kami_affiliate_videos` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `title` TEXT,
@@ -130,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `kami_affiliate_videos` (
   INDEX `idx_publish_time` (`publish_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 7. Table: kami_shop_products (Store Catalog & 90-Day Telemetry)
+-- 6. Table: kami_shop_products (Store Catalog & 90-Day Telemetry)
 CREATE TABLE IF NOT EXISTS `kami_shop_products` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `product_title` VARCHAR(500) NOT NULL,
@@ -148,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `kami_shop_products` (
   INDEX `idx_launch_time` (`launch_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 8. Table: kami_affiliate_kol (Affiliate Creators Network)
+-- 7. Table: kami_affiliate_kol (Affiliate Creators Network)
 CREATE TABLE IF NOT EXISTS `kami_affiliate_kol` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `koc_name` VARCHAR(255) DEFAULT '',
@@ -167,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `kami_affiliate_kol` (
   INDEX `idx_koc_id` (`koc_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 9. Table: kami_affiliate_livestreams (Affiliate Livestreams Network)
+-- 8. Table: kami_affiliate_livestreams (Affiliate Livestreams Network)
 CREATE TABLE IF NOT EXISTS `kami_affiliate_livestreams` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(500) DEFAULT '',

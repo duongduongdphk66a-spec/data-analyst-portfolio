@@ -39,14 +39,14 @@ interface SnapshotMetric {
 
 const SNAPSHOT_METRICS: Record<Lang, SnapshotMetric[]> = {
   vi: [
-    { label: 'Quy mô GMV Phân tích', value: '31,6 Tỉ đ', sub: '14,84 Tỉ (Chu kỳ 226d)' },
-    { label: 'Kho Dữ liệu SQL', value: '21.569 Dòng', sub: '9 Bảng • Star Schema' },
+    { label: 'Quy mô GMV Phân tích', value: '31,6 Tỉ đ', sub: '15,01 Tỉ (Chu kỳ 231d)' },
+    { label: 'Kho Dữ liệu SQL', value: '21.573 Dòng', sub: '9 Bảng • Star Schema' },
     { label: 'Mô hình & Kiểm định', value: 'R² = 0,84', sub: 'OLS • DiD • What-If ROI' },
     { label: 'Kiến trúc & Dashboard', value: '20 Cặp Màn hình', sub: 'End-to-End Dataflow' },
   ],
   en: [
-    { label: 'Audited GMV Scale', value: '31.6B VND', sub: '14.84B (226d Cycle)' },
-    { label: 'SQL Warehouse', value: '21,569 Rows', sub: '9 Tables • Star Schema' },
+    { label: 'Audited GMV Scale', value: '31.6B VND', sub: '15.01B (231d Cycle)' },
+    { label: 'SQL Warehouse', value: '21,573 Rows', sub: '9 Tables • Star Schema' },
     { label: 'Models & Econometrics', value: 'R² = 0.84', sub: 'OLS • DiD • What-If ROI' },
     { label: 'Systems & Dashboards', value: '20 Screen Pairs', sub: 'End-to-End Dataflow' },
   ],
@@ -72,7 +72,7 @@ const CONTENT: Record<
   }
 > = {
   vi: {
-    badge: 'Hành trình Thực chiến & Tác động Kinh doanh',
+    badge: 'Hành trình Chuyên môn & Tác động Kinh doanh',
     title: 'Kinh nghiệm làm việc & Dự án trọng điểm',
     subtitle:
       'Mỗi giai đoạn dưới đây thể hiện quá trình chuyển hóa các bài toán dữ liệu phức tạp thành kết quả định lượng và hệ thống vận hành thực tế.',
@@ -96,7 +96,7 @@ const CONTENT: Record<
     experiences: [
       {
         id: 'exp-1',
-        period: 'Giai đoạn Thực chiến • E-Commerce & Creator Economy',
+        period: 'Kinh nghiệm Dự án • E-Commerce & Creator Economy',
         role: 'Data Analyst: Thương mại Điện tử & Phân tích Kênh bán',
         organization: 'Dự án Phân tích Chuyên sâu TikTok Shop (Kami Ely)',
         domainTag: 'E-Commerce & TikTok Shop Analytics',
@@ -120,7 +120,7 @@ const CONTENT: Record<
       },
       {
         id: 'exp-2',
-        period: 'Giai đoạn Thực chiến • Product Analytics & System Design',
+        period: 'Kinh nghiệm Dự án • Product Analytics & System Design',
         role: 'Product & BI Analyst: Thiết kế Hệ thống & Dashboard Quản trị',
         organization: 'Hệ sinh thái Thư viện Lưu động (Library Bus)',
         domainTag: 'System Architecture & BI Dashboard',
@@ -492,7 +492,7 @@ export default function ExperiencePage() {
           </p>
         </div>
         <Link
-          href="/projects"
+          href="/projects/proj-kami-ely"
           className="min-h-[44px] px-6 py-3 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] font-extrabold text-sm whitespace-nowrap transition-colors flex items-center gap-2 cursor-pointer border border-[#9BE7FA]"
         >
           <span>{t.ctaBottomBtn}</span>

@@ -44,6 +44,7 @@ import {
 } from '../playbook/PlaybookUi';
 import type { Stage3Payload } from '@/app/types/caseStudies';
 import { buildStage3Data } from '@/app/lib/kamiElyStagesData';
+import Stage3SkuSeasonalTransition from './Stage3SkuSeasonalTransition';
 
 export interface Stage3Props {
   data?: Stage3Payload;
@@ -169,7 +170,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Chip tone="cyan">226/226 Ngày Có Đơn</Chip>
+            <Chip tone="cyan">231/231 Ngày Có Đơn</Chip>
             <Chip tone="amber">Chuẩn hóa GMV/Ngày</Chip>
           </div>
         </div>
@@ -183,8 +184,8 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
               {L(
-                'Tạo đủ 226 ngày (09/03 – 20/10/2026). LEFT JOIN xác nhận Store Detail không bị khuyết ngày nào (min 49 sp/ngày). Gắn cờ is_partial_month cho T3 (23 ngày) và T10 (20 ngày).',
-                'Full 226 continuous days mapped (09/03 - 20/10/2026). LEFT JOIN verifies Store Detail has 0 missing days (min 49 units/day). Partial month flags for Mar (23d) & Oct (20d).',
+                'Tạo đủ 231 ngày (09/03 – 25/10/2026). LEFT JOIN xác nhận Store Detail không bị khuyết ngày nào (min 49 sp/ngày). Gắn cờ is_partial_month cho T3 (23 ngày) và T10 (25 ngày).',
+                'Full 231 continuous days mapped (09/03 - 25/10/2026). LEFT JOIN verifies Store Detail has 0 missing days (min 49 units/day). Partial month flags for Mar (23d) & Oct (25d).',
               )}
             </p>
           </div>
@@ -243,13 +244,13 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
               </h4>
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 {L(
-                  'Tổng GMV 14,84 tỷ VNĐ, sản lượng 100.669 sản phẩm, tăng trưởng MoM chuẩn hóa ngày',
-                  'Total 14.84B VND GMV, 100,669 units, day-normalized MoM growth trajectory',
+                  'Tổng GMV 15,01 tỷ VNĐ, sản lượng 101.896 sản phẩm, tăng trưởng MoM chuẩn hóa ngày',
+                  'Total 15.01B VND GMV, 101,896 units, day-normalized MoM growth trajectory',
                 )}
               </p>
             </div>
           </div>
-          <Chip tone="cyan">Tổng 14,84 Tỷ đ</Chip>
+          <Chip tone="cyan">Tổng 15,01 Tỷ đ</Chip>
         </div>
 
         {/* Bảng chi tiết 7 tháng */}
@@ -324,7 +325,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
           title={
             dailyView === 'daily'
               ? L('GMV theo ngày, Đường trung bình trượt 7 ngày MA7 & Điểm đỉnh 16/06 (triệu đ)', 'Daily GMV, 7-day Moving Average MA7 & Peak Day (M VND)')
-              : L('Doanh số lũy kế 226 ngày và quỹ đạo tích lũy (tỉ đ)', '226-day Cumulative GMV Trajectory (B VND)')
+              : L('Doanh số lũy kế 231 ngày và quỹ đạo tích lũy (tỉ đ)', '231-day Cumulative GMV Trajectory (B VND)')
           }
           subtitle={L(
             'Làm mượt nhiễu dao động ngày bằng hàm cửa sổ AVG() OVER; ngày đỉnh 16/06 chạm 315,0 triệu đ',
@@ -353,10 +354,10 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                 <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
                 <XAxis dataKey="label" interval={Math.floor(dailySeries.length / 7)} tick={axisTick} tickLine={false} axisLine={false} />
                 <YAxis tick={axisTick} tickLine={false} axisLine={false} width={45}>
-                  <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+                  <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={16} />
                 </YAxis>
                 <Tooltip cursor={{ fill: 'rgba(155,231,250,0.15)' }} content={<ChartTooltip fmt={(v) => `${n(v, 1)} Tr`} />} />
-                <Legend wrapperStyle={{ fontSize: 12 }} formatter={legendFormatter} />
+                <Legend wrapperStyle={{ fontSize: 16 }} formatter={legendFormatter} />
                 <Bar dataKey="gmv" name="GMV Ngày" fill={COLORS.cyan} radius={[2, 2, 0, 0]} />
                 <Line dataKey="ma7" name={L('MA7 ngày', '7-day MA')} stroke={COLORS.deep} strokeWidth={2.5} dot={false} connectNulls={false} />
                 <ReferenceDot x="16/06" y={315.0} r={6} fill={COLORS.amber} stroke={COLORS.deep} strokeWidth={2} />
@@ -372,7 +373,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                 <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
                 <XAxis dataKey="label" interval={Math.floor(dailySeries.length / 7)} tick={axisTick} tickLine={false} axisLine={false} />
                 <YAxis tick={axisTick} tickLine={false} axisLine={false} width={45}>
-                  <Label value={L('(Tỉ đ)', '(B VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+                  <Label value={L('(Tỉ đ)', '(B VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={13} />
                 </YAxis>
                 <Tooltip content={<ChartTooltip fmt={(v) => `${n(v, 2)} Tỉ`} />} />
                 <Area type="monotone" dataKey="cumulativeB" name={L('Lũy kế GMV', 'Cumulative GMV')} stroke={COLORS.deep} strokeWidth={2.5} fill="url(#pbCum3)" />
@@ -416,12 +417,12 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                 <div className="p-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-50/70 dark:bg-slate-800/40">
                   <span className="text-xs text-slate-500 block mb-0.5">{L('7 Ngày quanh đỉnh (13–19/06):', '7 Days around Peak:')}</span>
                   <span className="tabular-nums font-bold text-slate-900 dark:text-white text-sm">1,09 Tỷ đ</span>
-                  <span className="text-xs text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">7,34% {L('tổng 226 ngày', 'of 226d total')}</span>
+                  <span className="text-xs text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">7,26% {L('tổng 231 ngày', 'of 231d total')}</span>
                 </div>
                 <div className="p-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-50/70 dark:bg-slate-800/40">
                   <span className="text-xs text-slate-500 block mb-0.5">{L('14 Ngày quanh đỉnh:', '14 Days Window:')}</span>
                   <span className="tabular-nums font-bold text-slate-900 dark:text-white text-sm">1,90 Tỷ đ</span>
-                  <span className="text-xs text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">12,80% {L('tổng 226 ngày', 'of 226d total')}</span>
+                  <span className="text-xs text-[#0D7287] dark:text-[#9BE7FA] block mt-0.5 font-bold">12,66% {L('tổng 231 ngày', 'of 231d total')}</span>
                 </div>
               </div>
 
@@ -509,10 +510,10 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                 <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
                 <XAxis dataKey="dow" tick={axisTick} tickLine={false} axisLine={false} />
                 <YAxis tick={axisTick} tickLine={false} axisLine={false} domain={[80, 120]}>
-                  <Label value="(%)" position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+                  <Label value="(%)" position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={16} />
                 </YAxis>
                 <Tooltip cursor={{ fill: 'rgba(155,231,250,0.15)' }} content={<ChartTooltip fmt={(v) => `${n(v, 1)}%`} />} />
-                <ReferenceLine y={100} stroke="#94A3B8" strokeDasharray="4 4" label={{ value: '100% Trung bình', position: 'insideBottomRight', fontSize: 10, fill: '#64748B' }} />
+                <ReferenceLine y={100} stroke="#94A3B8" strokeDasharray="4 4" label={{ value: '100% Trung bình', position: 'insideBottomRight', fontSize: 16, fill: '#64748B' }} />
                 <Bar dataKey="index" name={L('Chỉ số mùa vụ (%)', 'Seasonal Index (%)')} fill={COLORS.cyan} radius={[4, 4, 0, 0]}>
                   {dowSeasonality.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.dow === 'Thứ 5' ? COLORS.amber : COLORS.cyan} />
@@ -574,8 +575,8 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
               </h4>
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 {L(
-                  'Tương quan chuỗi tuần 226 ngày (Pearson/Spearman) và phân rã nguyên nhân GMV rơi 82,9%',
-                  '226-day weekly correlation suite and causal decomposition of the 82.9% GMV collapse',
+                  'Tương quan chuỗi tuần 231 ngày (Pearson/Spearman) và phân rã nguyên nhân GMV rơi 82,9%',
+                  '231-day weekly correlation suite and causal decomposition of the 82.9% GMV collapse',
                 )}
               </p>
             </div>
@@ -611,7 +612,7 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                   <XAxis dataKey="lag" tick={axisTick} tickLine={false} axisLine={false} />
                   <YAxis domain={[0.2, 0.5]} tick={axisTick} tickLine={false} axisLine={false} />
                   <Tooltip content={<ChartTooltip fmt={(v) => `${n(v, 3)}`} />} />
-                  <Legend wrapperStyle={{ fontSize: 11 }} formatter={legendFormatter} />
+                  <Legend wrapperStyle={{ fontSize: 16 }} formatter={legendFormatter} />
                   <Bar dataKey="rLives" name={L('Live vs GMV(t)', 'Live vs GMV(t)')} fill={COLORS.cyan} radius={[3, 3, 0, 0]} />
                   <Bar dataKey="rKoc" name={L('KOC vs GMV(t)', 'KOC vs GMV(t)')} fill={COLORS.amber} radius={[3, 3, 0, 0]} />
                 </BarChart>
@@ -661,14 +662,14 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
           </div>
         </div>
 
-        {/* Biểu đồ 33 tuần (226 ngày): GMV vs Live vs Hiệu suất */}
+        {/* Biểu đồ 33 tuần (231 ngày): GMV vs Live vs Hiệu suất */}
         <ChartCard
           title={
             weeklyView === 'gmv_lives'
-              ? L(`Theo dõi ${weeklySeries.length} tuần (226 ngày): Doanh thu GMV tuần (triệu đ) vs Số ca Live tuần`, `${weeklySeries.length}-Week Tracking (226 Days): Weekly GMV (M VND) vs Weekly Live Sessions`)
-              : L(`Theo dõi ${weeklySeries.length} tuần (226 ngày): Hiệu suất GMV trung bình trên mỗi ca Live (nghìn đ/ca)`, `${weeklySeries.length}-Week Tracking (226 Days): Average GMV per Live Session (k VND/session)`)
+              ? L(`Theo dõi ${weeklySeries.length} tuần (231 ngày): Doanh thu GMV tuần (triệu đ) vs Số ca Live tuần`, `${weeklySeries.length}-Week Tracking (231 Days): Weekly GMV (M VND) vs Weekly Live Sessions`)
+              : L(`Theo dõi ${weeklySeries.length} tuần (231 ngày): Hiệu suất GMV trung bình trên mỗi ca Live (nghìn đ/ca)`, `${weeklySeries.length}-Week Tracking (231 Days): Average GMV per Live Session (k VND/session)`)
           }
-          subtitle={L('Bao phủ trọn vẹn 226 ngày: đỉnh điểm Tuần 25 (15–21/06 đạt 1,06 Tỷ đ), pha hạ nhiệt Quý 3 và chu kỳ phục hồi trở lại vào Tháng 10', 'Full 226-day coverage: Week 25 peak (1.06B VND), Q3 seasonal cooling, and October rebound')}
+          subtitle={L('Bao phủ trọn vẹn 231 ngày: đỉnh điểm Tuần 25 (15–21/06 đạt 1,06 Tỷ đ), pha hạ nhiệt Quý 3 và chu kỳ phục hồi trở lại vào Tháng 10', 'Full 231-day coverage: Week 25 peak (1.06B VND), Q3 seasonal cooling, and October rebound')}
           badge={
             <div className="flex rounded-xl bg-[#C8EEF7]/40 p-1 dark:bg-slate-800">
               {(['gmv_lives', 'efficiency'] as const).map((k) => (
@@ -692,13 +693,13 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                 <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
                 <XAxis dataKey="label" interval={3} tick={axisTick} tickLine={false} axisLine={false} />
                 <YAxis yAxisId="left" tick={axisTick} tickLine={false} axisLine={false} width={45}>
-                  <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+                  <Label value={L('(Tr đ)', '(M VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={16} />
                 </YAxis>
                 <YAxis yAxisId="right" orientation="right" tick={axisTick} tickLine={false} axisLine={false} width={35}>
-                  <Label value={L('(Ca)', '(Lives)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+                  <Label value={L('(Ca)', '(Lives)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={16} />
                 </YAxis>
                 <Tooltip content={<ChartTooltip fmt={(v) => `${n(v, 1)}`} />} />
-                <Legend wrapperStyle={{ fontSize: 12 }} formatter={legendFormatter} />
+                <Legend wrapperStyle={{ fontSize: 16 }} formatter={legendFormatter} />
                 <Bar yAxisId="left" dataKey="gmv" name="GMV Tuần" fill={COLORS.cyan} radius={[2, 2, 0, 0]} />
                 <Line yAxisId="right" dataKey="lives" name={L('Số ca Live', 'Lives Count')} stroke={COLORS.amber} strokeWidth={2.5} dot={false} />
               </ComposedChart>
@@ -707,19 +708,24 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
                   <CartesianGrid stroke={GRID_STROKE} vertical={false} strokeDasharray="3 3" />
                   <XAxis dataKey="label" interval={3} tick={axisTick} tickLine={false} axisLine={false} />
                   <YAxis tick={axisTick} tickLine={false} axisLine={false} width={45}>
-                    <Label value={L('(k đ)', '(k VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={11} />
+                    <Label value={L('(k đ)', '(k VND)')} position="top" offset={10} className={TEXT_FILL_CLASS} fontSize={16} />
                   </YAxis>
                   <Tooltip content={<ChartTooltip fmt={(v) => `${n(v)} k đ`} />} />
-                  <Legend wrapperStyle={{ fontSize: 12 }} formatter={legendFormatter} />
+                  <Legend wrapperStyle={{ fontSize: 16 }} formatter={legendFormatter} />
                   <Line dataKey="gmvPerLive" name={L('GMV / ca Live (nghìn đ)', 'GMV / Live (k VND)')} stroke={COLORS.deep} strokeWidth={2.5} dot={{ r: 3 }} />
-                  <ReferenceLine y={2000} stroke="#94A3B8" strokeDasharray="4 4" label={{ value: '2.000k Mốc chuẩn', position: 'top', fontSize: 10, fill: '#64748B' }} />
+                  <ReferenceLine y={2000} stroke="#94A3B8" strokeDasharray="4 4" label={{ value: '2.000k Mốc chuẩn', position: 'top', fontSize: 16, fill: '#64748B' }} />
                 </ComposedChart>
             )}
           </ResponsiveContainer>
         </ChartCard>
       </div>
 
-      {/* 3.4: Kỹ thuật SQL & 3.6: Các giới hạn khoa học */}
+      {/* 3.3: Phân Tích Chuyển Trạng Thái Mùa Vụ Theo Từng Mã Hàng (10 SKU Thực Nghiệm) - Chiếm Trọn Bề Ngang Toàn Màn Hình */}
+      <div className="w-full">
+        <Stage3SkuSeasonalTransition skuData={stageData.skuSeasonality} />
+      </div>
+
+      {/* 3.4: Kỹ thuật SQL & 3.5: Các giới hạn khoa học */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Truy vấn SQL mẫu */}
         <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs flex flex-col justify-between">
@@ -779,11 +785,11 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
           </div>
         </div>
 
-        {/* 3.6: 6 Hạn chế bắt buộc phải nêu rõ */}
+        {/* 3.5: 6 Hạn chế bắt buộc phải nêu rõ */}
         <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
           <div className="flex items-center gap-2.5 pb-3 mb-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400 font-black text-slate-950 text-sm">
-              3.6
+              3.5
             </span>
             <div>
               <h4 className="text-sm font-black text-slate-950 dark:text-white">
@@ -809,8 +815,8 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
               <span className="h-1.5 w-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
               <div>
                 <strong>{L('2. Cỡ mẫu tuần (33 tuần):', '2. Weekly Sample Size (33 Weeks):')}</strong> {L(
-                  '33 tuần quan sát phủ đủ 226 ngày từ T3 đến T10/2026, phản ánh đầy đủ cả pha tăng trưởng, thoái trào hè và phục hồi thu đông.',
-                  '33 weekly observations cover all 226 continuous days from Mar to Oct 2026, capturing growth, summer contraction, and autumn recovery.',
+                  '33 tuần quan sát phủ đủ 231 ngày từ T3 đến T10/2026, phản ánh đầy đủ cả pha tăng trưởng, thoái trào hè và phục hồi thu đông.',
+                  '33 weekly observations cover all 231 continuous days from Mar to Oct 2026, capturing growth, summer contraction, and autumn recovery.',
                 )}
               </div>
             </li>
@@ -818,8 +824,8 @@ JOIN (SELECT * FROM summary WHERE CAST(m AS INT) = 8) a;`,
               <span className="h-1.5 w-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
               <div>
                 <strong>{L('3. Tháng biên chu kỳ:', '3. Boundary Partial Months:')}</strong> {L(
-                  'Tháng 3 (23 ngày) và Tháng 10 (20 ngày tại thời điểm snapshot) được chuẩn hóa theo GMV bình quân ngày để đảm bảo tính so sánh công bằng.',
-                  'March (23d) and October (20d at snapshot date) are day-normalized to ensure fair period comparison.',
+                  'Tháng 3 (23 ngày) và Tháng 10 (25 ngày tại thời điểm snapshot) được chuẩn hóa theo GMV bình quân ngày để đảm bảo tính so sánh công bằng.',
+                  'March (23d) and October (25d at snapshot date) are day-normalized to ensure fair period comparison.',
                 )}
               </div>
             </li>

@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-10-21T18:57:13",
+  "generatedAt": "2026-10-27T03:13:38",
   "generator": "scripts/kami/build_metrics.py",
   "dataScope": [
     {
       "key": "store",
-      "file": "kami_store_daily_overview (226 continuous days)",
-      "rows": 226,
+      "file": "kami_store_daily_overview (231 continuous days)",
+      "rows": 231,
       "columns": 11
     },
     {
@@ -58,70 +58,70 @@
     }
   ],
   "store": {
-    "window": "226N (09/03–20/10/2026)",
-    "source": "kami_store_daily_overview (226 ngày liên tục)",
+    "window": "231N (09/03–25/10/2026)",
+    "source": "kami_store_daily_overview (231 ngày liên tục)",
     "totals": {
       "gmv": {
-        "value": 14842597762.0,
-        "window": "226N (09/03–20/10/2026)",
+        "value": 15009083662.0,
+        "window": "231N (09/03–25/10/2026)",
         "scope": "Toàn shop",
-        "source": "kami_store_daily_overview (226 ngày liên tục)",
+        "source": "kami_store_daily_overview (231 ngày liên tục)",
         "unit": "VND"
       },
       "units": {
-        "value": 100669,
-        "window": "226N (09/03–20/10/2026)",
+        "value": 101896,
+        "window": "231N (09/03–25/10/2026)",
         "scope": "Toàn shop",
-        "source": "kami_store_daily_overview (226 ngày liên tục)",
+        "source": "kami_store_daily_overview (231 ngày liên tục)",
         "unit": "sản phẩm"
       },
       "avgGmvPerDay": {
-        "value": 65675211.0,
-        "window": "226N (09/03–20/10/2026)",
+        "value": 64974388.0,
+        "window": "231N (09/03–25/10/2026)",
         "scope": "Toàn shop",
-        "source": "kami_store_daily_overview (226 ngày liên tục)",
+        "source": "kami_store_daily_overview (231 ngày liên tục)",
         "unit": "VND"
       },
       "medianGmvPerDay": {
-        "value": 62198148.0,
-        "window": "226N (09/03–20/10/2026)",
+        "value": 59960284.0,
+        "window": "231N (09/03–25/10/2026)",
         "scope": "Toàn shop",
-        "source": "kami_store_daily_overview (226 ngày liên tục)",
+        "source": "kami_store_daily_overview (231 ngày liên tục)",
         "unit": "VND"
       },
       "stdGmvPerDay": {
-        "value": 43091781.0,
-        "window": "226N (09/03–20/10/2026)",
+        "value": 42926458.0,
+        "window": "231N (09/03–25/10/2026)",
         "scope": "Toàn shop",
-        "source": "kami_store_daily_overview (226 ngày liên tục)",
+        "source": "kami_store_daily_overview (231 ngày liên tục)",
         "unit": "VND"
       },
       "avgUnitsPerDay": {
-        "value": 445.0,
-        "window": "226N (09/03–20/10/2026)",
+        "value": 441.0,
+        "window": "231N (09/03–25/10/2026)",
         "scope": "Toàn shop",
-        "source": "kami_store_daily_overview (226 ngày liên tục)",
+        "source": "kami_store_daily_overview (231 ngày liên tục)",
         "unit": "sản phẩm"
       },
       "avgKocPerDay": {
         "value": 34.3,
-        "window": "226N (09/03–20/10/2026)",
+        "window": "231N (09/03–25/10/2026)",
         "scope": "Toàn shop",
-        "source": "kami_store_daily_overview (226 ngày liên tục)",
+        "source": "kami_store_daily_overview (231 ngày liên tục)",
         "unit": ""
       },
       "avgLivesPerDay": {
-        "value": 36.7,
-        "window": "226N (09/03–20/10/2026)",
+        "value": 36.4,
+        "window": "231N (09/03–25/10/2026)",
         "scope": "Toàn shop",
-        "source": "kami_store_daily_overview (226 ngày liên tục)",
+        "source": "kami_store_daily_overview (231 ngày liên tục)",
         "unit": ""
       },
       "avgVideosPerDay": {
-        "value": 15.7,
-        "window": "226N (09/03–20/10/2026)",
+        "value": 15.8,
+        "window": "231N (09/03–25/10/2026)",
         "scope": "Toàn shop",
-        "source": "kami_store_daily_overview (226 ngày liên tục)",
+        "source": "kami_store_daily_overview (231 ngày liên tục)",
         "unit": ""
       }
     },
@@ -154,7 +154,7 @@
         "gmv": 949812912.0,
         "units": 8039,
         "gmvPerDay": 41296214.0,
-        "shareOfTotalPct": 6.4,
+        "shareOfTotalPct": 6.33,
         "momRawPct": null,
         "momPerDayPct": null,
         "avgKocPerDay": 24.7,
@@ -168,7 +168,7 @@
         "gmv": 2459105727.0,
         "units": 17358,
         "gmvPerDay": 81970191.0,
-        "shareOfTotalPct": 16.57,
+        "shareOfTotalPct": 16.38,
         "momRawPct": 158.9,
         "momPerDayPct": 98.49,
         "avgKocPerDay": 66.2,
@@ -182,7 +182,7 @@
         "gmv": 2747315221.0,
         "units": 17267,
         "gmvPerDay": 88623072.0,
-        "shareOfTotalPct": 18.51,
+        "shareOfTotalPct": 18.3,
         "momRawPct": 11.72,
         "momPerDayPct": 8.12,
         "avgKocPerDay": 37.4,
@@ -196,7 +196,7 @@
         "gmv": 3772428748.0,
         "units": 22096,
         "gmvPerDay": 125747625.0,
-        "shareOfTotalPct": 25.42,
+        "shareOfTotalPct": 25.13,
         "momRawPct": 37.31,
         "momPerDayPct": 41.89,
         "avgKocPerDay": 36.1,
@@ -210,7 +210,7 @@
         "gmv": 2125850482.0,
         "units": 13358,
         "gmvPerDay": 68575822.0,
-        "shareOfTotalPct": 14.32,
+        "shareOfTotalPct": 14.16,
         "momRawPct": -43.65,
         "momPerDayPct": -45.47,
         "avgKocPerDay": 21.9,
@@ -224,7 +224,7 @@
         "gmv": 636689605.0,
         "units": 6622,
         "gmvPerDay": 20538374.0,
-        "shareOfTotalPct": 4.29,
+        "shareOfTotalPct": 4.24,
         "momRawPct": -70.05,
         "momPerDayPct": -70.05,
         "avgKocPerDay": 16.9,
@@ -238,7 +238,7 @@
         "gmv": 701005244.0,
         "units": 5841,
         "gmvPerDay": 23366841.0,
-        "shareOfTotalPct": 4.72,
+        "shareOfTotalPct": 4.67,
         "momRawPct": 10.1,
         "momPerDayPct": 13.77,
         "avgKocPerDay": 30.8,
@@ -247,61 +247,61 @@
       },
       {
         "month": "2026-10",
-        "days": 20,
+        "days": 25,
         "isPartial": true,
-        "gmv": 1450389823.0,
-        "units": 10088,
-        "gmvPerDay": 72519491.0,
-        "shareOfTotalPct": 9.77,
-        "momRawPct": 106.9,
-        "momPerDayPct": 210.35,
-        "avgKocPerDay": 41.2,
-        "avgLivesPerDay": 29.6,
-        "avgVideosPerDay": 29.6
+        "gmv": 1616875723.0,
+        "units": 11315,
+        "gmvPerDay": 64675029.0,
+        "shareOfTotalPct": 10.77,
+        "momRawPct": 130.65,
+        "momPerDayPct": 176.78,
+        "avgKocPerDay": 39.4,
+        "avgLivesPerDay": 28.1,
+        "avgVideosPerDay": 27.8
       }
     ],
     "outliers": [
       {
         "date": "2026-06-16",
         "gmv": 315047108,
-        "z": 5.79,
-        "robustZ": 5.5
+        "z": 5.83,
+        "robustZ": 5.81
       },
       {
         "date": "2026-06-25",
         "gmv": 196094529,
-        "z": 3.03,
-        "robustZ": 2.91
+        "z": 3.05,
+        "robustZ": 3.1
       }
     ],
     "outlierMethod": "|z| > 3 hoặc robust z (median/MAD) > 3.5",
     "marketingCorrelation": {
       "koc": {
         "label": "KOC gắn sản phẩm/ngày",
-        "spearmanRho": 0.419,
-        "spearmanP": 5.26e-11,
+        "spearmanRho": 0.415,
+        "spearmanP": 4.7e-11,
         "pearsonR": 0.299,
-        "pearsonP": 4.68e-06,
-        "withinMonthSpearmanRho": 0.049,
-        "withinMonthSpearmanP": 0.463
+        "pearsonP": 3.74e-06,
+        "withinMonthSpearmanRho": 0.07,
+        "withinMonthSpearmanP": 0.289
       },
       "lives": {
         "label": "Phiên LIVE gắn sản phẩm/ngày",
-        "spearmanRho": 0.475,
-        "spearmanP": 4.32e-14,
-        "pearsonR": 0.417,
-        "pearsonP": 6.58e-11,
-        "withinMonthSpearmanRho": -0.041,
-        "withinMonthSpearmanP": 0.543
+        "spearmanRho": 0.478,
+        "spearmanP": 1.38e-14,
+        "pearsonR": 0.422,
+        "pearsonP": 2.16e-11,
+        "withinMonthSpearmanRho": -0.025,
+        "withinMonthSpearmanP": 0.707
       },
       "videos": {
         "label": "Video gắn sản phẩm/ngày",
-        "spearmanRho": 0.043,
-        "spearmanP": 0.524,
-        "pearsonR": 0.061,
-        "pearsonP": 0.361,
-        "withinMonthSpearmanRho": 0.092,
-        "withinMonthSpearmanP": 0.166
+        "spearmanRho": 0.036,
+        "spearmanP": 0.582,
+        "pearsonR": 0.055,
+        "pearsonP": 0.406,
+        "withinMonthSpearmanRho": 0.108,
+        "withinMonthSpearmanP": 0.101
       }
     },
     "dayOfWeekMedianGmv": [
@@ -315,23 +315,23 @@
       },
       {
         "day": "T4",
-        "medianGmv": 62615296.0
+        "medianGmv": 62583244.0
       },
       {
         "day": "T5",
-        "medianGmv": 70257304.0
+        "medianGmv": 67453415.0
       },
       {
         "day": "T6",
-        "medianGmv": 57438839.0
+        "medianGmv": 55013612.0
       },
       {
         "day": "T7",
-        "medianGmv": 61061875.0
+        "medianGmv": 59960284.0
       },
       {
         "day": "CN",
-        "medianGmv": 65484332.0
+        "medianGmv": 64312889.0
       }
     ],
     "daily": [
@@ -2129,19 +2129,59 @@
       },
       {
         "date": "2026-10-19",
-        "gmv": 54039561,
-        "units": 389,
+        "gmv": 54413650,
+        "units": 391,
         "koc": 40,
         "lives": 33,
         "videos": 28
       },
       {
         "date": "2026-10-20",
-        "gmv": 39252480,
-        "units": 284,
+        "gmv": 39832468,
+        "units": 287,
         "koc": 41,
         "lives": 27,
         "videos": 33
+      },
+      {
+        "date": "2026-10-21",
+        "gmv": 24228048,
+        "units": 170,
+        "koc": 34,
+        "lives": 10,
+        "videos": 29
+      },
+      {
+        "date": "2026-10-22",
+        "gmv": 58261810,
+        "units": 450,
+        "koc": 32,
+        "lives": 21,
+        "videos": 19
+      },
+      {
+        "date": "2026-10-23",
+        "gmv": 30528200,
+        "units": 213,
+        "koc": 35,
+        "lives": 36,
+        "videos": 19
+      },
+      {
+        "date": "2026-10-24",
+        "gmv": 31272089,
+        "units": 232,
+        "koc": 35,
+        "lives": 25,
+        "videos": 26
+      },
+      {
+        "date": "2026-10-25",
+        "gmv": 21241676,
+        "units": 157,
+        "koc": 25,
+        "lives": 20,
+        "videos": 12
       }
     ]
   },
@@ -3630,7 +3670,7 @@
   },
   "derived": {
     "girlStyleLiveShareOfShopGmvPct": {
-      "value": 8.46,
+      "value": 8.37,
       "window": "180N",
       "scope": "Toàn shop",
       "source": "_shop LIVE (180 ngày) 1.xlsx ÷ Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
@@ -3646,7 +3686,7 @@
       "note": "Tổng GMV LIVE của Kami Ely + Girl Style (cùng 1 đội ngũ in-house vận hành)."
     },
     "inhouseDualChannelLiveShareOfShopGmvPct": {
-      "value": 55.78,
+      "value": 55.17,
       "window": "180N",
       "scope": "Toàn shop",
       "source": "_shop LIVE (180 ngày) 1.xlsx ÷ Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
@@ -3670,14 +3710,14 @@
       "note": "GMV LIVE từ mạng lưới affiliate bên ngoài thực thụ sau khi bóc tách Girl Style."
     },
     "trueExternalAffiliateLiveShareOfShopGmvPct": {
-      "value": 6.62,
+      "value": 6.55,
       "window": "180N",
       "scope": "Toàn shop",
       "source": "_shop LIVE (180 ngày) 1.xlsx ÷ Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
       "unit": "%"
     },
     "liveShareOfShopGmvPct": {
-      "value": 62.4,
+      "value": 61.71,
       "window": "180N",
       "scope": "Toàn shop",
       "source": "_shop LIVE (180 ngày) 1.xlsx ÷ Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",

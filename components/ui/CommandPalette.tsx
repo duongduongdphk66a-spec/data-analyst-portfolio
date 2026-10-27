@@ -83,189 +83,187 @@ export default function CommandPalette({
     [closePalette, pathname, router]
   );
 
-  const commands: CommandItem[] = useMemo(
-    () => {
-      const items: CommandItem[] = [
-        {
-          id: 'case-kami-ely',
-          category: { vi: 'Dự Án Mũi Nhọn (Case Studies)', en: 'Featured Case Studies' },
-          title: {
-            vi: 'TikTok Shop Kami Ely (@kamielyhn): 14,84 Tỉ VNĐ (226d)',
-            en: 'TikTok Shop Kami Ely (@kamielyhn): 14.84B VND (226d)'
-          },
-          subtitle: {
-            vi: 'Phân tích 9 bảng dữ liệu (21.569 dòng), Phễu LIVE, Kệ hàng 1,17M views & What-If ROI',
-            en: '9 datasets (21,569 rows), LIVE Funnel, 1.17M Card views & What-If ROI Simulator'
-          },
-          keywords: 'kami ely tiktok shop ecommerce live video koc affiliate sql 180d 90d',
-          icon: <ShoppingBag className="w-4 h-4 text-[#9BE7FA]" />,
-          action: () => {
-            navigateSpa('/projects/proj-kami-ely');
-            onSelectProject?.('proj-kami-ely');
-          }
+  const commands: CommandItem[] = useMemo(() => {
+    const items: CommandItem[] = [
+      {
+        id: 'case-kami-ely',
+        category: { vi: 'Dự án mũi nhọn (Case studies)', en: 'Featured case studies' },
+        title: {
+          vi: 'Kami Ely: Phân tích TikTok Shop & mạng lưới Affiliate (15,01 tỷ đ · 231N)',
+          en: 'Kami Ely: TikTok Shop & Affiliate Network Analytics (15.01B VND · 231d)',
         },
-        {
-          id: 'case-heritage-japan',
-          category: { vi: 'Dự Án Mũi Nhọn (Case Studies)', en: 'Featured Case Studies' },
-          title: {
-            vi: 'Di Sản Văn Hóa & Kinh Tế Du Lịch Nhật Bản',
-            en: 'Japan Cultural Heritage & Tourism Economics'
-          },
-          subtitle: {
-            vi: 'Kiểm định thống kê, Hồi quy không gian & Đánh giá chính sách công',
-            en: 'Statistical testing, Spatial regression & Public policy evaluation'
-          },
-          keywords: 'heritage japan tourism policy statistics thesis',
-          icon: <Landmark className="w-4 h-4 text-[#FFD14C]" />,
-          action: () => {
-            navigateSpa('/projects/proj-heritage-japan');
-            onSelectProject?.('proj-heritage-japan');
-          }
+        subtitle: {
+          vi: 'Phân tích 10 bảng FastMoss, hồi quy OLS mùa vụ, Cohort 302 KOC, chỉ số HHI & 9/9 cổng chất lượng',
+          en: '10 FastMoss tables, seasonal OLS regression, 302-KOC cohorts, HHI & 9/9 quality gates',
         },
-        {
-          id: 'case-library-bus',
-          category: { vi: 'Dự Án Mũi Nhọn (Case Studies)', en: 'Featured Case Studies' },
-          title: {
-            vi: 'Library Bus: Thiết kế UX/UI Website Thư Viện Lưu Động',
-            en: 'Library Bus: UX/UI Design for a Mobile Library Website'
-          },
-          subtitle: {
-            vi: 'Nghiên cứu UX, sitemap, wireframe và UI design cho 20 màn hình desktop kèm bản mobile',
-            en: 'UX research, sitemap, wireframes and UI design for 20 desktop screens plus mobile'
-          },
-          keywords: 'library bus ux ui design wireframe sitemap responsive',
-          icon: <Bus className="w-4 h-4 text-[#9BE7FA]" />,
-          action: () => {
-            navigateSpa('/projects/proj-library-bus');
-            onSelectProject?.('proj-library-bus');
-          }
+        keywords: 'kami ely tiktok shop ecommerce live video koc affiliate sql ols hhi 231d',
+        icon: <ShoppingBag className="w-4 h-4 text-[#9BE7FA]" />,
+        action: () => {
+          navigateSpa('/projects/proj-kami-ely');
+          onSelectProject?.('proj-kami-ely');
         },
-        {
-          id: 'nav-home',
-          category: { vi: 'Công Cụ & Điều Hướng', en: 'Navigation & Tools' },
-          title: { vi: 'Trang Chủ Tổng Quan (Dashboard)', en: 'Home Overview Dashboard' },
-          subtitle: { vi: 'Về đầu trang chủ & Tổng hợp chỉ số Portfolio', en: 'Return to main portfolio dashboard' },
-          keywords: 'home dashboard overview main',
-          icon: <Home className="w-4 h-4 text-slate-300" />,
-          action: () => {
-            navigateSpa('/');
-            onSelectTab?.('home');
-          }
+      },
+      {
+        id: 'case-heritage-japan',
+        category: { vi: 'Dự án mũi nhọn (Case studies)', en: 'Featured case studies' },
+        title: {
+          vi: 'Di sản văn hóa & kinh tế du lịch Nhật Bản',
+          en: 'Japan Cultural Heritage & Tourism Economics',
         },
-        {
-          id: 'nav-projects',
-          category: { vi: 'Công Cụ & Điều Hướng', en: 'Navigation & Tools' },
-          title: { vi: 'Danh Mục Tất Cả Dự Án (/projects)', en: 'All Projects Directory (/projects)' },
-          subtitle: { vi: 'Xem toàn bộ các dự án Phân tích Dữ liệu & BI', en: 'Browse all Data Analytics & BI projects' },
-          keywords: 'projects portfolio list case studies',
-          icon: <FolderOpen className="w-4 h-4 text-slate-300" />,
-          action: () => {
-            navigateSpa('/projects');
-            onSelectTab?.('projects');
-          }
+        subtitle: {
+          vi: 'Kiểm định thống kê, hồi quy không gian & đánh giá chính sách công',
+          en: 'Statistical testing, spatial regression & public policy evaluation',
         },
-        {
-          id: 'nav-experience',
-          category: { vi: 'Công Cụ & Điều Hướng', en: 'Navigation & Tools' },
-          title: { vi: 'Kinh Nghiệm & Hồ Sơ Năng Lực (/experience)', en: 'Experience & Resume (/experience)' },
-          subtitle: { vi: 'Quá trình làm việc, Kỹ năng SQL/Python/BI & Học vấn', en: 'Work history, SQL/Python/BI skills & Education' },
-          keywords: 'experience cv resume career skills',
-          icon: <Briefcase className="w-4 h-4 text-slate-300" />,
-          action: () => {
-            navigateSpa('/experience');
-            onSelectTab?.('experience');
-          }
+        keywords: 'heritage japan tourism policy statistics thesis',
+        icon: <Landmark className="w-4 h-4 text-[#FFD14C]" />,
+        action: () => {
+          navigateSpa('/projects/proj-heritage-japan');
+          onSelectProject?.('proj-heritage-japan');
         },
-        {
-          id: 'nav-about',
-          category: { vi: 'Công Cụ & Điều Hướng', en: 'Navigation & Tools' },
-          title: { vi: 'Giới Thiệu & Kiểm Toán SQL (/about)', en: 'About & SQL Reconciliation Audit (/about)' },
-          subtitle: { vi: 'Hồ sơ năng lực, bằng chứng kiểm toán số liệu & phương pháp luận', en: 'Core competencies, telemetry audit proof & methodology' },
-          keywords: 'about profile skills audit reconciliation sql',
-          icon: <User className="w-4 h-4 text-slate-300" />,
-          action: () => {
-            navigateSpa('/about');
-            onSelectTab?.('about');
-          }
+      },
+      {
+        id: 'case-library-bus',
+        category: { vi: 'Dự án mũi nhọn (Case studies)', en: 'Featured case studies' },
+        title: {
+          vi: 'Library Bus: Thiết kế UX/UI Website thư viện lưu động',
+          en: 'Library Bus: UX/UI Design for a Mobile Library Website',
         },
-        {
-          id: 'action-download-cv',
-          category: { vi: 'Tài Liệu & Thiết Lập', en: 'Documents & Preferences' },
-          title: {
-            vi: 'Tải Xuống CV PDF (Mã Văn Hùng - Data Analyst 2026)',
-            en: 'Download Resume PDF (Ma Van Hung - Data Analyst 2026)'
-          },
-          subtitle: {
-            vi: 'Mở hoặc tải trực tiếp tệp PDF hồ sơ năng lực chính thức',
-            en: 'Open or download official PDF curriculum vitae'
-          },
-          keywords: 'download cv resume pdf ma van hung',
-          icon: <FileText className="w-4 h-4 text-[#FFD14C]" />,
-          action: () => {
-            closePalette();
-            window.open('/Ma_Van_Hung_CV_Data_Analyst_2026.pdf', '_blank', 'noopener,noreferrer');
-          }
+        subtitle: {
+          vi: 'Nghiên cứu UX, sitemap, wireframe và UI design cho 20 màn hình desktop kèm bản mobile',
+          en: 'UX research, sitemap, wireframes and UI design for 20 desktop screens plus mobile',
         },
-        {
-          id: 'action-toggle-lang',
-          category: { vi: 'Tài Liệu & Thiết Lập', en: 'Documents & Preferences' },
-          title: {
-            vi: lang === 'vi' ? 'Chuyển Ngôn Ngữ: Tiếng Anh (English)' : 'Switch Language: Vietnamese (Tiếng Việt)',
-            en: lang === 'vi' ? 'Switch Language: English' : 'Switch Language: Tiếng Việt'
-          },
-          subtitle: { vi: 'Thay đổi ngôn ngữ hiển thị toàn trang tức thì', en: 'Toggle site-wide display language' },
-          keywords: 'language vietnamese english vi en translate',
-          icon: <Globe className="w-4 h-4 text-[#9BE7FA]" />,
-          action: () => {
-            setLanguage(lang === 'vi' ? 'en' : 'vi');
-            closePalette();
-          }
+        keywords: 'library bus ux ui design wireframe sitemap responsive',
+        icon: <Bus className="w-4 h-4 text-[#9BE7FA]" />,
+        action: () => {
+          navigateSpa('/projects/proj-library-bus');
+          onSelectProject?.('proj-library-bus');
         },
-        {
-          id: 'action-toggle-theme',
-          category: { vi: 'Tài Liệu & Thiết Lập', en: 'Documents & Preferences' },
-          title: {
-            vi: `Chuyển Giao Diện: ${(resolvedTheme || theme) === 'dark' ? 'Chế Độ Sáng (Light)' : 'Chế Độ Tối (Dark)'}`,
-            en: `Switch Theme: ${(resolvedTheme || theme) === 'dark' ? 'Light Mode' : 'Dark Mode'}`
-          },
-          subtitle: { vi: 'Tối ưu độ tương phản thị giác theo môi trường', en: 'Toggle dark/light visual theme' },
-          keywords: 'theme dark light mode appearance',
-          icon: (resolvedTheme || theme) === 'dark' ? (
+      },
+      {
+        id: 'nav-home',
+        category: { vi: 'Công cụ & điều hướng', en: 'Navigation & tools' },
+        title: { vi: 'Trang chủ tổng quan', en: 'Home overview' },
+        subtitle: { vi: 'Về đầu trang chủ & tổng hợp hồ sơ Portfolio', en: 'Return to main portfolio page' },
+        keywords: 'home dashboard overview main',
+        icon: <Home className="w-4 h-4 text-slate-300" />,
+        action: () => {
+          navigateSpa('/');
+          onSelectTab?.('home');
+        },
+      },
+      {
+        id: 'nav-projects',
+        category: { vi: 'Công cụ & điều hướng', en: 'Navigation & tools' },
+        title: { vi: 'Báo cáo phân tích Kami Ely & Phụ lục SQL', en: 'Kami Ely Case Study & SQL Appendix' },
+        subtitle: { vi: 'Xem 7 chương phân tích dữ liệu TikTok Shop và thư viện SQL/Python', en: 'View 7-chapter TikTok Shop analytics and SQL/Python library' },
+        keywords: 'projects kami ely sql lab case study',
+        icon: <FolderOpen className="w-4 h-4 text-slate-300" />,
+        action: () => {
+          navigateSpa('/projects/proj-kami-ely');
+          onSelectProject?.('proj-kami-ely');
+        },
+      },
+      {
+        id: 'nav-experience',
+        category: { vi: 'Công cụ & điều hướng', en: 'Navigation & tools' },
+        title: { vi: 'Kinh nghiệm & hồ sơ năng lực (/experience)', en: 'Experience & Resume (/experience)' },
+        subtitle: { vi: 'Quá trình làm việc, kỹ năng SQL/Python/BI & học vấn', en: 'Work history, SQL/Python/BI skills & education' },
+        keywords: 'experience cv resume career skills',
+        icon: <Briefcase className="w-4 h-4 text-slate-300" />,
+        action: () => {
+          navigateSpa('/experience');
+          onSelectTab?.('experience');
+        },
+      },
+      {
+        id: 'nav-about',
+        category: { vi: 'Công cụ & điều hướng', en: 'Navigation & tools' },
+        title: { vi: 'Giới thiệu & phương pháp luận (/about)', en: 'About & methodology (/about)' },
+        subtitle: { vi: 'Hồ sơ năng lực, chuẩn đối soát dữ liệu & phương pháp phân tích', en: 'Core competencies, data reconciliation standards & methodology' },
+        keywords: 'about profile skills audit reconciliation sql',
+        icon: <User className="w-4 h-4 text-slate-300" />,
+        action: () => {
+          navigateSpa('/about');
+          onSelectTab?.('about');
+        },
+      },
+      {
+        id: 'action-download-cv',
+        category: { vi: 'Tài liệu & thiết lập', en: 'Documents & preferences' },
+        title: {
+          vi: 'Tải xuống CV PDF (Mã Văn Hùng - Data Analyst 2026)',
+          en: 'Download Resume PDF (Ma Van Hung - Data Analyst 2026)',
+        },
+        subtitle: {
+          vi: 'Mở hoặc tải trực tiếp tệp PDF hồ sơ năng lực chính thức',
+          en: 'Open or download official PDF curriculum vitae',
+        },
+        keywords: 'download cv resume pdf ma van hung',
+        icon: <FileText className="w-4 h-4 text-[#FFD14C]" />,
+        action: () => {
+          closePalette();
+          window.open('/Ma_Van_Hung_CV_Data_Analyst_2026.pdf', '_blank', 'noopener,noreferrer');
+        },
+      },
+      {
+        id: 'action-toggle-lang',
+        category: { vi: 'Tài liệu & thiết lập', en: 'Documents & preferences' },
+        title: {
+          vi: lang === 'vi' ? 'Chuyển ngôn ngữ: Tiếng Anh (English)' : 'Switch language: Vietnamese (Tiếng Việt)',
+          en: lang === 'vi' ? 'Switch language: English' : 'Switch language: Tiếng Việt',
+        },
+        subtitle: { vi: 'Thay đổi ngôn ngữ hiển thị toàn trang tức thì', en: 'Toggle site-wide display language' },
+        keywords: 'language vietnamese english vi en translate',
+        icon: <Globe className="w-4 h-4 text-[#9BE7FA]" />,
+        action: () => {
+          setLanguage(lang === 'vi' ? 'en' : 'vi');
+          closePalette();
+        },
+      },
+      {
+        id: 'action-toggle-theme',
+        category: { vi: 'Tài liệu & thiết lập', en: 'Documents & preferences' },
+        title: {
+          vi: `Chuyển giao diện: ${(resolvedTheme || theme) === 'dark' ? 'Chế độ sáng (Light)' : 'Chế độ tối (Dark)'}`,
+          en: `Switch theme: ${(resolvedTheme || theme) === 'dark' ? 'Light mode' : 'Dark mode'}`,
+        },
+        subtitle: { vi: 'Tối ưu độ tương phản thị giác theo môi trường', en: 'Toggle dark/light visual theme' },
+        keywords: 'theme dark light mode appearance',
+        icon:
+          (resolvedTheme || theme) === 'dark' ? (
             <Sun className="w-4 h-4 text-[#FFD14C]" />
           ) : (
             <Moon className="w-4 h-4 text-[#9BE7FA]" />
           ),
-          action: () => {
-            toggleTheme();
-            closePalette();
-          }
+        action: () => {
+          toggleTheme();
+          closePalette();
+        },
+      },
+    ];
+
+    if (propProjects && propProjects.length > 0) {
+      propProjects.forEach((p) => {
+        const bare = p.id.replace(/^proj-/, '');
+        if (!items.some((it) => it.id.includes(bare))) {
+          items.splice(3, 0, {
+            id: `case-${p.id}`,
+            category: { vi: 'Dự án bổ sung', en: 'Additional case studies' },
+            title: { vi: p.title, en: p.title },
+            subtitle: { vi: p.desc, en: p.desc },
+            keywords: `${p.title} ${p.tags?.join(' ') || ''}`.toLowerCase(),
+            icon: <BarChart3 className="w-4 h-4 text-[#9BE7FA]" />,
+            action: () => {
+              navigateSpa(`/projects/${p.id}`);
+              onSelectProject?.(p.id);
+            },
+          });
         }
-      ];
+      });
+    }
 
-      // Thêm các dự án mở rộng nếu có propProjects truyền vào
-      if (propProjects && propProjects.length > 0) {
-        propProjects.forEach((p) => {
-          if (!items.some((it) => it.id.includes(p.id))) {
-            items.splice(3, 0, {
-              id: `case-${p.id}`,
-              category: { vi: 'Dự Án Bổ Sung', en: 'Additional Case Studies' },
-              title: { vi: p.title, en: p.title },
-              subtitle: { vi: p.desc, en: p.desc },
-              keywords: `${p.title} ${p.tags?.join(' ') || ''}`.toLowerCase(),
-              icon: <BarChart3 className="w-4 h-4 text-[#9BE7FA]" />,
-              action: () => {
-                navigateSpa(`/projects/${p.id}`);
-                onSelectProject?.(p.id);
-              }
-            });
-          }
-        });
-      }
-
-      return items;
-    },
-    [closePalette, lang, navigateSpa, onSelectProject, onSelectTab, propProjects, resolvedTheme, setLanguage, theme, toggleTheme]
-  );
+    return items;
+  }, [closePalette, lang, navigateSpa, onSelectProject, onSelectTab, propProjects, resolvedTheme, setLanguage, theme, toggleTheme]);
 
   const filteredCommands = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -337,17 +335,6 @@ export default function CommandPalette({
 
   return (
     <>
-      {/* NÚT MỞ NHANH COMMAND PALETTE & TẢI CV TRÊN MOBILE (390px) */}
-      <button
-        type="button"
-        onClick={() => setInternalIsOpen(true)}
-        aria-label={lang === 'vi' ? 'Mở bảng tìm kiếm nhanh (Ctrl+K)' : 'Open quick command search (Ctrl+K)'}
-        className="lg:hidden fixed bottom-20 right-4 z-40 min-h-[44px] px-3.5 py-2 rounded-full bg-slate-900/95 hover:bg-slate-800 text-[#9BE7FA] border border-[#9BE7FA]/40 shadow-xl backdrop-blur-md flex items-center gap-1.5 text-xs font-bold cursor-pointer" /* taste-skill-ignore: floating button */
-      >
-        <Search className="w-3.5 h-3.5" />
-        <span>{lang === 'vi' ? 'Tìm nhanh / CV' : 'Search / CV'}</span>
-      </button>
-
       {isOpen && (
         <div
           role="dialog"
@@ -355,15 +342,9 @@ export default function CommandPalette({
           aria-label={lang === 'vi' ? 'Bảng điều khiển và tìm kiếm nhanh' : 'Command Palette Search'}
           className="fixed inset-0 z-[90] flex items-start justify-center pt-14 sm:pt-24 px-3 sm:px-4"
         >
-          {/* BACKDROP */}
-          <div
-            onClick={closePalette}
-            className="fixed inset-0 bg-slate-950/85 transition-opacity"
-          />
+          <div onClick={closePalette} className="fixed inset-0 bg-slate-950/85 transition-opacity" />
 
-          {/* DIALOG BOX */}
           <div className="relative z-10 w-full max-w-2xl rounded-2xl border border-slate-700/90 bg-slate-900 shadow-2xl overflow-hidden" /* taste-skill-ignore: modal overlay */>
-            {/* SEARCH INPUT BAR */}
             <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-800" /* taste-skill-ignore: form input divider */>
               <Search className="w-4 h-4 text-[#9BE7FA] shrink-0" />
               <input
@@ -373,8 +354,8 @@ export default function CommandPalette({
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={
                   lang === 'vi'
-                    ? 'Nhập tên dự án (Kami Ely, Japan, Library Bus), SQL Lab hoặc tải CV...'
-                    : 'Search projects (Kami Ely, Japan, Library Bus), SQL Lab, or download CV...'
+                    ? 'Nhập tên dự án (Kami Ely, Japan, Library Bus) hoặc tải CV...'
+                    : 'Search projects (Kami Ely, Japan, Library Bus) or download CV...'
                 }
                 aria-label={lang === 'vi' ? 'Ô nhập từ khóa tìm kiếm' : 'Command search input'}
                 className="w-full bg-transparent text-sm text-white placeholder-slate-400 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9BE7FA]/70"
@@ -388,7 +369,6 @@ export default function CommandPalette({
               </button>
             </div>
 
-            {/* COMMAND LIST */}
             <div className="max-h-[65vh] overflow-y-auto p-2 space-y-1">
               {filteredCommands.length === 0 ? (
                 <div className="py-10 text-center text-sm text-slate-400">
@@ -426,7 +406,6 @@ export default function CommandPalette({
               )}
             </div>
 
-            {/* FOOTER SHORTCUT HINTS */}
             <div className="px-4 py-2.5 bg-slate-950/90 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400" /* taste-skill-ignore: modal footer */>
               <div className="flex items-center gap-3">
                 <span><kbd>↑↓</kbd> {lang === 'vi' ? 'Di chuyển' : 'Navigate'}</span>

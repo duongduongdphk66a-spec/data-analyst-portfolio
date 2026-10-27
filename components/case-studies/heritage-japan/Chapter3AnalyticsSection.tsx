@@ -174,9 +174,9 @@ export function Chapter3AnalyticsSection({
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }}>
-                    <Label value="(M)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                  <XAxis dataKey="year" tick={{ fontSize: 16 }} />
+                  <YAxis tick={{ fontSize: 16 }}>
+                    <Label value="(M)" position="top" offset={10} fill="#94a3b8" fontSize={16} />
                   </YAxis>
                   <Tooltip formatter={(value: any) => [`${value} Triệu khách`, 'Khách quốc tế']} />
                   <Area type="monotone" dataKey="value" stroke="#0D7287" strokeWidth={3} fillOpacity={1} fill="url(#colorTourists)" name="Lượng khách quốc tế (triệu người)" />
@@ -188,9 +188,9 @@ export function Chapter3AnalyticsSection({
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={activeKyotoData} margin={{ top: 22, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }}>
-                    <Label value="(k)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                  <XAxis dataKey="year" tick={{ fontSize: 16 }} />
+                  <YAxis tick={{ fontSize: 16 }}>
+                    <Label value="(k)" position="top" offset={10} fill="#94a3b8" fontSize={16} />
                   </YAxis>
                   <Tooltip formatter={(value: any) => [`${value} Nghìn khách`, 'Khách quốc tế đến Kyoto']} />
                   <Bar dataKey="value" fill="#9BE7FA" stroke="#0D7287" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến TP Kyoto (nghìn người)" />
@@ -202,9 +202,9 @@ export function Chapter3AnalyticsSection({
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={activeNaraData} margin={{ top: 22, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }}>
-                    <Label value="(k)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                  <XAxis dataKey="year" tick={{ fontSize: 16 }} />
+                  <YAxis tick={{ fontSize: 16 }}>
+                    <Label value="(k)" position="top" offset={10} fill="#94a3b8" fontSize={16} />
                   </YAxis>
                   <Tooltip formatter={(value: any) => [`${value} Nghìn khách`, 'Khách quốc tế đến Nara']} />
                   <Bar dataKey="value" fill="#FFD14C" stroke="#FFD14C" strokeWidth={1} radius={[4, 4, 0, 0]} name="Khách đến Cố đô Nara (nghìn người)" />
@@ -361,9 +361,9 @@ export function Chapter3AnalyticsSection({
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }}>
-                    <Label value="(T¥)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                  <XAxis dataKey="year" tick={{ fontSize: 16 }} />
+                  <YAxis tick={{ fontSize: 16 }}>
+                    <Label value="(T¥)" position="top" offset={10} fill="#94a3b8" fontSize={16} />
                   </YAxis>
                   <Tooltip formatter={(value: any) => [`${value} Nghìn tỷ Yên`, 'Chi tiêu khách quốc tế']} />
                   <Area type="monotone" dataKey="value" stroke="#FFD14C" strokeWidth={3} fillOpacity={1} fill="url(#colorSpend)" name="Chi tiêu quốc tế (nghìn tỷ Yên)" />
@@ -375,9 +375,9 @@ export function Chapter3AnalyticsSection({
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={kyotoSpendData} margin={{ top: 22, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }}>
-                    <Label value="(B¥)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                  <XAxis dataKey="year" tick={{ fontSize: 16 }} />
+                  <YAxis tick={{ fontSize: 16 }}>
+                    <Label value="(B¥)" position="top" offset={10} fill="#94a3b8" fontSize={16} />
                   </YAxis>
                   <Tooltip formatter={(value: any) => [`${value} Tỷ Yên`, 'Chi tiêu tại Kyoto']} />
                   <Bar dataKey="value" fill="#0D7287" radius={[4, 4, 0, 0]} name="Chi tiêu du lịch TP Kyoto (tỷ Yên)" />
@@ -389,9 +389,9 @@ export function Chapter3AnalyticsSection({
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={naraSpendData} margin={{ top: 22, right: 30, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }}>
-                    <Label value="(B¥)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                  <XAxis dataKey="year" tick={{ fontSize: 16 }} />
+                  <YAxis tick={{ fontSize: 16 }}>
+                    <Label value="(B¥)" position="top" offset={10} fill="#94a3b8" fontSize={16} />
                   </YAxis>
                   <Tooltip formatter={(value: any) => [`${value} Tỷ Yên`, 'Chi tiêu tại Nara']} />
                   <Bar dataKey="value" fill="#FFD14C" radius={[4, 4, 0, 0]} name="Chi tiêu du lịch Cố đô Nara (tỷ Yên)" />

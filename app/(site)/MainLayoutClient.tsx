@@ -67,7 +67,9 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
         {/* Mobile Header */}
         <header className="md:hidden bg-ground text-slate-900 h-14 flex items-center justify-between px-3 border-slate-200/80 flex-shrink-0 z-30 dark:bg-[#0B0F17] dark:border-slate-800 dark:text-white transition-colors duration-200 font-sans sticky top-0" /* taste-skill-ignore: mobile header */>
           <div className="font-heading font-extrabold text-sm tracking-tight text-slate-900 dark:text-white">
-            <Link href="/" aria-label="Trang chủ MVH">MVH</Link>
+            <Link href="/" aria-label="Trang chủ MVH" className="min-h-[44px] min-w-[44px] inline-flex items-center">
+              MVH
+            </Link>
           </div>
           <div className="flex items-center gap-1">
             {/* Quick search (Ctrl+K) trigger button on mobile (min-h-[44px] min-w-[44px]) */}

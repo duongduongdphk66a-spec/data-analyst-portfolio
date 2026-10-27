@@ -112,7 +112,7 @@ export default function BlogPage() {
               value: `${BLOG_POSTS.length} Posts`,
             },
             {
-              labelVi: "Dự án Thực chiến",
+              labelVi: "Dự án Case Study",
               labelEn: "Core Case Studies",
               value: "3 Projects",
             },
@@ -177,6 +177,11 @@ export default function BlogPage() {
               isVi
                 ? "Tìm theo chủ đề, SQL, Python..."
                 : "Search topics, SQL, Python..."
+            }
+            aria-label={
+              isVi
+                ? "Tìm kiếm bài viết theo chủ đề, SQL, Python"
+                : "Search articles by topic, SQL, Python"
             }
             className="w-full min-h-[44px] pl-9 pr-4 py-2 rounded-xl text-xs bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9BE7FA] focus:border-[#9BE7FA]"
           />

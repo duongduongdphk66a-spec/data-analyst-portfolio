@@ -55,9 +55,12 @@
   --color-border-subtle: #DDF4FA;
   --color-border-primary: rgba(155, 231, 250, 0.7);
 
-  /* Typography - Uses next/font CSS variables (self-hosted, no FOUT, max 2 font families) */
-  --font-sans: var(--font-be-vietnam-pro), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-heading: var(--font-be-vietnam-pro), ui-sans-serif, system-ui, sans-serif;
+  /* Typography - Uses next/font CSS variables (self-hosted, no FOUT) */
+  --text-xs: 0.888rem; /* Scaled to 16px (18px - 2px) at 18px root */
+  --text-xs--line-height: 1.25rem;
+  --font-serif: "Times New Roman", Times, "Noto Serif", Georgia, serif;
+  --font-sans: "Times New Roman", Times, "Noto Serif", Georgia, serif;
+  --font-heading: "Times New Roman", Times, "Noto Serif", Georgia, serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace; /* taste-skill-ignore: font token for code elements */
 
   /* Easing */
@@ -97,6 +100,7 @@
 }
 
 html {
+  font-size: 18px;
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
 }
@@ -112,7 +116,7 @@ section[id], header[id], div[id] {
 html, body {
   background-color: var(--color-surface);
   color: var(--color-text);
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -120,6 +124,7 @@ html, body {
 
 button, a, [role="button"] {
   cursor: pointer;
+  font-family: inherit;
 }
 
 :where(h1, h2, h3, h4, h5, h6) {
@@ -133,24 +138,42 @@ button, a, [role="button"] {
   color: #F8FAFC;
 }
 
-/* Tabular numbers for accurate data alignment using the primary sans typeface */
+/* Tabular numbers for accurate data alignment */
 .tabular-data {
   font-variant-numeric: tabular-nums lining-nums;
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
 }
 
 .font-lora,
 .font-serif {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
 }
 
 .font-sans {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
 }
 
 .font-heading {
   font-family: var(--font-heading);
 }
+
+/* Scale text-xs to 16px (18px - 2px) and medium weight (500) for enhanced legibility */
+.text-xs {
+  font-size: 0.888rem !important; /* 16px at 18px root */
+  line-height: 1.25rem !important;
+}
+
+:where(.text-xs) {
+  font-weight: 500;
+}
+
+/* Explicit font weight utilities to ensure bold serif rendering */
+.font-normal { font-weight: 400 !important; }
+.font-medium { font-weight: 500 !important; }
+.font-semibold { font-weight: 600 !important; }
+.font-bold { font-weight: 700 !important; }
+.font-extrabold { font-weight: 800 !important; }
+.font-black { font-weight: 900 !important; }
 
 code,
 pre,

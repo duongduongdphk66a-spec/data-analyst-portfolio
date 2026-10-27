@@ -162,7 +162,7 @@ def merge_and_sync_store_daily(conn: mysql.connector.MySQLConnection) -> Dict[st
     )
 
     f_old = find_files(OLD_DIR, "Store Detail Page_Data Overview")[0]
-    f_new = find_files(NEW_DIR, "Tổng Quan Dữ Liệu")[0]
+    f_new = sorted(find_files(NEW_DIR, "Tổng Quan Dữ Liệu"))[-1]
 
     df_old = pd.read_excel(f_old)
     df_new = pd.read_excel(f_new)
@@ -170,7 +170,7 @@ def merge_and_sync_store_daily(conn: mysql.connector.MySQLConnection) -> Dict[st
     # Dictionary keyed by date
     daily_dict: Dict[str, Dict[str, Any]] = {}
 
-    # 1. Fill newer 180 days (2026-04-24 to 2026-10-20)
+    # 1. Fill newer days (from df_new)
     for _, r in df_new.iterrows():
         d = str(r["Ngày"]).strip()
         daily_dict[d] = {
@@ -186,15 +186,15 @@ def merge_and_sync_store_daily(conn: mysql.connector.MySQLConnection) -> Dict[st
             "delta_livestreams_count": clean_int(r["Tăng Lượng Số Lượng Livestream Đưa Hàng"]),
         }
 
-    # 2. Backpropagate cumulative metrics for earlier 46 days (2026-03-09 to 2026-04-23)
-    # At boundary 2026-04-24:
-    cum_sales = daily_dict["2026-04-24"]["sales_units"] - daily_dict["2026-04-24"]["delta_sales_units"]
-    cum_gmv = daily_dict["2026-04-24"]["gmv_vnd"] - daily_dict["2026-04-24"]["delta_gmv_vnd"]
-    cum_inf = daily_dict["2026-04-24"]["influencers_count"] - daily_dict["2026-04-24"]["delta_influencers_count"]
-    cum_vid = daily_dict["2026-04-24"]["videos_count"] - daily_dict["2026-04-24"]["delta_videos_count"]
-    cum_live = daily_dict["2026-04-24"]["livestreams_count"] - daily_dict["2026-04-24"]["delta_livestreams_count"]
+    # 2. Backpropagate cumulative metrics for earlier days
+    min_new_date = min(daily_dict.keys())
+    cum_sales = daily_dict[min_new_date]["sales_units"] - daily_dict[min_new_date]["delta_sales_units"]
+    cum_gmv = daily_dict[min_new_date]["gmv_vnd"] - daily_dict[min_new_date]["delta_gmv_vnd"]
+    cum_inf = daily_dict[min_new_date]["influencers_count"] - daily_dict[min_new_date]["delta_influencers_count"]
+    cum_vid = daily_dict[min_new_date]["videos_count"] - daily_dict[min_new_date]["delta_videos_count"]
+    cum_live = daily_dict[min_new_date]["livestreams_count"] - daily_dict[min_new_date]["delta_livestreams_count"]
 
-    old_prior = df_old[df_old.iloc[:, 0].astype(str) < "2026-04-24"].sort_values(
+    old_prior = df_old[df_old.iloc[:, 0].astype(str) < min_new_date].sort_values(
         by=df_old.columns[0], ascending=False
     )
     for _, r in old_prior.iterrows():

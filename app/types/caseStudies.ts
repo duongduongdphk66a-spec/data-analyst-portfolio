@@ -314,6 +314,133 @@ export interface Stage3LagRow {
   desc?: BilingualText | string;
 }
 
+export interface SkuSeasonalityItem {
+  code: string;
+  name: string;
+  category: string;
+  affinity: string;
+  avgPrice: number;
+  totalUnits: number;
+  totalGmv: number;
+  totalGmvM: number;
+  peakMonth: string;
+  peakGmvM: number;
+  color: string;
+  monthlyGmvM: Record<string, number>;
+  monthlyUnits: Record<string, number>;
+}
+
+export interface MonthlyTransitionItem {
+  month: string;
+  label: string;
+  bikiniGmvM?: number;
+  tshirtGmvM?: number;
+  windbreakerGmvM?: number;
+  skirtGmvM?: number;
+  sportswearGmvM?: number;
+  bikiniUnits?: number;
+  tshirtUnits?: number;
+  windbreakerUnits?: number;
+  skirtUnits?: number;
+  sportswearUnits?: number;
+  winterUnits?: number;
+  totalUnits?: number;
+  swimwearGmvM: number;
+  autumnGmvM: number;
+  winterGmvM?: number;
+  yearRoundGmvM: number;
+  totalGmvM: number;
+  bikiniSharePct?: number;
+  swimwearSharePct: number;
+  autumnSharePct: number;
+  winterSharePct?: number;
+  yearRoundSharePct: number;
+  swimwearUnits: number;
+  autumnUnits: number;
+  yearRoundUnits: number;
+}
+
+export interface WeeklySkuSeriesItem {
+  week: string;
+  weekNum: number;
+  startDate: string;
+  swimwearGmvM: number;
+  autumnGmvM: number;
+  winterGmvM?: number;
+  at06GmvM: number;
+  h36GmvM: number;
+  m18GmvM: number;
+  cv11GmvM: number;
+  cv02GmvM: number;
+  ag01GmvM?: number;
+  aq1GmvM?: number;
+  totalGmvM: number;
+  swimwearUnits?: number;
+  winterUnits?: number;
+  at06Units?: number;
+  h36Units?: number;
+  m18Units?: number;
+  cv11Units?: number;
+  cv02Units?: number;
+  ag01Units?: number;
+  aq1Units?: number;
+  totalUnits?: number;
+  isCrossover: boolean;
+}
+
+export interface TransitionInsightItem {
+  phase: string;
+  phaseEn: string;
+  kpi: string;
+  tag: string;
+  desc: string;
+  descEn: string;
+}
+
+export interface DailyTransitionItem {
+  date: string;
+  label: string;
+  summerGmvM: number;
+  winterGmvM: number;
+  summerUnits: number;
+  winterUnits: number;
+  maxGmvM?: number;
+  minGmvM?: number;
+  maxUnits?: number;
+  minUnits?: number;
+  totalGmvM: number;
+  totalUnits: number;
+  summerMa7GmvM: number;
+  winterMa7GmvM: number;
+  summerMa7Units: number;
+  winterMa7Units: number;
+  isCrossover?: boolean;
+}
+
+export interface SkuSeasonalityPayload {
+  summary: {
+    totalSkus: number;
+    totalDays: number;
+    totalGmv: number;
+    totalGmvM: number;
+    totalUnits: number;
+    dateRange: { start: string; end: string };
+    bikiniGmvM?: number;
+    tshirtGmvM?: number;
+    skirtGmvM?: number;
+    windbreakerGmvM?: number;
+    sportswearGmvM?: number;
+    swimwearGmvM: number;
+    autumnGmvM: number;
+    yearRoundGmvM?: number;
+  };
+  skus: SkuSeasonalityItem[];
+  monthlyTransitions: MonthlyTransitionItem[];
+  dailyTransitions?: DailyTransitionItem[];
+  weeklySeries: WeeklySkuSeriesItem[];
+  transitionInsights: TransitionInsightItem[];
+}
+
 export interface Stage3Payload {
   dailySeries: Array<{ date: string; label: string; gmv: number; ma7: number | null; cumulativeB: number }>;
   weeklySeries: Array<{ label: string; gmv: number; lives: number; koc: number; gmvPerLive: number }>;
@@ -345,6 +472,7 @@ export interface Stage3Payload {
   storeFacts: Record<string, any>;
   dailyMean: number;
   dailyStd: number;
+  skuSeasonality?: SkuSeasonalityPayload;
 }
 
 export interface CohortRetentionMonth {

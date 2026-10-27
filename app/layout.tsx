@@ -1,18 +1,11 @@
 import type { Metadata } from 'next';
-import { Be_Vietnam_Pro, JetBrains_Mono } from 'next/font/google'; /* taste-skill-ignore: code block monospace font */
+import { JetBrains_Mono } from 'next/font/google'; /* taste-skill-ignore: code block monospace font */
 import './globals.css';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from '@/components/ui/Toast';
 import { PortfolioDataProvider } from './context/PortfolioDataContext';
 import { headers } from 'next/headers';
-
-const beVietnamPro = Be_Vietnam_Pro({
-  subsets: ['vietnamese', 'latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
-  display: 'swap',
-  variable: '--font-be-vietnam-pro',
-});
 
 const jetbrainsMono = JetBrains_Mono({ /* taste-skill-ignore: code block monospace font */
   subsets: ['vietnamese', 'latin'],
@@ -90,7 +83,7 @@ export default async function RootLayout({
   return (
     <html
       lang="vi"
-      className={`scroll-smooth ${beVietnamPro.variable} ${jetbrainsMono.variable}`} /* taste-skill-ignore: code block monospace font */
+      className={`scroll-smooth ${jetbrainsMono.variable}`} /* taste-skill-ignore: code block monospace font */
       suppressHydrationWarning
     >
       <head>
@@ -103,7 +96,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body suppressHydrationWarning className="bg-ground text-ink font-sans min-h-dvh transition-colors duration-200 antialiased selection:bg-brand-blue-vivid/70 dark:selection:bg-slate-700">
+      <body suppressHydrationWarning className="bg-ground text-ink min-h-dvh transition-colors duration-200 antialiased selection:bg-brand-blue-vivid/70 dark:selection:bg-slate-700">
         <ThemeProvider>
           <PortfolioDataProvider>
             <LanguageProvider>

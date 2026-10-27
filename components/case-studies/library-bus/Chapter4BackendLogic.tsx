@@ -621,8 +621,9 @@ export function Chapter4BackendLogic({
                   
                   <button
                     onClick={() => setFullscreenChart(BACKEND_CHARTS[0])}
-                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
+                    className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer flex items-center justify-center"
                     title={isEn ? 'Expand Fullscreen Modal' : 'Phóng to toàn cảnh (Modal)'}
+                    aria-label={isEn ? 'Expand Fullscreen Modal' : 'Phóng to toàn cảnh (Modal)'}
                   >
                     <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                   </button>
@@ -631,8 +632,9 @@ export function Chapter4BackendLogic({
                     href={`${BACKEND_CHARTS[0].externalUrl}?theme=${resolvedTheme}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
+                    className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer flex items-center justify-center"
                     title={isEn ? 'Open in new window' : 'Mở tab mới'}
+                    aria-label={isEn ? 'Open chart in new window' : 'Mở biểu đồ trong tab mới'}
                   >
                     <ExternalLink className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                   </a>
@@ -750,8 +752,9 @@ export function Chapter4BackendLogic({
                   
                   <button
                     onClick={() => setFullscreenChart(BACKEND_CHARTS[1])}
-                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
+                    className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer flex items-center justify-center"
                     title={isEn ? 'Expand Fullscreen Modal' : 'Phóng to toàn cảnh (Modal)'}
+                    aria-label={isEn ? 'Expand Fullscreen Modal' : 'Phóng to toàn cảnh (Modal)'}
                   >
                     <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                   </button>
@@ -760,8 +763,9 @@ export function Chapter4BackendLogic({
                     href={`${BACKEND_CHARTS[1].externalUrl}?theme=${resolvedTheme}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer"
+                    className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer flex items-center justify-center"
                     title={isEn ? 'Open in new window' : 'Mở tab mới'}
+                    aria-label={isEn ? 'Open chart in new window' : 'Mở biểu đồ trong tab mới'}
                   >
                     <ExternalLink className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
                   </a>
@@ -892,8 +896,9 @@ export function Chapter4BackendLogic({
               </a>
               <button
                 onClick={() => setFullscreenChart(null)}
-                className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white cursor-pointer transition"
+                className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white cursor-pointer transition flex items-center justify-center"
                 title={isEn ? 'Close fullscreen' : 'Đóng toàn màn hình (Esc)'}
+                aria-label={isEn ? 'Close fullscreen modal' : 'Đóng toàn màn hình'}
               >
                 <X className="w-5 h-5" />
               </button>

@@ -71,7 +71,7 @@ interface ContentType {
 
 const CONTENT: Record<Lang, ContentType> = {
   vi: {
-    badge: 'Sẵn sàng cho các bài toán dữ liệu thực chiến',
+    badge: 'Sẵn sàng cho các bài toán dữ liệu kinh doanh',
     greeting: 'Xin chào, tôi là',
     name: 'Mã Văn Hùng',
     role: 'Data Analyst định hướng giải quyết bài toán kinh doanh',
@@ -129,9 +129,9 @@ const CONTENT: Record<Lang, ContentType> = {
     navExploreTitle: 'Khám phá thêm về hành trình của tôi',
     navLinks: [
       {
-        title: 'Tất cả Dự án (Projects)',
+        title: 'Dự án Phân tích & SQL Lab',
         desc: 'Trải nghiệm trực tiếp SQL Lab, biểu đồ tương tác và các phân tích chuyên sâu.',
-        href: '/projects',
+        href: '/projects/proj-kami-ely',
         icon: Briefcase,
       },
       {
@@ -153,7 +153,7 @@ const CONTENT: Record<Lang, ContentType> = {
         icon: BookOpen,
       },
     ],
-    primaryBtn: 'Xem các Case Study thực chiến',
+    primaryBtn: 'Xem các Case Study',
     secondaryBtn: 'Tải CV (PDF)',
   },
   en: {
@@ -217,7 +217,7 @@ const CONTENT: Record<Lang, ContentType> = {
       {
         title: 'Projects & SQL Lab',
         desc: 'Interact with live SQL workbenches, charts, and end-to-end case studies.',
-        href: '/projects',
+        href: '/projects/proj-kami-ely',
         icon: Briefcase,
       },
       {
@@ -286,7 +286,7 @@ export default function HeroSection({ profile: propsProfile }: { profile?: any }
         {/* Primary CTAs with 44px Touch Targets */}
         <div className="flex flex-wrap items-center gap-3.5 pt-2">
           <Link
-            href="/projects"
+            href="/projects/proj-kami-ely"
             className="min-h-[44px] px-6 py-3 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] font-extrabold text-sm transition-colors flex items-center gap-2 cursor-pointer border border-[#9BE7FA]"
           >
             <span>{t.primaryBtn}</span>

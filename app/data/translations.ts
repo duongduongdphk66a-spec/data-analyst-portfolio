@@ -64,7 +64,7 @@ export const translations = {
     // Projects Section
     projects_badge: 'Case Studies & Phân Tích Thực Tế',
     projects_heading: 'Dự Án Phân Tích Dữ Liệu Nổi Bật',
-    projects_subheading: 'Các dự án thực chiến giải quyết bài toán kinh doanh cụ thể bằng SQL, Python, Power BI và Recharts',
+    projects_subheading: 'Các dự án giải quyết bài toán kinh doanh cụ thể bằng SQL, Python, Power BI và Recharts',
     projects_search_placeholder: 'Tìm kiếm theo tên dự án, công cụ hoặc bài toán...',
     projects_filter_all_tech: 'Tất cả công nghệ',
     projects_all_tag: 'Tất cả',

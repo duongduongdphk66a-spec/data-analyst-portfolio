@@ -4,10 +4,12 @@
 // for Server-Side Rendering (SSR) and API distribution, drastically streamlining frontend code.
 
 import metricsJson from '@/app/data/kami-ely/generated/metrics.json';
+import skuSeasonalityJson from '@/app/data/kami-ely/generated/sku_seasonality.json';
 import { kamiReconciliationData } from '@/app/data/kami-ely/reconciliation';
 import type {
   BilingualText,
   KamiEly7StagesPayload,
+  SkuSeasonalityPayload,
   Stage1Payload,
   Stage2Payload,
   Stage3Payload,
@@ -59,15 +61,14 @@ const toM = (v: number): number => Math.round((v / 1e6) * 10) / 10;
 const ddmm = (iso: string): string => `${iso.slice(8, 10)}/${iso.slice(5, 7)}`;
 
 const TABLE_LABELS: Record<string, BilingualText> = {
-  store: { vi: 'Shop theo ngày (226 ngày)', en: 'Store daily (226 days)' },
-  goods: { vi: 'Hàng bán (2 Snapshot Hè/Thu)', en: 'Goods list (2 snapshots)' },
+  store: { vi: 'Shop theo ngày (231 ngày)', en: 'Store daily (231 days)' },
+  goods: { vi: 'Hàng bán (2 Snapshot)', en: 'Goods list (2 snapshots)' },
   ch_live: { vi: 'LIVE chính chủ', en: 'Own LIVE' },
   ch_video: { vi: 'Video chính chủ', en: 'Own video' },
   shop_video: { vi: 'Video gắn SP (shop)', en: 'Shoppable video' },
   product: { vi: 'SKU sản phẩm', en: 'Product SKU' },
   creators: { vi: 'Creator', en: 'Creators' },
   shop_live: { vi: 'LIVE toàn shop', en: 'Shop-wide LIVE' },
-  live_products: { vi: 'SP gắn trong LIVE', en: 'Live-featured products' },
 };
 
 export function buildStage1Data(): Stage1Payload {
@@ -93,7 +94,7 @@ export function buildStage1Data(): Stage1Payload {
         vi: 'GMV ngày/tháng, số KOC và số phiên Live mỗi ngày',
         en: 'Daily/monthly GMV, active KOCs & daily LIVE count',
       },
-      table: 'Store Detail Page (226 ngày)',
+      table: 'Store Detail Page (231 ngày)',
       decision: {
         vi: 'Lịch chiến dịch, kế hoạch nhập hàng & tồn kho',
         en: 'Campaign scheduling, stock & inventory planning',
@@ -193,7 +194,7 @@ export function buildStage1Data(): Stage1Payload {
       badge: 'Chuẩn hóa định dạng (7 Rules)',
       title: { vi: 'Tầng làm sạch & Chuẩn hóa kiểu', en: 'Cleaned & Standardized Staging' },
       subtitle: { vi: 'Xử lý chuỗi, ép kiểu số, bù múi giờ và lọc ngoại lai', en: 'String casting, timezone lag adjustment & outlier handling' },
-      schemas: ['clean_store_daily_226d', 'clean_catalog_products', 'clean_creators_network', 'clean_shop_live_sessions', 'clean_shoppable_videos'],
+      schemas: ['clean_store_daily_231d', 'clean_catalog_products', 'clean_creators_network', 'clean_shop_live_sessions', 'clean_shoppable_videos'],
       responsibilities: [
         { vi: 'Chuyển đổi chuỗi tiền tệ ("500,2Tr ₫", "1.6k views") về số nguyên INTEGER', en: 'Convert localized strings ("500.2Tr VND", "1.6k views") into numeric integers' },
         { vi: 'Bù lệch múi giờ +13h giữa UTC và GMT+7 cho các phiên Live', en: 'Apply +13h timezone lag adjustment between UTC and Vietnam GMT+7' },
@@ -258,8 +259,8 @@ export function buildStage1Data(): Stage1Payload {
       id: 1,
       area: { vi: 'Khung thời gian chuẩn hóa', en: 'Standardized Time Horizon' },
       status: 'passed',
-      detail: { vi: '226 ngày liên tục từ 09/03/2026 đến 20/10/2026 không có ngày trống', en: '226 continuous days from Mar 09 to Oct 20 with zero missing days' },
-      evidence: 'stg_store_daily: 226 records',
+      detail: { vi: '231 ngày liên tục từ 09/03/2026 đến 25/10/2026 không có ngày trống', en: '231 continuous days from Mar 09 to Oct 25 with zero missing days' },
+      evidence: 'stg_store_daily: 231 records',
     },
     {
       id: 2,
@@ -279,7 +280,7 @@ export function buildStage1Data(): Stage1Payload {
       id: 4,
       area: { vi: 'Bảo toàn số liệu kiểm toán', en: 'Audit Telemetry Integrity' },
       status: 'passed',
-      detail: { vi: 'Khớp 100% doanh thu 14,84 tỷ và 100.669 sản phẩm giữa các bảng đối soát', en: '100% reconciliation match on 14.84B GMV and 100,669 units' },
+      detail: { vi: 'Khớp 100% doanh thu 15,01 tỷ và 101.896 sản phẩm giữa các bảng đối soát', en: '100% reconciliation match on 15.01B GMV and 101,896 units' },
       evidence: 'reconciliationRules: 6/6 passed',
     },
     {
@@ -301,76 +302,121 @@ export function buildStage1Data(): Stage1Payload {
   const dataGrains: Stage1Payload['dataGrains'] = [
     {
       grain: { vi: 'Theo ngày (Daily)', en: 'Daily Grain' },
-      table: 'Store Detail Page Overview',
+      table: 'Store Detail Page',
       key: 'report_date',
-      desc: { vi: '226 dòng SSOT theo dõi GMV, lượt hiển thị, đơn hàng toàn shop (09/03 – 20/10/2026)', en: '226 SSOT daily records tracking GMV, impressions, orders (Mar 09 – Oct 20, 2026)' },
+      desc: { vi: '231 dòng SSOT theo dõi GMV, hiển thị & đơn hàng', en: '231 SSOT daily records tracking GMV, impressions & orders' },
     },
     {
       grain: { vi: 'Theo sản phẩm (SKU)', en: 'Product SKU Grain' },
-      table: 'Shop Products & Creator Products',
+      table: 'Products Catalog',
       key: 'product_id, sku_id',
-      desc: { vi: '339 SKU niêm yết và 787 dòng sản phẩm creator (hợp nhất 2 snapshot Hè & Thu)', en: '339 listed SKUs and 787 creator product records (2 seasonal snapshots merged)' },
+      desc: { vi: '339 SKU niêm yết & 787 sản phẩm creator (2 snapshot)', en: '339 listed SKUs & 787 creator product records' },
     },
     {
       grain: { vi: 'Theo Creator', en: 'Creator Grain' },
-      table: 'Affiliate KOL / Creators',
+      table: 'Affiliate Creators',
       key: 'creator_handle',
-      desc: { vi: '6.086 creator liên kết, bậc follower, số đơn phát sinh và GMV', en: '6,086 affiliate creators, follower tiers, order count & GMV' },
+      desc: { vi: '6.086 creator liên kết, bậc follower & GMV', en: '6,086 affiliate creators, follower tiers & GMV' },
     },
     {
-      grain: { vi: 'Theo ca LIVE (Session)', en: 'Live Session Grain' },
-      table: 'Shop LIVE & Creator Livestreams',
+      grain: { vi: 'Theo ca LIVE', en: 'Live Session Grain' },
+      table: 'Live Streaming',
       key: 'session_id, start_time',
-      desc: { vi: '600 phiên LIVE chính chủ và 7.367 phiên LIVE toàn shop liên kết', en: '600 own LIVE sessions and 7,367 shop-wide affiliate LIVE sessions' },
+      desc: { vi: '600 phiên chính chủ & 7.367 phiên shop liên kết', en: '600 own LIVE sessions & 7,367 affiliate sessions' },
     },
     {
       grain: { vi: 'Theo Video', en: 'Video Grain' },
-      table: 'Shoppable Videos & Creator Videos',
+      table: 'Shoppable Videos',
       key: 'video_id',
-      desc: { vi: '276 video chính chủ và 4.796 video gắn giỏ hàng của nhà sáng tạo', en: '276 own videos and 4,796 affiliate shoppable videos' },
+      desc: { vi: '276 video chính chủ & 4.796 video gắn giỏ hàng', en: '276 own videos & 4,796 affiliate shoppable videos' },
     },
   ];
 
   const reconciliationRules: Stage1Payload['reconciliationRules'] = [
     {
-      check: { vi: 'Sản lượng kênh chính chủ giữa Creators Merged và Goods for Sale', en: 'Own-channel volume between Creators Merged & Goods for Sale' },
-      expected: { vi: 'Khớp tuyệt đối', en: 'Exact match' },
-      actual: { vi: 'Khớp chính xác 20.027 sản phẩm', en: 'Exact match: 20,027 units' },
+      check: {
+        vi: 'Sản lượng kênh chính chủ giữa Creators Merged và Goods for Sale',
+        en: 'Own-channel volume between Creators Merged & Goods for Sale',
+      },
+      expected: { vi: 'Khớp theo snapshot', en: 'Exact per snapshot' },
+      actual: {
+        vi: 'Khớp 20.027 SP (kỳ Hè) & 11.628 SP (kỳ Thu)',
+        en: 'Matches 20,027 units (Summer) & 11,628 units (Fall)',
+      },
       status: 'pass',
       statusLabel: { vi: 'Khớp 100%', en: 'Pass 100%' },
-      note: { vi: 'Tính nhất quán cao giữa danh mục sản phẩm bày bán và báo cáo kênh creator.', en: 'High consistency between listed catalog goods and creator performance.' },
+      note: {
+        vi: '787 dòng Goods for Sale trên 2 kỳ snapshot đối soát khớp tuyệt đối với báo cáo Creator tương ứng từng kỳ.',
+        en: '787 Goods for Sale records across 2 snapshots reconcile with 100% precision against creator reports.',
+      },
     },
     {
-      check: { vi: 'Số phiên LIVE chính chủ giữa Creator Live List và Shop LIVE', en: 'Own LIVE session count between Creator Live List & Shop LIVE' },
+      check: {
+        vi: 'Số phiên LIVE chính chủ giữa Creator Live List và Shop LIVE',
+        en: 'Own LIVE session count between Creator Live List & Shop LIVE',
+      },
       expected: { vi: 'Bằng nhau', en: 'Equal count' },
-      actual: { vi: 'Lệch 5 phiên (475 phiên vs 470 phiên)', en: 'Mismatch: 475 vs 470 sessions' },
+      actual: {
+        vi: 'Lệch 5 phiên (600 phiên vs 595 phiên)',
+        en: '5-session diff (600 vs 595 sessions)',
+      },
       status: 'warn',
       statusLabel: { vi: 'Lệch 5 phiên', en: '5-session diff' },
-      note: { vi: 'Đã giải mã ở Mục 2.3: Lệch 13 tiếng (+13h khớp 470/470); 5 phiên thừa gồm 1 phiên 07/03 và 4 phiên test 0 GMV.', en: 'Solved in Stage 2.3: 13h lag (+13h matches 470/470); 5 surplus sessions are 1 Mar 07 pre-window & 4 zero-GMV test runs.' },
+      note: {
+        vi: 'Đã giải mã ở Mục 2.3: Toàn bộ 125 phiên mới khớp tuyệt đối (+13h múi giờ). 5 phiên thừa gồm 1 phiên 07/03 trước khung và 4 phiên test 0 GMV.',
+        en: 'Solved in Stage 2.3: All 125 new sessions match (+13h lag). 5 surplus sessions are 1 Mar 07 pre-window run & 4 zero-GMV test runs.',
+      },
     },
     {
-      check: { vi: 'GMV LIVE chính chủ giữa hai nguồn trên', en: 'Own LIVE GMV between Creator Live List & Shop LIVE' },
+      check: {
+        vi: 'GMV LIVE chính chủ giữa hai nguồn trên chu kỳ 226 ngày',
+        en: 'Own LIVE GMV between Creator Live List & Shop LIVE (226d)',
+      },
       expected: { vi: 'Bằng nhau', en: 'Equal GMV' },
-      actual: { vi: 'Lệch nhẹ 91.000 đ (7.023.530.158 vs 7.023.621.158 đ)', en: 'Minor diff: 91K VND (0.001%)' },
+      actual: {
+        vi: 'Lệch 1.031.565 đ (7.592.794.843 đ vs 7.591.763.278 đ)',
+        en: 'Minor diff: 1.03M VND (7.592B vs 7.591B)',
+      },
       status: 'warn',
-      statusLabel: { vi: 'Lệch 0,001%', en: '0.001% diff' },
-      note: { vi: 'Đã giải mã ở Mục 2.3: Khớp toán học trọn vẹn từ 190.000 đ (lệch phiên 06/05) − 99.000 đ (phiên 07/03) = đúng 91.000 đ.', en: 'Solved in Stage 2.3: Exact math reconciliation: 190k VND (May 06 session diff) − 99k VND (Mar 07 session) = 91k VND.' },
+      statusLabel: { vi: 'Lệch 0,013%', en: '0.013% diff' },
+      note: {
+        vi: 'Khớp 99,987% GMV toàn chu kỳ 226 ngày (~7,59 tỷ đ). Chênh lệch 1,03M đ bắt nguồn từ phiên 07/03 (99.000 đ) và tịnh tiến múi giờ +13h qua đêm.',
+        en: 'Reconciles 99.987% of 226-day GMV (~7.59B VND). Minor 1.03M VND diff stems from Mar 07 pre-window run (99k) and overnight +13h lag.',
+      },
     },
     {
-      check: { vi: 'Khử trùng lặp giữa Shop LIVE tập 1 và tập 2', en: 'Deduplication across Shop LIVE Part 1 & Part 2' },
+      check: {
+        vi: 'Khử trùng lặp đa đợt xuất Shop LIVE (Affiliate Livestreams)',
+        en: 'Deduplication across Shop LIVE batch exports',
+      },
       expected: { vi: 'Không có bản ghi trùng', en: 'Zero duplicates' },
-      actual: { vi: 'Khử trùng lặp qua DISTINCT session_id', en: 'Deduplicated via DISTINCT session_id' },
+      actual: {
+        vi: 'Khử trùng lặp 8.355 phiên qua DISTINCT session_id & row_hash',
+        en: 'Deduplicated 8,355 sessions via DISTINCT session_id & row_hash',
+      },
       status: 'info',
       statusLabel: { vi: 'Đã làm sạch', en: 'Deduplicated' },
-      note: { vi: 'Bảo đảm không bị nhân đôi số liệu khi gom file xuất định kỳ theo 2 đợt.', en: 'Prevents artificial row inflation when merging split periodic exports.' },
+      note: {
+        vi: 'Hợp nhất toàn bộ các đợt xuất định kỳ tháng 9 và 9 đợt bổ sung tháng 10, loại bỏ hoàn toàn hiện tượng trùng lặp phiên.',
+        en: 'Consolidates legacy September files and 9 new October batches, preventing artificial session inflation.',
+      },
     },
     {
-      check: { vi: 'Tổng GMV theo ngày chu kỳ 226 ngày', en: '226-day Daily GMV Time-Series' },
+      check: {
+        vi: 'Tổng GMV theo ngày chu kỳ 231 ngày',
+        en: '231-day Daily GMV Time-Series',
+      },
       expected: { vi: 'Cộng khớp SSOT', en: 'Exact SSOT sum' },
-      actual: { vi: 'Khớp chính xác 14,84 tỷ VNĐ (14.842.597.762 đ)', en: 'Exact match: 14.84B VND' },
+      actual: {
+        vi: 'Khớp chính xác 15,01 tỷ VNĐ (15.009.083.662 đ)',
+        en: 'Exact match: 15.01B VND (15,009,083,662 VND)',
+      },
       status: 'pass',
       statusLabel: { vi: 'Khớp SSOT', en: 'SSOT Valid' },
-      note: { vi: 'Xác minh toàn vẹn chuỗi thời gian không bị thất thoát ngày nào trong 226 ngày liên tục.', en: 'Confirms complete time-series integrity with zero missing days across 226 continuous days.' },
+      note: {
+        vi: 'Xác minh toàn vẹn chuỗi thời gian không thất thoát ngày nào trong 231 ngày liên tục (101.896 sản phẩm).',
+        en: 'Confirms complete time-series integrity with zero missing days across 231 continuous days (101,896 units).',
+      },
     },
   ];
 
@@ -378,7 +424,7 @@ export function buildStage1Data(): Stage1Payload {
     {
       step: '1',
       title: { vi: 'Hệ thống nguồn (Source)', en: 'Source Systems' },
-      detail: { vi: '9 bảng dữ liệu xuất từ nền tảng (nạp qua MySQL & script tự động).', en: '9 raw tables exported from platform (ingested into MySQL with automated ETL).' },
+      detail: { vi: '8 bảng dữ liệu xuất từ nền tảng (nạp qua MySQL & script tự động).', en: '8 raw tables exported from platform (ingested into MySQL with automated ETL).' },
       iconName: 'fileSpreadsheet',
       badge: `${tableRows.length} Bảng`,
     },
@@ -476,8 +522,8 @@ export function buildStage2Data(): Stage2Payload {
   const dataModelTables: Stage2Payload['dataModelTables'] = [
     {
       name: 'Store Detail (Daily Overview)',
-      window: { vi: '226 ngày liên tục', en: '226 continuous days' },
-      rows: 226,
+      window: { vi: '231 ngày liên tục', en: '231 continuous days' },
+      rows: 231,
       grain: { vi: 'Ngày', en: 'Daily' },
       joinKey: 'record_date',
       desc: { vi: 'Dữ liệu tổng hợp theo ngày toàn gian hàng (T3–T10/2026)', en: 'Store-level daily performance (Mar-Oct 2026)' },
@@ -546,27 +592,18 @@ export function buildStage2Data(): Stage2Payload {
       desc: { vi: '8.355 phiên live có gắn giỏ hàng sản phẩm shop', en: '8,355 LIVE sessions tagging store products' },
       tag: 'Shop LIVE',
     },
-    {
-      name: 'Livestream Featured Products',
-      window: { vi: 'Live Details', en: 'Live Product List' },
-      rows: 103,
-      grain: { vi: 'SP trong phiên LIVE', en: 'Live Product Item' },
-      joinKey: 'product_name + session',
-      desc: { vi: '103 lượt sản phẩm gắn ghim trực tiếp trong các ca LIVE', en: '103 featured items pinned during live broadcasts' },
-      tag: 'Live Goods',
-    },
   ];
 
   const profilingFindings: Stage2Payload['profilingFindings'] = [
     {
-      entity: 'Store Detail (226d)',
-      badge: { vi: '226/226 ngày hợp lệ', en: '226/226 days valid' },
+      entity: 'Store Detail (231d)',
+      badge: { vi: '231/231 ngày hợp lệ', en: '231/231 days valid' },
       tone: 'cyan',
       finding: {
-        vi: 'Đủ 226/226 ngày liên tục, không ngày nào 0 đơn (thấp nhất 49 sp/ngày). Tổng khớp: 100.669 sản phẩm, 14.842.597.762 VNĐ. Bao phủ trọn vẹn từ 09/03/2026 đến 20/10/2026.',
-        en: 'Full 226/226 continuous days recorded, zero zero-order days (minimum 49 units/day). Total exact match: 100,669 units, 14,842,597,762 VND. Continuous coverage from Mar 09, 2026 to Oct 20, 2026.',
+        vi: 'Đủ 231/231 ngày liên tục, không ngày nào 0 đơn (thấp nhất 49 sp/ngày). Tổng khớp: 101.896 sản phẩm, 15.009.083.662 VNĐ. Bao phủ trọn vẹn từ 09/03/2026 đến 25/10/2026.',
+        en: 'Full 231/231 continuous days recorded, zero zero-order days (minimum 49 units/day). Total exact match: 101,896 units, 15,009,083,662 VND. Continuous coverage from Mar 09, 2026 to Oct 25, 2026.',
       },
-      stat: '14,84 Tỷ đ · 100.669 sp',
+      stat: '15,01 Tỷ đ · 101.896 sp',
       detail: { vi: 'Mốc chuỗi thời gian nền tảng (SSOT)', en: 'Foundational time-series benchmark' },
     },
     {
@@ -628,11 +665,21 @@ export function buildStage2Data(): Stage2Payload {
 
   const crossReconciliations: Stage2Payload['crossReconciliations'] = [
     {
-      test: { vi: 'Goods for Sale vs Creators Merged', en: 'Goods for Sale vs Creators Merged' },
-      metric: '20.027 sp khớp tuyệt đối',
+      test: { vi: 'Chuỗi thời gian Store Detail (231 ngày liên tục)', en: 'Store Detail 231-day Continuous Time-Series' },
+      metric: 'Khớp 15,01 tỷ VNĐ (15.009.083.662 đ)',
       detail: {
-        vi: 'GMV: 3.026.020.300 đ so với 3.026.026.869 đ, lệch 6.569 đ do làm tròn chuỗi hiển thị. Quy chuẩn lấy Creators Merged làm mốc.',
-        en: 'GMV: 3,026,020,300 VND vs 3,026,026,869 VND, 6,569 VND string rounding delta. Standardized on Creators Merged as truth.',
+        vi: 'Xác minh toàn vẹn chuỗi thời gian không gián đoạn ngày nào trong 231 ngày liên tục (101.896 sản phẩm, khớp SSOT 100%).',
+        en: 'Confirms complete time-series integrity with zero missing days across 231 continuous days (101,896 units, 100% SSOT match).',
+      },
+      status: 'pass',
+      statusLabel: { vi: 'Khớp SSOT 100%', en: '100% SSOT' },
+    },
+    {
+      test: { vi: 'Sản lượng kênh chính chủ: Goods for Sale vs Creators Merged', en: 'Own-channel volume: Goods for Sale vs Creators Merged' },
+      metric: 'Khớp 20.027 SP (Hè) & 11.628 SP (Thu)',
+      detail: {
+        vi: '787 dòng Goods for Sale trên 2 kỳ snapshot đối soát khớp tuyệt đối với báo cáo Creator tương ứng từng kỳ. GMV lệch 6.569 đ do làm tròn chuỗi hiển thị.',
+        en: '787 Goods for Sale records across 2 snapshots reconcile with 100% precision against creator reports. 6,569 VND delta due to display string rounding.',
       },
       status: 'pass',
       statusLabel: { vi: 'Khớp 100% Sản lượng', en: 'Units Match 100%' },
@@ -648,24 +695,34 @@ export function buildStage2Data(): Stage2Payload {
       statusLabel: { vi: 'Lệch 0,45%', en: '0.45% diff' },
     },
     {
-      test: { vi: 'Số video: Store vs Shoppable vs Dashboard', en: 'Video Counts: Store vs Shoppable vs Dashboard' },
-      metric: '2.443 vs 4.417 vs 4,8k video',
+      test: { vi: 'Số lượng video: Store vs Shoppable vs Nền tảng', en: 'Video Counts: Store vs Shoppable vs Platform Catalog' },
+      metric: '2.443 vs 4.417 vs 4.796 video',
       detail: {
-        vi: 'Ba nguồn cho 3 con số khác biệt do 3 định nghĩa kỹ thuật khác nhau: video có phát sinh đơn trong ngày, video đã từng đăng và video đang hoạt động trên hệ thống.',
+        vi: 'Ba nguồn phản ánh 3 định nghĩa kỹ thuật khác nhau: video có phát sinh đơn trong ngày, video đã từng đăng và danh mục video đang hoạt động trên hệ thống.',
         en: 'Three disparate figures reflecting 3 differing platform criteria: active daily converting videos, total uploaded catalog, and live published assets.',
       },
       status: 'warn',
       statusLabel: { vi: 'Khác định nghĩa', en: 'Def Split' },
     },
     {
-      test: { vi: 'Creator ID trong Shop LIVE không có trong Creators Merged', en: 'Shop LIVE Creator IDs missing from Creators Merged' },
+      test: { vi: 'Khử trùng lặp đa đợt xuất Shop LIVE (Affiliate Livestreams)', en: 'Deduplication across Shop LIVE batch exports' },
+      metric: 'Khử trùng 8.355 phiên',
+      detail: {
+        vi: 'Hợp nhất toàn bộ các đợt xuất định kỳ tháng 9 và 9 đợt bổ sung tháng 10 qua DISTINCT session_id & row_hash, loại bỏ hoàn toàn trùng lặp.',
+        en: 'Consolidates legacy September files and 9 new October batches via DISTINCT session_id & row_hash, eliminating artificial session inflation.',
+      },
+      status: 'info',
+      statusLabel: { vi: 'Đã làm sạch', en: 'Deduplicated' },
+    },
+    {
+      test: { vi: 'Khóa ngoại Creator ID (Shop LIVE vs Creators Merged)', en: 'Shop LIVE Creator IDs missing from Creators Merged' },
       metric: '4/251 ID mồ côi',
       detail: {
         vi: '4 creator có phát sóng trực tiếp nhưng không xuất hiện trong bảng danh sách 90 ngày (do phiên nằm ngoài cửa sổ 90 ngày hoặc tài khoản đã xóa). Đã gắn cờ is_orphan.',
         en: '4 creators streamed live but are absent from the 90-day creators export (streamed outside 90d window or deactivated handle). Flagged via is_orphan.',
       },
       status: 'warn',
-      statusLabel: { vi: 'Gắn cờ mồ côi', en: 'Flagged Orphan' },
+      statusLabel: { vi: 'Gắn cờ is_orphan', en: 'Flagged Orphan' },
     },
   ];
 
@@ -741,40 +798,7 @@ price_mid = (price_min + price_max) / 2`,
     },
   ];
 
-  const legacyCorrections: Stage2Payload['legacyCorrections'] = [
-    {
-      caseNumber: 'Case 1',
-      title: { vi: 'Sai lệch tính tốc độ tăng trưởng T3→T4 (98,5% vs 158,9%)', en: 'March-to-April Growth Rate Distortion (98.5% vs 158.9%)' },
-      flawedClaim: {
-        vi: 'Báo cáo cũ tuyên bố doanh thu tháng 4 tăng trưởng +158,9% so với tháng 3 (tính thô: 2,46 tỷ / 0,95 tỷ - 1 = 158,9%).',
-        en: 'Legacy report claimed April GMV soared +158.9% over March (raw math: 2.46B / 0.95B - 1 = 158.9%).',
-      },
-      empiricalProof: {
-        vi: 'Tháng 3 trong tệp nguồn chỉ bắt đầu ghi nhận từ ngày 09/03 (chỉ có 23 ngày), trong khi tháng 4 có đủ 30 ngày. So sánh tổng thô là ngụy biện về mẫu (sampling fallacy). Tính theo trung bình ngày: T3 đạt 41,3 triệu/ngày, T4 đạt 82,0 triệu/ngày.',
-        en: 'March data only began on March 09 (23 days recorded), whereas April had full 30 days. Comparing raw sums is a sampling fallacy. Daily average GMV was 41.3M/day in Mar vs 82.0M/day in Apr.',
-      },
-      correctedFact: {
-        vi: 'Tốc độ tăng trưởng thực tế theo ngày (GMV/ngày) là +98,5%, chứ không phải +158,9%. Báo cáo cũ đã thổi phồng mức tăng thêm 60,4 điểm phần trăm!',
-        en: 'Real daily normalized growth was +98.5%, not +158.9%. Legacy reporting artificially inflated growth by 60.4 percentage points!',
-      },
-    },
-    {
-      caseNumber: 'Case 2',
-      title: { vi: 'Ngụy biện về KOC siêu nhỏ (<5k follower là nòng cốt)', en: 'The Micro-KOC Fallacy (<5k Followers as Backbone)' },
-      flawedClaim: {
-        vi: 'Báo cáo cũ nhận định nhóm KOC dưới 5.000 follower là "lực lượng nòng cốt" mang lại nhiều doanh thu nhất vì số lượng áp đảo (5.148 KOC, chiếm 90,1%).',
-        en: 'Legacy deck declared micro-KOCs (<5k followers) as the "core growth driver" due to their sheer volume (5,148 KOCs, 90.1% of network).',
-      },
-      empiricalProof: {
-        vi: 'Tỷ lệ kích hoạt đơn (activation rate) của nhóm <5k chỉ đạt 3,5% (178/5.148 KOC có đơn). Doanh thu trung bình mỗi KOC chỉ đạt 182 nghìn đồng! Trong khi đó, nhóm 100k-500k có tỷ lệ kích hoạt 50% và tạo ra hơn 1,35 tỷ đồng doanh thu.',
-        en: 'Activation rate for <5k creators was only 3.5% (178/5,148 sold anything). Average GMV per micro-KOC was a negligible 182k VND! Meanwhile, the 100k-500k tier had a 50% activation rate and drove over 1.35B VND.',
-      },
-      correctedFact: {
-        vi: 'Nhóm <5k follower là cái bẫy quy mô (vanity metric). Đội ngũ đã lãng phí nguồn lực gửi mẫu và duyệt affiliate cho 4.970 KOC không bán được đơn nào!',
-        en: 'The <5k tier is a vanity trap. Massive resources were wasted approving and sampling 4,970 dead affiliates who generated zero revenue.',
-      },
-    },
-  ];
+  const legacyCorrections: Stage2Payload['legacyCorrections'] = [];
 
   return {
     dataModelTables,
@@ -809,7 +833,7 @@ export function buildStage3Data(): Stage3Payload {
     };
   });
 
-  // Chuỗi theo dõi theo tuần (33 tuần) tổng hợp từ 226 ngày liên tục (09/03 – 20/10/2026)
+  // Chuỗi theo dõi theo tuần tổng hợp từ 231 ngày liên tục (09/03 – 25/10/2026)
   const weeklyMap = new Map<string, {
     week: number;
     mon: string;
@@ -863,18 +887,27 @@ export function buildStage3Data(): Stage3Payload {
     };
   });
 
-  const monthlyTable = [
-    { ym: '2026-03', label: 'T3', days: 23, isPartial: true, gmv: 949812912, share: 6.4, gmvPerDay: 41296214, units: 8039, aov: 118151, momRaw: null, momDay: null },
-    { ym: '2026-04', label: 'T4', days: 30, isPartial: false, gmv: 2459105727, share: 16.6, gmvPerDay: 81970191, units: 17358, aov: 141670, momRaw: 158.9, momDay: 98.5 },
-    { ym: '2026-05', label: 'T5', days: 31, isPartial: false, gmv: 2747315221, share: 18.5, gmvPerDay: 88623072, units: 17267, aov: 159108, momRaw: 11.7, momDay: 8.1 },
-    { ym: '2026-06', label: 'T6 (Đỉnh)', days: 30, isPartial: false, gmv: 3772428748, share: 25.4, gmvPerDay: 125747625, units: 22096, aov: 170729, momRaw: 37.3, momDay: 41.9 },
-    { ym: '2026-07', label: 'T7', days: 31, isPartial: false, gmv: 2125850482, share: 14.3, gmvPerDay: 68575822, units: 13358, aov: 159144, momRaw: -43.6, momDay: -45.5 },
-    { ym: '2026-08', label: 'T8', days: 31, isPartial: false, gmv: 636689605, share: 4.3, gmvPerDay: 20538374, units: 6622, aov: 96148, momRaw: -70.1, momDay: -70.1 },
-    { ym: '2026-09', label: 'T9', days: 30, isPartial: false, gmv: 701005244, share: 4.7, gmvPerDay: 23366841, units: 5841, aov: 120015, momRaw: 10.1, momDay: 13.8 },
-    { ym: '2026-10', label: 'T10', days: 20, isPartial: true, gmv: 1450389823, share: 9.8, gmvPerDay: 72519491, units: 10088, aov: 143774, momRaw: 106.9, momDay: 210.4 },
-  ];
+  const monthlyTable = m.store.monthly.map((mo) => {
+    const isPeak = mo.month === '2026-06';
+    const monthNum = parseInt(mo.month.slice(5, 7), 10);
+    const label = isPeak ? `T${monthNum} (Đỉnh)` : `T${monthNum}`;
+    const aov = mo.units > 0 ? Math.round(mo.gmv / mo.units) : 0;
+    return {
+      ym: mo.month,
+      label,
+      days: mo.days,
+      isPartial: mo.isPartial,
+      gmv: mo.gmv,
+      share: Math.round(mo.shareOfTotalPct * 10) / 10,
+      gmvPerDay: mo.gmvPerDay,
+      units: mo.units,
+      aov,
+      momRaw: mo.momRawPct,
+      momDay: mo.momPerDayPct,
+    };
+  });
 
-  // Tính chỉ số mùa vụ theo thứ trong tuần (DOW Seasonality) từ 226 ngày liên tục
+  // Tính chỉ số mùa vụ theo thứ trong tuần (DOW Seasonality) từ 231 ngày liên tục
   const DOW_NAMES = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
   const DOW_ORDER = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];
   const overallDailyMean = gmvSeries.reduce((s, x) => s + x, 0) / (daily.length || 1);
@@ -959,6 +992,7 @@ export function buildStage3Data(): Stage3Payload {
     storeFacts,
     dailyMean,
     dailyStd,
+    skuSeasonality: skuSeasonalityJson as unknown as SkuSeasonalityPayload,
   };
 }
 
@@ -1414,7 +1448,7 @@ export function buildStage7Data(): Stage7Payload {
   ];
 
   const schemaTables = [
-    { tableName: 'mart_store_seasonality_daily', grain: { vi: 'Theo ngày', en: 'Daily' }, records: 226, columns: 12, description: { vi: 'Chuỗi thời gian doanh thu 226 ngày, MA7, delta z-score', en: '226-day GMV time series, 7d rolling average, z-scores' } },
+    { tableName: 'mart_store_seasonality_daily', grain: { vi: 'Theo ngày', en: 'Daily' }, records: 231, columns: 12, description: { vi: 'Chuỗi thời gian doanh thu 231 ngày, MA7, delta z-score', en: '231-day GMV time series, 7d rolling average, z-scores' } },
     { tableName: 'mart_creator_cohorts_retention', grain: { vi: 'Creator x Tháng', en: 'Creator x Month' }, records: 292, columns: 9, description: { vi: 'Ma trận giữ chân creator, vòng đời LTV, độ nhạy Girl Style', en: 'Creator retention matrix, LTV cycle, Girl Style sensitivity' } },
     { tableName: 'mart_sku_pareto_health', grain: { vi: 'Mã SKU', en: 'SKU' }, records: 331, columns: 8, description: { vi: 'Phân loại A/B/C Pareto, tình trạng tồn kho chết, dải giá', en: 'Pareto ABC classification, dead stock flags, price bands' } },
     { tableName: 'mart_content_funnel_gpm', grain: { vi: 'Định dạng nội dung', en: 'Content Format' }, records: 4, columns: 7, description: { vi: 'Chuyển đổi phễu Live vs Video, hiệu suất GPM, phân vị', en: 'Live vs Video funnel conversion, GPM efficiency, percentiles' } },
@@ -1423,7 +1457,7 @@ export function buildStage7Data(): Stage7Payload {
 
   const cronCadence = [
     { pipeline: '1. FastMoss Incremental Ingestion', cadence: '0 2 * * *', window: 'Daily 02:00 AM', trigger: 'Python Ingestion Script', targetTable: 'stg_store_daily' },
-    { pipeline: '2. Staging Normalization & Timezone Sync', cadence: '30 2 * * *', window: 'Daily 02:30 AM', trigger: 'SQL Transform / dbt', targetTable: 'clean_store_daily_226d' },
+    { pipeline: '2. Staging Normalization & Timezone Sync', cadence: '30 2 * * *', window: 'Daily 02:30 AM', trigger: 'SQL Transform / dbt', targetTable: 'clean_store_daily_231d' },
     { pipeline: '3. Anomaly & Outlier Detector', cadence: '0 3 * * *', window: 'Daily 03:00 AM', trigger: 'Python Z-Score Engine', targetTable: 'mart_anomaly_telemetry' },
     { pipeline: '4. Marts Rollup & Cache Invalidation', cadence: '15 3 * * *', window: 'Daily 03:15 AM', trigger: 'API Cache Invalidator', targetTable: 'mart_*' },
   ];
@@ -1432,8 +1466,8 @@ export function buildStage7Data(): Stage7Payload {
     {
       gate: { vi: '1. Chuỗi ngày liên tục', en: '1. Continuous Date Range' },
       scope: 'stg_store',
-      expected: { vi: 'Đủ 226 ngày không đứt đoạn (09/03 – 20/10/2026)', en: '226 uninterrupted days (Mar 09 - Oct 20)' },
-      actual: '226/226 ngày',
+      expected: { vi: 'Đủ 231 ngày không đứt đoạn (09/03 – 25/10/2026)', en: '231 uninterrupted days (Mar 09 - Oct 25)' },
+      actual: '231/231 ngày',
       level: 'error',
       status: 'passed',
       note: { vi: 'Đảm bảo tính toàn vẹn chuỗi thời gian', en: 'Guarantees time-series continuity' },
@@ -1441,8 +1475,8 @@ export function buildStage7Data(): Stage7Payload {
     {
       gate: { vi: '2. Kiểm soát tổng doanh số', en: '2. Total Sales Reconciliation' },
       scope: 'stg_store',
-      expected: '100.669 sp · 14.842.597.762 VNĐ',
-      actual: '100.669 sp · 14.842.597.762 VNĐ',
+      expected: '101.896 sp · 15.009.083.662 VNĐ',
+      actual: '101.896 sp · 15.009.083.662 VNĐ',
       level: 'error',
       status: 'passed',
       note: { vi: 'Khớp tuyệt đối 100% không lệch 1 xu', en: '100% exact currency reconciliation' },

@@ -19,16 +19,16 @@ import {
 describe('Kami Ely playbook data', () => {
   it('khớp tổng các bảng nguồn hợp nhất', () => {
     expect(tableRows).toHaveLength(9);
-    expect(totalRows).toBe(21568);
+    expect(totalRows).toBe(21573);
   });
 
   it('trung bình trượt 7 ngày chỉ có giá trị khi đủ cửa sổ', () => {
-    expect(dailySeries).toHaveLength(226);
+    expect(dailySeries).toHaveLength(231);
     expect(dailySeries.slice(0, 6).every((d) => d.ma7 === null)).toBe(true);
     expect(dailySeries[6].ma7).not.toBeNull();
   });
 
-  it('GMV lũy kế ngày cuối bằng tổng GMV 226 ngày', () => {
+  it('GMV lũy kế ngày cuối bằng tổng GMV 231 ngày', () => {
     const last = dailySeries[dailySeries.length - 1];
     expect(last.cumulativeB).toBeCloseTo(storeFacts.gmv / 1e9, 1);
   });
@@ -36,8 +36,8 @@ describe('Kami Ely playbook data', () => {
   it('z-score tái tạo đúng ngày ngoại lai 16/06', () => {
     expect(outlierDays.length).toBeGreaterThanOrEqual(1);
     expect(outlierDays[0].date).toBe('2026-06-16');
-    expect(outlierDays[0].z).toBeCloseTo(5.79, 1);
-    expect(robustZ(storeFacts.peakDay.gmv)).toBeCloseTo(5.5, 1);
+    expect(outlierDays[0].z).toBeCloseTo(5.83, 1);
+    expect(robustZ(storeFacts.peakDay.gmv)).toBeCloseTo(5.8, 1);
     expect(zScoreSeries.filter((d) => d.isOutlier)).toHaveLength(outlierDays.length);
   });
 
@@ -76,8 +76,8 @@ describe('Kami Ely playbook data', () => {
     expect(kAnonymity.every((k) => k.creators >= K_MIN && k.passes)).toBe(true);
   });
 
-  it('10 mẫu mod 10 phủ đủ 226 ngày', () => {
+  it('10 mẫu mod 10 phủ đủ 231 ngày', () => {
     expect(modSamples).toHaveLength(10);
-    expect(modSamples.reduce((s, x) => s + x.n, 0)).toBe(226);
+    expect(modSamples.reduce((s, x) => s + x.n, 0)).toBe(231);
   });
 });

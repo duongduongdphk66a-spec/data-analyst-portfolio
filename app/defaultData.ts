@@ -94,26 +94,26 @@ export const DEFAULT_PROFILE: ProfileData = {
 export const DEFAULT_PROJECTS: ProjectData[] = [
   {
     id: 'proj-kami-ely',
-    title: 'Tối ưu hóa Phân bổ Nguồn lực Đa kênh: Case Study Thương hiệu Kami Ely',
-    titleEn: 'Multi-Channel Resource Allocation: Kami Ely Case Study',
-    desc: 'Phân tích dữ liệu 238,4k đơn hàng và 31,6 tỷ đồng GMV từ khi mở shop. Báo cáo so sánh hiệu quả kênh video và livestream. Chuỗi thời gian 180 ngày chỉ rõ điểm bão hòa thời lượng phát sóng.',
-    descEn: 'Analyzed 238.4k orders and 31.6B VND in cumulative GMV since store launch. Compared revenue performance between shoppable short videos and livestreams. A 180-day time series models the daily broadcast saturation threshold.',
-    tags: ['Data Analytics', 'Statistical Testing', 'Time-Series Analysis', 'Resource Optimization', 'Python', 'Recharts'],
+    title: 'Kami Ely: Phân tích hiệu suất TikTok Shop và mạng lưới Affiliate',
+    titleEn: 'Kami Ely: TikTok Shop & Affiliate Network Analytics',
+    desc: 'Phân tích 231 ngày vận hành (15,01 tỷ đồng GMV ước tính, 101.896 sản phẩm) từ dữ liệu FastMoss. Bóc tách động lực doanh thu giữa Live chính chủ, kênh vệ tinh, mạng lưới KOC và chuyển dịch danh mục mùa vụ.',
+    descEn: 'Analyzed 231 operating days (15.01B VND estimated GMV, 101,896 units) from FastMoss telemetry. Evaluated revenue drivers across official livestreams, in-house satellite channel, affiliate KOC cohorts, and seasonal SKU transitions.',
+    tags: ['E-Commerce Analytics', 'Time-Series & OLS', 'Cohort & HHI', 'Statistical Testing', 'SQL & Python', 'Recharts'],
     img: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop&q=80',
     featured: true,
-    problem: 'Kênh Live chiếm phần lớn thời gian nhưng chỉ đạt GPM 30,2k đồng. Ngược lại, video ngắn mang lại GPM 135,2k đồng trên mỗi nghìn lượt xem. Doanh số tháng 8 và 9 sụt giảm, cần tìm nguyên nhân do mùa vụ hay vận hành.',
-    problemEn: 'Livestreams consumed most broadcast hours but delivered only 30.2k VND per thousand views. Short videos generated 135.2k VND GPM per thousand views. Late summer revenue dropped, requiring root cause attribution between seasonality and execution.',
-    method: 'So sánh kiểm định thống kê giữa 551 video và 470 phiên live. Mô hình hồi quy xác định ngưỡng bão hòa phiên live ở mức 3,1 giờ mỗi ngày. Phân rã chuỗi thời gian 180 ngày thành ba phần: xu hướng, mùa vụ và nhiễu.',
-    methodEn: 'Conducted statistical hypothesis tests comparing 551 videos against 470 livestreams. Modeled diminishing marginal returns to pinpoint a 3.1-hour daily saturation threshold. Decomposed the 180-day time series into trend, seasonal, and residual components.',
-    insight: 'Video ngắn đạt hiệu quả doanh thu cao gấp 4,48 lần so với live (p < 0,0001). Mùa du lịch hè giải thích 85% mức giảm doanh số sau tháng 7. Shop cần cắt giảm giờ live vượt ngưỡng 3,1 giờ và gắn giỏ hàng vào toàn bộ video.',
-    insightEn: 'Shoppable videos generated 4.48 times higher revenue velocity than livestreams (p < 0.0001). Summer vacation seasonality explained 85% of the post-July sales slump. Cutting excess broadcast hours beyond 3.1 hours recovered operational efficiency.',
+    problem: 'Doanh thu tháng 8 giảm 83,1% so với đỉnh tháng 6 khi qua cao điểm đồ bơi hè. Gian hàng cần xác định mức độ phụ thuộc vào từng kênh nội dung, sức bền mạng lưới KOC và danh mục sản phẩm thay thế cho mùa Thu Đông.',
+    problemEn: 'August revenue fell 83.1% from the June peak after summer swimwear demand subsided. Needed to quantify channel concentration, KOC retention decay, and autumn-winter SKU transition performance.',
+    method: 'Chuẩn hóa 9 bảng dữ liệu ước tính FastMoss (231 ngày), kiểm chứng độ nhạy trung bình trượt khi Winsorize ngoại lai, chạy hồi quy OLS đa biến, đo chỉ số tập trung HHI và kiểm định phi tham số Mann-Whitney U cho video quảng cáo.',
+    methodEn: 'Standardized 9 FastMoss telemetry tables (231 days), tested moving-average crossover sensitivity under outlier Winsorization, fitted daily OLS regression, computed HHI concentration, and ran Mann-Whitney U tests on video ads.',
+    insight: 'Live chính chủ và kênh vệ tinh tạo ra 84,5% doanh thu livestream, trong khi 12/339 SKU đóng góp 80,6% GMV kỳ gần nhất. Chuyển dịch sang dòng Áo thu và Chân váy cùng nhóm KOC mới giúp doanh thu tháng 10 phục hồi gấp 2,3 lần đáy tháng 8.',
+    insightEn: 'Official and satellite livestreams generated 84.5% of live GMV, while 12/339 SKUs drove 80.6% of recent catalog sales. Pivoting to autumn tops and skirts with new KOC cohorts lifted October daily sales 2.3x above the August trough.',
     metrics: [
-      { label: 'Quy Mô Quần Thể Toàn Thời Gian', labelEn: 'All-Time Order Volume', value: '238.4k', change: '31.6 Tỷ VNĐ (Từ 2022)', changeEn: '31.6B VND (Since 2022)', isPositive: true },
-      { label: 'Chênh Lệch GPM Video vs Live', labelEn: 'Video vs Live GPM Ratio', value: '4.48x', change: 'Ưu thế bền vững', changeEn: 'Sustainable Advantage', isPositive: true },
-      { label: 'Ngưỡng Giờ Live Hiệu Quả', labelEn: 'Optimal Live Threshold', value: '3.1h', change: 'Điểm bão hòa doanh số', changeEn: 'Revenue Saturation Point', isPositive: true },
-      { label: 'Chu Kỳ Phân Rã Dữ Liệu', labelEn: 'Time-Series Decomposition', value: '180 Ngày', change: 'Xu hướng & Mùa vụ hè', changeEn: 'Trend & Summer Seasonality', isPositive: true }
+      { label: 'GMV ước tính (231 ngày)', labelEn: 'Estimated GMV (231 Days)', value: '15,01 Tỷ', change: '101.896 sản phẩm bán ra', changeEn: '101,896 units sold', isPositive: true },
+      { label: 'Giá bán TB thực tế (ASP)', labelEn: 'Average Selling Price (ASP)', value: '147,3k đ', change: 'Dải 75k-250k chiếm 93% GMV', changeEn: '75k-250k band = 93% GMV', isPositive: true },
+      { label: 'Thị phần Live in-house', labelEn: 'In-House Live Share', value: '84,5%', change: 'Chính chủ + Kênh vệ tinh', changeEn: 'Official + Satellite Live', isPositive: true },
+      { label: 'Mức tập trung HHI KOC', labelEn: 'Affiliate Live HHI', value: '2.152', change: 'Giảm từ 3.230 nhờ KOC Thu Đông', changeEn: 'Down from 3,230 in autumn', isPositive: true }
     ],
-    tools: ['Python (scipy.stats & statsmodels)', 'Statistical Analysis', 'Time-Series Modeling', 'Recharts']
+    tools: ['Python (scipy & numpy)', 'SQL Data Pipeline', 'OLS & Non-parametric Tests', 'Recharts']
   },
   {
     id: 'proj-heritage-japan',

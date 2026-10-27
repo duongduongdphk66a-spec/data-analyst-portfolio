@@ -328,7 +328,7 @@ export const topAffiliatesList = [
   },
   {
     id: 'dayboisinhtonbmt',
-    name: 'sinh tồn thực chiến',
+    name: 'dạy bơi sinh tồn',
     type: 'Sports / Other',
     followers: 89407,
     units: 305,

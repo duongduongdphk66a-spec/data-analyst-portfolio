@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import { 
   ChevronDown, ChevronRight, Github, Linkedin, 
   Sun, Moon, Download,
-  UserCheck, FileText, Briefcase, Home, BookOpen,
-  Search
+  UserCheck, FileText, Briefcase, Home, BookOpen
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -23,13 +22,9 @@ export default function Sidebar() {
     pathname.startsWith('/projects')
   );
 
-  const openCommandPalette = () => {
-    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }));
-  };
-
   const navItems = [
     { id: '/', label: language === 'en' ? 'Home' : 'Trang Chủ', icon: Home, hasChildren: false },
-    { id: '/projects', label: language === 'en' ? 'Work' : 'Dự Án', icon: Briefcase, hasChildren: true },
+    { id: '/projects/proj-kami-ely', label: language === 'en' ? 'Work' : 'Dự Án', icon: Briefcase, hasChildren: true },
     { id: '/experience', label: language === 'en' ? 'Experience' : 'Kinh Nghiệm', icon: FileText, hasChildren: false },
     { id: '/about', label: language === 'en' ? 'About' : 'Giới Thiệu', icon: UserCheck, hasChildren: false },
     { id: '/blog', label: language === 'en' ? 'Blog' : 'Blog Phân Tích', icon: BookOpen, hasChildren: false },
@@ -71,42 +66,12 @@ export default function Sidebar() {
         <div className="lg:hidden flex justify-center mt-3" title={language === 'en' ? 'Open for Analytics' : 'Sẵn sàng nhận dự án DA'}>
           <span className="inline-flex rounded-full h-2 w-2 bg-emerald-600 dark:bg-emerald-400" />
         </div>
-
-        {/* Quick Search trigger (Command Palette) */}
-        <div className="hidden lg:block mt-3">
-          <button
-            type="button"
-            onClick={openCommandPalette}
-            className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900/90 hover:bg-slate-100/80 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/90 dark:border-slate-800 text-xs transition-colors duration-200 group cursor-pointer"
-          >
-            <div className="flex items-center gap-2">
-              <Search className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 group-hover:text-[#0D7287] dark:group-hover:text-[#9BE7FA] group-hover:scale-110 transition-transform" />
-              <span className="text-xs font-medium text-slate-600 dark:text-slate-400 group-hover:text-slate-950 dark:group-hover:text-white">
-                {language === 'en' ? 'Quick search...' : 'Tìm kiếm nhanh...'}
-              </span>
-            </div>
-            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-500 dark:text-slate-400">
-              Ctrl K
-            </kbd>
-          </button>
-        </div>
-        <div className="lg:hidden flex justify-center mt-3">
-          <button
-            type="button"
-            onClick={openCommandPalette}
-            aria-label={language === 'en' ? 'Quick search' : 'Tìm kiếm nhanh'}
-            title={language === 'en' ? 'Quick search (Ctrl K)' : 'Tìm kiếm nhanh (Ctrl K)'}
-            className="p-2 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-colors duration-200 cursor-pointer"
-          >
-            <Search className="w-4 h-4" />
-          </button>
-        </div>
       </div>
 
       {/* Main Editorial Navigation */}
       <nav className="flex-1 px-2 lg:px-3 py-2 space-y-1 overflow-y-auto overflow-x-visible relative z-10 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800">
         {navItems.map((item) => {
-          const isActive = pathname === item.id || (item.id === '/projects' && pathname.startsWith('/projects'));
+          const isActive = pathname === item.id || (item.hasChildren && pathname.startsWith('/projects'));
           const ItemIcon = item.icon;
 
           return (
@@ -117,12 +82,9 @@ export default function Sidebar() {
                 onClick={(e) => {
                   if (item.hasChildren) {
                     const isDesktopRail = typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches;
-                    if (!isDesktopRail) return;
-                    if (pathname.startsWith('/projects')) {
+                    if (isDesktopRail) {
                       e.preventDefault();
-                      setIsProjectsOpen(!isProjectsOpen);
-                    } else {
-                      setIsProjectsOpen(true);
+                      setIsProjectsOpen((prev) => !prev);
                     }
                   }
                 }}
@@ -156,24 +118,43 @@ export default function Sidebar() {
               {item.hasChildren && isProjectsOpen && (
                 <div className="hidden lg:flex flex-col gap-1 mt-1 pl-4 ml-3 border-l-2 border-slate-200 dark:border-slate-800 animate-in slide-in-from-top-1 duration-200">
                   {projects.map((proj) => {
-                    const isSelected = pathname === `/projects/${proj.id}`;
+                    const isSelected = pathname === `/projects/${proj.id}` || pathname.startsWith(`/projects/${proj.id}/`);
+                    const sidebarLabels: Record<string, { vi: string; en: string }> = {
+                      'proj-kami-ely': {
+                        vi: 'Kami Ely · E-Commerce Analytics',
+                        en: 'Kami Ely · E-Commerce Analytics',
+                      },
+                      'proj-heritage-japan': {
+                        vi: 'Du lịch Di sản Nhật Bản (JNTO)',
+                        en: 'Japan Heritage Tourism (JNTO)',
+                      },
+                      'proj-library-bus': {
+                        vi: 'Library Bus · Thiết kế UX/UI',
+                        en: 'Library Bus · UX/UI Design',
+                      },
+                    };
+                    const fullTitle = language === 'en' && proj.titleEn ? proj.titleEn : proj.title;
+                    const compactLabel = sidebarLabels[proj.id]
+                      ? (language === 'en' ? sidebarLabels[proj.id].en : sidebarLabels[proj.id].vi)
+                      : fullTitle;
                     return (
                       <Link
                         key={proj.id}
                         href={`/projects/${proj.id}`}
-                        className={`text-left text-xs py-1.5 px-2.5 font-bold rounded-lg transition-colors duration-150 truncate cursor-pointer flex items-center gap-2 group ${
+                        aria-current={isSelected ? 'page' : undefined}
+                        className={`text-left text-xs py-2 px-2.5 font-bold rounded-lg transition-colors duration-150 cursor-pointer flex items-start gap-2 group ${
                           isSelected
-                            ? 'bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 text-[#074553] dark:text-[#9BE7FA] font-black'
+                            ? 'bg-[#C8EEF7]/60 dark:bg-[#9BE7FA]/15 text-[#074553] dark:text-[#9BE7FA] font-black'
                             : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/60'
                         }`}
-                        title={proj.title}
+                        title={fullTitle}
                       >
                         {isSelected ? (
-                          <span className="w-2 h-2 rounded-full shrink-0 bg-[#0D7287] dark:bg-[#9BE7FA]" />
+                          <span className="w-2 h-2 mt-1 rounded-full shrink-0 bg-[#0D7287] dark:bg-[#9BE7FA]" />
                         ) : (
-                          <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-slate-300 dark:bg-slate-700 group-hover:bg-[#0D7287] dark:group-hover:bg-[#9BE7FA] transition-colors" />
+                          <span className="w-1.5 h-1.5 mt-1.5 rounded-full shrink-0 bg-slate-300 dark:bg-slate-700 group-hover:bg-[#0D7287] dark:group-hover:bg-[#9BE7FA] transition-colors" />
                         )}
-                        <span className="truncate">{proj.title}</span>
+                        <span className="leading-snug line-clamp-2">{compactLabel}</span>
                       </Link>
                     );
                   })}
@@ -213,8 +194,9 @@ export default function Sidebar() {
             href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={language === 'en' ? 'Download CV' : 'Tải CV Chi Tiết'}
             title={language === 'en' ? 'Download CV' : 'Tải CV Chi Tiết'}
-            className="p-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 text-[#074553] dark:text-[#9BE7FA] transition-colors duration-200 cursor-pointer"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 text-[#074553] dark:text-[#9BE7FA] transition-colors duration-200 cursor-pointer"
           >
             <Download className="w-4 h-4" />
           </a>
@@ -233,7 +215,7 @@ export default function Sidebar() {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 aria-label="LinkedIn Profile"
-                className="p-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white border border-slate-200 dark:border-slate-700 transition-colors duration-200 cursor-pointer"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white border border-slate-200 dark:border-slate-700 transition-colors duration-200 cursor-pointer"
                 title="LinkedIn"
               >
                 <Linkedin className="w-4 h-4" />
@@ -245,7 +227,7 @@ export default function Sidebar() {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 aria-label="GitHub Repository"
-                className="p-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white border border-slate-200 dark:border-slate-700 transition-colors duration-200 cursor-pointer"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white border border-slate-200 dark:border-slate-700 transition-colors duration-200 cursor-pointer"
                 title="GitHub"
               >
                 <Github className="w-4 h-4" />
@@ -261,7 +243,7 @@ export default function Sidebar() {
               type="button"
               onClick={toggleTheme}
               aria-label="Đổi chế độ sáng / tối"
-              className="p-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-amber-500 transition-transform border border-slate-200 dark:border-slate-700 hover:rotate-12 cursor-pointer"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-amber-500 transition-transform border border-slate-200 dark:border-slate-700 hover:rotate-12 cursor-pointer"
               title="Đổi theme Sáng / Tối"
             >
               {resolvedTheme === 'dark' ? (

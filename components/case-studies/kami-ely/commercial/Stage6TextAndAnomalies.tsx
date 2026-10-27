@@ -175,7 +175,7 @@ ORDER BY total_videos DESC;`,
                 }
               />
               <Bar dataKey="gmvShare" name={L('Tỷ trọng GMV (%)', 'GMV Share (%)')} fill={COLORS.cyan} radius={[0, 4, 4, 0]}>
-                <LabelList dataKey="gmvShare" position="right" fontSize={11} className={TEXT_FILL_CLASS} formatter={(v: unknown) => `${n(Number(v), 1)}%`} />
+                <LabelList dataKey="gmvShare" position="right" fontSize={13} className={TEXT_FILL_CLASS} formatter={(v: unknown) => `${n(Number(v), 1)}%`} />
               </Bar>
             </BarChart>
           </ResponsiveContainer>

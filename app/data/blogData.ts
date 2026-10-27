@@ -232,7 +232,7 @@ ORDER BY fulfillment_rate_pct DESC;`,
     readTimeEn: "5 min read",
     date: "2026-07",
     titleVi:
-      "Ứng dụng Khung 8 Giai đoạn 'SQL for Data Analysis' vào Dự án Thực chiến",
+      "Ứng dụng Khung 8 Giai đoạn 'SQL for Data Analysis' vào Dự án Phân tích Dữ liệu",
     titleEn:
       "Applying the 8-Stage 'SQL for Data Analysis' Framework to Production Case Studies",
     excerptVi:

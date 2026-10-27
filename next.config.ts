@@ -34,6 +34,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/projects',
+        destination: '/projects/proj-kami-ely',
+        permanent: false,
+      },
+      {
         source: '/projects/heritage-japan',
         destination: '/projects/proj-heritage-japan',
         permanent: true,

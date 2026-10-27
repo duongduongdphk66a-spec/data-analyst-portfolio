@@ -106,9 +106,9 @@ export function PolicyEvaluationSection({
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={preCovidData} margin={{ top: 22, right: 30, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="year" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} domain={[0, 36]}>
-                  <Label value="(M)" position="top" offset={10} fill="#94a3b8" fontSize={11} />
+                <XAxis dataKey="year" tick={{ fontSize: 16 }} />
+                <YAxis tick={{ fontSize: 16 }} domain={[0, 36]}>
+                  <Label value="(M)" position="top" offset={10} fill="#94a3b8" fontSize={16} />
                 </YAxis>
                 <Tooltip 
                   formatter={(value: any, name: any) => [
@@ -118,7 +118,7 @@ export function PolicyEvaluationSection({
                 />
                 <Legend 
                   formatter={(value) => value === 'value' ? 'Thực tế đạt được (Chính sách 2013: CAGR 20.6%)' : 'Kịch bản không chính sách (Kéo dài xu hướng cũ: CAGR 5.1%)'}
-                  wrapperStyle={{ fontSize: 12, paddingTop: 10 }}
+                  wrapperStyle={{ fontSize: 16, paddingTop: 10 }}
                 />
                 <Line 
                   type="monotone" 

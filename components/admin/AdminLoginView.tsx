@@ -81,14 +81,15 @@ export default function AdminLoginView({ onLoginSuccess }: AdminLoginViewProps) 
             value={passwordInput}
             onChange={(e) => setPasswordInput(e.target.value)}
             placeholder="Nhập mật khẩu quản trị..."
+            aria-label="Mật khẩu quản trị"
             disabled={isLoggingIn}
-            className="w-full pl-10 pr-10 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition"
+            className="w-full pl-10 pr-11 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition"
             autoFocus
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+            className="absolute inset-y-0 right-0 min-w-[44px] h-full flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
             aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
           >
             {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -105,14 +106,15 @@ export default function AdminLoginView({ onLoginSuccess }: AdminLoginViewProps) 
             value={verifyCodeInput}
             onChange={(e) => setVerifyCodeInput(e.target.value)}
             placeholder="Mã xác nhận bảo mật..."
+            aria-label="Mã xác nhận bảo mật"
             disabled={isLoggingIn}
             data-ui="admin-input"
-            className="w-full pl-10 pr-10 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition" /* taste-skill-ignore: form input */
+            className="w-full pl-10 pr-11 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition" /* taste-skill-ignore: form input */
           />
           <button
             type="button"
             onClick={() => setShowVerifyCode(!showVerifyCode)}
-            className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+            className="absolute inset-y-0 right-0 min-w-[44px] h-full flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
             aria-label={showVerifyCode ? 'Ẩn mã xác nhận' : 'Hiện mã xác nhận'}
           >
             {showVerifyCode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}

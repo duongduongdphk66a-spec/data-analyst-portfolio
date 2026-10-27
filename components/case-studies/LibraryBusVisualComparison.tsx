@@ -492,8 +492,9 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                                       `${s.num}. ${s.nameVi} - Wireframe`,
                                       platformTab === 'desktop' ? 'Cấu trúc khung xám lưới 12 cột' : 'Bố cục dọc Mobile 4 cột'
                                     )}
-                                    className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer"
-                                    title="Phóng to"
+                                    className="min-h-[36px] min-w-[36px] p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer flex items-center justify-center"
+                                    aria-label={isEn ? "Zoom wireframe" : "Phóng to wireframe"}
+                                    title={isEn ? "Zoom wireframe" : "Phóng to wireframe"}
                                   >
                                     <Maximize2 className="w-3.5 h-3.5" />
                                   </button>
@@ -527,8 +528,9 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                                       `${s.num}. ${s.nameVi} - UI Design`,
                                       platformTab === 'desktop' ? 'Giao diện màu hoàn chỉnh Desktop' : 'Giao diện màu hoàn chỉnh Mobile'
                                     )}
-                                    className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer"
-                                    title="Phóng to"
+                                    className="min-h-[36px] min-w-[36px] p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer flex items-center justify-center"
+                                    aria-label={isEn ? "Zoom UI design" : "Phóng to giao diện UI"}
+                                    title={isEn ? "Zoom UI design" : "Phóng to giao diện UI"}
                                   >
                                     <Maximize2 className="w-3.5 h-3.5" />
                                   </button>
@@ -613,8 +615,9 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                               `${s.num}. ${s.nameVi} - Wireframe`,
                               platformTab === 'desktop' ? 'Cấu trúc khung xám lưới 12 cột' : 'Bố cục dọc Mobile 4 cột'
                             )}
-                            className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer"
-                            title="Phóng to"
+                            className="min-h-[36px] min-w-[36px] p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer flex items-center justify-center"
+                            aria-label={isEn ? "Zoom wireframe" : "Phóng to wireframe"}
+                            title={isEn ? "Zoom wireframe" : "Phóng to wireframe"}
                           >
                             <Maximize2 className="w-3.5 h-3.5" />
                           </button>
@@ -648,8 +651,9 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                               `${s.num}. ${s.nameVi} - UI Design`,
                               platformTab === 'desktop' ? 'Giao diện màu hoàn chỉnh Desktop' : 'Giao diện màu hoàn chỉnh Mobile'
                             )}
-                            className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer"
-                            title="Phóng to"
+                            className="min-h-[36px] min-w-[36px] p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer flex items-center justify-center"
+                            aria-label={isEn ? "Zoom UI design" : "Phóng to giao diện UI"}
+                            title={isEn ? "Zoom UI design" : "Phóng to giao diện UI"}
                           >
                             <Maximize2 className="w-3.5 h-3.5" />
                           </button>
@@ -882,8 +886,9 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                 <button
                   type="button"
                   onClick={() => setZoomLevel(prev => Math.max(0.5, prev - 0.25))}
-                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
-                  title="Thu nhỏ"
+                  className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer flex items-center justify-center"
+                  aria-label={isEn ? "Zoom out" : "Thu nhỏ"}
+                  title={isEn ? "Zoom out" : "Thu nhỏ"}
                 >
                   <ZoomOut className="w-4 h-4" />
                 </button>
@@ -893,24 +898,27 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                 <button
                   type="button"
                   onClick={() => setZoomLevel(prev => Math.min(3, prev + 0.25))}
-                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
-                  title="Phóng to"
+                  className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer flex items-center justify-center"
+                  aria-label={isEn ? "Zoom in" : "Phóng to"}
+                  title={isEn ? "Zoom in" : "Phóng to"}
                 >
                   <ZoomIn className="w-4 h-4" />
                 </button>
                 <a
                   href={lightboxImg.src}
                   download="screen-preview.webp"
-                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
-                  title="Tải ảnh gốc"
+                  className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer flex items-center justify-center"
+                  aria-label={isEn ? "Download original image" : "Tải ảnh gốc"}
+                  title={isEn ? "Download original image" : "Tải ảnh gốc"}
                 >
                   <Download className="w-4 h-4" />
                 </a>
                 <button
                   type="button"
                   onClick={() => setLightboxImg(null)}
-                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
-                  title="Đóng modal"
+                  className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer flex items-center justify-center"
+                  aria-label={isEn ? "Close modal" : "Đóng modal"}
+                  title={isEn ? "Close modal" : "Đóng modal"}
                 >
                   <X className="w-5 h-5" />
                 </button>

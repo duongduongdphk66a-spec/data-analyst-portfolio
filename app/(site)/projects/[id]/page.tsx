@@ -35,9 +35,9 @@ export async function generateStaticParams() {
 
 const PROJECT_METADATA: Record<string, { title: string; desc: string; keywords?: string[] }> = {
   'proj-kami-ely': {
-    title: 'Kami Ely: TikTok Shop Performance & Affiliate Analytics | Ma Văn Hùng',
-    desc: 'Phân tích hiệu suất bán hàng TikTok Shop, mạng lưới 1,000+ creator affiliates, và tối ưu chi phí hoa hồng cho ngành Sports & Outdoor. SQL, Python, Power BI.',
-    keywords: ['TikTok Shop', 'Affiliate Analytics', 'E-Commerce', 'Python', 'SQL', 'Power BI', 'GMV Optimization'],
+    title: 'Kami Ely: Phân tích hiệu suất TikTok Shop và mạng lưới Affiliate | Ma Văn Hùng',
+    desc: 'Đánh giá thực nghiệm 231 ngày vận hành (15,01 tỷ VNĐ, 101.896 sản phẩm) từ dữ liệu ước tính FastMoss cho gian hàng thời trang nữ và đồ bơi: cơ cấu kênh, hồi quy OLS mùa vụ, Cohort 302 KOC và chỉ số HHI.',
+    keywords: ['TikTok Shop', 'Affiliate Analytics', 'E-Commerce', 'Python', 'SQL', 'OLS Regression', 'Cohort Retention'],
   },
   'proj-heritage-japan': {
     title: 'Du lịch Di sản Nhật Bản: Phân tích Chuỗi Thời Gian | Ma Văn Hùng',

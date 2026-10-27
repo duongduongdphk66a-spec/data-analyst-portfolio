@@ -4,7 +4,12 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 1. Bỏ qua hoàn toàn các file HTML tĩnh trong /library-bus/ để không chặn inline script & sơ đồ tương tác
+  // 1. Chuyển hướng /projects về case study chính /projects/proj-kami-ely (đã bỏ trang tổng quan /projects)
+  if (pathname === '/projects' || pathname === '/projects/') {
+    return NextResponse.redirect(new URL('/projects/proj-kami-ely', request.url), 307);
+  }
+
+  // 2. Bỏ qua hoàn toàn các file HTML tĩnh trong /library-bus/ để không chặn inline script & sơ đồ tương tác
   if (pathname.startsWith('/library-bus/') || pathname.endsWith('.html')) {
     return NextResponse.next();
   }
@@ -16,11 +21,13 @@ export function middleware(request: NextRequest) {
   // 3. CSP nghiêm ngặt chuẩn OWASP / Next.js App Router (Không dùng unsafe-eval hay wildcard https: đại trà)
   const cspHeader = [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${isDev ? "'unsafe-eval'" : ''}`,
+    isDev
+      ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data:"
+      : `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: blob: https://images.unsplash.com https://*.githubusercontent.com https://avatars.githubusercontent.com",
     "font-src 'self' data: https://fonts.gstatic.com",
-    `connect-src 'self' ${isDev ? 'ws: wss:' : ''}`,
+    `connect-src 'self' ${isDev ? 'ws: wss: http: https:' : ''}`,
     "frame-src 'self' https://*.google.com https://lookerstudio.google.com https://public.tableau.com https://*.powerbi.com https://*.youtube.com https://*.loom.com",
     "object-src 'none'",
     "base-uri 'self'",
