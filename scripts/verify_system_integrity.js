@@ -29,7 +29,7 @@ function printHeader(title) {
 function runCommand(command, name) {
   printHeader(name);
   try {
-    const output = execSync(command, { cwd: ROOT_DIR, encoding: 'utf-8', stdio: 'pipe' });
+    const output = execSync(command, { cwd: ROOT_DIR, encoding: 'utf-8', stdio: 'pipe', maxBuffer: 20 * 1024 * 1024 });
     console.log(`${COLORS.green}✔ ${name} PASSED${COLORS.reset}`);
     return { success: true, output };
   } catch (error) {
@@ -127,7 +127,7 @@ async function main() {
   const results = {
     typecheck: runCommand('npx tsc --noEmit', 'TypeScript Typecheck (tsc)'),
     lint: runCommand('npm run lint -- --max-warnings=0', 'ESLint Code Quality (0 warnings)'),
-    tests: runCommand('npm test', 'Unit & Security Test Suite (78 tests)'),
+    tests: runCommand('npx vitest run', 'Unit & Security Test Suite (106 tests)'),
     typography: checkSmallTypography(),
     csp: checkCspHeaders(),
     antiSpoofing: checkAntiIpSpoofing()
@@ -145,7 +145,7 @@ async function main() {
   console.log(`${COLORS.cyan}====================================================${COLORS.reset}`);
   console.log(`1. TypeScript Compilation (tsc):    ${results.typecheck.success ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
   console.log(`2. ESLint Code Quality (0 warning): ${results.lint.success ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
-  console.log(`3. Unit & Security Tests (78 tests): ${results.tests.success ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
+  console.log(`3. Unit & Security Tests (106 tests): ${results.tests.success ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
   console.log(`4. Typography Standard (text-xs+):  ${results.typography ? COLORS.green + 'PASSED (0 small font classes)' : COLORS.yellow + 'WARNING'}${COLORS.reset}`);
   console.log(`5. CSP Nonce & Security Headers:    ${results.csp ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);
   console.log(`6. Anti-IP Spoofing (getClientIp):  ${results.antiSpoofing ? COLORS.green + 'PASSED' : COLORS.red + 'FAILED'}${COLORS.reset}`);

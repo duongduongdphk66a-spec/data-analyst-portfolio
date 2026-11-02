@@ -1,0 +1,6935 @@
+{
+  "meta": {
+    "version": "2.0",
+    "windowStart": "2026-03-09",
+    "windowEnd": "2026-10-25",
+    "days": 231,
+    "totalFiles": 10,
+    "totalRawRows": 23364
+  },
+  "ch0": {
+    "kpis": {
+      "gmvVnd": 15009083662,
+      "gmvB": 15.01,
+      "dailyMeanM": 65,
+      "unitsSold": 101896,
+      "aspVnd": 147298,
+      "junGmvB": 3.77,
+      "augGmvB": 0.64,
+      "junToAugDropPct": -83.1,
+      "peakDayDate": "2026-06-16",
+      "peakDayGmvM": 315,
+      "peak7dGmvB": 1.09,
+      "peak7dSharePct": 7.3,
+      "latestMaCrossDate": "22/10"
+    },
+    "dailySeries": [
+      {
+        "date": "2026-03-09",
+        "ddmm": "09/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 38.22,
+        "ma7M": null,
+        "ma28M": null,
+        "z28": null,
+        "units": 310,
+        "newKoc": 14,
+        "newVideo": 0,
+        "newLives": 19
+      },
+      {
+        "date": "2026-03-10",
+        "ddmm": "10/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 35.81,
+        "ma7M": null,
+        "ma28M": null,
+        "z28": null,
+        "units": 294,
+        "newKoc": 6,
+        "newVideo": 4,
+        "newLives": 5
+      },
+      {
+        "date": "2026-03-11",
+        "ddmm": "11/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 21.75,
+        "ma7M": null,
+        "ma28M": null,
+        "z28": null,
+        "units": 180,
+        "newKoc": 3,
+        "newVideo": 2,
+        "newLives": 1
+      },
+      {
+        "date": "2026-03-12",
+        "ddmm": "12/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 49.19,
+        "ma7M": null,
+        "ma28M": null,
+        "z28": null,
+        "units": 422,
+        "newKoc": 4,
+        "newVideo": 1,
+        "newLives": 4
+      },
+      {
+        "date": "2026-03-13",
+        "ddmm": "13/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 41.74,
+        "ma7M": null,
+        "ma28M": null,
+        "z28": null,
+        "units": 350,
+        "newKoc": 11,
+        "newVideo": 4,
+        "newLives": 8
+      },
+      {
+        "date": "2026-03-14",
+        "ddmm": "14/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 47.1,
+        "ma7M": null,
+        "ma28M": null,
+        "z28": null,
+        "units": 413,
+        "newKoc": 17,
+        "newVideo": 11,
+        "newLives": 15
+      },
+      {
+        "date": "2026-03-15",
+        "ddmm": "15/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 31.52,
+        "ma7M": 37.91,
+        "ma28M": null,
+        "z28": null,
+        "units": 262,
+        "newKoc": 16,
+        "newVideo": 3,
+        "newLives": 26
+      },
+      {
+        "date": "2026-03-16",
+        "ddmm": "16/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 36.49,
+        "ma7M": 37.66,
+        "ma28M": null,
+        "z28": null,
+        "units": 287,
+        "newKoc": 15,
+        "newVideo": 1,
+        "newLives": 26
+      },
+      {
+        "date": "2026-03-17",
+        "ddmm": "17/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 36.67,
+        "ma7M": 37.78,
+        "ma28M": null,
+        "z28": null,
+        "units": 307,
+        "newKoc": 17,
+        "newVideo": 5,
+        "newLives": 22
+      },
+      {
+        "date": "2026-03-18",
+        "ddmm": "18/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 39.06,
+        "ma7M": 40.25,
+        "ma28M": null,
+        "z28": null,
+        "units": 331,
+        "newKoc": 20,
+        "newVideo": 3,
+        "newLives": 34
+      },
+      {
+        "date": "2026-03-19",
+        "ddmm": "19/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 45.24,
+        "ma7M": 39.69,
+        "ma28M": null,
+        "z28": null,
+        "units": 382,
+        "newKoc": 28,
+        "newVideo": 8,
+        "newLives": 42
+      },
+      {
+        "date": "2026-03-20",
+        "ddmm": "20/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 41.79,
+        "ma7M": 39.7,
+        "ma28M": null,
+        "z28": null,
+        "units": 344,
+        "newKoc": 25,
+        "newVideo": 4,
+        "newLives": 36
+      },
+      {
+        "date": "2026-03-21",
+        "ddmm": "21/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 33.89,
+        "ma7M": 37.81,
+        "ma28M": null,
+        "z28": null,
+        "units": 287,
+        "newKoc": 23,
+        "newVideo": 1,
+        "newLives": 44
+      },
+      {
+        "date": "2026-03-22",
+        "ddmm": "22/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 24.53,
+        "ma7M": 36.81,
+        "ma28M": null,
+        "z28": null,
+        "units": 215,
+        "newKoc": 22,
+        "newVideo": 6,
+        "newLives": 32
+      },
+      {
+        "date": "2026-03-23",
+        "ddmm": "23/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 42.31,
+        "ma7M": 37.64,
+        "ma28M": null,
+        "z28": null,
+        "units": 344,
+        "newKoc": 28,
+        "newVideo": 2,
+        "newLives": 48
+      },
+      {
+        "date": "2026-03-24",
+        "ddmm": "24/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 29.22,
+        "ma7M": 36.58,
+        "ma28M": null,
+        "z28": null,
+        "units": 251,
+        "newKoc": 28,
+        "newVideo": 1,
+        "newLives": 39
+      },
+      {
+        "date": "2026-03-25",
+        "ddmm": "25/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 58.77,
+        "ma7M": 39.39,
+        "ma28M": null,
+        "z28": null,
+        "units": 425,
+        "newKoc": 37,
+        "newVideo": 20,
+        "newLives": 28
+      },
+      {
+        "date": "2026-03-26",
+        "ddmm": "26/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 73.06,
+        "ma7M": 43.37,
+        "ma28M": null,
+        "z28": null,
+        "units": 670,
+        "newKoc": 46,
+        "newVideo": 32,
+        "newLives": 28
+      },
+      {
+        "date": "2026-03-27",
+        "ddmm": "27/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 36.34,
+        "ma7M": 42.59,
+        "ma28M": null,
+        "z28": null,
+        "units": 327,
+        "newKoc": 32,
+        "newVideo": 34,
+        "newLives": 13
+      },
+      {
+        "date": "2026-03-28",
+        "ddmm": "28/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 81.72,
+        "ma7M": 49.42,
+        "ma28M": null,
+        "z28": null,
+        "units": 734,
+        "newKoc": 32,
+        "newVideo": 35,
+        "newLives": 9
+      },
+      {
+        "date": "2026-03-29",
+        "ddmm": "29/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 45.39,
+        "ma7M": 52.4,
+        "ma28M": null,
+        "z28": null,
+        "units": 416,
+        "newKoc": 28,
+        "newVideo": 24,
+        "newLives": 11
+      },
+      {
+        "date": "2026-03-30",
+        "ddmm": "30/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 35.12,
+        "ma7M": 51.37,
+        "ma28M": null,
+        "z28": null,
+        "units": 292,
+        "newKoc": 43,
+        "newVideo": 34,
+        "newLives": 22
+      },
+      {
+        "date": "2026-03-31",
+        "ddmm": "31/03",
+        "month": "2026-03",
+        "phase": "ramp",
+        "gmvM": 24.88,
+        "ma7M": 50.75,
+        "ma28M": null,
+        "z28": null,
+        "units": 196,
+        "newKoc": 74,
+        "newVideo": 56,
+        "newLives": 45
+      },
+      {
+        "date": "2026-04-01",
+        "ddmm": "01/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 111.92,
+        "ma7M": 58.35,
+        "ma28M": null,
+        "z28": null,
+        "units": 644,
+        "newKoc": 76,
+        "newVideo": 42,
+        "newLives": 62
+      },
+      {
+        "date": "2026-04-02",
+        "ddmm": "02/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 135.58,
+        "ma7M": 67.28,
+        "ma28M": null,
+        "z28": null,
+        "units": 919,
+        "newKoc": 68,
+        "newVideo": 38,
+        "newLives": 71
+      },
+      {
+        "date": "2026-04-03",
+        "ddmm": "03/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 55.01,
+        "ma7M": 69.95,
+        "ma28M": null,
+        "z28": null,
+        "units": 445,
+        "newKoc": 85,
+        "newVideo": 60,
+        "newLives": 81
+      },
+      {
+        "date": "2026-04-04",
+        "ddmm": "04/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 59.96,
+        "ma7M": 66.84,
+        "ma28M": null,
+        "z28": null,
+        "units": 486,
+        "newKoc": 81,
+        "newVideo": 51,
+        "newLives": 77
+      },
+      {
+        "date": "2026-04-05",
+        "ddmm": "05/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 64.31,
+        "ma7M": 69.54,
+        "ma28M": 49.16,
+        "z28": null,
+        "units": 518,
+        "newKoc": 73,
+        "newVideo": 41,
+        "newLives": 69
+      },
+      {
+        "date": "2026-04-06",
+        "ddmm": "06/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 57.09,
+        "ma7M": 72.68,
+        "ma28M": 49.84,
+        "z28": 0.31,
+        "units": 477,
+        "newKoc": 90,
+        "newVideo": 44,
+        "newLives": 95
+      },
+      {
+        "date": "2026-04-07",
+        "ddmm": "07/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 67.14,
+        "ma7M": 78.72,
+        "ma28M": 50.96,
+        "z28": 0.68,
+        "units": 513,
+        "newKoc": 90,
+        "newVideo": 39,
+        "newLives": 92
+      },
+      {
+        "date": "2026-04-08",
+        "ddmm": "08/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 74.29,
+        "ma7M": 73.34,
+        "ma28M": 52.83,
+        "z28": 0.91,
+        "units": 508,
+        "newKoc": 95,
+        "newVideo": 50,
+        "newLives": 100
+      },
+      {
+        "date": "2026-04-09",
+        "ddmm": "09/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 79.46,
+        "ma7M": 65.32,
+        "ma28M": 53.91,
+        "z28": 1.05,
+        "units": 559,
+        "newKoc": 101,
+        "newVideo": 53,
+        "newLives": 106
+      },
+      {
+        "date": "2026-04-10",
+        "ddmm": "10/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 72.24,
+        "ma7M": 67.79,
+        "ma28M": 55,
+        "z28": 0.71,
+        "units": 428,
+        "newKoc": 86,
+        "newVideo": 46,
+        "newLives": 98
+      },
+      {
+        "date": "2026-04-11",
+        "ddmm": "11/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 47.27,
+        "ma7M": 65.97,
+        "ma28M": 55.01,
+        "z28": -0.3,
+        "units": 335,
+        "newKoc": 80,
+        "newVideo": 39,
+        "newLives": 82
+      },
+      {
+        "date": "2026-04-12",
+        "ddmm": "12/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 103.43,
+        "ma7M": 71.56,
+        "ma28M": 57.58,
+        "z28": 1.87,
+        "units": 697,
+        "newKoc": 78,
+        "newVideo": 46,
+        "newLives": 78
+      },
+      {
+        "date": "2026-04-13",
+        "ddmm": "13/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 68.54,
+        "ma7M": 73.2,
+        "ma28M": 58.72,
+        "z28": 0.41,
+        "units": 507,
+        "newKoc": 77,
+        "newVideo": 43,
+        "newLives": 67
+      },
+      {
+        "date": "2026-04-14",
+        "ddmm": "14/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 89.25,
+        "ma7M": 76.35,
+        "ma28M": 60.6,
+        "z28": 1.14,
+        "units": 644,
+        "newKoc": 75,
+        "newVideo": 27,
+        "newLives": 94
+      },
+      {
+        "date": "2026-04-15",
+        "ddmm": "15/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 102.77,
+        "ma7M": 80.42,
+        "ma28M": 62.88,
+        "z28": 1.56,
+        "units": 723,
+        "newKoc": 88,
+        "newVideo": 43,
+        "newLives": 88
+      },
+      {
+        "date": "2026-04-16",
+        "ddmm": "16/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 104.58,
+        "ma7M": 84.01,
+        "ma28M": 65,
+        "z28": 1.5,
+        "units": 742,
+        "newKoc": 79,
+        "newVideo": 40,
+        "newLives": 86
+      },
+      {
+        "date": "2026-04-17",
+        "ddmm": "17/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 98.16,
+        "ma7M": 87.71,
+        "ma28M": 67.01,
+        "z28": 1.16,
+        "units": 671,
+        "newKoc": 57,
+        "newVideo": 24,
+        "newLives": 58
+      },
+      {
+        "date": "2026-04-18",
+        "ddmm": "18/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 109.8,
+        "ma7M": 96.65,
+        "ma28M": 69.72,
+        "z28": 1.48,
+        "units": 742,
+        "newKoc": 44,
+        "newVideo": 33,
+        "newLives": 19
+      },
+      {
+        "date": "2026-04-19",
+        "ddmm": "19/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 76.91,
+        "ma7M": 92.86,
+        "ma28M": 71.59,
+        "z28": 0.25,
+        "units": 493,
+        "newKoc": 30,
+        "newVideo": 20,
+        "newLives": 15
+      },
+      {
+        "date": "2026-04-20",
+        "ddmm": "20/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 72.67,
+        "ma7M": 93.45,
+        "ma28M": 72.68,
+        "z28": 0.04,
+        "units": 536,
+        "newKoc": 56,
+        "newVideo": 30,
+        "newLives": 45
+      },
+      {
+        "date": "2026-04-21",
+        "ddmm": "21/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 72.64,
+        "ma7M": 91.08,
+        "ma28M": 74.23,
+        "z28": 0,
+        "units": 485,
+        "newKoc": 70,
+        "newVideo": 38,
+        "newLives": 67
+      },
+      {
+        "date": "2026-04-22",
+        "ddmm": "22/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 142.08,
+        "ma7M": 96.69,
+        "ma28M": 77.2,
+        "z28": 2.61,
+        "units": 1000,
+        "newKoc": 68,
+        "newVideo": 47,
+        "newLives": 40
+      },
+      {
+        "date": "2026-04-23",
+        "ddmm": "23/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 67.45,
+        "ma7M": 91.39,
+        "ma28M": 77,
+        "z28": -0.34,
+        "units": 458,
+        "newKoc": 43,
+        "newVideo": 31,
+        "newLives": 19
+      },
+      {
+        "date": "2026-04-24",
+        "ddmm": "24/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 128.23,
+        "ma7M": 95.69,
+        "ma28M": 80.28,
+        "z28": 1.78,
+        "units": 1011,
+        "newKoc": 45,
+        "newVideo": 34,
+        "newLives": 34
+      },
+      {
+        "date": "2026-04-25",
+        "ddmm": "25/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 81.37,
+        "ma7M": 91.62,
+        "ma28M": 80.27,
+        "z28": 0.04,
+        "units": 605,
+        "newKoc": 62,
+        "newVideo": 20,
+        "newLives": 62
+      },
+      {
+        "date": "2026-04-26",
+        "ddmm": "26/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 90.77,
+        "ma7M": 93.6,
+        "ma28M": 81.89,
+        "z28": 0.36,
+        "units": 666,
+        "newKoc": 52,
+        "newVideo": 14,
+        "newLives": 67
+      },
+      {
+        "date": "2026-04-27",
+        "ddmm": "27/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 44.66,
+        "ma7M": 89.6,
+        "ma28M": 82.23,
+        "z28": -1.31,
+        "units": 314,
+        "newKoc": 42,
+        "newVideo": 8,
+        "newLives": 60
+      },
+      {
+        "date": "2026-04-28",
+        "ddmm": "28/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 45.65,
+        "ma7M": 85.75,
+        "ma28M": 82.97,
+        "z28": -1.31,
+        "units": 327,
+        "newKoc": 41,
+        "newVideo": 14,
+        "newLives": 43
+      },
+      {
+        "date": "2026-04-29",
+        "ddmm": "29/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 48.63,
+        "ma7M": 72.4,
+        "ma28M": 80.71,
+        "z28": -1.29,
+        "units": 328,
+        "newKoc": 28,
+        "newVideo": 4,
+        "newLives": 39
+      },
+      {
+        "date": "2026-04-30",
+        "ddmm": "30/04",
+        "month": "2026-04",
+        "phase": "ramp",
+        "gmvM": 87.21,
+        "ma7M": 75.22,
+        "ma28M": 78.99,
+        "z28": 0.24,
+        "units": 577,
+        "newKoc": 27,
+        "newVideo": 0,
+        "newLives": 43
+      },
+      {
+        "date": "2026-05-01",
+        "ddmm": "01/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 59.86,
+        "ma7M": 65.45,
+        "ma28M": 79.16,
+        "z28": -0.78,
+        "units": 397,
+        "newKoc": 26,
+        "newVideo": 1,
+        "newLives": 40
+      },
+      {
+        "date": "2026-05-02",
+        "ddmm": "02/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 58.56,
+        "ma7M": 62.19,
+        "ma28M": 79.11,
+        "z28": -0.85,
+        "units": 388,
+        "newKoc": 34,
+        "newVideo": 3,
+        "newLives": 47
+      },
+      {
+        "date": "2026-05-03",
+        "ddmm": "03/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 55.41,
+        "ma7M": 57.14,
+        "ma28M": 78.79,
+        "z28": -0.97,
+        "units": 372,
+        "newKoc": 30,
+        "newVideo": 2,
+        "newLives": 61
+      },
+      {
+        "date": "2026-05-04",
+        "ddmm": "04/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 65.53,
+        "ma7M": 60.12,
+        "ma28M": 79.09,
+        "z28": -0.54,
+        "units": 470,
+        "newKoc": 39,
+        "newVideo": 1,
+        "newLives": 61
+      },
+      {
+        "date": "2026-05-05",
+        "ddmm": "05/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 53.91,
+        "ma7M": 61.3,
+        "ma28M": 78.62,
+        "z28": -1.03,
+        "units": 395,
+        "newKoc": 28,
+        "newVideo": 0,
+        "newLives": 47
+      },
+      {
+        "date": "2026-05-06",
+        "ddmm": "06/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 67.68,
+        "ma7M": 64.02,
+        "ma28M": 78.38,
+        "z28": -0.44,
+        "units": 458,
+        "newKoc": 33,
+        "newVideo": 0,
+        "newLives": 58
+      },
+      {
+        "date": "2026-05-07",
+        "ddmm": "07/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 62.89,
+        "ma7M": 60.55,
+        "ma28M": 77.79,
+        "z28": -0.62,
+        "units": 442,
+        "newKoc": 23,
+        "newVideo": 0,
+        "newLives": 26
+      },
+      {
+        "date": "2026-05-08",
+        "ddmm": "08/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 90.36,
+        "ma7M": 64.91,
+        "ma28M": 78.44,
+        "z28": 0.5,
+        "units": 679,
+        "newKoc": 29,
+        "newVideo": 1,
+        "newLives": 41
+      },
+      {
+        "date": "2026-05-09",
+        "ddmm": "09/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 97.73,
+        "ma7M": 70.5,
+        "ma28M": 80.24,
+        "z28": 0.77,
+        "units": 634,
+        "newKoc": 38,
+        "newVideo": 1,
+        "newLives": 60
+      },
+      {
+        "date": "2026-05-10",
+        "ddmm": "10/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 116.56,
+        "ma7M": 79.24,
+        "ma28M": 80.71,
+        "z28": 1.48,
+        "units": 720,
+        "newKoc": 40,
+        "newVideo": 2,
+        "newLives": 60
+      },
+      {
+        "date": "2026-05-11",
+        "ddmm": "11/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 68.51,
+        "ma7M": 79.66,
+        "ma28M": 80.71,
+        "z28": -0.48,
+        "units": 517,
+        "newKoc": 38,
+        "newVideo": 0,
+        "newLives": 70
+      },
+      {
+        "date": "2026-05-12",
+        "ddmm": "12/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 66.2,
+        "ma7M": 81.42,
+        "ma28M": 79.89,
+        "z28": -0.58,
+        "units": 415,
+        "newKoc": 37,
+        "newVideo": 1,
+        "newLives": 56
+      },
+      {
+        "date": "2026-05-13",
+        "ddmm": "13/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 70.24,
+        "ma7M": 81.78,
+        "ma28M": 78.72,
+        "z28": -0.38,
+        "units": 465,
+        "newKoc": 42,
+        "newVideo": 0,
+        "newLives": 70
+      },
+      {
+        "date": "2026-05-14",
+        "ddmm": "14/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 106.34,
+        "ma7M": 87.99,
+        "ma28M": 78.79,
+        "z28": 1.11,
+        "units": 645,
+        "newKoc": 37,
+        "newVideo": 1,
+        "newLives": 58
+      },
+      {
+        "date": "2026-05-15",
+        "ddmm": "15/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 97,
+        "ma7M": 88.94,
+        "ma28M": 78.75,
+        "z28": 0.73,
+        "units": 652,
+        "newKoc": 28,
+        "newVideo": 1,
+        "newLives": 45
+      },
+      {
+        "date": "2026-05-16",
+        "ddmm": "16/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 121.98,
+        "ma7M": 92.4,
+        "ma28M": 79.18,
+        "z28": 1.73,
+        "units": 686,
+        "newKoc": 20,
+        "newVideo": 2,
+        "newLives": 22
+      },
+      {
+        "date": "2026-05-17",
+        "ddmm": "17/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 100.19,
+        "ma7M": 90.06,
+        "ma28M": 80.01,
+        "z28": 0.82,
+        "units": 604,
+        "newKoc": 6,
+        "newVideo": 0,
+        "newLives": 11
+      },
+      {
+        "date": "2026-05-18",
+        "ddmm": "18/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 159.6,
+        "ma7M": 103.08,
+        "ma28M": 83.12,
+        "z28": 3.07,
+        "units": 895,
+        "newKoc": 27,
+        "newVideo": 1,
+        "newLives": 42
+      },
+      {
+        "date": "2026-05-19",
+        "ddmm": "19/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 82.93,
+        "ma7M": 105.47,
+        "ma28M": 83.48,
+        "z28": -0.01,
+        "units": 531,
+        "newKoc": 27,
+        "newVideo": 25,
+        "newLives": 14
+      },
+      {
+        "date": "2026-05-20",
+        "ddmm": "20/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 62.23,
+        "ma7M": 104.32,
+        "ma28M": 80.63,
+        "z28": -0.71,
+        "units": 403,
+        "newKoc": 48,
+        "newVideo": 46,
+        "newLives": 21
+      },
+      {
+        "date": "2026-05-21",
+        "ddmm": "21/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 89.58,
+        "ma7M": 101.93,
+        "ma28M": 81.42,
+        "z28": 0.32,
+        "units": 585,
+        "newKoc": 45,
+        "newVideo": 31,
+        "newLives": 31
+      },
+      {
+        "date": "2026-05-22",
+        "ddmm": "22/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 99.74,
+        "ma7M": 102.32,
+        "ma28M": 80.4,
+        "z28": 0.66,
+        "units": 631,
+        "newKoc": 48,
+        "newVideo": 42,
+        "newLives": 37
+      },
+      {
+        "date": "2026-05-23",
+        "ddmm": "23/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 68.73,
+        "ma7M": 94.71,
+        "ma28M": 79.95,
+        "z28": -0.44,
+        "units": 409,
+        "newKoc": 29,
+        "newVideo": 36,
+        "newLives": 10
+      },
+      {
+        "date": "2026-05-24",
+        "ddmm": "24/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 80.97,
+        "ma7M": 91.97,
+        "ma28M": 79.6,
+        "z28": 0.04,
+        "units": 494,
+        "newKoc": 27,
+        "newVideo": 29,
+        "newLives": 5
+      },
+      {
+        "date": "2026-05-25",
+        "ddmm": "25/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 159.56,
+        "ma7M": 91.96,
+        "ma28M": 83.71,
+        "z28": 3.03,
+        "units": 1016,
+        "newKoc": 44,
+        "newVideo": 29,
+        "newLives": 26
+      },
+      {
+        "date": "2026-05-26",
+        "ddmm": "26/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 83.63,
+        "ma7M": 92.06,
+        "ma28M": 85.06,
+        "z28": 0,
+        "units": 538,
+        "newKoc": 53,
+        "newVideo": 37,
+        "newLives": 58
+      },
+      {
+        "date": "2026-05-27",
+        "ddmm": "27/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 114.31,
+        "ma7M": 99.5,
+        "ma28M": 87.41,
+        "z28": 1.02,
+        "units": 673,
+        "newKoc": 53,
+        "newVideo": 27,
+        "newLives": 51
+      },
+      {
+        "date": "2026-05-28",
+        "ddmm": "28/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 109.48,
+        "ma7M": 102.34,
+        "ma28M": 88.2,
+        "z28": 0.78,
+        "units": 645,
+        "newKoc": 59,
+        "newVideo": 42,
+        "newLives": 62
+      },
+      {
+        "date": "2026-05-29",
+        "ddmm": "29/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 95.03,
+        "ma7M": 101.67,
+        "ma28M": 89.46,
+        "z28": 0.24,
+        "units": 492,
+        "newKoc": 60,
+        "newVideo": 23,
+        "newLives": 65
+      },
+      {
+        "date": "2026-05-30",
+        "ddmm": "30/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 86.99,
+        "ma7M": 104.28,
+        "ma28M": 90.47,
+        "z28": -0.09,
+        "units": 474,
+        "newKoc": 54,
+        "newVideo": 26,
+        "newLives": 64
+      },
+      {
+        "date": "2026-05-31",
+        "ddmm": "31/05",
+        "month": "2026-05",
+        "phase": "ramp",
+        "gmvM": 95.61,
+        "ma7M": 106.37,
+        "ma28M": 91.91,
+        "z28": 0.19,
+        "units": 542,
+        "newKoc": 57,
+        "newVideo": 22,
+        "newLives": 66
+      },
+      {
+        "date": "2026-06-01",
+        "ddmm": "01/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 85.4,
+        "ma7M": 95.78,
+        "ma28M": 92.62,
+        "z28": -0.25,
+        "units": 511,
+        "newKoc": 61,
+        "newVideo": 38,
+        "newLives": 78
+      },
+      {
+        "date": "2026-06-02",
+        "ddmm": "02/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 122.63,
+        "ma7M": 101.35,
+        "ma28M": 95.07,
+        "z28": 1.16,
+        "units": 708,
+        "newKoc": 66,
+        "newVideo": 37,
+        "newLives": 81
+      },
+      {
+        "date": "2026-06-03",
+        "ddmm": "03/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 84.48,
+        "ma7M": 97.09,
+        "ma28M": 95.67,
+        "z28": -0.42,
+        "units": 534,
+        "newKoc": 51,
+        "newVideo": 17,
+        "newLives": 71
+      },
+      {
+        "date": "2026-06-04",
+        "ddmm": "04/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 41.3,
+        "ma7M": 87.35,
+        "ma28M": 94.9,
+        "z28": -2.18,
+        "units": 272,
+        "newKoc": 51,
+        "newVideo": 22,
+        "newLives": 59
+      },
+      {
+        "date": "2026-06-05",
+        "ddmm": "05/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 113.95,
+        "ma7M": 90.05,
+        "ma28M": 95.75,
+        "z28": 0.72,
+        "units": 660,
+        "newKoc": 45,
+        "newVideo": 17,
+        "newLives": 64
+      },
+      {
+        "date": "2026-06-06",
+        "ddmm": "06/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 141.2,
+        "ma7M": 97.79,
+        "ma28M": 97.3,
+        "z28": 1.71,
+        "units": 794,
+        "newKoc": 51,
+        "newVideo": 21,
+        "newLives": 61
+      },
+      {
+        "date": "2026-06-07",
+        "ddmm": "07/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 120.92,
+        "ma7M": 101.41,
+        "ma28M": 97.45,
+        "z28": 0.85,
+        "units": 699,
+        "newKoc": 43,
+        "newVideo": 23,
+        "newLives": 33
+      },
+      {
+        "date": "2026-06-08",
+        "ddmm": "08/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 176.31,
+        "ma7M": 114.4,
+        "ma28M": 101.3,
+        "z28": 2.82,
+        "units": 956,
+        "newKoc": 44,
+        "newVideo": 17,
+        "newLives": 58
+      },
+      {
+        "date": "2026-06-09",
+        "ddmm": "09/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 129.12,
+        "ma7M": 115.32,
+        "ma28M": 103.55,
+        "z28": 0.89,
+        "units": 735,
+        "newKoc": 38,
+        "newVideo": 8,
+        "newLives": 57
+      },
+      {
+        "date": "2026-06-10",
+        "ddmm": "10/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 121.49,
+        "ma7M": 120.61,
+        "ma28M": 105.38,
+        "z28": 0.58,
+        "units": 692,
+        "newKoc": 37,
+        "newVideo": 5,
+        "newLives": 55
+      },
+      {
+        "date": "2026-06-11",
+        "ddmm": "11/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 148.66,
+        "ma7M": 135.95,
+        "ma28M": 106.89,
+        "z28": 1.43,
+        "units": 807,
+        "newKoc": 35,
+        "newVideo": 1,
+        "newLives": 61
+      },
+      {
+        "date": "2026-06-12",
+        "ddmm": "12/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 122.73,
+        "ma7M": 137.2,
+        "ma28M": 107.81,
+        "z28": 0.51,
+        "units": 693,
+        "newKoc": 37,
+        "newVideo": 1,
+        "newLives": 70
+      },
+      {
+        "date": "2026-06-13",
+        "ddmm": "13/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 115.93,
+        "ma7M": 133.59,
+        "ma28M": 107.6,
+        "z28": 0.26,
+        "units": 678,
+        "newKoc": 41,
+        "newVideo": 3,
+        "newLives": 69
+      },
+      {
+        "date": "2026-06-14",
+        "ddmm": "14/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 138.1,
+        "ma7M": 136.05,
+        "ma28M": 108.95,
+        "z28": 0.97,
+        "units": 776,
+        "newKoc": 35,
+        "newVideo": 1,
+        "newLives": 68
+      },
+      {
+        "date": "2026-06-15",
+        "ddmm": "15/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 77.7,
+        "ma7M": 121.96,
+        "ma28M": 106.02,
+        "z28": -0.98,
+        "units": 500,
+        "newKoc": 49,
+        "newVideo": 17,
+        "newLives": 61
+      },
+      {
+        "date": "2026-06-16",
+        "ddmm": "16/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 315.05,
+        "ma7M": 148.52,
+        "ma28M": 114.31,
+        "z28": 6.81,
+        "units": 1936,
+        "newKoc": 51,
+        "newVideo": 3,
+        "newLives": 91
+      },
+      {
+        "date": "2026-06-17",
+        "ddmm": "17/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 96.21,
+        "ma7M": 144.91,
+        "ma28M": 115.53,
+        "z28": -0.36,
+        "units": 624,
+        "newKoc": 49,
+        "newVideo": 2,
+        "newLives": 87
+      },
+      {
+        "date": "2026-06-18",
+        "ddmm": "18/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 176.67,
+        "ma7M": 148.91,
+        "ma28M": 118.64,
+        "z28": 1.25,
+        "units": 957,
+        "newKoc": 22,
+        "newVideo": 0,
+        "newLives": 31
+      },
+      {
+        "date": "2026-06-19",
+        "ddmm": "19/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 170.53,
+        "ma7M": 155.74,
+        "ma28M": 121.17,
+        "z28": 1.04,
+        "units": 1032,
+        "newKoc": 4,
+        "newVideo": 0,
+        "newLives": 6
+      },
+      {
+        "date": "2026-06-20",
+        "ddmm": "20/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 120.13,
+        "ma7M": 156.34,
+        "ma28M": 123,
+        "z28": -0.02,
+        "units": 702,
+        "newKoc": 2,
+        "newVideo": 0,
+        "newLives": 4
+      },
+      {
+        "date": "2026-06-21",
+        "ddmm": "21/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 101.9,
+        "ma7M": 151.17,
+        "ma28M": 123.75,
+        "z28": -0.43,
+        "units": 612,
+        "newKoc": 2,
+        "newVideo": 0,
+        "newLives": 3
+      },
+      {
+        "date": "2026-06-22",
+        "ddmm": "22/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 69.17,
+        "ma7M": 149.95,
+        "ma28M": 120.52,
+        "z28": -1.11,
+        "units": 439,
+        "newKoc": 13,
+        "newVideo": 3,
+        "newLives": 12
+      },
+      {
+        "date": "2026-06-23",
+        "ddmm": "23/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 121.04,
+        "ma7M": 122.23,
+        "ma28M": 121.86,
+        "z28": 0.01,
+        "units": 678,
+        "newKoc": 39,
+        "newVideo": 11,
+        "newLives": 46
+      },
+      {
+        "date": "2026-06-24",
+        "ddmm": "24/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 107.44,
+        "ma7M": 123.84,
+        "ma28M": 121.61,
+        "z28": -0.29,
+        "units": 634,
+        "newKoc": 36,
+        "newVideo": 2,
+        "newLives": 51
+      },
+      {
+        "date": "2026-06-25",
+        "ddmm": "25/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 196.09,
+        "ma7M": 126.61,
+        "ma28M": 124.71,
+        "z28": 1.52,
+        "units": 1172,
+        "newKoc": 34,
+        "newVideo": 5,
+        "newLives": 45
+      },
+      {
+        "date": "2026-06-26",
+        "ddmm": "26/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 129,
+        "ma7M": 120.68,
+        "ma28M": 125.92,
+        "z28": 0.08,
+        "units": 762,
+        "newKoc": 28,
+        "newVideo": 4,
+        "newLives": 44
+      },
+      {
+        "date": "2026-06-27",
+        "ddmm": "27/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 109.49,
+        "ma7M": 119.16,
+        "ma28M": 126.72,
+        "z28": -0.32,
+        "units": 664,
+        "newKoc": 32,
+        "newVideo": 3,
+        "newLives": 50
+      },
+      {
+        "date": "2026-06-28",
+        "ddmm": "28/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 117.95,
+        "ma7M": 121.45,
+        "ma28M": 127.52,
+        "z28": -0.17,
+        "units": 701,
+        "newKoc": 29,
+        "newVideo": 3,
+        "newLives": 53
+      },
+      {
+        "date": "2026-06-29",
+        "ddmm": "29/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 95.73,
+        "ma7M": 125.25,
+        "ma28M": 127.89,
+        "z28": -0.64,
+        "units": 553,
+        "newKoc": 26,
+        "newVideo": 1,
+        "newLives": 43
+      },
+      {
+        "date": "2026-06-30",
+        "ddmm": "30/06",
+        "month": "2026-06",
+        "phase": "peak",
+        "gmvM": 106.13,
+        "ma7M": 123.12,
+        "ma28M": 127.3,
+        "z28": -0.44,
+        "units": 615,
+        "newKoc": 31,
+        "newVideo": 4,
+        "newLives": 48
+      },
+      {
+        "date": "2026-07-01",
+        "ddmm": "01/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 89.51,
+        "ma7M": 120.56,
+        "ma28M": 127.48,
+        "z28": -0.76,
+        "units": 533,
+        "newKoc": 24,
+        "newVideo": 4,
+        "newLives": 35
+      },
+      {
+        "date": "2026-07-02",
+        "ddmm": "02/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 116.9,
+        "ma7M": 109.24,
+        "ma28M": 130.18,
+        "z28": -0.21,
+        "units": 698,
+        "newKoc": 26,
+        "newVideo": 2,
+        "newLives": 39
+      },
+      {
+        "date": "2026-07-03",
+        "ddmm": "03/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 90.52,
+        "ma7M": 103.75,
+        "ma28M": 129.34,
+        "z28": -0.85,
+        "units": 525,
+        "newKoc": 12,
+        "newVideo": 4,
+        "newLives": 12
+      },
+      {
+        "date": "2026-07-04",
+        "ddmm": "04/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 74.63,
+        "ma7M": 98.77,
+        "ma28M": 126.97,
+        "z28": -1.16,
+        "units": 432,
+        "newKoc": 4,
+        "newVideo": 4,
+        "newLives": 0
+      },
+      {
+        "date": "2026-07-05",
+        "ddmm": "05/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 66.66,
+        "ma7M": 91.44,
+        "ma28M": 125.03,
+        "z28": -1.25,
+        "units": 406,
+        "newKoc": 9,
+        "newVideo": 12,
+        "newLives": 0
+      },
+      {
+        "date": "2026-07-06",
+        "ddmm": "06/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 104.14,
+        "ma7M": 92.64,
+        "ma28M": 122.45,
+        "z28": -0.42,
+        "units": 620,
+        "newKoc": 21,
+        "newVideo": 7,
+        "newLives": 15
+      },
+      {
+        "date": "2026-07-07",
+        "ddmm": "07/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 72.3,
+        "ma7M": 87.81,
+        "ma28M": 120.42,
+        "z28": -1.03,
+        "units": 418,
+        "newKoc": 31,
+        "newVideo": 4,
+        "newLives": 40
+      },
+      {
+        "date": "2026-07-08",
+        "ddmm": "08/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 78.19,
+        "ma7M": 86.19,
+        "ma28M": 118.87,
+        "z28": -0.85,
+        "units": 477,
+        "newKoc": 25,
+        "newVideo": 6,
+        "newLives": 31
+      },
+      {
+        "date": "2026-07-09",
+        "ddmm": "09/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 96.4,
+        "ma7M": 83.26,
+        "ma28M": 117.01,
+        "z28": -0.45,
+        "units": 590,
+        "newKoc": 22,
+        "newVideo": 4,
+        "newLives": 33
+      },
+      {
+        "date": "2026-07-10",
+        "ddmm": "10/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 86.48,
+        "ma7M": 82.69,
+        "ma28M": 115.71,
+        "z28": -0.61,
+        "units": 551,
+        "newKoc": 24,
+        "newVideo": 7,
+        "newLives": 34
+      },
+      {
+        "date": "2026-07-11",
+        "ddmm": "11/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 79.4,
+        "ma7M": 83.37,
+        "ma28M": 114.41,
+        "z28": -0.72,
+        "units": 520,
+        "newKoc": 15,
+        "newVideo": 4,
+        "newLives": 26
+      },
+      {
+        "date": "2026-07-12",
+        "ddmm": "12/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 77.27,
+        "ma7M": 84.88,
+        "ma28M": 112.24,
+        "z28": -0.73,
+        "units": 497,
+        "newKoc": 16,
+        "newVideo": 0,
+        "newLives": 24
+      },
+      {
+        "date": "2026-07-13",
+        "ddmm": "13/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 61.71,
+        "ma7M": 78.82,
+        "ma28M": 111.66,
+        "z28": -0.99,
+        "units": 371,
+        "newKoc": 16,
+        "newVideo": 1,
+        "newLives": 30
+      },
+      {
+        "date": "2026-07-14",
+        "ddmm": "14/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 67.11,
+        "ma7M": 78.08,
+        "ma28M": 102.81,
+        "z28": -0.86,
+        "units": 410,
+        "newKoc": 24,
+        "newVideo": 1,
+        "newLives": 34
+      },
+      {
+        "date": "2026-07-15",
+        "ddmm": "15/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 62.65,
+        "ma7M": 75.86,
+        "ma28M": 101.61,
+        "z28": -1.2,
+        "units": 391,
+        "newKoc": 33,
+        "newVideo": 15,
+        "newLives": 42
+      },
+      {
+        "date": "2026-07-16",
+        "ddmm": "16/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 83.19,
+        "ma7M": 73.97,
+        "ma28M": 98.27,
+        "z28": -0.54,
+        "units": 563,
+        "newKoc": 42,
+        "newVideo": 26,
+        "newLives": 31
+      },
+      {
+        "date": "2026-07-17",
+        "ddmm": "17/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 65.37,
+        "ma7M": 70.96,
+        "ma28M": 94.52,
+        "z28": -1.06,
+        "units": 426,
+        "newKoc": 33,
+        "newVideo": 15,
+        "newLives": 37
+      },
+      {
+        "date": "2026-07-18",
+        "ddmm": "18/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 62.16,
+        "ma7M": 68.5,
+        "ma28M": 92.45,
+        "z28": -1.14,
+        "units": 389,
+        "newKoc": 33,
+        "newVideo": 14,
+        "newLives": 37
+      },
+      {
+        "date": "2026-07-19",
+        "ddmm": "19/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 66.92,
+        "ma7M": 67.02,
+        "ma28M": 91.2,
+        "z28": -0.9,
+        "units": 430,
+        "newKoc": 23,
+        "newVideo": 6,
+        "newLives": 26
+      },
+      {
+        "date": "2026-07-20",
+        "ddmm": "20/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 63.79,
+        "ma7M": 67.31,
+        "ma28M": 91.01,
+        "z28": -0.95,
+        "units": 396,
+        "newKoc": 36,
+        "newVideo": 20,
+        "newLives": 28
+      },
+      {
+        "date": "2026-07-21",
+        "ddmm": "21/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 53.8,
+        "ma7M": 65.41,
+        "ma28M": 88.6,
+        "z28": -1.28,
+        "units": 344,
+        "newKoc": 19,
+        "newVideo": 7,
+        "newLives": 24
+      },
+      {
+        "date": "2026-07-22",
+        "ddmm": "22/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 62.58,
+        "ma7M": 65.4,
+        "ma28M": 87,
+        "z28": -0.89,
+        "units": 387,
+        "newKoc": 18,
+        "newVideo": 1,
+        "newLives": 28
+      },
+      {
+        "date": "2026-07-23",
+        "ddmm": "23/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 56.06,
+        "ma7M": 61.53,
+        "ma28M": 82,
+        "z28": -1.05,
+        "units": 372,
+        "newKoc": 21,
+        "newVideo": 3,
+        "newLives": 32
+      },
+      {
+        "date": "2026-07-24",
+        "ddmm": "24/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 49.83,
+        "ma7M": 59.31,
+        "ma28M": 79.17,
+        "z28": -1.55,
+        "units": 309,
+        "newKoc": 23,
+        "newVideo": 4,
+        "newLives": 25
+      },
+      {
+        "date": "2026-07-25",
+        "ddmm": "25/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 51.75,
+        "ma7M": 57.82,
+        "ma28M": 77.11,
+        "z28": -1.41,
+        "units": 327,
+        "newKoc": 17,
+        "newVideo": 2,
+        "newLives": 24
+      },
+      {
+        "date": "2026-07-26",
+        "ddmm": "26/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 62.74,
+        "ma7M": 57.22,
+        "ma28M": 75.14,
+        "z28": -0.75,
+        "units": 455,
+        "newKoc": 16,
+        "newVideo": 2,
+        "newLives": 17
+      },
+      {
+        "date": "2026-07-27",
+        "ddmm": "27/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 42.26,
+        "ma7M": 54.15,
+        "ma28M": 73.23,
+        "z28": -1.87,
+        "units": 259,
+        "newKoc": 16,
+        "newVideo": 2,
+        "newLives": 19
+      },
+      {
+        "date": "2026-07-28",
+        "ddmm": "28/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 39.41,
+        "ma7M": 52.09,
+        "ma28M": 70.85,
+        "z28": -1.86,
+        "units": 244,
+        "newKoc": 18,
+        "newVideo": 4,
+        "newLives": 23
+      },
+      {
+        "date": "2026-07-29",
+        "ddmm": "29/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 52.9,
+        "ma7M": 50.71,
+        "ma28M": 69.54,
+        "z28": -0.99,
+        "units": 338,
+        "newKoc": 21,
+        "newVideo": 3,
+        "newLives": 28
+      },
+      {
+        "date": "2026-07-30",
+        "ddmm": "30/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 44.56,
+        "ma7M": 49.06,
+        "ma28M": 66.96,
+        "z28": -1.39,
+        "units": 337,
+        "newKoc": 20,
+        "newVideo": 3,
+        "newLives": 30
+      },
+      {
+        "date": "2026-07-31",
+        "ddmm": "31/07",
+        "month": "2026-07",
+        "phase": "contraction",
+        "gmvM": 44.65,
+        "ma7M": 48.32,
+        "ma28M": 65.32,
+        "z28": -1.39,
+        "units": 343,
+        "newKoc": 22,
+        "newVideo": 3,
+        "newLives": 32
+      },
+      {
+        "date": "2026-08-01",
+        "ddmm": "01/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 32.5,
+        "ma7M": 45.57,
+        "ma28M": 63.81,
+        "z28": -2.07,
+        "units": 283,
+        "newKoc": 18,
+        "newVideo": 3,
+        "newLives": 26
+      },
+      {
+        "date": "2026-08-02",
+        "ddmm": "02/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 32.76,
+        "ma7M": 41.29,
+        "ma28M": 62.6,
+        "z28": -1.84,
+        "units": 296,
+        "newKoc": 13,
+        "newVideo": 1,
+        "newLives": 21
+      },
+      {
+        "date": "2026-08-03",
+        "ddmm": "03/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 25.07,
+        "ma7M": 38.84,
+        "ma28M": 59.78,
+        "z28": -2.1,
+        "units": 243,
+        "newKoc": 17,
+        "newVideo": 3,
+        "newLives": 22
+      },
+      {
+        "date": "2026-08-04",
+        "ddmm": "04/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 30.78,
+        "ma7M": 37.6,
+        "ma28M": 58.3,
+        "z28": -1.67,
+        "units": 277,
+        "newKoc": 21,
+        "newVideo": 4,
+        "newLives": 36
+      },
+      {
+        "date": "2026-08-05",
+        "ddmm": "05/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 28.93,
+        "ma7M": 34.18,
+        "ma28M": 56.54,
+        "z28": -1.63,
+        "units": 276,
+        "newKoc": 17,
+        "newVideo": 4,
+        "newLives": 25
+      },
+      {
+        "date": "2026-08-06",
+        "ddmm": "06/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 30.91,
+        "ma7M": 32.23,
+        "ma28M": 54.2,
+        "z28": -1.4,
+        "units": 299,
+        "newKoc": 17,
+        "newVideo": 4,
+        "newLives": 22
+      },
+      {
+        "date": "2026-08-07",
+        "ddmm": "07/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 27.32,
+        "ma7M": 29.75,
+        "ma28M": 52.09,
+        "z28": -1.56,
+        "units": 275,
+        "newKoc": 18,
+        "newVideo": 4,
+        "newLives": 22
+      },
+      {
+        "date": "2026-08-08",
+        "ddmm": "08/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 39.09,
+        "ma7M": 30.7,
+        "ma28M": 50.65,
+        "z28": -0.78,
+        "units": 410,
+        "newKoc": 14,
+        "newVideo": 1,
+        "newLives": 26
+      },
+      {
+        "date": "2026-08-09",
+        "ddmm": "09/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 22.13,
+        "ma7M": 29.18,
+        "ma28M": 48.68,
+        "z28": -1.78,
+        "units": 216,
+        "newKoc": 6,
+        "newVideo": 1,
+        "newLives": 9
+      },
+      {
+        "date": "2026-08-10",
+        "ddmm": "10/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 23.04,
+        "ma7M": 28.89,
+        "ma28M": 47.3,
+        "z28": -1.6,
+        "units": 266,
+        "newKoc": 14,
+        "newVideo": 2,
+        "newLives": 19
+      },
+      {
+        "date": "2026-08-11",
+        "ddmm": "11/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 20.94,
+        "ma7M": 27.48,
+        "ma28M": 45.65,
+        "z28": -1.6,
+        "units": 253,
+        "newKoc": 17,
+        "newVideo": 2,
+        "newLives": 24
+      },
+      {
+        "date": "2026-08-12",
+        "ddmm": "12/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 22.78,
+        "ma7M": 26.6,
+        "ma28M": 44.22,
+        "z28": -1.36,
+        "units": 253,
+        "newKoc": 13,
+        "newVideo": 2,
+        "newLives": 20
+      },
+      {
+        "date": "2026-08-13",
+        "ddmm": "13/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 20.08,
+        "ma7M": 25.06,
+        "ma28M": 41.97,
+        "z28": -1.42,
+        "units": 230,
+        "newKoc": 16,
+        "newVideo": 8,
+        "newLives": 17
+      },
+      {
+        "date": "2026-08-14",
+        "ddmm": "14/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 24.63,
+        "ma7M": 24.67,
+        "ma28M": 40.51,
+        "z28": -1.1,
+        "units": 285,
+        "newKoc": 14,
+        "newVideo": 7,
+        "newLives": 17
+      },
+      {
+        "date": "2026-08-15",
+        "ddmm": "15/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 20.25,
+        "ma7M": 21.98,
+        "ma28M": 39.02,
+        "z28": -1.32,
+        "units": 228,
+        "newKoc": 10,
+        "newVideo": 3,
+        "newLives": 14
+      },
+      {
+        "date": "2026-08-16",
+        "ddmm": "16/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 12.17,
+        "ma7M": 20.56,
+        "ma28M": 37.06,
+        "z28": -1.76,
+        "units": 131,
+        "newKoc": 3,
+        "newVideo": 3,
+        "newLives": 1
+      },
+      {
+        "date": "2026-08-17",
+        "ddmm": "17/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 17.75,
+        "ma7M": 19.8,
+        "ma28M": 35.42,
+        "z28": -1.29,
+        "units": 219,
+        "newKoc": 10,
+        "newVideo": 1,
+        "newLives": 12
+      },
+      {
+        "date": "2026-08-18",
+        "ddmm": "18/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 22,
+        "ma7M": 19.95,
+        "ma28M": 34.28,
+        "z28": -0.92,
+        "units": 216,
+        "newKoc": 20,
+        "newVideo": 8,
+        "newLives": 22
+      },
+      {
+        "date": "2026-08-19",
+        "ddmm": "19/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 13.76,
+        "ma7M": 18.66,
+        "ma28M": 32.54,
+        "z28": -1.44,
+        "units": 125,
+        "newKoc": 14,
+        "newVideo": 2,
+        "newLives": 21
+      },
+      {
+        "date": "2026-08-20",
+        "ddmm": "20/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 13.91,
+        "ma7M": 17.78,
+        "ma28M": 31.03,
+        "z28": -1.37,
+        "units": 153,
+        "newKoc": 15,
+        "newVideo": 6,
+        "newLives": 22
+      },
+      {
+        "date": "2026-08-21",
+        "ddmm": "21/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 19.51,
+        "ma7M": 17.05,
+        "ma28M": 29.95,
+        "z28": -0.87,
+        "units": 201,
+        "newKoc": 18,
+        "newVideo": 4,
+        "newLives": 28
+      },
+      {
+        "date": "2026-08-22",
+        "ddmm": "22/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 13.08,
+        "ma7M": 16.03,
+        "ma28M": 28.57,
+        "z28": -1.31,
+        "units": 145,
+        "newKoc": 17,
+        "newVideo": 9,
+        "newLives": 20
+      },
+      {
+        "date": "2026-08-23",
+        "ddmm": "23/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 16.5,
+        "ma7M": 16.64,
+        "ma28M": 26.92,
+        "z28": -0.96,
+        "units": 169,
+        "newKoc": 19,
+        "newVideo": 9,
+        "newLives": 21
+      },
+      {
+        "date": "2026-08-24",
+        "ddmm": "24/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 15.01,
+        "ma7M": 16.25,
+        "ma28M": 25.94,
+        "z28": -1.1,
+        "units": 164,
+        "newKoc": 15,
+        "newVideo": 2,
+        "newLives": 20
+      },
+      {
+        "date": "2026-08-25",
+        "ddmm": "25/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 14.01,
+        "ma7M": 15.11,
+        "ma28M": 25.04,
+        "z28": -1.13,
+        "units": 144,
+        "newKoc": 18,
+        "newVideo": 8,
+        "newLives": 25
+      },
+      {
+        "date": "2026-08-26",
+        "ddmm": "26/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 13.54,
+        "ma7M": 15.08,
+        "ma28M": 23.63,
+        "z28": -1.1,
+        "units": 128,
+        "newKoc": 22,
+        "newVideo": 9,
+        "newLives": 23
+      },
+      {
+        "date": "2026-08-27",
+        "ddmm": "27/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 16.35,
+        "ma7M": 15.43,
+        "ma28M": 22.62,
+        "z28": -0.79,
+        "units": 170,
+        "newKoc": 23,
+        "newVideo": 11,
+        "newLives": 20
+      },
+      {
+        "date": "2026-08-28",
+        "ddmm": "28/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 14.85,
+        "ma7M": 14.76,
+        "ma28M": 21.56,
+        "z28": -0.94,
+        "units": 162,
+        "newKoc": 25,
+        "newVideo": 11,
+        "newLives": 28
+      },
+      {
+        "date": "2026-08-29",
+        "ddmm": "29/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 14.53,
+        "ma7M": 14.97,
+        "ma28M": 20.92,
+        "z28": -0.98,
+        "units": 165,
+        "newKoc": 24,
+        "newVideo": 12,
+        "newLives": 20
+      },
+      {
+        "date": "2026-08-30",
+        "ddmm": "30/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 11.28,
+        "ma7M": 14.22,
+        "ma28M": 20.15,
+        "z28": -1.38,
+        "units": 144,
+        "newKoc": 32,
+        "newVideo": 31,
+        "newLives": 17
+      },
+      {
+        "date": "2026-08-31",
+        "ddmm": "31/08",
+        "month": "2026-08",
+        "phase": "contraction",
+        "gmvM": 7.2,
+        "ma7M": 13.11,
+        "ma28M": 19.51,
+        "z28": -1.9,
+        "units": 96,
+        "newKoc": 24,
+        "newVideo": 16,
+        "newLives": 20
+      },
+      {
+        "date": "2026-09-01",
+        "ddmm": "01/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 8.83,
+        "ma7M": 12.37,
+        "ma28M": 18.73,
+        "z28": -1.49,
+        "units": 92,
+        "newKoc": 21,
+        "newVideo": 11,
+        "newLives": 15
+      },
+      {
+        "date": "2026-09-02",
+        "ddmm": "02/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 7.25,
+        "ma7M": 11.47,
+        "ma28M": 17.95,
+        "z28": -1.62,
+        "units": 84,
+        "newKoc": 15,
+        "newVideo": 5,
+        "newLives": 15
+      },
+      {
+        "date": "2026-09-03",
+        "ddmm": "03/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 13.33,
+        "ma7M": 11.04,
+        "ma28M": 17.33,
+        "z28": -0.65,
+        "units": 99,
+        "newKoc": 25,
+        "newVideo": 14,
+        "newLives": 22
+      },
+      {
+        "date": "2026-09-04",
+        "ddmm": "04/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 8.76,
+        "ma7M": 10.17,
+        "ma28M": 16.66,
+        "z28": -1.28,
+        "units": 74,
+        "newKoc": 32,
+        "newVideo": 21,
+        "newLives": 27
+      },
+      {
+        "date": "2026-09-05",
+        "ddmm": "05/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 8.87,
+        "ma7M": 9.36,
+        "ma28M": 15.58,
+        "z28": -1.18,
+        "units": 65,
+        "newKoc": 32,
+        "newVideo": 24,
+        "newLives": 26
+      },
+      {
+        "date": "2026-09-06",
+        "ddmm": "06/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 10.65,
+        "ma7M": 9.27,
+        "ma28M": 15.17,
+        "z28": -0.97,
+        "units": 76,
+        "newKoc": 32,
+        "newVideo": 16,
+        "newLives": 23
+      },
+      {
+        "date": "2026-09-07",
+        "ddmm": "07/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 13.7,
+        "ma7M": 10.2,
+        "ma28M": 14.84,
+        "z28": -0.29,
+        "units": 98,
+        "newKoc": 27,
+        "newVideo": 11,
+        "newLives": 26
+      },
+      {
+        "date": "2026-09-08",
+        "ddmm": "08/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 13,
+        "ma7M": 10.8,
+        "ma28M": 14.56,
+        "z28": -0.39,
+        "units": 90,
+        "newKoc": 42,
+        "newVideo": 26,
+        "newLives": 33
+      },
+      {
+        "date": "2026-09-09",
+        "ddmm": "09/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 13.93,
+        "ma7M": 11.75,
+        "ma28M": 14.24,
+        "z28": -0.13,
+        "units": 125,
+        "newKoc": 24,
+        "newVideo": 9,
+        "newLives": 26
+      },
+      {
+        "date": "2026-09-10",
+        "ddmm": "10/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 15.63,
+        "ma7M": 12.08,
+        "ma28M": 14.08,
+        "z28": 0.32,
+        "units": 221,
+        "newKoc": 25,
+        "newVideo": 6,
+        "newLives": 37
+      },
+      {
+        "date": "2026-09-11",
+        "ddmm": "11/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 15.13,
+        "ma7M": 12.99,
+        "ma28M": 13.74,
+        "z28": 0.25,
+        "units": 195,
+        "newKoc": 29,
+        "newVideo": 14,
+        "newLives": 31
+      },
+      {
+        "date": "2026-09-12",
+        "ddmm": "12/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 16.49,
+        "ma7M": 14.08,
+        "ma28M": 13.61,
+        "z28": 0.75,
+        "units": 209,
+        "newKoc": 46,
+        "newVideo": 30,
+        "newLives": 28
+      },
+      {
+        "date": "2026-09-13",
+        "ddmm": "13/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 18.1,
+        "ma7M": 15.14,
+        "ma28M": 13.82,
+        "z28": 1.29,
+        "units": 220,
+        "newKoc": 36,
+        "newVideo": 18,
+        "newLives": 27
+      },
+      {
+        "date": "2026-09-14",
+        "ddmm": "14/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 26.03,
+        "ma7M": 16.9,
+        "ma28M": 14.12,
+        "z28": 3.43,
+        "units": 267,
+        "newKoc": 29,
+        "newVideo": 15,
+        "newLives": 22
+      },
+      {
+        "date": "2026-09-15",
+        "ddmm": "15/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 23.7,
+        "ma7M": 18.43,
+        "ma28M": 14.18,
+        "z28": 2.29,
+        "units": 291,
+        "newKoc": 23,
+        "newVideo": 10,
+        "newLives": 27
+      },
+      {
+        "date": "2026-09-16",
+        "ddmm": "16/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 24.02,
+        "ma7M": 19.87,
+        "ma28M": 14.54,
+        "z28": 2.28,
+        "units": 323,
+        "newKoc": 31,
+        "newVideo": 15,
+        "newLives": 32
+      },
+      {
+        "date": "2026-09-17",
+        "ddmm": "17/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 22.74,
+        "ma7M": 20.89,
+        "ma28M": 14.86,
+        "z28": 1.74,
+        "units": 160,
+        "newKoc": 35,
+        "newVideo": 32,
+        "newLives": 22
+      },
+      {
+        "date": "2026-09-18",
+        "ddmm": "18/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 30.61,
+        "ma7M": 23.1,
+        "ma28M": 15.25,
+        "z28": 3.19,
+        "units": 223,
+        "newKoc": 28,
+        "newVideo": 16,
+        "newLives": 30
+      },
+      {
+        "date": "2026-09-19",
+        "ddmm": "19/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 29.36,
+        "ma7M": 24.94,
+        "ma28M": 15.84,
+        "z28": 2.47,
+        "units": 229,
+        "newKoc": 31,
+        "newVideo": 12,
+        "newLives": 30
+      },
+      {
+        "date": "2026-09-20",
+        "ddmm": "20/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 22.03,
+        "ma7M": 25.5,
+        "ma28M": 16.03,
+        "z28": 0.99,
+        "units": 155,
+        "newKoc": 29,
+        "newVideo": 18,
+        "newLives": 27
+      },
+      {
+        "date": "2026-09-21",
+        "ddmm": "21/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 47.86,
+        "ma7M": 28.62,
+        "ma28M": 17.21,
+        "z28": 4.98,
+        "units": 373,
+        "newKoc": 34,
+        "newVideo": 32,
+        "newLives": 23
+      },
+      {
+        "date": "2026-09-22",
+        "ddmm": "22/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 13.52,
+        "ma7M": 27.16,
+        "ma28M": 17.19,
+        "z28": -0.42,
+        "units": 90,
+        "newKoc": 31,
+        "newVideo": 19,
+        "newLives": 25
+      },
+      {
+        "date": "2026-09-23",
+        "ddmm": "23/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 30.12,
+        "ma7M": 28.03,
+        "ma28M": 17.78,
+        "z28": 1.47,
+        "units": 229,
+        "newKoc": 25,
+        "newVideo": 13,
+        "newLives": 22
+      },
+      {
+        "date": "2026-09-24",
+        "ddmm": "24/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 19.2,
+        "ma7M": 27.53,
+        "ma28M": 17.88,
+        "z28": 0.16,
+        "units": 139,
+        "newKoc": 36,
+        "newVideo": 26,
+        "newLives": 21
+      },
+      {
+        "date": "2026-09-25",
+        "ddmm": "25/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 30.11,
+        "ma7M": 27.46,
+        "ma28M": 18.43,
+        "z28": 1.35,
+        "units": 244,
+        "newKoc": 32,
+        "newVideo": 34,
+        "newLives": 22
+      },
+      {
+        "date": "2026-09-26",
+        "ddmm": "26/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 30.12,
+        "ma7M": 27.56,
+        "ma28M": 18.98,
+        "z28": 1.25,
+        "units": 234,
+        "newKoc": 27,
+        "newVideo": 22,
+        "newLives": 17
+      },
+      {
+        "date": "2026-09-27",
+        "ddmm": "27/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 20.47,
+        "ma7M": 27.34,
+        "ma28M": 19.31,
+        "z28": 0.15,
+        "units": 143,
+        "newKoc": 40,
+        "newVideo": 34,
+        "newLives": 18
+      },
+      {
+        "date": "2026-09-28",
+        "ddmm": "28/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 44.39,
+        "ma7M": 26.85,
+        "ma28M": 20.64,
+        "z28": 2.66,
+        "units": 290,
+        "newKoc": 30,
+        "newVideo": 19,
+        "newLives": 26
+      },
+      {
+        "date": "2026-09-29",
+        "ddmm": "29/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 50.77,
+        "ma7M": 32.17,
+        "ma28M": 22.14,
+        "z28": 2.94,
+        "units": 332,
+        "newKoc": 37,
+        "newVideo": 22,
+        "newLives": 32
+      },
+      {
+        "date": "2026-09-30",
+        "ddmm": "30/09",
+        "month": "2026-09",
+        "phase": "autumn",
+        "gmvM": 72.28,
+        "ma7M": 38.19,
+        "ma28M": 24.46,
+        "z28": 4.37,
+        "units": 471,
+        "newKoc": 41,
+        "newVideo": 21,
+        "newLives": 33
+      },
+      {
+        "date": "2026-10-01",
+        "ddmm": "01/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 86.87,
+        "ma7M": 47.86,
+        "ma28M": 27.09,
+        "z28": 4.3,
+        "units": 568,
+        "newKoc": 42,
+        "newVideo": 25,
+        "newLives": 40
+      },
+      {
+        "date": "2026-10-02",
+        "ddmm": "02/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 32.42,
+        "ma7M": 48.19,
+        "ma28M": 27.93,
+        "z28": 0.29,
+        "units": 227,
+        "newKoc": 35,
+        "newVideo": 18,
+        "newLives": 22
+      },
+      {
+        "date": "2026-10-03",
+        "ddmm": "03/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 56.65,
+        "ma7M": 51.98,
+        "ma28M": 29.64,
+        "z28": 1.58,
+        "units": 377,
+        "newKoc": 26,
+        "newVideo": 9,
+        "newLives": 30
+      },
+      {
+        "date": "2026-10-04",
+        "ddmm": "04/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 59.88,
+        "ma7M": 57.61,
+        "ma28M": 31.4,
+        "z28": 1.63,
+        "units": 395,
+        "newKoc": 31,
+        "newVideo": 28,
+        "newLives": 26
+      },
+      {
+        "date": "2026-10-05",
+        "ddmm": "05/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 68.67,
+        "ma7M": 61.08,
+        "ma28M": 33.36,
+        "z28": 1.96,
+        "units": 489,
+        "newKoc": 35,
+        "newVideo": 22,
+        "newLives": 33
+      },
+      {
+        "date": "2026-10-06",
+        "ddmm": "06/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 56.37,
+        "ma7M": 61.88,
+        "ma28M": 34.91,
+        "z28": 1.15,
+        "units": 377,
+        "newKoc": 46,
+        "newVideo": 27,
+        "newLives": 34
+      },
+      {
+        "date": "2026-10-07",
+        "ddmm": "07/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 29.5,
+        "ma7M": 55.77,
+        "ma28M": 35.47,
+        "z28": -0.27,
+        "units": 233,
+        "newKoc": 39,
+        "newVideo": 14,
+        "newLives": 34
+      },
+      {
+        "date": "2026-10-08",
+        "ddmm": "08/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 42.21,
+        "ma7M": 49.39,
+        "ma28M": 36.41,
+        "z28": 0.34,
+        "units": 347,
+        "newKoc": 45,
+        "newVideo": 24,
+        "newLives": 39
+      },
+      {
+        "date": "2026-10-09",
+        "ddmm": "09/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 50.23,
+        "ma7M": 51.93,
+        "ma28M": 37.67,
+        "z28": 0.72,
+        "units": 427,
+        "newKoc": 81,
+        "newVideo": 85,
+        "newLives": 29
+      },
+      {
+        "date": "2026-10-10",
+        "ddmm": "10/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 87.65,
+        "ma7M": 56.36,
+        "ma28M": 40.21,
+        "z28": 2.64,
+        "units": 615,
+        "newKoc": 30,
+        "newVideo": 18,
+        "newLives": 24
+      },
+      {
+        "date": "2026-10-11",
+        "ddmm": "11/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 103.49,
+        "ma7M": 62.59,
+        "ma28M": 43.26,
+        "z28": 3.06,
+        "units": 701,
+        "newKoc": 43,
+        "newVideo": 33,
+        "newLives": 23
+      },
+      {
+        "date": "2026-10-12",
+        "ddmm": "12/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 118.82,
+        "ma7M": 69.75,
+        "ma28M": 46.57,
+        "z28": 3.22,
+        "units": 853,
+        "newKoc": 34,
+        "newVideo": 21,
+        "newLives": 27
+      },
+      {
+        "date": "2026-10-13",
+        "ddmm": "13/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 162.32,
+        "ma7M": 84.89,
+        "ma28M": 51.52,
+        "z28": 4.26,
+        "units": 1050,
+        "newKoc": 34,
+        "newVideo": 25,
+        "newLives": 25
+      },
+      {
+        "date": "2026-10-14",
+        "ddmm": "14/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 81.68,
+        "ma7M": 92.34,
+        "ma28M": 53.58,
+        "z28": 0.87,
+        "units": 530,
+        "newKoc": 44,
+        "newVideo": 32,
+        "newLives": 32
+      },
+      {
+        "date": "2026-10-15",
+        "ddmm": "15/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 105.61,
+        "ma7M": 101.4,
+        "ma28M": 56.54,
+        "z28": 1.51,
+        "units": 733,
+        "newKoc": 37,
+        "newVideo": 22,
+        "newLives": 26
+      },
+      {
+        "date": "2026-10-16",
+        "ddmm": "16/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 66.24,
+        "ma7M": 103.69,
+        "ma28M": 57.82,
+        "z28": 0.27,
+        "units": 476,
+        "newKoc": 41,
+        "newVideo": 41,
+        "newLives": 23
+      },
+      {
+        "date": "2026-10-17",
+        "ddmm": "17/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 66.87,
+        "ma7M": 100.72,
+        "ma28M": 59.15,
+        "z28": 0.26,
+        "units": 454,
+        "newKoc": 36,
+        "newVideo": 22,
+        "newLives": 31
+      },
+      {
+        "date": "2026-10-18",
+        "ddmm": "18/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 81.62,
+        "ma7M": 97.59,
+        "ma28M": 61.28,
+        "z28": 0.65,
+        "units": 563,
+        "newKoc": 65,
+        "newVideo": 64,
+        "newLives": 33
+      },
+      {
+        "date": "2026-10-19",
+        "ddmm": "19/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 54.41,
+        "ma7M": 88.39,
+        "ma28M": 61.52,
+        "z28": -0.2,
+        "units": 391,
+        "newKoc": 40,
+        "newVideo": 28,
+        "newLives": 33
+      },
+      {
+        "date": "2026-10-20",
+        "ddmm": "20/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 39.83,
+        "ma7M": 70.9,
+        "ma28M": 62.46,
+        "z28": -0.64,
+        "units": 287,
+        "newKoc": 41,
+        "newVideo": 33,
+        "newLives": 27
+      },
+      {
+        "date": "2026-10-21",
+        "ddmm": "21/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 24.23,
+        "ma7M": 62.69,
+        "ma28M": 62.25,
+        "z28": -1.16,
+        "units": 170,
+        "newKoc": 34,
+        "newVideo": 29,
+        "newLives": 10
+      },
+      {
+        "date": "2026-10-22",
+        "ddmm": "22/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 58.26,
+        "ma7M": 55.92,
+        "ma28M": 63.64,
+        "z28": -0.12,
+        "units": 450,
+        "newKoc": 32,
+        "newVideo": 19,
+        "newLives": 21
+      },
+      {
+        "date": "2026-10-23",
+        "ddmm": "23/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 30.53,
+        "ma7M": 50.82,
+        "ma28M": 63.66,
+        "z28": -1.03,
+        "units": 213,
+        "newKoc": 35,
+        "newVideo": 19,
+        "newLives": 36
+      },
+      {
+        "date": "2026-10-24",
+        "ddmm": "24/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 31.27,
+        "ma7M": 45.74,
+        "ma28M": 63.7,
+        "z28": -1.01,
+        "units": 232,
+        "newKoc": 35,
+        "newVideo": 26,
+        "newLives": 25
+      },
+      {
+        "date": "2026-10-25",
+        "ddmm": "25/10",
+        "month": "2026-10",
+        "phase": "autumn",
+        "gmvM": 21.24,
+        "ma7M": 37.11,
+        "ma28M": 63.73,
+        "z28": -1.33,
+        "units": 157,
+        "newKoc": 25,
+        "newVideo": 12,
+        "newLives": 20
+      }
+    ]
+  },
+  "ch1": {
+    "files": [
+      {
+        "abbr": "Store",
+        "file": "Store_Daily_Overview_231_Days",
+        "rows": 231,
+        "cols": 11,
+        "start": "2026-03-09",
+        "end": "2026-10-25",
+        "mode": "daily",
+        "chapters": "Ch 0, 1, 2, 3, 6"
+      },
+      {
+        "abbr": "SKU10",
+        "file": "10_SKU_Daily_Timeseries",
+        "rows": 1790,
+        "cols": 17,
+        "start": "2026-04-30",
+        "end": "2026-10-25",
+        "mode": "daily",
+        "chapters": "Ch 3"
+      },
+      {
+        "abbr": "AffLive",
+        "file": "Affiliate_Livestreams",
+        "rows": 8355,
+        "cols": 13,
+        "start": "2026-03-07",
+        "end": "2026-10-20",
+        "mode": "event",
+        "chapters": "Ch 1, 2, 3, 4, 5, 6"
+      },
+      {
+        "abbr": "CrLive",
+        "file": "Creator_Livestreams",
+        "rows": 600,
+        "cols": 10,
+        "start": "2026-03-07",
+        "end": "2026-10-20",
+        "mode": "event",
+        "chapters": "Ch 1, 3, 5"
+      },
+      {
+        "abbr": "AffVid",
+        "file": "Affiliate_Videos",
+        "rows": 4797,
+        "cols": 13,
+        "start": "2025-11-01",
+        "end": "2026-10-20",
+        "mode": "rolling90",
+        "chapters": "Ch 5"
+      },
+      {
+        "abbr": "CrVid",
+        "file": "Creator_Videos",
+        "rows": 276,
+        "cols": 9,
+        "start": "2026-03-10",
+        "end": "2026-10-20",
+        "mode": "event",
+        "chapters": "Ch 5"
+      },
+      {
+        "abbr": "KOL",
+        "file": "Affiliate_KOL",
+        "rows": 6086,
+        "cols": 10,
+        "start": "2026-07-23",
+        "end": "2026-10-20",
+        "mode": "rolling90",
+        "chapters": "Ch 2, 4"
+      },
+      {
+        "abbr": "ShopProd",
+        "file": "Shop_Products",
+        "rows": 339,
+        "cols": 8,
+        "start": "2026-07-23",
+        "end": "2026-10-20",
+        "mode": "rolling90",
+        "chapters": "Ch 2"
+      },
+      {
+        "abbr": "CrProd",
+        "file": "Creator_Products",
+        "rows": 787,
+        "cols": 11,
+        "start": "2026-06-07",
+        "end": "2026-10-20",
+        "mode": "snapshot2",
+        "chapters": "Ch 1, Phụ lục A"
+      },
+      {
+        "abbr": "LiveProd",
+        "file": "Livestream_Products",
+        "rows": 103,
+        "cols": 9,
+        "start": "2026-07-23",
+        "end": "2026-10-20",
+        "mode": "rolling90",
+        "chapters": "Ch 5"
+      }
+    ],
+    "doubleCountTrap": {
+      "affLiveRawB": 10.47,
+      "crLiveRawB": 7.59,
+      "naiveSumB": 18.06,
+      "storeGmvB": 15.01,
+      "dedupLiveB": 10.47,
+      "dedupShareOfStorePct": 69.8,
+      "overlapSessions": 595,
+      "crLiveTotalSessions": 600,
+      "daysExceedNaiveRaw": 71,
+      "daysExceedNaiveVn": 70,
+      "daysExceedDedup": 28,
+      "weeksExceedDedup": 4,
+      "totalWeeks": 33,
+      "maxWeekRatio": 1.9,
+      "exampleSessionGmvM": 272.1,
+      "exampleSessionStart": "17/06 09:08",
+      "exampleSessionDurationH": 17,
+      "exampleStoreDayGmvM": 96
+    }
+  },
+  "ch2": {
+    "channelMix": {
+      "liveTotalB": 10.47,
+      "storeTotalB": 15.01,
+      "liveSessions": 8355,
+      "officialShareOfLivePct": 72.5,
+      "satelliteShareOfLivePct": 12,
+      "otherAffShareOfLivePct": 15.5,
+      "officialGmvB": 7.59,
+      "satelliteGmvB": 1.26,
+      "otherAffGmvB": 1.62,
+      "liveShareOfStorePct": 69.8,
+      "nonLiveShareOfStorePct": 30.2,
+      "nonLiveGmvB": 4.54,
+      "last180dOfficialPct": 71.8,
+      "last180dSatellitePct": 13.1,
+      "last180dOtherPct": 15.1
+    },
+    "skuPareto": {
+      "totalSkus": 339,
+      "activeSkus": 133,
+      "zeroSaleSkus": 206,
+      "catalogGmvB": 3.16,
+      "top1Code": "AT06",
+      "top1SharePct": 46.9,
+      "top5SharePct": 68.5,
+      "skusFor80Pct": 12,
+      "skusFor80SharePct": 80.6,
+      "crProdSummerTop5Pct": 44.5,
+      "crProdSummerSkus80": 18,
+      "zeroLaunchPre2026": 204,
+      "zeroLaunchPre2026Pct": 99,
+      "launches2026Total": 45,
+      "launches2026Active": 43,
+      "launches2026SuccessPct": 95.6,
+      "curve": [
+        {
+          "rank": 0,
+          "skuCode": "Start",
+          "gmvM": 0,
+          "cumPct": 0
+        },
+        {
+          "rank": 1,
+          "skuCode": "AT06",
+          "gmvM": 1483.68,
+          "cumPct": 46.95
+        },
+        {
+          "rank": 2,
+          "skuCode": "SKU_2",
+          "gmvM": 339.58,
+          "cumPct": 57.69
+        },
+        {
+          "rank": 3,
+          "skuCode": "SKU_3",
+          "gmvM": 146.2,
+          "cumPct": 62.32
+        },
+        {
+          "rank": 4,
+          "skuCode": "H36",
+          "gmvM": 104.01,
+          "cumPct": 65.61
+        },
+        {
+          "rank": 5,
+          "skuCode": "H32",
+          "gmvM": 90.91,
+          "cumPct": 68.49
+        },
+        {
+          "rank": 6,
+          "skuCode": "SW01",
+          "gmvM": 77.31,
+          "cumPct": 70.93
+        },
+        {
+          "rank": 7,
+          "skuCode": "H31",
+          "gmvM": 62.31,
+          "cumPct": 72.9
+        },
+        {
+          "rank": 8,
+          "skuCode": "SKU_8",
+          "gmvM": 59.01,
+          "cumPct": 74.77
+        },
+        {
+          "rank": 9,
+          "skuCode": "SKU_9",
+          "gmvM": 55.46,
+          "cumPct": 76.53
+        },
+        {
+          "rank": 10,
+          "skuCode": "SW08",
+          "gmvM": 46.92,
+          "cumPct": 78.01
+        },
+        {
+          "rank": 11,
+          "skuCode": "H01",
+          "gmvM": 43.46,
+          "cumPct": 79.38
+        },
+        {
+          "rank": 12,
+          "skuCode": "H30",
+          "gmvM": 38.27,
+          "cumPct": 80.6
+        },
+        {
+          "rank": 13,
+          "skuCode": "H30",
+          "gmvM": 32.74,
+          "cumPct": 81.63
+        },
+        {
+          "rank": 14,
+          "skuCode": "AQ1",
+          "gmvM": 30.33,
+          "cumPct": 82.59
+        },
+        {
+          "rank": 15,
+          "skuCode": "M22",
+          "gmvM": 29.63,
+          "cumPct": 83.53
+        },
+        {
+          "rank": 16,
+          "skuCode": "K01",
+          "gmvM": 29.61,
+          "cumPct": 84.47
+        },
+        {
+          "rank": 17,
+          "skuCode": "SKU_17",
+          "gmvM": 27.68,
+          "cumPct": 85.34
+        },
+        {
+          "rank": 18,
+          "skuCode": "H34",
+          "gmvM": 21.03,
+          "cumPct": 86.01
+        },
+        {
+          "rank": 19,
+          "skuCode": "H35",
+          "gmvM": 20.97,
+          "cumPct": 86.67
+        },
+        {
+          "rank": 20,
+          "skuCode": "H33",
+          "gmvM": 18.66,
+          "cumPct": 87.26
+        },
+        {
+          "rank": 21,
+          "skuCode": "SW01",
+          "gmvM": 17.95,
+          "cumPct": 87.83
+        },
+        {
+          "rank": 22,
+          "skuCode": "SKU_22",
+          "gmvM": 16.74,
+          "cumPct": 88.36
+        },
+        {
+          "rank": 23,
+          "skuCode": "SKU_23",
+          "gmvM": 14.87,
+          "cumPct": 88.83
+        },
+        {
+          "rank": 24,
+          "skuCode": "H39",
+          "gmvM": 13.26,
+          "cumPct": 89.25
+        },
+        {
+          "rank": 25,
+          "skuCode": "SKU_25",
+          "gmvM": 12.75,
+          "cumPct": 89.65
+        },
+        {
+          "rank": 26,
+          "skuCode": "H38",
+          "gmvM": 12.35,
+          "cumPct": 90.04
+        },
+        {
+          "rank": 27,
+          "skuCode": "CV02",
+          "gmvM": 12.07,
+          "cumPct": 90.43
+        },
+        {
+          "rank": 28,
+          "skuCode": "H31",
+          "gmvM": 11.92,
+          "cumPct": 90.8
+        },
+        {
+          "rank": 29,
+          "skuCode": "M05",
+          "gmvM": 11.89,
+          "cumPct": 91.18
+        },
+        {
+          "rank": 30,
+          "skuCode": "SKU_30",
+          "gmvM": 11.77,
+          "cumPct": 91.55
+        },
+        {
+          "rank": 31,
+          "skuCode": "H03",
+          "gmvM": 11.17,
+          "cumPct": 91.9
+        },
+        {
+          "rank": 32,
+          "skuCode": "KOC",
+          "gmvM": 10.38,
+          "cumPct": 92.23
+        },
+        {
+          "rank": 33,
+          "skuCode": "SKU_33",
+          "gmvM": 10.11,
+          "cumPct": 92.55
+        },
+        {
+          "rank": 34,
+          "skuCode": "KOC",
+          "gmvM": 9.29,
+          "cumPct": 92.85
+        },
+        {
+          "rank": 35,
+          "skuCode": "AG01",
+          "gmvM": 8.69,
+          "cumPct": 93.12
+        },
+        {
+          "rank": 36,
+          "skuCode": "H25",
+          "gmvM": 8.44,
+          "cumPct": 93.39
+        },
+        {
+          "rank": 37,
+          "skuCode": "KOC",
+          "gmvM": 8.26,
+          "cumPct": 93.65
+        },
+        {
+          "rank": 38,
+          "skuCode": "H26",
+          "gmvM": 8.03,
+          "cumPct": 93.9
+        },
+        {
+          "rank": 39,
+          "skuCode": "H11",
+          "gmvM": 7.6,
+          "cumPct": 94.15
+        },
+        {
+          "rank": 40,
+          "skuCode": "H28",
+          "gmvM": 7.49,
+          "cumPct": 94.38
+        },
+        {
+          "rank": 41,
+          "skuCode": "SW06",
+          "gmvM": 6.84,
+          "cumPct": 94.6
+        },
+        {
+          "rank": 42,
+          "skuCode": "CV13",
+          "gmvM": 6.48,
+          "cumPct": 94.8
+        },
+        {
+          "rank": 43,
+          "skuCode": "H36",
+          "gmvM": 6.34,
+          "cumPct": 95
+        },
+        {
+          "rank": 44,
+          "skuCode": "SKU_44",
+          "gmvM": 6.09,
+          "cumPct": 95.2
+        },
+        {
+          "rank": 45,
+          "skuCode": "H02",
+          "gmvM": 5.98,
+          "cumPct": 95.39
+        },
+        {
+          "rank": 46,
+          "skuCode": "M03",
+          "gmvM": 5.97,
+          "cumPct": 95.58
+        },
+        {
+          "rank": 47,
+          "skuCode": "A01",
+          "gmvM": 5.89,
+          "cumPct": 95.76
+        },
+        {
+          "rank": 48,
+          "skuCode": "KOC",
+          "gmvM": 5.39,
+          "cumPct": 95.93
+        },
+        {
+          "rank": 49,
+          "skuCode": "SKU_49",
+          "gmvM": 5.09,
+          "cumPct": 96.09
+        },
+        {
+          "rank": 50,
+          "skuCode": "SKU_50",
+          "gmvM": 4.71,
+          "cumPct": 96.24
+        },
+        {
+          "rank": 51,
+          "skuCode": "F06",
+          "gmvM": 4.56,
+          "cumPct": 96.39
+        },
+        {
+          "rank": 52,
+          "skuCode": "KOC",
+          "gmvM": 4.52,
+          "cumPct": 96.53
+        },
+        {
+          "rank": 53,
+          "skuCode": "M03",
+          "gmvM": 4.52,
+          "cumPct": 96.67
+        },
+        {
+          "rank": 54,
+          "skuCode": "SKU_54",
+          "gmvM": 4.04,
+          "cumPct": 96.8
+        },
+        {
+          "rank": 55,
+          "skuCode": "SKU_55",
+          "gmvM": 3.9,
+          "cumPct": 96.92
+        },
+        {
+          "rank": 56,
+          "skuCode": "SKU_56",
+          "gmvM": 3.78,
+          "cumPct": 97.04
+        },
+        {
+          "rank": 57,
+          "skuCode": "H32",
+          "gmvM": 3.66,
+          "cumPct": 97.16
+        },
+        {
+          "rank": 58,
+          "skuCode": "M01",
+          "gmvM": 3.41,
+          "cumPct": 97.27
+        },
+        {
+          "rank": 59,
+          "skuCode": "SKU_59",
+          "gmvM": 3.28,
+          "cumPct": 97.37
+        },
+        {
+          "rank": 60,
+          "skuCode": "KOC",
+          "gmvM": 3.22,
+          "cumPct": 97.47
+        },
+        {
+          "rank": 61,
+          "skuCode": "H34",
+          "gmvM": 3.18,
+          "cumPct": 97.57
+        },
+        {
+          "rank": 62,
+          "skuCode": "B16",
+          "gmvM": 3.14,
+          "cumPct": 97.67
+        },
+        {
+          "rank": 63,
+          "skuCode": "AG01",
+          "gmvM": 2.98,
+          "cumPct": 97.77
+        },
+        {
+          "rank": 64,
+          "skuCode": "SKU_64",
+          "gmvM": 2.97,
+          "cumPct": 97.86
+        },
+        {
+          "rank": 65,
+          "skuCode": "SKU_65",
+          "gmvM": 2.77,
+          "cumPct": 97.95
+        },
+        {
+          "rank": 66,
+          "skuCode": "H11",
+          "gmvM": 2.73,
+          "cumPct": 98.03
+        },
+        {
+          "rank": 67,
+          "skuCode": "SKU_67",
+          "gmvM": 2.56,
+          "cumPct": 98.12
+        },
+        {
+          "rank": 68,
+          "skuCode": "A02",
+          "gmvM": 2.31,
+          "cumPct": 98.19
+        },
+        {
+          "rank": 69,
+          "skuCode": "M04",
+          "gmvM": 2.3,
+          "cumPct": 98.26
+        },
+        {
+          "rank": 70,
+          "skuCode": "B05",
+          "gmvM": 2.25,
+          "cumPct": 98.33
+        },
+        {
+          "rank": 71,
+          "skuCode": "KOC",
+          "gmvM": 2.23,
+          "cumPct": 98.4
+        },
+        {
+          "rank": 72,
+          "skuCode": "SKU_72",
+          "gmvM": 2.19,
+          "cumPct": 98.47
+        },
+        {
+          "rank": 73,
+          "skuCode": "M02",
+          "gmvM": 2.14,
+          "cumPct": 98.54
+        },
+        {
+          "rank": 74,
+          "skuCode": "SKU_74",
+          "gmvM": 2.01,
+          "cumPct": 98.6
+        },
+        {
+          "rank": 75,
+          "skuCode": "H05",
+          "gmvM": 1.89,
+          "cumPct": 98.66
+        },
+        {
+          "rank": 76,
+          "skuCode": "H10",
+          "gmvM": 1.85,
+          "cumPct": 98.72
+        },
+        {
+          "rank": 77,
+          "skuCode": "M05",
+          "gmvM": 1.81,
+          "cumPct": 98.78
+        },
+        {
+          "rank": 78,
+          "skuCode": "SKU_78",
+          "gmvM": 1.8,
+          "cumPct": 98.84
+        },
+        {
+          "rank": 79,
+          "skuCode": "SKU_79",
+          "gmvM": 1.75,
+          "cumPct": 98.89
+        },
+        {
+          "rank": 80,
+          "skuCode": "F02",
+          "gmvM": 1.74,
+          "cumPct": 98.95
+        },
+        {
+          "rank": 81,
+          "skuCode": "KOC",
+          "gmvM": 1.73,
+          "cumPct": 99
+        },
+        {
+          "rank": 82,
+          "skuCode": "H25",
+          "gmvM": 1.72,
+          "cumPct": 99.06
+        },
+        {
+          "rank": 83,
+          "skuCode": "H37",
+          "gmvM": 1.71,
+          "cumPct": 99.11
+        },
+        {
+          "rank": 84,
+          "skuCode": "M17",
+          "gmvM": 1.52,
+          "cumPct": 99.16
+        },
+        {
+          "rank": 85,
+          "skuCode": "SW07",
+          "gmvM": 1.35,
+          "cumPct": 99.2
+        },
+        {
+          "rank": 86,
+          "skuCode": "KOC",
+          "gmvM": 1.2,
+          "cumPct": 99.24
+        },
+        {
+          "rank": 87,
+          "skuCode": "H23",
+          "gmvM": 1.16,
+          "cumPct": 99.28
+        },
+        {
+          "rank": 88,
+          "skuCode": "H27",
+          "gmvM": 1.11,
+          "cumPct": 99.31
+        },
+        {
+          "rank": 89,
+          "skuCode": "M01",
+          "gmvM": 1.02,
+          "cumPct": 99.34
+        },
+        {
+          "rank": 90,
+          "skuCode": "KOC",
+          "gmvM": 0.98,
+          "cumPct": 99.37
+        },
+        {
+          "rank": 91,
+          "skuCode": "M17",
+          "gmvM": 0.97,
+          "cumPct": 99.4
+        },
+        {
+          "rank": 92,
+          "skuCode": "KOC",
+          "gmvM": 0.97,
+          "cumPct": 99.44
+        },
+        {
+          "rank": 93,
+          "skuCode": "H03",
+          "gmvM": 0.96,
+          "cumPct": 99.47
+        },
+        {
+          "rank": 94,
+          "skuCode": "AT07",
+          "gmvM": 0.94,
+          "cumPct": 99.5
+        },
+        {
+          "rank": 95,
+          "skuCode": "KOC",
+          "gmvM": 0.91,
+          "cumPct": 99.52
+        },
+        {
+          "rank": 96,
+          "skuCode": "H06",
+          "gmvM": 0.88,
+          "cumPct": 99.55
+        },
+        {
+          "rank": 97,
+          "skuCode": "SKU_97",
+          "gmvM": 0.87,
+          "cumPct": 99.58
+        },
+        {
+          "rank": 98,
+          "skuCode": "B03",
+          "gmvM": 0.85,
+          "cumPct": 99.61
+        },
+        {
+          "rank": 99,
+          "skuCode": "CV03",
+          "gmvM": 0.84,
+          "cumPct": 99.63
+        },
+        {
+          "rank": 100,
+          "skuCode": "M04",
+          "gmvM": 0.84,
+          "cumPct": 99.66
+        },
+        {
+          "rank": 101,
+          "skuCode": "A03",
+          "gmvM": 0.78,
+          "cumPct": 99.68
+        },
+        {
+          "rank": 102,
+          "skuCode": "M08",
+          "gmvM": 0.76,
+          "cumPct": 99.71
+        },
+        {
+          "rank": 103,
+          "skuCode": "CV01",
+          "gmvM": 0.71,
+          "cumPct": 99.73
+        },
+        {
+          "rank": 104,
+          "skuCode": "SKU_104",
+          "gmvM": 0.66,
+          "cumPct": 99.75
+        },
+        {
+          "rank": 105,
+          "skuCode": "M07",
+          "gmvM": 0.58,
+          "cumPct": 99.77
+        },
+        {
+          "rank": 106,
+          "skuCode": "SKU_106",
+          "gmvM": 0.56,
+          "cumPct": 99.79
+        },
+        {
+          "rank": 107,
+          "skuCode": "SKU_107",
+          "gmvM": 0.54,
+          "cumPct": 99.8
+        },
+        {
+          "rank": 108,
+          "skuCode": "KOC",
+          "gmvM": 0.5,
+          "cumPct": 99.82
+        },
+        {
+          "rank": 109,
+          "skuCode": "KOC",
+          "gmvM": 0.48,
+          "cumPct": 99.84
+        },
+        {
+          "rank": 110,
+          "skuCode": "SV03",
+          "gmvM": 0.43,
+          "cumPct": 99.85
+        },
+        {
+          "rank": 111,
+          "skuCode": "SKU_111",
+          "gmvM": 0.39,
+          "cumPct": 99.86
+        },
+        {
+          "rank": 112,
+          "skuCode": "SKU_112",
+          "gmvM": 0.38,
+          "cumPct": 99.87
+        },
+        {
+          "rank": 113,
+          "skuCode": "SKU_113",
+          "gmvM": 0.35,
+          "cumPct": 99.88
+        },
+        {
+          "rank": 114,
+          "skuCode": "CV12",
+          "gmvM": 0.31,
+          "cumPct": 99.89
+        },
+        {
+          "rank": 115,
+          "skuCode": "SKU_115",
+          "gmvM": 0.26,
+          "cumPct": 99.9
+        },
+        {
+          "rank": 116,
+          "skuCode": "B01",
+          "gmvM": 0.25,
+          "cumPct": 99.91
+        },
+        {
+          "rank": 117,
+          "skuCode": "B02",
+          "gmvM": 0.25,
+          "cumPct": 99.92
+        },
+        {
+          "rank": 118,
+          "skuCode": "SKU_118",
+          "gmvM": 0.24,
+          "cumPct": 99.93
+        },
+        {
+          "rank": 119,
+          "skuCode": "B02",
+          "gmvM": 0.24,
+          "cumPct": 99.93
+        },
+        {
+          "rank": 120,
+          "skuCode": "SKU_120",
+          "gmvM": 0.24,
+          "cumPct": 99.94
+        },
+        {
+          "rank": 121,
+          "skuCode": "K04",
+          "gmvM": 0.23,
+          "cumPct": 99.95
+        },
+        {
+          "rank": 122,
+          "skuCode": "M10",
+          "gmvM": 0.23,
+          "cumPct": 99.96
+        },
+        {
+          "rank": 123,
+          "skuCode": "SKU_123",
+          "gmvM": 0.23,
+          "cumPct": 99.96
+        },
+        {
+          "rank": 124,
+          "skuCode": "B06",
+          "gmvM": 0.19,
+          "cumPct": 99.97
+        },
+        {
+          "rank": 125,
+          "skuCode": "SKU_125",
+          "gmvM": 0.18,
+          "cumPct": 99.97
+        },
+        {
+          "rank": 126,
+          "skuCode": "QC01",
+          "gmvM": 0.17,
+          "cumPct": 99.98
+        },
+        {
+          "rank": 127,
+          "skuCode": "M16",
+          "gmvM": 0.16,
+          "cumPct": 99.98
+        },
+        {
+          "rank": 128,
+          "skuCode": "CV06",
+          "gmvM": 0.14,
+          "cumPct": 99.99
+        },
+        {
+          "rank": 129,
+          "skuCode": "SKU_129",
+          "gmvM": 0.13,
+          "cumPct": 99.99
+        },
+        {
+          "rank": 130,
+          "skuCode": "SKU_130",
+          "gmvM": 0.08,
+          "cumPct": 100
+        },
+        {
+          "rank": 131,
+          "skuCode": "SKU_131",
+          "gmvM": 0.07,
+          "cumPct": 100
+        },
+        {
+          "rank": 132,
+          "skuCode": "SKU_132",
+          "gmvM": 0.06,
+          "cumPct": 100
+        },
+        {
+          "rank": 133,
+          "skuCode": "SKU_133",
+          "gmvM": 0,
+          "cumPct": 100
+        }
+      ],
+      "priceBandsLower": [
+        {
+          "band": "<75k",
+          "skus": 34,
+          "activeSkus": 22,
+          "skuSharePct": 10,
+          "unitsSharePct": 7.2,
+          "gmvM": 83.6,
+          "gmvSharePct": 2.6
+        },
+        {
+          "band": "75k-150k",
+          "skus": 112,
+          "activeSkus": 41,
+          "skuSharePct": 33,
+          "unitsSharePct": 61.8,
+          "gmvM": 1977.8,
+          "gmvSharePct": 62.6
+        },
+        {
+          "band": "150k-250k",
+          "skus": 137,
+          "activeSkus": 61,
+          "skuSharePct": 40.4,
+          "unitsSharePct": 29.5,
+          "gmvM": 1019.6,
+          "gmvSharePct": 32.3
+        },
+        {
+          "band": ">250k",
+          "skus": 56,
+          "activeSkus": 9,
+          "skuSharePct": 16.5,
+          "unitsSharePct": 1.6,
+          "gmvM": 79.4,
+          "gmvSharePct": 2.5
+        }
+      ],
+      "priceBandsRealizedAsp": [
+        {
+          "band": "<75k",
+          "skus": 34,
+          "activeSkus": 24,
+          "skuSharePct": 10,
+          "unitsSharePct": 11,
+          "gmvM": 146.3,
+          "gmvSharePct": 4.6
+        },
+        {
+          "band": "75k-150k",
+          "skus": 121,
+          "activeSkus": 49,
+          "skuSharePct": 35.7,
+          "unitsSharePct": 75.2,
+          "gmvM": 2382,
+          "gmvSharePct": 75.4
+        },
+        {
+          "band": "150k-250k",
+          "skus": 134,
+          "activeSkus": 59,
+          "skuSharePct": 39.5,
+          "unitsSharePct": 13.8,
+          "gmvM": 631.9,
+          "gmvSharePct": 20
+        },
+        {
+          "band": ">250k",
+          "skus": 50,
+          "activeSkus": 1,
+          "skuSharePct": 14.7,
+          "unitsSharePct": 0,
+          "gmvM": 0.3,
+          "gmvSharePct": 0
+        }
+      ]
+    },
+    "lorenz": {
+      "allActive": {
+        "count": 329,
+        "totalGmvB": 2.92,
+        "top1SharePct": 60.1,
+        "top10SharePct": 83.7,
+        "hhi": 3842,
+        "gini": 0.94,
+        "curve": [
+          {
+            "creatorPct": 0,
+            "gmvPct": 0,
+            "equalityPct": 0
+          },
+          {
+            "creatorPct": 4,
+            "gmvPct": 0,
+            "equalityPct": 4
+          },
+          {
+            "creatorPct": 7.9,
+            "gmvPct": 0.1,
+            "equalityPct": 7.9
+          },
+          {
+            "creatorPct": 11.9,
+            "gmvPct": 0.1,
+            "equalityPct": 11.9
+          },
+          {
+            "creatorPct": 15.8,
+            "gmvPct": 0.2,
+            "equalityPct": 15.8
+          },
+          {
+            "creatorPct": 19.8,
+            "gmvPct": 0.2,
+            "equalityPct": 19.8
+          },
+          {
+            "creatorPct": 23.7,
+            "gmvPct": 0.3,
+            "equalityPct": 23.7
+          },
+          {
+            "creatorPct": 27.7,
+            "gmvPct": 0.4,
+            "equalityPct": 27.7
+          },
+          {
+            "creatorPct": 31.6,
+            "gmvPct": 0.5,
+            "equalityPct": 31.6
+          },
+          {
+            "creatorPct": 35.6,
+            "gmvPct": 0.6,
+            "equalityPct": 35.6
+          },
+          {
+            "creatorPct": 39.5,
+            "gmvPct": 0.7,
+            "equalityPct": 39.5
+          },
+          {
+            "creatorPct": 43.5,
+            "gmvPct": 0.8,
+            "equalityPct": 43.5
+          },
+          {
+            "creatorPct": 47.4,
+            "gmvPct": 1,
+            "equalityPct": 47.4
+          },
+          {
+            "creatorPct": 51.4,
+            "gmvPct": 1.2,
+            "equalityPct": 51.4
+          },
+          {
+            "creatorPct": 55.3,
+            "gmvPct": 1.4,
+            "equalityPct": 55.3
+          },
+          {
+            "creatorPct": 59.3,
+            "gmvPct": 1.6,
+            "equalityPct": 59.3
+          },
+          {
+            "creatorPct": 63.2,
+            "gmvPct": 1.9,
+            "equalityPct": 63.2
+          },
+          {
+            "creatorPct": 67.2,
+            "gmvPct": 2.2,
+            "equalityPct": 67.2
+          },
+          {
+            "creatorPct": 71.1,
+            "gmvPct": 2.6,
+            "equalityPct": 71.1
+          },
+          {
+            "creatorPct": 75.1,
+            "gmvPct": 3.1,
+            "equalityPct": 75.1
+          },
+          {
+            "creatorPct": 79,
+            "gmvPct": 3.7,
+            "equalityPct": 79
+          },
+          {
+            "creatorPct": 83,
+            "gmvPct": 4.7,
+            "equalityPct": 83
+          },
+          {
+            "creatorPct": 86.9,
+            "gmvPct": 6.2,
+            "equalityPct": 86.9
+          },
+          {
+            "creatorPct": 90.9,
+            "gmvPct": 8.6,
+            "equalityPct": 90.9
+          },
+          {
+            "creatorPct": 94.8,
+            "gmvPct": 12.7,
+            "equalityPct": 94.8
+          },
+          {
+            "creatorPct": 96.7,
+            "gmvPct": 15.6,
+            "equalityPct": 96.7
+          },
+          {
+            "creatorPct": 97,
+            "gmvPct": 16.3,
+            "equalityPct": 97
+          },
+          {
+            "creatorPct": 97.3,
+            "gmvPct": 16.9,
+            "equalityPct": 97.3
+          },
+          {
+            "creatorPct": 97.6,
+            "gmvPct": 17.6,
+            "equalityPct": 97.6
+          },
+          {
+            "creatorPct": 97.9,
+            "gmvPct": 18.3,
+            "equalityPct": 97.9
+          },
+          {
+            "creatorPct": 98.2,
+            "gmvPct": 19.2,
+            "equalityPct": 98.2
+          },
+          {
+            "creatorPct": 98.5,
+            "gmvPct": 20.3,
+            "equalityPct": 98.5
+          },
+          {
+            "creatorPct": 98.8,
+            "gmvPct": 21.4,
+            "equalityPct": 98.8
+          },
+          {
+            "creatorPct": 99.1,
+            "gmvPct": 23.3,
+            "equalityPct": 99.1
+          },
+          {
+            "creatorPct": 99.4,
+            "gmvPct": 25.1,
+            "equalityPct": 99.4
+          },
+          {
+            "creatorPct": 99.7,
+            "gmvPct": 39.9,
+            "equalityPct": 99.7
+          },
+          {
+            "creatorPct": 100,
+            "gmvPct": 100,
+            "equalityPct": 100
+          }
+        ]
+      },
+      "externalOnly": {
+        "count": 328,
+        "totalGmvB": 1.17,
+        "top1SharePct": 37.1,
+        "top10SharePct": 60.9,
+        "hhi": 1471,
+        "gini": 0.86,
+        "curve": [
+          {
+            "creatorPct": 0,
+            "gmvPct": 0,
+            "equalityPct": 0
+          },
+          {
+            "creatorPct": 4,
+            "gmvPct": 0.1,
+            "equalityPct": 4
+          },
+          {
+            "creatorPct": 7.9,
+            "gmvPct": 0.2,
+            "equalityPct": 7.9
+          },
+          {
+            "creatorPct": 11.9,
+            "gmvPct": 0.3,
+            "equalityPct": 11.9
+          },
+          {
+            "creatorPct": 15.9,
+            "gmvPct": 0.4,
+            "equalityPct": 15.9
+          },
+          {
+            "creatorPct": 19.8,
+            "gmvPct": 0.6,
+            "equalityPct": 19.8
+          },
+          {
+            "creatorPct": 23.8,
+            "gmvPct": 0.8,
+            "equalityPct": 23.8
+          },
+          {
+            "creatorPct": 27.7,
+            "gmvPct": 0.9,
+            "equalityPct": 27.7
+          },
+          {
+            "creatorPct": 31.7,
+            "gmvPct": 1.2,
+            "equalityPct": 31.7
+          },
+          {
+            "creatorPct": 35.7,
+            "gmvPct": 1.4,
+            "equalityPct": 35.7
+          },
+          {
+            "creatorPct": 39.6,
+            "gmvPct": 1.7,
+            "equalityPct": 39.6
+          },
+          {
+            "creatorPct": 43.6,
+            "gmvPct": 2.1,
+            "equalityPct": 43.6
+          },
+          {
+            "creatorPct": 47.6,
+            "gmvPct": 2.5,
+            "equalityPct": 47.6
+          },
+          {
+            "creatorPct": 51.5,
+            "gmvPct": 2.9,
+            "equalityPct": 51.5
+          },
+          {
+            "creatorPct": 55.5,
+            "gmvPct": 3.5,
+            "equalityPct": 55.5
+          },
+          {
+            "creatorPct": 59.5,
+            "gmvPct": 4.1,
+            "equalityPct": 59.5
+          },
+          {
+            "creatorPct": 63.4,
+            "gmvPct": 4.7,
+            "equalityPct": 63.4
+          },
+          {
+            "creatorPct": 67.4,
+            "gmvPct": 5.5,
+            "equalityPct": 67.4
+          },
+          {
+            "creatorPct": 71.3,
+            "gmvPct": 6.5,
+            "equalityPct": 71.3
+          },
+          {
+            "creatorPct": 75.3,
+            "gmvPct": 7.8,
+            "equalityPct": 75.3
+          },
+          {
+            "creatorPct": 79.3,
+            "gmvPct": 9.4,
+            "equalityPct": 79.3
+          },
+          {
+            "creatorPct": 83.2,
+            "gmvPct": 11.9,
+            "equalityPct": 83.2
+          },
+          {
+            "creatorPct": 87.2,
+            "gmvPct": 15.6,
+            "equalityPct": 87.2
+          },
+          {
+            "creatorPct": 91.2,
+            "gmvPct": 21.5,
+            "equalityPct": 91.2
+          },
+          {
+            "creatorPct": 95.1,
+            "gmvPct": 31.8,
+            "equalityPct": 95.1
+          },
+          {
+            "creatorPct": 96.6,
+            "gmvPct": 37.7,
+            "equalityPct": 96.6
+          },
+          {
+            "creatorPct": 97,
+            "gmvPct": 39.1,
+            "equalityPct": 97
+          },
+          {
+            "creatorPct": 97.3,
+            "gmvPct": 40.7,
+            "equalityPct": 97.3
+          },
+          {
+            "creatorPct": 97.6,
+            "gmvPct": 42.4,
+            "equalityPct": 97.6
+          },
+          {
+            "creatorPct": 97.9,
+            "gmvPct": 44.1,
+            "equalityPct": 97.9
+          },
+          {
+            "creatorPct": 98.2,
+            "gmvPct": 45.9,
+            "equalityPct": 98.2
+          },
+          {
+            "creatorPct": 98.5,
+            "gmvPct": 48.2,
+            "equalityPct": 98.5
+          },
+          {
+            "creatorPct": 98.8,
+            "gmvPct": 50.7,
+            "equalityPct": 98.8
+          },
+          {
+            "creatorPct": 99.1,
+            "gmvPct": 53.6,
+            "equalityPct": 99.1
+          },
+          {
+            "creatorPct": 99.4,
+            "gmvPct": 58.2,
+            "equalityPct": 99.4
+          },
+          {
+            "creatorPct": 99.7,
+            "gmvPct": 62.9,
+            "equalityPct": 99.7
+          },
+          {
+            "creatorPct": 100,
+            "gmvPct": 100,
+            "equalityPct": 100
+          }
+        ]
+      }
+    }
+  },
+  "ch3": {
+    "maCrossovers": [
+      {
+        "date": "2026-04-29",
+        "ddmm": "29/04",
+        "ma7M": 72.4,
+        "ma28M": 80.71,
+        "gmvM": 48.63
+      },
+      {
+        "date": "2026-06-04",
+        "ddmm": "04/06",
+        "ma7M": 87.35,
+        "ma28M": 94.9,
+        "gmvM": 41.3
+      },
+      {
+        "date": "2026-06-26",
+        "ddmm": "26/06",
+        "ma7M": 120.68,
+        "ma28M": 125.92,
+        "gmvM": 129
+      },
+      {
+        "date": "2026-10-22",
+        "ddmm": "22/10",
+        "ma7M": 55.92,
+        "ma28M": 63.64,
+        "gmvM": 58.26
+      }
+    ],
+    "monthly": [
+      {
+        "month": "2026-03",
+        "shortLabel": "T3",
+        "days": 23,
+        "isPartial": true,
+        "storeGmvB": 0.95,
+        "storeGmvM": 949.8,
+        "dailyAvgM": 41.3,
+        "units": 8039,
+        "storeLives": 557,
+        "storeNewKoc": 569,
+        "storeGmvPerLiveM": 1.71,
+        "actualLiveSessions": 565,
+        "actualLiveGmvM": 207.1,
+        "actualLiveGmvPerSessionM": 0.37
+      },
+      {
+        "month": "2026-04",
+        "shortLabel": "T4",
+        "days": 30,
+        "isPartial": false,
+        "storeGmvB": 2.459,
+        "storeGmvM": 2459.1,
+        "dailyAvgM": 81.97,
+        "units": 17358,
+        "storeLives": 1957,
+        "storeNewKoc": 1987,
+        "storeGmvPerLiveM": 1.26,
+        "actualLiveSessions": 1957,
+        "actualLiveGmvM": 940.6,
+        "actualLiveGmvPerSessionM": 0.48
+      },
+      {
+        "month": "2026-05",
+        "shortLabel": "T5",
+        "days": 31,
+        "isPartial": false,
+        "storeGmvB": 2.747,
+        "storeGmvM": 2747.3,
+        "dailyAvgM": 88.62,
+        "units": 17267,
+        "storeLives": 1385,
+        "storeNewKoc": 1159,
+        "storeGmvPerLiveM": 1.98,
+        "actualLiveSessions": 1388,
+        "actualLiveGmvM": 1967.5,
+        "actualLiveGmvPerSessionM": 1.42
+      },
+      {
+        "month": "2026-06",
+        "shortLabel": "T6",
+        "days": 30,
+        "isPartial": false,
+        "storeGmvB": 3.772,
+        "storeGmvM": 3772.4,
+        "dailyAvgM": 125.75,
+        "units": 22096,
+        "storeLives": 1560,
+        "storeNewKoc": 1082,
+        "storeGmvPerLiveM": 2.42,
+        "actualLiveSessions": 1564,
+        "actualLiveGmvM": 4921.7,
+        "actualLiveGmvPerSessionM": 3.15
+      },
+      {
+        "month": "2026-07",
+        "shortLabel": "T7",
+        "days": 31,
+        "isPartial": false,
+        "storeGmvB": 2.126,
+        "storeGmvM": 2125.9,
+        "dailyAvgM": 68.58,
+        "units": 13358,
+        "storeLives": 836,
+        "storeNewKoc": 680,
+        "storeGmvPerLiveM": 2.54,
+        "actualLiveSessions": 854,
+        "actualLiveGmvM": 940,
+        "actualLiveGmvPerSessionM": 1.1
+      },
+      {
+        "month": "2026-08",
+        "shortLabel": "T8",
+        "days": 31,
+        "isPartial": false,
+        "storeGmvB": 0.637,
+        "storeGmvM": 636.7,
+        "dailyAvgM": 20.54,
+        "units": 6622,
+        "storeLives": 640,
+        "storeNewKoc": 524,
+        "storeGmvPerLiveM": 0.99,
+        "actualLiveSessions": 670,
+        "actualLiveGmvM": 287.3,
+        "actualLiveGmvPerSessionM": 0.43
+      },
+      {
+        "month": "2026-09",
+        "shortLabel": "T9",
+        "days": 30,
+        "isPartial": false,
+        "storeGmvB": 0.701,
+        "storeGmvM": 701,
+        "dailyAvgM": 23.37,
+        "units": 5841,
+        "storeLives": 765,
+        "storeNewKoc": 925,
+        "storeGmvPerLiveM": 0.92,
+        "actualLiveSessions": 768,
+        "actualLiveGmvM": 224.1,
+        "actualLiveGmvPerSessionM": 0.29
+      },
+      {
+        "month": "2026-10",
+        "shortLabel": "T10",
+        "days": 25,
+        "isPartial": true,
+        "storeGmvB": 1.617,
+        "storeGmvM": 1616.9,
+        "dailyAvgM": 64.68,
+        "units": 11315,
+        "storeLives": 703,
+        "storeNewKoc": 986,
+        "storeGmvPerLiveM": 2.3,
+        "actualLiveSessions": 589,
+        "actualLiveGmvM": 980.7,
+        "actualLiveGmvPerSessionM": 1.66
+      }
+    ],
+    "waterfalls": {
+      "junToJul": {
+        "from": "T6",
+        "to": "T7",
+        "g0M": 3772.4,
+        "g1M": 2125.9,
+        "deltaM": -1646.5,
+        "deltaPct": -43.6,
+        "volEffectM": -1750.8,
+        "yieldEffectM": 194.6,
+        "interEffectM": -90.3,
+        "volShareOfDropPct": 106.3,
+        "yieldShareOfDropPct": -11.8,
+        "interShareOfDropPct": 5.5
+      },
+      "julToAug": {
+        "from": "T7",
+        "to": "T8",
+        "g0M": 2125.9,
+        "g1M": 636.7,
+        "deltaM": -1489.2,
+        "deltaPct": -70.1,
+        "volEffectM": -498.4,
+        "yieldEffectM": -1294.2,
+        "interEffectM": 303.4,
+        "volShareOfDropPct": 33.5,
+        "yieldShareOfDropPct": 86.9,
+        "interShareOfDropPct": -20.4
+      },
+      "junToAug": {
+        "from": "T6",
+        "to": "T8",
+        "g0M": 3772.4,
+        "g1M": 636.7,
+        "deltaM": -3135.7,
+        "deltaPct": -83.1,
+        "volEffectM": -2224.7,
+        "yieldEffectM": -2220.4,
+        "interEffectM": 1309.5,
+        "volShareOfDropPct": 70.9,
+        "yieldShareOfDropPct": 70.8,
+        "interShareOfDropPct": -41.8
+      }
+    },
+    "skuWeekly100": [
+      {
+        "week": "W18",
+        "monday": "2026-04-27",
+        "ddmm": "27/04",
+        "summerM": 78.74,
+        "winterM": 7.2,
+        "summerPct": 91.6,
+        "winterPct": 8.4,
+        "at06Pct": 0,
+        "h36Pct": 0
+      },
+      {
+        "week": "W19",
+        "monday": "2026-05-04",
+        "ddmm": "04/05",
+        "summerM": 99.22,
+        "winterM": 45.57,
+        "summerPct": 68.5,
+        "winterPct": 31.5,
+        "at06Pct": 0,
+        "h36Pct": 0
+      },
+      {
+        "week": "W20",
+        "monday": "2026-05-11",
+        "ddmm": "11/05",
+        "summerM": 151.06,
+        "winterM": 80.24,
+        "summerPct": 65.3,
+        "winterPct": 34.7,
+        "at06Pct": 0,
+        "h36Pct": 10.5
+      },
+      {
+        "week": "W21",
+        "monday": "2026-05-18",
+        "ddmm": "18/05",
+        "summerM": 145.09,
+        "winterM": 92.03,
+        "summerPct": 61.2,
+        "winterPct": 38.8,
+        "at06Pct": 0,
+        "h36Pct": 13.8
+      },
+      {
+        "week": "W22",
+        "monday": "2026-05-25",
+        "ddmm": "25/05",
+        "summerM": 343.06,
+        "winterM": 28.17,
+        "summerPct": 92.4,
+        "winterPct": 7.6,
+        "at06Pct": 0,
+        "h36Pct": 31.3
+      },
+      {
+        "week": "W23",
+        "monday": "2026-06-01",
+        "ddmm": "01/06",
+        "summerM": 324.83,
+        "winterM": 30.36,
+        "summerPct": 91.5,
+        "winterPct": 8.5,
+        "at06Pct": 0,
+        "h36Pct": 29.3
+      },
+      {
+        "week": "W24",
+        "monday": "2026-06-08",
+        "ddmm": "08/06",
+        "summerM": 457.67,
+        "winterM": 37.89,
+        "summerPct": 92.4,
+        "winterPct": 7.6,
+        "at06Pct": 0,
+        "h36Pct": 37.4
+      },
+      {
+        "week": "W25",
+        "monday": "2026-06-15",
+        "ddmm": "15/06",
+        "summerM": 387.75,
+        "winterM": 28.14,
+        "summerPct": 93.2,
+        "winterPct": 6.8,
+        "at06Pct": 0,
+        "h36Pct": 34.5
+      },
+      {
+        "week": "W26",
+        "monday": "2026-06-22",
+        "ddmm": "22/06",
+        "summerM": 310.19,
+        "winterM": 48.46,
+        "summerPct": 86.5,
+        "winterPct": 13.5,
+        "at06Pct": 0,
+        "h36Pct": 31.3
+      },
+      {
+        "week": "W27",
+        "monday": "2026-06-29",
+        "ddmm": "29/06",
+        "summerM": 259.43,
+        "winterM": 35.14,
+        "summerPct": 88.1,
+        "winterPct": 11.9,
+        "at06Pct": 0,
+        "h36Pct": 30.3
+      },
+      {
+        "week": "W28",
+        "monday": "2026-07-06",
+        "ddmm": "06/07",
+        "summerM": 213.63,
+        "winterM": 47.63,
+        "summerPct": 81.8,
+        "winterPct": 18.2,
+        "at06Pct": 0,
+        "h36Pct": 32.6
+      },
+      {
+        "week": "W29",
+        "monday": "2026-07-13",
+        "ddmm": "13/07",
+        "summerM": 145.14,
+        "winterM": 34.43,
+        "summerPct": 80.8,
+        "winterPct": 19.2,
+        "at06Pct": 0,
+        "h36Pct": 27
+      },
+      {
+        "week": "W30",
+        "monday": "2026-07-20",
+        "ddmm": "20/07",
+        "summerM": 124.64,
+        "winterM": 42.77,
+        "summerPct": 74.5,
+        "winterPct": 25.5,
+        "at06Pct": 0,
+        "h36Pct": 22.4
+      },
+      {
+        "week": "W31",
+        "monday": "2026-07-27",
+        "ddmm": "27/07",
+        "summerM": 85.12,
+        "winterM": 39.89,
+        "summerPct": 68.1,
+        "winterPct": 31.9,
+        "at06Pct": 0,
+        "h36Pct": 28.7
+      },
+      {
+        "week": "W32",
+        "monday": "2026-08-03",
+        "ddmm": "03/08",
+        "summerM": 49.43,
+        "winterM": 30.72,
+        "summerPct": 61.7,
+        "winterPct": 38.3,
+        "at06Pct": 0,
+        "h36Pct": 12.5
+      },
+      {
+        "week": "W33",
+        "monday": "2026-08-10",
+        "ddmm": "10/08",
+        "summerM": 36.1,
+        "winterM": 23.35,
+        "summerPct": 60.7,
+        "winterPct": 39.3,
+        "at06Pct": 0,
+        "h36Pct": 16.2
+      },
+      {
+        "week": "W34",
+        "monday": "2026-08-17",
+        "ddmm": "17/08",
+        "summerM": 28.99,
+        "winterM": 23.18,
+        "summerPct": 55.6,
+        "winterPct": 44.4,
+        "at06Pct": 0,
+        "h36Pct": 15.5
+      },
+      {
+        "week": "W35",
+        "monday": "2026-08-24",
+        "ddmm": "24/08",
+        "summerM": 23.5,
+        "winterM": 20.02,
+        "summerPct": 54,
+        "winterPct": 46,
+        "at06Pct": 0,
+        "h36Pct": 17
+      },
+      {
+        "week": "W36",
+        "monday": "2026-08-31",
+        "ddmm": "31/08",
+        "summerM": 10.16,
+        "winterM": 24.57,
+        "summerPct": 29.2,
+        "winterPct": 70.8,
+        "at06Pct": 0,
+        "h36Pct": 5.7
+      },
+      {
+        "week": "W37",
+        "monday": "2026-09-07",
+        "ddmm": "07/09",
+        "summerM": 17.3,
+        "winterM": 47.01,
+        "summerPct": 26.9,
+        "winterPct": 73.1,
+        "at06Pct": 26.3,
+        "h36Pct": 4.8
+      },
+      {
+        "week": "W38",
+        "monday": "2026-09-14",
+        "ddmm": "14/09",
+        "summerM": 12.77,
+        "winterM": 138.37,
+        "summerPct": 8.4,
+        "winterPct": 91.6,
+        "at06Pct": 44.7,
+        "h36Pct": 1.9
+      },
+      {
+        "week": "W39",
+        "monday": "2026-09-21",
+        "ddmm": "21/09",
+        "summerM": 9.02,
+        "winterM": 157.74,
+        "summerPct": 5.4,
+        "winterPct": 94.6,
+        "at06Pct": 51.9,
+        "h36Pct": 1.2
+      },
+      {
+        "week": "W40",
+        "monday": "2026-09-28",
+        "ddmm": "28/09",
+        "summerM": 9.33,
+        "winterM": 370.45,
+        "summerPct": 2.5,
+        "winterPct": 97.5,
+        "at06Pct": 78.8,
+        "h36Pct": 0.2
+      },
+      {
+        "week": "W41",
+        "monday": "2026-10-05",
+        "ddmm": "05/10",
+        "summerM": 8.5,
+        "winterM": 408.94,
+        "summerPct": 2,
+        "winterPct": 98,
+        "at06Pct": 82,
+        "h36Pct": 0.3
+      },
+      {
+        "week": "W42",
+        "monday": "2026-10-12",
+        "ddmm": "12/10",
+        "summerM": 5.97,
+        "winterM": 664.31,
+        "summerPct": 0.9,
+        "winterPct": 99.1,
+        "at06Pct": 88.8,
+        "h36Pct": 0.1
+      },
+      {
+        "week": "W43",
+        "monday": "2026-10-19",
+        "ddmm": "19/10",
+        "summerM": 4.85,
+        "winterM": 243.63,
+        "summerPct": 2,
+        "winterPct": 98,
+        "at06Pct": 76.7,
+        "h36Pct": 0.2
+      }
+    ],
+    "sku10Summary": {
+      "totalGmvB": 6.09,
+      "totalUnits": 38037,
+      "junSummerSharePct": 90.9,
+      "junH36GmvM": 572.8,
+      "sepWinterSharePct": 90.7,
+      "sepAt06GmvM": 297.7,
+      "octWinterSharePct": 98.4,
+      "octAt06GmvB": 1.3,
+      "octAt06SharePct": 83.5
+    },
+    "crossoverWeek": "W36",
+    "crossoverDate": "31/08",
+    "peakZScores": {
+      "full231": 5.83,
+      "daysOver3Full231": 2,
+      "trailing28Incl": 4.04,
+      "trailing28Excl": 6.81
+    },
+    "junePeakReconciliation": [
+      {
+        "date": "2026-06-15",
+        "ddmm": "15/06",
+        "storeGmvM": 77.7,
+        "z28": -0.98,
+        "dedupLiveGmvM": 156.5,
+        "sessionCount": 62,
+        "topSessionGmvM": 85.2,
+        "topSessionStart": "09:10",
+        "topSessionDurationH": 17.6
+      },
+      {
+        "date": "2026-06-16",
+        "ddmm": "16/06",
+        "storeGmvM": 315.05,
+        "z28": 6.81,
+        "dedupLiveGmvM": 272.2,
+        "sessionCount": 91,
+        "topSessionGmvM": 194.9,
+        "topSessionStart": "09:05",
+        "topSessionDurationH": 16.8
+      },
+      {
+        "date": "2026-06-17",
+        "ddmm": "17/06",
+        "storeGmvM": 96.21,
+        "z28": -0.36,
+        "dedupLiveGmvM": 336.9,
+        "sessionCount": 88,
+        "topSessionGmvM": 272.1,
+        "topSessionStart": "09:08",
+        "topSessionDurationH": 16.9
+      },
+      {
+        "date": "2026-06-18",
+        "ddmm": "18/06",
+        "storeGmvM": 176.67,
+        "z28": 1.25,
+        "dedupLiveGmvM": 259.8,
+        "sessionCount": 31,
+        "topSessionGmvM": 214.1,
+        "topSessionStart": "12:01",
+        "topSessionDurationH": 14
+      }
+    ],
+    "dowIndex": [
+      {
+        "labelVi": "T2",
+        "labelEn": "Mon",
+        "n": 33,
+        "meanM": 63.2,
+        "medianM": 57.1,
+        "meanIndex": 97.3,
+        "medianIndex": 95.2
+      },
+      {
+        "labelVi": "T3",
+        "labelEn": "Tue",
+        "n": 33,
+        "meanM": 65.8,
+        "medianM": 53.8,
+        "meanIndex": 101.2,
+        "medianIndex": 89.7
+      },
+      {
+        "labelVi": "T4",
+        "labelEn": "Wed",
+        "n": 33,
+        "meanM": 61.6,
+        "medianM": 62.6,
+        "meanIndex": 94.7,
+        "medianIndex": 104.4
+      },
+      {
+        "labelVi": "T5",
+        "labelEn": "Thu",
+        "n": 33,
+        "meanM": 73.2,
+        "medianM": 67.5,
+        "meanIndex": 112.6,
+        "medianIndex": 112.5
+      },
+      {
+        "labelVi": "T6",
+        "labelEn": "Fri",
+        "n": 33,
+        "meanM": 64.8,
+        "medianM": 55,
+        "meanIndex": 99.8,
+        "medianIndex": 91.8
+      },
+      {
+        "labelVi": "T7",
+        "labelEn": "Sat",
+        "n": 33,
+        "meanM": 63.5,
+        "medianM": 60,
+        "meanIndex": 97.8,
+        "medianIndex": 100
+      },
+      {
+        "labelVi": "CN",
+        "labelEn": "Sun",
+        "n": 33,
+        "meanM": 62.7,
+        "medianM": 64.3,
+        "meanIndex": 96.6,
+        "medianIndex": 107.3
+      }
+    ],
+    "lagCorrelations": [
+      {
+        "lag": 0,
+        "label": "Lag 0d",
+        "rLive": 0.422,
+        "rKoc": 0.299,
+        "rVideo": 0.055
+      },
+      {
+        "lag": 1,
+        "label": "Lag 1d",
+        "rLive": 0.394,
+        "rKoc": 0.322,
+        "rVideo": 0.101
+      },
+      {
+        "lag": 2,
+        "label": "Lag 2d",
+        "rLive": 0.42,
+        "rKoc": 0.334,
+        "rVideo": 0.106
+      },
+      {
+        "lag": 3,
+        "label": "Lag 3d",
+        "rLive": 0.422,
+        "rKoc": 0.324,
+        "rVideo": 0.086
+      },
+      {
+        "lag": 4,
+        "label": "Lag 4d",
+        "rLive": 0.424,
+        "rKoc": 0.347,
+        "rVideo": 0.14
+      },
+      {
+        "lag": 5,
+        "label": "Lag 5d",
+        "rLive": 0.425,
+        "rKoc": 0.318,
+        "rVideo": 0.104
+      },
+      {
+        "lag": 6,
+        "label": "Lag 6d",
+        "rLive": 0.428,
+        "rKoc": 0.349,
+        "rVideo": 0.15
+      },
+      {
+        "lag": 7,
+        "label": "Lag 7d",
+        "rLive": 0.464,
+        "rKoc": 0.355,
+        "rVideo": 0.111
+      }
+    ],
+    "panelRegression": {
+      "nObs": 1760,
+      "nSkus": 10,
+      "bootstrapReps": 400,
+      "coefficients": [
+        {
+          "key": "live_t0",
+          "labelVi": "Livestream mới (cùng ngày t)",
+          "labelEn": "New Livestreams (lag 0)",
+          "beta": 0.436,
+          "ciLow": 0.127,
+          "ciHigh": 0.734
+        },
+        {
+          "key": "live_lag1_3",
+          "labelVi": "Livestream mới (trễ t-1..t-3)",
+          "labelEn": "New Livestreams (lags 1-3)",
+          "beta": 0.664,
+          "ciLow": 0.319,
+          "ciHigh": 0.912
+        },
+        {
+          "key": "video_t0",
+          "labelVi": "Video mới (cùng ngày t)",
+          "labelEn": "New Videos (lag 0)",
+          "beta": 0.213,
+          "ciLow": -0.31,
+          "ciHigh": 0.44
+        },
+        {
+          "key": "video_lag1_3",
+          "labelVi": "Video mới (trễ t-1..t-3)",
+          "labelEn": "New Videos (lags 1-3)",
+          "beta": 0.457,
+          "ciLow": -0.031,
+          "ciHigh": 0.824
+        },
+        {
+          "key": "koc_t0",
+          "labelVi": "KOC mới gắn giỏ (cùng ngày t)",
+          "labelEn": "New KOCs (lag 0)",
+          "beta": 0.162,
+          "ciLow": -0.154,
+          "ciHigh": 0.681
+        }
+      ]
+    }
+  },
+  "ch4": {
+    "cohortRetention": [
+      {
+        "cohortMonth": "2026-03",
+        "shortLabel": "T3",
+        "size": 66,
+        "cells": [
+          {
+            "offset": 0,
+            "label": "M+0",
+            "n": 66,
+            "pct": 100,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 1,
+            "label": "M+1",
+            "n": 47,
+            "pct": 71.2,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 2,
+            "label": "M+2",
+            "n": 31,
+            "pct": 47,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 3,
+            "label": "M+3",
+            "n": 27,
+            "pct": 40.9,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 4,
+            "label": "M+4",
+            "n": 17,
+            "pct": 25.8,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 5,
+            "label": "M+5",
+            "n": 10,
+            "pct": 15.2,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 6,
+            "label": "M+6",
+            "n": 11,
+            "pct": 16.7,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 7,
+            "label": "M+7",
+            "n": 8,
+            "pct": 12.1,
+            "censored": false,
+            "isPartialOct": true
+          }
+        ]
+      },
+      {
+        "cohortMonth": "2026-04",
+        "shortLabel": "T4",
+        "size": 80,
+        "cells": [
+          {
+            "offset": 0,
+            "label": "M+0",
+            "n": 80,
+            "pct": 100,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 1,
+            "label": "M+1",
+            "n": 36,
+            "pct": 45,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 2,
+            "label": "M+2",
+            "n": 20,
+            "pct": 25,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 3,
+            "label": "M+3",
+            "n": 15,
+            "pct": 18.8,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 4,
+            "label": "M+4",
+            "n": 6,
+            "pct": 7.5,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 5,
+            "label": "M+5",
+            "n": 5,
+            "pct": 6.3,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 6,
+            "label": "M+6",
+            "n": 3,
+            "pct": 3.8,
+            "censored": false,
+            "isPartialOct": true
+          },
+          {
+            "offset": 7,
+            "label": "M+7",
+            "n": null,
+            "pct": null,
+            "censored": true
+          }
+        ]
+      },
+      {
+        "cohortMonth": "2026-05",
+        "shortLabel": "T5",
+        "size": 37,
+        "cells": [
+          {
+            "offset": 0,
+            "label": "M+0",
+            "n": 37,
+            "pct": 100,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 1,
+            "label": "M+1",
+            "n": 18,
+            "pct": 48.6,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 2,
+            "label": "M+2",
+            "n": 8,
+            "pct": 21.6,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 3,
+            "label": "M+3",
+            "n": 5,
+            "pct": 13.5,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 4,
+            "label": "M+4",
+            "n": 4,
+            "pct": 10.8,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 5,
+            "label": "M+5",
+            "n": 4,
+            "pct": 10.8,
+            "censored": false,
+            "isPartialOct": true
+          },
+          {
+            "offset": 6,
+            "label": "M+6",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 7,
+            "label": "M+7",
+            "n": null,
+            "pct": null,
+            "censored": true
+          }
+        ]
+      },
+      {
+        "cohortMonth": "2026-06",
+        "shortLabel": "T6",
+        "size": 30,
+        "cells": [
+          {
+            "offset": 0,
+            "label": "M+0",
+            "n": 30,
+            "pct": 100,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 1,
+            "label": "M+1",
+            "n": 10,
+            "pct": 33.3,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 2,
+            "label": "M+2",
+            "n": 6,
+            "pct": 20,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 3,
+            "label": "M+3",
+            "n": 4,
+            "pct": 13.3,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 4,
+            "label": "M+4",
+            "n": 4,
+            "pct": 13.3,
+            "censored": false,
+            "isPartialOct": true
+          },
+          {
+            "offset": 5,
+            "label": "M+5",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 6,
+            "label": "M+6",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 7,
+            "label": "M+7",
+            "n": null,
+            "pct": null,
+            "censored": true
+          }
+        ]
+      },
+      {
+        "cohortMonth": "2026-07",
+        "shortLabel": "T7",
+        "size": 15,
+        "cells": [
+          {
+            "offset": 0,
+            "label": "M+0",
+            "n": 15,
+            "pct": 100,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 1,
+            "label": "M+1",
+            "n": 5,
+            "pct": 33.3,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 2,
+            "label": "M+2",
+            "n": 3,
+            "pct": 20,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 3,
+            "label": "M+3",
+            "n": 1,
+            "pct": 6.7,
+            "censored": false,
+            "isPartialOct": true
+          },
+          {
+            "offset": 4,
+            "label": "M+4",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 5,
+            "label": "M+5",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 6,
+            "label": "M+6",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 7,
+            "label": "M+7",
+            "n": null,
+            "pct": null,
+            "censored": true
+          }
+        ]
+      },
+      {
+        "cohortMonth": "2026-08",
+        "shortLabel": "T8",
+        "size": 18,
+        "cells": [
+          {
+            "offset": 0,
+            "label": "M+0",
+            "n": 18,
+            "pct": 100,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 1,
+            "label": "M+1",
+            "n": 5,
+            "pct": 27.8,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 2,
+            "label": "M+2",
+            "n": 4,
+            "pct": 22.2,
+            "censored": false,
+            "isPartialOct": true
+          },
+          {
+            "offset": 3,
+            "label": "M+3",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 4,
+            "label": "M+4",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 5,
+            "label": "M+5",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 6,
+            "label": "M+6",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 7,
+            "label": "M+7",
+            "n": null,
+            "pct": null,
+            "censored": true
+          }
+        ]
+      },
+      {
+        "cohortMonth": "2026-09",
+        "shortLabel": "T9",
+        "size": 29,
+        "cells": [
+          {
+            "offset": 0,
+            "label": "M+0",
+            "n": 29,
+            "pct": 100,
+            "censored": false,
+            "isPartialOct": false
+          },
+          {
+            "offset": 1,
+            "label": "M+1",
+            "n": 12,
+            "pct": 41.4,
+            "censored": false,
+            "isPartialOct": true
+          },
+          {
+            "offset": 2,
+            "label": "M+2",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 3,
+            "label": "M+3",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 4,
+            "label": "M+4",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 5,
+            "label": "M+5",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 6,
+            "label": "M+6",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 7,
+            "label": "M+7",
+            "n": null,
+            "pct": null,
+            "censored": true
+          }
+        ]
+      },
+      {
+        "cohortMonth": "2026-10",
+        "shortLabel": "T10",
+        "size": 27,
+        "cells": [
+          {
+            "offset": 0,
+            "label": "M+0",
+            "n": 27,
+            "pct": 100,
+            "censored": false,
+            "isPartialOct": true
+          },
+          {
+            "offset": 1,
+            "label": "M+1",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 2,
+            "label": "M+2",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 3,
+            "label": "M+3",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 4,
+            "label": "M+4",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 5,
+            "label": "M+5",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 6,
+            "label": "M+6",
+            "n": null,
+            "pct": null,
+            "censored": true
+          },
+          {
+            "offset": 7,
+            "label": "M+7",
+            "n": null,
+            "pct": null,
+            "censored": true
+          }
+        ]
+      }
+    ],
+    "cohortLifetimeGmv": [
+      {
+        "cohortMonth": "2026-03",
+        "shortLabel": "T3",
+        "allGmvM": 445,
+        "exSatGmvM": 445
+      },
+      {
+        "cohortMonth": "2026-04",
+        "shortLabel": "T4",
+        "allGmvM": 227,
+        "exSatGmvM": 227
+      },
+      {
+        "cohortMonth": "2026-05",
+        "shortLabel": "T5",
+        "allGmvM": 1497,
+        "exSatGmvM": 239
+      },
+      {
+        "cohortMonth": "2026-06",
+        "shortLabel": "T6",
+        "allGmvM": 114,
+        "exSatGmvM": 114
+      },
+      {
+        "cohortMonth": "2026-07",
+        "shortLabel": "T7",
+        "allGmvM": 6,
+        "exSatGmvM": 6
+      },
+      {
+        "cohortMonth": "2026-08",
+        "shortLabel": "T8",
+        "allGmvM": 1,
+        "exSatGmvM": 1
+      },
+      {
+        "cohortMonth": "2026-09",
+        "shortLabel": "T9",
+        "allGmvM": 376,
+        "exSatGmvM": 376
+      },
+      {
+        "cohortMonth": "2026-10",
+        "shortLabel": "T10",
+        "allGmvM": 212,
+        "exSatGmvM": 212
+      }
+    ],
+    "survival": {
+      "totalKocs": 302,
+      "totalSessions": 7760,
+      "everOrderCount": 129,
+      "everOrderPct": 42.7,
+      "oneSessionCount": 70,
+      "oneSessionPct": 23.2,
+      "firstSessionOrderCount": 51,
+      "firstSessionOrderPct": 16.9,
+      "medianSpanAllDays": 13,
+      "medianSpanFirstOrderDays": 9,
+      "medianSpanFirstZeroDays": 13,
+      "first3ZeroCount": 224,
+      "first3ZeroNeverConvertCount": 173,
+      "first3ZeroNeverConvertPct": 77.2,
+      "first3ZeroGe3Count": 145,
+      "first3ZeroGe3NeverConvertPct": 64.8,
+      "kmSeries": [
+        {
+          "day": 0,
+          "firstOrderPct": 74.5,
+          "firstOrderRisk": 51,
+          "firstZeroPct": 78.5,
+          "firstZeroRisk": 251
+        },
+        {
+          "day": 1,
+          "firstOrderPct": 66.5,
+          "firstOrderRisk": 37,
+          "firstZeroPct": 74.9,
+          "firstZeroRisk": 196
+        },
+        {
+          "day": 3,
+          "firstOrderPct": 64.4,
+          "firstOrderRisk": 32,
+          "firstZeroPct": 71.7,
+          "firstZeroRisk": 183
+        },
+        {
+          "day": 7,
+          "firstOrderPct": 60.4,
+          "firstOrderRisk": 30,
+          "firstZeroPct": 65.6,
+          "firstZeroRisk": 162
+        },
+        {
+          "day": 14,
+          "firstOrderPct": 54.2,
+          "firstOrderRisk": 25,
+          "firstZeroPct": 57.1,
+          "firstZeroRisk": 134
+        },
+        {
+          "day": 21,
+          "firstOrderPct": 41.5,
+          "firstOrderRisk": 16,
+          "firstZeroPct": 51.7,
+          "firstZeroRisk": 115
+        },
+        {
+          "day": 30,
+          "firstOrderPct": 38.6,
+          "firstOrderRisk": 13,
+          "firstZeroPct": 45.5,
+          "firstZeroRisk": 94
+        },
+        {
+          "day": 45,
+          "firstOrderPct": 35,
+          "firstOrderRisk": 10,
+          "firstZeroPct": 35.8,
+          "firstZeroRisk": 72
+        },
+        {
+          "day": 60,
+          "firstOrderPct": 31.2,
+          "firstOrderRisk": 8,
+          "firstZeroPct": 29.6,
+          "firstZeroRisk": 56
+        },
+        {
+          "day": 90,
+          "firstOrderPct": 27.3,
+          "firstOrderRisk": 7,
+          "firstZeroPct": 24.1,
+          "firstZeroRisk": 44
+        },
+        {
+          "day": 120,
+          "firstOrderPct": 23.4,
+          "firstOrderRisk": 6,
+          "firstZeroPct": 14,
+          "firstZeroRisk": 26
+        },
+        {
+          "day": 150,
+          "firstOrderPct": 23.4,
+          "firstOrderRisk": 4,
+          "firstZeroPct": 11,
+          "firstZeroRisk": 17
+        },
+        {
+          "day": 180,
+          "firstOrderPct": 23.4,
+          "firstOrderRisk": 1,
+          "firstZeroPct": 9.7,
+          "firstZeroRisk": 13
+        }
+      ]
+    },
+    "satelliteSummary": {
+      "sessions": 261,
+      "gmvB": 1.26,
+      "shareOfExtLivePct": 43.7
+    },
+    "monthlyGmvAndFunnel": [
+      {
+        "month": "2026-03",
+        "shortLabel": "T3",
+        "satGmvM": 0,
+        "otherExtGmvM": 94.06,
+        "newCohortGmvM": 94.06,
+        "priorCohortGmvM": 0,
+        "newKocs": 66,
+        "retainedKocs": 0,
+        "activeKocs": 66,
+        "convertingKocs": 16
+      },
+      {
+        "month": "2026-04",
+        "shortLabel": "T4",
+        "satGmvM": 0,
+        "otherExtGmvM": 99.75,
+        "newCohortGmvM": 44.61,
+        "priorCohortGmvM": 55.14,
+        "newKocs": 80,
+        "retainedKocs": 47,
+        "activeKocs": 127,
+        "convertingKocs": 55
+      },
+      {
+        "month": "2026-05",
+        "shortLabel": "T5",
+        "satGmvM": 207.1,
+        "otherExtGmvM": 311.1,
+        "newCohortGmvM": 147.43,
+        "priorCohortGmvM": 163.67,
+        "newKocs": 37,
+        "retainedKocs": 67,
+        "activeKocs": 104,
+        "convertingKocs": 54
+      },
+      {
+        "month": "2026-06",
+        "shortLabel": "T6",
+        "satGmvM": 785.21,
+        "otherExtGmvM": 393.78,
+        "newCohortGmvM": 81,
+        "priorCohortGmvM": 312.78,
+        "newKocs": 30,
+        "retainedKocs": 65,
+        "activeKocs": 95,
+        "convertingKocs": 61
+      },
+      {
+        "month": "2026-07",
+        "shortLabel": "T7",
+        "satGmvM": 214.18,
+        "otherExtGmvM": 64.07,
+        "newCohortGmvM": 2.96,
+        "priorCohortGmvM": 61.11,
+        "newKocs": 15,
+        "retainedKocs": 50,
+        "activeKocs": 65,
+        "convertingKocs": 34
+      },
+      {
+        "month": "2026-08",
+        "shortLabel": "T8",
+        "satGmvM": 49.75,
+        "otherExtGmvM": 21.93,
+        "newCohortGmvM": 0.07,
+        "priorCohortGmvM": 21.86,
+        "newKocs": 18,
+        "retainedKocs": 32,
+        "activeKocs": 50,
+        "convertingKocs": 16
+      },
+      {
+        "month": "2026-09",
+        "shortLabel": "T9",
+        "satGmvM": 0.43,
+        "otherExtGmvM": 37.07,
+        "newCohortGmvM": 26.83,
+        "priorCohortGmvM": 10.24,
+        "newKocs": 29,
+        "retainedKocs": 32,
+        "activeKocs": 61,
+        "convertingKocs": 16
+      },
+      {
+        "month": "2026-10",
+        "shortLabel": "T10",
+        "satGmvM": 1.08,
+        "otherExtGmvM": 597.65,
+        "newCohortGmvM": 211.74,
+        "priorCohortGmvM": 385.91,
+        "newKocs": 27,
+        "retainedKocs": 36,
+        "activeKocs": 63,
+        "convertingKocs": 18
+      }
+    ]
+  },
+  "ch5": {
+    "liveEfficiency": {
+      "officialSessions": 595,
+      "extSessions": 7760,
+      "officialViewsM": 3.51,
+      "extViewsM": 40.28,
+      "officialViewSharePct": 8,
+      "extViewSharePct": 92,
+      "officialGmvSharePct": 72.5,
+      "extGmvSharePct": 27.5,
+      "officialVndPerView": 2163,
+      "extVndPerView": 71,
+      "crLiveVndPerUv": 2142,
+      "crLiveConvPct": 94.3,
+      "extLiveConvPct": 24.7,
+      "crLiveGt8Sessions": 118,
+      "crLiveGt8VndPerUv": 2980,
+      "crLiveLe8VndPerUv": 1394,
+      "crLiveBySlotAll": [
+        {
+          "hourSlot": "00-06h",
+          "sessions": 8,
+          "gmvPerUv": 786
+        },
+        {
+          "hourSlot": "06-12h",
+          "sessions": 223,
+          "gmvPerUv": 2326
+        },
+        {
+          "hourSlot": "12-18h",
+          "sessions": 188,
+          "gmvPerUv": 2614
+        },
+        {
+          "hourSlot": "18-24h",
+          "sessions": 181,
+          "gmvPerUv": 1259
+        }
+      ],
+      "officialVideos": 276,
+      "officialVideoGmvM": 959,
+      "affVideos": 4796,
+      "affVideosRaw": 4797,
+      "affVideoGmvB": 2.2
+    },
+    "videoForestSlices": [
+      {
+        "id": "all",
+        "labelVi": "Toàn mẫu (4.796 clip)",
+        "labelEn": "Full sample (4,796 clips)",
+        "adsN": 3775,
+        "orgN": 1021,
+        "adsConvPct": 30.3,
+        "orgConvPct": 10.2,
+        "diffPp": 20.1,
+        "ciLowPp": 17.7,
+        "ciHighPp": 22.5,
+        "adsGpmK": 65.7,
+        "orgGpmK": 77.8,
+        "gpmRatio": 0.84,
+        "oddsRatio": 3.8
+      },
+      {
+        "id": "within_creator",
+        "labelVi": "Cùng creator có cả 2 loại (192 KOC)",
+        "labelEn": "Within-creator (192 KOCs with both)",
+        "adsN": 1131,
+        "orgN": 340,
+        "adsConvPct": 36.5,
+        "orgConvPct": 12.9,
+        "diffPp": 23.6,
+        "ciLowPp": 19,
+        "ciHighPp": 28.1,
+        "adsGpmK": 89,
+        "orgGpmK": 121.4,
+        "gpmRatio": 0.73,
+        "oddsRatio": 3.9
+      },
+      {
+        "id": "mid_follower",
+        "labelVi": "Nhóm 10k - 100k followers",
+        "labelEn": "10k - 100k follower tier",
+        "adsN": 955,
+        "orgN": 247,
+        "adsConvPct": 48.7,
+        "orgConvPct": 25.1,
+        "diffPp": 23.6,
+        "ciLowPp": 17.3,
+        "ciHighPp": 29.9,
+        "adsGpmK": 84.7,
+        "orgGpmK": 113.6,
+        "gpmRatio": 0.75,
+        "oddsRatio": 2.8
+      },
+      {
+        "id": "ex_top3",
+        "labelVi": "Bỏ 3 creator doanh số lớn nhất",
+        "labelEn": "Excluding top 3 video creators",
+        "adsN": 3495,
+        "orgN": 1020,
+        "adsConvPct": 26.1,
+        "orgConvPct": 10.1,
+        "diffPp": 16,
+        "ciLowPp": 13.6,
+        "ciHighPp": 18.3,
+        "adsGpmK": 48.4,
+        "orgGpmK": 77.7,
+        "gpmRatio": 0.62,
+        "oddsRatio": 3.1
+      },
+      {
+        "id": "summer_90d",
+        "labelVi": "Kỳ Hè 90 ngày (07/06 - 04/09)",
+        "labelEn": "Summer 90d window (Jun 07 - Sep 04)",
+        "adsN": 1250,
+        "orgN": 172,
+        "adsConvPct": 41.9,
+        "orgConvPct": 11.6,
+        "diffPp": 30.3,
+        "ciLowPp": 24.8,
+        "ciHighPp": 35.8,
+        "adsGpmK": 56.4,
+        "orgGpmK": 32.3,
+        "gpmRatio": 1.75,
+        "oddsRatio": 5.5
+      },
+      {
+        "id": "last_90d",
+        "labelVi": "90 ngày cuối (23/07 - 20/10)",
+        "labelEn": "Last 90 days (Jul 23 - Oct 20)",
+        "adsN": 701,
+        "orgN": 164,
+        "adsConvPct": 46.4,
+        "orgConvPct": 35.4,
+        "diffPp": 11,
+        "ciLowPp": 2.8,
+        "ciHighPp": 19.2,
+        "adsGpmK": 137.1,
+        "orgGpmK": 217.8,
+        "gpmRatio": 0.63,
+        "oddsRatio": 1.6
+      }
+    ],
+    "crLiveHeatmap": [
+      {
+        "hourSlot": "00-06h",
+        "cells": [
+          {
+            "hourSlot": "00-06h",
+            "durBucket": "<2h",
+            "sessions": 6,
+            "gmvM": 12,
+            "gmvPerUv": 961,
+            "lowSample": true
+          },
+          {
+            "hourSlot": "00-06h",
+            "durBucket": "2-4h",
+            "sessions": 2,
+            "gmvM": 7.9,
+            "gmvPerUv": 616,
+            "lowSample": true
+          },
+          {
+            "hourSlot": "00-06h",
+            "durBucket": "4-8h",
+            "sessions": 0,
+            "gmvM": 0,
+            "gmvPerUv": 0,
+            "lowSample": true
+          },
+          {
+            "hourSlot": "00-06h",
+            "durBucket": ">8h",
+            "sessions": 0,
+            "gmvM": 0,
+            "gmvPerUv": 0,
+            "lowSample": true
+          }
+        ]
+      },
+      {
+        "hourSlot": "06-12h",
+        "cells": [
+          {
+            "hourSlot": "06-12h",
+            "durBucket": "<2h",
+            "sessions": 39,
+            "gmvM": 64.3,
+            "gmvPerUv": 874,
+            "lowSample": false
+          },
+          {
+            "hourSlot": "06-12h",
+            "durBucket": "2-4h",
+            "sessions": 72,
+            "gmvM": 226.9,
+            "gmvPerUv": 1246,
+            "lowSample": false
+          },
+          {
+            "hourSlot": "06-12h",
+            "durBucket": "4-8h",
+            "sessions": 38,
+            "gmvM": 557.1,
+            "gmvPerUv": 1562,
+            "lowSample": false
+          },
+          {
+            "hourSlot": "06-12h",
+            "durBucket": ">8h",
+            "sessions": 74,
+            "gmvM": 3384.1,
+            "gmvPerUv": 2802,
+            "lowSample": false
+          }
+        ]
+      },
+      {
+        "hourSlot": "12-18h",
+        "cells": [
+          {
+            "hourSlot": "12-18h",
+            "durBucket": "<2h",
+            "sessions": 39,
+            "gmvM": 106.7,
+            "gmvPerUv": 1928,
+            "lowSample": false
+          },
+          {
+            "hourSlot": "12-18h",
+            "durBucket": "2-4h",
+            "sessions": 76,
+            "gmvM": 336.5,
+            "gmvPerUv": 1444,
+            "lowSample": false
+          },
+          {
+            "hourSlot": "12-18h",
+            "durBucket": "4-8h",
+            "sessions": 34,
+            "gmvM": 291.8,
+            "gmvPerUv": 1552,
+            "lowSample": false
+          },
+          {
+            "hourSlot": "12-18h",
+            "durBucket": ">8h",
+            "sessions": 39,
+            "gmvM": 1582.7,
+            "gmvPerUv": 3858,
+            "lowSample": false
+          }
+        ]
+      },
+      {
+        "hourSlot": "18-24h",
+        "cells": [
+          {
+            "hourSlot": "18-24h",
+            "durBucket": "<2h",
+            "sessions": 49,
+            "gmvM": 45.9,
+            "gmvPerUv": 871,
+            "lowSample": false
+          },
+          {
+            "hourSlot": "18-24h",
+            "durBucket": "2-4h",
+            "sessions": 74,
+            "gmvM": 348.1,
+            "gmvPerUv": 1211,
+            "lowSample": false
+          },
+          {
+            "hourSlot": "18-24h",
+            "durBucket": "4-8h",
+            "sessions": 52,
+            "gmvM": 612.6,
+            "gmvPerUv": 1468,
+            "lowSample": false
+          },
+          {
+            "hourSlot": "18-24h",
+            "durBucket": ">8h",
+            "sessions": 5,
+            "gmvM": 15.9,
+            "gmvPerUv": 295,
+            "lowSample": true
+          }
+        ]
+      }
+    ],
+    "videoHashtagStats": [
+      {
+        "id": "product_specific",
+        "labelVi": "Hashtag sản phẩm / mùa vụ (#bikini, #doboi, #aothun, #chanvay...)",
+        "labelEn": "Product/season hashtags (#bikini, #swimwear, #tee...)",
+        "clips": 2183,
+        "convPct": 32.7,
+        "gmvM": 1472.1
+      },
+      {
+        "id": "generic_fashion",
+        "labelVi": "Chỉ gắn hashtag xu hướng chung (#xuhuong, #outfit, #thoitrang...)",
+        "labelEn": "Generic trend/fashion hashtags only (#fyp, #outfit...)",
+        "clips": 2028,
+        "convPct": 18.3,
+        "gmvM": 421.9
+      },
+      {
+        "id": "no_hashtag",
+        "labelVi": "Không gắn hashtag trong tiêu đề",
+        "labelEn": "No hashtags in caption",
+        "clips": 585,
+        "convPct": 27.7,
+        "gmvM": 301.8
+      }
+    ],
+    "videoThemeStats": [
+      {
+        "id": "swimwear",
+        "labelVi": "Đồ bơi & Đi biển (Bikini / Swimwear)",
+        "labelEn": "Swimwear & Beachwear",
+        "clips": 2288,
+        "convPct": 23.8,
+        "gmvM": 1357,
+        "gmvSharePct": 61.8
+      },
+      {
+        "id": "tops_tees",
+        "labelVi": "Áo thun / Áo khoác / Đồ thu đông",
+        "labelEn": "Tops, Tees & Outerwear",
+        "clips": 509,
+        "convPct": 36.1,
+        "gmvM": 167.1,
+        "gmvSharePct": 7.6
+      },
+      {
+        "id": "skirts_sets",
+        "labelVi": "Chân váy / Set đồ / Phối đồ chung",
+        "labelEn": "Skirts, Sets & General Styling",
+        "clips": 1999,
+        "convPct": 26,
+        "gmvM": 671.8,
+        "gmvSharePct": 30.6
+      }
+    ],
+    "pinnedAnalysis": {
+      "spearmanRho": 0.339,
+      "shelfBucketStats": [
+        {
+          "bucket": "1-15 SP",
+          "sessions": 190,
+          "meanGmvM": 4.56,
+          "medianGmvM": 1.27
+        },
+        {
+          "bucket": "16-30 SP",
+          "sessions": 152,
+          "meanGmvM": 5.52,
+          "medianGmvM": 4.27
+        },
+        {
+          "bucket": "31-50 SP",
+          "sessions": 15,
+          "meanGmvM": 13.46,
+          "medianGmvM": 4.44
+        },
+        {
+          "bucket": ">50 SP",
+          "sessions": 243,
+          "meanGmvM": 23.4,
+          "medianGmvM": 7.29
+        }
+      ],
+      "liveProdTotal": 103,
+      "liveProdActive": 82,
+      "liveProdTotalGmvB": 0.45,
+      "topLiveProds": [
+        {
+          "code": "SW01",
+          "liveGmvM": 15.6,
+          "liveUnits": 87,
+          "shopUnits": 312689,
+          "liveUnitSharePct": 0
+        },
+        {
+          "code": "M03",
+          "liveGmvM": 15.5,
+          "liveUnits": 114,
+          "shopUnits": 312689,
+          "liveUnitSharePct": 0
+        },
+        {
+          "code": "A01",
+          "liveGmvM": 15.5,
+          "liveUnits": 160,
+          "shopUnits": 312689,
+          "liveUnitSharePct": 0.1
+        },
+        {
+          "code": "LP_4",
+          "liveGmvM": 15.4,
+          "liveUnits": 156,
+          "shopUnits": 312689,
+          "liveUnitSharePct": 0
+        },
+        {
+          "code": "A03",
+          "liveGmvM": 15.3,
+          "liveUnits": 222,
+          "shopUnits": 312689,
+          "liveUnitSharePct": 0.1
+        },
+        {
+          "code": "H26",
+          "liveGmvM": 15.1,
+          "liveUnits": 279,
+          "shopUnits": 312689,
+          "liveUnitSharePct": 0.1
+        },
+        {
+          "code": "LP_7",
+          "liveGmvM": 14.8,
+          "liveUnits": 141,
+          "shopUnits": 312689,
+          "liveUnitSharePct": 0
+        },
+        {
+          "code": "H05",
+          "liveGmvM": 13.8,
+          "liveUnits": 125,
+          "shopUnits": 312689,
+          "liveUnitSharePct": 0
+        }
+      ]
+    }
+  },
+  "ch6": {
+    "maCrossovers": [
+      {
+        "date": "2026-04-29",
+        "ddmm": "29/04",
+        "ma7M": 72.4,
+        "ma28M": 80.71,
+        "gmvM": 48.63
+      },
+      {
+        "date": "2026-06-04",
+        "ddmm": "04/06",
+        "ma7M": 87.35,
+        "ma28M": 94.9,
+        "gmvM": 41.3
+      },
+      {
+        "date": "2026-06-26",
+        "ddmm": "26/06",
+        "ma7M": 120.68,
+        "ma28M": 125.92,
+        "gmvM": 129
+      },
+      {
+        "date": "2026-10-22",
+        "ddmm": "22/10",
+        "ma7M": 55.92,
+        "ma28M": 63.64,
+        "gmvM": 58.26
+      }
+    ],
+    "leadingSignals": {
+      "aprLives": 1957,
+      "mayLives": 1385,
+      "livesAprMayDropPct": -29.2,
+      "aprNewKocs": 80,
+      "mayNewKocs": 37,
+      "newKocsAprMayDropPct": -53.7,
+      "julToAugYieldDropPct": -61,
+      "junToJulActualLiveYieldDropPct": -65.1
+    },
+    "backtestRows": [
+      {
+        "id": "new_kocs_mom",
+        "signalVi": "Creator mới/tháng giảm > 40% (T4 -> T5: 80 xuống 37, -53,8%)",
+        "signalEn": "Monthly new KOCs drop > 40% (Apr -> May: 80 to 37, -53.8%)",
+        "triggers": 1,
+        "leadDaysVsPeak": 46,
+        "falseAlarms": 0,
+        "verdictVi": "Ứng viên dẫn dắt sớm (~6 tuần trước đỉnh 16/06); chưa kết luận vì n = 1 mùa",
+        "verdictEn": "Leading candidate (~6 weeks ahead of Jun 16 peak); n = 1 season limit",
+        "tone": "cyan"
+      },
+      {
+        "id": "live_vol_mom",
+        "signalVi": "Số ca Live/tháng giảm > 25% (T4 -> T5: 1.957 xuống 1.385, -29,2%)",
+        "signalEn": "Monthly Live count drops > 25% (Apr -> May: 1,957 to 1,385, -29.2%)",
+        "triggers": 1,
+        "leadDaysVsPeak": 46,
+        "falseAlarms": 0,
+        "verdictVi": "Ứng viên dẫn dắt cường độ cung nội dung; cần kiểm chứng mùa thứ hai",
+        "verdictEn": "Supply-side leading candidate; requires second-season validation",
+        "tone": "cyan"
+      },
+      {
+        "id": "ma7_ma28",
+        "signalVi": "Đường MA7 cắt xuống MA28 (29/04, 04/06, 26/06, 22/10)",
+        "signalEn": "MA7 crosses below MA28 (29/04, 04/06, 26/06, 22/10)",
+        "triggers": 4,
+        "leadDaysVsPeak": -10,
+        "falseAlarms": 2,
+        "verdictVi": "Trễ 10 ngày sau đỉnh 16/06 (sớm 38 ngày trước đáy T8), 2 lần báo giả; đang báo lại ngày 22/10",
+        "verdictEn": "Lagged 10d behind Jun 16 peak, 2 false alarms in ramp; active again on Oct 22",
+        "tone": "amber"
+      },
+      {
+        "id": "gmv_per_live",
+        "signalVi": "GMV/ca toàn shop giảm -61,0% (T7 -> T8; riêng Live thực giảm -65,1% ngay T7)",
+        "signalEn": "Store GMV/session fell -61.0% (Jul -> Aug; pure Live fell -65.1% in Jul)",
+        "triggers": 1,
+        "leadDaysVsPeak": -45,
+        "falseAlarms": 0,
+        "verdictVi": "Chỉ báo xác nhận hậu đỉnh khi sức mua đồ bơi đã bão hòa",
+        "verdictEn": "Post-peak lagging confirmation of summer category saturation",
+        "tone": "rose"
+      }
+    ]
+  },
+  "appendix": {
+    "sessionWaterfall": [
+      {
+        "stepVi": "AffLive thô xuất từ FastMoss",
+        "stepEn": "Raw AffLive export",
+        "count": 8355,
+        "delta": 0,
+        "noteVi": "07/03 - 20/10/2026, gồm cả chính chủ & affiliate",
+        "noteEn": "Mar 07 - Oct 20, 2026, official + affiliates"
+      },
+      {
+        "stepVi": "Trừ phiên @shop_official trùng CrLive",
+        "stepEn": "Subtract @shop_official overlap with CrLive",
+        "count": 7760,
+        "delta": -595,
+        "noteVi": "595 phiên chính chủ (CrLive có 600 phiên do thêm 5 ca 07-08/03 trước mốc Store)",
+        "noteEn": "595 official sessions (CrLive has 600 incl. 5 pre-09/03 sessions)"
+      },
+      {
+        "stepVi": "Tách riêng kênh vệ tinh @koc_sat01",
+        "stepEn": "Isolate in-house satellite @koc_sat01",
+        "count": 7499,
+        "delta": -261,
+        "noteVi": "261 phiên vệ tinh nội bộ (1,26 tỷ đ = 43,7% GMV affiliate ngoài)",
+        "noteEn": "261 satellite sessions (1.26B VND = 43.7% external Live GMV)"
+      },
+      {
+        "stepVi": "Đối chiếu kỳ Hè 180 ngày (đến 04/09)",
+        "stepEn": "Summer 180d cutoff reference (to Sep 04)",
+        "count": 6609,
+        "delta": -1151,
+        "noteVi": "Giải thích con số cũ 6.571 - 6.576 phiên trên bản 180 ngày trước khi nối kỳ Thu",
+        "noteEn": "Reconciles legacy 180d session counts prior to Oct merge"
+      }
+    ],
+    "crLiveWaterfall": [
+      {
+        "stepVi": "CrLive thô xuất từ FastMoss",
+        "stepEn": "Raw CrLive export",
+        "count": 600,
+        "delta": 0,
+        "noteVi": "07/03 - 20/10/2026 (dấu thời gian lệch -13h)",
+        "noteEn": "Mar 07 - Oct 20, 2026 (-13h timestamp lag)"
+      },
+      {
+        "stepVi": "Dịch +13h về UTC+7 & lọc từ 09/03",
+        "stepEn": "Shift +13h to UTC+7 & filter >= Mar 09",
+        "count": 599,
+        "delta": -1,
+        "noteVi": "Khớp 595/595 phiên với @shop_official trong AffLive",
+        "noteEn": "Matches 595/595 @shop_official sessions in AffLive"
+      },
+      {
+        "stepVi": "Đối chiếu kỳ Hè 180 ngày (đến 04/09)",
+        "stepEn": "Summer 180d cutoff reference (to Sep 04)",
+        "count": 474,
+        "delta": -125,
+        "noteVi": "Khớp con số 470 phiên trên báo cáo kỳ Hè",
+        "noteEn": "Reconciles the 470-session summer count"
+      }
+    ],
+    "qualityGates": [
+      {
+        "id": 1,
+        "gateVi": "Tính liên tục chuỗi ngày toàn shop",
+        "gateEn": "Store daily date continuity",
+        "scope": "Store_Daily_Overview",
+        "expectedVi": "Đủ 231 ngày liên tục (09/03 - 25/10/2026)",
+        "expectedEn": "231 continuous days (Mar 09 - Oct 25, 2026)",
+        "actualVi": "231 / 231 ngày (0 ngày khuyết)",
+        "actualEn": "231 / 231 days (0 missing)",
+        "level": "ERROR",
+        "status": "PASS"
+      },
+      {
+        "id": 2,
+        "gateVi": "Bảo toàn tổng doanh số & sản lượng",
+        "gateEn": "Store GMV & unit conservation",
+        "scope": "stg_store_daily vs Store raw",
+        "expectedVi": "15.009.083.662 đ · 101.896 sp",
+        "expectedEn": "15,009,083,662 VND · 101,896 units",
+        "actualVi": "15.009.083.662 đ · 101.896 sp (khớp 100%)",
+        "actualEn": "15,009,083,662 VND · 101,896 units (100% match)",
+        "level": "ERROR",
+        "status": "PASS"
+      },
+      {
+        "id": 3,
+        "gateVi": "Khử trùng lặp khóa phức hợp Video",
+        "gateEn": "Shoppable video composite-key dedup",
+        "scope": "Affiliate_Videos",
+        "expectedVi": "0 bản ghi trùng (koc_hash + title + pub_time)",
+        "expectedEn": "0 duplicate composite keys",
+        "actualVi": "Loại 1 dòng trùng (4.797 -> 4.796 clip)",
+        "actualEn": "Removed 1 duplicate (4,797 -> 4,796 clips)",
+        "level": "ERROR",
+        "status": "PASS"
+      },
+      {
+        "id": 4,
+        "gateVi": "Đối soát sản lượng kênh chính chủ 90N",
+        "gateEn": "90d official channel unit reconciliation",
+        "scope": "Affiliate_KOL vs Creator_Products",
+        "expectedVi": "Sản lượng chính chủ kỳ Hè khớp chéo",
+        "expectedEn": "Cross-table official unit match",
+        "actualVi": "20.027 sp = 20.027 sp (sai số 0)",
+        "actualEn": "20,027 units = 20,027 units (0 delta)",
+        "level": "ERROR",
+        "status": "PASS"
+      },
+      {
+        "id": 5,
+        "gateVi": "Đồng bộ múi giờ +13h & khử trùng Live chính chủ",
+        "gateEn": "+13h timezone alignment & official Live dedup",
+        "scope": "Creator_Livestreams vs Affiliate_Livestreams",
+        "expectedVi": "Khớp phiên @shop_official từ 09/03 - 20/10",
+        "expectedEn": "Exact session match for @shop_official (>= Mar 09)",
+        "actualVi": "599 / 595 phiên khớp sau dịch +13 giờ",
+        "actualEn": "599 / 595 sessions matched (+13h)",
+        "level": "ERROR",
+        "status": "PASS"
+      },
+      {
+        "id": 6,
+        "gateVi": "Phân vùng đa kỳ Snapshot hàng bán",
+        "gateEn": "Multi-snapshot partitioning integrity",
+        "scope": "Creator_Products",
+        "expectedVi": "Không ghi đè lịch sử giữa Kỳ Hè & Kỳ Thu",
+        "expectedEn": "No historical overwrite across snapshots",
+        "actualVi": "392 dòng (04/09) + 395 dòng (20/10) = 787 dòng",
+        "actualEn": "392 rows (Sep 04) + 395 rows (Oct 20) = 787 rows",
+        "level": "ERROR",
+        "status": "PASS"
+      },
+      {
+        "id": 7,
+        "gateVi": "Độ lệch gán giờ bắt đầu phiên Live so với ngày lịch Shop",
+        "gateEn": "Session start-time vs calendar-day GMV lag",
+        "scope": "Affiliate_Livestreams vs Store_Daily_Overview",
+        "expectedVi": "Giải thích được các ngày Live > Shop sau bỏ trùng",
+        "expectedEn": "Reconciles post-dedup daily Live > Store days",
+        "actualVi": "71/231 ngày (gộp thô) -> 28/231 ngày (bỏ trùng) -> 4/33 tuần",
+        "actualEn": "71/231d (naive) -> 28/231d (dedup) -> 4/33 weeks",
+        "level": "WARN",
+        "status": "PASS"
+      },
+      {
+        "id": 8,
+        "gateVi": "Tỷ lệ tài khoản KOC mồ côi giữa các bảng",
+        "gateEn": "Orphan creator ID rate across tables",
+        "scope": "Affiliate_Livestreams vs Affiliate_KOL",
+        "expectedVi": "Tỷ lệ thiếu hồ sơ KOC <= 2,0%",
+        "expectedEn": "Missing directory profile rate <= 2.0%",
+        "actualVi": "1,59% (độ trễ cửa sổ cuốn chiếu 90 ngày)",
+        "actualEn": "1.59% (90d rolling directory latency)",
+        "level": "WARN",
+        "status": "PASS"
+      },
+      {
+        "id": 9,
+        "gateVi": "Tỷ lệ khuyết tiêu đề phiên Live / Video",
+        "gateEn": "Missing session/clip title rate",
+        "scope": "Affiliate_Videos & Affiliate_Livestreams",
+        "expectedVi": "Video <= 5,5% · Live <= 15,0%",
+        "expectedEn": "Video <= 5.5% · Live <= 15.0%",
+        "actualVi": "Video 5,0% · Live 14,4% (gắn cờ Khác)",
+        "actualEn": "Video 5.0% · Live 14.4% (bucketed Other)",
+        "level": "WARN",
+        "status": "PASS"
+      }
+    ]
+  }
+}

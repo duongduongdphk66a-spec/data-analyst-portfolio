@@ -39,14 +39,14 @@ interface SnapshotMetric {
 
 const SNAPSHOT_METRICS: Record<Lang, SnapshotMetric[]> = {
   vi: [
-    { label: 'Quy mô GMV Phân tích', value: '31,6 Tỉ đ', sub: '15,01 Tỉ (Chu kỳ 231d)' },
-    { label: 'Kho Dữ liệu SQL', value: '21.573 Dòng', sub: '9 Bảng • Star Schema' },
+    { label: 'Quy mô GMV Phân tích', value: '15,01 Tỉ đ', sub: '231 ngày · 101.896 sp' },
+    { label: 'Kho Dữ liệu SQL', value: '23.364 Dòng', sub: '10 Tệp Excel • FastMoss' },
     { label: 'Mô hình & Kiểm định', value: 'R² = 0,84', sub: 'OLS • DiD • What-If ROI' },
     { label: 'Kiến trúc & Dashboard', value: '20 Cặp Màn hình', sub: 'End-to-End Dataflow' },
   ],
   en: [
-    { label: 'Audited GMV Scale', value: '31.6B VND', sub: '15.01B (231d Cycle)' },
-    { label: 'SQL Warehouse', value: '21,573 Rows', sub: '9 Tables • Star Schema' },
+    { label: 'Audited GMV Scale', value: '15.01B VND', sub: '231 days · 101,896 units' },
+    { label: 'SQL Warehouse', value: '23,364 Rows', sub: '10 Excel Files • FastMoss' },
     { label: 'Models & Econometrics', value: 'R² = 0.84', sub: 'OLS • DiD • What-If ROI' },
     { label: 'Systems & Dashboards', value: '20 Screen Pairs', sub: 'End-to-End Dataflow' },
   ],

@@ -51,8 +51,8 @@ export default function Chapter3SeasonalityAndRegression() {
       scopeLabel={L('Store 231N · SKU10 (1.790 dòng)', 'Store 231d · SKU10 (1,790 rows)')}
       question={L('Biên độ biến động do mùa vụ sản phẩm hay do cường độ marketing?', 'Is revenue volatility driven by product seasonality or marketing intensity?')}
       conclusion={L(
-        `GMV tăng bốn lần từ tháng 3 (${n(ch3.monthly[0].storeGmvB, 2)} tỷ đ, 23 ngày) lên đỉnh tháng 6 (${n(k.junGmvB, 2)} tỷ đ), giảm ${Math.abs(k.junToAugDropPct)}% đến tháng 8 (${n(k.augGmvB, 2)} tỷ đ) theo hai pha khác nhau rồi hồi lên ${n(ch3.monthly[7].storeGmvB, 2)} tỷ đ trong 25 ngày tháng 10 nhờ hàng Thu Đông.`,
-        `GMV quadrupled from March (${n(ch3.monthly[0].storeGmvB, 2)}B, 23d) to the June peak (${n(k.junGmvB, 2)}B), dropped ${Math.abs(k.junToAugDropPct)}% by August (${n(k.augGmvB, 2)}B) across two distinct phases, then rebounded to ${n(ch3.monthly[7].storeGmvB, 2)}B in 25 days of October via Autumn-Winter SKUs.`
+        `Biên độ doanh thu trải qua 4 pha rõ rệt: Tăng tốc từ tháng 3 lên đỉnh tháng 6, suy giảm ${Math.abs(k.junToAugDropPct)}% về đáy tháng 8 qua hai pha phân rã khác nhau, trước khi đảo chiều danh mục sang hàng Thu Đông và hồi phục vào tháng 10.`,
+        `Revenue traversed 4 distinct phases: Accelerating from March to the June peak, falling ${Math.abs(k.junToAugDropPct)}% to the August trough via two distinct contraction phases, before rotating into Autumn-Winter SKUs to recover in October.`
       )}
       soWhat={L(
         'Biên độ doanh thu phụ thuộc lớn vào lịch live của chính shop và chu kỳ mùa vụ sản phẩm; kế hoạch nhập hàng và lịch live cần chuẩn bị trước mốc chuyển mùa từ một đến hai tháng.',
@@ -67,8 +67,8 @@ export default function Chapter3SeasonalityAndRegression() {
           </div>
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
             {L(
-              `GMV tăng từ T3 (${n(ch3.monthly[0].storeGmvB, 2)} tỷ) lên T6 (${n(k.junGmvB, 2)} tỷ). Ngày 16/06 lập đỉnh ${n(k.peakDayGmvM, 1)} Tr đ (z = +${n(pz.full231, 2)} toàn mẫu, +${n(pz.trailing28Excl, 2)} so với 28N liền trước; chỉ ${pz.daysOver3Full231} ngày cả kỳ vượt z = 3), và 7 ngày 13-19/06 gom ${n(k.peak7dGmvB, 2)} tỷ đ (${n(k.peak7dSharePct, 1)}% GMV 231 ngày).`,
-              `GMV rose from Mar (${n(ch3.monthly[0].storeGmvB, 2)}B) to Jun (${n(k.junGmvB, 2)}B). June 16 hit ${n(k.peakDayGmvM, 1)}M (full-sample z = +${n(pz.full231, 2)}, prior-28d z = +${n(pz.trailing28Excl, 2)}; only ${pz.daysOver3Full231} days > 3σ), while Jun 13-19 concentrated ${n(k.peak7dGmvB, 2)}B (${n(k.peak7dSharePct, 1)}% of 231d GMV).`
+              `Tháng 6 thiết lập đỉnh năm với phiên kỷ lục 16/06 đạt ${n(k.peakDayGmvM, 1)} Tr đ (z = +${n(pz.trailing28Excl, 2)} so với 28 ngày trước; chỉ ${pz.daysOver3Full231} ngày cả kỳ vượt z = 3). Cụm 7 ngày 13-19/06 gom ${n(k.peak7dGmvB, 2)} tỷ đ (${n(k.peak7dSharePct, 1)}% toàn kỳ), sau đó biến động ngày duy trì ở mức cao.`,
+              `June established the annual peak with a record June 16 session of ${n(k.peakDayGmvM, 1)}M VND (z = +${n(pz.trailing28Excl, 2)} vs prior 28d; only ${pz.daysOver3Full231} days > 3σ). The 7-day window of June 13-19 concentrated ${n(k.peak7dGmvB, 2)}B VND (${n(k.peak7dSharePct, 1)}% of total GMV).`
             )}
           </p>
         </div>
@@ -78,8 +78,8 @@ export default function Chapter3SeasonalityAndRegression() {
           </div>
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
             {L(
-              `Trên Store, T7 giảm chủ yếu do số ca live (${n(ch3.monthly[3].storeLives)} xuống ${n(ch3.monthly[4].storeLives)} ca), còn T8 giảm ở GMV/ca (${n(ch3.monthly[4].storeGmvPerLiveM, 2)} xuống ${n(ch3.monthly[5].storeGmvPerLiveM, 2)} Tr đ). Sang T9 và T10, số ca giữ ổn định (${ch3.monthly[6].storeLives} và ${ch3.monthly[7].storeLives} ca) trong khi GMV/ca bật lại ${n(ch3.monthly[7].storeGmvPerLiveM, 2)} Tr đ.`,
-              `On Store data, July fell in Live count (${n(ch3.monthly[3].storeLives)} to ${n(ch3.monthly[4].storeLives)}), whereas August fell in GMV/session (${n(ch3.monthly[4].storeGmvPerLiveM, 2)}M to ${n(ch3.monthly[5].storeGmvPerLiveM, 2)}M). In Sep-Oct, session volume held steady (${ch3.monthly[6].storeLives} and ${ch3.monthly[7].storeLives}) while GMV/session rebounded to ${n(ch3.monthly[7].storeGmvPerLiveM, 2)}M.`
+              `Pha 1 (tháng 7) sụt giảm theo quy mô phát sóng khi số ca live giảm mạnh từ ${n(ch3.monthly[3].storeLives)} xuống ${n(ch3.monthly[4].storeLives)} ca. Pha 2 (tháng 8) sụt giảm theo năng suất khi GMV mỗi ca giảm sâu từ ${n(ch3.monthly[4].storeGmvPerLiveM, 2)} Tr xuống ${n(ch3.monthly[5].storeGmvPerLiveM, 2)} Tr đ trước khi hồi phục lên ${n(ch3.monthly[7].storeGmvPerLiveM, 2)} Tr đ vào tháng 10.`,
+              `Phase 1 (July) contracted in broadcast volume as Live count dropped from ${n(ch3.monthly[3].storeLives)} to ${n(ch3.monthly[4].storeLives)}. Phase 2 (August) contracted in productivity as GMV/session fell from ${n(ch3.monthly[4].storeGmvPerLiveM, 2)}M to ${n(ch3.monthly[5].storeGmvPerLiveM, 2)}M VND before recovering to ${n(ch3.monthly[7].storeGmvPerLiveM, 2)}M VND in October.`
             )}
           </p>
         </div>
@@ -89,8 +89,8 @@ export default function Chapter3SeasonalityAndRegression() {
           </div>
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
             {L(
-              `Cùng ngày, số ca live và creator mới tương quan với GMV ở mức r = ${n(ch3.lagCorrelations[0].rLive, 2)} và ${n(ch3.lagCorrelations[0].rKoc, 2)}. Trên SKU10 (${n(s10.totalGmvB, 2)} tỷ đ), đồ bơi chiếm ${n(s10.junSummerSharePct, 1)}% tháng 6 (H36 = ${n(s10.junH36GmvM, 1)} Tr), đảo chiều ở ${ch3.crossoverWeek} (${ch3.crossoverDate}), rồi Thu Đông chiếm ${n(s10.sepWinterSharePct, 1)}% tháng 9 và ${n(s10.octWinterSharePct, 1)}% tháng 10 (AT06 = ${n(s10.octAt06GmvB, 2)} tỷ đ).`,
-              `Same-day Live count and new KOCs correlate with GMV at r = ${n(ch3.lagCorrelations[0].rLive, 2)} and ${n(ch3.lagCorrelations[0].rKoc, 2)}. On SKU10 (${n(s10.totalGmvB, 2)}B), swimwear held ${n(s10.junSummerSharePct, 1)}% in Jun (H36 = ${n(s10.junH36GmvM, 1)}M), crossed over at ${ch3.crossoverWeek} (${ch3.crossoverDate}), and Autumn-Winter hit ${n(s10.sepWinterSharePct, 1)}% in Sep and ${n(s10.octWinterSharePct, 1)}% in Oct (AT06 = ${n(s10.octAt06GmvB, 2)}B).`
+              `Đồ bơi chiếm ${n(s10.junSummerSharePct, 1)}% doanh số 10 SKU vào tháng 6 trước khi đảo chiều sang danh mục Thu Đông tại ${ch3.crossoverWeek} (${ch3.crossoverDate}). Đến tháng 10, nhóm Thu Đông chiếm ${n(s10.octWinterSharePct, 1)}% doanh số dẫn dắt bởi AT06 (${n(s10.octAt06GmvB, 2)} tỷ đ); tương quan cùng ngày r(Live, GMV) đạt ${n(ch3.lagCorrelations[0].rLive, 2)}.`,
+              `Swimwear held ${n(s10.junSummerSharePct, 1)}% of 10-SKU sales in June before rotating to Autumn-Winter at ${ch3.crossoverWeek} (${ch3.crossoverDate}). In October, Autumn-Winter drove ${n(s10.octWinterSharePct, 1)}% of sales led by AT06 (${n(s10.octAt06GmvB, 2)}B VND); same-day r(Live, GMV) stood at ${n(ch3.lagCorrelations[0].rLive, 2)}.`
             )}
           </p>
         </div>
@@ -516,12 +516,12 @@ export default function Chapter3SeasonalityAndRegression() {
             height=""
             badge={<ChartRoleBadge kind="more" />}
             title={L(
-              `3.6. Hồi quy bảng hiệu ứng cố định (Panel FE): Livestream cùng ngày (β = +${n(ch3.panelRegression.coefficients[0].beta, 2)}) và trễ 1-3 ngày (β = +${n(ch3.panelRegression.coefficients[1].beta, 2)}) có ý nghĩa thống kê ở mức 95%`,
-              `3.6. Panel fixed-effects regression: Same-day Live (β = +${n(ch3.panelRegression.coefficients[0].beta, 2)}) and 1-3d lagged Live (β = +${n(ch3.panelRegression.coefficients[1].beta, 2)}) are significant at 95%`
+              `3.6. Hồi quy bảng hiệu ứng cố định (Panel FE): Bằng chứng quan sát gợi ý liên hệ dương giữa Livestream và lượng bán (cùng ngày β = +${n(ch3.panelRegression.coefficients[0].beta, 2)}, trễ 1-3 ngày β = +${n(ch3.panelRegression.coefficients[1].beta, 2)}), không khẳng định quan hệ nhân quả`,
+              `3.6. Panel fixed-effects regression: Suggestive observational evidence of positive link between Live and unit sales (same-day β = +${n(ch3.panelRegression.coefficients[0].beta, 2)}, 1-3d lag β = +${n(ch3.panelRegression.coefficients[1].beta, 2)}), not causal proof`
             )}
             footer={L(
-              `Nguồn: 10_SKU_Daily_Timeseries · Mô hình log(1 + Lượng bán) theo log(1 + đầu vào marketing) khử hiệu ứng cố định SKU và thứ trong tuần · n = ${n(ch3.panelRegression.nObs)} quan sát (${ch3.panelRegression.nSkus} SKU), khoảng tin cậy 95% tính bằng cluster bootstrap ${ch3.panelRegression.bootstrapReps} vòng theo SKU.`,
-              `Source: 10_SKU_Daily_Timeseries · Within-SKU fixed-effects OLS of log(1 + units) with DOW controls · n = ${n(ch3.panelRegression.nObs)} obs (${ch3.panelRegression.nSkus} SKUs), 95% CI from ${ch3.panelRegression.bootstrapReps} SKU-cluster bootstrap replications.`
+              `Nguồn: 10_SKU_Daily_Timeseries · Biến phụ thuộc log(1 + Lượng bán), biến giải thích log(1 + Đầu vào marketing) với hiệu ứng cố định SKU và biến giả thứ trong tuần · n = ${n(ch3.panelRegression.nObs)} quan sát (${ch3.panelRegression.nSkus} cụm SKU, 176 ngày sau trễ). Khoảng tin cậy 95% bootstrap theo cụm SKU (${ch3.panelRegression.bootstrapReps} vòng). Lưu ý: Cận dưới khoảng tin cậy cùng ngày nhạy cảm với số cụm nhỏ (10 SKU) và mô hình chưa kiểm soát cú sốc vĩ mô theo tuần (như phiên 16/06); kết quả thể hiện bằng chứng quan sát gợi ý, không phải suy diễn nhân quả.`,
+              `Source: 10_SKU_Daily_Timeseries · Dependent variable log(1 + units), regressors log(1 + inputs) with SKU fixed effects and DOW dummies · n = ${n(ch3.panelRegression.nObs)} obs (${ch3.panelRegression.nSkus} SKU clusters, 176 post-lag days). 95% CI from ${ch3.panelRegression.bootstrapReps} SKU-cluster bootstrap reps. Note: Lower CI bound is sensitive with only 10 clusters and lacks weekly shock controls; results represent suggestive observational evidence rather than causal proof.`
             )}
           >
             <div className="space-y-2 pt-1">

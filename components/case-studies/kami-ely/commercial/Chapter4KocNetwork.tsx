@@ -29,7 +29,6 @@ import { KAMI_BRAND_PALETTE, V2 } from './kamiOutlineV2Metrics';
 export default function Chapter4KocNetwork() {
   const { L, n } = usePlaybookLang();
   const cohorts = V2.ch4.cohortRetention;
-  const ltGmv = V2.ch4.cohortLifetimeGmv;
   const sv = V2.ch4.survival;
   const sat = V2.ch4.satelliteSummary;
   const monthlyFunnel = V2.ch4.monthlyGmvAndFunnel;
@@ -62,8 +61,8 @@ export default function Chapter4KocNetwork() {
       scopeLabel={L(`AffLive · ${sv.totalKocs} KOC · ${n(sv.totalSessions)} phiên`, `AffLive · ${sv.totalKocs} KOCs · ${n(sv.totalSessions)} sessions`)}
       question={L('Creator mới có ở lại và ra đơn không?', 'Do newly onboarded creators stay active and generate orders?')}
       conclusion={L(
-        `Creator ngoài đông nhưng mỏng (${sv.everOrderCount}/${sv.totalKocs} từng có đơn, ${n(sv.everOrderPct, 1)}%), rụng nhanh sau tháng đầu và hồi lại ở cohort tháng 9 (${n(cohorts[6].cells[1].pct ?? 41.4, 1)}% còn live trong 20 ngày đầu tháng 10).`,
-        `External creators are numerous yet thin (${sv.everOrderCount}/${sv.totalKocs} ever converted, ${n(sv.everOrderPct, 1)}%), churn rapidly after month one, and recover in the September cohort (${n(cohorts[6].cells[1].pct ?? 41.4, 1)}% active in Oct 1-20).`
+        'Mạng lưới creator đối tác có quy mô danh bạ lớn nhưng tỷ lệ gắn bó thấp và phân hóa mạnh; phần lớn doanh thu thực tế dồn vào vài tuần đầu hoặc kênh vệ tinh nội bộ trước khi creator rời bỏ.',
+        'The external creator network has large registered breadth but low retention and high polarization; most actual revenue concentrates in initial weeks or in-house streams before creators churn.'
       )}
       soWhat={L(
         'Mạng creator ngoài vận hành như kênh thử nghiệm có tỷ lệ rời bỏ cao và đóng góp nhỏ bên cạnh kênh chính chủ; quy tắc hỗ trợ 3 phiên đầu cần được kiểm tra bằng thử nghiệm có nhóm đối chứng.',
@@ -78,8 +77,8 @@ export default function Chapter4KocNetwork() {
           </div>
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
             {L(
-              `Trong ${sv.totalKocs} KOC ngoài (${n(sv.totalSessions)} phiên), ${n(sv.oneSessionPct, 1)}% chỉ live 1 phiên và ${sv.everOrderCount} KOC (${n(sv.everOrderPct, 1)}%) từng có đơn. Lô T3 (${cohorts[0].size} KOC, giữ chân M+1 = ${n(cohorts[0].cells[1].pct ?? 71.2, 1)}%) gồm cả các creator đã hoạt động từ trước ngày mở kỳ thu thập nên cao hơn các lô tuyển mới T4 (${n(cohorts[1].cells[1].pct ?? 53.8, 1)}%) đến T8 (${n(cohorts[5].cells[1].pct ?? 27.8, 1)}%).`,
-              `Across ${sv.totalKocs} external KOCs (${n(sv.totalSessions)} sessions), ${n(sv.oneSessionPct, 1)}% streamed once and ${sv.everOrderCount} (${n(sv.everOrderPct, 1)}%) ever converted. The Mar cohort (${cohorts[0].size} KOCs, M+1 = ${n(cohorts[0].cells[1].pct ?? 71.2, 1)}%) includes pre-existing active partners prior to data capture, exceeding newly recruited Apr (${n(cohorts[1].cells[1].pct ?? 53.8, 1)}%) through Aug (${n(cohorts[5].cells[1].pct ?? 27.8, 1)}%) cohorts.`
+              `Trong ${sv.totalKocs} KOC ngoài qua ${n(sv.totalSessions)} phiên, ${n(sv.oneSessionPct, 1)}% chỉ live đúng 1 phiên và chỉ ${sv.everOrderCount} KOC (${n(sv.everOrderPct, 1)}%) từng phát sinh đơn hàng. Tỷ lệ giữ chân M+1 của lô tháng 3 (${n(cohorts[0].cells[1].pct ?? 71.2, 1)}%) phản ánh cả creator hiện hữu từ trước mốc thu thập, trước khi giảm dần qua các tháng Hè.`,
+              `Across ${sv.totalKocs} external KOCs across ${n(sv.totalSessions)} sessions, ${n(sv.oneSessionPct, 1)}% streamed once and only ${sv.everOrderCount} (${n(sv.everOrderPct, 1)}%) ever converted. March M+1 retention (${n(cohorts[0].cells[1].pct ?? 71.2, 1)}%) reflects pre-existing active partners prior to data capture before decaying through Summer.`
             )}
           </p>
         </div>
@@ -89,8 +88,8 @@ export default function Chapter4KocNetwork() {
           </div>
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
             {L(
-              `Lô T5 đạt ${n(ltGmv[2].allGmvM)} Tr đ khi gộp thô vì chứa trọn ${n(sat.gmvB, 2)} tỷ đ (${sat.sessions} phiên) của tài khoản nội bộ @koc_sat01; sau khi tách riêng @koc_sat01, lô T5 còn ${n(ltGmv[2].exSatGmvM)} Tr đ, tương đương lô T4 (${n(ltGmv[1].exSatGmvM)} Tr) và T6 (${n(ltGmv[3].exSatGmvM)} Tr), trong khi lô T9 đã tạo ${n(ltGmv[6].exSatGmvM)} Tr đ (và 20 ngày T10 đạt ${n(ltGmv[7].exSatGmvM)} Tr đ).`,
-              `Cohort May totals ${n(ltGmv[2].allGmvM)}M raw because all ${n(sat.gmvB, 2)}B (${sat.sessions} sessions) of in-house @koc_sat01 sits in May; excluding @koc_sat01 leaves ${n(ltGmv[2].exSatGmvM)}M alongside Apr (${n(ltGmv[1].exSatGmvM)}M) and Jun (${n(ltGmv[3].exSatGmvM)}M), while the Sep cohort already generated ${n(ltGmv[6].exSatGmvM)}M (and Oct 1-20 hit ${n(ltGmv[7].exSatGmvM)}M).`
+              `Lô T5 ghi nhận tổng GMV vượt trội khi chưa khử trùng do chứa trọn ${n(sat.gmvB, 2)} tỷ đ (${sat.sessions} phiên) của kênh vệ tinh nội bộ @koc_sat01. Khi tách riêng tài khoản này, GMV các lô tuyển mới từ T4 đến T6 tương đương nhau, trước khi lô T9 và T10 hồi phục tích cực theo mùa Thu Đông.`,
+              `May cohort totals were inflated raw by ${n(sat.gmvB, 2)}B VND (${sat.sessions} sessions) from in-house @koc_sat01. Isolating this satellite aligns Apr-Jun new cohorts before Sep-Oct show solid seasonal recovery.`
             )}
           </p>
         </div>
@@ -100,8 +99,8 @@ export default function Chapter4KocNetwork() {
           </div>
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
             {L(
-              `Nhóm có đơn ngay phiên 1 (${sv.firstSessionOrderCount} KOC, ${n(sv.firstSessionOrderPct, 1)}%) có trung vị gắn bó ${sv.medianSpanFirstOrderDays} ngày so với ${sv.medianSpanFirstZeroDays} ngày ở nhóm 0 đơn phiên 1. Trong ${sv.first3ZeroCount} KOC có 0 đơn ở <= 3 ca đầu, ${sv.first3ZeroNeverConvertCount} KOC (${n(sv.first3ZeroNeverConvertPct, 1)}%) không phát sinh đơn cả kỳ, đặt cơ sở cho thử nghiệm hỗ trợ có đối chứng.`,
-              `First-session converters (${sv.firstSessionOrderCount} KOCs, ${n(sv.firstSessionOrderPct, 1)}%) show a ${sv.medianSpanFirstOrderDays}d median span vs ${sv.medianSpanFirstZeroDays}d for zero-order starters. Among ${sv.first3ZeroCount} KOCs with zero GMV in <= 3 sessions, ${sv.first3ZeroNeverConvertCount} (${n(sv.first3ZeroNeverConvertPct, 1)}%) never convert, motivating a controlled onboarding pilot.`
+              `Creator có đơn ngay phiên đầu (${sv.firstSessionOrderCount} KOC) có trung vị gắn bó ${sv.medianSpanFirstOrderDays} ngày so với ${sv.medianSpanFirstZeroDays} ngày ở nhóm không đơn. Đáng chú ý, ${sv.first3ZeroNeverConvertCount}/${sv.first3ZeroCount} KOC (${n(sv.first3ZeroNeverConvertPct, 1)}%) không có đơn sau 3 ca đầu sẽ không bao giờ phát sinh đơn cả kỳ.`,
+              `First-session converters (${sv.firstSessionOrderCount} KOCs) show a ${sv.medianSpanFirstOrderDays}d median active span vs ${sv.medianSpanFirstZeroDays}d for non-converters. Critically, ${sv.first3ZeroNeverConvertCount}/${sv.first3ZeroCount} KOCs (${n(sv.first3ZeroNeverConvertPct, 1)}%) zero in their first 3 sessions never convert during the entire period.`
             )}
           </p>
         </div>

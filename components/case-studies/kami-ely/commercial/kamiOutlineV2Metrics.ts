@@ -1,4 +1,4 @@
-import metricsJson from '@/app/data/kami-ely/generated/metrics.json';
+import metricsV2Json from '@/app/data/kami-ely/generated/metrics_v2.json';
 
 /**
  * Official 4-Color Brand Palette + Accessible Contrast Pairs
@@ -21,6 +21,6 @@ export const KAMI_BRAND_PALETTE = {
   negative: '#E11D48',
 } as const;
 
-export const V2 = metricsJson.v2;
+export const V2 = metricsV2Json;
 export type KamiOutlineV2Data = typeof V2;
 

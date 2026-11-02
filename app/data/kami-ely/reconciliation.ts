@@ -1,6 +1,6 @@
 // FILE: app/data/kami-ely/reconciliation.ts
-// MA TRẬN ĐỐI SOÁT ĐA TẦNG & ĐỒNG BỘ HÓA DỮ LIỆU KAMI ELY (@kami_official)
-// Bảo toàn 100% số liệu gốc của 8 bảng CSV/XLSX & Đồng bộ khung 180 ngày
+// MA TRẬN ĐỐI SOÁT ĐA TẦNG & ĐỒNG BỘ HÓA DỮ LIỆU KAMI ELY (@shop_official)
+// Bảo toàn 100% số liệu gốc của 10 tệp Excel & Đồng bộ chu kỳ 231 ngày
 
 export interface LocalizedText {
   vi: string;
@@ -60,20 +60,20 @@ export const kamiReconciliationData = {
     storeFoundedDate: '2022-08-18',
     master180dPeriod: '09/03/2026 – 04/09/2026 (180 ngày)',
     attribution90dPeriod: '90 ngày gần nhất (Trong chu kỳ 180 ngày)',
-    totalRawTables: 8,
-    totalCsvFiles: 9,
-    totalDatabaseRows: 18778,
+    totalRawTables: 10,
+    totalCsvFiles: 10,
+    totalDatabaseRows: 23364,
     hanoiFollowersSharePct: 43.0,
     femaleAudienceSharePct: 73.0,
     age18To24SharePct: 60.0
   },
 
-  // 2. Bảng Đối Chiếu Tổng Quan: Toàn Shop vs. Kênh Chính Chủ (@kami_official) qua 3 Khung Thời Gian
+  // 2. Bảng Đối Chiếu Tổng Quan: Toàn Shop vs. Kênh Chính Chủ (@shop_official) qua 3 Khung Thời Gian
   multiWindowMatrix: [
     {
       metricId: 'total-gmv',
       metricName: { vi: 'Tổng Doanh Thu (GMV)', en: 'Total GMV' },
-      shopAllTime: { vi: '31,6 Tỉ đ', en: '31.6B VND' },
+      shopAllTime: { vi: '15,01 Tỉ đ (Chu kỳ 231 ngày)', en: '15.01B VND (231-day cycle)' },
       creatorAllTime: { vi: '9,2 Tỉ đ (29,1%)', en: '9.2B VND (29.1%)' },
       shop180d: { vi: '12.735.128.067 đ (~12,74 Tỉ)', en: '12,735,128,067 VND (~12.74B)' },
       creator180d: {
@@ -83,8 +83,8 @@ export const kamiReconciliationData = {
       shop90d: { vi: '6.136.205.973 đ (~6,14 Tỉ)', en: '6,136,205,973 VND (~6.14B)' },
       creator90d: { vi: '3.026.026.869 đ (49,31%)', en: '3,026,026,869 VND (49.31%)' },
       auditNote: {
-        vi: 'Tỷ trọng tự gánh của kênh @kami_official tăng mạnh từ 29,1% (All-time) lên 45,7% (180d) và 49,31% (90d).',
-        en: '@kami_official share rose from 29.1% (All-time) to 45.7% (180d) and 49.31% (90d).'
+        vi: 'Tỷ trọng tự gánh của kênh @shop_official tăng mạnh từ 29,1% (All-time) lên 45,7% (180d) và 49,31% (90d).',
+        en: '@shop_official share rose from 29.1% (All-time) to 45.7% (180d) and 49.31% (90d).'
       }
     },
     {
@@ -228,7 +228,7 @@ export const kamiReconciliationData = {
       tableName: 'kami_creator_live_180d',
       timeWindow: { vi: '180 ngày (09/03 – 04/09/2026)', en: '180 Days (Mar 09 – Sep 04, 2026)' },
       scope: 'SELF_CHANNEL',
-      granularity: { vi: 'Cấp phiên LIVE kênh chính chủ @kami_official', en: 'Self-operated LIVE Sessions (@kami_official)' },
+      granularity: { vi: 'Cấp phiên LIVE kênh chính chủ @shop_official', en: 'Self-operated LIVE Sessions (@shop_official)' },
       joinKeys: 'session_id, start_time',
       rowCount: 475,
       totalUnits: 49817,
@@ -245,7 +245,7 @@ export const kamiReconciliationData = {
       tableName: 'kami_creator_videos_180d',
       timeWindow: { vi: '180 ngày (09/03 – 04/09/2026)', en: '180 Days (Mar 09 – Sep 04, 2026)' },
       scope: 'SELF_CHANNEL',
-      granularity: { vi: 'Cấp video đăng trên kênh @kami_official', en: 'Post-level Videos on @kami_official' },
+      granularity: { vi: 'Cấp video đăng trên kênh @shop_official', en: 'Post-level Videos on @shop_official' },
       joinKeys: 'video_id, post_time',
       rowCount: 222,
       totalUnits: 5144,
@@ -320,8 +320,8 @@ export const kamiReconciliationData = {
       totalGmvVnd: 4734186743,
       formattedGmv: '4.734.186.743 VNĐ',
       keyInsight: {
-        vi: 'Gồm Kênh chính chủ @kami_official (3.026.026.869 đ / 20.027 SP = 63,92% khối Creator) và 5.712 KOC ngoài (1.708.159.874 đ / 11.572 SP = 36,08% khối Creator). Phần chênh với _product data đúng bằng Kệ hàng (1.402.019.230 đ = 22,85%).',
-        en: 'Includes @kami_official (3,026,026,869 VND / 20,027 units = 63.92% of Creators) and 5,712 external KOCs (1,708,159,874 VND / 11,572 units = 36.08%). Remainder vs. _product data equals Product Card (1,402,019,230 VND = 22.85%).'
+        vi: 'Gồm Kênh chính chủ @shop_official (3.026.026.869 đ / 20.027 SP = 63,92% khối Creator) và 5.712 KOC ngoài (1.708.159.874 đ / 11.572 SP = 36,08% khối Creator). Phần chênh với _product data đúng bằng Kệ hàng (1.402.019.230 đ = 22,85%).',
+        en: 'Includes @shop_official (3,026,026,869 VND / 20,027 units = 63.92% of Creators) and 5,712 external KOCs (1,708,159,874 VND / 11,572 units = 36.08%). Remainder vs. _product data equals Product Card (1,402,019,230 VND = 22.85%).'
       }
     }
   ] as DatasetCatalogItem[],
@@ -431,8 +431,8 @@ export const kamiReconciliationData = {
         en: 'Reconciling Super-KOC @koc_sat01 Activation (From 0 VND in Mid-March to 732.77M VND in 90d)'
       },
       sourceAValue: {
-        vi: 'Ảnh Chẩn đoán Tài khoản 7 ngày (12/03 – 18/03/2026): @kami_official đạt 33.011.731 đ; @koc_sat01 ghi nhận 0 đ',
-        en: '7d Account Diagnostics (Mar 12 – Mar 18, 2026): @kami_official reached 33,011,731 VND; @koc_sat01 recorded 0 VND'
+        vi: 'Ảnh Chẩn đoán Tài khoản 7 ngày (12/03 – 18/03/2026): @shop_official đạt 33.011.731 đ; @koc_sat01 ghi nhận 0 đ',
+        en: '7d Account Diagnostics (Mar 12 – Mar 18, 2026): @shop_official reached 33,011,731 VND; @koc_sat01 recorded 0 VND'
       },
       sourceBValue: {
         vi: 'CSV _Creators_merged (90 ngày cao điểm hè): @koc_sat01 đứng Top 1 KOC với 732.771.719 đ (5.009 SP = 42,9% Affiliate)',
@@ -463,12 +463,12 @@ export const kamiReconciliationData = {
         en: "Creator's Goods (90d): 394 listing rows | UI 080124 & 080800: Linked to 4 collaborative stores (177 SKUs from Kami Ely)"
       },
       deltaSummary: {
-        vi: 'Giỏ hàng của kênh @kami_official chứa nhiều hơn toàn shop Kami Ely 63 dòng niêm yết (394 vs. 331)',
-        en: '@kami_official showcase contains 63 more listing rows than Kami Ely shop catalog (394 vs. 331)'
+        vi: 'Giỏ hàng của kênh @shop_official chứa nhiều hơn toàn shop Kami Ely 63 dòng niêm yết (394 vs. 331)',
+        en: '@shop_official showcase contains 63 more listing rows than Kami Ely shop catalog (394 vs. 331)'
       },
       technicalResolution: {
-        vi: 'Tài khoản @kami_official liên kết bán hàng cho 4 gian hàng: Kami Ely (177 SP active - 9,1 Tỉ đ All-time), Havi Bikini (4 SP - 71,8 Tr đ), KamiBiii (55 SP bán - 6,2 Tr đ) và KamiBiki (0 đ), cộng các link sản phẩm đổi giá/tách mã.',
-        en: '@kami_official sells across 4 collaborative stores: Kami Ely (177 active SKUs - 9.1B All-time), Havi Bikini (4 SKUs - 71.8M), KamiBiii (55 units - 6.2M), and KamiBiki (0 VND), plus re-listed/variant links.'
+        vi: 'Tài khoản @shop_official liên kết bán hàng cho 4 gian hàng: Kami Ely (177 SP active - 9,1 Tỉ đ All-time), Havi Bikini (4 SP - 71,8 Tr đ), KamiBiii (55 SP bán - 6,2 Tr đ) và KamiBiki (0 đ), cộng các link sản phẩm đổi giá/tách mã.',
+        en: '@shop_official sells across 4 collaborative stores: Kami Ely (177 active SKUs - 9.1B All-time), Havi Bikini (4 SKUs - 71.8M), KamiBiii (55 units - 6.2M), and KamiBiki (0 VND), plus re-listed/variant links.'
       },
       status: 'VERIFIED_EXACT'
     }

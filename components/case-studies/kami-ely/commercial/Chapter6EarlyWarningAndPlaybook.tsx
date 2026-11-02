@@ -194,8 +194,8 @@ export default function Chapter6EarlyWarningAndPlaybook() {
       scopeLabel={L('Store 231N · AffLive 302 KOC · n = 1 mùa', 'Store 231d · AffLive 302 KOCs · n = 1 season')}
       question={L('Tín hiệu nào báo sớm khi mùa cao điểm sắp gãy?', 'Which signals provide early warning when the peak season is about to break?')}
       conclusion={L(
-        `Giao cắt MA7 < MA28 báo trễ 10 ngày sau đỉnh 16/06 và phát sinh 2 lần báo giả (29/04, 04/06); số ca live (${n(ls.livesAprMayDropPct, 1)}%) và creator mới (${n(ls.newKocsAprMayDropPct, 1)}%) giảm từ tháng 5 sớm hơn đỉnh khoảng 6 tuần, nhưng với một mùa dữ liệu hiện chưa thể kiểm chứng thành quy tắc tự động.`,
-        `The MA7 < MA28 crossover lagged the 16/06 peak by 10 days and generated 2 false alarms (29/04, 04/06); monthly Live volume (${n(ls.livesAprMayDropPct, 1)}%) and new creators (${n(ls.newKocsAprMayDropPct, 1)}%) contracted in May (~6 weeks ahead of peak), yet with a single observed season they remain unvalidated as automated rules.`
+        `Đường MA7 cắt xuống MA28 trễ 10 ngày sau đỉnh 16/06 và có 2 lần báo giả; số ca Live và creator mới chậm lại từ tháng 5 trong khi GMV vẫn tiếp tục tăng tới đỉnh tháng 6 (độ lệch khoảng 1–2 tháng), nhưng quan sát n = 1 mùa chưa đủ để khẳng định quy tắc báo trước đa chu kỳ.`,
+        `The MA7 < MA28 crossover lagged the 16/06 peak by 10 days and triggered 2 false alarms; Live session volume and new creator recruitment slowed from May while GMV kept climbing to its June peak (~1-2 month lead time), yet an n = 1 season observation cannot establish a multi-cycle predictive rule.`
       )}
       soWhat={L(
         'Kết hợp theo dõi định kỳ hàng tuần đối với tỷ trọng hàng Đông/Hè, hiệu suất khung giờ Live chính chủ và thử nghiệm có đối chứng cho creator mới, đồng thời chờ thêm một mùa dữ liệu trước khi khóa cứng ngưỡng cảnh báo tự động.',
@@ -223,8 +223,8 @@ export default function Chapter6EarlyWarningAndPlaybook() {
         height=""
         badge={<ChartRoleBadge kind="main" />}
         title={L(
-          `6.1. Cung ca Live (${n(ls.aprLives)} -> ${n(ls.mayLives)}) và creator mới (${ls.aprNewKocs} -> ${ls.mayNewKocs}) gãy từ tháng 5, sớm 6 tuần trước đỉnh GMV tháng 6; MA7 < MA28 cắt 4 lần và trễ sau đỉnh`,
-          `6.1. Live volume (${n(ls.aprLives)} -> ${n(ls.mayLives)}) and new KOCs (${ls.aprNewKocs} -> ${ls.mayNewKocs}) broke in May, 6 weeks before June peak GMV; MA7 < MA28 crossed 4 times and lagged`
+          `6.1. Số ca Live và creator mới giảm từ tháng 5 trong khi GMV vẫn tiếp tục tăng đến đỉnh tháng 6 (độ trễ khoảng 1–2 tháng, quan sát n = 1 mùa); đường MA7 < MA28 trễ sau đỉnh và có báo giả`,
+          `6.1. Live volume and new creators slowed in May while GMV continued climbing to its June peak (~1-2 month lag, n = 1 season); MA7 < MA28 lagged the peak and triggered false alarms`
         )}
         footer={L(
           `Nguồn: Store_Daily_Overview [Doanh Thu Trong Ngày, Livestream Mới Trong Ngày] và Affiliate_Livestreams [Thời Gian Bắt Đầu Live, KOC ID != @shop_official] · 09/03 - 25/10/2026 · n = ${V2.meta.days} ngày (8 tháng, T3 và T10 khuyết ngày). Hai panel xếp dọc theo tháng thay cho trục kép để đối chiếu trực tiếp độ trễ giữa cung nội dung và doanh thu.`,
@@ -369,12 +369,12 @@ export default function Chapter6EarlyWarningAndPlaybook() {
         height=""
         badge={<ChartRoleBadge kind="main" />}
         title={L(
-          '6.2. Backtest 4 ứng viên cảnh báo (n = 1 mùa): Cung Live và creator mới dẫn trước đỉnh ~46 ngày, còn MA7 < MA28 trễ 10 ngày và báo giả 2 lần',
-          '6.2. Backtesting 4 warning candidates (n = 1 season): Live count and new KOCs led the peak by ~46 days, whereas MA7 < MA28 lagged 10 days with 2 false alarms'
+          '6.2. Backtest 4 ứng viên cảnh báo (n = 1 mùa): Cung Live và creator mới đi trước đỉnh GMV khoảng 1–2 tháng (~46 ngày ở độ phân giải tháng), MA7 < MA28 trễ 10 ngày và có 2 lần báo giả',
+          '6.2. Backtesting 4 warning candidates (n = 1 season): Live volume and new KOCs preceded the GMV peak by ~1-2 months (~46d at monthly resolution), MA7 < MA28 lagged 10 days with 2 false alarms'
         )}
         footer={L(
-          'Nguồn: Đối soát trên Store_Daily_Overview và Affiliate_Livestreams (mốc quy chiếu 0 ngày = đỉnh toàn shop 16/06/2026). Đính chính nhất quán: Giao cắt 26/06 xảy ra trễ 10 ngày sau đỉnh 16/06 (lead = -10N), dù vẫn sớm hơn đáy tháng 8 khoảng 36 ngày (và sớm 18 ngày trước nhịp rơi giữa tháng 7). Mọi ngưỡng hiện mới quan sát trên n = 1 mùa năm 2026 nên ghi nhận ở mức chưa kết luận đa năm.',
-          'Source: Backtested on Store_Daily_Overview and Affiliate_Livestreams (reference day 0 = 16/06/2026 store peak). Unified note: The 26/06 crossover lagged the 16/06 peak by 10 days (lead = -10d), even though it preceded the August trough by ~36 days (and mid-July drop by 18 days). With n = 1 observed season, multi-year generalizability remains inconclusive.'
+          'Nguồn: Đối soát trên Store_Daily_Overview và Affiliate_Livestreams (mốc quy chiếu 0 ngày = đỉnh toàn shop 16/06/2026). Đính chính nhất quán: Giao cắt 26/06 xảy ra trễ 10 ngày sau đỉnh 16/06 (lead = -10N), dù vẫn sớm hơn đáy tháng 8 khoảng 36 ngày. Lưu ý phương pháp: Mốc sớm 46 ngày của số ca Live và creator mới phản ánh khoảng cách giữa đỉnh tháng 4 (30/04) và đỉnh GMV ngày 16/06; trong tháng 5 GMV vẫn tăng +11,7% và tháng 6 tăng +37,3%, do đó đây là độ lệch giữa cung nội dung và lực cầu theo mùa vụ, quan sát trên n = 1 mùa năm 2026 nên chưa đủ để kết luận đa năm.',
+          'Source: Backtested on Store_Daily_Overview and Affiliate_Livestreams (reference day 0 = 16/06/2026 store peak). Unified note: The 26/06 crossover lagged the 16/06 peak by 10 days (lead = -10d), even though it preceded the August trough by ~36 days. Methodological note: The ~46-day lead of Live volume and new KOCs reflects the distance between the April 30 supply peak and the June 16 GMV peak; May GMV still grew +11.7% and June +37.3%, showing an operational lead time between content supply and seasonal demand on n = 1 season.'
         )}
       >
         <div className="overflow-x-auto pt-1">

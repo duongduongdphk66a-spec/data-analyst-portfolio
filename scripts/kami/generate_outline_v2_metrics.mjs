@@ -1875,5 +1875,46 @@ existingMetrics.v2 = {
   },
 };
 
-fs.writeFileSync(metricsPath, JSON.stringify(existingMetrics, null, 2) + '\n', 'utf8');
-console.log(`Successfully wrote updated metrics.json (${(fs.statSync(metricsPath).size / 1024).toFixed(1)} KB)`);
+// Clean any raw handles in legacy keys and values to ensure zero PII leakage
+function sanitizeKey(k) {
+  return k
+    .replace(/@kamielyhn/gi, 'shopOfficial')
+    .replace(/kamielyhn/gi, 'shopOfficial')
+    .replace(/@girlstyle\.vn/gi, 'kocSat01')
+    .replace(/girlstyle\.vn/gi, 'kocSat01')
+    .replace(/girlStyle/g, 'kocSat01')
+    .replace(/GirlStyle/g, 'KocSat01');
+}
+
+function sanitizeRawHandles(val) {
+  if (typeof val === 'string') {
+    return val
+      .replace(/@kamielyhn/gi, '@shop_official')
+      .replace(/kamielyhn/gi, 'shop_official')
+      .replace(/@girlstyle\.vn/gi, '@koc_sat01')
+      .replace(/girlstyle\.vn/gi, 'koc_sat01')
+      .replace(/Girl Style/gi, 'Satellite KOC');
+  }
+  if (Array.isArray(val)) {
+    return val.map(sanitizeRawHandles);
+  }
+  if (val && typeof val === 'object') {
+    const res = {};
+    for (const [k, v] of Object.entries(val)) {
+      res[sanitizeKey(k)] = sanitizeRawHandles(v);
+    }
+    return res;
+  }
+  return val;
+}
+
+const sanitizedMetrics = sanitizeRawHandles(existingMetrics);
+
+// 1. Write standalone metrics_v2.json for clean, zero-leak client bundle
+const metricsV2Path = path.resolve('app/data/kami-ely/generated/metrics_v2.json');
+fs.writeFileSync(metricsV2Path, JSON.stringify(sanitizedMetrics.v2, null, 2) + '\n', 'utf8');
+console.log(`Successfully wrote metrics_v2.json (${(fs.statSync(metricsV2Path).size / 1024).toFixed(1)} KB)`);
+
+// 2. Also write sanitized full metrics.json
+fs.writeFileSync(metricsPath, JSON.stringify(sanitizedMetrics, null, 2) + '\n', 'utf8');
+console.log(`Successfully wrote sanitized metrics.json (${(fs.statSync(metricsPath).size / 1024).toFixed(1)} KB)`);

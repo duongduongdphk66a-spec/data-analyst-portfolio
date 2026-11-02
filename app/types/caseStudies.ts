@@ -485,7 +485,7 @@ export interface Stage4Payload {
   cohortScaleData: Array<{ ym: string; newCreators: number; activeAppear: number; activeSales: number; note: BilingualText }>;
   creatorTiers: Array<{ tier: string; creators: number; creatorsPct: number; activationPct: number; gmvPct: number; gmvPctExTop1: number | null }>;
   affiliateTop10: Array<{ rank: string; name: string; sharePct: number; cumulativePct: number; sessions: number }>;
-  affiliateTopExGirlStyle: Array<{ rank: string; name: string; sharePct: number; cumulativePct: number; sessions: number }>;
+  affiliateTopExKocSat01?: Array<{ rank: string; name: string; sharePct: number; cumulativePct: number; sessions: number }>;
   topCreatorMonthly: Array<{ month: string; label: string; gmvM: number; sessions: number; liveHours: number; gmvPerHourM: number }>;
   shopWideLiveMonthly: Array<{ month: string; label: string; gmvM: number; sessions: number; liveHours: number; gmvPerHourM: number }>;
   retentionMatrix: Array<{

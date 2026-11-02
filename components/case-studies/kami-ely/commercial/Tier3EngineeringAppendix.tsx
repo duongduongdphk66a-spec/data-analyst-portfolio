@@ -287,8 +287,8 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
     },
     {
       id: 7,
-      vi: 'Tra cứu nhóm kênh & giả danh hóa nhất quán: ánh xạ @shop_official, @koc_sat01 và băm Salted SHA-256 trước khi xuất metrics.json.',
-      en: 'Lookup channel mapping & pseudonymization: map @shop_official, @koc_sat01, and Salted SHA-256 hashes prior to exporting metrics.json.',
+      vi: 'Tra cứu nhóm kênh & giả danh hóa nhất quán: ánh xạ @shop_official, @koc_sat01 và băm Salted SHA-256 trước khi xuất metrics_v2.json.',
+      en: 'Lookup channel mapping & pseudonymization: map @shop_official, @koc_sat01, and Salted SHA-256 hashes prior to exporting metrics_v2.json.',
     },
     {
       id: 8,
@@ -542,7 +542,7 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
             {L(
-              'Toàn bộ chi tiết kỹ thuật, bảng kiểm định chất lượng và truy vấn SQL được gập gọn tại đây để giữ trang chính cô đọng (~3.200 từ) nhưng vẫn minh bạch cho kiểm toán độc lập.',
+              'Toàn bộ chi tiết kỹ thuật, bảng kiểm định chất lượng và truy vấn SQL được gập gọn tại đây để giữ trang chính cô đọng (~5.100 từ) nhưng vẫn minh bạch cho kiểm toán độc lập.',
               'All engineering lineage, quality gate assertions, and SQL queries are housed here in collapsible drawers to keep the main narrative concise while preserving full auditability.'
             )}
           </p>
@@ -650,7 +650,7 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
                 </div>
                 <div className="rounded-xl border border-[#FFD14C]/80 bg-[#FFE485]/25 p-3 dark:border-slate-800 dark:bg-slate-950/60 space-y-1.5">
                   <div className="font-extrabold text-amber-950 dark:text-[#FFE485]">
-                    {L('3. Mart Layer (SSOT metrics.json)', '3. Mart Layer (SSOT metrics.json)')}
+                    {L('3. Mart Layer (SSOT metrics_v2.json)', '3. Mart Layer (SSOT metrics_v2.json)')}
                   </div>
                   <p className="font-mono text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed">
                     mart_daily_ma · mart_channel_reconciled · mart_sku_pareto_seasonality · mart_koc_cohort_survival · mart_content_ads_forest · mart_early_warning_backtest

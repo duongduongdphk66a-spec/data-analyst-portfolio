@@ -70,8 +70,8 @@ export default function Chapter2RevenueAndSku() {
       scopeLabel={L('AffLive 231N · ShopProd & KOL 90N', 'AffLive 231d · ShopProd & KOL 90d')}
       question={L('Kênh nào, creator nào và sản phẩm nào tạo ra GMV?', 'Which channels, creators, and products generate GMV?')}
       conclusion={L(
-        `Livestream tạo ${n(cm.liveShareOfStorePct, 1)}% GMV toàn shop (${n(cm.liveTotalB, 2)}/${n(cm.storeTotalB, 2)} tỷ đ), và phiên của chính shop (@shop_official) chiếm ${n(cm.officialShareOfLivePct, 1)}% phần đó.`,
-        `Livestreaming generates ${n(cm.liveShareOfStorePct, 1)}% of store GMV (${n(cm.liveTotalB, 2)}/${n(cm.storeTotalB, 2)}B VND), and official @shop_official sessions account for ${n(cm.officialShareOfLivePct, 1)}% of that Live revenue.`
+        'Doanh thu tập trung cao độ vào Livestream tự vận hành và nhóm nhỏ sản phẩm chủ lực; kênh bán hàng chính chủ là trụ cột doanh thu trong khi mạng lưới creator đối tác đóng vai trò bổ trợ phân phối.',
+        'Revenue concentrates heavily in self-operated Livestreams and a narrow set of hero SKUs; the official channel acts as the primary revenue pillar while external creators serve a supplementary distribution role.'
       )}
       soWhat={L(
         `Rủi ro tập trung lớn nhất nằm ở mức độ phụ thuộc vào lịch phát sóng của kênh chính chủ @shop_official và ${sp.skusFor80Pct} sản phẩm đầu bảng hơn là số lượng creator trong danh bạ.`,
@@ -86,8 +86,8 @@ export default function Chapter2RevenueAndSku() {
           </div>
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
             {L(
-              `Sau bỏ trùng, Live đạt ${n(cm.liveTotalB, 2)} tỷ (${n(cm.liveShareOfStorePct, 1)}% shop), còn ${n(cm.nonLiveShareOfStorePct, 1)}% đến từ video và kệ hàng. Trong Live, @shop_official chiếm ${n(cm.officialShareOfLivePct, 1)}%, vệ tinh nội bộ @koc_sat01 ${n(cm.satelliteShareOfLivePct, 1)}% và creator còn lại ${n(cm.otherAffShareOfLivePct, 1)}% (lọc 180 ngày gần nhất đạt ${n(cm.last180dOfficialPct, 1)}%, ${n(cm.last180dSatellitePct, 1)}% và ${n(cm.last180dOtherPct, 1)}%, kết luận ổn định qua cửa sổ).`,
-              `Post-dedup Live hits ${n(cm.liveTotalB, 2)}B (${n(cm.liveShareOfStorePct, 1)}% of store), with ${n(cm.nonLiveShareOfStorePct, 1)}% from video and cards. Within Live, @shop_official holds ${n(cm.officialShareOfLivePct, 1)}%, satellite @koc_sat01 ${n(cm.satelliteShareOfLivePct, 1)}%, and other creators ${n(cm.otherAffShareOfLivePct, 1)}% (last 180d: ${n(cm.last180dOfficialPct, 1)}%, ${n(cm.last180dSatellitePct, 1)}%, ${n(cm.last180dOtherPct, 1)}%).`
+              `Sau khử trùng, Live đạt ${n(cm.liveTotalB, 2)} tỷ đ (${n(cm.liveShareOfStorePct, 1)}% GMV toàn shop), còn ${n(cm.nonLiveShareOfStorePct, 1)}% đến từ video và kệ hàng. Trong kênh Live, @shop_official chiếm ${n(cm.officialShareOfLivePct, 1)}%, vệ tinh nội bộ @koc_sat01 chiếm ${n(cm.satelliteShareOfLivePct, 1)}% và toàn bộ creator ngoài còn lại chiếm ${n(cm.otherAffShareOfLivePct, 1)}% (kết quả nhất quán khi đối soát trên cửa sổ 180 ngày).`,
+              `Post-dedup Live generated ${n(cm.liveTotalB, 2)}B VND (${n(cm.liveShareOfStorePct, 1)}% of store GMV), with ${n(cm.nonLiveShareOfStorePct, 1)}% from video and showcase cards. Within Live, @shop_official holds ${n(cm.officialShareOfLivePct, 1)}%, in-house satellite @koc_sat01 holds ${n(cm.satelliteShareOfLivePct, 1)}%, and all external creators hold ${n(cm.otherAffShareOfLivePct, 1)}% (consistent on the 180d window).`
             )}
           </p>
         </div>
@@ -108,8 +108,8 @@ export default function Chapter2RevenueAndSku() {
           </div>
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
             {L(
-              `Chỉ ${sp.activeSkus}/${sp.totalSkus} mục có doanh thu; Top 5 chiếm ${n(sp.top5SharePct, 1)}%, ${sp.skusFor80Pct} mã tạo ${n(sp.skusFor80SharePct, 1)}% GMV (riêng ${sp.top1Code} chiếm ${n(sp.top1SharePct, 1)}%) và dải giá 75-150k chiếm ${n(sp.priceBandsLower[1].gmvSharePct, 1)}%. Đối chiếu kỳ Hè trên CrProd cho cùng xu hướng (Top 5 = ${n(sp.crProdSummerTop5Pct, 1)}%, ${sp.crProdSummerSkus80} mã đạt 80%).`,
-              `Only ${sp.activeSkus}/${sp.totalSkus} items have revenue; Top 5 hold ${n(sp.top5SharePct, 1)}%, ${sp.skusFor80Pct} SKUs drive ${n(sp.skusFor80SharePct, 1)}% (${sp.top1Code} at ${n(sp.top1SharePct, 1)}%), and 75-150k holds ${n(sp.priceBandsLower[1].gmvSharePct, 1)}%. Summer CrProd confirms concentration (Top 5 = ${n(sp.crProdSummerTop5Pct, 1)}%, ${sp.crProdSummerSkus80} SKUs reach 80%).`
+              `Danh mục 339 sản phẩm có độ phân hóa mạnh: 206 mã không phát sinh đơn thì 204 mã là hàng tồn cũ tạo từ giai đoạn 2022-2025; ngược lại, 43/45 mã ra mắt năm 2026 đều có đơn. Doanh số dồn vào phân khúc bình dân 75-150k đ và duy trì mức tập trung cao cả ở kỳ cao điểm Hè lẫn Thu Đông.`,
+              `The 339-SKU catalog shows sharp historical divergence: 204 of 206 zero-sale items were legacy listings created in 2022-2025; conversely, 43 of 45 items launched in 2026 converted. Revenue centers in the mass 75-150k tier across both Summer and Autumn-Winter periods.`
             )}
           </p>
         </div>
@@ -119,8 +119,8 @@ export default function Chapter2RevenueAndSku() {
         height=""
         badge={<ChartRoleBadge kind="main" />}
         title={L(
-          `2.1. Live chiếm ${n(cm.liveShareOfStorePct, 1)}% GMV shop; trong Live, kênh chính chủ và vệ tinh nội bộ nắm ${n(cm.officialShareOfLivePct + cm.satelliteShareOfLivePct, 1)}%`,
-          `2.1. Live drives ${n(cm.liveShareOfStorePct, 1)}% of store GMV; official and in-house satellite hold ${n(cm.officialShareOfLivePct + cm.satelliteShareOfLivePct, 1)}% of Live`
+          `2.1. Cơ cấu GMV Live: @shop_official (${n(cm.officialShareOfLivePct, 1)}%) và vệ tinh @koc_sat01 (${n(cm.satelliteShareOfLivePct, 1)}%) áp đảo toàn bộ 301 creator đối tác ngoài (${n(cm.otherAffShareOfLivePct, 1)}%)`,
+          `2.1. Live GMV structure: @shop_official (${n(cm.officialShareOfLivePct, 1)}%) and satellite @koc_sat01 (${n(cm.satelliteShareOfLivePct, 1)}%) dominate all 301 external affiliate partners (${n(cm.otherAffShareOfLivePct, 1)}%)`
         )}
         footer={L(
           `Nguồn: Affiliate_Livestreams [KOC ID, Doanh Thu Cho Shop (VNĐ)] sau khử trùng và Store_Daily_Overview · 09/03 - 25/10/2026 · n = ${n(cm.liveSessions)} phiên Live / ${V2.meta.days} ngày.`,

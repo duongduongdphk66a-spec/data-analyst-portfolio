@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-01T23:51:59",
+  "generatedAt": "2026-11-02T12:38:24",
   "generator": "scripts/kami/generate_outline_v2_metrics.mjs",
   "dataScope": [
     {
@@ -2594,7 +2594,7 @@
       "aggregateRatio": 0.06,
       "isSignificant": false,
       "window": "180N",
-      "scope": "Kênh chính chủ @kamielyhn",
+      "scope": "Kênh chính chủ @shop_official",
       "source": "[Kami Ely]-Creator's Video List (180 ngày) .xlsx + [Kami Ely]-Creator's Live Streaming for Goods Promotion List (180 ngày).xlsx",
       "limitations": [
         "Mẫu số khác nhau: Video dùng lượt xem, LIVE dùng tổng người xem phiên.",
@@ -2659,8 +2659,8 @@
     ],
     "inhouseDualChannel": {
       "channelNames": [
-        "Kami Ely (@kamielyhn)",
-        "Girl Style (@girlstyle.vn)"
+        "Kami Ely (@shop_official)",
+        "Satellite KOC (@koc_sat01)"
       ],
       "nature": "Đội ngũ in-house vận hành song song 2 kênh (Kênh chính + Kênh vệ tinh)",
       "sessions": 725,
@@ -2692,8 +2692,8 @@
       "top10SharePct": 81.54,
       "top10": [
         {
-          "id": "girlstyle.vn",
-          "name": "Girl Style",
+          "id": "koc_sat01",
+          "name": "Satellite KOC",
           "sessions": 255,
           "gmv": 1256236851,
           "sharePct": 56.12,
@@ -2773,7 +2773,7 @@
         }
       ]
     },
-    "girlStyle": {
+    "kocSat01": {
       "sessions": 255,
       "units": 10036,
       "gmv": 1256236851,
@@ -2916,8 +2916,8 @@
     },
     "inhouseDualChannel90d": {
       "channelNames": [
-        "Kami Ely (@kamielyhn)",
-        "Girl Style (@girlstyle.vn)"
+        "Kami Ely (@shop_official)",
+        "Satellite KOC (@koc_sat01)"
       ],
       "nature": "Hai kênh trực thuộc cùng đội ngũ in-house vận hành",
       "gmv": 3758798588,
@@ -3007,7 +3007,7 @@
         "gmvPerSeller": 3159926
       }
     ],
-    "followerTiersExGirlStyle": [
+    "followerTiersExKocSat01": [
       {
         "tier": "≤1k",
         "gmvSharePct": 5.04
@@ -3131,7 +3131,7 @@
         "gmvSharePct": 0
       }
     ],
-    "girlStyle": {
+    "kocSat01": {
       "gmv": 732771719,
       "units": 5009,
       "followers": 3215,
@@ -3682,13 +3682,13 @@
     "note": "Hợp nhất theo Phương án A: phân vùng snapshot_period, bảo toàn cả 2 chu kỳ bán hàng 90 ngày."
   },
   "derived": {
-    "girlStyleLiveShareOfShopGmvPct": {
+    "kocSat01LiveShareOfShopGmvPct": {
       "value": 8.37,
       "window": "180N",
       "scope": "Toàn shop",
       "source": "_shop LIVE (180 ngày) 1.xlsx ÷ Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
       "unit": "%",
-      "note": "Chỉ tính GMV LIVE của Girl Style; cùng khung 180 ngày."
+      "note": "Chỉ tính GMV LIVE của Satellite KOC; cùng khung 180 ngày."
     },
     "inhouseDualChannelLiveGmv": {
       "value": 8279858009,
@@ -3696,7 +3696,7 @@
       "scope": "Toàn shop",
       "source": "_shop LIVE (180 ngày) 1.xlsx",
       "unit": "VND",
-      "note": "Tổng GMV LIVE của Kami Ely + Girl Style (cùng 1 đội ngũ in-house vận hành)."
+      "note": "Tổng GMV LIVE của Kami Ely + Satellite KOC (cùng 1 đội ngũ in-house vận hành)."
     },
     "inhouseDualChannelLiveShareOfShopGmvPct": {
       "value": 55.17,
@@ -3704,7 +3704,7 @@
       "scope": "Toàn shop",
       "source": "_shop LIVE (180 ngày) 1.xlsx ÷ Kami Ely_Store Detail Page_Data Overview (180 ngày) .xlsx",
       "unit": "%",
-      "note": "Tỷ trọng GMV LIVE in-house (Kami Ely + Girl Style) trên tổng GMV toàn shop."
+      "note": "Tỷ trọng GMV LIVE in-house (Kami Ely + Satellite KOC) trên tổng GMV toàn shop."
     },
     "inhouseDualChannelLiveShareOfAllLivePct": {
       "value": 89.39,
@@ -3720,7 +3720,7 @@
       "scope": "Toàn shop",
       "source": "_shop LIVE (180 ngày) 1.xlsx",
       "unit": "VND",
-      "note": "GMV LIVE từ mạng lưới affiliate bên ngoài thực thụ sau khi bóc tách Girl Style."
+      "note": "GMV LIVE từ mạng lưới affiliate bên ngoài thực thụ sau khi bóc tách Satellite KOC."
     },
     "trueExternalAffiliateLiveShareOfShopGmvPct": {
       "value": 6.55,

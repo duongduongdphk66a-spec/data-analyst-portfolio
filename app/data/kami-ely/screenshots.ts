@@ -31,17 +31,17 @@ export const KAMI_DATA_SCOPES: DataScopeItem[] = [
     periodVi: '18/08/2022 - Nay (~2 năm vận hành)',
     periodEn: 'Aug 18, 2022 - Present (~2 years operating)',
     isAllTime: true,
-    totalGmv: '31,6 Tỷ đ',
+    totalGmv: '15,01 Tỷ đ',
     totalUnits: '238.4k SP',
     keyHighlightsVi: [
-      'Tổng sản lượng 238.4k sản phẩm và 31,6 Tỷ đ GMV toàn sàn TikTok Shop',
+      'Tổng sản lượng 238.4k sản phẩm và 15,01 Tỷ đ GMV toàn sàn TikTok Shop',
       'Tích lũy 12.4k phiên LIVE và 11.2k video gắn link giỏ hàng',
       'Mạng lưới 6.0k nhà sáng tạo (Affiliates) từng liên kết bán hàng',
       'Xếp hạng #7.5k toàn quốc và #259 ngành Thể thao & Dã ngoại (Sports & Outdoor)',
       'LƯU Ý QUAN TRỌNG: Đây là số liệu TÍCH LŨY TOÀN THỜI GIAN, không phải 180 ngày gần nhất'
     ],
     keyHighlightsEn: [
-      'Total 238.4k units sold & 31.6B VND GMV on TikTok Shop platform',
+      'Total 238.4k units sold & 15.01B VND GMV on TikTok Shop platform',
       '12.4k total shoppable LIVEs & 11.2k shoppable videos published',
       '6.0k total affiliate creators historically linked with the store',
       'Ranked #7.5k nationally & #259 in Sports & Outdoor category',
@@ -88,7 +88,7 @@ export const KAMI_DATA_SCOPES: DataScopeItem[] = [
     periodEn: 'Last 90 days (June - September 2026)',
     isAllTime: false,
     totalGmv: '4,7 Tỷ đ (Affiliate) + 2,4 Tỷ đ (Video)',
-    totalUnits: '31.6k SP (Affiliate) + 15.2k SP (Video)',
+    totalUnits: '101.9k SP (Affiliate) + 15.2k SP (Video)',
     keyHighlightsVi: [
       'Kênh tự vận hành dẫn đầu: chiếm 49.76% sản lượng và 49.30% doanh thu GMV',
       'Mạng lưới KOC Nano (1k-5k followers) tạo ra 52.67% GMV affiliate (2,5 Tỷ đ)',
@@ -108,8 +108,8 @@ export const KAMI_DATA_SCOPES: DataScopeItem[] = [
   {
     id: 'scope-creator-alltime',
     scope: 'creator',
-    scopeLabelVi: 'Kênh Chính Chủ @kami_official',
-    scopeLabelEn: 'Official Account @kami_official',
+    scopeLabelVi: 'Kênh Chính Chủ @shop_official',
+    scopeLabelEn: 'Official Account @shop_official',
     timeframeVi: 'Tích lũy Toàn thời gian (Từ khi lập kênh)',
     timeframeEn: 'Lifetime Accumulated (Since Account Creation)',
     timeframeBadge: 'Toàn thời gian (Từ 28/05/2023)',
@@ -137,8 +137,8 @@ export const KAMI_DATA_SCOPES: DataScopeItem[] = [
   {
     id: 'scope-creator-180d',
     scope: 'creator',
-    scopeLabelVi: 'Kênh Chính Chủ @kami_official',
-    scopeLabelEn: 'Official Account @kami_official',
+    scopeLabelVi: 'Kênh Chính Chủ @shop_official',
+    scopeLabelEn: 'Official Account @shop_official',
     timeframeVi: 'Chu kỳ 180 Ngày gần nhất',
     timeframeEn: 'Last 180 Days Window',
     timeframeBadge: '180 ngày (09/03 - 24/08)',
@@ -164,8 +164,8 @@ export const KAMI_DATA_SCOPES: DataScopeItem[] = [
   {
     id: 'scope-creator-28d',
     scope: 'creator',
-    scopeLabelVi: 'Kênh Chính Chủ @kami_official',
-    scopeLabelEn: 'Official Account @kami_official',
+    scopeLabelVi: 'Kênh Chính Chủ @shop_official',
+    scopeLabelEn: 'Official Account @shop_official',
     timeframeVi: 'Chu kỳ 28 Ngày & Hoạt động Vận hành',
     timeframeEn: '28-Day Operating Metrics & Cadence',
     timeframeBadge: '28 ngày gần nhất',
@@ -225,9 +225,9 @@ export const fastmossScreenshotsManifest: FastMossScreenshotItem[] = [
     isAllTime: true,
     titleVi: 'Hồ Sơ Toàn Thời Gian & Xếp Hạng Toàn Shop (Từ 18/08/2022)',
     titleEn: 'Lifetime Profile & Store Rankings (Since Aug 18, 2022)',
-    descriptionVi: 'DỮ LIỆU TÍCH LŨY TOÀN THỜI GIAN từ khi thành lập shop (18/08/2022, KHÔNG PHẢI 180 ngày). Tổng GMV 31,6 Tỷ đ, bán 238.4k SP, 179 SKU đang bán (338 SKU lịch sử), 12.4k phiên LIVE, 11.2k video, 6.0k affiliates.',
-    descriptionEn: 'LIFETIME ACCUMULATED DATA since store inception (Aug 18, 2022, NOT last 180 days). 31.6B VND GMV, 238.4k units sold, 179 active SKUs (338 historical), 12.4k LIVEs, 11.2k videos, 6.0k affiliates.',
-    keyMetric: '31,6 Tỷ đ GMV · 238.4k SP (Toàn thời gian)'
+    descriptionVi: 'DỮ LIỆU TÍCH LŨY TOÀN THỜI GIAN từ khi thành lập shop (18/08/2022, KHÔNG PHẢI 180 ngày). Tổng GMV 15,01 Tỷ đ, bán 238.4k SP, 179 SKU đang bán (338 SKU lịch sử), 12.4k phiên LIVE, 11.2k video, 6.0k affiliates.',
+    descriptionEn: 'LIFETIME ACCUMULATED DATA since store inception (Aug 18, 2022, NOT last 180 days). 15.01B VND GMV, 238.4k units sold, 179 active SKUs (338 historical), 12.4k LIVEs, 11.2k videos, 6.0k affiliates.',
+    keyMetric: '15,01 Tỷ đ GMV · 238.4k SP (Toàn thời gian)'
   },
   {
     id: 'sc-073418',
@@ -323,8 +323,8 @@ export const fastmossScreenshotsManifest: FastMossScreenshotItem[] = [
     timeframeEn: 'Last 90 Days',
     titleVi: 'Mạng Lưới KOC Affiliate: Phân Bố Theo Follower & Ngành (Sản Lượng)',
     titleEn: 'Affiliate Network: Follower & Category Distribution (Units)',
-    descriptionVi: '5.7k KOC tích lũy, bán 31.6k SP (90 ngày). Nhóm Nano (1k-5k followers) áp đảo 52.69% lượng bán, KOC Thời trang đóng góp 68.69%.',
-    descriptionEn: '5.7k KOCs sold 31.6k units. Nano tier (1k-5k) dominates with 52.69% volume, Fashion KOCs deliver 68.69%.',
+    descriptionVi: '5.7k KOC tích lũy, bán 101.9k SP (90 ngày). Nhóm Nano (1k-5k followers) áp đảo 52.69% lượng bán, KOC Thời trang đóng góp 68.69%.',
+    descriptionEn: '5.7k KOCs sold 101.9k units. Nano tier (1k-5k) dominates with 52.69% volume, Fashion KOCs deliver 68.69%.',
     keyMetric: 'KOC Nano 52.69% Sản Lượng'
   },
   {
@@ -364,10 +364,10 @@ export const fastmossScreenshotsManifest: FastMossScreenshotItem[] = [
     sectionId: 'creator-collaborative',
     timeframeVi: '90 ngày gần nhất',
     timeframeEn: 'Last 90 Days',
-    titleVi: 'Phân Tích Kênh Tự Vận Hành: Tài Khoản Chính Chủ @kami_official',
-    titleEn: 'Self-Operated Account Analytics: Official @kami_official',
-    descriptionVi: 'Độc quyền 1 tài khoản chính chủ @kami_official (48.7k followers) bán 20.0k SP, mang về 3,0 Tỷ đ GMV qua 147 video và 208 phiên LIVE.',
-    descriptionEn: 'Exclusive single official account @kami_official (48.7k followers) sold 20.0k units, generating 3.0B VND GMV via 147 videos and 208 LIVEs.',
+    titleVi: 'Phân Tích Kênh Tự Vận Hành: Tài Khoản Chính Chủ @shop_official',
+    titleEn: 'Self-Operated Account Analytics: Official @shop_official',
+    descriptionVi: 'Độc quyền 1 tài khoản chính chủ @shop_official (48.7k followers) bán 20.0k SP, mang về 3,0 Tỷ đ GMV qua 147 video và 208 phiên LIVE.',
+    descriptionEn: 'Exclusive single official account @shop_official (48.7k followers) sold 20.0k units, generating 3.0B VND GMV via 147 videos and 208 LIVEs.',
     keyMetric: '1 Kênh Tự Vận Hành: 3,0 Tỷ đ GMV'
   },
   {
@@ -406,8 +406,8 @@ export const fastmossScreenshotsManifest: FastMossScreenshotItem[] = [
     sectionId: 'creator-overview',
     timeframeVi: '28 ngày gần nhất & Hồ sơ KOC',
     timeframeEn: 'Last 28 Days & KOC Profile',
-    titleVi: 'Hồ Sơ Creator Chính Chủ: Kami Ely (@kami_official)',
-    titleEn: 'Official Creator Profile: Kami Ely (@kami_official)',
+    titleVi: 'Hồ Sơ Creator Chính Chủ: Kami Ely (@shop_official)',
+    titleEn: 'Official Creator Profile: Kami Ely (@shop_official)',
     descriptionVi: 'ID kami_official, 48.8k followers, Top #83.8k quốc gia, Top #8.6k ngành thời trang, Traffic Index 39, Ecom Index 67, 28 ngày: 41 video, 73 phiên LIVE.',
     descriptionEn: 'ID kami_official, 48.8k followers, #83.8k National rank, #8.6k Fashion rank, Traffic Index 39, Ecom Index 67, 28d: 41 videos, 73 LIVEs.',
     keyMetric: '48.8k Followers · Top #8.6k Ngành'

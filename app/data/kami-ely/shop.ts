@@ -92,7 +92,7 @@ export const affiliateOverview = {
   totalInfluencers: '5.7k',
   liveInfluencers: 234,
   videoInfluencers: '5.4k',
-  last90dUnits: '31.6k',
+  last90dUnits: '101.9k',
   last90dGmv: '4,7 Tỷ đ',
   newInfluencers90d: 983
 };
@@ -281,7 +281,7 @@ export const shopSelfOperatedAccount = {
   accountName: 'Kami Ely',
   creatorName: 'Kami Ely',
   accountId: 'kami_official',
-  handle: '@kami_official',
+  handle: '@shop_official',
   bindingDate: '02/02/2024',
   accountCount: 1,
   followers: '48.7k',
@@ -301,8 +301,8 @@ export const shopSelfOperatedAccount = {
   avgUnitsSoldPerVideo: 0,
   avgLiveSales: 0,
   relationType: 'Shop-Linked Official Account (Tài khoản liên kết chính thức duy nhất)',
-  strategicInsightVi: 'Kênh tự vận hành độc quyền @kami_official đóng vai trò "cỗ máy doanh thu" chủ lực, gánh gần 50% tổng doanh số và sản lượng của toàn bộ shop (3,0 Tỷ đ / 90 ngày) mà không phải chịu chi phí hoa hồng affiliate ngoại.',
-  strategicInsightEn: 'The single self-operated channel @kami_official serves as the primary revenue engine, contributing ~50% of the entire store GMV (3.0B VND / 90 days) free from third-party affiliate commission margins.'
+  strategicInsightVi: 'Kênh tự vận hành độc quyền @shop_official đóng vai trò "cỗ máy doanh thu" chủ lực, gánh gần 50% tổng doanh số và sản lượng của toàn bộ shop (3,0 Tỷ đ / 90 ngày) mà không phải chịu chi phí hoa hồng affiliate ngoại.',
+  strategicInsightEn: 'The single self-operated channel @shop_official serves as the primary revenue engine, contributing ~50% of the entire store GMV (3.0B VND / 90 days) free from third-party affiliate commission margins.'
 };
 
 // BỔ SUNG DỮ LIỆU TIKTOK SHOP SELLER CENTER (1ST-PARTY DATA) & ĐỐI SOÁT CSV
@@ -406,8 +406,8 @@ export const sellerCenterShopData = {
         growthPct: 40.31,
         status: 'positive',
         insight: {
-          vi: 'Sản lượng tăng +40,31% với AOV 28 ngày duy trì ổn định ở mức ~127.900 đ/món.',
-          en: 'Volume grew +40.31% with 28-day AOV remaining stable at ~127,900 VND/item.'
+          vi: 'Sản lượng tăng +40,31% với ASP 28 ngày duy trì ổn định ở mức ~127.900 đ/món.',
+          en: 'Volume grew +40.31% with 28-day ASP remaining stable at ~127,900 VND/item.'
         }
       }
     ] as SellerCenterMetricItem[],
@@ -584,8 +584,8 @@ export const sellerCenterShopData = {
     livePreviewEntryRatePct: 5.09,
     searchDiscoverySharePct: 43.0,
     insights: {
-      vi: 'Khuyến mãi đóng góp 35,86% tổng GMV (123,3 triệu đ) và kéo AOV lên 150.991 đ (+17,4% so với AOV cơ sở 128,6k đ). Tuy nhiên, chi phí giảm giá đang chiếm tới 62,2 triệu đ (~50% doanh thu khuyến mãi), cần chuyển từ giảm giá cố định dài ngày sang Flash Sale ngắn hạn và Combo để bảo vệ biên lợi nhuận.',
-      en: 'Promotions drive 35.86% of total GMV (123.3M VND) and lift AOV to 150,991 VND (+17.4% vs 128.6k base AOV). However, discount costs reached 62.2M VND (~50% of promo revenue), requiring a shift from flat 28-day discounts to short Flash Sales and Bundles to protect margins.'
+      vi: 'Khuyến mãi đóng góp 35,86% tổng GMV (123,3 triệu đ) và kéo ASP lên 150.991 đ (+17,4% so với ASP cơ sở 128,6k đ). Tuy nhiên, chi phí giảm giá đang chiếm tới 62,2 triệu đ (~50% doanh thu khuyến mãi), cần chuyển từ giảm giá cố định dài ngày sang Flash Sale ngắn hạn và Combo để bảo vệ biên lợi nhuận.',
+      en: 'Promotions drive 35.86% of total GMV (123.3M VND) and lift ASP to 150,991 VND (+17.4% vs 128.6k base ASP). However, discount costs reached 62.2M VND (~50% of promo revenue), requiring a shift from flat 28-day discounts to short Flash Sales and Bundles to protect margins.'
     }
   },
 

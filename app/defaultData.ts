@@ -103,8 +103,8 @@ export const DEFAULT_PROJECTS: ProjectData[] = [
     featured: true,
     problem: 'Doanh thu tháng 8 giảm 83,1% so với đỉnh tháng 6 khi qua cao điểm đồ bơi hè. Gian hàng cần xác định mức độ phụ thuộc vào từng kênh nội dung, sức bền mạng lưới KOC và danh mục sản phẩm thay thế cho mùa Thu Đông.',
     problemEn: 'August revenue fell 83.1% from the June peak after summer swimwear demand subsided. Needed to quantify channel concentration, KOC retention decay, and autumn-winter SKU transition performance.',
-    method: 'Chuẩn hóa 9 bảng dữ liệu ước tính FastMoss (231 ngày), kiểm chứng độ nhạy trung bình trượt khi Winsorize ngoại lai, chạy hồi quy OLS đa biến, đo chỉ số tập trung HHI và kiểm định phi tham số Mann-Whitney U cho video quảng cáo.',
-    methodEn: 'Standardized 9 FastMoss telemetry tables (231 days), tested moving-average crossover sensitivity under outlier Winsorization, fitted daily OLS regression, computed HHI concentration, and ran Mann-Whitney U tests on video ads.',
+    method: 'Chuẩn hóa 10 bảng dữ liệu ước tính FastMoss (231 ngày), kiểm chứng độ nhạy trung bình trượt khi Winsorize ngoại lai, chạy hồi quy OLS đa biến, đo chỉ số tập trung HHI và kiểm định phi tham số Mann-Whitney U cho video quảng cáo.',
+    methodEn: 'Standardized 10 FastMoss telemetry tables (231 days), tested moving-average crossover sensitivity under outlier Winsorization, fitted daily OLS regression, computed HHI concentration, and ran Mann-Whitney U tests on video ads.',
     insight: 'Live chính chủ và kênh vệ tinh tạo ra 84,5% doanh thu livestream, trong khi 12/339 SKU đóng góp 80,6% GMV kỳ gần nhất. Chuyển dịch sang dòng Áo thu và Chân váy cùng nhóm KOC mới giúp doanh thu tháng 10 phục hồi gấp 2,3 lần đáy tháng 8.',
     insightEn: 'Official and satellite livestreams generated 84.5% of live GMV, while 12/339 SKUs drove 80.6% of recent catalog sales. Pivoting to autumn tops and skirts with new KOC cohorts lifted October daily sales 2.3x above the August trough.',
     metrics: [
@@ -172,8 +172,8 @@ export const DEFAULT_DASHBOARD: DashboardData = {
     {
       id: 'kpi-1',
       title: 'Tổng Doanh Thu (GMV)',
-      value: '12,74 Tỉ VNĐ',
-      change: '12,74 Tỉ VNĐ GMV 180 ngày (TikTok Shop Kami Ely)',
+      value: '15,01 Tỉ VNĐ',
+      change: '15,01 Tỉ VNĐ GMV 231 ngày (101.896 sp)',
       isPositive: true,
       icon: 'dollar'
     },
@@ -188,16 +188,16 @@ export const DEFAULT_DASHBOARD: DashboardData = {
     {
       id: 'kpi-3',
       title: 'Mạng Lưới Creators',
-      value: '5,700+',
-      change: '+18.4% KOC liên kết (Creator Network)',
+      value: '302 KOC',
+      change: 'Mạng liên kết ngoài (Affiliate Live)',
       isPositive: true,
       icon: 'users'
     },
     {
       id: 'kpi-4',
-      title: 'Giá Trị Đơn Trung Bình (AOV)',
-      value: '268,500 đ',
-      change: '+12.1% tăng trưởng (RFM Segmentation)',
+      title: 'Giá Bán Bình Quân (ASP)',
+      value: '147.298 đ',
+      change: 'Doanh thu / Lượng bán (231 ngày)',
       isPositive: true,
       icon: 'trending'
     }
@@ -205,7 +205,7 @@ export const DEFAULT_DASHBOARD: DashboardData = {
   charts: [
     {
       id: 'chart-1',
-      title: 'Xu Hướng Doanh Thu TikTok Shop Kami Ely (180 Ngày)',
+      title: 'Xu Hướng Doanh Thu TikTok Shop Kami Ely (231 Ngày)',
       type: 'area',
       description: 'Doanh số thực tế ghi nhận qua 6 tháng vận hành kênh E-Commerce.',
       xAxisKey: 'month',
@@ -245,7 +245,7 @@ export const DEFAULT_DASHBOARD: DashboardData = {
       description: 'Tỷ trọng GMV phân bổ giữa Kênh chính chủ, KOC Affiliate và Kệ hàng.',
       xAxisKey: 'quarter',
       series: [
-        { dataKey: 'official', name: 'Kênh tự vận hành (@kami_official)', color: '#9BE7FA' },
+        { dataKey: 'official', name: 'Kênh tự vận hành (@shop_official)', color: '#9BE7FA' },
         { dataKey: 'affiliate', name: 'Creator Affiliate', color: '#FFD14C' },
         { dataKey: 'showcase', name: 'Kệ hàng / Product Card', color: '#FFE485' }
       ],

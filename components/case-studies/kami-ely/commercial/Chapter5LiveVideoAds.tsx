@@ -71,8 +71,8 @@ export default function Chapter5LiveVideoAds() {
       scopeLabel={L(`AffLive · CrLive · AffVid (${n(le.affVideos)} clip)`, `AffLive · CrLive · AffVid (${n(le.affVideos)} clips)`)}
       question={L('Live hay Video, chính chủ hay affiliate, Ads hay Organic hiệu quả hơn?', 'How do Live vs Video, official vs affiliate, and Ads vs Organic compare in efficiency?')}
       conclusion={L(
-        `Live của chính shop hiệu quả gấp khoảng 30 lần creator ngoài trên mỗi lượt xem (${n(le.officialVndPerView)} đ/PV và ${n(le.crLiveVndPerUv)} đ/UV so với ${n(le.extVndPerView)} đ/PV); cờ Ads nâng tỷ lệ video có đơn gấp 3 lần nhưng toàn kỳ đạt GMV/1.000 lượt xem thấp hơn Organic (${n(slices[0].adsGpmK, 1)}k so với ${n(slices[0].orgGpmK, 1)}k đ).`,
-        `Official Live is ~30x more efficient per view than external creators (${n(le.officialVndPerView)} VND/PV and ${n(le.crLiveVndPerUv)} VND/UV vs ${n(le.extVndPerView)} VND/PV); Ads triples clip conversion probability yet trails Organic in full-sample GPM (${n(slices[0].adsGpmK, 1)}k vs ${n(slices[0].orgGpmK, 1)}k VND per 1,000 views).`
+        'Hiệu suất chuyển đổi tập trung vượt trội ở các phiên Live của chính shop so với creator ngoài; quảng cáo trả phí giúp mở rộng tỷ lệ video phát sinh đơn nhưng hiệu quả doanh thu trên mỗi nghìn lượt xem (GPM) chịu ảnh hưởng lớn theo tính thời điểm của mùa vụ.',
+        'Conversion efficiency concentrates overwhelmingly in self-operated Live sessions; paid advertising expands the share of converting videos but revenue per 1,000 views (GPM) depends heavily on seasonal timing.'
       )}
       soWhat={L(
         'Ưu tiên ngân sách và nhân lực cho Live của chính shop, trọng tâm ở khung 12h đến 18h; dùng Ads có chọn lọc cho video đã có đà tự nhiên và gắn hashtag đặc thù theo mã sản phẩm.',
@@ -87,8 +87,8 @@ export default function Chapter5LiveVideoAds() {
           </div>
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
             {L(
-              `Kênh @shop_official có ${n(le.crLiveConvPct, 1)}% phiên ra đơn (${n(le.crLiveVndPerUv)} đ/UV trên CrLive, ${n(le.officialVndPerView)} đ/PV trên AffLive), trong khi creator ngoài đạt ${n(le.extLiveConvPct, 1)}% phiên có đơn và ${n(le.extVndPerView)} đ/PV dù chiếm ${n(le.extViewSharePct, 1)}% lượt xem. Hai thước đo UV (người xem) và PV (lượt xem) khác định nghĩa nên luôn ghi tách biệt.`,
-              `@shop_official converts orders in ${n(le.crLiveConvPct, 1)}% of sessions (${n(le.crLiveVndPerUv)} VND/UV on CrLive, ${n(le.officialVndPerView)} VND/PV on AffLive), whereas external KOCs convert in ${n(le.extLiveConvPct, 1)}% of sessions at ${n(le.extVndPerView)} VND/PV despite holding ${n(le.extViewSharePct, 1)}% of views. UV and PV differ in definition and are reported separately.`
+              `Kênh @shop_official đạt tỷ lệ ra đơn ${n(le.crLiveConvPct, 1)}% mỗi ca và ${n(le.officialVndPerView)} đ/lượt xem (PV), trong khi creator ngoài chỉ đạt ${n(le.extLiveConvPct, 1)}% số ca ra đơn và ${n(le.extVndPerView)} đ/PV dù thu hút đến ${n(le.extViewSharePct, 1)}% tổng lượt xem toàn sàn (thước đo UV trên CrLive đạt ${n(le.crLiveVndPerUv)} đ/người xem).`,
+              `@shop_official converts orders in ${n(le.crLiveConvPct, 1)}% of streams at ${n(le.officialVndPerView)} VND/view (PV), while external affiliates convert in ${n(le.extLiveConvPct, 1)}% at ${n(le.extVndPerView)} VND/PV despite pulling ${n(le.extViewSharePct, 1)}% of total views (UV on CrLive reaches ${n(le.crLiveVndPerUv)} VND/viewer).`
             )}
           </p>
         </div>
@@ -109,8 +109,8 @@ export default function Chapter5LiveVideoAds() {
           </div>
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
             {L(
-              `Sau gộp nhãn YES/có và NO/không, tỷ lệ video ra đơn của Ads đạt ${n(slices[0].adsConvPct, 1)}% so với ${n(slices[0].orgConvPct, 1)}% ở Organic (OR = ${n(slices[0].oddsRatio, 1)}, Fisher p < 0,001). Tuy nhiên GPM toàn mẫu của Ads đạt ${n(slices[0].adsGpmK, 1)}k so với ${n(slices[0].orgGpmK, 1)}k đ/1.000 view (${n(slices[0].gpmRatio, 2)}x): kỳ Hè Ads vượt Organic (${n(slices[4].gpmRatio, 2)}x), còn 90 ngày cuối Organic cao hơn (${n(slices[5].gpmRatio, 2)}x).`,
-              `Merging YES/có and NO/không labels, Ads converts at ${n(slices[0].adsConvPct, 1)}% vs ${n(slices[0].orgConvPct, 1)}% Organic (OR = ${n(slices[0].oddsRatio, 1)}, Fisher p < 0.001). Yet full-sample Ads GPM is ${n(slices[0].adsGpmK, 1)}k vs ${n(slices[0].orgGpmK, 1)}k VND/1k views (${n(slices[0].gpmRatio, 2)}x): Summer favored Ads (${n(slices[4].gpmRatio, 2)}x), whereas the last 90d favored Organic (${n(slices[5].gpmRatio, 2)}x).`
+              `Quảng cáo trả phí giúp tăng xác suất video có đơn từ ${n(slices[0].orgConvPct, 1)}% lên ${n(slices[0].adsConvPct, 1)}% (OR = ${n(slices[0].oddsRatio, 1)}, Fisher p < 0,001). Tuy nhiên, GPM toàn mẫu của Ads (${n(slices[0].adsGpmK, 1)}k đ) thấp hơn Organic (${n(slices[0].orgGpmK, 1)}k đ) do Organic bật mạnh vào mùa Thu Đông và các clip viral tự nhiên.`,
+              `Paid Ads boosts video conversion probability from ${n(slices[0].orgConvPct, 1)}% to ${n(slices[0].adsConvPct, 1)}% (OR = ${n(slices[0].oddsRatio, 1)}, Fisher p < 0.001). However, full-sample Ads GPM (${n(slices[0].adsGpmK, 1)}k) trails Organic (${n(slices[0].orgGpmK, 1)}k) as Organic surged in Autumn-Winter and viral organic hits.`
             )}
           </p>
         </div>

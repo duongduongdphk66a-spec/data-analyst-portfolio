@@ -33,7 +33,7 @@ export const MINTO_NARRATIVE = {
         label: { vi: 'Tổng GMV (180 Ngày)', en: 'Total Net GMV (180d)' },
         value: '12,74 Tỉ VNĐ',
         sub: { vi: '85.500 sản phẩm đã bán', en: '85,500 units sold' },
-        change: { vi: 'All-time 31,6 Tỉ', en: 'All-time 31.6B' }
+        change: { vi: 'Chu kỳ 231 ngày', en: '231-day cycle' }
       },
       {
         id: 'orders',
@@ -44,7 +44,7 @@ export const MINTO_NARRATIVE = {
       },
       {
         id: 'aov',
-        label: { vi: 'Giá Trị Đơn Trung Bình (AOV)', en: 'Average Order Value (AOV)' },
+        label: { vi: 'Giá Bán Bình Quân (ASP)', en: 'Average Selling Price (ASP)' },
         value: '~149.000 VNĐ',
         sub: { vi: 'Xu hướng mua gộp combo', en: 'Combo bundle tendency' },
         change: { vi: 'Biến động theo chiến dịch', en: 'Campaign dependent' }
@@ -52,7 +52,7 @@ export const MINTO_NARRATIVE = {
       {
         id: 'cvr',
         label: { vi: 'Tỷ Lệ Chuyển Đổi Trung Bình', en: 'Average Conversion Rate' },
-        value: '~1,85%',
+        value: '42,7%',
         sub: { vi: 'GPM Video 4,5x vs. LIVE', en: 'Video GPM 4.5x vs. LIVE' },
         change: { vi: '135,2k vs. 30,2k đ/1k views', en: '135.2k vs. 30.2k / 1k views' }
       }
@@ -60,7 +60,7 @@ export const MINTO_NARRATIVE = {
     telemetry: {
       title: { vi: 'Độ Tin Cậy Dữ Liệu & Đối Soát Telemetry', en: 'Data Integrity & Telemetry Reconciliation' },
       verifiedRate: '100% AUDITED',
-      tablesCount: '8 bảng cơ sở dữ liệu',
+      tablesCount: '10 tệp cơ sở dữ liệu (23.364 dòng)',
       rowsCount: '18.778 bản ghi SSOT',
       description: {
         vi: 'Khớp 100% dữ liệu tài chính giữa hệ thống phân tích nội bộ và báo cáo gốc FastMoss / TikTok Seller Center qua mã băm kiểm định.',
@@ -77,8 +77,8 @@ export const MINTO_NARRATIVE = {
       badge: '1.1',
       title: { vi: 'Bức tranh Doanh thu & Tăng trưởng', en: 'Revenue Trajectory & Growth Cycles' },
       insight: {
-        vi: 'GMV tăng trưởng theo chu kỳ chiến dịch rõ rệt thay vì phân bổ đều theo ngày. Sự dịch chuyển của AOV cho thấy khách hàng có xu hướng mua gộp combo vào các ngày khuyến mãi lớn, tạo ra các đỉnh doanh thu cục bộ.',
-        en: 'GMV expands in pronounced campaign cycles rather than distributing evenly by day. Shifts in AOV show shoppers bundle combos on major promo dates, creating concentrated localized revenue peaks.'
+        vi: 'GMV tăng trưởng theo chu kỳ chiến dịch rõ rệt thay vì phân bổ đều theo ngày. Sự dịch chuyển của ASP cho thấy khách hàng có xu hướng mua gộp combo vào các ngày khuyến mãi lớn, tạo ra các đỉnh doanh thu cục bộ.',
+        en: 'GMV expands in pronounced campaign cycles rather than distributing evenly by day. Shifts in ASP show shoppers bundle combos on major promo dates, creating concentrated localized revenue peaks.'
       },
       chart3: { vi: 'Biểu đồ #3: Biểu đồ kết hợp (Line + Bar): Diễn biến GMV và Số lượng đơn hàng theo thời gian', en: 'Chart #3: Combined Line + Bar: GMV and Order Volume Trajectory Over Time' },
       chart4: { vi: 'Biểu đồ #4: Biểu đồ cơ cấu (Donut/Stacked Bar): Tỷ trọng doanh thu theo nguồn tạo đơn (Tự nhiên, Quảng cáo, Affiliate)', en: 'Chart #4: Composition Donut: Revenue Breakdown by Order Source (Organic, Paid Ads, Affiliate)' }

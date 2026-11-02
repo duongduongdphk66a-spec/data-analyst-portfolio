@@ -1005,7 +1005,7 @@ export function buildStage4Data(): Stage4Payload {
     creatorsPct: t.creatorsSharePct,
     activationPct: t.activationRatePct,
     gmvPct: t.gmvSharePct,
-    gmvPctExTop1: m.creators.followerTiersExGirlStyle[i]?.gmvSharePct ?? null,
+    gmvPctExTop1: m.creators.followerTiersExKocSat01[i]?.gmvSharePct ?? null,
   }));
 
   let cum1 = 0;
@@ -1024,7 +1024,7 @@ export function buildStage4Data(): Stage4Payload {
   const exTop1 = aff.top10.slice(1);
   const totEx = aff.gmv - aff.top10[0].gmv;
   let cumEx = 0;
-  const affiliateTopExGirlStyle = exTop1.map((c, i) => {
+  const affiliateTopExKocSat01 = exTop1.map((c, i) => {
     const shareEx = (c.gmv / totEx) * 100;
     cumEx += shareEx;
     return {
@@ -1036,7 +1036,7 @@ export function buildStage4Data(): Stage4Payload {
     };
   });
 
-  const topCreatorMonthly = m.shopLive.girlStyle.monthly.map((x: any) => {
+  const topCreatorMonthly = m.shopLive.kocSat01.monthly.map((x: any) => {
     const gmvM = toM(x.gmv);
     const liveHours = Number(x.liveHours ?? 0);
     const gmvPerHourM = liveHours > 0 ? Math.round((gmvM / liveHours) * 100) / 100 : 0;
@@ -1084,10 +1084,10 @@ export function buildStage4Data(): Stage4Payload {
   ];
 
   const cohortGmvData: Stage4Payload['cohortGmvData'] = [
-    { cohort: 'T3/2026', withGs: 438.6, withoutGs: 438.6, size: 66, note: { vi: 'Chưa có Girl Style', en: 'Pre-Girl Style' } },
-    { cohort: 'T4/2026', withGs: 224.4, withoutGs: 224.4, size: 80, note: { vi: 'Chưa có Girl Style', en: 'Pre-Girl Style' } },
-    { cohort: 'T5/2026', withGs: 1463.1, withoutGs: 206.8, size: 37, note: { vi: 'Girl Style kéo 1,26 Tỷ đ (86%)!', en: 'Girl Style drives 1.26B VND (86%)!' } },
-    { cohort: 'T6/2026', withGs: 109.4, withoutGs: 109.4, size: 30, note: { vi: 'Không có Girl Style', en: 'External KOCs only' } },
+    { cohort: 'T3/2026', withGs: 438.6, withoutGs: 438.6, size: 66, note: { vi: 'Chưa có Satellite KOC', en: 'Pre-Satellite KOC' } },
+    { cohort: 'T4/2026', withGs: 224.4, withoutGs: 224.4, size: 80, note: { vi: 'Chưa có Satellite KOC', en: 'Pre-Satellite KOC' } },
+    { cohort: 'T5/2026', withGs: 1463.1, withoutGs: 206.8, size: 37, note: { vi: 'Satellite KOC kéo 1,26 Tỷ đ (86%)!', en: 'Satellite KOC drives 1.26B VND (86%)!' } },
+    { cohort: 'T6/2026', withGs: 109.4, withoutGs: 109.4, size: 30, note: { vi: 'Không có Satellite KOC', en: 'External KOCs only' } },
     { cohort: 'T7/2026', withGs: 3.1, withoutGs: 3.1, size: 14, note: { vi: 'Thoái trào hè', en: 'Late season contraction' } },
     { cohort: 'T8/2026', withGs: 0.14, withoutGs: 0.14, size: 18, note: { vi: 'Chỉ 143k đ', en: 'Only 143k VND' } },
   ];
@@ -1106,7 +1106,7 @@ export function buildStage4Data(): Stage4Payload {
     cohortScaleData,
     creatorTiers,
     affiliateTop10,
-    affiliateTopExGirlStyle,
+    affiliateTopExKocSat01,
     topCreatorMonthly,
     shopWideLiveMonthly,
     retentionMatrix,
@@ -1276,7 +1276,7 @@ export function buildStage5Data(): Stage5Payload {
       ],
     },
     ex_dominant: {
-      title: { vi: '4. Loại bỏ 3 Creator chi phối (@kami_official, @koc_vid01, @koc_sat01)', en: '4. Excluding 3 Dominant Creators' },
+      title: { vi: '4. Loại bỏ 3 Creator chi phối (@shop_official, @koc_vid01, @koc_sat01)', en: '4. Excluding 3 Dominant Creators' },
       desc: { vi: 'Loại trừ các tài khoản gánh phần lớn GMV để kiểm tra tính đại diện cho toàn bộ mạng lưới KOC ngoài.', en: 'Excludes top revenue-driving accounts to verify true external KOC representativeness.' },
       rows: [
         { metric: { vi: 'Số lượng video còn lại', en: 'Remaining Videos' }, ads: '3.132', organic: '933', note: { vi: 'Loại 352 video của top 3 tài khoản', en: 'Excluded 352 videos from top 3 accounts' } },
@@ -1399,10 +1399,10 @@ export function buildStage6Data(): Stage6Payload {
     },
     {
       type: { vi: 'Creator Ngoại lai', en: 'Creator Outlier' },
-      target: 'koc_sat01 (Girl Style)',
+      target: 'koc_sat01 (Satellite KOC)',
       metric: '1,26 Tỷ đ (56,1% GMV Live Affiliate)',
       rootCause: { vi: 'Kênh vệ tinh nội bộ in-house do chủ shop vận hành, phát 98/101 ngày tồn tại', en: 'Internal in-house satellite channel operated by shop, streaming 98/101 active days' },
-      treatment: { vi: 'Tách bạch 2 bản phân tích: Có và Không có Girl Style; Winsorize ở P99', en: 'Dual reporting (With vs Excl Girl Style); Winsorize at P99 for KOC benchmarks' },
+      treatment: { vi: 'Tách bạch 2 bản phân tích: Có và Không có Satellite KOC; Winsorize ở P99', en: 'Dual reporting (With vs Excl Satellite KOC); Winsorize at P99 for KOC benchmarks' },
       status: 'isolated',
     },
     {
@@ -1451,7 +1451,7 @@ export function buildStage7Data(): Stage7Payload {
 
   const schemaTables = [
     { tableName: 'mart_store_seasonality_daily', grain: { vi: 'Theo ngày', en: 'Daily' }, records: 231, columns: 12, description: { vi: 'Chuỗi thời gian doanh thu 231 ngày, MA7, delta z-score', en: '231-day GMV time series, 7d rolling average, z-scores' } },
-    { tableName: 'mart_creator_cohorts_retention', grain: { vi: 'Creator x Tháng', en: 'Creator x Month' }, records: 292, columns: 9, description: { vi: 'Ma trận giữ chân creator, vòng đời LTV, độ nhạy Girl Style', en: 'Creator retention matrix, LTV cycle, Girl Style sensitivity' } },
+    { tableName: 'mart_creator_cohorts_retention', grain: { vi: 'Creator x Tháng', en: 'Creator x Month' }, records: 292, columns: 9, description: { vi: 'Ma trận giữ chân creator, vòng đời LTV, độ nhạy Satellite KOC', en: 'Creator retention matrix, LTV cycle, Satellite KOC sensitivity' } },
     { tableName: 'mart_sku_pareto_health', grain: { vi: 'Mã SKU', en: 'SKU' }, records: 331, columns: 8, description: { vi: 'Phân loại A/B/C Pareto, tình trạng tồn kho chết, dải giá', en: 'Pareto ABC classification, dead stock flags, price bands' } },
     { tableName: 'mart_content_funnel_gpm', grain: { vi: 'Định dạng nội dung', en: 'Content Format' }, records: 4, columns: 7, description: { vi: 'Chuyển đổi phễu Live vs Video, hiệu suất GPM, phân vị', en: 'Live vs Video funnel conversion, GPM efficiency, percentiles' } },
     { tableName: 'mart_anomaly_telemetry', grain: { vi: 'Phiên / Sự kiện', en: 'Session / Event' }, records: 15, columns: 6, description: { vi: 'Danh mục phiên ngoại lai >24h, lệch ngày, log đối soát', en: 'Outlier sessions catalog (>24h), audit resolution log' } },
@@ -1495,7 +1495,7 @@ export function buildStage7Data(): Stage7Payload {
     {
       gate: { vi: '4. Đối soát sản lượng chính chủ', en: '4. Own-Brand Volume Parity' },
       scope: 'creators_merged vs goods_for_sale',
-      expected: { vi: 'Sản lượng @kami_official khớp nhau (90 ngày)', en: '@kami_official 90d volume parity' },
+      expected: { vi: 'Sản lượng @shop_official khớp nhau (90 ngày)', en: '@shop_official 90d volume parity' },
       actual: '20.027 sp = 20.027 sp',
       level: 'error',
       status: 'passed',

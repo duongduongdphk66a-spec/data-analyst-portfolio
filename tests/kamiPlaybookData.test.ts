@@ -16,6 +16,7 @@ import {
   zScoreSeries,
 } from '../components/case-studies/kami-ely/playbook/playbookData';
 import metricsJson from '../app/data/kami-ely/generated/metrics.json';
+import metricsV2Json from '../app/data/kami-ely/generated/metrics_v2.json';
 
 describe('Kami Ely playbook data', () => {
   it('khớp tổng 10 bảng nguồn hợp nhất (23.364 dòng)', () => {
@@ -82,8 +83,9 @@ describe('Kami Ely playbook data', () => {
     expect(modSamples.reduce((s, x) => s + x.n, 0)).toBe(231);
   });
 
-  it('Outline v2 SSOT (metrics.json.v2) bảo toàn các chỉ số kiểm toán từ 10 tệp Excel', () => {
-    const v2 = metricsJson.v2;
+  it('Outline v2 SSOT (metrics_v2.json) bảo toàn các chỉ số kiểm toán từ 10 tệp Excel', () => {
+    const v2 = metricsV2Json;
+    expect(metricsJson.v2).toEqual(metricsV2Json);
     expect(v2.meta.totalFiles).toBe(10);
     expect(v2.meta.totalRawRows).toBe(23364);
     expect(v2.meta.days).toBe(231);

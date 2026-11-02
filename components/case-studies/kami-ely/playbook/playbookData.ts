@@ -45,7 +45,8 @@ export const dailyStd = payload.stage3.dailyStd;
 // Stage 4
 export const creatorTiers = payload.stage4.creatorTiers;
 export const affiliateTop10 = payload.stage4.affiliateTop10;
-export const affiliateTopExGirlStyle = payload.stage4.affiliateTopExGirlStyle;
+export const affiliateTopExKocSat01 = (payload.stage4 as any)?.affiliateTopExKocSat01;
+export const affiliateTopExSat01 = affiliateTopExKocSat01;
 export const topCreatorMonthly = payload.stage4.topCreatorMonthly;
 export const shopWideLiveMonthly = payload.stage4.shopWideLiveMonthly;
 export const creatorFacts = payload.stage4.creatorFacts;

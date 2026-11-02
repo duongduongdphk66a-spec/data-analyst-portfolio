@@ -1,10 +1,11 @@
 // FILE: app/api/case-studies/kami-ely/route.ts
-// API PHỤC VỤ DỮ LIỆU ĐỐI SOÁT 8 BẢNG GỐC & TELEMETRY ĐỒNG BỘ 180 NGÀY
+// API PHỤC VỤ DỮ LIỆU ĐỐI SOÁT 10 TỆP GỐC & TELEMETRY ĐỒNG BỘ 231 NGÀY (FAST MOSS)
 
 import { NextResponse } from 'next/server';
 import { kamiReconciliationData } from '@/app/data/kami-ely/reconciliation';
 import { verifyKamiDataDirectoryIntegrity } from '@/app/lib/seedKamiData';
 import { getKamiElyDataWithFallback } from '@/app/lib/serverData';
+import metricsV2Json from '@/app/data/kami-ely/generated/metrics_v2.json';
 
 export async function GET() {
   try {
@@ -13,65 +14,55 @@ export async function GET() {
 
     return NextResponse.json({
       success: true,
-      project: 'Kami Ely TikTok Shop E-Commerce Analytics (Kami Ely Official)',
-      collectionDate: '2026-09-05',
-      masterTimeline180d: {
+      project: 'Kami Ely TikTok Shop E-Commerce Analytics (@shop_official)',
+      collectionDate: '2026-10-25',
+      masterTimeline231d: {
         start: '2026-03-09',
-        end: '2026-09-04',
-        days: 180
+        end: '2026-10-25',
+        days: 231,
+        totalFiles: 10,
+        totalRawRows: 23364
       },
-      // 1. Đối chiếu 3 tầng thời gian: All-Time vs. 180 Ngày vs. 90 Ngày
+      // 1. Chỉ số chủ chốt xác thực từ 10 tệp Excel gốc (231 ngày)
       summaryKPIs: {
-        allTime: {
-          shopGmvVnd: 31600000000,
-          shopUnits: 238400,
-          selfGmvVnd: 9200000000,
-          selfUnits: 69900,
-          selfLiveGmvVnd: 5900000000,
-          selfVideoGmvVnd: 3200000000
+        timeline231d: {
+          totalGmvVnd: metricsV2Json.ch0.kpis.gmvB * 1e9,
+          totalUnits: metricsV2Json.ch0.kpis.unitsSold,
+          aspVnd: metricsV2Json.ch0.kpis.aspVnd,
+          junToAugDropPct: metricsV2Json.ch0.kpis.junToAugDropPct,
+          peakDayGmvVnd: metricsV2Json.ch0.kpis.peakDayGmvM * 1e6,
+          peak7dGmvB: metricsV2Json.ch0.kpis.peak7dGmvB,
+          peak7dSharePct: metricsV2Json.ch0.kpis.peak7dSharePct
         },
-        window180d: {
-          shopNetGmvVnd: 12735128067,
-          shopUnits: 85500,
-          shopLiveGmvVnd: 9262277940,
-          shopLiveSessions: 7046,
-          selfNetGmvVnd: 5800000000,
-          selfNetUnits: 39300,
-          selfGrossCsvGmvVnd: 7893730964,
-          selfGrossCsvUnits: 54961,
-          selfLiveNetGmvVnd: 4900000000,
-          selfLiveGrossCsvGmvVnd: 7023530158,
-          selfLiveSessionsCsv: 475,
-          selfLiveSessionsUi: 470,
-          selfVideoGmvCsvVnd: 870200806,
-          selfVideoGmvUiVnd: 872200000,
-          selfVideosCount: 222
+        channelMix: {
+          liveShareOfStorePct: metricsV2Json.ch2.channelMix.liveShareOfStorePct,
+          officialShareOfLivePct: metricsV2Json.ch2.channelMix.officialShareOfLivePct,
+          satelliteShareOfLivePct: metricsV2Json.ch2.channelMix.satelliteShareOfLivePct,
+          otherAffShareOfLivePct: metricsV2Json.ch2.channelMix.otherAffShareOfLivePct
         },
-        window90d: {
-          shopTotalGmvVnd: 6136205973,
-          shopTotalUnits: 40229,
-          totalSkus: 331,
-          channels: {
-            selfOperated: { gmvVnd: 3026026869, sharePct: 49.31, units: 20027, unitsSharePct: 49.78 },
-            externalAffiliates: { gmvVnd: 1708159874, sharePct: 27.84, units: 11572, unitsSharePct: 28.77, kocsCount: 5712 },
-            productCard: { gmvVnd: 1402019230, sharePct: 22.85, units: 8630, unitsSharePct: 21.45 }
-          },
-          shoppableVideos90dMeasured: {
-            totalVideos: 4417,
-            totalGmvVnd: 2170840326,
-            totalUnits: 13083,
-            paidAdsGmvVnd: 2055758301,
-            paidAdsSharePct: 94.70,
-            organicGmvVnd: 115082025,
-            organicSharePct: 5.30
-          }
+        skuPareto: {
+          totalSkus: metricsV2Json.ch2.skuPareto.totalSkus,
+          activeSkus: metricsV2Json.ch2.skuPareto.activeSkus,
+          skusFor80Pct: metricsV2Json.ch2.skuPareto.skusFor80Pct,
+          top1Code: metricsV2Json.ch2.skuPareto.top1Code,
+          top1SharePct: metricsV2Json.ch2.skuPareto.top1SharePct
+        },
+        creatorNetwork: {
+          totalExternalKocs: metricsV2Json.ch4.survival.totalKocs,
+          totalSessions: metricsV2Json.ch4.survival.totalSessions,
+          everOrderPct: metricsV2Json.ch4.survival.everOrderPct,
+          satelliteSessions: metricsV2Json.ch4.satelliteSummary.sessions,
+          satelliteGmvB: metricsV2Json.ch4.satelliteSummary.gmvB,
+          satelliteShareOfExtLivePct: metricsV2Json.ch4.satelliteSummary.shareOfExtLivePct
         }
       },
-      // 2. Dữ liệu kiểm toán liên bảng & Telemetry Seller Center đồng bộ 180 ngày
+      // 2. Toàn bộ cấu trúc phân tích Outline v2 (Chương 0-6 & Phụ lục A-C)
+      v2: metricsV2Json,
+      // 3. Dữ liệu kiểm toán đối soát liên bảng
       reconciliation: kamiReconciliationData,
-      // 3. Trạng thái 8 bảng dữ liệu gốc
+      // 4. Trạng thái 10 tệp dữ liệu gốc
       storageIntegrity: fileIntegrity,
-      // 4. Giữ nguyên data payload để tương thích hoàn toàn với useCaseStudyData<KamiElyDataPayload>
+      // 5. Data payload tương thích ngược
       data: fallbackData
     });
   } catch (error) {
