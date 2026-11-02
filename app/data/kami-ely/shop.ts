@@ -280,8 +280,8 @@ export const topShoppableVideos = [
 export const shopSelfOperatedAccount = {
   accountName: 'Kami Ely',
   creatorName: 'Kami Ely',
-  accountId: 'kamielyhn',
-  handle: '@kamielyhn',
+  accountId: 'kami_official',
+  handle: '@kami_official',
   bindingDate: '02/02/2024',
   accountCount: 1,
   followers: '48.7k',
@@ -301,8 +301,8 @@ export const shopSelfOperatedAccount = {
   avgUnitsSoldPerVideo: 0,
   avgLiveSales: 0,
   relationType: 'Shop-Linked Official Account (Tài khoản liên kết chính thức duy nhất)',
-  strategicInsightVi: 'Kênh tự vận hành độc quyền @kamielyhn đóng vai trò "cỗ máy doanh thu" chủ lực, gánh gần 50% tổng doanh số và sản lượng của toàn bộ shop (3,0 Tỷ đ / 90 ngày) mà không phải chịu chi phí hoa hồng affiliate ngoại.',
-  strategicInsightEn: 'The single self-operated channel @kamielyhn serves as the primary revenue engine, contributing ~50% of the entire store GMV (3.0B VND / 90 days) free from third-party affiliate commission margins.'
+  strategicInsightVi: 'Kênh tự vận hành độc quyền @kami_official đóng vai trò "cỗ máy doanh thu" chủ lực, gánh gần 50% tổng doanh số và sản lượng của toàn bộ shop (3,0 Tỷ đ / 90 ngày) mà không phải chịu chi phí hoa hồng affiliate ngoại.',
+  strategicInsightEn: 'The single self-operated channel @kami_official serves as the primary revenue engine, contributing ~50% of the entire store GMV (3.0B VND / 90 days) free from third-party affiliate commission margins.'
 };
 
 // BỔ SUNG DỮ LIỆU TIKTOK SHOP SELLER CENTER (1ST-PARTY DATA) & ĐỐI SOÁT CSV

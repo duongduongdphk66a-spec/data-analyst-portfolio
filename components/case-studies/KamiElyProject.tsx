@@ -102,8 +102,8 @@ export default function KamiElyProject(props: KamiElyProjectProps = {}) {
         attribution={{
           datasetVi: 'Dữ liệu ước tính bên thứ ba (FastMoss Market Intelligence)',
           datasetEn: 'Third-party Market Intelligence Estimate (FastMoss)',
-          scopeVi: '231 ngày (09/03 - 25/10/2026) · 9 bảng chính + 1 bảng phụ trợ SKU · Đã giả danh hóa PII KOC',
-          scopeEn: '231 days (Mar 09 - Oct 25, 2026) · 9 core + 1 SKU panel tables · Pseudonymized creator IDs',
+          scopeVi: '231 ngày (09/03 - 25/10/2026) · 10 tệp dữ liệu (23.364 dòng) · Đã giả danh hóa PII creator',
+          scopeEn: '231 days (Mar 09 - Oct 25, 2026) · 10 source tables (23,364 rows) · Pseudonymized creator IDs',
         }}
       />
 

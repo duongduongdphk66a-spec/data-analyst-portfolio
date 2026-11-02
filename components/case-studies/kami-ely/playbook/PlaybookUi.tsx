@@ -419,13 +419,69 @@ export function SqlPeek({ code, label = 'SQL' }: { code: string; label?: string 
 }
 
 // ---------------------------------------------------------------------------
-// Khung Chương gọn chuẩn Tầng 2: Câu hỏi -> Biểu đồ chính -> Vậy thì sao -> Khuyến nghị
+// Nhãn phân tầng biểu đồ [CHÍNH] / [XEM THÊM] và Khung gập tải chậm (Lazy Mount)
+// ---------------------------------------------------------------------------
+export function ChartRoleBadge({ kind = 'main' }: { kind?: 'main' | 'more' }) {
+  const { L } = usePlaybookLang();
+  return kind === 'main' ? (
+    <span className="inline-flex items-center rounded-md bg-[#9BE7FA] px-2 py-0.5 text-[11px] font-black text-slate-950 tabular-nums">
+      {L('CHÍNH', 'MAIN')}
+    </span>
+  ) : (
+    <span className="inline-flex items-center rounded-md bg-[#FFE485] px-2 py-0.5 text-[11px] font-black text-amber-950 tabular-nums">
+      {L('XEM THÊM', 'MORE')}
+    </span>
+  );
+}
+
+export function ExpandableMoreSection({
+  title,
+  countLabel,
+  defaultOpen = false,
+  children,
+}: {
+  title: string;
+  countLabel?: string;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="rounded-2xl border border-[#C8EEF7] bg-[#C8EEF7]/20 dark:border-slate-800 dark:bg-slate-900/60 overflow-hidden">
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        className="w-full min-h-[44px] px-4 py-2.5 flex items-center justify-between gap-3 text-left cursor-pointer transition-colors duration-150 hover:bg-[#C8EEF7]/40 dark:hover:bg-slate-800/70"
+      >
+        <div className="flex flex-wrap items-center gap-2 min-w-0">
+          <ChartRoleBadge kind="more" />
+          <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{title}</span>
+          {countLabel && (
+            <span className="text-xs font-semibold text-slate-600 dark:text-slate-400 tabular-nums">({countLabel})</span>
+          )}
+        </div>
+        <ChevronDown
+          className={`h-4 w-4 shrink-0 text-[#0D7287] dark:text-[#9BE7FA] transition-transform duration-200 ${
+            open ? 'rotate-180' : ''
+          }`}
+          aria-hidden="true"
+        />
+      </button>
+      {open && <div className="p-3.5 sm:p-4 pt-2 space-y-3 bg-white/80 dark:bg-slate-950/50">{children}</div>}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Khung Chương gọn chuẩn Dàn ý v2: Câu hỏi -> Kết luận chốt -> Biểu đồ [CHÍNH] -> [XEM THÊM]
 // ---------------------------------------------------------------------------
 export interface ChapterShellProps {
   id: string;
   chapterNum: string;
   title: string;
   question: React.ReactNode;
+  conclusion?: React.ReactNode;
   scopeLabel?: string;
   scopeKind?: 'full' | 'partial';
   soWhat?: React.ReactNode;
@@ -442,6 +498,7 @@ export function ChapterShell({
   chapterNum,
   title,
   question,
+  conclusion,
   scopeLabel,
   scopeKind = 'full',
   soWhat,
@@ -468,29 +525,38 @@ export function ChapterShell({
   };
 
   return (
-    <section id={id} className="scroll-mt-28 space-y-3">
-      <header className="flex flex-wrap items-start justify-between gap-2.5">
-        <div className="min-w-0 flex-1 space-y-0.5">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center rounded-lg bg-[#9BE7FA] px-2.5 py-0.5 text-xs font-black text-slate-950 tabular-nums">
-              {chapterNum}
-            </span>
-            <CoveragePill kind={scopeKind} customLabel={scopeLabel} />
-          </div>
-          <h2 className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-950 dark:text-white text-balance">
-            {title}
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
-            <strong className="font-bold text-slate-800 dark:text-slate-100">{L('Câu hỏi:', 'Question:')}</strong>{' '}
-            {question}
-          </p>
+    <section
+      id={id}
+      className="scroll-mt-28 rounded-3xl border border-[#C8EEF7] bg-white p-4 sm:p-6 dark:border-slate-800 dark:bg-slate-900/90 space-y-3.5"
+    >
+      <header className="space-y-1.5">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center rounded-lg bg-[#9BE7FA] px-2.5 py-0.5 text-xs font-black text-slate-950 tabular-nums">
+            {chapterNum}
+          </span>
+          <CoveragePill kind={scopeKind} customLabel={scopeLabel} />
         </div>
+        <h2 className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-950 dark:text-white text-balance">
+          {title}
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-prose">
+          <strong className="font-bold text-slate-900 dark:text-white">{L('Câu hỏi:', 'Question:')}</strong>{' '}
+          {question}
+        </p>
+        {conclusion && (
+          <div className="rounded-xl border border-[#9BE7FA]/70 bg-[#C8EEF7]/35 px-3.5 py-2 text-xs sm:text-sm leading-relaxed text-slate-800 dark:border-slate-700 dark:bg-[#9BE7FA]/10 dark:text-slate-100">
+            <strong className="font-bold text-[#074553] dark:text-[#9BE7FA] mr-1.5">
+              {L('Kết luận:', 'Takeaway:')}
+            </strong>
+            {conclusion}
+          </div>
+        )}
       </header>
 
-      <div className="space-y-3">{children}</div>
+      <div className="space-y-3.5">{children}</div>
 
       {(soWhat || recommendation) && (
-        <div className="grid gap-2.5 lg:grid-cols-2">
+        <div className="space-y-2.5">
           {soWhat && (
             <div className="rounded-2xl border border-[#9BE7FA]/60 bg-[#C8EEF7]/25 px-3.5 py-2.5 text-xs sm:text-sm leading-relaxed text-slate-700 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-300 flex flex-col gap-1.5">
               <div>
@@ -571,7 +637,7 @@ export function UnifiedSection({
       soWhat={finding}
       recommendation={action}
     >
-      <div className="grid gap-4 lg:grid-cols-2">{children}</div>
+      <div className="space-y-4">{children}</div>
     </ChapterShell>
   );
 }

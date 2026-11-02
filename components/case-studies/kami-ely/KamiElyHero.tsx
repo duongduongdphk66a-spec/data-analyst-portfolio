@@ -3,7 +3,7 @@
 import React from 'react';
 import { Code2, Database, FileSpreadsheet } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
-import { TermTooltip } from './playbook/PlaybookUi';
+import { V2 } from './commercial/kamiOutlineV2Metrics';
 
 export interface KamiElyHeroProps {
   onOpenProofModal?: (_screenshotId?: string) => void;
@@ -19,67 +19,65 @@ export default function KamiElyHero({
 }: KamiElyHeroProps = {}) {
   const { language } = useLanguage();
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
+  const k = V2.ch0.kpis;
+  const meta = V2.meta;
+
+  const fmtInt = (v: number) => v.toLocaleString(isEn ? 'en-US' : 'vi-VN');
+  const fmtDec = (v: number, d = 2) =>
+    v.toLocaleString(isEn ? 'en-US' : 'vi-VN', { minimumFractionDigits: d, maximumFractionDigits: d });
 
   const kpiCards = [
     {
       id: 'kpi-gmv-231d',
-      value: isEn ? '15.01B VND' : '15,01 tỷ đ',
+      value: isEn ? `${fmtDec(k.gmvB, 2)}B VND` : `${fmtDec(k.gmvB, 2)} tỷ đ`,
       valueClass: 'text-slate-950 dark:text-white',
-      title: isEn ? '231-day store GMV' : 'GMV 231 ngày (09/03 - 25/10/2026)',
-      sub: isEn ? '101,896 units · Mean 65.0M VND/day' : '101.896 sản phẩm · Trung bình 65,0 Tr/ngày',
-      tone: 'bg-[#C8EEF7]/40 border-[#9BE7FA]/60 dark:bg-slate-900/80 dark:border-slate-800',
+      title: isEn ? `Total GMV (${meta.days} days)` : `Tổng GMV ${meta.days} ngày`,
+      sub: isEn
+        ? `${fmtInt(k.unitsSold)} units · ~${fmtDec(k.dailyMeanM, 0)}M VND/day`
+        : `${fmtInt(k.unitsSold)} sản phẩm · khoảng ${fmtDec(k.dailyMeanM, 0)} Tr/ngày`,
+      tone: 'bg-[#9BE7FA]/30 border-[#9BE7FA] dark:bg-slate-900/90 dark:border-[#9BE7FA]/40',
     },
     {
-      id: 'kpi-aug-drop',
-      value: '-83,1%',
-      valueClass: 'text-rose-600 dark:text-rose-400',
-      title: isEn ? 'August GMV vs. June peak' : 'GMV T8 so với đỉnh T6',
-      sub: isEn ? '0.64B vs. 3.77B VND (-3.14B contraction)' : '0,64 tỷ so với 3,77 tỷ đ (giảm 3,14 tỷ)',
-      tone: 'bg-rose-50/50 border-rose-200/80 dark:bg-rose-950/20 dark:border-slate-800',
-    },
-    {
-      id: 'kpi-sku-pareto',
-      value: isEn ? '12 SKUs = 80.6% GMV' : '12 SKU = 80,6% GMV',
+      id: 'kpi-units-231d',
+      value: isEn ? `${fmtDec(k.peakDayGmvM, 1)}M VND` : `${fmtDec(k.peakDayGmvM, 1)} Tr đ`,
       valueClass: 'text-slate-950 dark:text-white',
-      title: isEn ? (
-        <>
-          206 / 339 SKUs with zero 90d orders{' '}
-          <TermTooltip
-            label={isEn ? '(Scope)' : '(Đối chiếu)'}
-            explain="Trên danh mục 339 SKU cập nhật đến tháng 10 (có thêm mã Thu Đông AT06), 12 SKU tạo 80,6% GMV và 206 SKU có 0 đơn (60,8%). Ở bản chụp kỳ Hè trước tháng 10 (331 SKU), con số tương ứng là 21 SKU tạo 80% GMV và 197 SKU 0 đơn."
-          />
-        </>
-      ) : (
-        <>
-          206/339 SKU không ra đơn trong 90 ngày{' '}
-          <TermTooltip
-            label="(Đối chiếu)"
-            explain="Trên bảng kệ hàng 339 SKU hợp nhất đến tháng 10 (sau khi lên mã AT06), 12 SKU tạo 80,6% GMV và 206 SKU (60,8%) ghi nhận 0 đơn. Ở bản chụp riêng kỳ Hè trước tháng 10 (331 SKU), con số tương ứng là 21 SKU = 80% GMV và 197 SKU không ra đơn."
-          />
-        </>
-      ),
-      sub: isEn ? 'Top 5 SKUs hold 68.5% of recent 90d GMV' : 'Top 5 SKU chiếm 68,5% GMV cửa sổ 90 ngày',
-      tone: 'bg-[#FFE485]/35 border-[#FFD14C]/60 dark:bg-slate-900/80 dark:border-slate-800',
+      title: isEn ? 'Single-day peak (16/06/2026)' : 'Đỉnh doanh thu ngày (16/06/2026)',
+      sub: isEn
+        ? `7 days around peak (13-19/06) = ${fmtDec(k.peak7dSharePct, 1)}% of 231d GMV`
+        : `7 ngày quanh đỉnh (13-19/06 = ${fmtDec(k.peak7dGmvB, 2)} tỷ) chiếm ${fmtDec(k.peak7dSharePct, 1)}% GMV`,
+      tone: 'bg-[#C8EEF7]/45 border-[#C8EEF7] dark:bg-slate-900/90 dark:border-slate-800',
     },
     {
-      id: 'kpi-koc-retention',
-      value: '71,2% -> 27,8%',
+      id: 'kpi-asp',
+      value: isEn ? `${fmtInt(k.aspVnd)} VND` : `${fmtInt(k.aspVnd)} đ`,
+      valueClass: 'text-slate-950 dark:text-white',
+      title: isEn ? 'Average selling price (ASP)' : 'Giá bán trung bình mỗi sản phẩm (ASP)',
+      sub: isEn
+        ? 'Total GMV / units sold (no order_id for AOV)'
+        : 'Tổng doanh thu / sản lượng (không có mã đơn để tính AOV)',
+      tone: 'bg-[#FFE485]/45 border-[#FFD14C] dark:bg-slate-900/90 dark:border-[#FFD14C]/40',
+    },
+    {
+      id: 'kpi-jun-aug-drop',
+      value: `${fmtDec(k.junToAugDropPct, 1)}%`,
       valueClass: 'text-rose-600 dark:text-rose-400',
-      title: isEn ? 'Creators active after 1 month (M+1)' : 'Creator còn hoạt động sau 1 tháng (M+1)',
-      sub: isEn ? 'Cohort T3 -> T8 (rebounded to 41.4% in T9)' : 'Cohort T3 -> T8 (hồi phục lên 41,4% ở lô T9)',
-      tone: 'bg-slate-50/80 border-slate-200/90 dark:bg-slate-900/80 dark:border-slate-800',
+      title: isEn ? 'Seasonal contraction (Jun -> Aug)' : 'Biên độ sụt giảm mùa vụ (T6 -> T8)',
+      sub: isEn
+        ? `${fmtDec(k.junGmvB, 2)}B -> ${fmtDec(k.augGmvB, 2)}B VND monthly sum`
+        : `Từ ${fmtDec(k.junGmvB, 2)} tỷ xuống ${fmtDec(k.augGmvB, 2)} tỷ đ`,
+      tone: 'bg-[#FFD14C]/25 border-[#FFD14C] dark:bg-slate-900/90 dark:border-rose-900/50',
     },
   ];
 
   return (
-    <header className="relative w-full rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 dark:border-slate-800 dark:bg-slate-950 transition-colors duration-200 space-y-3.5">
+    <header className="relative w-full rounded-3xl border border-[#C8EEF7] bg-white p-4 sm:p-6 dark:border-slate-800 dark:bg-slate-950 transition-colors duration-200 space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2.5">
-        <div className="inline-flex flex-wrap items-center gap-2 rounded-xl bg-amber-50/90 border border-amber-200/80 px-3 py-1.5 text-xs font-semibold text-amber-950 dark:bg-amber-950/30 dark:border-amber-800/60 dark:text-amber-200">
-          <Database className="w-3.5 h-3.5 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden="true" />
-          <span>
+        <div className="inline-flex flex-wrap items-center gap-2 rounded-xl bg-[#FFE485]/45 border border-[#FFD14C] px-3 py-1.5 text-xs font-semibold text-amber-950 dark:bg-[#FFD14C]/15 dark:border-[#FFD14C]/40 dark:text-[#FFE485]">
+          <Database className="w-3.5 h-3.5 shrink-0 text-amber-700 dark:text-[#FFD14C]" aria-hidden="true" />
+          <span className="tabular-nums">
             {isEn
-              ? 'FastMoss market-intelligence estimates (passed 9 quality gates; no order ID, COGS, or ad spend). Observational data: text uses "associated with", not causal claims.'
-              : 'Dữ liệu ước tính từ FastMoss, đã qua 9 cổng kiểm tra chất lượng; không có order ID, COGS hay chi phí quảng cáo. Toàn bộ là dữ liệu quan sát nên văn bản dùng "gắn với", không dùng "do".'}
+              ? `Personal SQL portfolio analysis on ${meta.totalFiles} FastMoss Excel exports (${fmtInt(meta.totalRawRows)} rows, 09/03 - 25/10/2026); uses third-party estimates without internal shop records.`
+              : `Dự án cá nhân phân tích bằng SQL trên ${meta.totalFiles} tệp Excel ước tính từ FastMoss (${fmtInt(meta.totalRawRows)} dòng, 09/03 - 25/10/2026); không dùng số liệu nội bộ của shop.`}
           </span>
         </div>
 
@@ -91,14 +89,14 @@ export default function KamiElyHero({
               className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] px-3.5 py-2 text-xs font-bold text-slate-950 border border-[#0D7287]/20 transition-colors cursor-pointer"
             >
               <Code2 className="w-4 h-4 text-[#074553]" aria-hidden="true" />
-              <span>{isEn ? 'Python Notebook' : 'Sổ tay Python'}</span>
+              <span>{isEn ? 'Python & SQL Notebook' : 'Sổ tay Python & SQL'}</span>
             </button>
           )}
           {onJumpToSection && (
             <button
               type="button"
               onClick={() => onJumpToSection('sec-appendix')}
-              className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 px-3.5 py-2 text-xs font-bold text-slate-800 border border-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 dark:border-slate-800 transition-colors cursor-pointer"
+              className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#C8EEF7]/45 hover:bg-[#C8EEF7] px-3.5 py-2 text-xs font-bold text-[#074553] border border-[#9BE7FA]/60 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 transition-colors cursor-pointer"
             >
               <FileSpreadsheet className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" aria-hidden="true" />
               <span>{isEn ? 'Appendix (A · B · C)' : 'Phụ lục (A · B · C)'}</span>
@@ -107,27 +105,39 @@ export default function KamiElyHero({
         </div>
       </div>
 
-      <div className="space-y-2 max-w-4xl">
+      <div className="space-y-2.5 max-w-4xl">
         <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white leading-tight text-balance">
           {isEn
-            ? 'Kami Ely on TikTok Shop: Where does revenue come from, and when does momentum fade?'
-            : 'Kami Ely trên TikTok Shop: doanh thu đến từ đâu và khi nào bắt đầu mất đà?'}
+            ? 'Kami Ely (@shop_official): Where does revenue come from, and which signals precede a peak-season drop?'
+            : 'Kami Ely (@shop_official): doanh thu đến từ đâu, và tín hiệu nào báo trước khi mùa cao điểm gãy?'}
         </h1>
 
-        <p className="text-sm sm:text-base font-semibold text-[#074553] dark:text-[#9BE7FA]">
-          {isEn
-            ? '231-day SQL & Python analysis (09/03 - 25/10/2026) across 9 core tables + 1 SKU panel: 15.01B VND GMV, 101,896 units.'
-            : 'Phân tích SQL 231 ngày (09/03 - 25/10/2026) trên 9 bảng chính và 1 bảng phụ trợ SKU: 15,01 tỷ đ GMV, 101.896 sản phẩm.'}
-        </p>
-
-        <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
-          <strong className="font-bold text-slate-900 dark:text-white">
-            {isEn ? 'Core question:' : 'Câu hỏi trọng tâm:'}
-          </strong>{' '}
-          {isEn
-            ? 'What does store revenue depend on, and is there a monitoring signal before peak season ends?'
-            : 'Doanh thu của shop phụ thuộc vào đâu, và có tín hiệu nào cảnh báo trước khi mùa cao điểm kết thúc?'}
-        </p>
+        <ul className="space-y-1.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed max-w-3xl tabular-nums">
+          <li>
+            <strong className="font-bold text-slate-950 dark:text-white">
+              {isEn ? 'Where does revenue come from?' : 'Doanh thu đến từ đâu?'}
+            </strong>{' '}
+            {isEn
+              ? `Livestreaming generates ${fmtDec(V2.ch2.channelMix.liveShareOfStorePct, 1)}% of store GMV (${fmtDec(V2.ch2.channelMix.officialShareOfLivePct, 1)}% from @shop_official, ${fmtDec(V2.ch2.channelMix.satelliteShareOfLivePct, 1)}% from in-house @koc_sat01, ${fmtDec(V2.ch2.channelMix.otherAffShareOfLivePct, 1)}% from remaining creators). On catalog, ${V2.ch2.skuPareto.skusFor80Pct}/${V2.ch2.skuPareto.activeSkus} active SKUs drive ${fmtDec(V2.ch2.skuPareto.skusFor80SharePct, 1)}% of GMV (${V2.ch2.skuPareto.top1Code} alone at ${fmtDec(V2.ch2.skuPareto.top1SharePct, 1)}%).`
+              : `Livestream tạo ${fmtDec(V2.ch2.channelMix.liveShareOfStorePct, 1)}% GMV shop (phiên của @shop_official chiếm ${fmtDec(V2.ch2.channelMix.officialShareOfLivePct, 1)}%, tài khoản vệ tinh nội bộ @koc_sat01 ${fmtDec(V2.ch2.channelMix.satelliteShareOfLivePct, 1)}% và toàn bộ creator còn lại ${fmtDec(V2.ch2.channelMix.otherAffShareOfLivePct, 1)}%). Về sản phẩm, ${V2.ch2.skuPareto.skusFor80Pct}/${V2.ch2.skuPareto.activeSkus} mã có doanh thu tạo ${fmtDec(V2.ch2.skuPareto.skusFor80SharePct, 1)}% GMV, riêng áo thun ${V2.ch2.skuPareto.top1Code} gần một nửa (${fmtDec(V2.ch2.skuPareto.top1SharePct, 1)}%).`}
+          </li>
+          <li>
+            <strong className="font-bold text-slate-950 dark:text-white">
+              {isEn ? 'What does it depend on?' : 'Phụ thuộc vào đâu?'}
+            </strong>{' '}
+            {isEn
+              ? `Product seasonality and official Live scheduling: monthly GMV quadrupled from March to June before contracting ${fmtDec(Math.abs(k.junToAugDropPct), 1)}% into August across two distinct phases.`
+              : `Mùa vụ sản phẩm và lịch live của chính shop: GMV tăng gấp bốn từ tháng 3 lên tháng 6 rồi giảm ${fmtDec(Math.abs(k.junToAugDropPct), 1)}% đến tháng 8 theo hai pha nối tiếp nhau.`}
+          </li>
+          <li>
+            <strong className="font-bold text-slate-950 dark:text-white">
+              {isEn ? 'What is the risk signal?' : 'Tín hiệu rủi ro là gì?'}
+            </strong>{' '}
+            {isEn
+              ? 'MA7/MA28 crossovers lag the peak and trigger false alarms; monthly Live count and new creator intake decline earlier (~6 weeks ahead) yet remain too early for immediate cuts and unverified with only one season of data.'
+              : 'Giao cắt MA7/MA28 báo trễ và hay báo giả; số ca live và lượng creator mới giảm sớm hơn nhưng quá sớm để cắt giảm ngay, đồng thời mới có một mùa dữ liệu nên chưa thể kiểm chứng.'}
+          </li>
+        </ul>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
@@ -139,7 +149,7 @@ export default function KamiElyHero({
             <div className={`text-2xl sm:text-3xl font-extrabold tabular-nums tracking-tight ${card.valueClass}`}>
               {card.value}
             </div>
-            <div className="text-xs font-bold text-slate-800 dark:text-slate-100 leading-snug">
+            <div className="text-xs font-bold text-slate-900 dark:text-slate-100 leading-snug">
               {card.title}
             </div>
             <div className="text-xs tabular-nums text-slate-600 dark:text-slate-400 leading-snug">

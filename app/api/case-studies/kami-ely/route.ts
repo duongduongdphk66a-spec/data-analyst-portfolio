@@ -13,7 +13,7 @@ export async function GET() {
 
     return NextResponse.json({
       success: true,
-      project: 'Kami Ely TikTok Shop E-Commerce Analytics (@kamielyhn)',
+      project: 'Kami Ely TikTok Shop E-Commerce Analytics (Kami Ely Official)',
       collectionDate: '2026-09-05',
       masterTimeline180d: {
         start: '2026-03-09',

@@ -15,11 +15,12 @@ import {
   winsorizeUpper,
   zScoreSeries,
 } from '../components/case-studies/kami-ely/playbook/playbookData';
+import metricsJson from '../app/data/kami-ely/generated/metrics.json';
 
 describe('Kami Ely playbook data', () => {
-  it('khớp tổng các bảng nguồn hợp nhất', () => {
-    expect(tableRows).toHaveLength(9);
-    expect(totalRows).toBe(21573);
+  it('khớp tổng 10 bảng nguồn hợp nhất (23.364 dòng)', () => {
+    expect(tableRows).toHaveLength(10);
+    expect(totalRows).toBe(23364);
   });
 
   it('trung bình trượt 7 ngày chỉ có giá trị khi đủ cửa sổ', () => {
@@ -79,5 +80,53 @@ describe('Kami Ely playbook data', () => {
   it('10 mẫu mod 10 phủ đủ 231 ngày', () => {
     expect(modSamples).toHaveLength(10);
     expect(modSamples.reduce((s, x) => s + x.n, 0)).toBe(231);
+  });
+
+  it('Outline v2 SSOT (metrics.json.v2) bảo toàn các chỉ số kiểm toán từ 10 tệp Excel', () => {
+    const v2 = metricsJson.v2;
+    expect(v2.meta.totalFiles).toBe(10);
+    expect(v2.meta.totalRawRows).toBe(23364);
+    expect(v2.meta.days).toBe(231);
+
+    // Ch 0 KPIs
+    expect(v2.ch0.kpis.gmvB).toBeCloseTo(15.01, 2);
+    expect(v2.ch0.kpis.unitsSold).toBe(101896);
+    expect(v2.ch0.kpis.aspVnd).toBe(147298);
+    expect(v2.ch0.kpis.junToAugDropPct).toBeCloseTo(-83.1, 1);
+    expect(v2.ch0.kpis.peak7dSharePct).toBeCloseTo(7.3, 1);
+
+    // Ch 1 Double-counting trap
+    expect(v2.ch1.doubleCountTrap.naiveSumB).toBeCloseTo(18.06, 2);
+    expect(v2.ch1.doubleCountTrap.overlapSessions).toBe(595);
+    expect(v2.ch1.doubleCountTrap.daysExceedNaiveRaw).toBe(71);
+    expect(v2.ch1.doubleCountTrap.daysExceedDedup).toBe(28);
+    expect(v2.ch1.doubleCountTrap.weeksExceedDedup).toBe(4);
+
+    // Ch 2 Channel mix & SKU Pareto
+    expect(v2.ch2.channelMix.officialShareOfLivePct).toBeCloseTo(72.5, 1);
+    expect(v2.ch2.channelMix.liveShareOfStorePct).toBeCloseTo(69.8, 1);
+    expect(v2.ch2.skuPareto.totalSkus).toBe(339);
+    expect(v2.ch2.skuPareto.activeSkus).toBe(133);
+    expect(v2.ch2.skuPareto.skusFor80Pct).toBe(12);
+    expect(v2.ch2.skuPareto.zeroLaunchPre2026).toBe(204);
+
+    // Ch 4 KOC Cohorts & Survival
+    expect(v2.ch4.survival.totalKocs).toBe(302);
+    expect(v2.ch4.survival.totalSessions).toBe(7760);
+    expect(v2.ch4.survival.medianSpanFirstOrderDays).toBe(9);
+    expect(v2.ch4.survival.medianSpanFirstZeroDays).toBe(13);
+    expect(v2.ch4.survival.first3ZeroNeverConvertPct).toBeCloseTo(77.2, 1);
+
+    // Ch 5 & Ch 6 & Appendix
+    expect(v2.ch3.sku10Summary.junSummerSharePct).toBeCloseTo(90.9, 1);
+    expect(v2.ch3.sku10Summary.octWinterSharePct).toBeCloseTo(98.4, 1);
+    expect(v2.ch3.peakZScores.trailing28Excl).toBeCloseTo(6.81, 2);
+    expect(v2.ch3.dowIndex[3].meanIndex).toBeCloseTo(112.6, 1);
+    expect(v2.ch5.videoForestSlices).toHaveLength(6);
+    expect(v2.ch5.videoForestSlices[0].oddsRatio).toBeCloseTo(3.8, 1);
+    expect(v2.ch5.videoForestSlices[0].gpmRatio).toBeCloseTo(0.84, 2);
+    expect(v2.ch6.maCrossovers).toHaveLength(4);
+    expect(v2.appendix.qualityGates).toHaveLength(9);
+    expect(v2.appendix.qualityGates.every((g) => g.status === 'PASS')).toBe(true);
   });
 });

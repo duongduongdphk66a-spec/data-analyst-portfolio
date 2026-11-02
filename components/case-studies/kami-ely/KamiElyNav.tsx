@@ -16,9 +16,8 @@ export const KAMI_SECTION_IDS = [
   'sec-ch2-sku',
   'sec-ch3-season',
   'sec-ch4-koc',
-  'sec-ch5-funnel',
-  'sec-ch6-pipeline',
-  'sec-ch7-conclusion',
+  'sec-ch5-ads',
+  'sec-ch6-conclusion',
   'sec-appendix',
 ] as const;
 
@@ -32,13 +31,12 @@ export default function KamiElyNav({
 
   const sections = [
     { id: 'sec-exec-summary', label: { vi: '0. Tóm tắt', en: '0. Executive brief' } },
-    { id: 'sec-ch1-data', label: { vi: '1. Dữ liệu', en: '1. Data & scope' } },
-    { id: 'sec-ch2-sku', label: { vi: '2. Kênh & SKU', en: '2. Channels & SKUs' } },
-    { id: 'sec-ch3-season', label: { vi: '3. Đỉnh T6, đáy T8', en: '3. Jun peak & Aug trough' } },
-    { id: 'sec-ch4-koc', label: { vi: '4. Affiliate KOC', en: '4. Affiliate cohorts' } },
-    { id: 'sec-ch5-funnel', label: { vi: '5. Live, Video & Ads', en: '5. Live, Video & Ads' } },
-    { id: 'sec-ch6-pipeline', label: { vi: '6. Pipeline & PII', en: '6. Pipeline & PII' } },
-    { id: 'sec-ch7-conclusion', label: { vi: '7. Kết luận', en: '7. Recommendations' } },
+    { id: 'sec-ch1-data', label: { vi: '1. Bài toán & Dữ liệu', en: '1. Problem & Data' } },
+    { id: 'sec-ch2-sku', label: { vi: '2. Cơ cấu doanh thu', en: '2. Revenue sources' } },
+    { id: 'sec-ch3-season', label: { vi: '3. Mùa vụ & Biến động', en: '3. Seasonality' } },
+    { id: 'sec-ch4-koc', label: { vi: '4. Mạng lưới KOC', en: '4. KOC network' } },
+    { id: 'sec-ch5-ads', label: { vi: '5. Live, Video & Ads', en: '5. Content & Ads' } },
+    { id: 'sec-ch6-conclusion', label: { vi: '6. Cảnh báo & Playbook', en: '6. Early warning & Playbook' } },
     { id: 'sec-appendix', label: { vi: 'Phụ lục (A·B·C)', en: 'Appendix (A·B·C)' } },
   ];
 

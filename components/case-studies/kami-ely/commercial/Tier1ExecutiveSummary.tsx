@@ -3,7 +3,6 @@
 import React from 'react';
 import {
   ComposedChart,
-  Area,
   Line,
   XAxis,
   YAxis,
@@ -16,278 +15,215 @@ import {
 import {
   usePlaybookLang,
   ChartCard,
+  ChartRoleBadge,
   ChartTooltip,
-  GranularityToggle,
-  useChartGranularity,
+  ChapterShell,
   axisTick,
   legendFormatter,
   GRID_STROKE,
 } from '../playbook/PlaybookUi';
-import {
-  DAILY_CHARTS_231D,
-  WEEKLY_CHARTS_33W,
-  MONTHLY_CHARTS_8M,
-} from './kamiElyVerified231d';
-
-type HeroGrain = 'day' | 'week' | 'month';
+import { KAMI_BRAND_PALETTE, V2 } from './kamiOutlineV2Metrics';
 
 export default function Tier1ExecutiveSummary() {
-  const { L } = usePlaybookLang();
-  const [grain, setGrain] = useChartGranularity<HeroGrain>('week', ['day', 'week', 'month']);
+  const { L, n } = usePlaybookLang();
+  const k = V2.ch0.kpis;
+  const cm = V2.ch2.channelMix;
+  const sp = V2.ch2.skuPareto;
+  const sv = V2.ch4.survival;
+  const sat = V2.ch4.satelliteSummary;
 
-  interface HeroChartRow {
-    xKey: string;
-    ownLive: number;
-    top1Live: number;
-    extLive: number;
-    storeTotal: number;
-    week?: string;
-    days?: number;
-  }
-
-  const chartData: HeroChartRow[] =
-    grain === 'day'
-      ? DAILY_CHARTS_231D.map((r) => ({
-          xKey: r.d,
-          ownLive: r.ownLive,
-          top1Live: r.top1Live,
-          extLive: r.extLive,
-          storeTotal: r.storeTotal,
-        }))
-      : grain === 'month'
-        ? MONTHLY_CHARTS_8M.map((r) => ({
-            xKey: r.month,
-            days: r.days,
-            ownLive: r.ownLive,
-            top1Live: r.top1Live,
-            extLive: r.extLive,
-            storeTotal: r.storeTotal,
-          }))
-        : WEEKLY_CHARTS_33W.map((r) => ({
-            xKey: r.label,
-            week: r.week,
-            ownLive: r.ownLive,
-            top1Live: r.top1Live,
-            extLive: r.extLive,
-            storeTotal: r.storeTotal,
-          }));
+  const mJun = V2.ch3.monthly[3];
+  const mJul = V2.ch3.monthly[4];
+  const mAug = V2.ch3.monthly[5];
+  const mOct = V2.ch3.monthly[7];
+  const lz = V2.ch2.lorenz.allActive;
+  const le = V2.ch5.liveEfficiency;
 
   const findings = [
-    {
-      title: L('1. Doanh thu tập trung vào rất ít điểm', '1. Revenue is concentrated in very few nodes'),
-      body: L(
-        'Trên 231 ngày Live (10,47 tỷ đ), kênh tự vận hành chiếm 72,5% (và chiếm 60,1% trên danh bạ creator 90 ngày). Trên kệ hàng 339 SKU, riêng 12 SKU tạo 80,6% GMV (top 5 chiếm 68,5%), và ngày đỉnh 16/06 (315,0 Tr) có 61,9% gắn với một ca Live duy nhất.',
-        'Across 231d Live (10.47B VND), the official channel holds 72.5% (60.1% on the 90d creator directory). Just 12/339 SKUs generate 80.6% of GMV (top 5 hold 68.5%), and 61.9% of the 16/06 peak (315.0M) came from a single Live.'
-      ),
-    },
-    {
-      title: L('2. Đỉnh tháng 6, đáy tháng 8: cả hai đòn bẩy cùng sụt', '2. June peak to August trough: both volume and rate contracted'),
-      body: L(
-        'Số ca Live giảm từ 1.560 xuống 640 và GMV mỗi ca giảm từ 2,42 Tr xuống 0,99 Tr. Tháng 10 hồi phục (1,62 tỷ trong 25 ngày) gắn với việc xoay danh mục sang hàng Thu Đông. Đường MA7 cắt xuống MA28 ngày 26/06, sớm 18 ngày trước khi thủng nền tháng 4, nhưng mới quan sát một lần.',
-        'Live sessions dropped from 1,560 to 640 while GMV/session fell from 2.42M to 0.99M. October rebounded (1.62B in 25 days) alongside the autumn catalog shift. MA7 crossed below MA28 on 26/06 (18 days ahead), observed once.'
-      ),
-    },
-    {
-      title: L('3. Mạng lưới affiliate rộng về lượt xem nhưng mỏng về đơn', '3. Affiliate network brings broad reach but thin conversion'),
-      body: L(
-        'Affiliate mang 92,0% lượt xem Live nhưng chỉ tạo 27,5% GMV Live. Có 57,3% creator Live chưa từng ra đơn, tỷ lệ giữ chân M+1 giảm từ 71,2% xuống 27,8%, và riêng kênh vệ tinh nội bộ (@koc_sat01) chiếm 43,7% GMV Live affiliate cả kỳ (56,1% trong kỳ Hè).',
-        'Affiliates bring 92.0% of Live views for 27.5% of Live GMV. 57.3% of Live creators never sold, M+1 retention slid from 71.2% to 27.8%, and in-house satellite @koc_sat01 accounts for 43.7% of 231d affiliate Live GMV (56.1% in summer).'
-      ),
-    },
+    L(
+      `Doanh thu tập trung vào vài điểm: Tài khoản vệ tinh nội bộ @koc_sat01 tạo ${n(sat.gmvB, 2)} tỷ đ qua ${sat.sessions} phiên, bằng ${n(sat.shareOfExtLivePct, 1)}% GMV Live ngoài shop. Trong bảng KOL 90 ngày, Top 1 tài khoản chiếm ${n(lz.top1SharePct, 1)}% và Top 10 chiếm ${n(lz.top10SharePct, 1)}% doanh số đóng góp.`,
+      `Revenue concentrates in a few nodes: In-house satellite @koc_sat01 generated ${n(sat.gmvB, 2)}B VND across ${sat.sessions} sessions (${n(sat.shareOfExtLivePct, 1)}% of external Live GMV). In the 90-day KOL table, Top 1 holds ${n(lz.top1SharePct, 1)}% and Top 10 hold ${n(lz.top10SharePct, 1)}% of contributed sales.`
+    ),
+    L(
+      `Sụt giảm có hai pha và hồi phục nhờ hiệu suất ca: Tháng 7 giảm chủ yếu do số ca live (${n(mJun.storeLives)} xuống ${n(mJul.storeLives)}); tháng 8 giảm chủ yếu do GMV mỗi ca (${n(mJul.storeGmvPerLiveM, 2)} xuống ${n(mAug.storeGmvPerLiveM, 2)} Tr đ). Sang tháng 10, GMV mỗi ca quay về ${n(mOct.storeGmvPerLiveM, 2)} Tr đ và doanh thu tháng hồi lên ${n(mOct.storeGmvB, 2)} tỷ đ trong ${mOct.days} ngày.`,
+      `Two-phase contraction and yield-led recovery: July fell mainly in Live count (${n(mJun.storeLives)} to ${n(mJul.storeLives)}); August fell in GMV/session (${n(mJul.storeGmvPerLiveM, 2)}M to ${n(mAug.storeGmvPerLiveM, 2)}M VND). In October, GMV/session returned to ${n(mOct.storeGmvPerLiveM, 2)}M VND, lifting monthly GMV to ${n(mOct.storeGmvB, 2)}B in ${mOct.days} days.`
+    ),
+    L(
+      `Hiệu quả nằm ở Live của chính shop, mạng creator ngoài mỏng: Mỗi người xem Live của @shop_official tạo ${n(le.crLiveVndPerUv)} đ GMV (${n(le.officialVndPerView)} đ/lượt xem trên AffLive), gấp khoảng 30 lần creator ngoài (${n(le.extVndPerView)} đ/lượt xem) dù creator ngoài chiếm ${n(le.extViewSharePct, 1)}% lượt xem. Chỉ ${sv.everOrderCount}/${sv.totalKocs} creator ngoài (${n(sv.everOrderPct, 1)}%) từng có đơn.`,
+      `Efficiency sits in official Live while the external network is thin: Official Live yields ${n(le.crLiveVndPerUv)} VND/viewer (${n(le.officialVndPerView)} VND/view on AffLive), roughly 30x higher than external creators (${n(le.extVndPerView)} VND/view) despite affiliates holding ${n(le.extViewSharePct, 1)}% of views. Only ${sv.everOrderCount}/${sv.totalKocs} external creators (${n(sv.everOrderPct, 1)}%) ever converted.`
+    ),
   ];
 
-  const actions = [
-    {
-      title: L('1. Chuẩn bị tồn kho và lịch Live hàng Thu Đông sớm hơn', '1. Stage autumn inventory and Live schedules earlier'),
-      body: L(
-        'Đưa nhóm Áo thun dài tay và Chân váy lên kệ từ giữa tháng 8 để thu hẹp vùng trũng chuyển mùa, đồng thời theo dõi giao cắt MA7/MA28 như tín hiệu giám sát (chưa xem là dự báo đa năm).',
-        'Introduce long-sleeve tops and skirts by mid-August to narrow the post-summer trough, tracking MA7/MA28 strictly as a descriptive monitor.'
-      ),
-    },
-    {
-      title: L('2. Dồn hỗ trợ hàng mẫu và voucher vào 3 phiên đầu của creator mới', '2. Concentrate seeding and vouchers in a creator’s first 3 sessions'),
-      body: L(
-        'Trong nhóm creator không phát sinh đơn ở 3 ca đầu, có tới 77,2% không bao giờ ra đơn về sau. Mọi báo cáo hiệu quả affiliate cần tách riêng kênh vệ tinh nội bộ (@koc_sat01).',
-        'Among creators with zero orders in their first 3 sessions, 77.2% never convert later. Separate in-house satellite @koc_sat01 in all cohort reports.'
-      ),
-    },
-    {
-      title: L('3. Rà soát 206 SKU không ra đơn và thử nghiệm ca Live chiều kéo dài', '3. Review 206 zero-sale SKUs and test >=8h afternoon Live slots'),
-      body: L(
-        'Đối chiếu tồn kho thực tế và ngày mở bán trước khi gỡ kệ nhóm SKU 0 đơn trong 90 ngày. Thử nghiệm ca Live dài >=8 giờ ở khung chiều 12h - 18h, nơi hiệu suất quan sát cao nhất (3.891 đ/lượt xem, 36 ca).',
-        'Cross-check warehouse stock and launch dates before delisting 90d zero-sale SKUs. Pilot >=8h afternoon (12:00 - 18:00) broadcasts where observed yield peaked (3,891 VND/viewer, n = 36).'
-      ),
-    },
+  const recommendations = [
+    L(
+      `Lập kế hoạch tồn kho và lịch live trước chuyển mùa 1-2 tháng, đồng thời rà soát ${sp.zeroSaleSkus} mã 0 đơn. Vì chưa có dữ liệu giá vốn và tồn kho, bước này đóng vai trò sàng lọc danh mục để đối chiếu kho thực tế.`,
+      `Plan seasonal stock and Live schedules 1-2 months ahead of rotation and screen ${sp.zeroSaleSkus} zero-sale listings. Without COGS or ERP inventory, this serves as a catalog screening step prior to physical stock verification.`
+    ),
+    L(
+      'Dồn ngân sách và nhân lực vào Live của chính shop ở khung 12h-18h; dùng Ads có chọn lọc cho video đã có đà tự nhiên vì cờ Ads tăng tỷ lệ ra đơn nhưng toàn kỳ đạt GMV/1.000 lượt xem thấp hơn Organic (Chương 5).',
+      'Concentrate budget and staffing on official Live in the 12:00-18:00 slot; deploy video Ads selectively on organically proven clips since Ads raises order conversion rate without lifting overall GMV per 1,000 views (Chapter 5).'
+    ),
+    L(
+      'Thiết kế thử nghiệm hỗ trợ creator mới trong 3 ca đầu (voucher, hàng mẫu) kèm nhóm đối chứng để đo tỷ lệ hoạt động sau 1 tháng và tỷ lệ có đơn sau 3 ca trước khi chuẩn hóa thành quy định.',
+      'Run a controlled experiment supporting new creators across their first 3 streams (vouchers, seeding) against a control group, tracking Month-1 retention and 3-session conversion before adopting a fixed rule.'
+    ),
+  ];
+
+  const limitsSummary = [
+    L(
+      'Không có mã đơn, mã khách hàng và giá vốn nên dự án thay phễu giỏ hàng, A/B test và CLTV khách bằng cohort creator, phễu nội dung và so sánh quan sát.',
+      'Without order_id, customer_id, or COGS, checkout funnels, A/B tests, and customer CLTV are replaced with creator cohorts, content funnels, and observational slices.'
+    ),
+    L(
+      `Chuỗi quan sát mới gồm một mùa (${V2.meta.days} ngày) từ số liệu ước tính của bên thứ ba (FastMoss).`,
+      `Observations span a single season (${V2.meta.days} days) of third-party FastMoss market estimates.`
+    ),
+    L(
+      'Các bảng gốc dùng khung thời gian khác nhau (231 ngày, 179 ngày, cửa sổ trượt 90 ngày và snapshot 2 kỳ); chân mỗi biểu đồ ghi rõ phạm vi đang dùng.',
+      'Source tables span distinct windows (231d, 179d, rolling 90d, and dual snapshots); every chart footer states its active window.'
+    ),
   ];
 
   return (
-    <section
+    <ChapterShell
       id="sec-exec-summary"
-      className="scroll-mt-28 rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 dark:border-slate-800 dark:bg-slate-900/90 space-y-4"
+      chapterNum={L('Chương 0', 'Chapter 0')}
+      title={L('Tóm tắt điều hành', 'Executive summary')}
+      scopeLabel={L(`Store · ${V2.meta.days} ngày`, `Store · ${V2.meta.days}d`)}
+      question={L('Người đọc nên nhớ gì sau 60 giây?', 'What should a reader retain after 60 seconds?')}
+      conclusion={L(
+        `Doanh thu tập trung vào Live của chính shop (${n(cm.officialShareOfLivePct, 1)}% GMV Live) và ${sp.skusFor80Pct} mã mùa vụ; biên độ sụt giảm từ tháng 6 sang tháng 8 lên tới ${n(Math.abs(k.junToAugDropPct), 1)}% theo hai pha; cảnh báo MA7/MA28 hiện tại chưa đáng tin và mạng creator ngoài mỏng.`,
+        `Revenue concentrates in official Live (${n(cm.officialShareOfLivePct, 1)}% of Live GMV) and ${sp.skusFor80Pct} seasonal SKUs; June-to-August contraction hits ${n(Math.abs(k.junToAugDropPct), 1)}% in two phases; current MA7/MA28 alerts are unreliable and external creator depth is thin.`
+      )}
     >
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="inline-flex items-center rounded-lg bg-[#9BE7FA] px-2.5 py-0.5 text-xs font-black text-slate-950">
-          {L('Chương 0 · Tóm tắt điều hành', 'Chapter 0 · Executive summary')}
-        </span>
-      </div>
-
       <ChartCard
         title={L(
-          'Biểu đồ tổng quan: Cơ cấu doanh thu miền chồng (Stacked Area) theo 3 nhóm kênh và 4 mốc chuyển pha',
-          'Hero trajectory: Stacked area GMV across 3 channel tiers with 4 structural milestones'
+          `0.1. GMV đạt đỉnh ${n(k.peakDayGmvM, 1)} Tr ngày 16/06 (7 ngày quanh đỉnh chiếm ${n(k.peak7dSharePct, 1)}% cả kỳ), giảm ${n(Math.abs(k.junToAugDropPct), 1)}% về đáy T8 và cắt xuống MA28 ngày ${k.latestMaCrossDate}`,
+          `0.1. Daily GMV peaked at ${n(k.peakDayGmvM, 1)}M on 16/06 (7-day peak window = ${n(k.peak7dSharePct, 1)}% of total), fell ${n(Math.abs(k.junToAugDropPct), 1)}% into Aug, and crossed below MA28 on ${k.latestMaCrossDate}`
         )}
-        subtitle={L(
-          'Chia 3 nhóm kênh Live (Tự vận hành chính chủ · Kênh vệ tinh nội bộ @koc_sat01 · Affiliate độc lập khác) đối chiếu đường GMV ròng toàn shop (gồm cả Video & kệ hàng).',
-          'Stacked Live GMV across Official in-house, Satellite @koc_sat01, and 301 other Affiliates against net store-wide GMV.'
-        )}
-        badge={
-          <GranularityToggle
-            value={grain}
-            onChange={setGrain}
-            options={[
-              { id: 'day', label: L('Theo ngày (231N)', 'Daily (231d)') },
-              { id: 'week', label: L('Theo tuần (33T)', 'Weekly (33w)') },
-              { id: 'month', label: L('Theo tháng (8T)', 'Monthly (8m)') },
-            ]}
-          />
-        }
-        height="h-64 sm:h-72"
+        badge={<ChartRoleBadge kind="main" />}
+        height="h-60 sm:h-64"
         footer={L(
-          'Ghi chú đối soát dữ liệu: (1) Ở tuần bình thường (như W11), đường GMV ròng toàn shop cao hơn miền Live vì shop có thêm doanh thu từ Video gắn giỏ hàng và kệ hàng tự nhiên. (2) Ở đợt cao điểm tháng 6 (W12 - W15), miền Live vượt đường ròng do FastMoss ghi nhận GMV ca Live theo tổng đơn đặt trước hủy/hoàn COD tại thời điểm phát sóng, trong khi số toàn shop là GMV ròng đã trừ đơn hủy và hoàn tiền.',
-          'Data reconciliation note: (1) In standard weeks (e.g., W11), store-wide net GMV exceeds the Live area because it includes Shoppable Videos and organic storefront sales. (2) During June mega-sales (W12 - W15), Live GMV exceeds net store GMV because FastMoss logs gross session orders prior to cancellations/COD returns, whereas the store overview reports post-cancellation net increments.'
+          `Nguồn: Store_Daily_Overview [Ngày Ghi Nhận, Doanh Thu Trong Ngày (VNĐ)] · Khung thời gian: 09/03 - 25/10/2026 · n = ${V2.meta.days} ngày.`,
+          `Source: Store_Daily_Overview [Date, Daily GMV (VND)] · Window: 09/03 - 25/10/2026 · n = ${V2.meta.days} days.`
         )}
       >
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={chartData} margin={{ top: 14, right: 16, left: 4, bottom: 6 }}>
+          <ComposedChart data={V2.ch0.dailySeries} margin={{ top: 18, right: 16, left: 4, bottom: 4 }}>
             <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
-            <XAxis
-              dataKey="xKey"
-              tick={axisTick}
-              interval={grain === 'day' ? 24 : grain === 'week' ? 2 : 0}
-            />
+            <XAxis dataKey="ddmm" tick={axisTick} interval={25} />
             <YAxis
-              width={58}
+              width={52}
+              domain={[0, 340]}
               tick={axisTick}
               tickFormatter={(v: number) => `${v}Tr`}
             />
             <Tooltip
               content={
                 <ChartTooltip
-                  head={(lbl, pl) => {
-                    const row = pl?.[0]?.payload;
-                    if (grain === 'day') return L(`Ngày ${lbl}/2026`, `Date ${lbl}/2026`);
-                    if (grain === 'month') return L(`Tháng ${lbl} (${row?.days ?? ''} ngày)`, `Month ${lbl}`);
-                    return L(`Tuần ${row?.week ?? ''} (từ ${lbl}/2026)`, `Week ${row?.week ?? ''} (from ${lbl}/2026)`);
-                  }}
-                  fmt={(v) => `${v.toLocaleString('vi-VN', { maximumFractionDigits: 1 })} Tr đ`}
-                  extraRow={(pl) => {
-                    const r = pl?.[0]?.payload;
-                    if (!r) return null;
-                    const liveSum = Number(r.ownLive || 0) + Number(r.top1Live || 0) + Number(r.extLive || 0);
-                    return L(
-                      `Gộp 3 kênh Live (đơn đặt): ${liveSum.toFixed(1)} Tr đ · GMV ròng toàn shop: ${Number(r.storeTotal || 0).toFixed(1)} Tr đ`,
-                      `3-tier Live gross: ${liveSum.toFixed(1)}M · Store-wide net GMV: ${Number(r.storeTotal || 0).toFixed(1)}M`
-                    );
-                  }}
+                  head={(lbl) => L(`Ngày ${lbl}/2026`, `Date ${lbl}/2026`)}
+                  fmt={(v) => `${n(v, 1)} Tr đ`}
                 />
               }
             />
             <Legend formatter={legendFormatter} />
-            <Area
+            <Line
               type="monotone"
-              dataKey="ownLive"
-              stackId="liveArea"
-              name={L('Tự vận hành chính chủ', 'Official in-house')}
-              stroke="#0D7287"
-              fill="#0D7287"
-              fillOpacity={0.75}
-              isAnimationActive={false}
-            />
-            <Area
-              type="monotone"
-              dataKey="top1Live"
-              stackId="liveArea"
-              name={L('Kênh vệ tinh nội bộ (@koc_sat01)', 'In-house satellite (@koc_sat01)')}
-              stroke="#F59E0B"
-              fill="#F59E0B"
-              fillOpacity={0.75}
-              isAnimationActive={false}
-            />
-            <Area
-              type="monotone"
-              dataKey="extLive"
-              stackId="liveArea"
-              name={L('Affiliate độc lập khác (301 KOC)', 'Other Affiliates (301 KOCs)')}
-              stroke="#6366F1"
-              fill="#6366F1"
-              fillOpacity={0.65}
+              dataKey="gmvM"
+              name={L('GMV theo ngày', 'Daily GMV')}
+              stroke={KAMI_BRAND_PALETTE.slateMuted}
+              strokeWidth={1.35}
+              dot={false}
               isAnimationActive={false}
             />
             <Line
               type="monotone"
-              dataKey="storeTotal"
-              name={L('Tổng GMV ròng toàn shop', 'Store-wide net GMV')}
-              stroke="#10B981"
-              strokeWidth={2}
-              strokeDasharray="5 3"
-              dot={grain !== 'day' ? { r: 2.5, fill: '#10B981' } : false}
+              dataKey="ma7M"
+              name={L('Trung bình trượt 7 ngày (MA7)', '7-day moving average (MA7)')}
+              stroke={KAMI_BRAND_PALETTE.tealInk}
+              strokeWidth={2.4}
+              dot={false}
+              connectNulls={false}
               isAnimationActive={false}
             />
-            {grain === 'week' && (
-              <>
-                <ReferenceLine x="15/06" stroke="#E11D48" strokeDasharray="3 3" label={{ value: '16/06 Đột biến', position: 'insideTopLeft', fill: '#E11D48', fontSize: 11, fontWeight: 700 }} />
-                <ReferenceLine x="22/06" stroke="#B45309" strokeDasharray="3 3" label={{ value: '26/06 Dead Cross', position: 'insideTopRight', fill: '#B45309', fontSize: 11, fontWeight: 700 }} />
-                <ReferenceLine x="31/08" stroke="#64748B" strokeDasharray="3 3" label={{ value: 'Đáy T8', position: 'insideTopLeft', fill: '#64748B', fontSize: 11, fontWeight: 700 }} />
-                <ReferenceLine x="12/10" stroke="#0D7287" strokeDasharray="3 3" label={{ value: 'Hồi phục T10', position: 'insideTopLeft', fill: '#0D7287', fontSize: 11, fontWeight: 700 }} />
-              </>
-            )}
-            {grain === 'day' && (
-              <>
-                <ReferenceLine x="16/06" stroke="#E11D48" strokeDasharray="3 3" label={{ value: '16/06 (315Tr)', position: 'insideTopLeft', fill: '#E11D48', fontSize: 11, fontWeight: 700 }} />
-                <ReferenceLine x="26/06" stroke="#B45309" strokeDasharray="3 3" label={{ value: '26/06 Cross', position: 'insideTopRight', fill: '#B45309', fontSize: 11, fontWeight: 700 }} />
-                <ReferenceLine x="31/08" stroke="#64748B" strokeDasharray="3 3" label={{ value: 'Đáy T8', position: 'insideTopLeft', fill: '#64748B', fontSize: 11, fontWeight: 700 }} />
-                <ReferenceLine x="12/10" stroke="#0D7287" strokeDasharray="3 3" label={{ value: 'Hồi phục T10', position: 'insideTopLeft', fill: '#0D7287', fontSize: 11, fontWeight: 700 }} />
-              </>
-            )}
+            <ReferenceLine
+              x="16/06"
+              stroke={KAMI_BRAND_PALETTE.tealInk}
+              strokeDasharray="3 3"
+              label={{
+                value: L(`Đỉnh 16/06: ${n(k.peakDayGmvM, 1)} Tr`, `Peak 16/06: ${n(k.peakDayGmvM, 1)}M`),
+                position: 'insideTopRight',
+                fill: KAMI_BRAND_PALETTE.deepInk,
+                fontSize: 11,
+                fontWeight: 700,
+              }}
+            />
+            <ReferenceLine
+              x="03/08"
+              stroke={KAMI_BRAND_PALETTE.negative}
+              strokeDasharray="3 3"
+              label={{
+                value: L(`Đáy T8 (${n(k.junToAugDropPct, 1)}%)`, `Aug trough (${n(k.junToAugDropPct, 1)}%)`),
+                position: 'insideTopLeft',
+                fill: KAMI_BRAND_PALETTE.negative,
+                fontSize: 11,
+                fontWeight: 700,
+              }}
+            />
+            <ReferenceLine
+              x={k.latestMaCrossDate}
+              stroke={KAMI_BRAND_PALETTE.amberStroke}
+              strokeDasharray="3 3"
+              label={{
+                value: L(`MA7 < MA28 (${k.latestMaCrossDate})`, `MA7 < MA28 (${k.latestMaCrossDate})`),
+                position: 'insideTopRight',
+                fill: KAMI_BRAND_PALETTE.amberStroke,
+                fontSize: 11,
+                fontWeight: 700,
+              }}
+            />
           </ComposedChart>
         </ResponsiveContainer>
       </ChartCard>
 
-      <div className="grid gap-3 lg:grid-cols-2">
-        <div className="rounded-2xl border border-[#9BE7FA]/60 bg-[#C8EEF7]/20 p-3.5 sm:p-4 dark:border-slate-800 dark:bg-slate-950/60 space-y-2">
-          <h3 className="text-sm font-extrabold text-[#074553] dark:text-[#9BE7FA]">
-            {L('Ba phát hiện chính', 'Three core findings')}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <div className="rounded-2xl border border-[#9BE7FA]/70 bg-[#C8EEF7]/25 p-3.5 dark:border-slate-800 dark:bg-slate-950/60 space-y-1.5">
+          <h3 className="text-xs sm:text-sm font-extrabold text-[#074553] dark:text-[#9BE7FA]">
+            {L('Ba phát hiện cốt lõi', 'Three core findings')}
           </h3>
-          {findings.map((f) => (
-            <div key={f.title} className="text-xs sm:text-sm leading-relaxed">
-              <p className="font-bold text-slate-900 dark:text-white">{f.title}</p>
-              <p className="text-slate-600 dark:text-slate-300 mt-0.5">{f.body}</p>
-            </div>
-          ))}
+          <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300 leading-relaxed list-disc pl-4">
+            {findings.map((item, i) => (
+              <li key={i} className="tabular-nums">
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <div className="rounded-2xl border border-[#FFD14C]/70 bg-[#FFE485]/20 p-3.5 sm:p-4 dark:border-slate-800 dark:bg-[#FFD14C]/5 space-y-2">
-          <h3 className="text-sm font-extrabold text-amber-950 dark:text-[#FFE485]">
-            {L('Ba khuyến nghị trọng tâm', 'Three operational recommendations')}
+        <div className="rounded-2xl border border-[#FFD14C] bg-[#FFE485]/30 p-3.5 dark:border-slate-800 dark:bg-[#FFD14C]/10 space-y-1.5">
+          <h3 className="text-xs sm:text-sm font-extrabold text-amber-950 dark:text-[#FFE485]">
+            {L('Ba khuyến nghị hành động', 'Three prioritized actions')}
           </h3>
-          {actions.map((a) => (
-            <div key={a.title} className="text-xs sm:text-sm leading-relaxed">
-              <p className="font-bold text-slate-900 dark:text-white">{a.title}</p>
-              <p className="text-slate-700 dark:text-slate-300 mt-0.5">{a.body}</p>
-            </div>
-          ))}
+          <ul className="space-y-1.5 text-xs text-slate-800 dark:text-slate-200 leading-relaxed list-disc pl-4">
+            {recommendations.map((item, i) => (
+              <li key={i} className="tabular-nums">
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-xs sm:text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-300 leading-relaxed">
-        <strong className="font-bold text-slate-900 dark:text-white mr-1.5">
-          {L('Chưa kết luận được:', 'Cannot yet conclude:')}
-        </strong>
-        {L(
-          'ROI quảng cáo ròng (video bật Ads có tỷ lệ ra đơn 30,3% so với 10,2% không Ads nhưng không có chi phí thầu), tác động mùa vụ đa năm (mới quan sát 1 chu kỳ Hè sang Thu) và hàng tồn chết thực sự (không có giá vốn COGS hay số dư kho nội bộ).',
-          'Net ad ROI (Ads-tagged clips convert at 30.3% vs. 10.2% non-Ads, but ad spend is unobserved), multi-year seasonality (only 1 seasonal cycle observed), and true dead inventory (missing internal COGS and stock).'
-        )}
+      <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-3.5 dark:border-slate-800 dark:bg-slate-950/60 space-y-1">
+        <h3 className="text-xs font-extrabold text-slate-900 dark:text-white">
+          {L('Giới hạn phạm vi đọc số', 'Scope & data boundaries')}
+        </h3>
+        <ul className="space-y-1 text-xs text-slate-600 dark:text-slate-400 leading-relaxed list-disc pl-4 tabular-nums">
+          {limitsSummary.map((lim, i) => (
+            <li key={i}>{lim}</li>
+          ))}
+        </ul>
       </div>
-    </section>
+    </ChapterShell>
   );
 }

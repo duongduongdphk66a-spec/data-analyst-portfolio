@@ -2,15 +2,14 @@
 
 import React from 'react';
 import type { KamiElyDataPayload } from '@/app/types/caseStudies';
-import { ChartGranularityProvider, GlobalGranularityBar } from '../playbook/PlaybookUi';
+import { ChartGranularityProvider } from '../playbook/PlaybookUi';
 import Tier1ExecutiveSummary from './Tier1ExecutiveSummary';
-import Chapter2ContextAndData from './Chapter2ContextAndData';
-import Chapter3RevenueAndSku from './Chapter3RevenueAndSku';
-import Chapter4SeasonalityAndRegression from './Chapter4SeasonalityAndRegression';
-import Chapter5KocNetwork from './Chapter5KocNetwork';
-import Chapter6LiveVideoAds from './Chapter6LiveVideoAds';
-import Chapter6PipelineAndPrivacy from './Chapter6PipelineAndPrivacy';
-import Chapter7ConclusionAndLimits from './Chapter7ConclusionAndLimits';
+import Chapter1ContextAndData from './Chapter1ContextAndData';
+import Chapter2RevenueAndSku from './Chapter2RevenueAndSku';
+import Chapter3SeasonalityAndRegression from './Chapter3SeasonalityAndRegression';
+import Chapter4KocNetwork from './Chapter4KocNetwork';
+import Chapter5LiveVideoAds from './Chapter5LiveVideoAds';
+import Chapter6EarlyWarningAndPlaybook from './Chapter6EarlyWarningAndPlaybook';
 import Tier3EngineeringAppendix from './Tier3EngineeringAppendix';
 
 export interface KamiElyCommercialTabProps {
@@ -25,22 +24,18 @@ export default function KamiElyCommercialTab({ onOpenNotebook }: KamiElyCommerci
   return (
     <ChartGranularityProvider>
       <div className="w-full space-y-4 sm:space-y-6">
-        {/* Thanh chuyển đồng loạt tất cả biểu đồ sang chế độ Xem theo ngày (231N / 179N) */}
-        <GlobalGranularityBar />
-
-        {/* Chương 0: Tóm tắt điều hành (Stacked Area 3 nhóm kênh + 3 phát hiện + 3 khuyến nghị) */}
+        {/* Chapter 0: Executive Summary */}
         <Tier1ExecutiveSummary />
 
-        {/* Chương 1 -> Chương 7: Mỗi chương gọn trong 1 - 2 màn hình theo khuôn chuẩn */}
-        <Chapter2ContextAndData />
-        <Chapter3RevenueAndSku />
-        <Chapter4SeasonalityAndRegression />
-        <Chapter5KocNetwork />
-        <Chapter6LiveVideoAds />
-        <Chapter6PipelineAndPrivacy onOpenNotebook={onOpenNotebook} />
-        <Chapter7ConclusionAndLimits />
+        {/* Chapters 1 to 6 */}
+        <Chapter1ContextAndData />
+        <Chapter2RevenueAndSku />
+        <Chapter3SeasonalityAndRegression />
+        <Chapter4KocNetwork />
+        <Chapter5LiveVideoAds />
+        <Chapter6EarlyWarningAndPlaybook />
 
-        {/* Phụ lục A · B · C (Accordion mặc định đóng) */}
+        {/* Engineering Appendix A, B, C */}
         <Tier3EngineeringAppendix onOpenNotebook={onOpenNotebook} />
       </div>
     </ChartGranularityProvider>

@@ -33,16 +33,16 @@ WITH shop_totals AS (
 ),
 creator_split AS (
     SELECT 
-        SUM(CASE WHEN creator_handle = '@kamielyhn' THEN units_sold ELSE 0 END) AS self_units,
-        SUM(CASE WHEN creator_handle = '@kamielyhn' THEN gmv_vnd ELSE 0 END) AS self_gmv,
-        SUM(CASE WHEN creator_handle <> '@kamielyhn' THEN units_sold ELSE 0 END) AS affiliate_units,
-        SUM(CASE WHEN creator_handle <> '@kamielyhn' THEN gmv_vnd ELSE 0 END) AS affiliate_gmv,
+        SUM(CASE WHEN creator_handle = '@kami_official' THEN units_sold ELSE 0 END) AS self_units,
+        SUM(CASE WHEN creator_handle = '@kami_official' THEN gmv_vnd ELSE 0 END) AS self_gmv,
+        SUM(CASE WHEN creator_handle <> '@kami_official' THEN units_sold ELSE 0 END) AS affiliate_units,
+        SUM(CASE WHEN creator_handle <> '@kami_official' THEN gmv_vnd ELSE 0 END) AS affiliate_gmv,
         SUM(units_sold) AS all_creators_units,
         SUM(gmv_vnd) AS all_creators_gmv
     FROM kami_creators_merged_90d
 )
 SELECT 
-    '1. Kênh Chính Chủ (@kamielyhn)' AS channel_segment,
+    '1. Kênh Chính Chủ (@kami_official)' AS channel_segment,
     c.self_units AS units_sold,
     ROUND(c.self_units * 100.0 / s.total_shop_units, 2) AS units_share_pct,
     c.self_gmv AS net_gmv_vnd,
@@ -66,7 +66,7 @@ SELECT
 FROM shop_totals s CROSS JOIN creator_split c;`,
     columns: ['channel_segment', 'units_sold', 'units_share_pct', 'net_gmv_vnd', 'gmv_share_pct'],
     rows: [
-      ['1. Kênh Chính Chủ (@kamielyhn)', 20027, '49.78%', '3.026.026.869 đ', '49.31%'],
+      ['1. Kênh Chính Chủ (@kami_official)', 20027, '49.78%', '3.026.026.869 đ', '49.31%'],
       ['2. Mạng Lưới Affiliate (5.712 KOC ngoài)', 11572, '28.77%', '1.708.159.874 đ', '27.84%'],
       ['3. Thẻ Sản Phẩm / Kệ Hàng (Product Card)', 8630, '21.45%', '1.402.019.230 đ', '22.85%'],
       ['TỔNG TOÀN GIAN HÀNG (90 NGÀY)', 40229, '100.00%', '6.136.205.973 đ', '100.00%']

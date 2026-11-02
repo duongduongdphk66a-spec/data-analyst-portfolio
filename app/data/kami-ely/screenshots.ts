@@ -108,8 +108,8 @@ export const KAMI_DATA_SCOPES: DataScopeItem[] = [
   {
     id: 'scope-creator-alltime',
     scope: 'creator',
-    scopeLabelVi: 'Kênh Chính Chủ @kamielyhn',
-    scopeLabelEn: 'Official Account @kamielyhn',
+    scopeLabelVi: 'Kênh Chính Chủ @kami_official',
+    scopeLabelEn: 'Official Account @kami_official',
     timeframeVi: 'Tích lũy Toàn thời gian (Từ khi lập kênh)',
     timeframeEn: 'Lifetime Accumulated (Since Account Creation)',
     timeframeBadge: 'Toàn thời gian (Từ 28/05/2023)',
@@ -137,8 +137,8 @@ export const KAMI_DATA_SCOPES: DataScopeItem[] = [
   {
     id: 'scope-creator-180d',
     scope: 'creator',
-    scopeLabelVi: 'Kênh Chính Chủ @kamielyhn',
-    scopeLabelEn: 'Official Account @kamielyhn',
+    scopeLabelVi: 'Kênh Chính Chủ @kami_official',
+    scopeLabelEn: 'Official Account @kami_official',
     timeframeVi: 'Chu kỳ 180 Ngày gần nhất',
     timeframeEn: 'Last 180 Days Window',
     timeframeBadge: '180 ngày (09/03 - 24/08)',
@@ -164,8 +164,8 @@ export const KAMI_DATA_SCOPES: DataScopeItem[] = [
   {
     id: 'scope-creator-28d',
     scope: 'creator',
-    scopeLabelVi: 'Kênh Chính Chủ @kamielyhn',
-    scopeLabelEn: 'Official Account @kamielyhn',
+    scopeLabelVi: 'Kênh Chính Chủ @kami_official',
+    scopeLabelEn: 'Official Account @kami_official',
     timeframeVi: 'Chu kỳ 28 Ngày & Hoạt động Vận hành',
     timeframeEn: '28-Day Operating Metrics & Cadence',
     timeframeBadge: '28 ngày gần nhất',
@@ -364,10 +364,10 @@ export const fastmossScreenshotsManifest: FastMossScreenshotItem[] = [
     sectionId: 'creator-collaborative',
     timeframeVi: '90 ngày gần nhất',
     timeframeEn: 'Last 90 Days',
-    titleVi: 'Phân Tích Kênh Tự Vận Hành: Tài Khoản Chính Chủ @kamielyhn',
-    titleEn: 'Self-Operated Account Analytics: Official @kamielyhn',
-    descriptionVi: 'Độc quyền 1 tài khoản chính chủ @kamielyhn (48.7k followers) bán 20.0k SP, mang về 3,0 Tỷ đ GMV qua 147 video và 208 phiên LIVE.',
-    descriptionEn: 'Exclusive single official account @kamielyhn (48.7k followers) sold 20.0k units, generating 3.0B VND GMV via 147 videos and 208 LIVEs.',
+    titleVi: 'Phân Tích Kênh Tự Vận Hành: Tài Khoản Chính Chủ @kami_official',
+    titleEn: 'Self-Operated Account Analytics: Official @kami_official',
+    descriptionVi: 'Độc quyền 1 tài khoản chính chủ @kami_official (48.7k followers) bán 20.0k SP, mang về 3,0 Tỷ đ GMV qua 147 video và 208 phiên LIVE.',
+    descriptionEn: 'Exclusive single official account @kami_official (48.7k followers) sold 20.0k units, generating 3.0B VND GMV via 147 videos and 208 LIVEs.',
     keyMetric: '1 Kênh Tự Vận Hành: 3,0 Tỷ đ GMV'
   },
   {
@@ -406,10 +406,10 @@ export const fastmossScreenshotsManifest: FastMossScreenshotItem[] = [
     sectionId: 'creator-overview',
     timeframeVi: '28 ngày gần nhất & Hồ sơ KOC',
     timeframeEn: 'Last 28 Days & KOC Profile',
-    titleVi: 'Hồ Sơ Creator Chính Chủ: Kami Ely (@kamielyhn)',
-    titleEn: 'Official Creator Profile: Kami Ely (@kamielyhn)',
-    descriptionVi: 'ID kamielyhn, 48.8k followers, Top #83.8k quốc gia, Top #8.6k ngành thời trang, Traffic Index 39, Ecom Index 67, 28 ngày: 41 video, 73 phiên LIVE.',
-    descriptionEn: 'ID kamielyhn, 48.8k followers, #83.8k National rank, #8.6k Fashion rank, Traffic Index 39, Ecom Index 67, 28d: 41 videos, 73 LIVEs.',
+    titleVi: 'Hồ Sơ Creator Chính Chủ: Kami Ely (@kami_official)',
+    titleEn: 'Official Creator Profile: Kami Ely (@kami_official)',
+    descriptionVi: 'ID kami_official, 48.8k followers, Top #83.8k quốc gia, Top #8.6k ngành thời trang, Traffic Index 39, Ecom Index 67, 28 ngày: 41 video, 73 phiên LIVE.',
+    descriptionEn: 'ID kami_official, 48.8k followers, #83.8k National rank, #8.6k Fashion rank, Traffic Index 39, Ecom Index 67, 28d: 41 videos, 73 LIVEs.',
     keyMetric: '48.8k Followers · Top #8.6k Ngành'
   },
   {

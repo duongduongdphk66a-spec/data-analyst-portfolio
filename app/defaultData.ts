@@ -245,7 +245,7 @@ export const DEFAULT_DASHBOARD: DashboardData = {
       description: 'Tỷ trọng GMV phân bổ giữa Kênh chính chủ, KOC Affiliate và Kệ hàng.',
       xAxisKey: 'quarter',
       series: [
-        { dataKey: 'official', name: 'Chính chủ @kamielyhn', color: '#9BE7FA' },
+        { dataKey: 'official', name: 'Kênh tự vận hành (@kami_official)', color: '#9BE7FA' },
         { dataKey: 'affiliate', name: 'Creator Affiliate', color: '#FFD14C' },
         { dataKey: 'showcase', name: 'Kệ hàng / Product Card', color: '#FFE485' }
       ],
@@ -259,7 +259,7 @@ export const DEFAULT_DASHBOARD: DashboardData = {
   tableData: [
     { id: '1', date: '2024-06-16', channel: 'Chính chủ LIVE', region: 'Hà Nội', orders: 1850, revenue: 315000000, status: 'Completed' },
     { id: '2', date: '2024-06-25', channel: 'Video gắn giỏ', region: 'Toàn quốc', orders: 1420, revenue: 192000000, status: 'Completed' },
-    { id: '3', date: '2024-07-02', channel: 'Top KOC @girlstyle', region: 'Hồ Chí Minh', orders: 980, revenue: 135000000, status: 'Completed' },
+    { id: '3', date: '2024-07-02', channel: 'Kênh vệ tinh @koc_sat01', region: 'Hồ Chí Minh', orders: 980, revenue: 135000000, status: 'Completed' },
     { id: '4', date: '2024-07-15', channel: 'Kệ hàng tự nhiên', region: 'Đà Nẵng', orders: 620, revenue: 84000000, status: 'Completed' },
     { id: '5', date: '2024-08-01', channel: 'Creator Affiliate', region: 'Toàn quốc', orders: 890, revenue: 118000000, status: 'Completed' }
   ]

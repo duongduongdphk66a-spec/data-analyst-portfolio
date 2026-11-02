@@ -69,6 +69,8 @@ const TABLE_LABELS: Record<string, BilingualText> = {
   product: { vi: 'SKU sản phẩm', en: 'Product SKU' },
   creators: { vi: 'Creator', en: 'Creators' },
   shop_live: { vi: 'LIVE toàn shop', en: 'Shop-wide LIVE' },
+  sku_10_daily: { vi: '10 SKU chủ lực theo ngày', en: '10 Key SKUs daily' },
+  live_product: { vi: 'SP ghim trong Live', en: 'Pinned Live products' },
 };
 
 export function buildStage1Data(): Stage1Payload {
@@ -1274,7 +1276,7 @@ export function buildStage5Data(): Stage5Payload {
       ],
     },
     ex_dominant: {
-      title: { vi: '4. Loại bỏ 3 Creator chi phối (kamielyhn, _thzy.tien, girlstyle.vn)', en: '4. Excluding 3 Dominant Creators' },
+      title: { vi: '4. Loại bỏ 3 Creator chi phối (@kami_official, @koc_vid01, @koc_sat01)', en: '4. Excluding 3 Dominant Creators' },
       desc: { vi: 'Loại trừ các tài khoản gánh phần lớn GMV để kiểm tra tính đại diện cho toàn bộ mạng lưới KOC ngoài.', en: 'Excludes top revenue-driving accounts to verify true external KOC representativeness.' },
       rows: [
         { metric: { vi: 'Số lượng video còn lại', en: 'Remaining Videos' }, ads: '3.132', organic: '933', note: { vi: 'Loại 352 video của top 3 tài khoản', en: 'Excluded 352 videos from top 3 accounts' } },
@@ -1397,7 +1399,7 @@ export function buildStage6Data(): Stage6Payload {
     },
     {
       type: { vi: 'Creator Ngoại lai', en: 'Creator Outlier' },
-      target: 'girlstyle.vn (Girl Style)',
+      target: 'koc_sat01 (Girl Style)',
       metric: '1,26 Tỷ đ (56,1% GMV Live Affiliate)',
       rootCause: { vi: 'Kênh vệ tinh nội bộ in-house do chủ shop vận hành, phát 98/101 ngày tồn tại', en: 'Internal in-house satellite channel operated by shop, streaming 98/101 active days' },
       treatment: { vi: 'Tách bạch 2 bản phân tích: Có và Không có Girl Style; Winsorize ở P99', en: 'Dual reporting (With vs Excl Girl Style); Winsorize at P99 for KOC benchmarks' },
@@ -1493,7 +1495,7 @@ export function buildStage7Data(): Stage7Payload {
     {
       gate: { vi: '4. Đối soát sản lượng chính chủ', en: '4. Own-Brand Volume Parity' },
       scope: 'creators_merged vs goods_for_sale',
-      expected: { vi: 'Sản lượng kamielyhn khớp nhau (90 ngày)', en: 'kamielyhn 90d volume parity' },
+      expected: { vi: 'Sản lượng @kami_official khớp nhau (90 ngày)', en: '@kami_official 90d volume parity' },
       actual: '20.027 sp = 20.027 sp',
       level: 'error',
       status: 'passed',

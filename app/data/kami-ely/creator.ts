@@ -4,7 +4,7 @@
 import { creatorProfile } from '@/app/lib/seedKamiData';
 export { creatorProfile };
 
-// PART 2: CREATOR DATA (KAMIELYN / @kamielyhn)
+// PART 2: CREATOR DATA (KAMIELYN / @kami_official)
 
 
 // Creator Active Period: 24h Video Posting Curve (from Screenshot 080726 & 080749)
@@ -207,7 +207,7 @@ export const creatorTopLiveStreams = [
   }
 ];
 
-// Top Collaborative Stores for Kamielyn (from Screenshot 081121)
+// Top Collaborative Stores for Kami Official (from Screenshot 081121)
 export const creatorCollaborativeStores = [
   {
     rank: 1,
@@ -464,7 +464,7 @@ export interface SynchronizedLiveSessionTelemetry {
 }
 
 export const creatorLiveDiagnosticsData = {
-  // 1. Tổng hợp Đa khung thời gian chuẩn hóa của Kênh Chính Chủ (@kamielyhn)
+  // 1. Tổng hợp Đa khung thời gian chuẩn hóa của Kênh Chính Chủ (@kami_official)
   multiWindowSummary: {
     allTime: {
       totalGmv: '9,2 Tỉ VNĐ',
@@ -513,7 +513,7 @@ export const creatorLiveDiagnosticsData = {
   formatComparison: [
     {
       formatId: 'self-live',
-      formatName: { vi: 'LIVE Chính chủ (@kamielyhn)', en: 'Self-Operated LIVE (@kamielyhn)' },
+      formatName: { vi: 'LIVE Chính chủ (@kami_official)', en: 'Self-Operated LIVE (@kami_official)' },
       contentVolume: {
         vi: '470 – 475 phiên (180 ngày) / 208 phiên (90 ngày)',
         en: '470 – 475 sessions (180d) / 208 sessions (90d)'

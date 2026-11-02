@@ -638,7 +638,7 @@ export async function initDatabase(force = false): Promise<{ success: boolean; m
           rating, positive_rate, quality_score, response_rate_24h, ship_within_48h,
           period_180d_units, period_180d_gmv, metrics_json
         ) VALUES (
-          'creator_kamielyn', 'creator', 'Creator @kamielyhn (Kamielyn)',
+          'creator_kamielyn', 'creator', 'Creator @kami_official (Kami Official)',
           '9,2 Tỷ đ', '69.9k SP', 0, 0, '#10.2k', '#365', 'Womenswear & Swimwear',
           '2022', '35.0k đ - 350.0k đ', '470', '653', '0',
           '4.8 / 5.0', '98%', 95, '99%', '90%',
