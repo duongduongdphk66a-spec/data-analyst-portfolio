@@ -199,9 +199,9 @@ JOIN fact_creator_daily c ON s.settlement_date = c.settlement_date;`,
     nameVi: "Giai đoạn 8: Executive Data Mart & Storytelling",
     nameEn: "Stage 8: Executive Data Mart & Storytelling",
     descVi:
-      "Đóng gói kết quả thành bảng chiều và bảng sự kiện tối ưu (Star Schema), cấp dữ liệu độ trễ thấp cho Power BI và Next.js Interactive Dashboard.",
+      "Đóng gói kết quả thành bảng chiều và bảng sự kiện tối ưu (Star Schema), cấp dữ liệu độ trễ thấp cho Recharts Interactive Dashboard.",
     descEn:
-      "Packaging validated outputs into an optimized Star Schema serving sub-second queries to Power BI and Next.js Interactive Dashboards.",
+      "Packaging validated outputs into an optimized Star Schema serving low-latency queries to Next.js Recharts Interactive Dashboards.",
     queryTitleVi: "Truy vấn bảng tổng hợp cấp điều hành (Executive Mart)",
     queryTitleEn: "Executive KPI Summary Mart Query",
     sqlSnippet: `SELECT

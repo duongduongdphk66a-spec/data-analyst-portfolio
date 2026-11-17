@@ -43,8 +43,8 @@ export default function KamiElyHero({
       valueClass: 'text-slate-950 dark:text-white',
       title: isEn ? 'Single-day peak (16/06/2026)' : 'Đỉnh doanh thu ngày (16/06/2026)',
       sub: isEn
-        ? `7 days around peak (13-19/06) = ${fmtDec(k.peak7dSharePct, 1)}% of 231d GMV`
-        : `7 ngày quanh đỉnh (13-19/06 = ${fmtDec(k.peak7dGmvB, 2)} tỷ) chiếm ${fmtDec(k.peak7dSharePct, 1)}% GMV`,
+        ? `Peak day during the mid-year campaign`
+        : `Doanh thu ngày cao nhất chiến dịch hè`,
       tone: 'bg-[#C8EEF7]/45 border-[#C8EEF7] dark:bg-slate-900/90 dark:border-slate-800',
     },
     {
@@ -61,9 +61,9 @@ export default function KamiElyHero({
       id: 'kpi-jun-aug-drop',
       value: `${fmtDec(k.junToAugDropPct, 1)}%`,
       valueClass: 'text-rose-600 dark:text-rose-400',
-      title: isEn ? 'Seasonal contraction (Jun -> Aug)' : 'Biên độ sụt giảm mùa vụ (T6 -> T8)',
+      title: isEn ? 'Seasonal contraction (Jun → Aug)' : 'Biên độ sụt giảm mùa vụ (T6 → T8)',
       sub: isEn
-        ? `${fmtDec(k.junGmvB, 2)}B -> ${fmtDec(k.augGmvB, 2)}B VND monthly sum`
+        ? `${fmtDec(k.junGmvB, 2)}B → ${fmtDec(k.augGmvB, 2)}B VND monthly sum`
         : `Từ ${fmtDec(k.junGmvB, 2)} tỷ xuống ${fmtDec(k.augGmvB, 2)} tỷ đ`,
       tone: 'bg-[#FFD14C]/25 border-[#FFD14C] dark:bg-slate-900/90 dark:border-rose-900/50',
     },
@@ -118,24 +118,24 @@ export default function KamiElyHero({
               {isEn ? 'Where does revenue come from?' : 'Doanh thu đến từ đâu?'}
             </strong>{' '}
             {isEn
-              ? `Livestreaming generates ${fmtDec(V2.ch2.channelMix.liveShareOfStorePct, 1)}% of store GMV (${fmtDec(V2.ch2.channelMix.officialShareOfLivePct, 1)}% from @shop_official, ${fmtDec(V2.ch2.channelMix.satelliteShareOfLivePct, 1)}% from in-house @koc_sat01, ${fmtDec(V2.ch2.channelMix.otherAffShareOfLivePct, 1)}% from remaining creators). On catalog, ${V2.ch2.skuPareto.skusFor80Pct}/${V2.ch2.skuPareto.activeSkus} active SKUs drive ${fmtDec(V2.ch2.skuPareto.skusFor80SharePct, 1)}% of GMV (${V2.ch2.skuPareto.top1Code} alone at ${fmtDec(V2.ch2.skuPareto.top1SharePct, 1)}%).`
-              : `Livestream tạo ${fmtDec(V2.ch2.channelMix.liveShareOfStorePct, 1)}% GMV shop (phiên của @shop_official chiếm ${fmtDec(V2.ch2.channelMix.officialShareOfLivePct, 1)}%, tài khoản vệ tinh nội bộ @koc_sat01 ${fmtDec(V2.ch2.channelMix.satelliteShareOfLivePct, 1)}% và toàn bộ creator còn lại ${fmtDec(V2.ch2.channelMix.otherAffShareOfLivePct, 1)}%). Về sản phẩm, ${V2.ch2.skuPareto.skusFor80Pct}/${V2.ch2.skuPareto.activeSkus} mã có doanh thu tạo ${fmtDec(V2.ch2.skuPareto.skusFor80SharePct, 1)}% GMV, riêng áo thun ${V2.ch2.skuPareto.top1Code} gần một nửa (${fmtDec(V2.ch2.skuPareto.top1SharePct, 1)}%).`}
+              ? 'Live accounts for 69.8% of shop GMV, with official shop streams generating 72.5%; 12/133 SKUs drive 80.6% of GMV.'
+              : 'Live chiếm 69,8% GMV shop, trong đó phiên của chính shop chiếm 72,5%; 12/133 mã tạo 80,6% GMV.'}
           </li>
           <li>
             <strong className="font-bold text-slate-950 dark:text-white">
               {isEn ? 'What does it depend on?' : 'Phụ thuộc vào đâu?'}
             </strong>{' '}
             {isEn
-              ? `Product seasonality and official Live scheduling: monthly GMV quadrupled from March to June before contracting ${fmtDec(Math.abs(k.junToAugDropPct), 1)}% into August across two distinct phases.`
-              : `Mùa vụ sản phẩm và lịch live của chính shop: GMV tăng gấp bốn từ tháng 3 lên tháng 6 rồi giảm ${fmtDec(Math.abs(k.junToAugDropPct), 1)}% đến tháng 8 theo hai pha nối tiếp nhau.`}
+              ? 'Seasonality and official Live scheduling: monthly GMV quadrupled from Mar to Jun then fell 83.1% to Aug.'
+              : 'Mùa vụ và lịch live của chính shop: GMV tăng gấp bốn từ T3 lên T6 rồi giảm 83,1% đến T8.'}
           </li>
           <li>
             <strong className="font-bold text-slate-950 dark:text-white">
-              {isEn ? 'What is the risk signal?' : 'Tín hiệu rủi ro là gì?'}
+              {isEn ? 'Risk signals?' : 'Tín hiệu rủi ro?'}
             </strong>{' '}
             {isEn
-              ? 'MA7/MA28 crossovers lag the peak and trigger false alarms; monthly Live count and new creator intake decline earlier (~6 weeks ahead) yet remain too early for immediate cuts and unverified with only one season of data.'
-              : 'Giao cắt MA7/MA28 báo trễ và hay báo giả; số ca live và lượng creator mới giảm sớm hơn nhưng quá sớm để cắt giảm ngay, đồng thời mới có một mùa dữ liệu nên chưa thể kiểm chứng.'}
+              ? 'With single-season data, no signal is both early and reliable; MA7/MA28 crossovers lag and produce false alarms.'
+              : 'Với dữ liệu một mùa, chưa có tín hiệu nào vừa sớm vừa đúng; MA7/MA28 báo trễ và hay báo giả.'}
           </li>
         </ul>
       </div>

@@ -6,13 +6,12 @@ export async function generateMetadata() {
   const { language } = await getServerLanguage();
   const { profile } = await getServerPortfolioData();
   const isEn = language === 'en';
+  const displayName = (profile?.name || 'Ma Văn Hùng').replace(/^Mã\s+/i, 'Ma ');
   return {
-    title: isEn
-      ? `${profile?.name || 'Ma Van Hung'} | Outcome-Driven Data Analyst`
-      : `${profile?.name || 'Mã Văn Hùng'} | Data Analyst định hướng giải quyết bài toán kinh doanh`,
+    title: `${displayName} | Fresher Data Analyst / Business Analyst`,
     description: isEn
-      ? 'Ma Van Hung: Outcome-Driven Data Analyst. Turning raw, fragmented data into revenue growth and operational clarity with SQL, Python, Power BI, and Tableau.'
-      : 'Mã Văn Hùng: Data Analyst định hướng giải quyết bài toán kinh doanh. Biến dữ liệu phức tạp thành tăng trưởng doanh thu và hiệu suất vận hành với SQL, Python, Power BI, Tableau.',
+      ? `${displayName}: a Japanese Studies graduate moving into data analysis. Projects on TikTok Shop sales (231 days of data), heritage tourism in Japan and UX/UI design, built with SQL and Python.`
+      : `${displayName}: cử nhân Nhật Bản học chuyển sang phân tích dữ liệu. Dự án phân tích TikTok Shop (231 ngày dữ liệu), du lịch di sản Nhật Bản và thiết kế UX/UI, dùng SQL và Python.`,
   };
 }
 
@@ -23,4 +22,3 @@ export default function HomePage() {
     </main>
   );
 }
-

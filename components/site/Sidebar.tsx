@@ -51,7 +51,7 @@ export default function Sidebar() {
               {profile.name || 'Ma Văn Hùng'}
             </h2>
             <p className="text-xs text-[#0D7287] dark:text-[#9BE7FA] font-semibold truncate">
-              {profile.title || 'Data Analyst'}
+              {profile.title || 'Fresher Data Analyst'}
             </p>
           </div>
         </Link>

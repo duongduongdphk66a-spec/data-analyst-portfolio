@@ -164,12 +164,12 @@ export function GlobalGranularityBar() {
         <CalendarDays className="h-4 w-4 shrink-0 text-[#0D7287] dark:text-[#9BE7FA]" aria-hidden="true" />
         <div>
           <span className="font-extrabold text-slate-950 dark:text-white">
-            {L('Chế độ độ hạt thời gian toàn trang:', 'Global chart granularity:')}
+            {L('Độ hạt thời gian chuỗi doanh thu:', 'Time-series chart granularity:')}
           </span>{' '}
           <span className="text-slate-600 dark:text-slate-400">
             {L(
-              'Chuyển đồng loạt toàn bộ 8 biểu đồ sang chuỗi ngày chi tiết (231N / 179N) hoặc bật riêng trên từng biểu đồ.',
-              'Switch all 8 charts to daily series (231d / 179d) simultaneously, or toggle each chart individually.'
+              'Chuyển đồng bộ các biểu đồ chuỗi thời gian giữa góc nhìn Tháng (8T), Tuần ISO (33W) và Ngày (231N).',
+              'Synchronize time-series charts across Monthly (8M), ISO Weekly (33W), and Daily (231d) views.'
             )}
           </span>
         </div>

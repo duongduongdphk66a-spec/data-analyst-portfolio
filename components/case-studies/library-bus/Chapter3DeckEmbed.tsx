@@ -29,8 +29,8 @@ export function Chapter3DeckEmbed({ isEn = false, onCopyDeepLink = () => {} }: C
           </div>
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed dark:text-slate-300">
             {isEn
-              ? 'The deck follows the same three chapters as this page: introduction and research, logo and UI components, and website design with wireframe and UI pairs for 20 screens.'
-              : 'Bản trình chiếu đi theo cùng ba chương với trang này: giới thiệu và nghiên cứu, logo và thành phần giao diện, thiết kế website với cặp wireframe và UI của 20 màn hình.'}
+              ? 'The deck follows the same structure as this case study: introduction and BA/UX research, logo and UI components, and website design with paired Wireframes and UI for the 11 core screens (Desktop & Mobile).'
+              : 'Bản trình chiếu đi theo cùng cấu trúc với nghiên cứu này: giới thiệu và phân tích BA/UX, logo và thành phần giao diện, thiết kế website với cặp Wireframe và UI của 11 màn hình cốt lõi (Desktop & Mobile).'}
           </p>
         </div>
         <Link

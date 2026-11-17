@@ -18,54 +18,54 @@ export function LibraryBusHero({
 
   const libraryBusKpiCards = [
     {
-      id: 'kpi-bus-desktop',
-      badge: { vi: 'HỆ THỐNG GIAO DIỆN • 20 SCREENS', en: 'UI SYSTEM • 20 SCREENS' },
+      id: 'kpi-bus-screens',
+      badge: { vi: 'ĐỐI CHIẾU LO-FI & HI-FI • 11 PAIRS', en: 'LO-FI & HI-FI PAIRS • 11 SCREENS' },
       badgeColor: 'bg-[#C8EEF7]/50 text-[#074553] border-[#9BE7FA]/40 dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30',
-      title: { vi: 'Quy Chuẩn Wireframe & UI Desktop', en: 'Desktop Wireframes & UI Standards' },
-      primaryValue: '20 Màn Hình',
-      exactSubValue: 'Lưới 12 Cột (Desktop 1440px)',
+      title: { vi: 'Hệ Thống Wireframe & UI Cốt Lõi', en: 'Core Desktop & Mobile Screen Pairs' },
+      primaryValue: isEn ? '11 Screen Pairs' : '11 Cặp Màn Hình',
+      exactSubValue: isEn ? 'Desktop 1440px & Mobile 390px' : 'Desktop 1440px & Mobile 390px',
       comparisonNote: {
-        vi: 'Thiết kế chuẩn hóa từ wireframe khung dây đến UI hoàn thiện, đáp ứng các luồng tra cứu sách, lịch trình xe và mượn trả.',
-        en: 'Standardized from wireframes to high-fidelity UI, covering book search, real-time bus tracking, and lending flows.'
+        vi: 'Chuẩn hóa 11 màn hình cốt lõi (44 bản thiết kế): đối chiếu trực tiếp từng cặp Wireframe khung xám với giao diện hoàn chỉnh trên cả Desktop và Mobile.',
+        en: 'Standardized 11 core screens (44 views total): side-by-side structural wireframes paired with high-fidelity UI across Desktop and Mobile viewports.'
       },
       accentBorder: 'hover:border-[#9BE7FA]/60'
     },
     {
-      id: 'kpi-bus-mobile',
-      badge: { vi: 'THIẾT KẾ ĐA NỀN TẢNG • MOBILE UX', en: 'CROSS-PLATFORM • MOBILE UX' },
+      id: 'kpi-bus-ba',
+      badge: { vi: 'ĐẶC TẢ NGHIỆP VỤ • BA WORKFLOWS', en: 'BA SPECIFICATION • 4 WORKFLOWS' },
       badgeColor: 'bg-[#FFE485]/40 text-amber-950 border-[#FFD14C]/40 dark:bg-[#FFE485]/15 dark:text-[#FFE485] dark:border-[#FFE485]/30',
-      title: { vi: 'Bố Cục Responsive Chuẩn Mobile', en: 'Responsive Mobile Screen Set' },
-      primaryValue: '20 Bản Mobile',
-      exactSubValue: 'Bố Cục 1 Cột Tối Ưu Cảm Ứng',
+      title: { vi: 'Luồng Nghiệp Vụ & Quy Tắc Kinh Doanh', en: 'Business Rules & User Flows' },
+      primaryValue: isEn ? '4 BA Flows' : '4 Luồng BA',
+      exactSubValue: isEn ? 'BR-01..04 & Given/When/Then' : 'BR-01..04 & Given/When/Then',
       comparisonNote: {
-        vi: 'Tối ưu hóa thao tác một tay với nút bấm tối thiểu 44px, điều hướng thanh bar phía dưới và thời gian tải nhanh trên 4G/5G.',
-        en: 'Optimized for single-hand use with 44px touch targets, bottom bar navigation, and rapid lightweight loading on cellular.'
+        vi: 'Bao phủ trọn vẹn 4 luồng: Tra cứu tồn kho theo xe, Đặt giữ sách tại điểm dừng, Quản lý mượn trả & quá hạn, và Tiếp nhận quyên góp cộng đồng.',
+        en: 'Covers 4 end-to-end flows: Bus-level catalog lookup, Stop-based reservation, Circulation & overdue tracking, and Community book donation intake.'
       },
       accentBorder: 'hover:border-[#FFD14C]/60'
     },
     {
-      id: 'kpi-bus-palette',
-      badge: { vi: 'BẢNG MÀU THƯƠNG HIỆU • 6 TÔNG', en: 'BRAND PALETTE • 6 TONES' },
+      id: 'kpi-bus-backend',
+      badge: { vi: 'TOÀN VẸN GIAO DỊCH • POSTGRESQL', en: 'TRANSACTION INTEGRITY • POSTGRESQL' },
       badgeColor: 'bg-[#C8EEF7]/50 text-[#074553] border-[#9BE7FA]/40 dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30',
-      title: { vi: 'Hệ Màu Bản Sắc Tiệm Bánh & Tri Thức', en: 'Bakery Warmth & Brand Colors' },
-      primaryValue: '6 Tông Màu',
-      exactSubValue: 'Molasses Ink → Butter Cream',
+      title: { vi: 'Kiểm Soát Tranh Chấp Tồn Kho', en: 'Concurrency & Inventory Locking' },
+      primaryValue: 'ACID + Row Lock',
+      exactSubValue: 'select_for_update() • Celery',
       comparisonNote: {
-        vi: 'Phối màu ấm áp gợi cảm giác tiệm bánh cổ điển (Warm Bakery), tạo sự gần gũi, ấm áp và khuyến khích văn hóa đọc cộng đồng.',
-        en: 'Warm tones inspired by vintage bakery aesthetics, creating a welcoming atmosphere that fosters community reading habits.'
+        vi: 'Khóa bản ghi cuốn sách khi có nhiều yêu cầu mượn đồng thời, tự động chuyển sang hàng đợi đặt trước khi tồn kho về 0 và đẩy thông báo bất đồng bộ qua Redis.',
+        en: 'Applies row-level locks during concurrent borrow requests, auto-falls back to the reservation queue at zero stock, and dispatches async alerts via Redis.'
       },
       accentBorder: 'hover:border-[#9BE7FA]/60'
     },
     {
-      id: 'kpi-bus-typography',
-      badge: { vi: 'HỆ THỐNG TYPOGRAPHY • DUAL FONT', en: 'TYPOGRAPHY SYSTEM • DUAL FONT' },
+      id: 'kpi-bus-analytics',
+      badge: { vi: 'PHÂN TÍCH VẬN HÀNH & DESIGN SYSTEM', en: 'ANALYTICS & DESIGN SYSTEM' },
       badgeColor: 'bg-[#FFE485]/40 text-amber-950 border-[#FFD14C]/40 dark:bg-[#FFE485]/15 dark:text-[#FFE485] dark:border-[#FFE485]/30',
-      title: { vi: 'Phông Chữ Tiêu Đề & Nội Dung', en: 'Heading & Body Typography Hierarchy' },
-      primaryValue: 'Lora + Outfit',
-      exactSubValue: 'Serif Cổ Điển + Sans Hiện Đại',
+      title: { vi: 'Chỉ Số Vận Hành & Bản Sắc Thương Hiệu', en: 'Operational KPIs & Brand Tokens' },
+      primaryValue: 'Bayesian + Cosine',
+      exactSubValue: isEn ? '6 Neo-Bakery Tones • Lora + Outfit' : '6 Tông Neo-Bakery • Lora + Outfit',
       comparisonNote: {
-        vi: 'Lora mang nét trang nhã tri thức cho đề mục; Outfit mang tính trực quan, rõ nét cho văn bản chỉ dẫn và thông số vận hành.',
-        en: 'Lora delivers literary elegance for headings; Outfit provides geometric clarity for UI labels, guidance, and metrics.'
+        vi: 'Kết hợp bảng điều khiển phân tích (xếp hạng Bayesian, gợi ý Cosine Similarity, KPI đội xe) với hệ màu ấm Neo-Bakery và cặp phông chữ Lora + Outfit.',
+        en: 'Pairs operational analytics (Bayesian ranking, Cosine Similarity recommendations, fleet KPIs) with the 6-tone Neo-Bakery palette and Lora + Outfit typography.'
       },
       accentBorder: 'hover:border-[#FFD14C]/60'
     }
@@ -84,29 +84,28 @@ export function LibraryBusHero({
             <>
               Library Bus System:{' '}
               <span className="text-[#0D7287] dark:text-[#9BE7FA]">
-                Website Design Guidelines
+                BA Specification, UX/UI &amp; System Architecture
               </span>
-              : Research, Logo & UI Components, Wireframes
+              {' '}for Mobile Library Service
             </>
           ) : (
             <>
               Hệ Thống Xe Thư Viện Lưu Động (Library Bus):{' '}
               <span className="text-[#0D7287] dark:text-[#9BE7FA]">
-                Bộ Quy Chuẩn Thiết Kế Website
+                Phân Tích Nghiệp Vụ (BA), Thiết Kế UX/UI &amp; Kiến Trúc Dữ Liệu
               </span>
-              : Nghiên Cứu UX, Logo & UI, Wireframe
             </>
           )}
         </h1>
         
         <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
           {isEn
-            ? 'End-to-end UX/UI website architecture for mobile library service: reader user flows, real-time bus route tracking, modular 12-column grid, and automated borrowing pipelines.'
-            : 'Thiết kế kiến trúc UX/UI website xe thư viện lưu động: nghiên cứu luồng độc giả, định vị lịch trình xe, hệ thống lưới 12 cột và quy trình số hóa mượn sách tự động.'}
+            ? 'End-to-end product specification and Django web architecture for a mobile library network: business rules (BR), Sitemap & User Flows, 11 core Desktop & Mobile Wireframe-to-UI screen pairs, PostgreSQL ACID concurrency control, and operational analytics.'
+            : 'Đặc tả nghiệp vụ và kiến trúc ứng dụng web Django cho mạng lưới xe thư viện lưu động: quy tắc nghiệp vụ (Business Rules), Sitemap & User Flow, 11 cặp màn hình cốt lõi (Wireframe đối chiếu UI trên Desktop & Mobile), kiểm soát giao dịch PostgreSQL ACID và bảng điều khiển phân tích dữ liệu.'}
         </p>
       </div>
 
-      {/* 4 BENTO KPI CARDS - UNIFIED KAMI ELY STYLE */}
+      {/* 4 BENTO KPI CARDS */}
       <div className="relative grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         {libraryBusKpiCards.map((card) => (
           <div

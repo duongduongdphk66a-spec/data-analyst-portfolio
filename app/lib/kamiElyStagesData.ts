@@ -282,7 +282,7 @@ export function buildStage1Data(): Stage1Payload {
       id: 4,
       area: { vi: 'Bảo toàn số liệu kiểm toán', en: 'Audit Telemetry Integrity' },
       status: 'passed',
-      detail: { vi: 'Khớp 100% doanh thu 15,01 tỷ và 101.896 sản phẩm giữa các bảng đối soát', en: '100% reconciliation match on 15.01B GMV and 101,896 units' },
+      detail: { vi: 'Khớp SSOT 231 ngày (15,01 tỷ GMV, 101.896 SP); lệch 0,05–3,3% giữa ảnh chụp tháng 9 và file xuất 25/10', en: '231d SSOT verified (15.01B GMV, 101,896 units); 0.05–3.3% variance between Sep UI screenshots and Oct 25 exports' },
       evidence: 'reconciliationRules: 6/6 passed',
     },
     {
@@ -346,10 +346,10 @@ export function buildStage1Data(): Stage1Payload {
         en: 'Matches 20,027 units (Summer) & 11,628 units (Fall)',
       },
       status: 'pass',
-      statusLabel: { vi: 'Khớp 100%', en: 'Pass 100%' },
+      statusLabel: { vi: 'Khớp sản lượng', en: 'Units Matched' },
       note: {
         vi: '787 dòng Goods for Sale trên 2 kỳ snapshot đối soát khớp tuyệt đối với báo cáo Creator tương ứng từng kỳ.',
-        en: '787 Goods for Sale records across 2 snapshots reconcile with 100% precision against creator reports.',
+        en: '787 Goods for Sale records across 2 snapshots reconcile in unit count against creator reports.',
       },
     },
     {
@@ -670,21 +670,21 @@ export function buildStage2Data(): Stage2Payload {
       test: { vi: 'Chuỗi thời gian Store Detail (231 ngày liên tục)', en: 'Store Detail 231-day Continuous Time-Series' },
       metric: 'Khớp 15,01 tỷ VNĐ (15.009.083.662 đ)',
       detail: {
-        vi: 'Xác minh toàn vẹn chuỗi thời gian không gián đoạn ngày nào trong 231 ngày liên tục (101.896 sản phẩm, khớp SSOT 100%).',
-        en: 'Confirms complete time-series integrity with zero missing days across 231 continuous days (101,896 units, 100% SSOT match).',
+        vi: 'Xác minh toàn vẹn chuỗi thời gian 231 ngày liên tục không thiếu ngày nào (101.896 sản phẩm trên Store Daily Overview).',
+        en: 'Confirms complete time-series integrity with zero missing days across 231 continuous days (101,896 units on Store Daily Overview).',
       },
       status: 'pass',
-      statusLabel: { vi: 'Khớp SSOT 100%', en: '100% SSOT' },
+      statusLabel: { vi: 'Khớp SSOT', en: 'SSOT Verified' },
     },
     {
       test: { vi: 'Sản lượng kênh chính chủ: Goods for Sale vs Creators Merged', en: 'Own-channel volume: Goods for Sale vs Creators Merged' },
       metric: 'Khớp 20.027 SP (Hè) & 11.628 SP (Thu)',
       detail: {
         vi: '787 dòng Goods for Sale trên 2 kỳ snapshot đối soát khớp tuyệt đối với báo cáo Creator tương ứng từng kỳ. GMV lệch 6.569 đ do làm tròn chuỗi hiển thị.',
-        en: '787 Goods for Sale records across 2 snapshots reconcile with 100% precision against creator reports. 6,569 VND delta due to display string rounding.',
+        en: '787 Goods for Sale records across 2 snapshots reconcile in units against creator reports. 6,569 VND delta due to display string rounding.',
       },
       status: 'pass',
-      statusLabel: { vi: 'Khớp 100% Sản lượng', en: 'Units Match 100%' },
+      statusLabel: { vi: 'Khớp sản lượng', en: 'Units Matched' },
     },
     {
       test: { vi: 'Số phiên Live: Store Detail (tổng ngày) vs Shop LIVE', en: 'Live Session Count: Store Detail daily sum vs Shop LIVE' },
@@ -1499,7 +1499,7 @@ export function buildStage7Data(): Stage7Payload {
       actual: '20.027 sp = 20.027 sp',
       level: 'error',
       status: 'passed',
-      note: { vi: 'Khớp 100% giữa 2 bảng độc lập', en: '100% match across 2 independent exports' },
+      note: { vi: 'Khớp sản lượng giữa 2 bảng độc lập', en: 'Unit count matches across 2 independent exports' },
     },
     {
       gate: { vi: '5. Khớp phiên Live chính chủ', en: '5. Live Session Cross-Match' },

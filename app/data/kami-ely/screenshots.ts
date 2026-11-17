@@ -28,24 +28,24 @@ export const KAMI_DATA_SCOPES: DataScopeItem[] = [
     timeframeVi: 'Tích lũy Toàn thời gian (Từ khi thành lập shop)',
     timeframeEn: 'Lifetime Accumulated (Since Store Foundation)',
     timeframeBadge: 'Toàn thời gian (Từ 18/08/2022)',
-    periodVi: '18/08/2022 - Nay (~2 năm vận hành)',
-    periodEn: 'Aug 18, 2022 - Present (~2 years operating)',
+    periodVi: '18/08/2022 - Nay (~4 năm vận hành)',
+    periodEn: 'Aug 18, 2022 - Present (~4 years operating)',
     isAllTime: true,
-    totalGmv: '15,01 Tỷ đ',
-    totalUnits: '238.4k SP',
+    totalGmv: '31,6 Tỷ đ (231d: 15,01 Tỷ đ)',
+    totalUnits: '238,4k SP (231d: 101.896 SP)',
     keyHighlightsVi: [
-      'Tổng sản lượng 238.4k sản phẩm và 15,01 Tỷ đ GMV toàn sàn TikTok Shop',
-      'Tích lũy 12.4k phiên LIVE và 11.2k video gắn link giỏ hàng',
-      'Mạng lưới 6.0k nhà sáng tạo (Affiliates) từng liên kết bán hàng',
+      'Tổng sản lượng lũy kế 238,4k sản phẩm bán ra (units, không phải đơn hàng) và 31,6 Tỷ đ GMV từ 18/08/2022',
+      'Tập mẫu phân tích chuyên sâu 231 ngày (09/03 – 25/10/2026) ghi nhận 15,01 Tỷ đ GMV và 101.896 sản phẩm',
+      'Tích lũy 12.4k phiên LIVE và 11.2k video gắn link giỏ hàng với 6.0k nhà sáng tạo (Affiliates) từng liên kết',
       'Xếp hạng #7.5k toàn quốc và #259 ngành Thể thao & Dã ngoại (Sports & Outdoor)',
-      'LƯU Ý QUAN TRỌNG: Đây là số liệu TÍCH LŨY TOÀN THỜI GIAN, không phải 180 ngày gần nhất'
+      'LƯU Ý QUAN TRỌNG: 31,6 Tỷ đ / 238,4k SP là số liệu TÍCH LŨY TOÀN THỜI GIAN từ 2022; còn 15,01 Tỷ đ / 101.896 SP là chu kỳ 231 ngày và 12,74 Tỷ đ / 85.500 SP là cửa sổ 180 ngày'
     ],
     keyHighlightsEn: [
-      'Total 238.4k units sold & 15.01B VND GMV on TikTok Shop platform',
-      '12.4k total shoppable LIVEs & 11.2k shoppable videos published',
-      '6.0k total affiliate creators historically linked with the store',
+      'Lifetime cumulative 238.4k units sold (units, not orders) & 31.6B VND GMV since Aug 18, 2022',
+      'Primary 231-day analytical sample (Mar 09 – Oct 25, 2026) records 15.01B VND GMV and 101,896 units sold',
+      '12.4k total shoppable LIVEs & 11.2k shoppable videos with 6.0k total historical affiliate creators',
       'Ranked #7.5k nationally & #259 in Sports & Outdoor category',
-      'CRITICAL NOTE: This represents LIFETIME data since inception, NOT last 180 days'
+      'CRITICAL NOTE: 31.6B VND / 238.4k units is LIFETIME cumulative data since 2022; 15.01B VND / 101,896 units is the 231-day sample and 12.74B VND / 85,500 units is the 180-day window'
     ],
     screenshotIds: ['sc-073329']
   },
@@ -122,7 +122,7 @@ export const KAMI_DATA_SCOPES: DataScopeItem[] = [
       'Tổng GMV tích lũy 9,2 Tỷ đ (Kênh Video đóng góp 3,2 Tỷ đ; Kênh LIVE đóng góp 5,9 Tỷ đ)',
       'Đã đăng 859 video (551 video có giỏ hàng, 308 video xây kênh) với 34.3 Triệu lượt xem',
       'Đã tổ chức 2.5k phiên livestream bán hàng (trung bình 2.4k lượt xem/phiên)',
-      'Hiệu suất sinh lời (28 ngày): Video GPM đạt 134,8k - 135,2k đ vs Live GPM đạt 29,2k - 30,2k đ',
+      'Hiệu suất sinh lời (28 ngày trên ảnh chụp UI): Video GPM 134,8k - 135,2k đ vs Live GPM 29,2k - 30,2k đ (khác chiều với dữ liệu từng phiên 180 ngày)',
       'LƯU Ý QUAN TRỌNG: Đây là số liệu TÍCH LŨY TOÀN THỜI GIAN của kênh, không phải 180 ngày gần nhất'
     ],
     keyHighlightsEn: [
@@ -225,9 +225,9 @@ export const fastmossScreenshotsManifest: FastMossScreenshotItem[] = [
     isAllTime: true,
     titleVi: 'Hồ Sơ Toàn Thời Gian & Xếp Hạng Toàn Shop (Từ 18/08/2022)',
     titleEn: 'Lifetime Profile & Store Rankings (Since Aug 18, 2022)',
-    descriptionVi: 'DỮ LIỆU TÍCH LŨY TOÀN THỜI GIAN từ khi thành lập shop (18/08/2022, KHÔNG PHẢI 180 ngày). Tổng GMV 15,01 Tỷ đ, bán 238.4k SP, 179 SKU đang bán (338 SKU lịch sử), 12.4k phiên LIVE, 11.2k video, 6.0k affiliates.',
-    descriptionEn: 'LIFETIME ACCUMULATED DATA since store inception (Aug 18, 2022, NOT last 180 days). 15.01B VND GMV, 238.4k units sold, 179 active SKUs (338 historical), 12.4k LIVEs, 11.2k videos, 6.0k affiliates.',
-    keyMetric: '15,01 Tỷ đ GMV · 238.4k SP (Toàn thời gian)'
+    descriptionVi: 'DỮ LIỆU TÍCH LŨY TOÀN THỜI GIAN từ khi thành lập shop (18/08/2022, KHÔNG PHẢI 180 hay 231 ngày). Tổng GMV lũy kế 31,6 Tỷ đ, bán 238,4k sản phẩm (units), 179 SKU đang bán (338 SKU lịch sử), 12.4k phiên LIVE, 11.2k video, 6.0k affiliates.',
+    descriptionEn: 'LIFETIME ACCUMULATED DATA since store inception (Aug 18, 2022, NOT last 180 or 231 days). 31.6B VND lifetime GMV, 238.4k units sold, 179 active SKUs (338 historical), 12.4k LIVEs, 11.2k videos, 6.0k affiliates.',
+    keyMetric: '31,6 Tỷ đ GMV · 238,4k SP (Toàn thời gian)'
   },
   {
     id: 'sc-073418',
@@ -521,7 +521,7 @@ export const fastmossScreenshotsManifest: FastMossScreenshotItem[] = [
     timeframeEn: 'Last 180 Days (Mar 09 - Aug 24)',
     titleVi: 'Tổng Sản Lượng E-commerce Của Creator (39.3k SP)',
     titleEn: 'Creator Total E-commerce Units Sold (39.3k Units)',
-    descriptionVi: 'Creator chính chủ trực tiếp tạo ra 39.3k đơn hàng trong 180 ngày, chiếm 46.0% tổng sản lượng của toàn bộ shop Kami Ely (85.5k SP).',
+    descriptionVi: 'Creator chính chủ trực tiếp bán ra 39.3k sản phẩm trong 180 ngày, chiếm 46.0% tổng sản lượng của toàn bộ shop Kami Ely (85.5k SP).',
     descriptionEn: 'The creator directly drove 39.3k units sold in 180 days, accounting for 46.0% of Kami Ely store total volume (85.5k).',
     keyMetric: '39.3k SP Bán Ra (180 Ngày)'
   },

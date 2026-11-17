@@ -3,25 +3,20 @@
 import React from "react";
 import Link from "next/link";
 import { useLanguage } from "@/app/context/LanguageContext";
-import { BLOG_POSTS, TESTIMONIALS } from "@/app/data/blogData";
+import { usePortfolioData } from "@/app/context/PortfolioDataContext";
+import { BLOG_POSTS } from "@/app/data/blogData";
+import { DEFAULT_PROFILE } from "@/app/defaultData";
 import {
   ArrowRight,
   ArrowUpRight,
   BookOpen,
-  Briefcase,
   Clock,
-  Code2,
-  Compass,
-  Database,
   Download,
-  FileSpreadsheet,
-  Flame,
+  Github,
   GraduationCap,
-  Layers,
-  LineChart,
-  Microscope,
-  Quote,
-  Sparkles,
+  Linkedin,
+  Mail,
+  MapPin,
 } from "lucide-react";
 
 /* ============================================================================
@@ -108,7 +103,6 @@ function VisualiseIllustration({ className = "w-16 h-16" }: { className?: string
         const cx = 14 + colIdx * 13;
         return Array.from({ length: height }).map((_, rowIdx) => {
           const cy = 86 - rowIdx * 10.5;
-          // Harmonious dots using the 4 project colors
           const fill =
             rowIdx === 0
               ? "#FFD14C"
@@ -134,617 +128,477 @@ function VisualiseIllustration({ className = "w-16 h-16" }: { className?: string
 
 export default function AboutSection() {
   const { language } = useLanguage();
+  const { profile } = usePortfolioData();
   const isVi = language === "vi";
 
+  const displayName = (profile?.name || DEFAULT_PROFILE.name || "Ma Văn Hùng").replace(/^Mã\s+/i, "Ma ");
+  const emailAddress = profile?.email?.trim() || DEFAULT_PROFILE.email || "mavanhung.da@gmail.com";
+  const githubUrl = profile?.github?.trim() || DEFAULT_PROFILE.github || "";
+  const linkedinUrl = profile?.linkedin?.trim() || DEFAULT_PROFILE.linkedin || "";
+
+  const provenTools = isVi
+    ? ["SQL", "Python", "Thống kê ứng dụng", "Recharts"]
+    : ["SQL", "Python", "Applied Statistics", "Recharts"];
+
+  const projectQuestions = [
+    {
+      href: "/projects/proj-kami-ely",
+      domain: isVi ? "E-Commerce & TikTok Shop" : "E-Commerce & TikTok Shop",
+      title: "Kami Ely",
+      question: isVi
+        ? "Doanh thu tăng vọt đến từ giảm giá theo ngày hay do mạng lưới KOL/KOC?"
+        : "Did sales spikes come from daily discounting or the KOL/KOC affiliate network?",
+      metrics: [
+        {
+          value: isVi ? "15,01 tỷ VNĐ" : "15.01B VND",
+          label: isVi ? "GMV ước tính (231 ngày)" : "Est. GMV (231 days)",
+        },
+        {
+          value: "101.896",
+          label: isVi ? "Sản phẩm bán ra (231 ngày)" : "Units sold (231 days)",
+        },
+        {
+          value: isVi ? "231 ngày" : "231 days",
+          label: "09/03 - 25/10/2026",
+        },
+      ],
+      sourceNote: isVi
+        ? "Nguồn: 10 bảng ước tính FastMoss (ảnh chụp tháng 9, file xuất đến 25/10/2026), tách biệt khỏi thực tập Steve x Kami (2022-2023). Cửa sổ 180 ngày: 12,74 tỷ / 85,5k sản phẩm; toàn thời gian: 31,6 tỷ / 238,4k sản phẩm; chỉ 329/6.086 creator affiliate có doanh thu (5,4%)."
+        : "Source: 10 FastMoss estimated tables (Sep screenshots, exports through Oct 25, 2026), separate from my Steve x Kami internship (2022-2023). 180-day slice: 12.74B VND / 85.5k units; all-time: 31.6B VND / 238.4k units; only 329/6,086 affiliate creators generated revenue (5.4%).",
+      accent: "cyan" as const,
+    },
+    {
+      href: "/projects/proj-heritage-japan",
+      domain: isVi ? "Chuỗi thời gian & Nghiên cứu" : "Time-Series & Research",
+      title: "Heritage Japan",
+      question: isVi
+        ? "Du lịch Nhật Bản mở rộng ra sao trước dịch và tạo áp lực thế nào lên điểm di sản?"
+        : "How did inbound Japanese tourism scale pre-pandemic and pressure local heritage sites?",
+      metrics: [
+        {
+          value: isVi ? "31,9 triệu" : "31.9M",
+          label: isVi ? "Lượt khách quốc tế (đỉnh 2019)" : "Inbound visitors (2019 peak)",
+        },
+        {
+          value: isVi ? "4,81 nghìn tỷ Yên" : "¥4.81T",
+          label: isVi ? "Chi tiêu du lịch (2019)" : "Inbound spending (2019)",
+        },
+        {
+          value: "3.000 : 1",
+          label: isVi ? "Tỷ lệ khách/dân tại Shirakawa-go" : "Visitor-to-resident ratio (Shirakawa-go)",
+        },
+      ],
+      sourceNote: isVi
+        ? "Nguồn: Dữ liệu công khai JNTO, MLIT và tư liệu khóa luận tại ĐHKHXH&NV - ĐHQGHN."
+        : "Source: Public JNTO & MLIT statistics paired with undergraduate thesis research at VNU-USSH.",
+      accent: "gold" as const,
+    },
+    {
+      href: "/projects/proj-library-bus",
+      domain: isVi ? "Business Analysis & UX/UI" : "Business Analysis & UX/UI",
+      title: "Library Bus",
+      question: isVi
+        ? "Cấu trúc tra cứu và luồng mượn trả nào giảm thao tác cho học sinh trên xe thư viện?"
+        : "Which catalog structure and borrow flow reduces friction for students using the mobile bus library?",
+      metrics: [
+        {
+          value: isVi ? "11 cặp màn hình" : "11 screen pairs",
+          label: isVi ? "Wireframe & UI (Desktop + Mobile)" : "Wireframes & UI (Desktop + Mobile)",
+        },
+        {
+          value: isVi ? "4 luồng BA" : "4 BA flows",
+          label: isVi ? "Tra cứu, đặt giữ, mượn trả, quyên góp" : "Search, reserve, borrow, donate",
+        },
+        {
+          value: "ACID + ERD",
+          label: isVi ? "6 bảng CSDL & khóa dòng" : "6-table schema & row lock",
+        },
+      ],
+      sourceNote: isVi
+        ? "Nguồn: Dự án BA, UX/UI & Kiến trúc ứng dụng Django dùng dữ liệu hạt giống (seed data) để kiểm thử luồng."
+        : "Source: BA, UX/UI & Django architecture project using seeded records to verify business rules and flows.",
+      accent: "slate" as const,
+    },
+  ];
+
+  const pillars = [
+    {
+      id: "collect",
+      title: isVi ? "1. Thu thập & Đối soát" : "1. Collect & Reconcile",
+      subtitle: isVi ? "Chuẩn hóa định nghĩa chỉ số" : "Lock metric definitions first",
+      Illustration: CollectIllustration,
+      desc: isVi
+        ? "Tách bạch phạm vi thời gian, nguồn công khai (JNTO, MLIT) hoặc bảng ước tính (FastMoss CSV/Excel), kiểm tra trùng lặp và phân biệt rõ sản phẩm với đơn hàng trước khi tính."
+        : "Separate reporting windows and raw sources (JNTO, MLIT, or FastMoss CSV/Excel exports), remove duplicates, and verify units versus orders before aggregating.",
+    },
+    {
+      id: "process",
+      title: isVi ? "2. Xử lý & Kiểm định" : "2. Process & Validate",
+      subtitle: isVi ? "SQL và Python thống kê" : "SQL & Statistical Python",
+      Illustration: ProcessIllustration,
+      desc: isVi
+        ? "Làm sạch bảng bằng SQL và Pandas, kiểm tra phân phối lệch và chạy hồi quy OLS, kiểm định Mann-Whitney U hoặc HHI bằng SciPy và Statsmodels để kiểm chứng giả thuyết."
+        : "Clean tables with SQL and Pandas, test skewed distributions, and run OLS regression, Mann-Whitney U, and HHI concentration checks in SciPy and Statsmodels.",
+    },
+    {
+      id: "visualise",
+      title: isVi ? "3. Trực quan hóa" : "3. Visualise & Recommend",
+      subtitle: isVi ? "Biểu đồ tương tác Recharts" : "Interactive Recharts Views",
+      Illustration: VisualiseIllustration,
+      desc: isVi
+        ? "Dựng dashboard tương tác bằng Recharts trên nền web, trình bày từ câu hỏi kinh doanh đến con số kiểm chứng và gợi ý hành động cụ thể."
+        : "Build interactive web dashboards in Recharts structured from the business question to verified numbers and concrete next actions.",
+    },
+  ];
+
   return (
-    <section id="about" className="py-6 sm:py-8 space-y-12 sm:space-y-16">
+    <section id="about" className="py-6 sm:py-8 space-y-12 sm:space-y-14">
       {/* =====================================================================
-       * 1. HERO "ABOUT ME" SPLIT BANNER (Theme-consistent 4-Color Palette)
+       * 1. HERO: FRESHER DA / BA POSITIONING & DIRECT CONTACT
        * ===================================================================== */}
       <div className="rounded-3xl overflow-hidden border border-[#C8EEF7] dark:border-slate-800 grid grid-cols-1 lg:grid-cols-12 bg-[#F0F9FB] dark:bg-slate-900 text-slate-900 dark:text-white">
-        {/* Left Column: Analyst Identity Card */}
-        <div className="lg:col-span-4 relative bg-[#C8EEF7]/45 dark:bg-slate-950/60 p-6 sm:p-8 md:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#C8EEF7] dark:border-slate-800" /* taste-skill-ignore: column boundary */>
-          <div className="space-y-6">
-            {/* Status Pill in #9BE7FA / #FFD14C */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 dark:bg-[#9BE7FA]/15 border border-[#9BE7FA]/50 dark:border-[#9BE7FA]/35 text-[#074553] dark:text-[#9BE7FA] text-xs font-semibold">
-              <span className="w-2 h-2 rounded-full bg-[#FFD14C]" />
-              {isVi
-                ? "Sẵn sàng cho vị trí Data Analyst"
-                : "Available for Data Analyst Roles"}
-            </div>
+        {/* Left Identity Column */}
+        <div className="lg:col-span-5 p-6 sm:p-8 lg:p-10 flex flex-col justify-between gap-6 border-b lg:border-b-0 lg:border-r border-[#C8EEF7] dark:border-slate-800 bg-white/75 dark:bg-slate-950/60">
+          <div className="space-y-5">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#FFE485] text-[#5C2808]">
+              <span className="w-2 h-2 rounded-full bg-[#074553]" aria-hidden="true" />
+              {isVi ? "Đang tìm Fresher DA / BA" : "Seeking Fresher DA / BA Roles"}
+            </span>
 
-            <div className="pt-2">
-              <div className="w-20 h-20 rounded-2xl bg-[#9BE7FA] border border-[#074553]/15 flex items-center justify-center">
-                <span className="text-2xl font-extrabold text-[#074553]">
-                  MVH
-                </span>
+            <div className="flex items-center gap-4">
+              <div
+                aria-label={`${displayName} initials`}
+                className="w-16 h-16 rounded-2xl bg-[#9BE7FA] text-[#074553] font-extrabold text-xl tracking-tight flex items-center justify-center shrink-0"
+              >
+                MVH
               </div>
-              <h2 className="mt-5 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                Mã Văn Hùng
-              </h2>
-              <p className="text-sm text-[#074553] dark:text-[#9BE7FA] font-semibold mt-1">
-                Data Analyst & Quantitative Researcher
-              </p>
+              <div className="min-w-0">
+                <p className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white truncate">
+                  {displayName}
+                </p>
+                <p className="text-sm font-medium text-[#074553] dark:text-[#9BE7FA]">
+                  Fresher Data Analyst / BA
+                </p>
+              </div>
             </div>
 
-            <div className="space-y-3 pt-5 text-sm text-slate-700 dark:text-slate-300">
+            <div className="space-y-2.5 text-sm text-slate-700 dark:text-slate-300">
               <div className="flex items-start gap-2.5">
-                <GraduationCap className="w-4 h-4 text-[#074553] dark:text-[#9BE7FA] shrink-0 mt-0.5" />
+                <GraduationCap className="w-4 h-4 mt-0.5 text-[#0D7287] dark:text-[#9BE7FA] shrink-0" aria-hidden="true" />
                 <span>
                   {isVi
-                    ? "Khởi nguồn từ Nghiên cứu Khoa học (Du lịch Di sản Nhật Bản)"
-                    : "Rooted in University Research (Japanese Heritage Tourism)"}
+                    ? "Cử nhân Nhật Bản học, ĐHKHXH&NV - ĐHQGHN"
+                    : "B.A. in Japanese Studies, VNU-USSH"}
                 </span>
               </div>
-              <div className="flex items-start gap-2.5">
-                <Database className="w-4 h-4 text-[#0D7287] dark:text-[#FFE485] shrink-0 mt-0.5" />
-                <span>SQL 8-Stage Pipeline • Python (Pandas, SciPy)</span>
+              <div className="flex items-center gap-2.5">
+                <MapPin className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA] shrink-0" aria-hidden="true" />
+                <span>{isVi ? "Hà Nội, Việt Nam" : "Hanoi, Vietnam"}</span>
               </div>
-              <div className="flex items-start gap-2.5">
-                <LineChart className="w-4 h-4 text-amber-600 dark:text-[#FFD14C] shrink-0 mt-0.5" />
-                <span>Data Storytelling • BI & Product UX Analytics</span>
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">
+                {isVi ? "Công cụ sử dụng trong dự án" : "Tools backed by repo projects"}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {provenTools.map((tool) => (
+                  <span
+                    key={tool}
+                    className="px-3 py-1 rounded-lg text-xs font-semibold bg-[#C8EEF7]/70 dark:bg-slate-800 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/60 dark:border-slate-700"
+                  >
+                    {tool}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
 
-          <div className="pt-6 mt-6 flex flex-wrap gap-3">
+          <div className="pt-2 flex flex-wrap gap-2.5">
             <a
               href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] font-bold text-xs transition-colors border border-[#9BE7FA] cursor-pointer"
+              download
+              className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#7ADCF7] text-[#074553] text-sm font-bold cursor-pointer transition-colors"
             >
-              <Download className="w-3.5 h-3.5" />
-              {isVi ? "Tải CV (PDF)" : "Download CV"}
+              <Download className="w-4 h-4" aria-hidden="true" />
+              {isVi ? "Tải CV PDF" : "Download CV"}
             </a>
-            <Link
-              href="/blog"
-              className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-900 dark:text-white font-semibold text-xs transition-colors border border-[#C8EEF7] dark:border-slate-700 cursor-pointer"
+
+            <a
+              href={`mailto:${emailAddress}`}
+              className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-[#C8EEF7]/50 dark:hover:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 text-sm font-semibold cursor-pointer transition-colors"
             >
-              <BookOpen className="w-3.5 h-3.5 text-[#074553] dark:text-[#9BE7FA]" />
-              {isVi ? "Đọc Blog Phân tích" : "Read Analytics Blog"}
-            </Link>
-          </div>
-        </div>
+              <Mail className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" aria-hidden="true" />
+              {isVi ? "Gửi email" : "Email me"}
+            </a>
 
-        {/* Right Column: Editorial "About Me" Introduction */}
-        <div className="lg:col-span-8 p-6 sm:p-10 lg:p-14 flex flex-col justify-center">
-          <span className="text-sm font-semibold text-[#074553] dark:text-[#9BE7FA] mb-2">
-            {isVi ? "Hồ sơ năng lực & Định hướng nghề nghiệp" : "Who I am, what I do & why it matters"}
-          </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6">
-            {isVi ? "Giới Thiệu Bản Thân" : "About Me"}
-          </h1>
+            {githubUrl && (
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-[#C8EEF7]/50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-sm font-medium cursor-pointer transition-colors"
+              >
+                <Github className="w-4 h-4" aria-hidden="true" />
+                <span>GitHub</span>
+              </a>
+            )}
 
-          <div className="space-y-4 text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-200">
-            {isVi ? (
-              <>
-                <p>
-                  Tôi là <strong>Mã Văn Hùng</strong>, một{" "}
-                  <strong className="text-[#074553] dark:text-[#9BE7FA]">Data Analyst</strong> trưởng thành từ nền tảng{" "}
-                  <strong>nghiên cứu khoa học định lượng</strong>, luôn tâm huyết với việc đồng hành cùng các tổ chức để khai thác hiệu quả giá trị thực từ dữ liệu: từ những ý tưởng đầu tiên về việc{" "}
-                  <em>cần đo lường chỉ số gì và làm sao để thu thập dữ liệu chính xác</em>, xuyên suốt quá trình làm sạch, đối soát (reconciliation), phân tích thống kê cho đến bước truyền tải các{" "}
-                  <strong>insights</strong> có sức nặng.
-                </p>
-                <p>
-                  Tôi hỗ trợ trọn vẹn từng mắt xích của quy trình phân tích, bao gồm xây dựng luồng truy vấn{" "}
-                  <strong>SQL 8 giai đoạn</strong>, kiểm định thống kê bằng <strong>Python</strong>, và thiết kế{" "}
-                  <strong>Interactive Dashboards</strong> để giúp đội ngũ của bạn đưa ra quyết định dựa trên bằng chứng thực nghiệm (
-                  <em>evidence-driven decisions</em>).
-                </p>
-                <p className="pt-2 text-[#074553] dark:text-[#C8EEF7] font-semibold text-sm">
-                  Tôi hiện sẵn sàng cho các vị trí Data Analyst toàn thời gian, các dự án phân tích đối soát dữ liệu và nghiên cứu sản phẩm.
-                </p>
-              </>
-            ) : (
-              <>
-                <p>
-                  I am <strong>Mã Văn Hùng</strong>, a{" "}
-                  <strong className="text-[#074553] dark:text-[#9BE7FA]">Data Analyst</strong> with a strong foundation in{" "}
-                  <strong>quantitative academic research</strong>, working with organisations that want to make effective use of their data: from the first ideas around{" "}
-                  <em>what you want to measure and how to capture data accurately</em>, through data preparation, reconciliation, and statistical analysis, all the way to clear presentation of insights.
-                </p>
-                <p>
-                  I support each step of the analytical process, including <strong>8-stage SQL pipelines</strong>,{" "}
-                  <strong>Python statistical modeling</strong>, and interactive <strong>BI & web dashboards</strong> so your organisation can make evidence-driven decisions with confidence.
-                </p>
-                <p className="pt-2 text-[#074553] dark:text-[#C8EEF7] font-semibold text-sm">
-                  I am available for full-time Data Analyst opportunities, short-term data audit consulting, and research collaborations.
-                </p>
-              </>
+            {linkedinUrl && (
+              <a
+                href={linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-[#C8EEF7]/50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-sm font-medium cursor-pointer transition-colors"
+              >
+                <Linkedin className="w-4 h-4" aria-hidden="true" />
+                <span>LinkedIn</span>
+              </a>
             )}
           </div>
         </div>
+
+        {/* Right Narrative Column */}
+        <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-center gap-5">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white text-balance">
+            {isVi
+              ? "Mình biến dữ liệu bán hàng và chuỗi thời gian thành khuyến nghị cụ thể."
+              : "I turn sales and time-series data into specific operational recommendations."}
+          </h1>
+
+          <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed max-w-prose">
+            {isVi
+              ? "Từ nền tảng Nhật Bản học tại ĐHKHXH&NV, mình chuyển sang làm sạch dữ liệu bảng bằng SQL và Python, kiểm định giả thuyết bằng thống kê và dựng biểu đồ tương tác bằng Recharts. Với mỗi bài toán, mình ghi rõ nguồn dữ liệu, phạm vi thời gian và phần chưa kiểm chứng được trước khi đưa ra đề xuất."
+              : "With a B.A. in Japanese Studies from VNU-USSH, I moved into cleaning tabular records with SQL and Python, testing hypotheses with applied statistics, and building Recharts dashboards. In each project, I document data sources, time windows, and measurement gaps before proposing actions."}
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div className="rounded-2xl p-4 bg-white dark:bg-slate-800/70 border border-[#C8EEF7] dark:border-slate-700">
+              <p className="text-xs font-semibold text-[#074553] dark:text-[#9BE7FA]">
+                {isVi ? "Kinh nghiệm thực tế" : "Hands-on experience"}
+              </p>
+              <p className="text-sm font-bold text-slate-900 dark:text-white mt-1">
+                {isVi ? "Thực tập TMĐT tại Steve x Kami (2022-2023)" : "E-Commerce Intern at Steve x Kami (2022-2023)"}
+              </p>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                {isVi
+                  ? "Theo dõi báo cáo vận hành, SKU tồn kho và đối soát số liệu bán hàng trên sàn."
+                  : "Tracked SKU inventory reports and reconciled store-level operational sheets."}
+              </p>
+            </div>
+
+            <div className="rounded-2xl p-4 bg-white dark:bg-slate-800/70 border border-[#FFE485] dark:border-slate-700">
+              <p className="text-xs font-semibold text-[#78350F] dark:text-[#FFE485]">
+                {isVi ? "Liên hệ nhanh" : "Direct contact"}
+              </p>
+              <a
+                href={`mailto:${emailAddress}`}
+                className="block text-[13px] font-bold text-slate-900 dark:text-white mt-1 whitespace-nowrap truncate hover:underline"
+                title={emailAddress}
+              >
+                {emailAddress}
+              </a>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                {isVi
+                  ? "Sẵn sàng trao đổi bài kiểm tra kỹ thuật SQL, Python hoặc Business Analysis."
+                  : "Available for Fresher DA / BA technical assessments and interviews."}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* =====================================================================
-       * 2. THREE PILLARS: COLLECT • PROCESS • VISUALISE (Horizontal Cards, Max 2 Cols)
+       * 2. THREE PROJECTS, THREE QUESTIONS
        * ===================================================================== */}
-      <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 lg:p-12 border border-[#C8EEF7] dark:border-slate-800 space-y-8">
-        <div className="max-w-3xl">
-          <span className="text-sm font-semibold text-[#074553] dark:text-[#9BE7FA]">
-            {isVi ? "Quy trình & năng lực cốt lõi" : "End-to-end analytical workflow"}
-          </span>
-          <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-            {isVi
-              ? "Ba Trụ cột: Thu thập • Xử lý • Trực quan hóa"
-              : "Collect • Process • Visualise"}
+      <div className="space-y-6">
+        <div className="space-y-1.5">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            {isVi ? "Ba dự án, ba câu hỏi" : "Three projects, three questions"}
           </h2>
-          <p className="mt-2 text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-prose">
             {isVi
-              ? "Ba mắt xích liền mạch được chuẩn hóa qua các dự án phân tích dữ liệu."
-              : "Three continuous phases validated across real-world analytical case studies."}
+              ? "Mỗi case study giải một câu hỏi cụ thể, dùng số liệu đối soát theo trang dự án và ghi rõ nguồn thu thập."
+              : "Each case study answers one focused question with metrics reconciled against its project page and explicit source attribution."}
           </p>
         </div>
 
-        <div className="space-y-5">
-          {/* Pillar 1: Collect */}
-          <div className="rounded-2xl bg-[#F8FCFD] dark:bg-slate-800/50 p-6 sm:p-8 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#9BE7FA] transition-colors grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            <div className="lg:col-span-4 flex items-center gap-5">
-              <div className="shrink-0 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-700">
-                <CollectIllustration className="w-16 h-16" />
-              </div>
-              <div>
-                <span className="text-xs font-semibold text-[#074553] dark:text-[#9BE7FA]">
-                  {isVi ? "Thu thập & kiểm toán nguồn" : "Data acquisition"}
-                </span>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  Collect
-                </h3>
-              </div>
-            </div>
-            <div className="lg:col-span-8 text-slate-600 dark:text-slate-300 text-sm sm:text-[15px] leading-relaxed lg:pl-8">
-              {isVi ? (
-                <>
-                  Xuất phát từ nền tảng <strong>nghiên cứu khoa học kinh tế - xã hội</strong>, tôi có kiến thức lý thuyết và thực tiễn vững chắc trong{" "}
-                  <strong>thiết kế khung đo lường</strong> và <strong>kiểm toán chất lượng dữ liệu (Data Audit)</strong> trên đa nguồn dữ liệu: từ thống kê vĩ mô{" "}
-                  <strong>UNESCO / JNTO</strong>, dữ liệu thương mại điện tử{" "}
-                  <strong>TikTok Shop / FastMoss</strong> đến nghiên cứu hành vi người dùng{" "}
-                  <strong>UX Research</strong>.
-                </>
-              ) : (
-                <>
-                  Coming from a background in <strong>quantitative academic research</strong>, I have theoretical and practical knowledge in{" "}
-                  <strong>metric design</strong>, impact assessment, and{" "}
-                  <strong>data quality auditing</strong> across{" "}
-                  <strong>UNESCO / JNTO macro-statistics</strong>,{" "}
-                  <strong>TikTok Shop / FastMoss telemetry</strong>, and{" "}
-                  <strong>UX research</strong>.
-                </>
-              )}
-            </div>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {projectQuestions.map((item) => {
+            const borderTone =
+              item.accent === "cyan"
+                ? "border-[#9BE7FA]/80 dark:border-slate-700"
+                : item.accent === "gold"
+                ? "border-[#FFE485] dark:border-slate-700"
+                : "border-slate-200 dark:border-slate-700";
 
-          {/* Pillar 2: Process */}
-          <div className="rounded-2xl bg-[#F8FCFD] dark:bg-slate-800/50 p-6 sm:p-8 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#9BE7FA] transition-colors grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            <div className="lg:col-span-4 flex items-center gap-5">
-              <div className="shrink-0 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-700">
-                <ProcessIllustration className="w-16 h-16" />
-              </div>
-              <div>
-                <span className="text-xs font-semibold text-amber-800 dark:text-[#FFD14C]">
-                  {isVi ? "Biến đổi & đối soát" : "Transformation & audit"}
-                </span>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  Process
-                </h3>
-              </div>
-            </div>
-            <div className="lg:col-span-8 text-slate-600 dark:text-slate-300 text-sm sm:text-[15px] leading-relaxed lg:pl-8">
-              {isVi ? (
-                <>
-                  Vận dụng khung 8 giai đoạn <strong>SQL for Data Analysis</strong> và hệ sinh thái{" "}
-                  <strong>Python (Pandas, NumPy, SciPy, Scikit-learn)</strong>, tôi xây dựng và tối ưu hóa các luồng xử lý dữ liệu bao gồm{" "}
-                  <strong>chuyển đổi dữ liệu (ETL), đối soát chênh lệch (Data Reconciliation), phân tích chuỗi thời gian</strong> và{" "}
-                  <strong>kiểm định giả thuyết thống kê (ANOVA, Mann-Whitney U)</strong>.
-                </>
-              ) : (
-                <>
-                  Applying the 8-stage <strong>SQL for Data Analysis</strong> methodology alongside{" "}
-                  <strong>Python (Pandas, NumPy, SciPy, Scikit-learn)</strong>, I build and optimize workflows covering{" "}
-                  <strong>data transformation, cross-source reconciliation, time-series analysis</strong>, and{" "}
-                  <strong>statistical hypothesis testing</strong>.
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Pillar 3: Visualise */}
-          <div className="rounded-2xl bg-[#F8FCFD] dark:bg-slate-800/50 p-6 sm:p-8 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#9BE7FA] transition-colors grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            <div className="lg:col-span-4 flex items-center gap-5">
-              <div className="shrink-0 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-700">
-                <VisualiseIllustration className="w-16 h-16" />
-              </div>
-              <div>
-                <span className="text-xs font-semibold text-[#074553] dark:text-[#9BE7FA]">
-                  {isVi ? "Trực quan hóa & kể chuyện dữ liệu" : "Actionable storytelling"}
-                </span>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  Visualise
-                </h3>
-              </div>
-            </div>
-            <div className="lg:col-span-8 text-slate-600 dark:text-slate-300 text-sm sm:text-[15px] leading-relaxed lg:pl-8">
-              {isVi ? (
-                <>
-                  Áp dụng các <strong>nguyên tắc thực hành tốt nhất về trực quan hóa dữ liệu (data visualisation best-practices)</strong>, tôi thiết kế các{" "}
-                  <strong>công cụ dashboard tương tác (interactive tools)</strong> và{" "}
-                  <strong>báo cáo chuyên sâu (executive stories)</strong> bằng{" "}
-                  <strong>Power BI, Tableau, Matplotlib/Seaborn</strong> và{" "}
-                  <strong>Next.js / Recharts</strong>.
-                </>
-              ) : (
-                <>
-                  Applying <strong>data visualisation best-practices</strong>, I create{" "}
-                  <strong>interactive web dashboards</strong> and <strong>executive case-study reports</strong> using{" "}
-                  <strong>Power BI, Tableau, Matplotlib/Seaborn</strong>, and custom{" "}
-                  <strong>Next.js / Recharts</strong> components.
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* =====================================================================
-       * 3. THREE CORE QUESTIONS (Horizontal Cards, Max 2 Cols per Card)
-       * ===================================================================== */}
-      <div className="space-y-8">
-        <div className="max-w-3xl">
-          <span className="text-sm font-semibold text-[#074553] dark:text-[#9BE7FA]">
-            {isVi ? "Hành trình & động lực" : "My story & analytical mindset"}
-          </span>
-          <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-            {isVi
-              ? "Khởi nguồn, Sự Tò mò & Đam mê với Phân tích Dữ liệu"
-              : "How I Started, What Fascinates Me & Where My Passions Lie"}
-          </h2>
-        </div>
-
-        <div className="space-y-6">
-          {/* Card 1: How did you get started */}
-          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#9BE7FA] transition-colors grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-            <div className="lg:col-span-5 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-[#9BE7FA]/20 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/40 flex items-center justify-center shrink-0">
-                  <Compass className="w-5 h-5" />
-                </div>
-                <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#C8EEF7]/45 dark:bg-slate-800 text-[#074553] dark:text-[#9BE7FA]">
-                  {isVi ? "Khởi đầu hành trình" : "How I got started"}
-                </span>
-              </div>
-
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-snug">
-                  {isVi
-                    ? "Khởi đầu từ Nghiên cứu Khoa học ở trường: Dự án Du lịch Di sản Nhật Bản"
-                    : "Started in University Scientific Research: The Japanese Heritage Tourism Project"}
-                </h3>
-              </div>
-
-              <div className="pt-2">
-                <Link
-                  href="/projects/proj-heritage-japan"
-                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#9BE7FA]/20 hover:bg-[#9BE7FA] text-[#074553] dark:text-[#9BE7FA] dark:hover:text-[#074553] border border-[#9BE7FA]/40 text-xs font-bold transition-colors cursor-pointer"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>
-                    {isVi
-                      ? "Xem Dự án Du lịch Di sản Nhật Bản"
-                      : "Explore Heritage Japan Research"}
-                  </span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-
-            <div className="lg:col-span-7 space-y-3.5 text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed lg:pl-8">
-              {isVi ? (
-                <>
-                  <p>
-                    Tôi bắt đầu bước chân vào lĩnh vực phân tích dữ liệu khi thực hiện{" "}
-                    <strong>đề tài nghiên cứu khoa học tại trường đại học</strong>, chính là{" "}
-                    <strong>Dự án Kinh tế học Du lịch Di sản Nhật Bản (Heritage Japan)</strong>.
-                  </p>
-                  <p>
-                    Khi tìm cách chứng minh tác động của danh hiệu UNESCO đối với kinh tế các vùng tại Nhật Bản, tôi nhận ra các báo cáo trung bình cộng đơn thuần không thể giải thích được sự phân cực giữa tình trạng quá tải du lịch (<em>overtourism</em>) ở vùng lõi và sự chững lại ở vùng ven.
-                  </p>
-                  <p>
-                    Việc tự tay kiểm toán dữ liệu (data audit), phân tích phân vị và lượng hóa hiệu quả chính sách trong nghiên cứu đó đã thắp lên trong tôi quyết tâm theo đuổi con đường Data Analyst chuyên nghiệp.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p>
-                    I got started in data analysis while conducting{" "}
-                    <strong>university scientific research</strong> on the{" "}
-                    <strong>Japanese World Heritage Tourism (`heritage-japan`)</strong> project featured in this portfolio.
-                  </p>
-                  <p>
-                    Investigating the regional economic impact of UNESCO designations across Japan revealed that simple averages masked severe structural disparities between overtourism hubs and peripheral prefectures.
-                  </p>
-                  <p>
-                    Auditing empirical datasets and applying statistical models to evaluate policy outcomes turned an academic research project into my career foundation in Data Analytics.
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Card 2: What about data interests you most */}
-          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#FFE485] transition-colors grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-            <div className="lg:col-span-5 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-[#FFE485]/30 text-amber-900 dark:text-[#FFE485] border border-[#FFE485]/50 flex items-center justify-center shrink-0">
-                  <Microscope className="w-5 h-5" />
-                </div>
-                <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FFE485]/30 dark:bg-slate-800 text-amber-900 dark:text-[#FFE485]">
-                  {isVi ? "Điểm thu hút nhất ở dữ liệu" : "What interests me most"}
-                </span>
-              </div>
-
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-snug">
-                  {isVi
-                    ? "Đối soát Nghịch lý Dữ liệu & Khám phá Quy luật Nhân quả"
-                    : "Reconciling Data Paradoxes & Uncovering Causal Truths"}
-                </h3>
-              </div>
-
-              <div className="pt-2">
-                <Link
-                  href="/projects/proj-kami-ely"
-                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FFE485]/20 hover:bg-[#FFE485] text-amber-950 dark:text-[#FFE485] dark:hover:text-amber-950 border border-[#FFE485]/50 text-xs font-bold transition-colors cursor-pointer"
-                >
-                  <FileSpreadsheet className="w-4 h-4" />
-                  <span>
-                    {isVi
-                      ? "Xem Đối soát & Thống kê tại Kami Ely"
-                      : "See Reconciliation in Kami Ely"}
-                  </span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-
-            <div className="lg:col-span-7 space-y-3.5 text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed lg:pl-8">
-              {isVi ? (
-                <>
-                  <p>
-                    Điều thu hút tôi nhất ở dữ liệu là{" "}
-                    <strong>việc tìm ra sự thật gốc (Single Source of Truth) ẩn sau những con số mâu thuẫn hoặc phân phối lệch chuẩn</strong>.
-                  </p>
-                  <p>
-                    Trong thực tế, dữ liệu giữa các hệ thống hiếm khi khớp nhau hoàn toàn, điển hình như độ lệch GMV giữa báo cáo Creator và Shop trên{" "}
-                    <strong>TikTok Shop (Kami Ely)</strong>.
-                  </p>
-                  <p>
-                    Tôi đặc biệt hứng thú với quá trình <strong>Data Reconciliation</strong> kết hợp{" "}
-                    <strong>kiểm định giả thuyết thống kê</strong> để trả lời câu hỏi{" "}
-                    <em>&ldquo;Tại sao?&rdquo;</em> với độ tin cậy toán học cao nhất.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p>
-                    What interests me most about data is{" "}
-                    <strong>establishing a Single Source of Truth from noisy, conflicting, or heavily skewed real-world datasets</strong>.
-                  </p>
-                  <p>
-                    Whether reconciling Creator vs. Shop GMV variances in{" "}
-                    <strong>TikTok Shop (Kami Ely)</strong> or testing non-normal distributions, I enjoy the investigative rigor of{" "}
-                    <strong>Data Reconciliation</strong> and <strong>Hypothesis Testing</strong> to answer <em>&ldquo;Why?&rdquo;</em> with statistical confidence.
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Card 3: Where your passions lie */}
-          <div className="group rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-8 lg:p-10 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#FFD14C] transition-colors grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-            <div className="lg:col-span-5 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-[#FFD14C]/20 text-amber-800 dark:text-[#FFD14C] border border-[#FFD14C]/50 flex items-center justify-center shrink-0">
-                  <Flame className="w-5 h-5" />
-                </div>
-                <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FFD14C]/20 dark:bg-slate-800 text-amber-900 dark:text-[#FFD14C]">
-                  {isVi ? "Đam mê nghề nghiệp" : "Where my passions lie"}
-                </span>
-              </div>
-
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-snug">
-                  {isVi
-                    ? "Giao thoa giữa Phân tích Định lượng, Data Storytelling & Tư duy Sản phẩm"
-                    : "Bridging Quantitative Analytics, Data Storytelling & Product UX"}
-                </h3>
-              </div>
-
-              <div className="pt-2">
-                <Link
-                  href="/projects/proj-library-bus"
-                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FFD14C]/20 hover:bg-[#FFD14C] text-amber-950 dark:text-[#FFD14C] dark:hover:text-slate-950 border border-[#FFD14C]/50 text-xs font-bold transition-colors cursor-pointer"
-                >
-                  <Layers className="w-4 h-4" />
-                  <span>
-                    {isVi
-                      ? "Xem Kiến trúc Dữ liệu & UX tại Library Bus"
-                      : "Explore Library Bus Architecture"}
-                  </span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-
-            <div className="lg:col-span-7 space-y-3.5 text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed lg:pl-8">
-              {isVi ? (
-                <>
-                  <p>
-                    Đam mê lớn nhất của tôi trong Data Analytics là{" "}
-                    <strong>biến các mô hình phân tích phức tạp thành công cụ trực quan, dễ hiểu để thúc đẩy hành động thực tế</strong>.
-                  </p>
-                  <p>
-                    Tôi luôn kết hợp <strong>kỹ thuật xử lý dữ liệu hậu cần (SQL Pipeline, Python)</strong> với{" "}
-                    <strong>trải nghiệm người dùng (Product/UX Analytics)</strong>, từ việc xây dựng{" "}
-                    <strong>SQL Lab tương tác</strong> đến thiết kế luồng dữ liệu cho hệ thống{" "}
-                    <strong>Library Bus</strong>.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p>
-                    My passion lies at the intersection of{" "}
-                    <strong>quantitative rigor, data storytelling, and product UX thinking</strong>.
-                  </p>
-                  <p>
-                    From interactive <strong>SQL Workbenches</strong> to end-to-end telemetry architecture in{" "}
-                    <strong>Library Bus</strong>, I focus on turning complex backend data into transparent, human-centric tools that drive immediate business action.
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* =====================================================================
-       * 4. TESTIMONIALS SECTION (Theme-consistent surface)
-       * ===================================================================== */}
-      <div className="rounded-3xl bg-[#F0F9FB] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 p-6 sm:p-10 lg:p-12 text-slate-900 dark:text-white space-y-8">
-        <div className="max-w-3xl">
-          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#074553] dark:text-[#9BE7FA]">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-[#FFD14C]" />
-            {isVi
-              ? "Đánh giá & nhận xét (Testimonials)"
-              : "Testimonials & endorsements"}
-          </span>
-          <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-            {isVi
-              ? "Góc nhìn từ Giảng viên, Quản lý & Cộng sự Dự án"
-              : "What Advisors, Stakeholders & Peers Say"}
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((item) => {
-            const RoleIcon =
-              item.roleType === "academic"
-                ? GraduationCap
-                : item.roleType === "business"
-                ? Briefcase
-                : Code2;
+            const badgeTone =
+              item.accent === "cyan"
+                ? "bg-[#C8EEF7]/70 text-[#074553] dark:bg-slate-800 dark:text-[#9BE7FA]"
+                : item.accent === "gold"
+                ? "bg-[#FFE485]/60 text-[#5C2808] dark:bg-slate-800 dark:text-[#FFE485]"
+                : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
 
             return (
-              <div
-                key={item.id}
-                className="rounded-2xl bg-white dark:bg-slate-950/70 border border-[#C8EEF7] dark:border-slate-800 p-6 sm:p-7 flex flex-col justify-between hover:border-[#9BE7FA] transition-colors"
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`group rounded-2xl border ${borderTone} bg-white dark:bg-slate-900 p-6 flex flex-col justify-between gap-5 hover:border-[#0D7287] dark:hover:border-[#9BE7FA] cursor-pointer transition-colors`}
               >
-                <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="w-10 h-10 rounded-xl bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 border border-[#9BE7FA]/40 text-[#074553] dark:text-[#9BE7FA] flex items-center justify-center">
-                      <Quote className="w-5 h-5" />
-                    </div>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-[#F0F9FB] dark:bg-slate-800 text-[#074553] dark:text-slate-200 border border-[#C8EEF7] dark:border-slate-700">
-                      <RoleIcon className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
-                      {item.roleType === "academic"
-                        ? isVi
-                          ? "Nghiên cứu Khoa học"
-                          : "Academic Research"
-                        : item.roleType === "business"
-                        ? isVi
-                          ? "Vận hành Doanh nghiệp"
-                          : "Business Operations"
-                        : isVi
-                        ? "Phát triển Sản phẩm"
-                        : "Product & Systems"}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${badgeTone}`}>
+                      {item.domain}
                     </span>
+                    <ArrowUpRight
+                      className="w-4 h-4 text-slate-500 dark:text-slate-400 group-hover:text-[#0D7287] dark:group-hover:text-[#9BE7FA] transition-colors shrink-0"
+                      aria-hidden="true"
+                    />
                   </div>
 
-                  <blockquote className="text-sm leading-relaxed text-slate-700 dark:text-slate-300 italic mb-6">
-                    &ldquo;{isVi ? item.quoteVi : item.quoteEn}&rdquo;
-                  </blockquote>
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-extrabold text-slate-900 dark:text-white group-hover:text-[#0D7287] dark:group-hover:text-[#9BE7FA] transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm font-medium text-slate-700 dark:text-slate-200 leading-relaxed">
+                      {item.question}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2.5 pt-1">
+                    {item.metrics.map((metric) => (
+                      <div
+                        key={metric.label}
+                        className="rounded-xl px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/70 flex items-baseline justify-between gap-3"
+                      >
+                        <span className="text-xs text-slate-600 dark:text-slate-400">
+                          {metric.label}
+                        </span>
+                        <span className="text-sm font-extrabold text-slate-900 dark:text-white tabular-nums shrink-0">
+                          {metric.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="pt-5 mt-auto">
-                  <div className="font-bold text-slate-900 dark:text-white text-sm">
-                    {isVi ? item.authorVi : item.authorEn}
-                  </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    {isVi ? item.titleVi : item.titleEn}
-                  </div>
-                  <Link
-                    href={item.projectLink}
-                    className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#074553] dark:text-[#9BE7FA] hover:underline"
-                  >
-                    • {isVi ? item.contextVi : item.contextEn}
-                    <ArrowUpRight className="w-3 h-3" />
-                  </Link>
+                <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {item.sourceNote}
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
+                    {isVi ? "Xem chi tiết dự án" : "Open case study"}
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                  </span>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
       </div>
 
       {/* =====================================================================
-       * 5. BLOG PREVIEW SECTION LINKING TO DEDICATED /blog PAGE
+       * 3. HOW I WORK: COLLECT / PROCESS / VISUALISE (WITH 4-COLOR SVGs)
        * ===================================================================== */}
-      <div className="rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-10 lg:p-12 border border-[#C8EEF7] dark:border-slate-800 space-y-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#074553] dark:text-[#9BE7FA]">
-              <BookOpen className="w-3.5 h-3.5" />
-              {isVi
-                ? "Bài viết chia sẻ quy trình & phát hiện"
-                : "Analytical process & findings blog"}
-            </span>
-            <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-              {isVi
-                ? "Góc nhìn Hậu trường từ các Dự án Phân tích"
-                : "Latest Write-Ups from My Analytics Blog"}
+      <div className="space-y-6">
+        <div className="space-y-1.5">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            {isVi ? "Cách làm việc" : "How I work"}
+          </h2>
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-prose">
+            {isVi
+              ? "Quy trình ba bước từ chuẩn hóa định nghĩa chỉ số đến kiểm định thống kê và trực quan hóa trên web."
+              : "A three-step workflow from locking metric definitions to running statistical tests and publishing interactive views."}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {pillars.map(({ id, title, subtitle, Illustration, desc }) => (
+            <div
+              key={id}
+              className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900 p-6 flex flex-col gap-5"
+            >
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
+                    {title}
+                  </h3>
+                  <p className="text-xs font-semibold text-[#074553] dark:text-[#9BE7FA] mt-0.5">
+                    {subtitle}
+                  </p>
+                </div>
+                <div className="w-16 h-16 rounded-2xl bg-[#F0F9FB] dark:bg-slate-800 p-2 flex items-center justify-center shrink-0">
+                  <Illustration className="w-full h-full" />
+                </div>
+              </div>
+
+              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                {desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* =====================================================================
+       * 4. BLOG PREVIEW (CONDENSED)
+       * ===================================================================== */}
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="space-y-1">
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+              {isVi ? "Ghi chép phân tích" : "Analytical notes"}
             </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              {isVi
+                ? "Các bài viết ngắn về xử lý dữ liệu và câu lệnh SQL/Python đằng sau dự án."
+                : "Short write-ups on data cleaning, metric caveats, and the SQL or Python logic behind each project."}
+            </p>
           </div>
 
           <Link
             href="/blog"
-            className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-extrabold transition-colors self-start md:self-auto border border-[#9BE7FA] cursor-pointer"
+            className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2 rounded-xl bg-[#9BE7FA] hover:bg-[#7ADCF7] text-[#074553] text-sm font-bold cursor-pointer transition-colors shrink-0"
           >
-            {isVi ? "Xem toàn bộ Trang /blog" : "Visit Full /blog Page"}
-            <ArrowRight className="w-4 h-4" />
+            <BookOpen className="w-4 h-4" aria-hidden="true" />
+            {isVi ? "Xem tất cả bài viết" : "All articles"}
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {BLOG_POSTS.slice(0, 3).map((post) => (
             <Link
               key={post.id}
               href="/blog"
-              className="group rounded-2xl bg-[#F8FCFD] dark:bg-slate-800/50 border border-[#C8EEF7] dark:border-slate-800 p-6 flex flex-col justify-between hover:border-[#9BE7FA] transition-colors cursor-pointer"
+              className="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 flex flex-col justify-between gap-4 hover:border-[#0D7287] dark:hover:border-[#9BE7FA] cursor-pointer transition-colors"
             >
-              <div>
-                <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
-                  <span className="font-bold text-[#074553] dark:text-[#9BE7FA]">
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-400">
+                  <span className="font-semibold text-[#074553] dark:text-[#9BE7FA]">
                     {isVi ? post.categoryVi : post.categoryEn}
                   </span>
                   <span className="inline-flex items-center gap-1 tabular-nums">
-                    <Clock className="w-3.5 h-3.5" />
+                    <Clock className="w-3.5 h-3.5" aria-hidden="true" />
                     {isVi ? post.readTimeVi : post.readTimeEn}
                   </span>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA] transition-colors leading-snug mb-2">
+
+                <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-[#0D7287] dark:group-hover:text-[#9BE7FA] leading-snug transition-colors">
                   {isVi ? post.titleVi : post.titleEn}
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
+
+                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">
                   {isVi ? post.excerptVi : post.excerptEn}
                 </p>
               </div>
 
-              <div className="pt-4 mt-5 flex items-center justify-between text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
-                <span>
-                  {isVi ? "Đọc quy trình & SQL/Python" : "Read Process & Code"}
-                </span>
-                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </div>
+              <span className="inline-flex items-center gap-1 text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
+                {isVi ? "Đọc bài" : "Read note"}
+                <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+              </span>
             </Link>
           ))}
         </div>

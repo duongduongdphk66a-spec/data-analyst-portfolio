@@ -550,6 +550,41 @@ const monthlyBreakdown = monthsOrder.map((m) => {
   };
 });
 
+// Weekly Store & Live Series (33 ISO weeks) for interactive granularity switcher
+const isoWeeksList = [...new Set(storeRows.map((r) => isoWeekKey(r.date)))].sort();
+const weeklyBreakdown = isoWeeksList.map((wk) => {
+  const sRows = storeRows.filter((r) => isoWeekKey(r.date) === wk);
+  const lRows = affLiveRows.filter((r) => r.date >= '2026-03-09' && r.date <= '2026-10-25' && isoWeekKey(r.date) === wk);
+  const firstDate = sRows[0].date;
+  const gmvVnd = sRows.reduce((s, r) => s + r.gmvVnd, 0);
+  const units = sRows.reduce((s, r) => s + r.units, 0);
+  const storeLives = sRows.reduce((s, r) => s + r.newLives, 0);
+  const storeNewKoc = sRows.reduce((s, r) => s + r.newKoc, 0);
+  const actualLiveGmvVnd = lRows.reduce((s, r) => s + r.gmvVnd, 0);
+  const actualLiveSessions = lRows.length;
+  const ym = firstDate.slice(0, 7);
+  const phase = ym <= '2026-05' ? 'ramp' : ym === '2026-06' ? 'peak' : ym <= '2026-08' ? 'contraction' : 'autumn';
+  return {
+    week: wk.slice(5),
+    isoWeek: wk,
+    startDate: firstDate,
+    ddmm: `${firstDate.slice(8, 10)}/${firstDate.slice(5, 7)}`,
+    days: sRows.length,
+    isPartial: sRows.length < 7,
+    phase,
+    storeGmvB: round(gmvVnd / 1e9, 3),
+    storeGmvM: round(gmvVnd / 1e6, 1),
+    dailyAvgM: round(gmvVnd / sRows.length / 1e6, 2),
+    units,
+    storeLives,
+    storeNewKoc,
+    storeGmvPerLiveM: storeLives > 0 ? round(gmvVnd / storeLives / 1e6, 2) : 0,
+    actualLiveSessions,
+    actualLiveGmvM: round(actualLiveGmvVnd / 1e6, 1),
+    actualLiveGmvPerSessionM: actualLiveSessions > 0 ? round(actualLiveGmvVnd / actualLiveSessions / 1e6, 2) : 0,
+  };
+});
+
 function decomposeStep(m0, m1) {
   const N0 = m0.storeLives;
   const N1 = m1.storeLives;
@@ -1436,7 +1471,9 @@ const shelfBucketStats = shelfBucketsSpec.map((b) => {
 
 const liveProdRows = loaded.LiveProd.rows.map((r, idx) => {
   const name = String(r['Tên Sản Phẩm Ghim Live'] || '').trim();
-  const cm = name.match(/\[\s*([A-Z0-9]+)\s*\]|-\s*([A-Z0-9]+)\s*$/i);
+  const cm = name.match(
+    /\[\s*([A-Z]{1,4}\d{1,3}[A-Z]?)\s*\]|(?:-\s*(?:Mã\s*)?|KAMI\s+ELY\s+|Mã\s+)([A-Z]{1,4}\d{1,3}[A-Z]?)\s*$/i
+  );
   const code = cm ? (cm[1] || cm[2]).toUpperCase() : `LP_${idx + 1}`;
   const shopUnits = toNum(r['Lượng Bán Toàn Shop']);
   const liveUnits = toNum(r['Lượng Bán Trong Live']);
@@ -1447,11 +1484,11 @@ const liveProdRows = loaded.LiveProd.rows.map((r, idx) => {
     shopUnits,
     liveUnits,
     liveGmvVnd,
-    liveUnitSharePct: shopUnits > 0 ? round(Math.min(100, (liveUnits / shopUnits) * 100), 1) : 0,
   };
 });
 const liveProdActive = liveProdRows.filter((r) => r.liveGmvVnd > 0).sort((a, b) => b.liveGmvVnd - a.liveGmvVnd);
 const liveProdTotalGmv = liveProdActive.reduce((s, r) => s + r.liveGmvVnd, 0);
+const liveProdTotalUnits = liveProdActive.reduce((s, r) => s + r.liveUnits, 0);
 
 // ---------------------------------------------------------------------------
 // 8. File Timeline Coverage Map (Ch 1.3 Gantt)
@@ -1604,6 +1641,7 @@ existingMetrics.v2 = {
   ch3: {
     maCrossovers,
     monthly: monthlyBreakdown,
+    weekly: weeklyBreakdown,
     waterfalls: {
       junToJul: waterfallJunJul,
       julToAug: waterfallJulAug,
@@ -1670,12 +1708,15 @@ existingMetrics.v2 = {
       liveProdTotal: liveProdRows.length,
       liveProdActive: liveProdActive.length,
       liveProdTotalGmvB: round(liveProdTotalGmv / 1e9, 2),
+      liveProdTotalUnits,
       topLiveProds: liveProdActive.slice(0, 8).map((p) => ({
         code: p.code,
         liveGmvM: round(p.liveGmvVnd / 1e6, 1),
         liveUnits: p.liveUnits,
         shopUnits: p.shopUnits,
-        liveUnitSharePct: p.liveUnitSharePct,
+        liveAspK: p.liveUnits > 0 ? Math.round(p.liveGmvVnd / p.liveUnits / 1e3) : 0,
+        liveGmvSharePct: liveProdTotalGmv > 0 ? round((p.liveGmvVnd / liveProdTotalGmv) * 100, 1) : 0,
+        liveUnitSharePct: liveProdTotalUnits > 0 ? round((p.liveUnits / liveProdTotalUnits) * 100, 1) : 0,
       })),
     },
   },

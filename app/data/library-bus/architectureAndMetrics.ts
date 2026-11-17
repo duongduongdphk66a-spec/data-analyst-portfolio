@@ -1,7 +1,7 @@
 /**
- * Library Bus Website Design data (chapter 03): grid system and the 20-screen set.
+ * Library Bus Website Design data (chapter 03): grid system and the 11-screen set.
  */
-import { LIBRARY_BUS_20_SCREENS } from './screens';
+import { LIBRARY_BUS_11_SCREENS } from './screens';
 
 export const WEBSITE_DESIGN_DATA = {
   chapter: '3',
@@ -20,7 +20,7 @@ export const WEBSITE_DESIGN_DATA = {
     wireframeAllSrc: '/library-bus/library_bus_wireframe_all_screens.webp',
     uiDesignAllSrc: '/library-bus/library_bus_ui_design_all_screens.webp',
     referenceTemplateSrc: '/library-bus/reference_wireframe_vs_ui.webp',
-    screenCount: 20
+    screenCount: 11
   },
-  screens: LIBRARY_BUS_20_SCREENS
+  screens: LIBRARY_BUS_11_SCREENS
 };

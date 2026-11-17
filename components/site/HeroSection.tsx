@@ -1,493 +1,265 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { 
-  Database, 
-  Terminal, 
-  BarChart3, 
-  PieChart, 
-  TrendingUp, 
-  FileText, 
-  ArrowRight, 
-  ArrowUpRight, 
-  Briefcase, 
-  Clock, 
-  User, 
-  BookOpen, 
-  ShoppingBag, 
-  Layout, 
-  Landmark 
-} from 'lucide-react';
-import { useLanguage } from '@/app/context/LanguageContext';
-import { usePortfolioData } from '@/app/context/PortfolioDataContext';
+import React from "react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, FileText, Mail } from "lucide-react";
+import { useLanguage } from "@/app/context/LanguageContext";
+import { usePortfolioData } from "@/app/context/PortfolioDataContext";
+import { DEFAULT_PROFILE } from "@/app/defaultData";
+import type { ProfileData } from "@/app/types";
 
-type Lang = 'vi' | 'en';
+type L = { vi: string; en: string };
 
-interface SkillItem {
-  name: string;
-  desc: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
+const FOCUS =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D7287]";
 
-interface OutcomeItem {
-  metric: string;
-  detail: string;
-}
+const TOOLS: L[] = [
+  { vi: "SQL", en: "SQL" },
+  { vi: "Python (pandas, SciPy)", en: "Python (pandas, SciPy)" },
+  { vi: "Kiểm định thống kê", en: "Statistical testing" },
+  { vi: "Trực quan hóa dữ liệu", en: "Data visualisation" },
+];
 
-interface TeaserItem {
-  tag: string;
-  question: string;
-  cta: string;
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
-
-interface NavLinkItem {
-  title: string;
-  desc: string;
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
-
-interface ContentType {
-  badge: string;
-  greeting: string;
-  name: string;
-  role: string;
-  headline: string;
-  summary: string;
-  skillsLabel: string;
-  skills: SkillItem[];
-  outcomes: OutcomeItem[];
-  curiosityTitle: string;
-  curiositySubtitle: string;
-  teasers: TeaserItem[];
-  navExploreTitle: string;
-  navLinks: NavLinkItem[];
-  primaryBtn: string;
-  secondaryBtn: string;
-}
-
-const CONTENT: Record<Lang, ContentType> = {
-  vi: {
-    badge: 'Sẵn sàng cho các bài toán dữ liệu kinh doanh',
-    greeting: 'Xin chào, tôi là',
-    name: 'Mã Văn Hùng',
-    role: 'Data Analyst định hướng giải quyết bài toán kinh doanh',
-    headline: 'Biến dữ liệu phức tạp thành tăng trưởng doanh thu & hiệu suất vận hành.',
-    summary:
-      'Doanh nghiệp cần những quyết định có cơ sở định lượng rõ ràng. Kết hợp tư duy phân tích với công cụ BI hiện đại, tôi giúp các đội ngũ chuyển hóa hàng triệu dòng dữ liệu thô thành hành động chiến lược đo lường được bằng con số thực tế.',
-    skillsLabel: 'Công cụ & chuyên môn cốt lõi',
-    skills: [
-      { name: 'SQL', desc: 'Cohort, Funnel, Tối ưu hóa truy vấn & ETL', icon: Database },
-      { name: 'Python', desc: 'EDA, Kiểm định giả thuyết & Dự báo chuỗi thời gian', icon: Terminal },
-      { name: 'Power BI', desc: 'Data Modeling (DAX) & Executive Dashboard', icon: BarChart3 },
-      { name: 'Tableau', desc: 'Visual Storytelling & Phân tích tương tác', icon: PieChart },
-      { name: 'Business Intelligence', desc: 'Tư duy Minto Pyramid & Tối ưu KPI', icon: TrendingUp },
-    ],
-    outcomes: [
-      {
-        metric: 'Tối ưu Doanh thu',
-        detail: 'Bóc tách hành vi khách hàng, ma trận SKU và hiệu quả kênh bán để tìm đòn bẩy tăng trưởng.',
-      },
-      {
-        metric: 'Minh bạch Vận hành',
-        detail: 'Tự động hóa luồng báo cáo, đối soát dữ liệu (Reconciliation) và phát hiện bất thường (Anomaly Detection).',
-      },
-      {
-        metric: 'Quyết định Dựa trên Bằng chứng',
-        detail: 'Thay thế cảm tính bằng kiểm định thống kê và cấu trúc kể chuyện dữ liệu (Minto Pyramid).',
-      },
-    ],
-    curiosityTitle: 'Đằng sau những con số là câu chuyện gì?',
-    curiositySubtitle:
-      'Xem cách tôi giải quyết từng bài toán thực tế qua các nghiên cứu tình huống dưới đây:',
-    teasers: [
-      {
-        tag: 'E-Commerce & TikTok Shop Analytics',
-        question: 'Làm thế nào để tối ưu hóa danh mục SKU, phân tích Affiliate/Creator và kiểm định thống kê doanh số trên TikTok Shop?',
-        cta: 'Khám phá Case Study Kami Ely',
-        href: '/projects/kami-ely',
-        icon: ShoppingBag,
-      },
-      {
-        tag: 'Product Analytics & System Architecture',
-        question: 'Từ nghiên cứu UX đến thiết kế luồng dữ liệu và Dashboard quản trị vận hành hệ thống xe buýt thư viện diễn ra như thế nào?',
-        cta: 'Xem kiến trúc dự án Library Bus',
-        href: '/projects/library-bus',
-        icon: Layout,
-      },
-      {
-        tag: 'Data Audit & Policy Evaluation',
-        question: 'Dữ liệu định lượng tiết lộ điều gì về hiệu quả chính sách bảo tồn di sản tại Nhật Bản?',
-        cta: 'Đọc phân tích Heritage Japan',
-        href: '/projects/heritage-japan',
-        icon: Landmark,
-      },
-    ],
-    navExploreTitle: 'Khám phá thêm về hành trình của tôi',
-    navLinks: [
-      {
-        title: 'Dự án Phân tích & SQL Lab',
-        desc: 'Trải nghiệm trực tiếp SQL Lab, biểu đồ tương tác và các phân tích chuyên sâu.',
-        href: '/projects/proj-kami-ely',
-        icon: Briefcase,
-      },
-      {
-        title: 'Kinh nghiệm (Experience)',
-        desc: 'Quá trình làm việc và những giá trị thực tế tôi đã đóng góp.',
-        href: '/experience',
-        icon: Clock,
-      },
-      {
-        title: 'Về tôi (About)',
-        desc: 'Triết lý phân tích dữ liệu, bộ kỹ năng chi tiết và câu chuyện cá nhân.',
-        href: '/about',
-        icon: User,
-      },
-      {
-        title: 'Góc chia sẻ (Blog)',
-        desc: 'Ghi chép chuyên môn về SQL, Python, BI và tư duy giải quyết vấn đề.',
-        href: '/blog',
-        icon: BookOpen,
-      },
-    ],
-    primaryBtn: 'Xem các Case Study',
-    secondaryBtn: 'Tải CV (PDF)',
+const FLAGSHIP_STATS: { value: string; label: L }[] = [
+  {
+    value: "84,5%",
+    label: {
+      vi: "doanh thu livestream đến từ Live chính chủ và kênh vệ tinh",
+      en: "of live revenue came from the official and satellite livestreams",
+    },
   },
-  en: {
-    badge: 'Ready for High-Impact Data Challenges',
-    greeting: "Hi, I'm",
-    name: 'Ma Van Hung',
-    role: 'Outcome-Driven Data Analyst',
-    headline: 'Turning raw, fragmented data into revenue growth & operational clarity.',
-    summary:
-      'Organisations need clear, evidence-backed answers from their data. By combining analytical rigor with modern BI tools, I bridge the gap between complex datasets and measurable business outcomes.',
-    skillsLabel: 'Core tech stack & expertise',
-    skills: [
-      { name: 'SQL', desc: 'Cohort, Funnel, Query Optimization & ETL', icon: Database },
-      { name: 'Python', desc: 'EDA, Hypothesis Testing & Time Series', icon: Terminal },
-      { name: 'Power BI', desc: 'DAX Data Modeling & Executive Dashboards', icon: BarChart3 },
-      { name: 'Tableau', desc: 'Visual Storytelling & Interactive Analytics', icon: PieChart },
-      { name: 'Business Intelligence', desc: 'Minto Pyramid Narrative & KPI Strategy', icon: TrendingUp },
-    ],
-    outcomes: [
-      {
-        metric: 'Revenue Optimization',
-        detail: 'Uncovering SKU matrices, creator performance, and conversion bottlenecks to drive incremental GMV.',
-      },
-      {
-        metric: 'Operational Clarity',
-        detail: 'Automating reporting pipelines, data reconciliation, and real-time anomaly detection.',
-      },
-      {
-        metric: 'Evidence-Based Decisions',
-        detail: 'Replacing guesswork with applied statistics and structured executive storytelling.',
-      },
-    ],
-    curiosityTitle: 'How these skills translate into real impact',
-    curiositySubtitle:
-      'Explore the live case studies and interactive SQL workbenches below:',
-    teasers: [
-      {
-        tag: 'E-Commerce & TikTok Shop Analytics',
-        question: 'How do you reconcile creator telemetry, optimize SKU pricing, and run applied statistics on TikTok Shop data?',
-        cta: 'Explore Kami Ely Case Study',
-        href: '/projects/kami-ely',
-        icon: ShoppingBag,
-      },
-      {
-        tag: 'Product Analytics & System Architecture',
-        question: 'How do UX research, backend dataflows, and management dashboards come together in a mobile library ecosystem?',
-        cta: 'Inspect Library Bus Architecture',
-        href: '/projects/library-bus',
-        icon: Layout,
-      },
-      {
-        tag: 'Data Audit & Policy Evaluation',
-        question: 'What does a rigorous data audit reveal about heritage preservation policies in Japan?',
-        cta: 'Read Heritage Japan Study',
-        href: '/projects/heritage-japan',
-        icon: Landmark,
-      },
-    ],
-    navExploreTitle: 'Continue Exploring',
-    navLinks: [
-      {
-        title: 'Projects & SQL Lab',
-        desc: 'Interact with live SQL workbenches, charts, and end-to-end case studies.',
-        href: '/projects/proj-kami-ely',
-        icon: Briefcase,
-      },
-      {
-        title: 'Experience',
-        desc: 'My professional timeline and measurable contributions.',
-        href: '/experience',
-        icon: Clock,
-      },
-      {
-        title: 'About Me',
-        desc: 'My analytical philosophy, background, and technical depth.',
-        href: '/about',
-        icon: User,
-      },
-      {
-        title: 'Blog & Insights',
-        desc: 'Technical write-ups on SQL patterns, Python workflows, and business thinking.',
-        href: '/blog',
-        icon: BookOpen,
-      },
-    ],
-    primaryBtn: 'Explore Live Case Studies',
-    secondaryBtn: 'Download CV (PDF)',
+  {
+    value: "329/6.086",
+    label: {
+      vi: "creator trong danh sách affiliate có phát sinh doanh thu (5,4%)",
+      en: "creators in the affiliate list generated revenue (5.4%)",
+    },
   },
-};
+  {
+    value: "12/133",
+    label: {
+      vi: "mã có đơn (trên tổng 339 SKU) đóng góp 80,6% GMV kỳ gần nhất",
+      en: "converting SKUs (of 339 catalog SKUs) drove 80.6% of recent GMV",
+    },
+  },
+];
 
-export default function HeroSection({ profile: propsProfile }: { profile?: any } = {}) {
+const OTHER_WORK: { href: string; tag: L; title: L; body: L }[] = [
+  {
+    href: "/projects/proj-heritage-japan",
+    tag: { vi: "Phân tích chuỗi thời gian", en: "Time-series analysis" },
+    title: { vi: "Du lịch di sản Nhật Bản", en: "Heritage tourism in Japan" },
+    body: {
+      vi: "Dữ liệu JNTO và MLIT: đỉnh 31,9 triệu khách quốc tế năm 2019 và chi tiêu đỉnh 4,81 nghìn tỷ Yên.",
+      en: "JNTO and MLIT data: a peak of 31.9M international visitors in 2019 and peak spending of 4.81T yen.",
+    },
+  },
+  {
+    href: "/projects/proj-library-bus",
+    tag: { vi: "Phân tích nghiệp vụ và UX", en: "Business analysis and UX" },
+    title: { vi: "Library Bus", en: "Library Bus" },
+    body: {
+      vi: "Đặc tả nghiệp vụ (BA), thiết kế UX/UI và kiến trúc dữ liệu cho website thư viện lưu động: sitemap, luồng người dùng, quy tắc BR và 11 cặp màn hình cốt lõi (Desktop & Mobile).",
+      en: "BA specification, UX/UI design, and data architecture for a mobile library website: sitemap, user flows, business rules, and 11 core screen pairs (Desktop & Mobile).",
+    },
+  },
+];
+
+const MORE_LINKS: { href: string; label: L }[] = [
+  { href: "/about", label: { vi: "Giới thiệu", en: "About" } },
+  { href: "/experience", label: { vi: "Kinh nghiệm", en: "Experience" } },
+  { href: "/blog", label: { vi: "Bài viết", en: "Blog" } },
+];
+
+export default function HeroSection({
+  profile: propsProfile,
+}: {
+  profile?: Partial<ProfileData> | null;
+} = {}) {
   const { language } = useLanguage();
-  const lang: Lang = language === 'en' ? 'en' : 'vi';
+  const isVi = language !== "en";
+  const t = (l: L) => (isVi ? l.vi : l.en);
   const { profile: contextProfile } = usePortfolioData();
   const profile = propsProfile || contextProfile;
 
-  const t = CONTENT[lang];
-
-  const resolvedName =
-    typeof profile?.name === 'string' && profile.name.trim()
-      ? profile.name
-      : t.name;
+  const rawName =
+    typeof profile?.name === "string" && profile.name.trim()
+      ? profile.name.trim()
+      : DEFAULT_PROFILE.name;
+  const name = rawName.replace(/^Mã\s+/i, "Ma ");
+  const email =
+    typeof profile?.email === "string" && profile.email.trim()
+      ? profile.email.trim()
+      : DEFAULT_PROFILE.email || "";
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-8 md:py-14 space-y-16 md:space-y-24">
-      
-      {/* 1. HERO SECTION: Who I Am & Business Outcomes Statement */}
-      <section className="relative space-y-6">
-        <div className="pointer-events-none absolute -top-10 -right-10 h-64 w-64 rounded-full bg-[#FFE485]/15 dark:bg-[#FFD14C]/5 blur-3xl" />
-
-        <div className="space-y-3">
-          <p className="text-sm sm:text-base text-[#074553] dark:text-[#9BE7FA] font-semibold flex flex-wrap items-center gap-1.5">
-            <span>{t.greeting}</span>
-            <span className="text-slate-900 dark:text-white font-extrabold">{resolvedName}</span>
-            <span className="text-slate-400">•</span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFE485]/35 dark:bg-[#FFE485]/15 text-[#854D0E] dark:text-[#FFE485] font-bold text-xs sm:text-sm border border-[#FFD14C]/40">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C]" />
-              {t.role}
-            </span>
-          </p>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
-            {t.headline}
-          </h1>
-        </div>
-
-        <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
-          {t.summary}
+    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-8 md:py-14 space-y-14 md:space-y-20">
+      {/* 1. Hero */}
+      <section className="space-y-6">
+        <p className="text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-300 flex flex-wrap items-center gap-x-2 gap-y-2">
+          <span>{isVi ? "Xin chào, mình là" : "Hi, I am"}</span>
+          <span className="font-extrabold text-slate-900 dark:text-white">{name}</span>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFE485]/60 dark:bg-[#FFE485]/15 text-[#5C2808] dark:text-[#FFE485] font-bold text-xs sm:text-sm border border-[#FFD14C]/60">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C]" aria-hidden="true" />
+            {"Fresher Data Analyst / Business Analyst"}
+          </span>
         </p>
 
-        {/* Primary CTAs with 44px Touch Targets */}
-        <div className="flex flex-wrap items-center gap-3.5 pt-2">
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12] max-w-3xl">
+          {isVi
+            ? "Phân tích dữ liệu bán hàng và chuỗi thời gian, từ câu hỏi đến khuyến nghị."
+            : "Analysing sales and time-series data, from question to recommendation."}
+        </h1>
+
+        <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
+          {isVi
+            ? "Mình là cử nhân Nhật Bản học chuyển sang phân tích dữ liệu, đang tìm vị trí Fresher Data Analyst hoặc Business Analyst. Dự án chính là phân tích 231 ngày dữ liệu TikTok Shop bằng SQL, Python và kiểm định thống kê."
+            : "I am a Japanese Studies graduate who moved into data analysis, and I am looking for a Fresher Data Analyst or Business Analyst role. My main project analyses 231 days of TikTok Shop data with SQL, Python and statistical testing."}
+        </p>
+
+        <div className="flex flex-wrap items-center gap-3.5 pt-1">
           <Link
             href="/projects/proj-kami-ely"
-            className="min-h-[44px] px-6 py-3 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] font-extrabold text-sm transition-colors flex items-center gap-2 cursor-pointer border border-[#9BE7FA]"
+            className={`min-h-[44px] px-6 py-3 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] font-bold text-sm transition-colors inline-flex items-center gap-2 border border-[#9BE7FA] cursor-pointer ${FOCUS}`}
           >
-            <span>{t.primaryBtn}</span>
-            <ArrowRight className="w-4 h-4 shrink-0" />
+            {isVi ? "Xem dự án Kami Ely" : "See the Kami Ely project"}
+            <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
           </Link>
-
           <a
             href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="min-h-[44px] px-6 py-3 rounded-xl bg-slate-100 hover:bg-[#FFE485]/20 border border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-800 hover:border-[#FFD14C]/50 text-slate-800 dark:text-slate-200 hover:text-amber-900 dark:hover:text-[#FFE485] font-semibold text-sm transition-colors flex items-center gap-2 cursor-pointer"
+            className={`min-h-[44px] px-6 py-3 rounded-xl bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 font-semibold text-sm transition-colors inline-flex items-center gap-2 cursor-pointer ${FOCUS}`}
           >
-            <FileText className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
-            <span>{t.secondaryBtn}</span>
+            <FileText className="w-4 h-4 shrink-0 text-slate-500 dark:text-slate-400" aria-hidden="true" />
+            {isVi ? "Tải CV (PDF)" : "Download CV"}
           </a>
+          {email && (
+            <a
+              href={`mailto:${email}`}
+              className={`min-h-[44px] px-3 py-3 inline-flex items-center gap-2 text-sm font-semibold text-[#074553] dark:text-[#9BE7FA] hover:underline cursor-pointer ${FOCUS}`}
+            >
+              <Mail className="w-4 h-4 shrink-0" aria-hidden="true" />
+              {isVi ? "Gửi email" : "Email me"}
+            </a>
+          )}
+        </div>
+
+        <ul className="flex flex-wrap gap-2 pt-1" aria-label={isVi ? "Công cụ" : "Tools"}>
+          {TOOLS.map((tool) => (
+            <li
+              key={tool.en}
+              className="text-xs font-semibold px-3 py-1 rounded-full bg-[#F0F9FB] dark:bg-slate-900 text-[#074553] dark:text-[#C8EEF7] border border-[#C8EEF7] dark:border-slate-800"
+            >
+              {t(tool)}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* 2. Flagship project */}
+      <section aria-labelledby="flagship-title" className="space-y-5">
+        <h2
+          id="flagship-title"
+          className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white"
+        >
+          {isVi ? "Dự án chính: Kami Ely" : "Main project: Kami Ely"}
+        </h2>
+
+        <div className="rounded-3xl bg-[#F0F9FB] dark:bg-slate-900/70 border border-[#C8EEF7] dark:border-slate-800 p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+          <div className="lg:col-span-6 flex flex-col">
+            <h3 className="text-xl sm:text-2xl font-bold leading-snug text-slate-900 dark:text-white">
+              {isVi
+                ? "Kênh nào tạo ra doanh thu TikTok Shop?"
+                : "Which channels drive TikTok Shop revenue?"}
+            </h3>
+            <p className="mt-3 text-[15px] sm:text-base leading-relaxed text-slate-700 dark:text-slate-300">
+              {isVi
+                ? "Doanh thu tháng 8 giảm 83,1% so với đỉnh tháng 6. Mình phân tích 231 ngày dữ liệu để biết gian hàng đang phụ thuộc vào kênh nào, và danh mục thu đông có thay thế được không."
+                : "August revenue fell 83.1% from the June peak. I analysed 231 days of data to see which channels the shop relied on, and whether the autumn range could replace them."}
+            </p>
+            <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+              {isVi
+                ? "Dữ liệu ước tính từ FastMoss (ảnh chụp tháng 9, file xuất đến 25/10/2026), không phải dữ liệu nội bộ."
+                : "Estimated FastMoss data (Sep screenshots, exports through Oct 25, 2026), not internal company data."}
+            </p>
+            <Link
+              href="/projects/proj-kami-ely"
+              className={`mt-auto pt-6 self-start inline-flex items-center gap-1 min-h-[44px] text-sm font-bold text-[#074553] dark:text-[#9BE7FA] hover:underline ${FOCUS}`}
+            >
+              {isVi ? "Mở dự án và SQL Lab" : "Open the project and SQL Lab"}
+              <ArrowUpRight className="w-4 h-4 shrink-0" aria-hidden="true" />
+            </Link>
+          </div>
+
+          <dl className="lg:col-span-6 space-y-4">
+            {FLAGSHIP_STATS.map((s) => (
+              <div
+                key={s.value}
+                className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 rounded-2xl bg-white dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 px-5 py-4"
+              >
+                <dt className="text-3xl font-extrabold tabular-nums text-slate-900 dark:text-white shrink-0 sm:min-w-[9.5rem]">
+                  {s.value}
+                </dt>
+                <dd className="text-sm sm:text-[15px] leading-snug text-slate-600 dark:text-slate-300">
+                  {t(s.label)}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
-      {/* 2. CORE TECH STACK & BUSINESS OUTCOMES (Horizontal Display) */}
-      <section className="rounded-3xl bg-[#F0F9FB] dark:bg-slate-900/70 border border-[#C8EEF7] dark:border-slate-800 p-6 sm:p-10 space-y-8">
-        <div className="space-y-3">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">
-            {t.skillsLabel}
-          </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 max-w-3xl leading-relaxed">
-            {lang === 'vi'
-              ? 'Kết hợp truy vấn SQL chuẩn xác, kiểm định thống kê Python và trực quan hóa BI để giải quyết trọn vẹn bài toán dữ liệu.'
-              : 'Combining SQL pipelines, Python statistical testing, and interactive BI to solve end-to-end business questions.'}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5">
-          {t.skills.map((skill) => {
-            const Icon = skill.icon;
-            const isGold = skill.name === 'Power BI' || skill.name === 'Business Intelligence';
-            return (
-              <div
-                key={skill.name}
-                className={`p-4 rounded-2xl bg-white dark:bg-slate-900 border transition-colors flex flex-col items-start gap-3 ${
-                  isGold
-                    ? 'border-[#FFE485]/70 dark:border-slate-800 hover:border-[#FFD14C]'
-                    : 'border-[#C8EEF7] dark:border-slate-800 hover:border-[#9BE7FA]'
-                }`}
-              >
-                <span
-                  className={`p-2 rounded-xl shrink-0 ${
-                    isGold
-                      ? 'bg-[#FFE485]/40 dark:bg-[#FFE485]/15 text-[#854D0E] dark:text-[#FFE485] border border-[#FFD14C]/30'
-                      : 'bg-[#C8EEF7]/45 dark:bg-[#9BE7FA]/10 text-[#074553] dark:text-[#9BE7FA]'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                </span>
-                <div>
-                  <div className="font-bold text-slate-900 dark:text-white text-sm">
-                    {skill.name}
-                  </div>
-                  <div className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                    {skill.desc}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Business Outcomes Editorial Ledger with Butter Gold Accent Cards */}
-        <div className="pt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {t.outcomes.map((item) => (
-            <div
-              key={item.metric}
-              className="p-4 rounded-2xl bg-white dark:bg-slate-900/90 border border-[#FFE485]/70 dark:border-[#FFD14C]/30 space-y-2.5 transition-colors"
+      {/* 3. Other work */}
+      <section aria-labelledby="other-title" className="space-y-5">
+        <h2
+          id="other-title"
+          className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white"
+        >
+          {isVi ? "Nghiên cứu và dự án khác" : "More research and projects"}
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {OTHER_WORK.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`group flex flex-col rounded-2xl bg-white dark:bg-slate-900/60 border border-[#C8EEF7] dark:border-slate-800 hover:border-[#9BE7FA] p-6 transition-colors cursor-pointer ${FOCUS}`}
             >
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-[#FFE485]/35 dark:bg-[#FFE485]/15 text-[#854D0E] dark:text-[#FFE485] text-xs font-bold border border-[#FFD14C]/30">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FFD14C]" />
-                <span>{item.metric}</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                {item.detail}
+              <span className="self-start text-xs font-bold px-2.5 py-1 rounded-md bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/10 text-[#074553] dark:text-[#9BE7FA]">
+                {t(item.tag)}
+              </span>
+              <h3 className="mt-3 text-lg font-bold text-slate-900 dark:text-white">
+                {t(item.title)}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                {t(item.body)}
               </p>
-            </div>
+              <span className="mt-auto pt-5 inline-flex items-center gap-1 text-sm font-bold text-[#074553] dark:text-[#9BE7FA]">
+                {isVi ? "Xem dự án" : "Open the project"}
+                <ArrowUpRight className="w-4 h-4 shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform motion-reduce:transition-none" aria-hidden="true" />
+              </span>
+            </Link>
           ))}
         </div>
+
+        <nav
+          aria-label={isVi ? "Trang khác" : "Other pages"}
+          className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 text-sm"
+        >
+          <span className="text-slate-500 dark:text-slate-400">
+            {isVi ? "Xem thêm" : "More"}
+          </span>
+          {MORE_LINKS.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className={`min-h-[44px] inline-flex items-center font-bold text-[#074553] dark:text-[#9BE7FA] hover:underline ${FOCUS}`}
+            >
+              {t(l.label)}
+            </Link>
+          ))}
+        </nav>
       </section>
-
-      {/* 3. CURIOSITY HOOKS: Case Study Teasers */}
-      <section className="space-y-6">
-        <div className="space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-            {t.curiosityTitle}
-          </h2>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
-            {t.curiositySubtitle}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {t.teasers.map((teaser, idx) => {
-            const TeaserIcon = teaser.icon;
-            const isCommerce = idx === 0; // Kami Ely commercial project
-            return (
-              <Link
-                key={idx}
-                href={teaser.href}
-                className={`group p-6 rounded-2xl bg-white dark:bg-slate-900/60 border hover:bg-[#F8FCFD] dark:hover:bg-slate-900 transition-colors flex flex-col justify-between cursor-pointer ${
-                  isCommerce
-                    ? 'border-[#FFE485]/70 dark:border-slate-800 hover:border-[#FFD14C]'
-                    : 'border-[#C8EEF7] dark:border-slate-800 hover:border-[#9BE7FA] dark:hover:border-[#9BE7FA]/60'
-                }`}
-              >
-                <div className="space-y-3.5">
-                  <span
-                    className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md border ${
-                      isCommerce
-                        ? 'text-[#854D0E] dark:text-[#FFE485] bg-[#FFE485]/35 dark:bg-[#FFE485]/15 border-[#FFD14C]/40'
-                        : 'text-[#074553] dark:text-[#9BE7FA] bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/10 border-[#9BE7FA]/30'
-                    }`}
-                  >
-                    <TeaserIcon className="w-3.5 h-3.5 shrink-0" />
-                    <span>{teaser.tag}</span>
-                  </span>
-                  <p className="text-sm sm:text-base font-medium text-slate-800 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white transition-colors leading-relaxed">
-                    “{teaser.question}”
-                  </p>
-                </div>
-                <div
-                  className={`pt-6 text-xs font-bold flex items-center gap-1.5 group-hover:translate-x-1 transition-transform ${
-                    isCommerce
-                      ? 'text-[#854D0E] dark:text-[#FFE485]'
-                      : 'text-[#074553] dark:text-[#9BE7FA]'
-                  }`}
-                >
-                  <span>{teaser.cta}</span>
-                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* 4. EXPLORE OTHER PAGES: Editorial Directory */}
-      <section className="rounded-3xl bg-[#F8FCFD] dark:bg-slate-900/40 border border-[#C8EEF7] dark:border-slate-800 p-6 sm:p-8 space-y-5">
-        <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
-          {t.navExploreTitle}
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {t.navLinks.map((nav, idx) => {
-            const NavIcon = nav.icon;
-            const isGoldNav = idx === 1 || idx === 3; // Experience & Blog
-            return (
-              <Link
-                key={nav.href}
-                href={nav.href}
-                className={`group p-4 rounded-2xl bg-white dark:bg-slate-900/80 border transition-colors flex items-start justify-between gap-4 cursor-pointer ${
-                  isGoldNav
-                    ? 'border-slate-200/80 dark:border-slate-800 hover:border-[#FFD14C]'
-                    : 'border-slate-200/80 dark:border-slate-800 hover:border-[#9BE7FA]'
-                }`}
-              >
-                <div className="flex items-start gap-3.5">
-                  <span
-                    className={`p-2 rounded-xl shrink-0 mt-0.5 ${
-                      isGoldNav
-                        ? 'bg-[#FFE485]/35 dark:bg-[#FFE485]/15 text-[#854D0E] dark:text-[#FFE485] border border-[#FFD14C]/30'
-                        : 'bg-[#C8EEF7]/40 dark:bg-slate-800 text-[#074553] dark:text-[#9BE7FA]'
-                    }`}
-                  >
-                    <NavIcon className="w-4 h-4" />
-                  </span>
-                  <div>
-                    <h3
-                      className={`text-sm font-bold text-slate-900 dark:text-white transition-colors ${
-                        isGoldNav
-                          ? 'group-hover:text-[#854D0E] dark:group-hover:text-[#FFE485]'
-                          : 'group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA]'
-                      }`}
-                    >
-                      {nav.title}
-                    </h3>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                      {nav.desc}
-                    </p>
-                  </div>
-                </div>
-                <span
-                  className={`transition-transform shrink-0 pt-0.5 group-hover:translate-x-1 group-hover:-translate-y-0.5 ${
-                    isGoldNav
-                      ? 'text-slate-400 group-hover:text-[#854D0E] dark:group-hover:text-[#FFE485]'
-                      : 'text-slate-400 group-hover:text-[#074553] dark:group-hover:text-[#9BE7FA]'
-                  }`}
-                >
-                  <ArrowUpRight className="w-4 h-4" />
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
     </div>
   );
 }
-

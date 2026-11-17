@@ -1,13 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
 import { 
   Maximize2, Sparkles, FileCode2,
   ChevronLeft, ChevronRight, Columns2, LayoutGrid,
   Smartphone, Monitor, Download, ZoomIn, ZoomOut, X
 } from 'lucide-react';
-import { LIBRARY_BUS_20_SCREENS, LIBRARY_BUS_MOBILE_SCREENS } from '@/app/data/libraryBusData';
+import { LIBRARY_BUS_11_SCREENS, LIBRARY_BUS_MOBILE_SCREENS } from '@/app/data/libraryBusData';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 export interface VisualComparisonProps {
@@ -21,63 +20,71 @@ export interface ScreenPairItem {
   nameVi: string;
   nameEn: string;
   slug: string;
+  route: string;
   mobId: string;
+  desktopHw: number;
+  mobileHw: number;
   desktop: {
     wf: string;
     ui: string;
+    dimLabel: string;
   };
   mobile: {
     wf: string;
     ui: string;
+    dimLabel: string;
   };
 }
 
-export const SCREENS_20_PAIRS: ScreenPairItem[] = [
-  { id: "1", num: 1, nameVi: "Trang chủ", nameEn: "Homepage", slug: "01_trang_chu" },
-  { id: "2", num: 2, nameVi: "Giới thiệu", nameEn: "About Us", slug: "02_gioi_thieu" },
-  { id: "3", num: 3, nameVi: "Danh sách sách", nameEn: "Book Catalog", slug: "03_danh_sach_sach" },
-  { id: "4", num: 4, nameVi: "Chi tiết sách", nameEn: "Book Detail", slug: "04_chi_tiet_sach" },
-  { id: "5", num: 5, nameVi: "Bản đồ & Tuyến xe", nameEn: "Bus Route & Map", slug: "05_danh_sach_xe_ban_do" },
-  { id: "6", num: 6, nameVi: "Chi tiết xe buýt", nameEn: "Bus Fleet Detail", slug: "06_chi_tiet_xe_buyt" },
-  { id: "7", num: 7, nameVi: "Quản lý thư viện", nameEn: "Library Admin", slug: "07_dashboard_quan_ly_thu_vien" },
-  { id: "8", num: 8, nameVi: "Quyên góp sách", nameEn: "Book Donation", slug: "08_danh_sach_quyen_gop_sach" },
-  { id: "9", num: 9, nameVi: "Tạo phiếu mượn", nameEn: "Borrow Order", slug: "09_tao_phieu_muon_sach" },
-  { id: "10", num: 10, nameVi: "Đặt trước sách", nameEn: "Hold Reservation", slug: "10_tao_dat_truoc_sach" },
-  { id: "11", num: 11, nameVi: "Dashboard Giao dịch", nameEn: "Transactions Dashboard", slug: "11_dashboard_giao_dich" },
-  { id: "12", num: 12, nameVi: "Dashboard Độc giả", nameEn: "Reader Profile", slug: "12_dashboard_nguoi_dung" },
-  { id: "13", num: 13, nameVi: "Đăng nhập", nameEn: "Login", slug: "13_dang_nhap" },
-  { id: "14", num: 14, nameVi: "Đăng ký", nameEn: "Register", slug: "14_dang_ky" },
-  { id: "15", num: 15, nameVi: "Blog Cộng đồng", nameEn: "Community Blog", slug: "15_blog_trang_chu" },
-  { id: "16", num: 16, nameVi: "Chi tiết bài Blog", nameEn: "Article Detail", slug: "16_blog_chi_tiet_bai_viet" },
-  { id: "17", num: 17, nameVi: "Thông báo", nameEn: "Notifications", slug: "17_thong_bao" },
-  { id: "18", num: 18, nameVi: "Analytics Dashboard", nameEn: "Analytics Dashboard", slug: "18_analytics_dashboard" },
-  { id: "19", num: 19, nameVi: "Hỏi đáp (FAQ)", nameEn: "FAQ", slug: "19_faq" },
-  { id: "20", num: 20, nameVi: "Liên hệ", nameEn: "Contact Us", slug: "20_lien_he" },
-].map((s) => ({
-  ...s,
+const RAW_11_SPECS = [
+  { id: "1", num: 1, nameVi: "Trang chủ", nameEn: "Homepage", slug: "01_trang_chu", route: "/", deskDim: "1440×3395", mobDim: "390×2586", deskHw: 2.36, mobHw: 6.63 },
+  { id: "2", num: 2, nameVi: "Giới thiệu", nameEn: "About Us", slug: "02_gioi_thieu", route: "/about/", deskDim: "1440×3120", mobDim: "390×2775", deskHw: 2.17, mobHw: 7.12 },
+  { id: "3", num: 3, nameVi: "Kho sách thư viện", nameEn: "Book Catalog", slug: "03_kho_sach", route: "/inventory/books/", deskDim: "1440×1836", mobDim: "390×760", deskHw: 1.28, mobHw: 1.95 },
+  { id: "4", num: 4, nameVi: "Chi tiết sách", nameEn: "Book Detail", slug: "04_chi_tiet_sach", route: "/inventory/books/<uuid>/", deskDim: "1440×1140", mobDim: "390×1865", deskHw: 0.79, mobHw: 4.78 },
+  { id: "5", num: 5, nameVi: "Quyên góp & Trao tặng sách", nameEn: "Book Donation Form", slug: "05_quyen_gop_sach", route: "/inventory/books/donate/", deskDim: "1440×900", mobDim: "390×944", deskHw: 0.63, mobHw: 2.42 },
+  { id: "6", num: 6, nameVi: "Mạng lưới xe buýt lưu động", nameEn: "Mobile Bus Fleet Map", slug: "06_danh_sach_chuyen_xe", route: "/inventory/buses/", deskDim: "1440×900", mobDim: "390×743", deskHw: 0.63, mobHw: 1.91 },
+  { id: "7", num: 7, nameVi: "Lộ trình & Điểm đón xe", nameEn: "Route & Stop Schedule", slug: "07_chi_tiet_lo_trinh", route: "/inventory/routes/<uuid>/", deskDim: "1440×1191", mobDim: "390×1300", deskHw: 0.83, mobHw: 3.33 },
+  { id: "8", num: 8, nameVi: "Hồ sơ cá nhân & Thẻ thư viện", nameEn: "Reader Profile & Pass", slug: "08_ho_so_ban_doc", route: "/users/profile/", deskDim: "1440×978", mobDim: "390×844", deskHw: 0.68, mobHw: 2.16 },
+  { id: "9", num: 9, nameVi: "Quản lý mượn trả sách", nameEn: "Borrow & Return Management", slug: "09_quan_ly_muon_tra", route: "/transactions/borrows/", deskDim: "1440×1218", mobDim: "390×1182", deskHw: 0.85, mobHw: 3.03 },
+  { id: "10", num: 10, nameVi: "Báo cáo phân tích dữ liệu", nameEn: "Analytics Dashboard", slug: "10_analytics_dashboard", route: "/analytics/", deskDim: "1440×1644", mobDim: "390×1494", deskHw: 1.14, mobHw: 3.83 },
+  { id: "11", num: 11, nameVi: "Trung tâm quản trị Django Admin", nameEn: "Django Admin Center", slug: "11_django_admin", route: "/admin/", deskDim: "1440×2149", mobDim: "390×1442", deskHw: 1.49, mobHw: 3.70 },
+];
+
+export const SCREENS_11_PAIRS: ScreenPairItem[] = RAW_11_SPECS.map((s) => ({
+  id: s.id,
+  num: s.num,
+  nameVi: s.nameVi,
+  nameEn: s.nameEn,
+  slug: s.slug,
+  route: s.route,
   mobId: s.slug.slice(0, 2),
+  desktopHw: s.deskHw,
+  mobileHw: s.mobHw,
   desktop: {
     wf: `/library-bus/screens/wf_${s.slug}.webp`,
-    ui: `/library-bus/screens/ui_${s.slug}.webp`,
+    ui: `/library-bus/screens/screen_${s.slug}.webp`,
+    dimLabel: s.deskDim,
   },
   mobile: {
-    wf: `/library-bus/mobile_screens/wf_mob_${s.slug.slice(0, 2)}.webp`,
-    ui: `/library-bus/mobile_screens/ui_mob_${s.slug.slice(0, 2)}.webp`,
+    wf: `/library-bus/screens/wf_mobile_${s.slug}.webp`,
+    ui: `/library-bus/screens/screen_mobile_${s.slug}.webp`,
+    dimLabel: s.mobDim,
   },
 }));
 
+// Backward-compatible alias
+export const SCREENS_20_PAIRS = SCREENS_11_PAIRS;
+
 export const DESKTOP_SCREEN_HEIGHTS: Record<string, number> = {
-  "1": 600, "2": 508, "3": 645, "4": 265, "5": 206,
-  "6": 352, "7": 338, "8": 226, "9": 360, "10": 215,
-  "11": 438, "12": 432, "13": 215, "14": 254, "15": 635,
-  "16": 465, "17": 168, "18": 355, "19": 145, "20": 102,
+  "1": 3395, "2": 3120, "3": 1836, "4": 1140, "5": 900,
+  "6": 900, "7": 1191, "8": 978, "9": 1218, "10": 1644,
+  "11": 2149,
 };
 
 export const MOBILE_SCREEN_HEIGHTS: Record<string, number> = {
-  "1": 730, "2": 462, "3": 550, "4": 355, "5": 377,
-  "6": 384, "7": 599, "8": 707, "9": 407, "10": 370,
-  "11": 385, "12": 377, "13": 548, "14": 302, "15": 359,
-  "16": 306, "17": 300, "18": 339, "19": 332, "20": 368,
+  "1": 2586, "2": 2775, "3": 760, "4": 1865, "5": 944,
+  "6": 743, "7": 1300, "8": 844, "9": 1182, "10": 1494,
+  "11": 1442,
 };
 
 export interface ScreenCohort {
@@ -85,78 +92,130 @@ export interface ScreenCohort {
   nameVi: string;
   nameEn: string;
   heightRange: string;
+  cols: 2 | 3;
   screenIds: string[];
 }
 
 export const DESKTOP_COHORTS: ScreenCohort[] = [
   {
-    id: 'long',
-    nameVi: 'Trang dài & Duyệt danh mục',
-    nameEn: 'Long-scroll Catalogs',
-    heightRange: '~500px – 650px',
-    screenIds: ['3', '15', '1', '2'],
+    id: 'portals',
+    nameVi: 'Nhóm 1: Trang chủ, Giới thiệu & Django Admin (Trang Dài)',
+    nameEn: 'Cohort 1: Homepage, About & Django Admin (Long Pages)',
+    heightRange: '1440 × 2149–3395px',
+    cols: 3,
+    screenIds: ['1', '2', '11'],
   },
   {
-    id: 'dashboard',
-    nameVi: 'Bảng điều khiển & Bài viết',
-    nameEn: 'Dashboards & Articles',
-    heightRange: '~350px – 465px',
-    screenIds: ['16', '11', '12', '9', '18', '6'],
+    id: 'catalog-analytics',
+    nameVi: 'Nhóm 2: Kho Sách & Báo Cáo Analytics',
+    nameEn: 'Cohort 2: Book Catalog & Analytics Dashboard',
+    heightRange: '1440 × 1644–1836px',
+    cols: 2,
+    screenIds: ['3', '10'],
   },
   {
-    id: 'forms',
-    nameVi: 'Biểu mẫu & Chi tiết tác vụ',
-    nameEn: 'Action Forms & Details',
-    heightRange: '~215px – 338px',
-    screenIds: ['7', '4', '14', '8', '10', '13'],
+    id: 'operations',
+    nameVi: 'Nhóm 3: Chi Tiết Sách, Lộ Trình & Quản Lý Mượn Trả',
+    nameEn: 'Cohort 3: Book Detail, Route Schedule & Borrow Ops',
+    heightRange: '1440 × 1140–1218px',
+    cols: 3,
+    screenIds: ['4', '7', '9'],
   },
   {
-    id: 'utilities',
-    nameVi: 'Tiện ích & Bản đồ',
-    nameEn: 'Utilities & Maps',
-    heightRange: '~100px – 206px',
-    screenIds: ['5', '17', '19', '20'],
+    id: 'compact-actions',
+    nameVi: 'Nhóm 4: Quyên Góp Sách, Bản Đồ Đội Xe & Hồ Sơ Bạn Đọc',
+    nameEn: 'Cohort 4: Donation Form, Fleet GPS Map & Reader Profile',
+    heightRange: '1440 × 900–978px',
+    cols: 3,
+    screenIds: ['5', '6', '8'],
   },
 ];
 
 export const MOBILE_COHORTS: ScreenCohort[] = [
   {
-    id: 'mob-tall',
-    nameVi: 'Trang cuộn dài Mobile',
-    nameEn: 'Tall Mobile Flows',
-    heightRange: '~540px – 730px',
-    screenIds: ['1', '8', '7', '3', '13', '2'],
+    id: 'mob-long',
+    nameVi: 'Nhóm 1: Trang chủ & Giới thiệu Mobile (Cuộn Dài)',
+    nameEn: 'Cohort 1: Homepage & About Mobile (Tall Views)',
+    heightRange: '390 × 2586–2775px',
+    cols: 2,
+    screenIds: ['1', '2'],
   },
   {
-    id: 'mob-medium',
-    nameVi: 'Giao dịch & Điều hướng Mobile',
-    nameEn: 'Medium Navigation Flows',
-    heightRange: '~359px – 407px',
-    screenIds: ['9', '11', '6', '5', '12', '10', '20', '15'],
+    id: 'mob-medium-tall',
+    nameVi: 'Nhóm 2: Chi Tiết Sách, Analytics & Django Admin Mobile',
+    nameEn: 'Cohort 2: Book Detail, Analytics & Django Admin (Mobile)',
+    heightRange: '390 × 1442–1865px',
+    cols: 3,
+    screenIds: ['4', '10', '11'],
+  },
+  {
+    id: 'mob-routes-ops',
+    nameVi: 'Nhóm 3: Lộ Trình, Quản Lý Mượn Trả & Quyên Góp Mobile',
+    nameEn: 'Cohort 3: Routes, Borrow Ops & Donation (Mobile)',
+    heightRange: '390 × 944–1300px',
+    cols: 3,
+    screenIds: ['7', '9', '5'],
   },
   {
     id: 'mob-compact',
-    nameVi: 'Biểu mẫu gọn & Tiện ích Mobile',
-    nameEn: 'Compact Screens',
-    heightRange: '~300px – 355px',
-    screenIds: ['4', '18', '19', '16', '14', '17'],
+    nameVi: 'Nhóm 4: Hồ Sơ, Kho Sách & Bản Đồ Đội Xe Mobile',
+    nameEn: 'Cohort 4: Reader Profile, Catalog & Fleet Map (Mobile)',
+    heightRange: '390 × 743–844px',
+    cols: 3,
+    screenIds: ['8', '3', '6'],
   },
 ];
+
+/**
+ * Distributes cards across `columnCount` shortest-first Masonry columns
+ * using live measured image aspect ratios (falling back to expected ratios before load)
+ * so columns pack tightly with zero vertical gap or orphan grid cells.
+ */
+function distributeMasonryColumns(
+  items: ScreenPairItem[],
+  columnCount: number,
+  platform: 'desktop' | 'mobile',
+  measuredRatios: Record<string, number>,
+  measuredDims: Record<string, string>
+): ScreenPairItem[][] {
+  const columns: ScreenPairItem[][] = Array.from({ length: columnCount }, () => []);
+  const heights = Array.from({ length: columnCount }, () => 0);
+
+  for (const item of items) {
+    const keyPrefix = platform;
+    const wfRatio = measuredRatios[`${keyPrefix}-wf-${item.id}`] ?? (platform === 'desktop' ? item.desktopHw : item.mobileHw);
+    const uiRatio = measuredRatios[`${keyPrefix}-ui-${item.id}`] ?? (platform === 'desktop' ? item.desktopHw : item.mobileHw);
+    // Avoid lint unused warning if caller passes dims separately
+    void measuredDims;
+    const cardScore = Math.max(wfRatio, uiRatio) + 0.35;
+
+    let minIdx = 0;
+    for (let i = 1; i < columnCount; i++) {
+      if (heights[i] < heights[minIdx]) {
+        minIdx = i;
+      }
+    }
+    columns[minIdx].push(item);
+    heights[minIdx] += cardScore;
+  }
+
+  return columns;
+}
 
 export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom }: VisualComparisonProps = {}) {
   const { language } = useLanguage();
   const isEn = propIsEn !== undefined ? propIsEn : language === 'en';
 
-  // 1. Platform Tab: 'desktop' (20 screens) <-> 'mobile' (20 screens)
+  // 1. Platform Tab: 'desktop' (11 screens) <-> 'mobile' (11 screens)
   const [platformTab, setPlatformTab] = useState<'desktop' | 'mobile'>('desktop');
 
-  // 2. View Mode: 'continuous' (Dàn trang nối tiếp toàn bộ 20 cặp) vs 'single' (Đối chiếu chi tiết 1 cặp)
+  // 2. View Mode: 'continuous' (All 11 pairs visible in full) vs 'single' (1-to-1 deep inspection)
   const [viewLayout, setViewLayout] = useState<'continuous' | 'single'>('continuous');
 
-  // 2b. Continuous Sorting Mode: 'matched' (Cùng kích thước / Cân đối chiều cao) vs 'sequential' (Thứ tự 1 - 20)
-  const [sortMode, setSortMode] = useState<'matched' | 'sequential'>('matched');
+  // 2b. Arrangement Mode: 'masonry' (Shortest-column balanced Masonry) vs 'cohorts' (Aspect-matched rows)
+  const [sortMode, setSortMode] = useState<'masonry' | 'cohorts'>('masonry');
 
-  // 3. Highlighted screen ID when jumped from Sitemap (e.g. "1", "9")
+  // 3. Highlighted screen ID when jumped from Sitemap
   const [highlightedScreenId, setHighlightedScreenId] = useState<string>('1');
   const [highlightPulse, setHighlightPulse] = useState<boolean>(false);
   const pulseTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -164,9 +223,12 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
   // 4. Single 1-to-1 Mode active screen
   const [activeScreenId, setActiveScreenId] = useState<string>('1');
   const [moduleFilter, setModuleFilter] = useState<string>('all');
-  const [viewFitMode, setViewFitMode] = useState<'fit' | 'full'>('fit');
 
-  // 5. Lightbox modal state
+  // 5. Measured real aspect ratios & dimensions from loaded images
+  const [measuredRatios, setMeasuredRatios] = useState<Record<string, number>>({});
+  const [measuredDims, setMeasuredDims] = useState<Record<string, string>>({});
+
+  // 6. Lightbox modal state
   const [lightboxImg, setLightboxImg] = useState<{
     src: string;
     title: string;
@@ -176,6 +238,22 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
 
   const comparisonTopRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
+
+  const handleImageLoad = (key: string, e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    if (!img.naturalWidth || !img.naturalHeight) return;
+    const ratio = img.naturalHeight / img.naturalWidth;
+    const dim = `${img.naturalWidth}×${img.naturalHeight}`;
+
+    setMeasuredRatios((prev) => {
+      if (prev[key] !== undefined && Math.abs(prev[key] - ratio) < 0.01) return prev;
+      return { ...prev, [key]: ratio };
+    });
+    setMeasuredDims((prev) => {
+      if (prev[key] === dim) return prev;
+      return { ...prev, [key]: dim };
+    });
+  };
 
   const handleOpenLightbox = (src: string, title: string, subtitle: string) => {
     if (onOpenZoom) {
@@ -193,14 +271,12 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
       const rawId = typeof customEvt.detail === 'string' ? customEvt.detail : customEvt.detail?.screenId;
       if (!rawId) return;
 
-      // Extract numeric id from raw input
       const cleanNum = rawId.trim().replace(/^#/, '').replace(/^screen-/, '').replace(/^mob_/, '').replace(/^0+/, '') || '1';
 
       setHighlightedScreenId(cleanNum);
       setActiveScreenId(cleanNum);
       setHighlightPulse(true);
 
-      // Smooth scroll to the target screen element
       const targetEl = document.getElementById(`screen-${cleanNum}`) || comparisonTopRef.current;
       if (targetEl) {
         targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -220,8 +296,9 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
   }, []);
 
   // Keyboard navigation for single 1-to-1 mode
-  const currentScreens = platformTab === 'desktop' ? LIBRARY_BUS_20_SCREENS : LIBRARY_BUS_MOBILE_SCREENS;
+  const currentScreens = platformTab === 'desktop' ? LIBRARY_BUS_11_SCREENS : LIBRARY_BUS_MOBILE_SCREENS;
   const selectedScreen = currentScreens.find(s => s.id === activeScreenId) || currentScreens[0];
+  const selectedPairMeta = SCREENS_11_PAIRS.find(s => s.id === activeScreenId) || SCREENS_11_PAIRS[0];
   const selectedIndex = currentScreens.findIndex(s => s.id === activeScreenId);
 
   useEffect(() => {
@@ -260,77 +337,209 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
     }
   }, [viewLayout, activeScreenId]);
 
+  const screenMap = new Map(SCREENS_11_PAIRS.map(s => [s.id, s]));
+
+  /**
+   * Renders a pure, clean 1:1 visual comparison card (Wireframe vs UI Design ONLY — zero injected text inside image columns).
+   * Both images show 100% full height immediately with zero scrollbars.
+   */
+  const renderScreenPairCard = (s: ScreenPairItem) => {
+    const isHighlighted = highlightedScreenId === s.id;
+    const currentPair = platformTab === 'desktop' ? s.desktop : s.mobile;
+    const uiDim = measuredDims[`${platformTab}-ui-${s.id}`] || currentPair.dimLabel;
+
+    return (
+      <div
+        key={s.id}
+        id={`screen-${s.id}`}
+        className={`flex flex-col space-y-3 p-4 rounded-3xl transition duration-300 scroll-mt-28 ${
+          isHighlighted
+            ? 'ring-4 ring-[#9BE7FA] bg-[#C8EEF7]/20 dark:bg-[#9BE7FA]/10'
+            : 'border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900'
+        }`}
+      >
+        {/* Screen Card Header */}
+        <div className="flex flex-wrap justify-between items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="w-6 h-6 rounded-lg bg-slate-900 dark:bg-slate-800 text-white flex items-center justify-center tabular-nums font-bold text-xs shrink-0">
+              {s.num}
+            </span>
+            <h3 className="text-sm sm:text-base font-bold tracking-tight text-slate-900 dark:text-white truncate">
+              {isEn ? s.nameEn : s.nameVi}
+            </h3>
+          </div>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <code className="text-xs font-mono px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA] font-semibold">
+              {s.route}
+            </code>
+            <span className="text-xs tabular-nums font-medium px-2 py-0.5 rounded-lg bg-slate-100/80 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400">
+              {uiDim}
+            </span>
+          </div>
+        </div>
+
+        {/* Pure Visual Pair: Left Wireframe | Right UI Design (100% Full Height, Zero Scrollbars) */}
+        <div className="grid grid-cols-2 gap-3 items-start">
+          {/* Left: Wireframe */}
+          <div className="space-y-1.5 flex flex-col">
+            <div className="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
+              <span>Wireframe</span>
+              <button
+                type="button"
+                onClick={() => handleOpenLightbox(
+                  currentPair.wf,
+                  `${s.num}. ${s.nameVi} - Wireframe`,
+                  platformTab === 'desktop' ? 'Cấu trúc khung xám lưới 12 cột' : 'Bố cục dọc Mobile 1 cột'
+                )}
+                className="min-h-[32px] min-w-[32px] p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer flex items-center justify-center"
+                aria-label={isEn ? "Zoom wireframe" : "Phóng to wireframe"}
+                title={isEn ? "Zoom wireframe" : "Phóng to wireframe"}
+              >
+                <Maximize2 className="w-3.5 h-3.5" />
+              </button>
+            </div>
+            <div
+              data-ui="image-frame"
+              className="w-full border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-950 cursor-zoom-in group"
+              onClick={() => handleOpenLightbox(
+                currentPair.wf,
+                `${s.num}. ${s.nameVi} - Wireframe`,
+                platformTab === 'desktop' ? 'Cấu trúc khung xám lưới 12 cột' : 'Bố cục dọc Mobile 1 cột'
+              )}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={currentPair.wf}
+                alt={`Wireframe ${s.nameVi} (${platformTab})`}
+                loading="lazy"
+                onLoad={(e) => handleImageLoad(`${platformTab}-wf-${s.id}`, e)}
+                className="w-full h-auto block transition-transform duration-300 group-hover:scale-[1.01]"
+              />
+            </div>
+          </div>
+
+          {/* Right: UI Design */}
+          <div className="space-y-1.5 flex flex-col">
+            <div className="flex justify-between items-center text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA]">
+              <span>UI Design</span>
+              <button
+                type="button"
+                onClick={() => handleOpenLightbox(
+                  currentPair.ui,
+                  `${s.num}. ${s.nameVi} - UI Design (${uiDim})`,
+                  platformTab === 'desktop' ? 'Giao diện hoàn chỉnh Desktop (1440px)' : 'Giao diện hoàn chỉnh Mobile (390px)'
+                )}
+                className="min-h-[32px] min-w-[32px] p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer flex items-center justify-center"
+                aria-label={isEn ? "Zoom UI design" : "Phóng to giao diện UI"}
+                title={isEn ? "Zoom UI design" : "Phóng to giao diện UI"}
+              >
+                <Maximize2 className="w-3.5 h-3.5" />
+              </button>
+            </div>
+            <div
+              data-ui="image-frame"
+              className="w-full border border-[#9BE7FA]/50 dark:border-slate-800 rounded-2xl overflow-hidden bg-[#FFFDF9] dark:bg-slate-950 cursor-zoom-in group"
+              onClick={() => handleOpenLightbox(
+                currentPair.ui,
+                `${s.num}. ${s.nameVi} - UI Design (${uiDim})`,
+                platformTab === 'desktop' ? 'Giao diện hoàn chỉnh Desktop (1440px)' : 'Giao diện hoàn chỉnh Mobile (390px)'
+              )}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={currentPair.ui}
+                alt={`UI design ${s.nameVi} (${platformTab})`}
+                loading="lazy"
+                onLoad={(e) => handleImageLoad(`${platformTab}-ui-${s.id}`, e)}
+                className="w-full h-auto block transition-transform duration-300 group-hover:scale-[1.01]"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Pre-compute balanced Masonry columns using live measured ratios
+  const masonryColumns = distributeMasonryColumns(
+    SCREENS_11_PAIRS,
+    platformTab === 'desktop' ? 2 : 3,
+    platformTab,
+    measuredRatios,
+    measuredDims
+  );
+
   return (
     <div id="visual-comparison" className="space-y-6 scroll-mt-24">
-      {/* 03. TOP CONTROL STRIP: 2 TABS DESKTOP (20) <-> MOBILE (20) & LAYOUT SWITCHER */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-4 sm:p-5 rounded-3xl border border-[#0D7287]/20 shadow-xs dark:border-slate-700 bg-[#F0F9FB]">
+      {/* 03. TOP CONTROL STRIP: 2 TABS DESKTOP (11) <-> MOBILE (11) & LAYOUT SWITCHER */}
+      <div className="flex flex-wrap items-center justify-between gap-4 p-4 sm:p-5 rounded-3xl border border-[#0D7287]/20 dark:border-slate-700 bg-[#F0F9FB] dark:bg-slate-900">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
             <h3 className="text-base sm:text-lg font-black tracking-tight text-slate-900 dark:text-white uppercase">
-              {isEn ? '03. Visual Design (20 Screen Pairs)' : '03. Thiết Kế Trực Quan (20 Cặp Giao Diện)'}
+              {isEn ? '03. Visual Design (11 Core Screen Pairs)' : '03. Thiết Kế Trực Quan (11 Cặp Màn Hình Cốt Lõi)'}
             </h3>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 font-medium">
             {platformTab === 'desktop'
-              ? (isEn ? 'Desktop Layout: 12 Columns | Width: 78px | Gutter: 24px' : 'Lưới Desktop: 12 Cột | Chiều rộng: 78px | Khoảng cách: 24px')
-              : (isEn ? 'Mobile Layout: 4 Columns | Margin: 16px | Gutter: 16px' : 'Lưới Mobile: 4 Cột | Lề biên: 16px | Khoảng cách: 16px')}
+              ? (isEn ? 'Desktop 1440px: 1:1 Wireframe vs UI paired cleanly in 2 auto-balanced Masonry columns (no scrollbars)' : 'Desktop 1440px: Đối chiếu 1:1 Wireframe và UI không thanh cuộn trong lưới 2 cột Masonry tự cân chiều cao')
+              : (isEn ? 'Mobile 390px: 1:1 Wireframe vs UI paired cleanly across 3 auto-balanced Masonry columns (no scrollbars)' : 'Mobile 390px: Đối chiếu 1:1 Wireframe và UI không thanh cuộn trong lưới 3 cột Masonry tự cân chiều cao')}
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          {/* 2 Tabs: Desktop (20) <-> Mobile (20) */}
-          <div className="inline-flex rounded-2xl border border-slate-200 dark:border-slate-700 p-1 bg-white dark:bg-slate-950 shadow-2xs">
+          {/* 2 Tabs: Desktop (11) <-> Mobile (11) */}
+          <div className="inline-flex rounded-2xl border border-slate-200 dark:border-slate-700 p-1 bg-white dark:bg-slate-950">
             <button
               type="button"
               onClick={() => setPlatformTab('desktop')}
               className={`min-h-[44px] px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 cursor-pointer ${
                 platformTab === 'desktop'
-                  ? 'bg-slate-900 text-white dark:bg-[#9BE7FA] dark:text-slate-950 shadow-xs'
+                  ? 'bg-slate-900 text-white dark:bg-[#9BE7FA] dark:text-slate-950'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               <Monitor className="w-4 h-4 text-[#0D7287] dark:text-slate-950" />
-              <span>Desktop (20)</span>
+              <span>Desktop (11)</span>
             </button>
             <button
               type="button"
               onClick={() => setPlatformTab('mobile')}
               className={`min-h-[44px] px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 cursor-pointer ${
                 platformTab === 'mobile'
-                  ? 'bg-slate-900 text-white dark:bg-[#9BE7FA] dark:text-slate-950 shadow-xs'
+                  ? 'bg-slate-900 text-white dark:bg-[#9BE7FA] dark:text-slate-950'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <Smartphone className="w-4 h-4 text-[#FFE485]" />
-              <span>Mobile (20)</span>
+              <Smartphone className="w-4 h-4 text-[#FFD14C]" />
+              <span>Mobile (11)</span>
             </button>
           </div>
 
-          {/* Layout Mode Toggle: Continuous feed (20 pairs) vs Single 1-to-1 */}
-          <div className="inline-flex rounded-2xl border border-slate-200 dark:border-slate-700 p-1 bg-white dark:bg-slate-950 shadow-2xs">
+          {/* Layout Mode Toggle: All 11 Pairs vs 1-to-1 Deep Inspection */}
+          <div className="inline-flex rounded-2xl border border-slate-200 dark:border-slate-700 p-1 bg-white dark:bg-slate-950">
             <button
               type="button"
               onClick={() => setViewLayout('continuous')}
               className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 cursor-pointer ${
                 viewLayout === 'continuous'
-                  ? 'bg-[#0D7287] text-white shadow-xs'
+                  ? 'bg-[#0D7287] text-white'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
-              title={isEn ? 'Continuous Layout (All 20 Pairs)' : 'Dàn trang nối tiếp (Toàn bộ 20 cặp)'}
+              title={isEn ? 'Full Masonry Gallery (All 11 Pairs)' : 'Dàn trang toàn bộ 11 cặp (Đầy đủ không cuộn)'}
             >
               <LayoutGrid className="w-4 h-4" />
-              <span className="hidden sm:inline">{isEn ? 'All 20 Pairs' : '20 Cặp nối tiếp'}</span>
+              <span className="hidden sm:inline">{isEn ? 'All 11 Pairs' : '11 Cặp nối tiếp'}</span>
             </button>
             <button
               type="button"
               onClick={() => setViewLayout('single')}
               className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 cursor-pointer ${
                 viewLayout === 'single'
-                  ? 'bg-[#0D7287] text-white shadow-xs'
+                  ? 'bg-[#0D7287] text-white'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
-              title={isEn ? '1-to-1 Deep Inspection' : 'Đối chiếu từng cặp mẫu (Chi tiết)'}
+              title={isEn ? '1-to-1 Deep Inspection' : 'Đối chiếu chi tiết từng cặp 1-1'}
             >
               <Columns2 className="w-4 h-4" />
               <span className="hidden sm:inline">{isEn ? '1-to-1 Deep' : 'Chi tiết 1-1'}</span>
@@ -342,7 +551,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
             href={platformTab === 'desktop' ? '/library-bus/website.html' : '/library-bus/website-mobile.html'}
             target="_blank"
             rel="noopener noreferrer"
-            className="min-h-[44px] px-3.5 py-2 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs sm:text-sm font-bold transition shadow-xs flex items-center gap-2 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300 cursor-pointer"
+            className="min-h-[44px] px-3.5 py-2 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs sm:text-sm font-bold transition flex items-center gap-2 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300 cursor-pointer"
             title={platformTab === 'desktop' ? 'Mở tài liệu HTML Desktop' : 'Mở tài liệu HTML Mobile'}
           >
             <FileCode2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
@@ -356,325 +565,99 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
 
       {/* Active Jump Confirmation Banner from Sitemap */}
       {highlightPulse && (
-        <div className="p-4 rounded-2xl font-bold text-xs sm:text-sm flex flex-wrap items-center justify-between gap-2 animate-in fade-in slide-in-from-top-3 duration-300 bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 shadow-xs">
+        <div className="p-4 rounded-2xl font-bold text-xs sm:text-sm flex flex-wrap items-center justify-between gap-2 animate-in fade-in slide-in-from-top-3 duration-300 bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950">
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 animate-spin text-[#FFE485] dark:text-amber-600" />
             <span>
-              {isEn ? 'Jumped from Sitemap:' : 'Đã cuộn tới giao diện từ Sitemap:'} <b>#{highlightedScreenId} {SCREENS_20_PAIRS.find(s => s.id === highlightedScreenId)?.nameVi}</b>
+              {isEn ? 'Jumped from Sitemap:' : 'Đã cuộn tới giao diện từ Sitemap:'} <b>#{highlightedScreenId} {SCREENS_11_PAIRS.find(s => s.id === highlightedScreenId)?.nameVi}</b>
             </span>
           </div>
           <span className="tabular-nums text-xs px-2.5 py-0.5 rounded-full bg-white/20 dark:bg-slate-900/20 text-white dark:text-slate-950">
-            {platformTab === 'desktop' ? 'Desktop Grid 12 Columns' : 'Mobile Grid 4 Columns'}
+            {platformTab === 'desktop' ? 'Desktop 1440px' : 'Mobile 390px'}
           </span>
         </div>
       )}
 
-      {/* LAYOUT A: CONTINUOUS 20-SCREEN FEED (DÀN TRANG NỐI TIẾP TOÀN BỘ 20 CẶP) */}
+      {/* LAYOUT A: CONTINUOUS 11-SCREEN FEED (PURE IMAGES, FULL HEIGHT, ZERO SCROLLBARS) */}
       {viewLayout === 'continuous' ? (
         <div className="space-y-6">
           {/* Sorting / Arrangement Toggle */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800">
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-slate-600 dark:text-slate-400">
-                {isEn ? 'Arrangement:' : 'Sắp xếp:'}
+                {isEn ? 'Packing Mode:' : 'Kiểu dàn trang:'}
               </span>
               <div className="inline-flex rounded-xl p-1 bg-slate-100 dark:bg-slate-800">
                 <button
                   type="button"
-                  onClick={() => setSortMode('matched')}
+                  onClick={() => setSortMode('masonry')}
                   className={`min-h-[38px] px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
-                    sortMode === 'matched'
-                      ? 'bg-[#0D7287] text-white shadow-xs'
+                    sortMode === 'masonry'
+                      ? 'bg-[#0D7287] text-white'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
-                  <span>{isEn ? 'Equal Height Cohorts (Balanced)' : 'Cùng kích thước (Cân đối)'}</span>
+                  <span>
+                    {platformTab === 'desktop'
+                      ? (isEn ? 'Balanced 2-Column Masonry' : 'Masonry 2 cột tự cân bằng')
+                      : (isEn ? 'Balanced 3-Column Masonry' : 'Masonry 3 cột tự cân bằng')}
+                  </span>
                 </button>
                 <button
                   type="button"
-                  onClick={() => setSortMode('sequential')}
+                  onClick={() => setSortMode('cohorts')}
                   className={`min-h-[38px] px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
-                    sortMode === 'sequential'
-                      ? 'bg-[#0D7287] text-white shadow-xs'
+                    sortMode === 'cohorts'
+                      ? 'bg-[#0D7287] text-white'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
-                  <span>{isEn ? 'Numeric Order (1 → 20)' : 'Thứ tự Sitemap (1 → 20)'}</span>
+                  <span>{isEn ? 'Grouped by Height (4 Cohorts)' : 'Phân nhóm cùng kích thước (4 Nhóm)'}</span>
                 </button>
               </div>
             </div>
 
             <div className="text-xs text-slate-500 font-medium">
-              {sortMode === 'matched'
-                ? (isEn ? 'Grouped by screen height to eliminate vertical gaps' : 'Các màn hình cùng chiều cao được ghép đôi cạnh nhau để loại bỏ lệch độ cao')
-                : (isEn ? 'Sequential order from Sitemap #01 to #20' : 'Hiển thị tuần tự theo thứ tự số hiệu từ #01 đến #20')}
+              {isEn
+                ? '100% full image visibility from top to bottom with zero scrollbars and automatic height-balanced columns.'
+                : 'Hiển thị trọn vẹn 100% ảnh không thanh cuộn và tự cân cột theo kích thước thực tế của từng ảnh.'}
             </div>
           </div>
 
-          {/* Render continuous screens either by height cohorts or flat 1-20 list */}
-          {sortMode === 'matched' ? (
+          {sortMode === 'masonry' ? (
+            <div className={`grid grid-cols-1 ${platformTab === 'desktop' ? 'lg:grid-cols-2' : 'lg:grid-cols-3'} gap-6 items-start`}>
+              {masonryColumns.map((colItems, colIdx) => (
+                <div key={colIdx} className="flex flex-col gap-6">
+                  {colItems.map((s) => renderScreenPairCard(s))}
+                </div>
+              ))}
+            </div>
+          ) : (
             <div className="space-y-8">
               {(platformTab === 'desktop' ? DESKTOP_COHORTS : MOBILE_COHORTS).map((cohort) => {
-                const screenMap = new Map(SCREENS_20_PAIRS.map(s => [s.id, s]));
                 const screensInCohort = cohort.screenIds
                   .map(id => screenMap.get(id))
                   .filter(Boolean) as ScreenPairItem[];
 
                 return (
-                  <div key={cohort.id} className="space-y-4">
-                    {/* Cohort Header */}
-                    <div className="flex items-center justify-between py-1">
+                  <div key={cohort.id} className="space-y-3.5">
+                    <div className="flex flex-wrap items-center justify-between gap-2 py-1">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
                         <h4 className="text-xs sm:text-sm font-bold tracking-tight text-slate-800 dark:text-slate-200">
                           {isEn ? cohort.nameEn : cohort.nameVi}
                         </h4>
-                        <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                        <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 tabular-nums">
                           {cohort.heightRange}
                         </span>
                       </div>
                       <span className="text-xs tabular-nums font-semibold text-slate-500">
-                        {screensInCohort.length} {isEn ? 'screens' : 'màn hình'}
+                        {screensInCohort.length} {isEn ? 'screen pairs' : 'cặp màn hình'}
                       </span>
                     </div>
 
-                    {/* 2-Column Grid */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-8 items-stretch">
-                      {screensInCohort.map((s) => {
-                        const isHighlighted = highlightedScreenId === s.id;
-                        const currentPair = platformTab === 'desktop' ? s.desktop : s.mobile;
-                        const screenHeight = platformTab === 'desktop'
-                          ? DESKTOP_SCREEN_HEIGHTS[s.id]
-                          : MOBILE_SCREEN_HEIGHTS[s.id];
-
-                        return (
-                          <div
-                            key={s.id}
-                            id={`screen-${s.id}`}
-                            className={`h-full flex flex-col justify-between space-y-3.5 p-4 sm:p-5 rounded-3xl transition duration-500 scroll-mt-28 ${
-                              isHighlighted
-                                ? 'ring-4 ring-[#9BE7FA] bg-[#C8EEF7]/20 dark:bg-[#9BE7FA]/10 scale-[1.01]'
-                                : 'border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900'
-                            }`}
-                          >
-                            {/* Screen Card Header */}
-                            <div className="flex justify-between items-center pb-2.5 border-slate-100 dark:border-slate-800">
-                              <div className="flex items-center gap-2">
-                                <span className="w-6 h-6 rounded-lg bg-slate-900 dark:bg-slate-800 text-white flex items-center justify-center tabular-nums font-bold text-xs">
-                                  {s.num}
-                                </span>
-                                <h3 className="text-sm sm:text-base font-bold tracking-tight text-slate-900 dark:text-white">
-                                  {isEn ? s.nameEn : s.nameVi}
-                                </h3>
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <span className="text-xs tabular-nums font-bold px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA]">
-                                  {platformTab === 'desktop' ? `Web #${s.id}` : `Mob #${s.mobId}`}
-                                </span>
-                                {screenHeight && (
-                                  <span className="text-xs tabular-nums font-medium px-2 py-0.5 rounded-lg bg-slate-100/80 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400">
-                                    {screenHeight}px
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* 2 Columns: Left Wireframe, Right UI Design */}
-                            <div className="grid grid-cols-2 gap-3.5 items-start flex-1">
-                              {/* Left: Wireframe */}
-                              <div className="space-y-1.5 flex flex-col h-full">
-                                <div className="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
-                                  <span>Wireframe</span>
-                                  <button
-                                    type="button"
-                                    onClick={() => handleOpenLightbox(
-                                      currentPair.wf,
-                                      `${s.num}. ${s.nameVi} - Wireframe`,
-                                      platformTab === 'desktop' ? 'Cấu trúc khung xám lưới 12 cột' : 'Bố cục dọc Mobile 4 cột'
-                                    )}
-                                    className="min-h-[36px] min-w-[36px] p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer flex items-center justify-center"
-                                    aria-label={isEn ? "Zoom wireframe" : "Phóng to wireframe"}
-                                    title={isEn ? "Zoom wireframe" : "Phóng to wireframe"}
-                                  >
-                                    <Maximize2 className="w-3.5 h-3.5" />
-                                  </button>
-                                </div>
-                                <div 
-                                  data-ui="image-frame" className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-950 cursor-zoom-in group relative flex-1 flex items-start"
-                                  onClick={() => handleOpenLightbox(
-                                    currentPair.wf,
-                                    `${s.num}. ${s.nameVi} - Wireframe`,
-                                    platformTab === 'desktop' ? 'Cấu trúc khung xám lưới 12 cột' : 'Bố cục dọc Mobile 4 cột'
-                                  )}
-                                >
-                                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                                  <img
-                                    src={currentPair.wf}
-                                    alt={`Wireframe ${s.nameVi} (${platformTab})`}
-                                    loading="lazy"
-                                    className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
-                                  />
-                                </div>
-                              </div>
-
-                              {/* Right: UI Design */}
-                              <div className="space-y-1.5 flex flex-col h-full">
-                                <div className="flex justify-between items-center text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA]">
-                                  <span>UI design</span>
-                                  <button
-                                    type="button"
-                                    onClick={() => handleOpenLightbox(
-                                      currentPair.ui,
-                                      `${s.num}. ${s.nameVi} - UI Design`,
-                                      platformTab === 'desktop' ? 'Giao diện màu hoàn chỉnh Desktop' : 'Giao diện màu hoàn chỉnh Mobile'
-                                    )}
-                                    className="min-h-[36px] min-w-[36px] p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer flex items-center justify-center"
-                                    aria-label={isEn ? "Zoom UI design" : "Phóng to giao diện UI"}
-                                    title={isEn ? "Zoom UI design" : "Phóng to giao diện UI"}
-                                  >
-                                    <Maximize2 className="w-3.5 h-3.5" />
-                                  </button>
-                                </div>
-                                <div 
-                                  data-ui="image-frame" className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-950 cursor-zoom-in group relative flex-1 flex items-start"
-                                  onClick={() => handleOpenLightbox(
-                                    currentPair.ui,
-                                    `${s.num}. ${s.nameVi} - UI Design`,
-                                    platformTab === 'desktop' ? 'Giao diện màu hoàn chỉnh Desktop' : 'Giao diện màu hoàn chỉnh Mobile'
-                                  )}
-                                >
-                                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                                  <img
-                                    src={currentPair.ui}
-                                    alt={`UI design ${s.nameVi} (${platformTab})`}
-                                    loading="lazy"
-                                    className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-8 items-stretch">
-              {SCREENS_20_PAIRS.map((s) => {
-                const isHighlighted = highlightedScreenId === s.id;
-                const currentPair = platformTab === 'desktop' ? s.desktop : s.mobile;
-                const screenHeight = platformTab === 'desktop'
-                  ? DESKTOP_SCREEN_HEIGHTS[s.id]
-                  : MOBILE_SCREEN_HEIGHTS[s.id];
-
-                return (
-                  <div
-                    key={s.id}
-                    id={`screen-${s.id}`}
-                    className={`h-full flex flex-col justify-between space-y-3.5 p-4 sm:p-5 rounded-3xl transition duration-500 scroll-mt-28 ${
-                      isHighlighted
-                        ? 'ring-4 ring-[#9BE7FA] bg-[#C8EEF7]/20 dark:bg-[#9BE7FA]/10 scale-[1.01]'
-                        : 'border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900'
-                    }`}
-                  >
-                    {/* Screen Card Header */}
-                    <div className="flex justify-between items-center pb-2.5 border-slate-100 dark:border-slate-800">
-                      <div className="flex items-center gap-2">
-                        <span className="w-6 h-6 rounded-lg bg-slate-900 dark:bg-slate-800 text-white flex items-center justify-center tabular-nums font-bold text-xs">
-                          {s.num}
-                        </span>
-                        <h3 className="text-sm sm:text-base font-bold tracking-tight text-slate-900 dark:text-white">
-                          {isEn ? s.nameEn : s.nameVi}
-                        </h3>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs tabular-nums font-bold px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#0D7287] dark:text-[#9BE7FA]">
-                          {platformTab === 'desktop' ? `Web #${s.id}` : `Mob #${s.mobId}`}
-                        </span>
-                        {screenHeight && (
-                          <span className="text-xs tabular-nums font-medium px-2 py-0.5 rounded-lg bg-slate-100/80 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400">
-                            {screenHeight}px
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* 2 Columns: Left Wireframe, Right UI Design */}
-                    <div className="grid grid-cols-2 gap-3.5 items-start flex-1">
-                      {/* Left: Wireframe */}
-                      <div className="space-y-1.5 flex flex-col h-full">
-                        <div className="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
-                          <span>Wireframe</span>
-                          <button
-                            type="button"
-                            onClick={() => handleOpenLightbox(
-                              currentPair.wf,
-                              `${s.num}. ${s.nameVi} - Wireframe`,
-                              platformTab === 'desktop' ? 'Cấu trúc khung xám lưới 12 cột' : 'Bố cục dọc Mobile 4 cột'
-                            )}
-                            className="min-h-[36px] min-w-[36px] p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer flex items-center justify-center"
-                            aria-label={isEn ? "Zoom wireframe" : "Phóng to wireframe"}
-                            title={isEn ? "Zoom wireframe" : "Phóng to wireframe"}
-                          >
-                            <Maximize2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                        <div 
-                          data-ui="image-frame" className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-950 cursor-zoom-in group relative flex-1 flex items-start"
-                          onClick={() => handleOpenLightbox(
-                            currentPair.wf,
-                            `${s.num}. ${s.nameVi} - Wireframe`,
-                            platformTab === 'desktop' ? 'Cấu trúc khung xám lưới 12 cột' : 'Bố cục dọc Mobile 4 cột'
-                          )}
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={currentPair.wf}
-                            alt={`Wireframe ${s.nameVi} (${platformTab})`}
-                            loading="lazy"
-                            className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Right: UI Design */}
-                      <div className="space-y-1.5 flex flex-col h-full">
-                        <div className="flex justify-between items-center text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA]">
-                          <span>UI design</span>
-                          <button
-                            type="button"
-                            onClick={() => handleOpenLightbox(
-                              currentPair.ui,
-                              `${s.num}. ${s.nameVi} - UI Design`,
-                              platformTab === 'desktop' ? 'Giao diện màu hoàn chỉnh Desktop' : 'Giao diện màu hoàn chỉnh Mobile'
-                            )}
-                            className="min-h-[36px] min-w-[36px] p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition cursor-pointer flex items-center justify-center"
-                            aria-label={isEn ? "Zoom UI design" : "Phóng to giao diện UI"}
-                            title={isEn ? "Zoom UI design" : "Phóng to giao diện UI"}
-                          >
-                            <Maximize2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                        <div 
-                          data-ui="image-frame" className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-950 cursor-zoom-in group relative flex-1 flex items-start"
-                          onClick={() => handleOpenLightbox(
-                            currentPair.ui,
-                            `${s.num}. ${s.nameVi} - UI Design`,
-                            platformTab === 'desktop' ? 'Giao diện màu hoàn chỉnh Desktop' : 'Giao diện màu hoàn chỉnh Mobile'
-                          )}
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={currentPair.ui}
-                            alt={`UI design ${s.nameVi} (${platformTab})`}
-                            loading="lazy"
-                            className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
-                          />
-                        </div>
-                      </div>
+                    <div className={`grid grid-cols-1 ${cohort.cols === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'} gap-6 items-start`}>
+                      {screensInCohort.map((s) => renderScreenPairCard(s))}
                     </div>
                   </div>
                 );
@@ -683,21 +666,21 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
           )}
         </div>
       ) : (
-        /* LAYOUT B: 1-TO-1 DEEP INSPECTION MODE WITH FULL CAROUSEL & SPECS */
+        /* LAYOUT B: 1-TO-1 DEEP INSPECTION MODE — PURE FULL-HEIGHT IMAGES + CLEAN SEPARATE SPEC */
         <div className="space-y-4 animate-in fade-in duration-300">
           {/* Module Filter Pills & Prev/Next */}
-          <div className="p-3 sm:p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2 dark:bg-slate-900 dark:border-slate-800">
+          <div className="p-3 sm:p-4 rounded-2xl bg-white border border-slate-200 space-y-2 dark:bg-slate-900 dark:border-slate-800">
             <div className="flex items-center justify-between gap-2.5 pb-2 border-slate-100 dark:border-slate-800 overflow-x-auto scrollbar-none">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-slate-500 uppercase">{isEn ? 'Filter:' : 'Lọc phân hệ:'}</span>
-                {['all', 'public', 'transactions', 'users', 'admin', 'blog'].map((mod) => (
+                <span className="text-xs font-bold text-slate-500">{isEn ? 'Module:' : 'Phân hệ:'}</span>
+                {['all', 'public', 'inventory', 'fleet', 'users', 'transactions', 'analytics', 'admin'].map((mod) => (
                   <button
                     key={mod}
                     type="button"
                     onClick={() => setModuleFilter(mod)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
                       moduleFilter === mod
-                        ? 'bg-[#0D7287] text-white shadow-xs'
+                        ? 'bg-[#0D7287] text-white'
                         : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
                     }`}
                   >
@@ -706,15 +689,8 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                 ))}
               </div>
 
-              {/* View Fit & Prev/Next */}
+              {/* Prev / Next */}
               <div className="flex items-center gap-2 shrink-0 ml-auto whitespace-nowrap">
-                <button
-                  type="button"
-                  onClick={() => setViewFitMode(prev => prev === 'fit' ? 'full' : 'fit')}
-                  className="px-3 py-1.5 rounded-xl border text-xs font-bold transition cursor-pointer bg-white text-slate-700 border-slate-200 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700"
-                >
-                  <span>{viewFitMode === 'fit' ? 'Vừa vặn' : 'Kích thước gốc'}</span>
-                </button>
                 <button
                   type="button"
                   onClick={() => {
@@ -724,7 +700,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                   className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 text-xs font-bold transition flex items-center gap-1 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 cursor-pointer"
                 >
                   <ChevronLeft className="w-4 h-4" />
-                  <span>Trước</span>
+                  <span>{isEn ? 'Prev' : 'Trước'}</span>
                 </button>
                 <button
                   type="button"
@@ -732,9 +708,9 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                     const nextIdx = selectedIndex < currentScreens.length - 1 ? selectedIndex + 1 : 0;
                     setActiveScreenId(currentScreens[nextIdx].id);
                   }}
-                  className="px-3 py-1.5 rounded-xl bg-[#0D7287] hover:bg-[#0A5A6B] text-white text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-xs"
+                  className="px-3 py-1.5 rounded-xl bg-[#0D7287] hover:bg-[#0A5A6B] text-white text-xs font-bold transition flex items-center gap-1 cursor-pointer"
                 >
-                  <span>Tiếp</span>
+                  <span>{isEn ? 'Next' : 'Tiếp'}</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
@@ -754,7 +730,7 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
                       onClick={() => setActiveScreenId(screen.id)}
                       className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition shrink-0 cursor-pointer flex items-center gap-1.5 ${
                         isActive
-                          ? 'bg-[#0D7287] text-white shadow-xs border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]'
+                          ? 'bg-[#0D7287] text-white border border-[#9BE7FA] dark:bg-slate-800 dark:text-[#9BE7FA]'
                           : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 dark:bg-slate-950 dark:text-slate-300 dark:border-slate-800'
                       }`}
                     >
@@ -770,98 +746,289 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
             </div>
           </div>
 
-          {/* Master 1-to-1 Spread */}
-          <div className="grid lg:grid-cols-2 gap-5 items-start">
-            {/* Wireframe */}
-            <div className="space-y-3">
-              <div className="flex justify-between items-center pb-2.5 min-h-[52px] border-b-2 border-slate-300 dark:border-slate-700">
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-slate-400" />
-                    <span>3.2 Wireframe: {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
-                  </h3>
-                  <p className="text-xs text-slate-500">Khung xám chuẩn cấu trúc giao diện</p>
+          {platformTab === 'desktop' ? (
+            /* Desktop: Clean 2-column visual spread + Separate full-width Spec below */
+            <div className="space-y-5">
+              <div className="grid lg:grid-cols-2 gap-6 items-start">
+                {/* Wireframe */}
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center pb-2.5 min-h-[52px] border-b-2 border-slate-300 dark:border-slate-700">
+                    <div>
+                      <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-slate-400" />
+                        <span>3.2 Wireframe: {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        {isEn ? 'Structural Lo-Fi wireframe blueprint' : 'Khung xám chuẩn cấu trúc bố cục'} • <code className="font-mono text-[#0D7287] dark:text-[#9BE7FA]">{selectedScreen.routePath}</code>
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenLightbox(
+                        selectedScreen.wireframeSrc,
+                        `${selectedScreen.titleVi} - Wireframe`,
+                        isEn ? 'Structural wireframe blueprint' : 'Khung xám chuẩn bố cục'
+                      )}
+                      className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors cursor-pointer"
+                    >
+                      <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                    </button>
+                  </div>
+
+                  <div
+                    className="p-3 sm:p-4 rounded-3xl bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 cursor-zoom-in"
+                    onClick={() => handleOpenLightbox(
+                      selectedScreen.wireframeSrc,
+                      `${selectedScreen.titleVi} - Wireframe`,
+                      isEn ? 'Structural wireframe blueprint' : 'Khung xám chuẩn bố cục'
+                    )}
+                  >
+                    <div className="w-full rounded-2xl overflow-hidden border border-slate-200 bg-white dark:bg-slate-950 dark:border-slate-800">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={selectedScreen.wireframeSrc}
+                        alt={`${selectedScreen.titleVi} Wireframe`}
+                        className="w-full h-auto block"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <button
-                  type="button"
+
+                {/* UI Design */}
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center pb-2.5 min-h-[52px] border-b-2 border-slate-300 dark:border-slate-700">
+                    <div>
+                      <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
+                        <span className="text-slate-900 dark:text-white">3.3 UI Design: {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        {isEn ? 'Production-ready interface (100% full height)' : 'Giao diện hoàn chỉnh (Hiển thị đầy đủ)'} • <span className="tabular-nums font-semibold">{measuredDims[`desktop-ui-${activeScreenId}`] || selectedScreen.badge}</span>
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenLightbox(
+                        selectedScreen.uiSrc,
+                        `${selectedScreen.titleVi} - UI Design`,
+                        isEn ? 'Production UI design' : 'Giao diện hoàn chỉnh'
+                      )}
+                      className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors cursor-pointer"
+                    >
+                      <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                    </button>
+                  </div>
+
+                  <div
+                    className="p-3 sm:p-4 rounded-3xl bg-white border border-[#9BE7FA]/50 dark:bg-slate-900 dark:border-[#9BE7FA]/30 cursor-zoom-in"
+                    onClick={() => handleOpenLightbox(
+                      selectedScreen.uiSrc,
+                      `${selectedScreen.titleVi} - UI Design`,
+                      isEn ? 'Production UI design' : 'Giao diện hoàn chỉnh'
+                    )}
+                  >
+                    <div className="w-full rounded-2xl overflow-hidden border border-[#9BE7FA]/30 bg-[#FFFDF9] dark:bg-slate-950 dark:border-slate-800">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={selectedScreen.uiSrc}
+                        alt={`${selectedScreen.titleVi} UI Design`}
+                        className="w-full h-auto block"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dedicated Spec Block Below Images */}
+              <div className="p-5 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
+                  <div>
+                    <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+                      {isEn ? `Screen Specification: ${selectedScreen.titleEn}` : `Đặc tả màn hình: ${selectedScreen.titleVi}`}
+                    </h4>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      {isEn ? selectedScreen.descEn : selectedScreen.descVi}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs tabular-nums">
+                    <span className="px-2.5 py-1 rounded-lg bg-[#C8EEF7]/40 text-[#074553] dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] font-bold">
+                      {isEn ? selectedScreen.moduleNameEn : selectedScreen.moduleNameVi}
+                    </span>
+                    <code className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono">
+                      {selectedScreen.templatePath}
+                    </code>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                  <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 space-y-2">
+                    <div className="font-bold text-slate-800 dark:text-slate-200">
+                      {isEn ? 'Wireframe Structure & Layout Blocks' : 'Cấu trúc Khung Wireframe & Phân vùng'}
+                    </div>
+                    <ul className="space-y-1.5 text-slate-600 dark:text-slate-300">
+                      {selectedScreen.wireframeElements.map((el, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-slate-400 font-bold">•</span>
+                          <span>{el}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-[#F0F9FB] dark:bg-slate-800/60 border border-[#C8EEF7] dark:border-slate-800 space-y-2">
+                    <div className="font-bold text-[#074553] dark:text-[#9BE7FA]">
+                      {isEn ? 'UI Components & Business Logic Highlights' : 'Thành phần UI & Điểm nhấn Nghiệp vụ'}
+                    </div>
+                    <ul className="space-y-1.5 text-slate-700 dark:text-slate-300">
+                      {selectedScreen.uiFeatures.map((feat, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-[#0D7287] dark:text-[#9BE7FA] font-bold">•</span>
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* Mobile: 3-column spread (4 cols Wireframe | 4 cols UI Design | 4 cols sticky Spec) */
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Wireframe (4 cols) */}
+              <div className="lg:col-span-4 space-y-3">
+                <div className="flex justify-between items-center pb-2.5 min-h-[52px] border-b-2 border-slate-300 dark:border-slate-700">
+                  <div>
+                    <h3 className="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-200 tracking-tight flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-slate-400" />
+                      <span>Wireframe (390px)</span>
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      <code className="font-mono text-[#0D7287] dark:text-[#9BE7FA]">{selectedScreen.routePath}</code>
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleOpenLightbox(
+                      selectedScreen.wireframeSrc,
+                      `${selectedScreen.titleVi} - Wireframe (Mobile)`,
+                      'Bố cục dọc Mobile 1 cột'
+                    )}
+                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors cursor-pointer"
+                  >
+                    <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                  </button>
+                </div>
+
+                <div
+                  className="p-3 rounded-3xl bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 cursor-zoom-in"
                   onClick={() => handleOpenLightbox(
                     selectedScreen.wireframeSrc,
-                    `${selectedScreen.titleVi} - Wireframe`,
-                    'Khung xám chuẩn bố cục'
+                    `${selectedScreen.titleVi} - Wireframe (Mobile)`,
+                    'Bố cục dọc Mobile 1 cột'
                   )}
-                  className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors cursor-pointer"
                 >
-                  <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-                </button>
-              </div>
-
-              <div 
-                className="p-5 rounded-3xl bg-ground border border-stone-200 dark:bg-slate-900 dark:border-slate-800 cursor-zoom-in"
-                onClick={() => handleOpenLightbox(
-                  selectedScreen.wireframeSrc,
-                  `${selectedScreen.titleVi} - Wireframe`,
-                  'Khung xám chuẩn bố cục'
-                )}
-              >
-                <div className={`rounded-2xl overflow-hidden border border-stone-200 bg-stone-100 dark:bg-slate-950 dark:border-slate-800 flex justify-center p-3 ${
-                  viewFitMode === 'fit' ? 'h-[58vh] max-h-[520px] items-center' : 'min-h-[420px] items-start'
-                }`}>
-                  <Image 
-                    src={selectedScreen.wireframeSrc} 
-                    alt={`${selectedScreen.titleVi} Wireframe`} 
-                    width={1200}
-                    height={800}
-                    className="h-full max-h-full w-auto max-w-full object-contain rounded"
-                  />
+                  <div className="w-full rounded-2xl overflow-hidden border border-slate-200 bg-white dark:bg-slate-950 dark:border-slate-800">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={selectedScreen.wireframeSrc}
+                      alt={`${selectedScreen.titleVi} Wireframe Mobile`}
+                      className="w-full h-auto block"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* UI Design */}
-            <div className="space-y-3">
-              <div className="flex justify-between items-center pb-2.5 min-h-[52px] border-b-2 border-slate-300 dark:border-slate-700">
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
-                    <span className="text-slate-900 dark:text-white">3.3 UI Design: {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}</span>
-                  </h3>
-                  <p className="text-xs text-slate-500">Giao diện hoàn chỉnh màu sắc thương hiệu</p>
+              {/* UI Design (4 cols) */}
+              <div className="lg:col-span-4 space-y-3">
+                <div className="flex justify-between items-center pb-2.5 min-h-[52px] border-b-2 border-slate-300 dark:border-slate-700">
+                  <div>
+                    <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
+                      <span>UI Design ({measuredDims[`mobile-ui-${activeScreenId}`] || selectedPairMeta.mobile.dimLabel})</span>
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      {isEn ? 'Full native mobile view' : 'Hiển thị trọn vẹn 100%'}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleOpenLightbox(
+                      selectedScreen.uiSrc,
+                      `${selectedScreen.titleVi} - UI Design (${selectedPairMeta.mobile.dimLabel})`,
+                      'Giao diện Mobile hoàn chỉnh'
+                    )}
+                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors cursor-pointer"
+                  >
+                    <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                  </button>
                 </div>
-                <button
-                  type="button"
+
+                <div
+                  className="p-3 rounded-3xl bg-white border border-[#9BE7FA]/50 dark:bg-slate-900 dark:border-[#9BE7FA]/30 cursor-zoom-in"
                   onClick={() => handleOpenLightbox(
                     selectedScreen.uiSrc,
-                    `${selectedScreen.titleVi} - UI Design`,
-                    'Giao diện hoàn chỉnh'
+                    `${selectedScreen.titleVi} - UI Design (${selectedPairMeta.mobile.dimLabel})`,
+                    'Giao diện Mobile hoàn chỉnh'
                   )}
-                  className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 transition-colors cursor-pointer"
                 >
-                  <Maximize2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-                </button>
+                  <div className="w-full rounded-2xl overflow-hidden border border-[#9BE7FA]/30 bg-[#FFFDF9] dark:bg-slate-950 dark:border-slate-800">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={selectedScreen.uiSrc}
+                      alt={`${selectedScreen.titleVi} UI Design Mobile`}
+                      className="w-full h-auto block"
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div 
-                className="p-5 rounded-3xl bg-ground border border-[#9BE7FA]/40 dark:bg-slate-900 dark:border-[#9BE7FA]/30 cursor-zoom-in"
-                onClick={() => handleOpenLightbox(
-                  selectedScreen.uiSrc,
-                  `${selectedScreen.titleVi} - UI Design`,
-                  'Giao diện hoàn chỉnh'
-                )}
-              >
-                <div className={`rounded-2xl overflow-hidden border border-[#9BE7FA]/30 bg-[#F0F9FB] dark:bg-slate-950 dark:border-slate-800 flex justify-center p-3 ${
-                  viewFitMode === 'fit' ? 'h-[58vh] max-h-[520px] items-center' : 'min-h-[420px] items-start'
-                }`}>
-                  <Image 
-                    src={selectedScreen.uiSrc} 
-                    alt={`${selectedScreen.titleVi} UI Design`} 
-                    width={1200}
-                    height={800}
-                    className="h-full max-h-full w-auto max-w-full object-contain rounded"
-                  />
+              {/* Sticky BA & UI Spec Column (4 cols) */}
+              <div className="lg:col-span-4 lg:sticky lg:top-24 p-5 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-4">
+                <div className="space-y-1 pb-2 border-b border-slate-100 dark:border-slate-800">
+                  <span className="inline-block px-2.5 py-0.5 rounded-lg bg-[#C8EEF7]/50 text-[#074553] dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] font-bold text-xs">
+                    {isEn ? selectedScreen.moduleNameEn : selectedScreen.moduleNameVi}
+                  </span>
+                  <h4 className="text-base font-bold text-slate-900 dark:text-white pt-1">
+                    {isEn ? selectedScreen.titleEn : selectedScreen.titleVi}
+                  </h4>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    {isEn ? selectedScreen.descEn : selectedScreen.descVi}
+                  </p>
+                  <code className="inline-block mt-1 px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-xs">
+                    {selectedScreen.templatePath}
+                  </code>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 space-y-1.5 text-xs">
+                  <div className="font-bold text-slate-800 dark:text-slate-200">
+                    {isEn ? 'Wireframe Structure' : 'Cấu trúc Wireframe'}
+                  </div>
+                  <ul className="space-y-1 text-slate-600 dark:text-slate-300">
+                    {selectedScreen.wireframeElements.map((el, i) => (
+                      <li key={i} className="flex items-start gap-1.5">
+                        <span className="text-slate-400 font-bold">•</span>
+                        <span>{el}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-[#F0F9FB] dark:bg-slate-800/60 border border-[#C8EEF7] dark:border-slate-800 space-y-1.5 text-xs">
+                  <div className="font-bold text-[#074553] dark:text-[#9BE7FA]">
+                    {isEn ? 'UI Components & BA Highlights' : 'Thành phần UI & Nghiệp vụ'}
+                  </div>
+                  <ul className="space-y-1 text-slate-700 dark:text-slate-300">
+                    {selectedScreen.uiFeatures.map((feat, i) => (
+                      <li key={i} className="flex items-start gap-1.5">
+                        <span className="text-[#0D7287] dark:text-[#9BE7FA] font-bold">•</span>
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       )}
 
@@ -926,16 +1093,16 @@ export default function LibraryBusVisualComparison({ isEn: propIsEn, onOpenZoom 
             </div>
 
             {/* Modal Image Viewport */}
-            <div className="flex-1 overflow-auto p-4 flex items-center justify-center bg-black/50 min-h-[350px]">
+            <div className="flex-1 overflow-auto p-4 flex items-start justify-center bg-black/50 min-h-[350px]">
               <div 
-                style={{ transform: `scale(${zoomLevel})`, transition: 'transform 0.2s ease-out' }}
-                className="max-w-full max-h-full flex items-center justify-center"
+                style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'top center', transition: 'transform 0.2s ease-out' }}
+                className="max-w-full flex items-start justify-center"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={lightboxImg.src}
                   alt={lightboxImg.title}
-                  className="max-h-[80vh] w-auto object-contain rounded-xl"
+                  className="w-auto max-w-full h-auto object-contain rounded-xl"
                 />
               </div>
             </div>

@@ -81,7 +81,7 @@ export default function ScienceNotebookModal({
                   : 'text-slate-600 hover:bg-slate-200/60 dark:text-slate-400 dark:hover:bg-slate-800'
               }`}
             >
-              {snippet.title}
+              {isEn && snippet.titleEn ? snippet.titleEn : snippet.title}
             </button>
           ))}
         </div>

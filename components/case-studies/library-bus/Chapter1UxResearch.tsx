@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Compass, Users, BarChart3, MapPin, BookOpen, 
   FileText, Bell, GitBranch, ArrowRight, CheckCircle2, 
-  ExternalLink, Layers, Workflow
+  ExternalLink, Layers, Workflow, ClipboardCheck, ShieldAlert
 } from 'lucide-react';
 import { useTheme } from '@/app/context/ThemeContext';
 import SectionHeader from '@/components/ui/SectionHeader';
@@ -21,12 +21,12 @@ interface SitemapRootItem {
 }
 
 const SITEMAP_ROOT: SitemapRootItem[] = [
-  { name: 'Trang chủ', nameEn: 'Home', screenId: 'screen-01' },
-  { name: 'Kho sách & PDF', nameEn: 'Book Catalog & PDF', screenId: 'screen-03' },
-  { name: 'Tuyến Xe & Bản đồ', nameEn: 'Bus Route & Map', screenId: 'screen-05' },
-  { name: 'Mượn / Đặt trước', nameEn: 'Borrow / Reserve', screenId: 'screen-09' },
-  { name: 'Cộng đồng (Blog)', nameEn: 'Community (Blog)', screenId: 'screen-15' },
-  { name: 'Tài khoản & Analytics', nameEn: 'Account & Analytics', screenId: 'screen-18' },
+  { name: 'Trang chủ & Giới thiệu', nameEn: 'Home & About', screenId: 'screen-01' },
+  { name: 'Kho sách & Quyên góp', nameEn: 'Catalog & Donation', screenId: 'screen-03' },
+  { name: 'Đội xe & Lộ trình', nameEn: 'Fleet & Routes', screenId: 'screen-06' },
+  { name: 'Hồ sơ & Thẻ thư viện', nameEn: 'Reader Profile & Pass', screenId: 'screen-08' },
+  { name: 'Quản lý Mượn / Trả', nameEn: 'Borrow & Return Ops', screenId: 'screen-09' },
+  { name: 'Analytics & Django Admin', nameEn: 'Analytics & Admin', screenId: 'screen-10' },
 ];
 
 interface SitemapSubItem {
@@ -51,104 +51,203 @@ interface SitemapDetailGroup {
 
 const SITEMAP_DETAILS: SitemapDetailGroup[] = [
   {
-    parent: 'Trang chủ',
-    parentEn: 'Home',
+    parent: 'Trang chủ & Giới thiệu',
+    parentEn: 'Home & About',
     screenId: 'screen-01',
     children: [
       {
-        label: 'Tìm kiếm',
-        labelEn: 'Search',
+        label: 'Trang chủ (/)',
+        labelEn: 'Homepage (/)',
         screenId: 'screen-01',
         sub: [
-          { label: 'Kho sách', labelEn: 'Book Catalog', screenId: 'screen-03' },
-          { label: 'Tuyến xe buýt', labelEn: 'Bus Routes', screenId: 'screen-05' },
+          { label: 'Thống kê quy mô & Sách mới', labelEn: 'Scale KPIs & New Books', screenId: 'screen-01' },
+          { label: 'Góc nhìn & Hoạt động', labelEn: 'Community Perspectives', screenId: 'screen-01' },
         ],
       },
-      { label: 'Giới thiệu dự án', labelEn: 'About Project', screenId: 'screen-02' },
-      { label: 'Quyên góp sách', labelEn: 'Book Donation', screenId: 'screen-08' },
-      { label: 'Hỏi đáp (FAQ)', labelEn: 'FAQ', screenId: 'screen-19' },
-      { label: 'Thông tin liên hệ', labelEn: 'Contact Us', screenId: 'screen-20' },
+      {
+        label: 'Giới thiệu dự án (/about/)',
+        labelEn: 'About Project (/about/)',
+        screenId: 'screen-02',
+        sub: [
+          { label: 'Khởi nguồn ý tưởng USSH', labelEn: 'USSH Student Origins', screenId: 'screen-02' },
+          { label: '5 mục tiêu khách hàng', labelEn: '5 Customer Goals', screenId: 'screen-02' },
+        ],
+      },
     ],
   },
   {
-    parent: 'Kho sách & PDF',
-    parentEn: 'Book Catalog & PDF',
+    parent: 'Kho sách & Quyên góp',
+    parentEn: 'Catalog & Donation',
     screenId: 'screen-03',
     children: [
       {
-        label: 'Danh mục sách đa cấp',
-        labelEn: 'Multi-level Catalog',
+        label: 'Kho sách thư viện (/inventory/books/)',
+        labelEn: 'Book Catalog (/inventory/books/)',
         screenId: 'screen-03',
         sub: [
-          { label: 'Chi tiết & Đọc PDF', labelEn: 'Detail & Read PDF', screenId: 'screen-04' },
-          { label: 'Đánh giá sao', labelEn: 'Star Rating', screenId: 'screen-04' },
+          { label: 'Lọc 8 chuyên mục đa cấp', labelEn: '8-Category Accordion Filter', screenId: 'screen-03' },
+          { label: 'Trạng thái tồn kho theo xe', labelEn: 'Bus-level Stock Badges', screenId: 'screen-03' },
         ],
       },
-      { label: 'Quản trị kho sách', labelEn: 'Library Admin Inventory', screenId: 'screen-07' },
-    ],
-  },
-  {
-    parent: 'Tuyến Xe & Bản đồ',
-    parentEn: 'Bus Route & Map',
-    screenId: 'screen-05',
-    children: [
-      { label: 'Bản đồ lộ trình GPS', labelEn: 'GPS Route Map', screenId: 'screen-05' },
       {
-        label: 'Chi tiết xe buýt',
-        labelEn: 'Bus Fleet Detail',
-        screenId: 'screen-06',
+        label: 'Chi tiết sách (/inventory/books/<uuid>/)',
+        labelEn: 'Book Detail (/inventory/books/<uuid>/)',
+        screenId: 'screen-04',
         sub: [
-          { label: 'Tồn kho trên xe', labelEn: 'Stock on Bus', screenId: 'screen-06' },
-          { label: 'Lịch trạm dừng', labelEn: 'Stop Schedule', screenId: 'screen-05' },
+          { label: 'Thông số ISBN & Vị trí xe', labelEn: 'ISBN Metadata & Bus Card', screenId: 'screen-04' },
+          { label: 'Đăng ký mượn & Sách gợi ý', labelEn: 'Borrow CTA & Related Books', screenId: 'screen-04' },
+        ],
+      },
+      { label: 'Quyên góp sách (/inventory/books/donate/)', labelEn: 'Book Donation (/inventory/books/donate/)', screenId: 'screen-05' },
+    ],
+  },
+  {
+    parent: 'Đội xe & Lộ trình',
+    parentEn: 'Fleet & Routes',
+    screenId: 'screen-06',
+    children: [
+      { label: 'Bản đồ mạng lưới xe (/inventory/buses/)', labelEn: 'Fleet GPS Map (/inventory/buses/)', screenId: 'screen-06' },
+      {
+        label: 'Lộ trình & Điểm đón (/inventory/routes/<uuid>/)',
+        labelEn: 'Route & Stops (/inventory/routes/<uuid>/)',
+        screenId: 'screen-07',
+        sub: [
+          { label: 'Bản đồ đường đi Polyline', labelEn: 'Interactive Polyline Map', screenId: 'screen-07' },
+          { label: 'Khung giờ & Thời lượng đỗ trạm', labelEn: 'Schedule & Stop Dwell Time', screenId: 'screen-07' },
         ],
       },
     ],
   },
   {
-    parent: 'Mượn / Đặt trước',
-    parentEn: 'Borrow / Reserve',
+    parent: 'Hồ sơ & Thẻ thư viện',
+    parentEn: 'Reader Profile & Pass',
+    screenId: 'screen-08',
+    children: [
+      {
+        label: 'Hồ sơ bạn đọc (/users/profile/)',
+        labelEn: 'Reader Profile (/users/profile/)',
+        screenId: 'screen-08',
+        sub: [
+          { label: 'Sách đang đọc & Hạn trả', labelEn: 'Active Loans & Due Date', screenId: 'screen-08' },
+          { label: 'Sách đang chờ mượn / Đặt trước', labelEn: 'Pending Reservations', screenId: 'screen-08' },
+        ],
+      },
+    ],
+  },
+  {
+    parent: 'Quản lý Mượn / Trả',
+    parentEn: 'Borrow & Return Ops',
     screenId: 'screen-09',
     children: [
-      { label: 'Tạo phiếu mượn sách', labelEn: 'Create Borrow Order', screenId: 'screen-09' },
-      { label: 'Đặt trước giữ chỗ', labelEn: 'Hold Reservation', screenId: 'screen-10' },
-      { label: 'Dashboard Giao dịch', labelEn: 'Transactions Dashboard', screenId: 'screen-11' },
-    ],
-  },
-  {
-    parent: 'Cộng đồng (Blog)',
-    parentEn: 'Community (Blog)',
-    screenId: 'screen-15',
-    children: [
-      { label: 'Trang chủ Blog', labelEn: 'Blog Home', screenId: 'screen-15' },
       {
-        label: 'Chi tiết bài viết',
-        labelEn: 'Article Detail',
-        screenId: 'screen-16',
+        label: 'Quản lý mượn trả (/transactions/borrows/)',
+        labelEn: 'Borrow Management (/transactions/borrows/)',
+        screenId: 'screen-09',
         sub: [
-          { label: 'Review sách', labelEn: 'Book Review', screenId: 'screen-16' },
-          { label: 'Bình luận Thread', labelEn: 'Threaded Comments', screenId: 'screen-16' },
+          { label: 'Tạo phiếu mượn & Xử lý hàng loạt', labelEn: 'Create Borrow & Bulk Actions', screenId: 'screen-09' },
+          { label: 'Lọc phiếu Quá hạn / Đã trả', labelEn: 'Overdue / Returned Filter', screenId: 'screen-09' },
         ],
       },
     ],
   },
   {
-    parent: 'Tài khoản & Analytics',
-    parentEn: 'Account & Analytics',
-    screenId: 'screen-12',
+    parent: 'Analytics & Django Admin',
+    parentEn: 'Analytics & Admin',
+    screenId: 'screen-10',
     children: [
       {
-        label: 'Xác thực tài khoản',
-        labelEn: 'Authentication',
-        screenId: 'screen-13',
+        label: 'Báo cáo phân tích (/analytics/)',
+        labelEn: 'Analytics Dashboard (/analytics/)',
+        screenId: 'screen-10',
         sub: [
-          { label: 'Đăng nhập', labelEn: 'Login', screenId: 'screen-13' },
-          { label: 'Đăng ký', labelEn: 'Register', screenId: 'screen-14' },
+          { label: '4 KPI cá nhân & Bảng xếp hạng', labelEn: '4 Reader KPIs & Leaderboard', screenId: 'screen-10' },
+          { label: 'Gợi ý sách Cosine Similarity', labelEn: 'Cosine Book Recommendations', screenId: 'screen-10' },
         ],
       },
-      { label: 'Dashboard Độc giả', labelEn: 'Reader Profile Dashboard', screenId: 'screen-12' },
-      { label: 'Thông báo hạn trả', labelEn: 'Due Date Notifications', screenId: 'screen-17' },
-      { label: 'Analytics Dashboard', labelEn: 'Analytics Dashboard', screenId: 'screen-18' },
+      {
+        label: 'Trung tâm quản trị (/admin/)',
+        labelEn: 'Django Admin Center (/admin/)',
+        screenId: 'screen-11',
+        sub: [
+          { label: 'Quản lý 5 phân hệ & Thanh toán phạt', labelEn: '5 Core Apps & Fine Payments', screenId: 'screen-11' },
+          { label: 'Nhật ký kiểm toán (Recent actions)', labelEn: 'System Audit Log', screenId: 'screen-11' },
+        ],
+      },
     ],
+  },
+];
+
+interface BusinessRuleItem {
+  code: string;
+  titleVi: string;
+  titleEn: string;
+  ruleVi: string;
+  ruleEn: string;
+  givenVi: string;
+  givenEn: string;
+  whenVi: string;
+  whenEn: string;
+  thenVi: string;
+  thenEn: string;
+  screenRef: string;
+}
+
+const BA_BUSINESS_RULES: BusinessRuleItem[] = [
+  {
+    code: 'BR-01',
+    titleVi: 'Kiểm tra tồn kho theo xe & Khóa dòng dữ liệu',
+    titleEn: 'Bus-level Stock Validation & Row Locking',
+    ruleVi: 'Mỗi cuốn sách gắn với một xe buýt cụ thể (bus_id). Khi độc giả gửi yêu cầu mượn, hệ thống phải khóa dòng bản ghi sách để kiểm tra available_copies > 0.',
+    ruleEn: 'Each book copy is assigned to a specific bus (bus_id). Upon a borrow request, the system locks the book row to verify available_copies > 0.',
+    givenVi: 'Sách "A History of Graphic Design" trên Bus 02 còn 1 bản khả dụng (available_copies = 1).',
+    givenEn: 'Book "A History of Graphic Design" on Bus 02 has 1 available copy (available_copies = 1).',
+    whenVi: 'Hai độc giả cùng nhấn "Đăng ký mượn sách" tại cùng một thời điểm.',
+    whenEn: 'Two readers click "Register to Borrow" at the exact same timestamp.',
+    thenVi: 'Yêu cầu thứ nhất khóa dòng bằng select_for_update(), giảm tồn kho về 0 và tạo phiếu mượn; yêu cầu thứ hai chuyển sang trạng thái Đặt trước.',
+    thenEn: 'Request #1 acquires select_for_update() lock, decrements stock to 0, and creates the borrow slip; Request #2 is routed to the Reservation queue.',
+    screenRef: 'screen-04',
+  },
+  {
+    code: 'BR-02',
+    titleVi: 'Đặt giữ sách theo Điểm dừng & Thời gian đỗ tại trạm',
+    titleEn: 'Stop-based Reservation & Dwell-Time Window',
+    ruleVi: 'Phiếu đặt giữ sách tại trạm chỉ hợp lệ khi xe buýt lưu giữ sách có lịch đi qua trạm đó và thời gian nhận nằm trong khung giờ đỗ (90–180 phút).',
+    ruleEn: 'A stop pickup reservation is valid only if the assigned bus serves that route stop and pickup occurs within the scheduled dwell window (90–180 mins).',
+    givenVi: 'Tuyến Cầu Giấy - Thanh Xuân (Bus 29B-67890) đỗ tại trạm Đại học Quốc Gia 180 phút (Thứ 3, 5, 7: 09:00–15:00).',
+    givenEn: 'Cau Giay - Thanh Xuan Route (Bus 29B-67890) stops at VNU Station for 180 mins (Tue, Thu, Sat: 09:00–15:00).',
+    whenVi: 'Hội viên chọn nhận sách tại trạm Đại học Quốc Gia và xác nhận đặt giữ chỗ.',
+    whenEn: 'A member selects VNU Station for pickup and confirms the reservation.',
+    thenVi: 'Hệ thống giữ sách tối đa đến hết ca đỗ tại trạm; nếu quá giờ đỗ chưa nhận, phiếu tự động giải phóng tồn kho cho độc giả tiếp theo.',
+    thenEn: 'The system holds the copy until the station dwell window ends; unclaimed holds auto-release stock to the next queued reader.',
+    screenRef: 'screen-07',
+  },
+  {
+    code: 'BR-03',
+    titleVi: 'Giới hạn định mức mượn & Cảnh báo quá hạn tự động',
+    titleEn: 'Borrow Quota & Automated Overdue Escalation',
+    ruleVi: 'Mỗi hội viên tiêu chuẩn được mượn tối đa 3 cuốn cùng lúc trong 14 ngày. Quá hạn trả (due_date < today) sẽ khóa quyền tạo phiếu mượn mới cho đến khi hoàn trả.',
+    ruleEn: 'Standard members can borrow up to 3 books concurrently for 14 days. Any overdue loan (due_date < today) blocks new borrow requests until returned.',
+    givenVi: 'Độc giả đang giữ 1 cuốn sách có hạn trả ngày 01/09/2026 và chưa hoàn trả đúng hạn.',
+    givenEn: 'A reader holds 1 active book with a due date of 01/09/2026 that has passed without return.',
+    whenVi: 'Tác vụ ngầm Celery quét bảng giao dịch hằng ngày hoặc thủ thư mở bảng Quản lý mượn trả.',
+    whenEn: 'Daily Celery beat task scans transaction records or a librarian opens Borrow Management.',
+    thenVi: 'Trạng thái phiếu chuyển sang QUÁ HẠN (nhãn đỏ), gửi thông báo nhắc hạn và tạm khóa nút mượn mới của tài khoản đó.',
+    thenEn: 'Loan status transitions to OVERDUE (red badge), dispatches a reminder alert, and suspends new borrowing privileges.',
+    screenRef: 'screen-09',
+  },
+  {
+    code: 'BR-04',
+    titleVi: 'Kiểm duyệt sách quyên góp trước khi nhập kho lưu động',
+    titleEn: 'Donation Quality Screening Before Fleet Intake',
+    ruleVi: 'Sách do cộng đồng quyên góp qua biểu mẫu trực tuyến bắt buộc ở trạng thái Chờ duyệt (PENDING) cho tới khi thủ thư kiểm tra vật lý và gán mã ISBN + xe buýt.',
+    ruleEn: 'Community-donated books submitted online remain in PENDING state until a librarian verifies physical condition and assigns ISBN + bus inventory.',
+    givenVi: 'Người dùng điền tên sách, tác giả, mô tả tình trạng và tải tệp đính kèm trên trang Quyên góp.',
+    givenEn: 'A user submits book title, author, condition description, and attachment on the Donation form.',
+    whenVi: 'Nhấn "Gửi thông tin" thành công.',
+    whenEn: 'The user clicks "Submit Donation" successfully.',
+    thenVi: 'Bản ghi lưu vào bảng duyệt quyên góp của Admin mà chưa cộng ngay vào số lượng sách khả dụng ngoài trang Kho sách công khai.',
+    thenEn: 'Record is created in Admin donation review queue without prematurely inflating public catalog available stock.',
+    screenRef: 'screen-05',
   },
 ];
 
@@ -184,16 +283,16 @@ export function Chapter1UxResearch({
         variant="chapter"
         id="sec-research"
         chapter={isEn ? 'CHAPTER 1' : 'PHẦN 1'}
-        subtitle={isEn ? 'Introduction, target audience & user experience research' : 'Giới thiệu dự án, khách hàng mục tiêu & nghiên cứu trải nghiệm'}
+        subtitle={isEn ? 'Business problem, user personas, information architecture & BA business rules' : 'Bài toán nghiệp vụ, chân dung người dùng, kiến trúc thông tin & quy tắc nghiệp vụ BA'}
         badge=""
-        title={isEn ? '1. Introduction & UX Research' : '1. Giới Thiệu & Nghiên Cứu Trải Nghiệm'}
+        title={isEn ? '1. Business Analysis & UX Research' : '1. Phân Tích Nghiệp Vụ (BA) & Nghiên Cứu UX'}
         onCopy={onCopyDeepLink}
       />
 
-      {/* 1.1 SỨ MỆNH & 1.2 KHẢO SÁT THỊ TRƯỜNG */}
+      {/* 1.1 SỨ MỆNH & 1.2 PERSONA & 1.3 ƯU TIÊN TÍNH NĂNG */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {/* 1.1 Sứ mệnh & KPI cốt lõi */}
-        <div className="p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col justify-between space-y-4">
+        {/* 1.1 Sứ mệnh & Phạm vi hệ thống */}
+        <div className="p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col justify-between space-y-4">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-1 rounded-lg bg-[#C8EEF7]/50 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] font-black text-xs sm:text-sm tabular-nums">
@@ -201,31 +300,33 @@ export function Chapter1UxResearch({
               </span>
               <h3 className="text-base sm:text-lg font-black text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
                 <Compass className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-                <span>{isEn ? 'Mission & Core KPIs' : 'Sứ mệnh & KPI cốt lõi'}</span>
+                <span>{isEn ? 'Mission & System Scope' : 'Sứ mệnh & Quy mô hệ thống'}</span>
               </h3>
             </div>
-            <p className="text-base sm:text-lg font-medium text-slate-800 dark:text-slate-200 leading-snug">
-              {isEn ? 'Mobile library connecting books to every bus stop.' : 'Thư viện lưu động kết nối tri thức đến mọi trạm dừng.'}
+            <p className="text-sm sm:text-base font-medium text-slate-800 dark:text-slate-200 leading-snug">
+              {isEn
+                ? 'Mobile library network bringing physical books to university and community bus stops across Hanoi.'
+                : 'Mạng lưới xe thư viện lưu động đưa sách giấy đến tận các điểm dừng trường đại học và khu dân cư.'}
             </p>
           </div>
           <div className="grid grid-cols-3 gap-2 pt-3 border-slate-100 dark:border-slate-800 text-center">
             <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-              <span className="block tabular-nums text-2xl font-black text-slate-950 dark:text-white">20+</span>
-              <span className="text-xs text-slate-500 font-medium">{isEn ? 'Screens' : 'Màn hình'}</span>
+              <span className="block tabular-nums text-2xl font-black text-slate-950 dark:text-white">11</span>
+              <span className="text-xs text-slate-500 font-medium">{isEn ? 'Core Pairs' : 'Cặp màn hình'}</span>
             </div>
             <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-              <span className="block tabular-nums text-2xl font-black text-slate-950 dark:text-white">7</span>
+              <span className="block tabular-nums text-2xl font-black text-slate-950 dark:text-white">6</span>
               <span className="text-xs text-slate-500 font-medium">{isEn ? 'Modules' : 'Phân hệ'}</span>
             </div>
             <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60">
-              <span className="block tabular-nums text-2xl font-black text-slate-950 dark:text-white">100%</span>
-              <span className="text-xs text-slate-500 font-medium">{isEn ? 'Auto flow' : 'Tự động'}</span>
+              <span className="block tabular-nums text-2xl font-black text-slate-950 dark:text-white">ACID</span>
+              <span className="text-xs text-slate-500 font-medium">{isEn ? 'Row Lock' : 'Khóa tồn kho'}</span>
             </div>
           </div>
         </div>
 
-        {/* 1.2 Khách hàng mục tiêu (Bar chart) */}
-        <div className="p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col justify-between space-y-4">
+        {/* 1.2 Phân bổ Persona mục tiêu (Giả định thiết kế) */}
+        <div className="p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col justify-between space-y-4">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-1 rounded-lg bg-[#C8EEF7]/50 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] font-black text-xs sm:text-sm tabular-nums">
@@ -233,15 +334,17 @@ export function Chapter1UxResearch({
               </span>
               <h3 className="text-base sm:text-lg font-black text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
                 <Users className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-                <span>{isEn ? 'Customer Target (15–45 y.o)' : 'Khách hàng mục tiêu (15–45 tuổi)'}</span>
+                <span>{isEn ? 'Target Personas (15–45 y.o)' : 'Nhóm Persona mục tiêu (15–45 tuổi)'}</span>
               </h3>
             </div>
-            <p className="text-xs text-slate-500">{isEn ? 'User demographic proportion' : 'Tỷ trọng 3 nhóm đối tượng chính'}</p>
+            <p className="text-xs text-slate-500">
+              {isEn ? 'Design persona weighting hypothesis for UI layout' : 'Tỷ trọng nhóm người dùng mục tiêu (giả định thiết kế UX/BA)'}
+            </p>
           </div>
           <div className="space-y-3 pt-1">
             <div>
               <div className="flex justify-between text-xs sm:text-sm font-semibold mb-1 text-slate-700 dark:text-slate-300">
-                <span>{isEn ? 'Students / Academic' : 'Học sinh / Sinh viên'}</span>
+                <span>{isEn ? 'University Students (USSH / VNU)' : 'Học sinh / Sinh viên (ĐHQGHN)'}</span>
                 <span className="tabular-nums font-bold text-slate-950 dark:text-white">48%</span>
               </div>
               <div className="h-2.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
@@ -251,7 +354,7 @@ export function Chapter1UxResearch({
 
             <div>
               <div className="flex justify-between text-xs sm:text-sm font-semibold mb-1 text-slate-700 dark:text-slate-300">
-                <span>{isEn ? 'Tech-savvy Professionals' : 'Người đi làm yêu công nghệ'}</span>
+                <span>{isEn ? 'Young Office Commuters' : 'Người đi làm trẻ dọc tuyến buýt'}</span>
                 <span className="tabular-nums font-bold text-slate-950 dark:text-white">32%</span>
               </div>
               <div className="h-2.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
@@ -261,7 +364,7 @@ export function Chapter1UxResearch({
 
             <div>
               <div className="flex justify-between text-xs sm:text-sm font-semibold mb-1 text-slate-700 dark:text-slate-300">
-                <span>{isEn ? 'Family & Community' : 'Gia đình & Cộng đồng'}</span>
+                <span>{isEn ? 'Local Families & Book Donors' : 'Gia đình & Người quyên góp sách'}</span>
                 <span className="tabular-nums font-bold text-slate-950 dark:text-white">20%</span>
               </div>
               <div className="h-2.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
@@ -271,8 +374,8 @@ export function Chapter1UxResearch({
           </div>
         </div>
 
-        {/* 1.3 Nhu cầu chức năng (Market Survey) */}
-        <div className="p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col justify-between space-y-4">
+        {/* 1.3 Trọng số ưu tiên chức năng (Feature Prioritization) */}
+        <div className="p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col justify-between space-y-4">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-1 rounded-lg bg-[#C8EEF7]/50 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] font-black text-xs sm:text-sm tabular-nums">
@@ -280,16 +383,18 @@ export function Chapter1UxResearch({
               </span>
               <h3 className="text-base sm:text-lg font-black text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
                 <BarChart3 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-                <span>{isEn ? 'Market Demand' : 'Nhu cầu chức năng'}</span>
+                <span>{isEn ? 'Feature Priority Weights' : 'Trọng số ưu tiên tính năng'}</span>
               </h3>
             </div>
-            <p className="text-xs text-slate-500">{isEn ? 'Essential feature preference rate' : 'Khảo sát tỷ lệ người dùng ưu tiên'}</p>
+            <p className="text-xs text-slate-500">
+              {isEn ? 'BA functional priority scoring for MVP scope' : 'Đánh giá mức độ thiết yếu cho phạm vi sản phẩm cốt lõi (MVP)'}
+            </p>
           </div>
           <div className="grid grid-cols-2 gap-3 pt-1">
             <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 text-center">
               <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400">
                 <MapPin className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
-                <span>{isEn ? 'Bus GPS' : 'Định vị xe'}</span>
+                <span>{isEn ? 'Bus Route Map' : 'Lộ trình & Trạm'}</span>
               </div>
               <span className="block tabular-nums text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">92%</span>
             </div>
@@ -297,32 +402,32 @@ export function Chapter1UxResearch({
             <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 text-center">
               <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400">
                 <BookOpen className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
-                <span>{isEn ? 'Reserve' : 'Đặt giữ chỗ'}</span>
+                <span>{isEn ? 'Bus Stock Hold' : 'Đặt giữ theo xe'}</span>
               </div>
               <span className="block tabular-nums text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">88%</span>
             </div>
 
             <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 text-center">
               <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400">
-                <FileText className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
-                <span>{isEn ? 'Read PDF' : 'Đọc PDF'}</span>
+                <Bell className="w-3.5 h-3.5 text-[#FFD14C]" />
+                <span>{isEn ? 'Due Date Alert' : 'Kiểm soát hạn trả'}</span>
               </div>
-              <span className="block tabular-nums text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">76%</span>
+              <span className="block tabular-nums text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">84%</span>
             </div>
 
             <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 text-center">
               <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400">
-                <Bell className="w-3.5 h-3.5 text-[#FFD14C]" />
-                <span>{isEn ? 'Due alert' : 'Nhắc hạn'}</span>
+                <FileText className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                <span>{isEn ? 'Book Donation' : 'Quyên góp sách'}</span>
               </div>
-              <span className="block tabular-nums text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">84%</span>
+              <span className="block tabular-nums text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">76%</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* SƠ ĐỒ SITEMAP & LUỒNG TRẢI NGHIỆM NGƯỜI DÙNG */}
-      <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-6">
+      {/* 1.4 SƠ ĐỒ SITEMAP & LUỒNG TRẢI NGHIỆM NGƯỜI DÙNG */}
+      <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3 border-slate-100 dark:border-slate-800 pb-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2.5">
@@ -331,11 +436,11 @@ export function Chapter1UxResearch({
               </span>
               <h3 className="text-xl sm:text-2xl font-black text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
                 <GitBranch className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
-                <span>{isEn ? 'Sitemap Hierarchy & User Experience Flow' : 'Sơ Đồ Phân Cấp Sitemap & Luồng Người Dùng'}</span>
+                <span>{isEn ? 'Sitemap Hierarchy (11 Core Screens) & User Flow' : 'Sơ Đồ Phân Cấp Sitemap (11 Màn Hình Cốt Lõi) & Luồng Người Dùng'}</span>
               </h3>
             </div>
             <p className="text-xs sm:text-sm text-slate-500">
-              {isEn ? 'Information hierarchy & book borrowing decision workflow' : 'Cấu trúc thông tin phân tầng & quy trình quyết định mượn sách'}
+              {isEn ? 'Information architecture mapped directly to the 11 core routes & book borrowing decision flow' : 'Kiến trúc thông tin ánh xạ trực tiếp tới 11 đường dẫn cốt lõi và lưu đồ quyết định mượn sách'}
             </p>
           </div>
 
@@ -344,7 +449,7 @@ export function Chapter1UxResearch({
               onClick={() => setActiveEmbedTab('visual')}
               className={`px-3 py-1.5 rounded-xl transition cursor-pointer min-h-[36px] ${
                 activeEmbedTab === 'visual'
-                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs'
+                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
@@ -354,7 +459,7 @@ export function Chapter1UxResearch({
               onClick={() => setActiveEmbedTab('architecture')}
               className={`px-3 py-1.5 rounded-xl transition cursor-pointer min-h-[36px] ${
                 activeEmbedTab === 'architecture'
-                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs'
+                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
@@ -364,7 +469,7 @@ export function Chapter1UxResearch({
               onClick={() => setActiveEmbedTab('flow')}
               className={`px-3 py-1.5 rounded-xl transition cursor-pointer min-h-[36px] ${
                 activeEmbedTab === 'flow'
-                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs'
+                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
@@ -375,65 +480,60 @@ export function Chapter1UxResearch({
 
         {activeEmbedTab === 'visual' ? (
           <div className="space-y-8">
-            {/* A. SƠ ĐỒ CÂY VUÔNG GÓC SITEMAP & SITEMAP DETAIL (2 CỘT CHUẨN ĐỒ HỌA) */}
+            {/* A. SƠ ĐỒ CÂY VUÔNG GÓC SITEMAP & SITEMAP DETAIL */}
             <div className="space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="text-xs sm:text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
                   <Layers className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-                  <span>{isEn ? 'A. Orthogonal Sitemap & Detailed Hierarchy' : 'A. Sơ đồ cây vuông góc Sitemap & Sitemap Detail'}</span>
+                  <span>{isEn ? 'A. Orthogonal Sitemap & 11-Screen Route Hierarchy' : 'A. Sơ đồ cây vuông góc Sitemap & Ánh xạ 11 màn hình cốt lõi'}</span>
                 </div>
                 <span className="text-xs tabular-nums px-3 py-1 rounded-full bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/10 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/30">
-                  {isEn ? 'Click any branch to jump to Wireframe vs UI' : 'Nhấp vào nhánh để mở màn hình Wireframe vs UI'}
+                  {isEn ? 'Click any node to jump to Wireframe vs UI' : 'Nhấp vào nhánh để mở cặp Wireframe vs UI tương ứng'}
                 </span>
               </div>
 
-              {/* Bố cục 2 cột: SITEMAP & SITEMAP DETAIL */}
-              <div className="p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-4">
+              <div className="p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-2xl bg-[#C8EEF7]/40 border border-[#9BE7FA]/40 text-xs text-[#074553] dark:bg-[#9BE7FA]/10 dark:border-[#9BE7FA]/20 dark:text-[#9BE7FA] font-semibold">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />
-                    <span>{isEn ? 'Click any box on Sitemap to scroll and open corresponding Wireframe & UI in Section 03' : 'Ấn vào bất kỳ ô nào trên Sitemap để cuộn xuống và mở ngay Wireframe & UI tương ứng ở Phần 03'}</span>
+                    <span>{isEn ? 'Click any box on Sitemap to scroll and inspect its paired Wireframe & UI in Section 03' : 'Ấn vào bất kỳ ô nào trên Sitemap để cuộn xuống và mở ngay cặp Wireframe & UI tương ứng ở Phần 03'}</span>
                   </div>
-                  <span className="tabular-nums text-xs text-slate-500 dark:text-slate-400">20/20 Screens Desktop</span>
+                  <span className="tabular-nums text-xs text-slate-600 dark:text-slate-400">11/11 Core Screen Pairs (Desktop &amp; Mobile)</span>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-                  {/* CỘT TRÁI (5 CỘT): SITEMAP TỔNG QUAN NỐI VUÔNG GÓC TỪ NÚT GỐC */}
+                  {/* CỘT TRÁI (5 CỘT): SITEMAP TỔNG QUAN */}
                   <div className="lg:col-span-5 space-y-3">
                     <div className="border-slate-100 dark:border-slate-800 pb-2">
                       <h3 className="text-lg font-black tracking-tight text-slate-900 dark:text-white">
                         SITEMAP
                       </h3>
                       <p className="text-xs text-slate-500 tabular-nums">
-                        {isEn ? '/High-Level Information Architecture/' : '/Sơ đồ trang web tổng quan/'}
+                        {isEn ? '/6 Functional Pillars/' : '/6 Phân hệ chức năng chính/'}
                       </p>
                     </div>
 
                     <div className="pt-2 flex items-center">
-                      {/* Nút gốc xanh slate đậm */}
                       <button
                         type="button"
                         onClick={() => handleSitemapNodeClick('screen-01')}
-                        className="px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-800 dark:hover:bg-slate-700 font-extrabold text-xs sm:text-sm shrink-0 transition-transform active:scale-95 cursor-pointer flex items-center gap-2 shadow-xs whitespace-nowrap"
+                        className="px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-800 dark:hover:bg-slate-700 font-extrabold text-xs sm:text-sm shrink-0 transition-transform active:scale-95 cursor-pointer flex items-center gap-2 whitespace-nowrap"
                       >
                         <span className="w-2 h-2 rounded-full bg-[#9BE7FA]" />
                         <span>Library Bus</span>
                       </button>
 
-                      {/* Đoạn nối ngang */}
                       <div className="w-3 sm:w-4 border-t-2 border-slate-600 dark:border-slate-400 shrink-0" />
 
-                      {/* Trục dọc nối 6 nhánh vuông góc */}
                       <div className="border-l-2 border-slate-600 dark:border-slate-400 py-1 space-y-2.5 sm:space-y-3 shrink-0">
                         {SITEMAP_ROOT.map((item, idx) => (
                           <div key={item.name} className="flex items-center">
-                            {/* Nét ngang vuông góc */}
                             <div className="w-3 sm:w-4 border-t-2 border-slate-600 dark:border-slate-400 shrink-0" />
                             <button
                               type="button"
                               onClick={() => handleSitemapNodeClick(item.screenId)}
                               title={isEn ? `Open Screen: ${item.nameEn}` : `Mở màn hình: ${item.name}`}
-                              className="px-2.5 sm:px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-[#9BE7FA] hover:text-[#0D7287] dark:hover:text-[#9BE7FA] text-slate-800 dark:text-slate-200 text-xs font-bold transition-colors text-left shadow-2xs hover:shadow-xs cursor-pointer flex items-center justify-between gap-2.5 whitespace-nowrap"
+                              className="px-2.5 sm:px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-[#9BE7FA] hover:text-[#0D7287] dark:hover:text-[#9BE7FA] text-slate-800 dark:text-slate-200 text-xs font-bold transition-colors text-left cursor-pointer flex items-center justify-between gap-2.5 whitespace-nowrap"
                             >
                               <div className="flex items-center gap-1.5">
                                 <span className="tabular-nums text-xs text-slate-400">0{idx + 1}.</span>
@@ -449,14 +549,14 @@ export function Chapter1UxResearch({
                     </div>
                   </div>
 
-                  {/* CỘT PHẢI (7 CỘT): SITEMAP DETAIL CÂY PHÂN CẤP ĐA TẦNG */}
+                  {/* CỘT PHẢI (7 CỘT): SITEMAP DETAIL */}
                   <div className="lg:col-span-7 space-y-3">
                     <div className="border-slate-100 dark:border-slate-800 pb-2">
                       <h3 className="text-lg font-black tracking-tight text-slate-900 dark:text-white">
                         SITEMAP DETAIL
                       </h3>
                       <p className="text-xs text-slate-500 tabular-nums">
-                        {isEn ? '/Multi-Tier Granular Hierarchy/' : '/Sơ đồ phân cấp đa tầng chi tiết/'}
+                        {isEn ? '/11 Core Routes & Sub-views/' : '/Chi tiết 11 màn hình cốt lõi & tác vụ con/'}
                       </p>
                     </div>
 
@@ -466,7 +566,6 @@ export function Chapter1UxResearch({
                           key={group.parent}
                           className="p-3.5 rounded-2xl bg-slate-50/70 dark:bg-slate-950/50 border border-slate-200/80 dark:border-slate-800 space-y-2"
                         >
-                          {/* Nhóm cha */}
                           <div className="flex items-center">
                             <button
                               type="button"
@@ -478,11 +577,10 @@ export function Chapter1UxResearch({
                             </button>
                             <div className="w-3 border-t-2 border-slate-400 dark:border-slate-600 shrink-0" />
                             <span className="text-xs tabular-nums text-slate-400 pl-1">
-                              {group.children.length} {isEn ? 'nodes' : 'nhánh'}
+                              {group.children.length} {isEn ? 'routes' : 'trang'}
                             </span>
                           </div>
 
-                          {/* Cây vuông góc các nhánh con */}
                           <div className="ml-3 border-l-2 border-slate-400 dark:border-slate-600 pl-2 py-1 space-y-2">
                             {group.children.map((child) => (
                               <div key={child.label} className="space-y-1">
@@ -491,17 +589,16 @@ export function Chapter1UxResearch({
                                   <button
                                     type="button"
                                     onClick={() => handleSitemapNodeClick(child.screenId)}
-                                    className="px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:border-[#9BE7FA] hover:text-[#0D7287] dark:hover:text-[#9BE7FA] text-xs font-medium transition text-left shadow-2xs cursor-pointer inline-flex items-center gap-1.5"
+                                    className="px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:border-[#9BE7FA] hover:text-[#0D7287] dark:hover:text-[#9BE7FA] text-xs font-medium transition text-left cursor-pointer inline-flex items-center gap-1.5"
                                   >
                                     <span>•</span>
                                     <span>{isEn ? child.labelEn : child.label}</span>
-                                    <span className="tabular-nums text-[9px] px-1 py-0.2 rounded bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 font-bold">
+                                    <span className="tabular-nums text-xs px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold">
                                       #{child.screenId.replace('screen-', '')}
                                     </span>
                                   </button>
                                 </div>
 
-                                {/* Nhánh con cấp 3 (nếu có) */}
                                 {child.sub && child.sub.length > 0 && (
                                   <div className="ml-5 border-l-2 border-dashed border-slate-300 dark:border-slate-700 pl-2 py-0.5 space-y-1">
                                     {child.sub.map((subItem) => (
@@ -513,7 +610,7 @@ export function Chapter1UxResearch({
                                           className="px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-300 font-medium hover:border-[#9BE7FA] hover:text-[#0D7287] dark:hover:text-[#9BE7FA] hover:bg-[#C8EEF7]/20 transition cursor-pointer flex items-center gap-1"
                                         >
                                           <span>{isEn ? subItem.labelEn : subItem.label}</span>
-                                          <span className="tabular-nums text-[9px] text-[#0D7287] dark:text-[#9BE7FA] font-bold">#{subItem.screenId.replace('screen-', '')}</span>
+                                          <span className="tabular-nums text-xs text-[#0D7287] dark:text-[#9BE7FA] font-bold">#{subItem.screenId.replace('screen-', '')}</span>
                                         </button>
                                       </div>
                                     ))}
@@ -534,60 +631,91 @@ export function Chapter1UxResearch({
             <div className="space-y-4">
               <div className="text-xs sm:text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
                 <Workflow className="w-4 h-4" />
-                <span>{isEn ? 'B. User Flow (Borrowing Decision Matrix)' : 'B. Luồng trải nghiệm người dùng (Quyết định mượn sách)'}</span>
+                <span>{isEn ? 'B. User Flow (Borrowing & Stop Reservation Decision Matrix)' : 'B. Luồng trải nghiệm người dùng (Quy trình tra cứu, mượn & đặt giữ sách theo trạm)'}</span>
               </div>
 
-              {/* Decision Flowchart Grid */}
               <div className="p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 overflow-x-auto">
                 <div className="flex items-center gap-3 min-w-[780px] text-xs font-medium">
                   {/* Step 1 */}
-                  <div className="px-3.5 py-2.5 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA] text-white dark:text-[#04242C] font-bold shrink-0 shadow-xs">
-                    Trang chủ
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleSitemapNodeClick('screen-01')}
+                    className="px-3.5 py-2.5 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA] text-white dark:text-[#04242C] font-bold shrink-0 cursor-pointer"
+                  >
+                    {isEn ? '#01 Homepage' : '#01 Trang chủ'}
+                  </button>
 
                   <ArrowRight className="w-4 h-4 text-slate-400 shrink-0" />
 
                   {/* Step 2 Decision */}
-                  <div className="p-2.5 rounded-2xl bg-[#FFE485]/20 dark:bg-[#FFE485]/10 border border-[#FFD14C]/40 text-center shrink-0">
-                    <span className="block font-bold text-slate-900 dark:text-white">Đã biết tên sách?</span>
+                  <button
+                    type="button"
+                    onClick={() => handleSitemapNodeClick('screen-03')}
+                    className="p-2.5 rounded-2xl bg-[#FFE485]/20 dark:bg-[#FFE485]/10 border border-[#FFD14C]/40 text-center shrink-0 cursor-pointer"
+                  >
+                    <span className="block font-bold text-slate-900 dark:text-white">
+                      {isEn ? 'Know book title?' : 'Đã biết tên sách?'}
+                    </span>
                     <div className="flex gap-1.5 mt-1 text-xs">
-                      <span className="px-2 py-0.5 rounded bg-[#C8EEF7] text-[#074553] font-bold">Có: Tìm kiếm</span>
-                      <span className="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Không: Gợi ý</span>
+                      <span className="px-2 py-0.5 rounded bg-[#C8EEF7] text-[#074553] font-bold">
+                        {isEn ? 'Yes: Search #03' : 'Có: Tìm tại #03'}
+                      </span>
+                      <span className="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                        {isEn ? 'No: AI Feed #10' : 'Không: Gợi ý #10'}
+                      </span>
                     </div>
-                  </div>
+                  </button>
 
                   <ArrowRight className="w-4 h-4 text-slate-400 shrink-0" />
 
                   {/* Step 3 Action */}
-                  <div className="px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-semibold text-slate-800 dark:text-slate-200 shrink-0">
-                    Chi tiết & Tồn kho xe
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleSitemapNodeClick('screen-04')}
+                    className="px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-semibold text-slate-800 dark:text-slate-200 shrink-0 cursor-pointer hover:border-[#9BE7FA]"
+                  >
+                    {isEn ? '#04 Book Detail & Bus Stock' : '#04 Chi tiết & Tồn kho xe'}
+                  </button>
 
                   <ArrowRight className="w-4 h-4 text-slate-400 shrink-0" />
 
                   {/* Step 4 Decision */}
                   <div className="p-2.5 rounded-2xl bg-[#FFE485]/20 dark:bg-[#FFE485]/10 border border-[#FFD14C]/40 text-center shrink-0">
-                    <span className="block font-bold text-slate-900 dark:text-white">Còn sách trên xe?</span>
+                    <span className="block font-bold text-slate-900 dark:text-white">
+                      {isEn ? 'Copies on Bus > 0?' : 'Còn sách trên xe?'}
+                    </span>
                     <div className="flex gap-1.5 mt-1 text-xs">
-                      <span className="px-2 py-0.5 rounded bg-[#C8EEF7] text-[#074553] font-bold">Có: Mượn ngay</span>
-                      <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700">Hết: Đặt trước</span>
+                      <span className="px-2 py-0.5 rounded bg-[#C8EEF7] text-[#074553] font-bold">
+                        {isEn ? 'Yes: Lock & Borrow' : 'Có: Khóa & Mượn'}
+                      </span>
+                      <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700">
+                        {isEn ? '0: Hold Queue' : 'Hết: Đặt trước'}
+                      </span>
                     </div>
                   </div>
 
                   <ArrowRight className="w-4 h-4 text-slate-400 shrink-0" />
 
                   {/* Step 5 Auth & Station Confirm */}
-                  <div className="px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-semibold text-slate-800 dark:text-slate-200 shrink-0">
-                    Xác nhận Trạm nhận
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleSitemapNodeClick('screen-07')}
+                    className="px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-semibold text-slate-800 dark:text-slate-200 shrink-0 cursor-pointer hover:border-[#9BE7FA]"
+                  >
+                    {isEn ? '#07 Route Stop Pickup' : '#07 Chọn Trạm đón xe'}
+                  </button>
 
                   <ArrowRight className="w-4 h-4 text-slate-400 shrink-0" />
 
                   {/* Step 6 Complete */}
-                  <div className="px-3.5 py-2.5 rounded-full bg-[#0D7287] hover:bg-[#074553] text-white dark:bg-[#9BE7FA] dark:text-slate-950 font-bold shrink-0 flex items-center gap-1.5 shadow-xs transition-colors">
+                  <button
+                    type="button"
+                    onClick={() => handleSitemapNodeClick('screen-09')}
+                    className="px-3.5 py-2.5 rounded-full bg-[#0D7287] hover:bg-[#074553] text-white dark:bg-[#9BE7FA] dark:text-slate-950 font-bold shrink-0 flex items-center gap-1.5 transition-colors cursor-pointer"
+                  >
                     <CheckCircle2 className="w-4 h-4" />
-                    <span>Hoàn tất Phiếu mượn</span>
-                  </div>
+                    <span>{isEn ? '#09 Borrow Slip Created' : '#09 Hoàn tất Phiếu mượn'}</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -631,6 +759,104 @@ export function Chapter1UxResearch({
             />
           </div>
         )}
+      </div>
+
+      {/* 1.5 ĐẶC TẢ QUY TẮC NGHIỆP VỤ BA (BUSINESS RULES & ACCEPTANCE CRITERIA GIVEN/WHEN/THEN) */}
+      <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-slate-100 dark:border-slate-800 pb-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2.5">
+              <span className="px-3 py-1 rounded-xl bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 font-black text-sm tabular-nums">
+                1.5
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-2">
+                <ClipboardCheck className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                <span>
+                  {isEn
+                    ? 'BA Specification: Business Rules (BR) & Acceptance Criteria (Gherkin)'
+                    : 'Đặc Tả Nghiệp Vụ BA: Quy Tắc Kinh Doanh (BR) & Tiêu Chí Nghiệm Thu'}
+                </span>
+              </h3>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-500">
+              {isEn
+                ? 'Core business rules governing bus-level inventory locking, stop pickup windows, overdue blocks, and donation screening'
+                : '4 quy tắc nghiệp vụ cốt lõi kiểm soát khóa tồn kho theo xe, khung giờ nhận sách tại trạm, khóa tài khoản quá hạn và duyệt sách quyên góp'}
+            </p>
+          </div>
+          <span className="text-xs tabular-nums px-3 py-1.5 rounded-xl bg-[#FFE485]/40 text-amber-950 dark:bg-slate-800 dark:text-[#FFE485] font-bold border border-[#FFD14C]/50">
+            Given / When / Then
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {BA_BUSINESS_RULES.map((item) => (
+            <div
+              key={item.code}
+              className="p-5 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/50 flex flex-col justify-between space-y-4"
+            >
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-lg bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 font-black text-xs tabular-nums">
+                      {item.code}
+                    </span>
+                    <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+                      {isEn ? item.titleEn : item.titleVi}
+                    </h4>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleSitemapNodeClick(item.screenRef)}
+                    className="text-xs tabular-nums font-bold px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[#0D7287] dark:text-[#9BE7FA] hover:border-[#9BE7FA] cursor-pointer shrink-0"
+                  >
+                    {isEn ? `Screen #${item.screenRef.replace('screen-', '')}` : `Màn hình #${item.screenRef.replace('screen-', '')}`}
+                  </button>
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {isEn ? item.ruleEn : item.ruleVi}
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 space-y-2 text-xs">
+                <div className="flex items-start gap-2">
+                  <span className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono font-bold shrink-0">
+                    GIVEN
+                  </span>
+                  <span className="text-slate-700 dark:text-slate-300">
+                    {isEn ? item.givenEn : item.givenVi}
+                  </span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="px-1.5 py-0.5 rounded bg-[#FFE485]/40 dark:bg-[#FFE485]/15 text-amber-950 dark:text-[#FFE485] font-mono font-bold shrink-0">
+                    WHEN
+                  </span>
+                  <span className="text-slate-700 dark:text-slate-300">
+                    {isEn ? item.whenEn : item.whenVi}
+                  </span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 font-mono font-bold shrink-0">
+                    THEN
+                  </span>
+                  <span className="text-slate-800 dark:text-slate-200 font-medium">
+                    {isEn ? item.thenEn : item.thenVi}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="p-3.5 rounded-2xl bg-[#F0F9FB] dark:bg-slate-800/50 border border-[#C8EEF7] dark:border-slate-700 flex items-start gap-2.5 text-xs text-slate-600 dark:text-slate-300">
+          <ShieldAlert className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA] shrink-0 mt-0.5" />
+          <span>
+            {isEn
+              ? 'Data Integrity Note: All figures displayed inside the 11 interface screens (10,250+ books, 12 buses, 54,300+ borrows) are seeded prototype records created to test BA rules, UI states, and SQL aggregations.'
+              : 'Ghi chú minh bạch dữ liệu: Các con số hiển thị trên 11 màn hình giao diện (10.250+ đầu sách, 12 xe buýt, 54.300+ lượt mượn) là dữ liệu hạt giống (seed data) phục vụ kiểm thử quy tắc BA, trạng thái UI và truy vấn tổng hợp.'}
+          </span>
+        </div>
       </div>
     </section>
   );

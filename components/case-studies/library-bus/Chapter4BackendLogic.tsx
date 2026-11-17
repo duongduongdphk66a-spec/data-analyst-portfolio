@@ -424,37 +424,53 @@ export function Chapter4BackendLogic({
         <div className="grid grid-cols-1 md:grid-cols-5 gap-3.5 text-xs sm:text-sm">
           {/* Step 1 */}
           <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 space-y-2.5">
-            <span className="w-7 h-7 rounded-xl bg-slate-900 dark:bg-slate-800 text-white flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm shadow-xs">1</span>
-            <div className="font-bold text-slate-900 dark:text-white">Độc giả gửi Yêu cầu</div>
+            <span className="w-7 h-7 rounded-xl bg-slate-900 dark:bg-slate-800 text-white flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm">1</span>
+            <div className="font-bold text-slate-900 dark:text-white">
+              {isEn ? 'Reader Submits Request' : 'Độc giả gửi Yêu cầu'}
+            </div>
             <p className="text-slate-500 tabular-nums text-xs">POST /transactions/borrow/</p>
           </div>
 
           {/* Step 2 */}
           <div className="p-4 rounded-2xl bg-[#FFE485]/20 dark:bg-[#FFE485]/10 border border-[#FFD14C]/40 space-y-2.5">
-            <span className="w-7 h-7 rounded-xl bg-[#FFD14C] text-slate-950 flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm shadow-xs">2</span>
-            <div className="font-bold text-[#92400E] dark:text-[#FFE485]">Khóa dòng bản ghi</div>
+            <span className="w-7 h-7 rounded-xl bg-[#FFD14C] text-slate-950 flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm">2</span>
+            <div className="font-bold text-[#92400E] dark:text-[#FFE485]">
+              {isEn ? 'Row-Level DB Lock' : 'Khóa dòng bản ghi'}
+            </div>
             <p className="text-slate-600 dark:text-slate-400 tabular-nums text-xs">BEGIN + SELECT ... FOR UPDATE</p>
           </div>
 
           {/* Step 3 */}
           <div className="p-4 rounded-2xl bg-[#C8EEF7]/30 dark:bg-[#074553]/20 border border-[#9BE7FA]/40 space-y-2.5">
-            <span className="w-7 h-7 rounded-xl bg-[#0D7287] dark:bg-[#9BE7FA] text-white dark:text-[#04242C] flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm shadow-xs">3</span>
-            <div className="font-bold text-[#074553] dark:text-[#9BE7FA]">Giao dịch thành công</div>
-            <p className="text-slate-600 dark:text-slate-400 text-xs">Tồn kho -1 & COMMIT giải phóng khóa</p>
+            <span className="w-7 h-7 rounded-xl bg-[#0D7287] dark:bg-[#9BE7FA] text-white dark:text-[#04242C] flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm">3</span>
+            <div className="font-bold text-[#074553] dark:text-[#9BE7FA]">
+              {isEn ? 'Transaction Commit' : 'Giao dịch thành công'}
+            </div>
+            <p className="text-slate-600 dark:text-slate-400 text-xs">
+              {isEn ? 'Stock -1 & COMMIT releases lock' : 'Tồn kho -1 & COMMIT giải phóng khóa'}
+            </p>
           </div>
 
           {/* Step 4 */}
           <div className="p-4 rounded-2xl bg-[#FFE485]/15 dark:bg-[#FFE485]/5 border border-[#FFD14C]/40 space-y-2.5">
-            <span className="w-7 h-7 rounded-xl bg-[#FFD14C] text-slate-950 flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm shadow-xs">4</span>
-            <div className="font-bold text-[#92400E] dark:text-[#FFE485]">Đẩy Task Redis</div>
-            <p className="text-slate-600 dark:text-slate-400 tabular-nums text-xs">.delay() gửi email & phân tích</p>
+            <span className="w-7 h-7 rounded-xl bg-[#FFD14C] text-slate-950 flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm">4</span>
+            <div className="font-bold text-[#92400E] dark:text-[#FFE485]">
+              {isEn ? 'Push Redis Task' : 'Đẩy Task Redis'}
+            </div>
+            <p className="text-slate-600 dark:text-slate-400 tabular-nums text-xs">
+              {isEn ? '.delay() email & analytics' : '.delay() gửi email & phân tích'}
+            </p>
           </div>
 
           {/* Step 5 */}
           <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 space-y-2.5">
-            <span className="w-7 h-7 rounded-xl bg-slate-700 text-white flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm shadow-xs">5</span>
-            <div className="font-bold text-slate-900 dark:text-white">Celery Worker ngầm</div>
-            <p className="text-slate-500 text-xs">Cập nhật Analytics & Email nhắc hạn</p>
+            <span className="w-7 h-7 rounded-xl bg-slate-700 text-white flex items-center justify-center tabular-nums font-bold text-xs sm:text-sm">5</span>
+            <div className="font-bold text-slate-900 dark:text-white">
+              {isEn ? 'Async Celery Worker' : 'Celery Worker ngầm'}
+            </div>
+            <p className="text-slate-500 text-xs">
+              {isEn ? 'Updates Analytics & Due Alerts' : 'Cập nhật Analytics & Email nhắc hạn'}
+            </p>
           </div>
         </div>
 
@@ -463,16 +479,28 @@ export function Chapter4BackendLogic({
           <div className="p-3.5 rounded-2xl bg-[#C8EEF7]/30 dark:bg-[#074553]/20 border border-[#9BE7FA]/40 flex items-start gap-2.5 text-[#074553] dark:text-[#9BE7FA]">
             <CheckCircle2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA] shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold">Trường hợp còn sách (Tồn kho &gt; 0): </span>
-              <span>Khóa dòng dữ liệu, giảm tồn kho, ghi nhận phiếu mượn và phản hồi 200 OK.</span>
+              <span className="font-bold">
+                {isEn ? 'Available Stock Branch (Stock > 0): ' : 'Trường hợp còn sách (Tồn kho > 0): '}
+              </span>
+              <span>
+                {isEn
+                  ? 'Locks row, decrements stock, creates borrow record, and returns HTTP 200 OK.'
+                  : 'Khóa dòng dữ liệu, giảm tồn kho, ghi nhận phiếu mượn và phản hồi 200 OK.'}
+              </span>
             </div>
           </div>
 
           <div className="p-3.5 rounded-2xl bg-[#FFE485]/20 dark:bg-[#FFE485]/10 border border-[#FFE485]/60 flex items-start gap-2.5 text-[#92400E] dark:text-[#FFE485]">
             <AlertTriangle className="w-4 h-4 text-[#B45309] dark:text-[#FFD14C] shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold">Trường hợp hết sách (Tồn kho == 0): </span>
-              <span>ROLLBACK tức thời, phản hồi 400 Bad Request và tự động kích hoạt tùy chọn Đặt trước.</span>
+              <span className="font-bold">
+                {isEn ? 'Zero Stock Branch (Stock == 0): ' : 'Trường hợp hết sách (Tồn kho == 0): '}
+              </span>
+              <span>
+                {isEn
+                  ? 'Immediate ROLLBACK, returns HTTP 400 Bad Request, and activates the Reservation fallback queue.'
+                  : 'ROLLBACK tức thời, phản hồi 400 Bad Request và tự động kích hoạt tùy chọn Đặt trước.'}
+              </span>
             </div>
           </div>
         </div>
@@ -1003,7 +1031,7 @@ export function Chapter4BackendLogic({
       </div>
 
       {/* BẢNG ĐẶC TẢ KỸ THUẬT PYTHON / DJANGO CỐT LÕI */}
-      <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-4">
+      <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-4">
         <div className="space-y-1">
           <h3 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <TableProperties className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
@@ -1018,9 +1046,9 @@ export function Chapter4BackendLogic({
           <table className="w-full text-left text-xs sm:text-sm">
             <thead className="bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 font-bold uppercase text-xs">
               <tr>
-                <th className="p-3.5 w-1/4">Hàm / Decorator Python</th>
-                <th className="p-3.5 w-1/3">Tham số đầu vào & Mặc định</th>
-                <th className="p-3.5">Kết quả trả về & Cơ chế hoạt động</th>
+                <th className="p-3.5 w-1/4">{isEn ? 'Python Function / Decorator' : 'Hàm / Decorator Python'}</th>
+                <th className="p-3.5 w-1/3">{isEn ? 'Parameters & Defaults' : 'Tham số đầu vào & Mặc định'}</th>
+                <th className="p-3.5">{isEn ? 'Return Value & Runtime Mechanism' : 'Kết quả trả về & Cơ chế hoạt động'}</th>
               </tr>
             </thead>
             <tbody className="[&>tr:nth-child(even)]:bg-slate-50 dark:[&>tr:nth-child(even)]:bg-slate-800/40">
@@ -1042,6 +1070,227 @@ export function Chapter4BackendLogic({
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* 4.3 LƯỢC ĐỒ QUAN HỆ THỰC THỂ (RELATIONAL SCHEMA) & ÁNH XẠ 11 MÀN HÌNH */}
+      <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-5">
+        <div className="flex flex-wrap items-center justify-between gap-2 pb-2">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2.5">
+              <span className="px-3 py-1 rounded-xl bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 font-black text-sm tabular-nums">
+                4.3
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-[#0D7287] dark:text-[#9BE7FA]">
+                {isEn ? 'Relational Database Schema & 11-Screen Mapping' : 'Lược Đồ Cơ Sở Dữ Liệu Quan Hệ & Ánh Xạ 11 Màn Hình'}
+              </h3>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-500">
+              {isEn
+                ? 'Core PostgreSQL tables, Primary/Foreign Keys (PK/FK), and read/write mapping across the 11 screens'
+                : 'Các bảng dữ liệu PostgreSQL cốt lõi, khóa chính / khóa ngoại (PK/FK) và ánh xạ đọc/ghi trên 11 màn hình'}
+            </p>
+          </div>
+          <span className="text-xs tabular-nums px-3 py-1.5 rounded-xl bg-[#C8EEF7]/50 text-[#074553] dark:bg-slate-800 dark:text-[#9BE7FA] font-bold border border-[#9BE7FA]/40">
+            6 Core Tables • UUID PK
+          </span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs sm:text-sm">
+            <thead className="bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 font-bold uppercase text-xs">
+              <tr>
+                <th className="p-3.5 w-1/5">{isEn ? 'Table / Django Model' : 'Bảng / Django Model'}</th>
+                <th className="p-3.5 w-2/5">{isEn ? 'Key Columns & Constraints (PK / FK)' : 'Trường dữ liệu & Ràng buộc (PK / FK)'}</th>
+                <th className="p-3.5 w-1/5">{isEn ? 'Mapped Screens' : 'Màn hình sử dụng'}</th>
+                <th className="p-3.5">{isEn ? 'BA & Data Purpose' : 'Vai trò nghiệp vụ & phân tích'}</th>
+              </tr>
+            </thead>
+            <tbody className="[&>tr:nth-child(even)]:bg-slate-50 dark:[&>tr:nth-child(even)]:bg-slate-800/40">
+              <tr>
+                <td className="p-3.5 align-top font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                  inventory.Book
+                </td>
+                <td className="p-3.5 align-top font-mono text-xs text-slate-700 dark:text-slate-300">
+                  id (UUID PK), isbn (UNIQUE), category_id (FK), assigned_bus_id (FK), total_copies, available_copies (CHECK &gt;= 0), bayesian_score
+                </td>
+                <td className="p-3.5 align-top tabular-nums font-semibold text-slate-900 dark:text-white">
+                  #01, #03, #04, #10, #11
+                </td>
+                <td className="p-3.5 align-top text-slate-600 dark:text-slate-300">
+                  {isEn
+                    ? 'Tracks physical book stock per bus and prevents negative stock via row locking.'
+                    : 'Quản lý tồn kho sách gắn theo từng xe buýt, chặn âm kho bằng khóa dòng dữ liệu.'}
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3.5 align-top font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                  inventory.BookDonation
+                </td>
+                <td className="p-3.5 align-top font-mono text-xs text-slate-700 dark:text-slate-300">
+                  id (UUID PK), donor_id (FK User), title, author, condition_note, attachment_file, status (PENDING / APPROVED)
+                </td>
+                <td className="p-3.5 align-top tabular-nums font-semibold text-slate-900 dark:text-white">
+                  #05, #11
+                </td>
+                <td className="p-3.5 align-top text-slate-600 dark:text-slate-300">
+                  {isEn
+                    ? 'Separates unverified community donations from live lendable catalog stock.'
+                    : 'Tách biệt sách quyên góp chờ duyệt khỏi tồn kho khả dụng ngoài danh mục công khai.'}
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3.5 align-top font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                  inventory.BusRoute &amp; Stop
+                </td>
+                <td className="p-3.5 align-top font-mono text-xs text-slate-700 dark:text-slate-300">
+                  route_id (UUID PK), bus_id (FK), license_plate, operating_schedule, stop_order, lat, lng, dwell_minutes (90–180)
+                </td>
+                <td className="p-3.5 align-top tabular-nums font-semibold text-slate-900 dark:text-white">
+                  #06, #07, #11
+                </td>
+                <td className="p-3.5 align-top text-slate-600 dark:text-slate-300">
+                  {isEn
+                    ? 'Powers interactive GPS map markers, polyline routes, and stop pickup windows.'
+                    : 'Cung cấp tọa độ bản đồ GPS, đường nối lộ trình và khung giờ đỗ nhận sách tại trạm.'}
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3.5 align-top font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                  transactions.BorrowOrder
+                </td>
+                <td className="p-3.5 align-top font-mono text-xs text-slate-700 dark:text-slate-300">
+                  id (UUID PK), user_id (FK), book_id (FK), pickup_stop_id (FK), borrow_date, due_date, return_date, status (ACTIVE / RETURNED / OVERDUE)
+                </td>
+                <td className="p-3.5 align-top tabular-nums font-semibold text-slate-900 dark:text-white">
+                  #08, #09, #10, #11
+                </td>
+                <td className="p-3.5 align-top text-slate-600 dark:text-slate-300">
+                  {isEn
+                    ? 'Core circulation ledger recording borrow lifecycle, overdue flags, and fine triggers.'
+                    : 'Sổ cái giao dịch lưu thông ghi nhận vòng đời phiếu mượn, cờ quá hạn và tính phí phạt.'}
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3.5 align-top font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                  analytics.DailyMetrics &amp; Recs
+                </td>
+                <td className="p-3.5 align-top font-mono text-xs text-slate-700 dark:text-slate-300">
+                  snapshot_date (PK), user_id (FK), reading_streak, borrow_rank, cosine_score, recommended_book_ids (JSONB)
+                </td>
+                <td className="p-3.5 align-top tabular-nums font-semibold text-slate-900 dark:text-white">
+                  #01, #10, #11
+                </td>
+                <td className="p-3.5 align-top text-slate-600 dark:text-slate-300">
+                  {isEn
+                    ? 'Pre-aggregates reader KPIs, fleet utilization, and personalized recommendation feeds.'
+                    : 'Tổng hợp sẵn chỉ số KPI cá nhân, hiệu suất đội xe và danh sách gợi ý sách cá nhân hóa.'}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* 4.4 TỪ ĐIỂN CHỈ SỐ VẬN HÀNH & PHÂN TÍCH (OPERATIONAL KPI DICTIONARY CHO MÀN #09, #10, #11) */}
+      <div className="p-6 sm:p-8 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-5">
+        <div className="flex flex-wrap items-center justify-between gap-2 pb-2">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2.5">
+              <span className="px-3 py-1 rounded-xl bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 font-black text-sm tabular-nums">
+                4.4
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-[#0D7287] dark:text-[#9BE7FA]">
+                {isEn ? 'Operational Analytics & KPI Dictionary (Screens #09, #10, #11)' : 'Từ Điển Chỉ Số Vận Hành & Phân Tích Dữ Liệu (Màn Hình #09, #10, #11)'}
+              </h3>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-500">
+              {isEn
+                ? 'Mathematical formulas and SQL logic behind circulation monitoring, Bayesian book rankings, and reader recommendations'
+                : 'Công thức toán học và logic truy vấn SQL đằng sau bảng theo dõi mượn trả, xếp hạng sách Bayesian và gợi ý độc giả'}
+            </p>
+          </div>
+          <span className="text-xs tabular-nums px-3 py-1.5 rounded-xl bg-[#FFE485]/40 text-amber-950 dark:bg-slate-800 dark:text-[#FFE485] font-bold border border-[#FFD14C]/50">
+            DA / BA Metric Spec
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+          <div className="p-5 rounded-2xl bg-slate-50/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="font-bold text-slate-900 dark:text-white">
+                {isEn ? '1. Overdue Loan Rate (Screen #09)' : '1. Tỷ lệ Phiếu mượn Quá hạn (Màn hình #09)'}
+              </span>
+              <span className="tabular-nums text-xs px-2 py-0.5 rounded bg-rose-500/10 text-rose-600 dark:text-rose-400 font-bold">
+                SLA &lt; 5.0%
+              </span>
+            </div>
+            <code className="block p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-mono text-xs text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
+              Overdue Rate = COUNT(return_date IS NULL AND due_date &lt; CURRENT_DATE) / COUNT(active_borrows)
+            </code>
+            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+              {isEn
+                ? 'Identifies bottlenecks in book circulation across bus routes and triggers automated overdue reminders.'
+                : 'Đo lường tỷ lệ sách chậm thu hồi trên từng tuyến xe để kích hoạt nhắc hạn tự động và điều phối bổ sung bản sao.'}
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-slate-50/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="font-bold text-slate-900 dark:text-white">
+                {isEn ? '2. Fleet Stock Turnover (Screens #07, #10)' : '2. Vòng quay Luân chuyển Sách theo Xe (#07, #10)'}
+              </span>
+              <span className="tabular-nums text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold">
+                Target &gt;= 1.8x / month
+              </span>
+            </div>
+            <code className="block p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-mono text-xs text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
+              Bus Turnover = COUNT(monthly_borrows_on_bus) / AVG(total_copies_assigned_to_bus)
+            </code>
+            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+              {isEn
+                ? 'Evaluates whether the book assortment on each mobile bus matches student demand at its assigned stops.'
+                : 'Đánh giá mức độ khớp nhau giữa cơ cấu đầu sách xếp trên xe buýt với nhu cầu đọc thực tế tại các điểm đỗ trường đại học.'}
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-slate-50/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="font-bold text-slate-900 dark:text-white">
+                {isEn ? '3. Bayesian Weighted Rating (Screen #10)' : '3. Điểm Xếp hạng Sách Trọng số Bayes (#10)'}
+              </span>
+              <span className="tabular-nums text-xs px-2 py-0.5 rounded bg-[#C8EEF7]/60 text-[#074553] dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] font-bold">
+                m = 10 votes prior
+              </span>
+            </div>
+            <code className="block p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-mono text-xs text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
+              W = (v / (v + m)) * R + (m / (v + m)) * C
+            </code>
+            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+              {isEn
+                ? 'Dampens single-review 5-star distortion by blending book average R (over v reviews) with catalog mean C.'
+                : 'Triệt tiêu sai lệch khi sách mới chỉ có 1–2 lượt chấm 5 sao bằng cách kết hợp trung bình cuốn sách (R) với trung bình toàn kho (C).'}
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-slate-50/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="font-bold text-slate-900 dark:text-white">
+                {isEn ? '4. Cosine Reader-Book Affinity (Screen #10)' : '4. Độ tương đồng Gợi ý Sách Cosine (#10)'}
+              </span>
+              <span className="tabular-nums text-xs px-2 py-0.5 rounded bg-[#FFE485]/50 text-amber-950 dark:bg-[#FFE485]/15 dark:text-[#FFE485] font-bold">
+                Top-5 Feed / 24h TTL
+              </span>
+            </div>
+            <code className="block p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-mono text-xs text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
+              sim(u, b) = (u · b) / (||u||2 * ||b||2)
+            </code>
+            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+              {isEn
+                ? 'Matches reader category/author history vector u against available book vector b to populate the dashboard feed.'
+                : 'Đối chiếu vector lịch sử mượn theo thể loại/tác giả của độc giả (u) với vector thuộc tính sách (b) để xuất 5 gợi ý trên Dashboard.'}
+            </p>
+          </div>
         </div>
       </div>
     </section>

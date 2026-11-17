@@ -17,6 +17,7 @@ import {
 } from '../components/case-studies/kami-ely/playbook/playbookData';
 import metricsJson from '../app/data/kami-ely/generated/metrics.json';
 import metricsV2Json from '../app/data/kami-ely/generated/metrics_v2.json';
+import { KAMI_ELY_SQL_LAB_PRESETS } from '../app/data/kami-ely/sqlLabPresets';
 
 describe('Kami Ely playbook data', () => {
   it('khớp tổng 10 bảng nguồn hợp nhất (23.364 dòng)', () => {
@@ -130,5 +131,25 @@ describe('Kami Ely playbook data', () => {
     expect(v2.ch6.maCrossovers).toHaveLength(4);
     expect(v2.appendix.qualityGates).toHaveLength(9);
     expect(v2.appendix.qualityGates.every((g) => g.status === 'PASS')).toBe(true);
+
+    // Weekly 33-week series & LiveProd SKU resolution (no LP_ fallback in top 8)
+    expect(v2.ch3.weekly).toHaveLength(33);
+    expect(v2.ch5.pinnedAnalysis.spearmanRho).toBeCloseTo(0.339, 3);
+    expect(v2.ch5.pinnedAnalysis.topLiveProds.map((p) => p.code)).toEqual([
+      'SW01',
+      'M03',
+      'A01',
+      'H13',
+      'A03',
+      'H26',
+      'CV11',
+      'H05',
+    ]);
+    expect(v2.ch5.pinnedAnalysis.topLiveProds.every((p) => p.liveGmvSharePct > 3.0)).toBe(true);
+    expect(v2.ch5.pinnedAnalysis.topLiveProds.every((p) => p.liveUnitSharePct >= 2.5)).toBe(true);
+
+    // SQL Lab Presets synchronized to 231d & pseudonymized handles
+    expect(KAMI_ELY_SQL_LAB_PRESETS).toHaveLength(4);
+    expect(JSON.stringify(KAMI_ELY_SQL_LAB_PRESETS)).not.toContain('@kami_official');
   });
 });

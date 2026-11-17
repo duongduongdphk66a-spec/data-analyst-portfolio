@@ -16,9 +16,9 @@ Built with Next.js 15 (App Router), React 19, Tailwind CSS 4, MySQL, and Rechart
   - MySQL database synchronization with `portfolio_profile`, `portfolio_texts`, and `portfolio_projects` tables.
 - **Business Intelligence Dashboard**: Interactive KPI scorecards, multi-dimension time horizon filtering (H1 vs H2), and 2x Retina PNG chart export.
 - **Interactive Case Studies**:
-  1. Kami Ely TikTok Shop & Affiliate Performance: E-commerce funnel, creator matrix, and peak live stream analysis.
-  2. Heritage Tourism in Japan (1990–2024): Time-series modeling of 36.8M tourist inflow and regional spending divergence.
-  3. Real-time Library Bus IoT / Data Pipeline: Distributed scheduling with Redis and Celery Beat.
+  1. **Kami Ely TikTok Shop & Affiliate Performance (231 Days: Mar 09 – Oct 25, 2026)**: Independent analysis of 15.01B VND estimated GMV and 101,896 units sold from 10 third-party FastMoss telemetry tables (reconciled with the 180-day window of 12.74B VND / 85,500 units and all-time cumulative store total of 31.6B VND / 238.4k units).
+  2. **Heritage Tourism in Japan (2013–2023 Policy Era on 2003–2022 Time-Series Baseline)**: Quantitative modeling of 31.9M peak tourist inflow (2019), 4.81T Yen expenditure, 7.5% GDP contribution, and 3,000:1 local overtourism pressure at Shirakawa-go.
+  3. **Library Bus — Business Analysis (BA) & UX/UI System Design**: User research, sitemap, borrowing user flows, 12-column grid system, and 20 paired Wireframe–UI screens (Desktop & Mobile) with sample prototype data.
 - **SEO & Performance**: Dynamic SSR với Per-Request Cryptographic Nonce CSP (30 routes), dynamic `sitemap.xml`, `robots.txt`, và Schema.org JSON-LD structured data.
 
 ---

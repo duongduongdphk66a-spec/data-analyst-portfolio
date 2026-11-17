@@ -73,7 +73,7 @@ export const kamiReconciliationData = {
     {
       metricId: 'total-gmv',
       metricName: { vi: 'Tổng Doanh Thu (GMV)', en: 'Total GMV' },
-      shopAllTime: { vi: '15,01 Tỉ đ (Chu kỳ 231 ngày)', en: '15.01B VND (231-day cycle)' },
+      shopAllTime: { vi: '31,6 Tỉ đ (All-time) | 15,01 Tỉ đ (231d)', en: '31.6B (All-time) | 15.01B (231d)' },
       creatorAllTime: { vi: '9,2 Tỉ đ (29,1%)', en: '9.2B VND (29.1%)' },
       shop180d: { vi: '12.735.128.067 đ (~12,74 Tỉ)', en: '12,735,128,067 VND (~12.74B)' },
       creator180d: {
@@ -83,14 +83,14 @@ export const kamiReconciliationData = {
       shop90d: { vi: '6.136.205.973 đ (~6,14 Tỉ)', en: '6,136,205,973 VND (~6.14B)' },
       creator90d: { vi: '3.026.026.869 đ (49,31%)', en: '3,026,026,869 VND (49.31%)' },
       auditNote: {
-        vi: 'Tỷ trọng tự gánh của kênh @shop_official tăng mạnh từ 29,1% (All-time) lên 45,7% (180d) và 49,31% (90d).',
-        en: '@shop_official share rose from 29.1% (All-time) to 45.7% (180d) and 49.31% (90d).'
+        vi: 'Tỷ trọng tự gánh của kênh @shop_official tăng mạnh từ 29,1% (All-time 31,6 Tỉ) lên 45,7% (180d 12,74 Tỉ) và 49,31% (90d 6,14 Tỉ). Tập mẫu phân tích 231 ngày (09/03–25/10/2026) đạt 15,01 Tỉ đ (101.896 SP).',
+        en: '@shop_official share rose from 29.1% (All-time 31.6B) to 45.7% (180d 12.74B) and 49.31% (90d 6.14B). The 231-day analysis sample (Mar 09–Oct 25, 2026) totals 15.01B VND (101,896 units).'
       }
     },
     {
       metricId: 'units-sold',
       metricName: { vi: 'Tổng Sản Lượng Bán (Units)', en: 'Total Units Sold' },
-      shopAllTime: { vi: '238,4k SP (Store: 238,2k)', en: '238.4k units (Store: 238.2k)' },
+      shopAllTime: { vi: '238,4k SP (All-time) | 101.896 SP (231d)', en: '238.4k (All-time) | 101,896 (231d)' },
       creatorAllTime: { vi: '69,9k SP (29,3%)', en: '69.9k units (29.3%)' },
       shop180d: { vi: '85.500 SP (TB 475 SP/ngày)', en: '85,500 units (Avg 475/day)' },
       creator180d: {
@@ -138,7 +138,7 @@ export const kamiReconciliationData = {
         vi: '21,21% Net (~1,30 Tỉ) | 2,17 Tỉ CSV | 2,40 Tỉ Gross UI',
         en: '21.21% Net (~1.30B) | 2.17B CSV | 2.40B Gross UI'
       },
-      creator90d: { vi: 'GPM 134,8k–135,2k đ (Gấp 4,5x LIVE)', en: 'GPM 134.8k–135.2k VND (4.5x LIVE)' },
+      creator90d: { vi: 'GPM 28N UI: 134,8k–135,2k đ (4,5x LIVE 28N UI)', en: '28d UI GPM: 134.8k–135.2k VND (4.5x 28d UI LIVE)' },
       auditNote: {
         vi: '94,70% GMV của 4.417 Shoppable Videos đến từ Paid Ads (2.055.758.301 đ), Organic chỉ chiếm 5,30% (115.082.025 đ).',
         en: '94.70% of 4,417 Shoppable Videos GMV comes from Paid Ads (2.055B VND); Organic is only 5.30% (115.08M VND).'
@@ -367,8 +367,8 @@ export const kamiReconciliationData = {
         en: '_Creators_merged (90d) & UI 073657: Reports total Creators = 4,734,186,743 VND (31,599 units)'
       },
       deltaSummary: {
-        vi: '4,734 Tỉ đ là gộp cả Chính chủ (3,026 Tỉ đ) + 5.712 KOC ngoài (1,708 Tỉ đ); phần dư 1,402 Tỉ đ khớp 100% Kệ hàng',
-        en: '4.734B VND combines Official Channel (3.026B) + 5,712 external KOCs (1.708B); the 1.402B remainder matches Product Card'
+        vi: '4,734 Tỉ đ là gộp cả Chính chủ (3,026 Tỉ đ) + 5.712 KOC ngoài (1,708 Tỉ đ); phần dư 1,402 Tỉ đ khớp phần Kệ hàng (1.402.019.230 đ)',
+        en: '4.734B VND combines Official Channel (3.026B) + 5,712 external KOCs (1.708B); the 1.402B remainder matches Product Card (1,402,019,230 VND)'
       },
       technicalResolution: {
         vi: 'Tách bạch rõ trên UI và SQL View: (1) Kênh chính chủ = 3.026.026.869 đ (49,31% GMV | 49,78% SP); (2) 5.712 KOC ngoài = 1.708.159.874 đ (27,84% GMV | 28,77% SP); (3) Thẻ sản phẩm = 6.136.205.973 - 4.734.186.743 = 1.402.019.230 đ (22,85% GMV | 21,45% SP).',
@@ -570,8 +570,8 @@ export const kamiReconciliationData = {
       },
       synchronizedWindow: '08/08/2026 – 04/09/2026',
       csvAnchorMetric: {
-        vi: 'Khớp đà suy giảm tháng 8 (645,53 Tr đ) và 4 ngày đầu tháng 9 (35,08 Tr đ) khi miền Bắc (43% Hà Nội) hết mùa biển',
-        en: 'Matches August decline (645.53M VND) and Sep 01–04 trough (35.08M VND) as Northern Vietnam (43% Hanoi) exits beach season'
+        vi: 'Khớp đà suy giảm tháng 8 (645,53 Tr đ) và 4 ngày đầu tháng 9 (35,08 Tr đ) khi miền Bắc (41% Hà Nội) hết mùa biển',
+        en: 'Matches August decline (645.53M VND) and Sep 01–04 trough (35.08M VND) as Northern Vietnam (41% Hanoi) exits beach season'
       },
       telemetryMetrics: [
         {
@@ -584,8 +584,8 @@ export const kamiReconciliationData = {
         }
       ],
       strategicTakeaway: {
-        vi: 'Xoay trục ngay danh mục ghim LIVE từ Bikini sang Chân váy chữ A (CV11) & Thời trang Thu – Đông cho tệp 43% khách Hà Nội.',
-        en: 'Immediately pivot pinned LIVE catalog from Bikinis to A-Line Skirts (CV11) & Autumn/Winter apparel for the 43% Hanoi audience.'
+        vi: 'Xoay trục ngay danh mục ghim LIVE từ Bikini sang Chân váy chữ A (CV11) & Thời trang Thu – Đông cho tệp 41% khách Hà Nội.',
+        en: 'Immediately pivot pinned LIVE catalog from Bikinis to A-Line Skirts (CV11) & Autumn/Winter apparel for the 41% Hanoi audience.'
       }
     }
   ] as SynchronizedTelemetryItem[]

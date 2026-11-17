@@ -22,7 +22,7 @@ export default function ProjectsManagerTab({
       id: `proj-custom-${Date.now()}`,
       title: 'Dự án mới tạo',
       desc: 'Mô tả tóm tắt nội dung phân tích dữ liệu của dự án...',
-      tags: ['SQL', 'Python', 'Power BI'],
+      tags: ['SQL', 'Python', 'Recharts'],
       metrics: [{ label: 'Tăng trưởng GMV', value: '+25%', change: '+25%', isPositive: true }],
       demoUrl: '',
       githubUrl: '',

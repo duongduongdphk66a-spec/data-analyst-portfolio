@@ -80,7 +80,7 @@ export default async function Image() {
             marginBottom: 32,
           }}
         >
-          Data Analyst
+          Fresher Data Analyst
         </div>
 
         {/* Skills bar */}
@@ -91,7 +91,7 @@ export default async function Image() {
             marginBottom: 40,
           }}
         >
-          {['SQL', 'Python', 'Power BI', 'Recharts', 'Redis'].map((skill) => (
+          {['SQL', 'Python', 'Statistics', 'Recharts', 'BA / UX'].map((skill) => (
             <div
               key={skill}
               style={{

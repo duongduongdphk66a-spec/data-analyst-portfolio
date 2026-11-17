@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Giới Thiệu | Mã Văn Hùng | Data Analyst & Quantitative Researcher',
+  title: 'Giới Thiệu | Ma Văn Hùng | Fresher Data Analyst',
   description:
-    'Hồ sơ chuyên môn, phương pháp luận phân tích dữ liệu 3 trụ cột (Collect • Process • Visualise) và đối soát dữ liệu thực nghiệm của Data Analyst Mã Văn Hùng.',
+    'Hồ sơ chuyên môn, ba câu hỏi phân tích trọng tâm và quy trình làm việc dữ liệu (Thu thập, Xử lý, Trực quan hóa) của Ma Văn Hùng.',
   openGraph: {
-    title: 'Giới Thiệu | Mã Văn Hùng | Data Analyst & Quantitative Researcher',
+    title: 'Giới Thiệu | Ma Văn Hùng | Fresher Data Analyst',
     description:
-      'Hồ sơ chuyên môn, phương pháp luận phân tích dữ liệu 3 trụ cột (Collect • Process • Visualise) và đối soát dữ liệu thực nghiệm của Data Analyst Mã Văn Hùng.',
+      'Hồ sơ chuyên môn, ba câu hỏi phân tích trọng tâm và quy trình làm việc dữ liệu (Thu thập, Xử lý, Trực quan hóa) của Ma Văn Hùng.',
     type: 'profile',
   },
 };

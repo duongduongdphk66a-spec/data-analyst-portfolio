@@ -60,8 +60,8 @@ const PROJECT_PITCH_MAP: Record<string, RecruiterPitchTelemetry> = {
       en: 'Empirical Discovery Across 231 Operating Days:',
     },
     paradoxHookBody: {
-      vi: '301 KOC độc lập phát tới 89,8% số phiên Live nhưng chỉ đem về 15,5% doanh thu Live; ngược lại đội ngũ in-house (kênh chính chủ + vệ tinh @koc_sat01) tạo ra tới 84,5% dòng tiền Live, trong khi chỉ 12/339 SKU gánh 80,6% GMV.',
-      en: '301 independent KOCs ran 89.8% of Live sessions for just 15.5% of Live GMV, whereas in-house rooms (official + @koc_sat01) generated 84.5% of Live revenue and 12/339 SKUs drove 80.6% of catalog GMV.',
+      vi: '301 KOC độc lập phát tới 89,8% số phiên Live nhưng chỉ đem về 15,5% doanh thu Live; ngược lại đội ngũ in-house (kênh chính chủ + vệ tinh @koc_sat01) tạo ra tới 84,5% dòng tiền Live, trong khi 12/133 mã có đơn (trên tổng 339 SKU) tạo 80,6% GMV.',
+      en: '301 independent KOCs ran 89.8% of Live sessions for just 15.5% of Live GMV, whereas in-house rooms (official + @koc_sat01) generated 84.5% of Live revenue and 12/133 converting SKUs (of 339 catalog SKUs) drove 80.6% of GMV.',
     },
     roiHighlight: {
       vi: 'Kiểm định: Hồi quy OLS (R² = 0,446) • Winsorize giao cắt 26/06 • HHI giảm 3.230 -> 2.152',
@@ -236,7 +236,7 @@ export default function ProjectCardItem({ project }: ProjectCardItemProps) {
   const bareId = project.id.replace(/^proj-/, '');
   const canonicalRouteId = project.id.startsWith('proj-') ? project.id : `proj-${project.id}`;
   const pitch = PROJECT_PITCH_MAP[project.id] || PROJECT_PITCH_MAP[bareId] || PROJECT_PITCH_MAP['kami-ely'];
-  const techList = project.tech || project.tags || ['SQL', 'Python', 'Power BI', 'Next.js'];
+  const techList = project.tech || project.tags || ['SQL', 'Python', 'Recharts', 'Next.js'];
 
   return (
     <article className="group rounded-3xl border border-[#C8EEF7] dark:border-slate-800/90 bg-white dark:bg-slate-950/95 hover:border-[#9BE7FA] dark:hover:border-[#9BE7FA]/60 transition-colors duration-200 flex flex-col justify-between p-5 sm:p-6 space-y-4">

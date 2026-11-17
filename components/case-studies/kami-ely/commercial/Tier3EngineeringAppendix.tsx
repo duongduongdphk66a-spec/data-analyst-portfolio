@@ -26,29 +26,32 @@ const REPRESENTATIVE_CHAPTER_SQL = [
     id: 'sql-ch1',
     labelVi: 'Ch 1 · Khử trùng Live',
     labelEn: 'Ch 1 · Live Dedup',
-    code: `-- Mục đích: Khử trùng 595 phiên @shop_official giữa Affiliate_Livestreams và Creator_Livestreams (+13h)
--- Đầu vào: stg_affiliate_live (8.355 dòng), stg_creator_live (600 dòng) · Đầu ra: mart_live_dedup_weekly
-WITH dedup_live AS (
+    code: `-- Mục đích: Đối soát doanh thu Live đã khử trùng so với doanh thu toàn shop theo tuần ISO
+-- Phương ngữ: MySQL 8.0+ · Đầu vào: stg_store_daily (231 ngày), stg_affiliate_live (8.355 dòng)
+WITH store_week AS (
   SELECT
-    DATE(session_start_vn) AS session_date,
-    STRFTIME('%Y-W%W', session_start_vn) AS iso_week,
-    creator_alias,
-    shop_gmv_vnd
-  FROM stg_affiliate_live -- Đã chứa 595 phiên @shop_official + 7.760 phiên creator ngoài
+    YEARWEEK(record_date, 3) AS iso_week,
+    MIN(record_date) AS week_start_date,
+    SUM(daily_gmv_vnd) / 1e6 AS store_gmv_m
+  FROM stg_store_daily
+  GROUP BY YEARWEEK(record_date, 3)
+),
+live_week AS (
+  SELECT
+    YEARWEEK(session_start_vn, 3) AS iso_week,
+    SUM(shop_gmv_vnd) / 1e6 AS dedup_live_gmv_m
+  FROM stg_affiliate_live
+  GROUP BY YEARWEEK(session_start_vn, 3)
 )
 SELECT
-  w.iso_week,
-  SUM(s.daily_gmv_vnd) / 1e6 AS store_week_gmv_m,
-  SUM(COALESCE(l.live_gmv_vnd, 0)) / 1e6 AS dedup_live_week_gmv_m
-FROM (
-  SELECT STRFTIME('%Y-W%W', record_date) AS iso_week, SUM(daily_gmv_vnd) AS daily_gmv_vnd
-  FROM stg_store_daily GROUP BY 1
-) w
-JOIN stg_store_daily s ON STRFTIME('%Y-W%W', s.record_date) = w.iso_week
-LEFT JOIN (
-  SELECT iso_week, SUM(shop_gmv_vnd) AS live_gmv_vnd FROM dedup_live GROUP BY 1
-) l ON w.iso_week = l.iso_week
-GROUP BY w.iso_week;`,
+  s.iso_week,
+  s.week_start_date,
+  ROUND(s.store_gmv_m, 2) AS store_week_gmv_m,
+  ROUND(COALESCE(l.dedup_live_gmv_m, 0), 2) AS live_week_gmv_m,
+  ROUND(COALESCE(l.dedup_live_gmv_m, 0) * 100.0 / NULLIF(s.store_gmv_m, 0), 1) AS live_share_pct
+FROM store_week s
+LEFT JOIN live_week l ON s.iso_week = l.iso_week
+ORDER BY s.iso_week;`,
   },
   {
     id: 'sql-ch2',
@@ -83,7 +86,7 @@ ORDER BY sku_rank;`,
     labelVi: 'Ch 3 · MA7/MA28 & Phân rã',
     labelEn: 'Ch 3 · MA & Waterfall',
     code: `-- Mục đích: Tính MA7/MA28 không nhìn trước (trailing) và phân rã đồng nhất thức GMV = N_live * Yield
--- Đầu vào: stg_store_daily (231 ngày) · Đầu ra: mart_daily_ma, mart_monthly_decomp
+-- Phương ngữ: MySQL 8.0+ · Đầu vào: stg_store_daily (231 ngày) · Đầu ra: mart_daily_ma, mart_monthly_decomp
 WITH daily_ma AS (
   SELECT
     record_date,
@@ -100,7 +103,7 @@ monthly_agg AS (
     (SUM(daily_gmv_vnd) / 1e6) / NULLIF(SUM(new_lives_cnt), 0) AS y_per_live
   FROM stg_store_daily
   WHERE record_date BETWEEN '2026-06-01' AND '2026-08-31'
-  GROUP BY 1
+  GROUP BY SUBSTR(record_date, 1, 7)
 )
 SELECT
   j.gmv_m AS jun_m, a.gmv_m AS aug_m,
@@ -115,12 +118,12 @@ CROSS JOIN (SELECT * FROM monthly_agg WHERE ym = '2026-08') a;`,
     labelVi: 'Ch 4 · Cohort & Sống còn KOC',
     labelEn: 'Ch 4 · KOC Cohorts',
     code: `-- Mục đích: Ma trận giữ chân M+0..M+7 trên 302 KOC ngoài và kiểm định 3 phiên đầu 0 đơn
--- Đầu vào: stg_affiliate_live (lọc creator_alias != '@shop_official', 7.760 phiên)
+-- Phương ngữ: MySQL 8.0+ · Đầu vào: stg_affiliate_live (lọc creator_alias != '@shop_official', 7.760 phiên)
 WITH koc_span AS (
   SELECT
     creator_hash,
     MIN(SUBSTR(session_start_vn, 1, 7)) AS cohort_ym,
-    JULIANDAY(MAX(DATE(session_start_vn))) - JULIANDAY(MIN(DATE(session_start_vn))) AS active_span_days,
+    DATEDIFF(MAX(session_start_vn), MIN(session_start_vn)) AS active_span_days,
     SUM(CASE WHEN session_rn <= 3 THEN shop_gmv_vnd ELSE 0 END) AS first3_gmv_vnd,
     SUM(shop_gmv_vnd) AS lifetime_gmv_vnd
   FROM (
@@ -144,7 +147,7 @@ FROM koc_span;`,
     labelVi: 'Ch 5 · Forest Ads/Organic',
     labelEn: 'Ch 5 · Ads vs Organic',
     code: `-- Mục đích: So sánh tỷ lệ clip ra đơn và GPM giữa Ads vs Organic trong cùng KOC (192 creator có cả hai)
--- Đầu vào: stg_affiliate_videos (4.796 clip sau khử trùng khóa phức hợp)
+-- Phương ngữ: MySQL 8.0+ · Đầu vào: stg_affiliate_videos (4.796 clip sau khử trùng khóa phức hợp)
 WITH dual_creators AS (
   SELECT creator_hash
   FROM stg_affiliate_videos
@@ -165,8 +168,8 @@ GROUP BY v.is_ads_auth;`,
     id: 'sql-ch6',
     labelVi: 'Ch 6 · Backtest & 9 Cổng QA',
     labelEn: 'Ch 6 · Backtest & QA',
-    code: `-- Mục đích: Phát hiện 4 điểm giao cắt MA7 < MA28 và kiểm định tự động cổng toàn vẹn dữ liệu
--- Đầu vào: mart_daily_ma, stg_store_daily, stg_affiliate_videos · Đầu ra: audit_early_warning_signals
+    code: `-- Mục đích: Phát hiện các điểm giao cắt MA7 < MA28 và tính khoảng cách ngày so với đỉnh 16/06
+-- Phương ngữ: MySQL 8.0+ · Đầu vào: mart_daily_ma · Đầu ra: audit_early_warning_signals
 WITH lagged_ma AS (
   SELECT
     record_date,
@@ -180,7 +183,7 @@ SELECT
   record_date AS crossover_date,
   ROUND(ma7_m, 2) AS ma7_m,
   ROUND(ma28_m, 2) AS ma28_m,
-  CAST(JULIANDAY('2026-06-16') - JULIANDAY(record_date) AS INTEGER) AS lead_days_vs_peak
+  DATEDIFF('2026-06-16', record_date) AS lead_days_vs_peak
 FROM lagged_ma
 WHERE prev_ma7_m >= prev_ma28_m
   AND ma7_m < ma28_m
@@ -518,6 +521,44 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
     },
   ];
 
+  const changelogEntries = [
+    {
+      id: 1,
+      titleVi: 'Thống nhất chu kỳ 231 ngày toàn shop (09/03 - 25/10/2026)',
+      titleEn: 'Unified 231-day store cycle (09/03 - 25/10/2026)',
+      descVi: 'Sử dụng 231 ngày làm mốc quy chiếu duy nhất cho toàn bộ 7 chương, loại bỏ hoàn toàn các con số và mẫu 180 ngày cũ.',
+      descEn: 'Adopted 231 days as the single reference timeline across all 7 chapters, fully removing legacy 180-day numbers.',
+    },
+    {
+      id: 2,
+      titleVi: 'Tách riêng kênh vệ tinh nội bộ @koc_sat01',
+      titleEn: 'Isolated in-house satellite @koc_sat01',
+      descVi: 'Tách khỏi 301 đối tác độc lập để giữ tính khách quan của mạng lưới affiliate ngoài; ghi nhận riêng 12,0% GMV Live và năng suất 2.021 đ/view của kênh.',
+      descEn: 'Separated from 301 independent partners to preserve affiliate network objectivity; tracked its 12.0% Live GMV and 2,021 VND/view separately.',
+    },
+    {
+      id: 3,
+      titleVi: 'Cố định dải giá niêm yết 75–150k (62,6% GMV) làm số chính',
+      titleEn: 'Locked 75k-150k list price band (62.6% GMV) as primary metric',
+      descVi: 'Thống nhất dùng giá niêm yết làm số liệu chính thức ở Chương 2; chuyển số đo theo ASP thực bán (75,4%) vào tooltip giải thích.',
+      descEn: 'Standardized list price band as primary metric in Chapter 2; moved realized ASP (75.4%) into explanatory tooltips.',
+    },
+    {
+      id: 4,
+      titleVi: 'Chọn z-score chuẩn mực duy nhất +6,81 cho xung lực đỉnh',
+      titleEn: 'Standardized single z-score (+6.81) for peak impulse',
+      descVi: 'Quy chiếu độ lệch chuẩn toàn chu kỳ 231 ngày cho đỉnh ngày 16/06 ở Chương 3.4; đưa các z-score cửa sổ trượt ngắn vào chú thích.',
+      descEn: 'Used 231-day full-cycle standard deviation for the 16/06 peak in Chapter 3.4; relegated rolling short-window z-scores to footnotes.',
+    },
+    {
+      id: 5,
+      titleVi: 'Đưa Playbook 3 hành động & Bảng đèn giao thông ra hiển thị mặc định',
+      titleEn: 'Surfaced 3-Action Playbook & Traffic Light Table by default',
+      descVi: 'Chuyển khối giá trị thực thi nhất ở Chương 6 ra ngoài hiển thị sẵn; thu gọn toàn bộ phần chứng minh kỹ thuật và truy vấn SQL vào Phụ lục.',
+      descEn: 'Surfaced the most actionable execution block in Chapter 6 by default; collapsed technical proofs and SQL queries into Appendices.',
+    },
+  ];
+
   const currentSql = REPRESENTATIVE_CHAPTER_SQL[sqlIdx] || REPRESENTATIVE_CHAPTER_SQL[0];
 
   return (
@@ -846,8 +887,8 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
                 {L('Ghi chú phương ngữ SQL:', 'SQL dialect note:')}
               </strong>
               {L(
-                'Các đoạn mã tiêu biểu bên dưới viết theo chuẩn SQLite / ANSI SQL để chạy trực tiếp trong môi trường kiểm thử cục bộ (độ lệch chuẩn cửa sổ tính qua công thức phương sai E[X²] - (E[X])²). Khi triển khai lên PostgreSQL, đổi JULIANDAY sang phép trừ DATE trực tiếp, dùng hàm cửa sổ STDDEV_SAMP() cho Z-score và dùng PERCENTILE_CONT(0.5) WITHIN GROUP cho trung vị.',
-                'Snippets below use SQLite / ANSI SQL for zero-dependency local reproducibility (computing rolling dispersion via E[X²] - (E[X])²). On PostgreSQL, replace JULIANDAY with direct DATE subtraction, use STDDEV_SAMP() for rolling Z-scores, and PERCENTILE_CONT(0.5) WITHIN GROUP for exact medians.'
+                'Các đoạn mã tiêu biểu bên dưới được chuẩn hóa theo phương ngữ MySQL 8.0+ / ANSI SQL thống nhất: dùng hàm YEARWEEK(..., 3) cho tuần ISO, DATEDIFF() cho khoảng cách ngày và các hàm cửa sổ tiêu chuẩn (OVER, ROW_NUMBER, LAG, AVG/SUM ROWS PRECEDING). Khi chạy trên kho dữ liệu khác, chỉ cần chuyển đổi hàm ngày tương ứng.',
+                'Representative queries below are unified in MySQL 8.0+ / ANSI SQL: using YEARWEEK(..., 3) for ISO weeks, DATEDIFF() for date arithmetic, and standard analytic window functions (OVER, ROW_NUMBER, LAG, AVG/SUM ROWS PRECEDING).'
               )}
             </div>
 
@@ -1009,6 +1050,34 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
                   >
                     <div className="font-bold text-[#074553] dark:text-[#9BE7FA]">{isEn ? r.stepEn : r.stepVi}</div>
                     <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{isEn ? r.detailEn : r.detailVi}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Nhật ký thay đổi so với bản trước */}
+            <div className="space-y-2 pt-2 border-t border-slate-200/80 dark:border-slate-800">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="p-1.5 rounded-lg bg-[#FFE485] text-slate-950 font-bold text-xs">
+                  {L('Cập nhật 01/11/2026', 'Updated 01/11/2026')}
+                </span>
+                <h4 className="text-xs sm:text-sm font-bold text-slate-950 dark:text-white">
+                  {L('Nhật ký thay đổi phương pháp luận so với bản trước', 'Methodological changelog vs previous version')}
+                </h4>
+              </div>
+              <div className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
+                {changelogEntries.map((c) => (
+                  <div
+                    key={c.id}
+                    className="rounded-lg border border-slate-200/80 bg-slate-50/70 p-3 dark:border-slate-800 dark:bg-slate-950/60 flex items-start gap-2.5"
+                  >
+                    <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#9BE7FA] text-[11px] font-black text-slate-950">
+                      {c.id}
+                    </span>
+                    <div className="space-y-0.5">
+                      <div className="font-bold text-slate-950 dark:text-white">{isEn ? c.titleEn : c.titleVi}</div>
+                      <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{isEn ? c.descEn : c.descVi}</p>
+                    </div>
                   </div>
                 ))}
               </div>

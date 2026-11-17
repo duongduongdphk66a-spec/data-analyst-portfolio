@@ -16,14 +16,14 @@ import Chapter3DeckEmbed from './library-bus/Chapter3DeckEmbed';
 import Chapter4BackendLogic from './library-bus/Chapter4BackendLogic';
 import CaseStudyFooter from './shared/CaseStudyFooter';
 
-// Dynamic import for the 20-Screen Master Visual Comparison (1.5k lines)
+// Dynamic import for the 11-Screen Master Visual Comparison
 const LibraryBusVisualComparison = dynamic(
   () => import('./LibraryBusVisualComparison'),
   {
     loading: () => (
       <div className="p-12 text-center text-slate-400 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
         <div className="animate-spin w-8 h-8 border-3 border-[#074553] border-t-transparent rounded-full mx-auto mb-3 dark:border-[#9BE7FA]" /* taste-skill-ignore: spinner ring */ />
-        <p className="text-xs font-medium">Đang tải bảng đối chuẩn 20 màn hình (Wireframe vs UI)...</p>
+        <p className="text-xs font-medium">Đang tải bảng đối chuẩn 11 cặp màn hình cốt lõi (Wireframe vs UI)...</p>
       </div>
     ),
   }
@@ -124,10 +124,10 @@ export default function LibraryBusProject({
         isEn={isEn}
         currentProjectId="proj-library-bus"
         attribution={{
-          datasetVi: 'Dự án thiết kế UX/UI: dữ liệu hiển thị trong giao diện là dữ liệu mẫu',
-          datasetEn: 'UX/UI design project: data shown in the interface is sample data',
-          scopeVi: '20 màn hình desktop và bản mobile, mỗi màn hình có wireframe và UI design',
-          scopeEn: '20 desktop screens and mobile versions, each with a wireframe and UI design',
+          datasetVi: 'Dự án BA, UX/UI & Kiến trúc hệ thống Django: số liệu trong giao diện là dữ liệu hạt giống (seed data)',
+          datasetEn: 'BA, UX/UI & Django System Architecture project: figures shown in the interface are seeded prototype data',
+          scopeVi: '11 cặp màn hình cốt lõi (Desktop 1440px & Mobile 390px), mỗi màn hình có Wireframe và UI Design đối chiếu',
+          scopeEn: '11 core screen pairs (Desktop 1440px & Mobile 390px), each with a paired structural Wireframe and UI Design',
         }}
       />
     </div>

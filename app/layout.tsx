@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { JetBrains_Mono } from 'next/font/google'; /* taste-skill-ignore: code block monospace font */
+
 import './globals.css';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -7,22 +7,22 @@ import { ToastProvider } from '@/components/ui/Toast';
 import { PortfolioDataProvider } from './context/PortfolioDataContext';
 import { headers } from 'next/headers';
 
-const jetbrainsMono = JetBrains_Mono({ /* taste-skill-ignore: code block monospace font */
-  subsets: ['vietnamese', 'latin'],
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-  variable: '--font-jetbrains-mono',
-});
+// JetBrains Mono loaded via preconnect in head for Turbopack compatibility
+
+
+
+
+
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mavanhung-portfolio.vercel.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Ma Văn Hùng | Data Analyst',
-  description: 'Data Analyst chuyên SQL, Python, Power BI. Phân tích hiệu suất E-Commerce, chuỗi thời gian du lịch di sản, kiến trúc dữ liệu. Portfolio trực quan hóa và case studies tương tác.',
+  title: 'Ma Văn Hùng | Fresher Data Analyst',
+  description: 'Fresher Data Analyst sử dụng SQL, Python, Thống kê ứng dụng và Recharts. Phân tích hiệu suất E-Commerce, chuỗi thời gian du lịch di sản và quy trình BA/UX.',
   openGraph: {
-    title: 'Ma Văn Hùng | Data Analyst Portfolio',
-    description: 'Evidence-driven Data Analyst: SQL, Python, Power BI, Recharts. Interactive case studies and live data visualizations.',
+    title: 'Ma Văn Hùng | Fresher Data Analyst Portfolio',
+    description: 'Evidence-driven Fresher Data Analyst: SQL, Python, Applied Statistics, Recharts. Interactive case studies and data reconciliation.',
     type: 'website',
     locale: 'vi_VN',
     url: siteUrl,
@@ -58,14 +58,14 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Ma Văn Hùng',
-  jobTitle: 'Data Analyst & Business Intelligence Specialist',
-  description: 'Evidence-driven Data Analyst specializing in SQL, Python, Power BI, Recharts, and ETL Data Pipelines.',
+  jobTitle: 'Fresher Data Analyst',
+  description: 'Fresher Data Analyst specializing in SQL, Python, Applied Statistics, Recharts, and Data Reconciliation.',
   url: siteUrl,
   email: 'mavanhung.da@gmail.com',
   knowsAbout: [
-    'SQL', 'PostgreSQL', 'MySQL', 'Python', 'Pandas', 'Power BI', 'DAX',
+    'SQL', 'PostgreSQL', 'MySQL', 'Python', 'Pandas', 'SciPy', 'Applied Statistics',
     'Data Warehousing', 'Time-Series Modeling', 'E-Commerce Analytics',
-    'Redis', 'Celery', 'Data Storytelling', 'Recharts'
+    'Business Analysis', 'Data Reconciliation', 'Data Storytelling', 'Recharts'
   ],
   sameAs: [
     'https://github.com/duongduongdphk66a-spec/data-analyst-portfolio'
@@ -83,10 +83,16 @@ export default async function RootLayout({
   return (
     <html
       lang="vi"
-      className={`scroll-smooth ${jetbrainsMono.variable}`} /* taste-skill-ignore: code block monospace font */
+      className="scroll-smooth" /* taste-skill-ignore: code block monospace font */
       suppressHydrationWarning
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        />
         <script nonce={nonce} suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script nonce={nonce} suppressHydrationWarning dangerouslySetInnerHTML={{ __html: langInitScript }} />
         <script

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { KamiElyDataPayload } from '@/app/types/caseStudies';
-import { ChartGranularityProvider } from '../playbook/PlaybookUi';
+import { ChartGranularityProvider, GlobalGranularityBar } from '../playbook/PlaybookUi';
 import Tier1ExecutiveSummary from './Tier1ExecutiveSummary';
 import Chapter1ContextAndData from './Chapter1ContextAndData';
 import Chapter2RevenueAndSku from './Chapter2RevenueAndSku';
@@ -24,6 +24,8 @@ export default function KamiElyCommercialTab({ onOpenNotebook }: KamiElyCommerci
   return (
     <ChartGranularityProvider>
       <div className="w-full space-y-4 sm:space-y-6">
+        <GlobalGranularityBar />
+
         {/* Chapter 0: Executive Summary */}
         <Tier1ExecutiveSummary />
 

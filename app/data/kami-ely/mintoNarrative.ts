@@ -20,8 +20,8 @@ export const MINTO_NARRATIVE = {
       en: 'Evaluate GMV generation, content conversion behavior (Video vs. Livestream), and product SKU architecture for the Kami Ely brand on TikTok Shop to identify sustainable growth levers.'
     },
     conclusion: {
-      vi: 'Doanh thu phụ thuộc mạnh vào các phiên bùng nổ ngắn hạn và nhóm SKU chủ lực (Pareto 80/20); kênh Video ngắn duy trì hiệu suất chuyển đổi ổn định hơn Livestream, trong khi mô hình tối ưu hóa danh mục giúp cải thiện biên độ GMV kỳ vọng mà không cần tăng tương ứng tần suất đăng bài.',
-      en: 'Revenue relies heavily on short-term campaign surges and core Pareto 80/20 SKUs. Short-form video maintains more stable conversion efficiency than Livestream, while portfolio optimization improves expected GMV without proportionally increasing posting cadence.'
+      vi: 'Doanh thu tập trung mạnh theo mùa du lịch biển hè (đỉnh tháng 6 đạt 3,77 Tỉ đ, giảm 83,1% sang tháng 8) và vào nhóm SKU chủ lực (12/133 mã có đơn trên tổng 339 SKU chiếm 80,6% GMV). Kênh chính chủ (@kamielyhn) và một kênh vệ tinh nội bộ tạo 84,5% doanh thu livestream, trong khi chỉ 329/6.086 creator affiliate phát sinh doanh thu (5,4%). Trên dữ liệu từng phiên/video 231 ngày, Live chính chủ đạt GPM cao hơn Video.',
+      en: 'Revenue concentrates heavily around summer beach seasonality (peaking at 3.77B VND in June before dropping 83.1% by August) and core SKUs (12 of 133 converting SKUs out of 339 listed generate 80.6% of GMV). The official shop channel and one satellite account drive 84.5% of livestream GMV, while only 329 of 6,086 affiliate creators generate revenue (5.4%). Session-level tests across 231 days show official Live sessions achieve higher GPM than individual clips.'
     },
     proofCta: {
       vi: 'Xem 19 ảnh bằng chứng FastMoss & Đối soát dữ liệu',
@@ -30,41 +30,41 @@ export const MINTO_NARRATIVE = {
     kpiStrip: [
       {
         id: 'gmv',
-        label: { vi: 'Tổng GMV (180 Ngày)', en: 'Total Net GMV (180d)' },
-        value: '12,74 Tỉ VNĐ',
-        sub: { vi: '85.500 sản phẩm đã bán', en: '85,500 units sold' },
-        change: { vi: 'Chu kỳ 231 ngày', en: '231-day cycle' }
+        label: { vi: 'Tổng GMV Ước Tính (231 Ngày)', en: 'Estimated Total GMV (231d)' },
+        value: '15,01 Tỉ VNĐ',
+        sub: { vi: '101.896 sản phẩm đã bán', en: '101,896 units sold' },
+        change: { vi: '180d: 12,74 Tỉ đ (85,5k SP)', en: '180d: 12.74B VND (85.5k units)' }
       },
       {
         id: 'orders',
-        label: { vi: 'Tổng Đơn Hàng', en: 'Total Orders' },
-        value: '85.500 SP',
-        sub: { vi: 'Bình quân 475 SP/ngày', en: 'Avg 475 units/day' },
-        change: { vi: 'Đỉnh 1.936 SP/ngày', en: 'Peak 1,936 units/day' }
+        label: { vi: 'Tổng Sản Phẩm Bán Ra', en: 'Total Units Sold' },
+        value: '101.896 SP',
+        sub: { vi: 'Bình quân 441 SP/ngày (231d)', en: 'Avg 441 units/day (231d)' },
+        change: { vi: 'Đỉnh 1.936 SP/ngày (16/06)', en: 'Peak 1,936 units/day (Jun 16)' }
       },
       {
         id: 'aov',
         label: { vi: 'Giá Bán Bình Quân (ASP)', en: 'Average Selling Price (ASP)' },
-        value: '~149.000 VNĐ',
-        sub: { vi: 'Xu hướng mua gộp combo', en: 'Combo bundle tendency' },
-        change: { vi: 'Biến động theo chiến dịch', en: 'Campaign dependent' }
+        value: '147.298 VNĐ',
+        sub: { vi: 'Dải 75k–250k chiếm 93% GMV', en: '75k–250k band = 93% GMV' },
+        change: { vi: '180d ASP ~148,9k VNĐ', en: '180d ASP ~148.9k VND' }
       },
       {
         id: 'cvr',
-        label: { vi: 'Tỷ Lệ Chuyển Đổi Trung Bình', en: 'Average Conversion Rate' },
-        value: '42,7%',
-        sub: { vi: 'GPM Video 4,5x vs. LIVE', en: 'Video GPM 4.5x vs. LIVE' },
-        change: { vi: '135,2k vs. 30,2k đ/1k views', en: '135.2k vs. 30.2k / 1k views' }
+        label: { vi: 'Tỷ Trọng Live In-House', en: 'In-House Live Share' },
+        value: '84,5%',
+        sub: { vi: 'Chính chủ 72,5% + Vệ tinh 12,0%', en: 'Official 72.5% + Satellite 12.0%' },
+        change: { vi: '329/6.086 creator có đơn (5,4%)', en: '329/6,086 creators sold (5.4%)' }
       }
     ],
     telemetry: {
-      title: { vi: 'Độ Tin Cậy Dữ Liệu & Đối Soát Telemetry', en: 'Data Integrity & Telemetry Reconciliation' },
-      verifiedRate: '100% AUDITED',
-      tablesCount: '10 tệp cơ sở dữ liệu (23.364 dòng)',
-      rowsCount: '18.778 bản ghi SSOT',
+      title: { vi: 'Độ Tin Cậy Dữ Liệu & Đối Soát Telemetry (FastMoss)', en: 'Data Integrity & FastMoss Telemetry Reconciliation' },
+      verifiedRate: 'CROSS-CHECKED (0,05–3,3%)',
+      tablesCount: '10 tệp dữ liệu ước tính FastMoss (23.364 dòng)',
+      rowsCount: '231 ngày (09/03 – 25/10/2026)',
       description: {
-        vi: 'Khớp 100% dữ liệu tài chính giữa hệ thống phân tích nội bộ và báo cáo gốc FastMoss / TikTok Seller Center qua mã băm kiểm định.',
-        en: '100% match between internal analytics pipelines and original FastMoss / TikTok Seller Center telemetry via cryptographic audit verification.'
+        vi: 'Đối soát chéo 10 bảng dữ liệu ước tính bên thứ ba FastMoss (ảnh chụp giao diện tháng 9, file xuất đến 25/10/2026) qua khung 231 ngày (15,01 Tỉ đ), 180 ngày (12,74 Tỉ đ) và toàn thời gian (31,6 Tỉ đ); chênh lệch giữa ảnh chụp UI và file xuất ở mức 0,05–3,3%.',
+        en: 'Cross-checked across 10 third-party FastMoss exports (Sep UI screenshots and Oct 25 exports) spanning 231 days (15.01B VND), 180 days (12.74B VND), and lifetime UI (31.6B VND), with 0.05–3.3% variance between UI screenshots and raw exports.'
       }
     }
   },

@@ -8,6 +8,7 @@ export {
 } from './brandAndResearch';
 
 export {
+  LIBRARY_BUS_11_SCREENS,
   LIBRARY_BUS_20_SCREENS,
   LIBRARY_BUS_MOBILE_SCREENS,
   type LibraryBusScreenItem,

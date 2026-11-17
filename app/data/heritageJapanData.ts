@@ -176,7 +176,7 @@ export const HERITAGE_JAPAN_DATA = {
     { year: '2017', value: 3184.8 },
     { year: '2018', value: 3527.8 },
     { year: '2019', value: 4503.3 },
-    { year: '2020', value: 3799.0 },
+    { year: '2020', value: 379.9 },
     { year: '2021', value: 448.8 },
     { year: '2022', value: 54.4 },
     { year: '2023', value: 576.1 },
@@ -691,8 +691,8 @@ export const DATA_AUDIT_FINDINGS: DataAuditFinding[] = [
     originalInDoc: 'Biểu đồ 3.2 (trang 31): Giá trị cột năm 2020 vẽ cao chạm mốc 3,800 nghìn người (nhãn số: 3799).',
     auditExplanationVi: 'Năm 2020, đại dịch COVID-19 bùng phát khiến toàn bộ Nhật Bản chỉ đón 4.1 triệu khách quốc tế (giảm 87%). Một thành phố như Kyoto không thể đón tới 3.8 triệu khách (chiếm 92% toàn quốc). Thực tế theo DMO Kyoto (京都観光総合調査), số lượng khách lưu trú quốc tế năm 2020 là 379.9 nghìn khách. Tác giả niên luận đã gõ nhầm dấu chấm thập phân (3799 thay vì 379.9), khiến đồ thị Excel tự động vẽ cột cao bất thường.',
     auditExplanationEn: 'In 2020, nationwide inbound visitors plunged to 4.12M due to COVID border closures. Kyoto alone could not possibly account for 3.8M foreign visitors (92% of the national total). Official Kyoto DMO reports record 379.9 thousand international overnight visitors. The author evidently missed a decimal separator (3799 instead of 379.9), which skewed the Excel chart bar.',
-    suggestedActionVi: 'Chuẩn hóa số liệu thành 379.9k trong biểu đồ tương tác, đồng thời cung cấp nút chuyển đổi xem "Đồ thị nguyên bản" để đối chiếu minh bạch.',
-    suggestedActionEn: 'Normalize the clean time-series to 379.9k while providing a toggle to view the authentic unedited thesis graph.'
+    suggestedActionVi: 'Hiệu đính trực tiếp tại nguồn dữ liệu về mức chuẩn 379,9 nghìn người theo báo cáo DMO Kyoto.',
+    suggestedActionEn: 'Corrected directly at the data source to the verified DMO Kyoto figure of 379.9k visitors.'
   },
   {
     id: 'audit-nara-unit',

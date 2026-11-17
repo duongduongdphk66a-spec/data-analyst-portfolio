@@ -11,6 +11,7 @@ import {
   Legend,
   ResponsiveContainer,
   Cell,
+  LabelList,
 } from 'recharts';
 import {
   ChapterShell,
@@ -34,16 +35,25 @@ export default function Chapter5LiveVideoAds() {
   const themes = V2.ch5.videoThemeStats;
   const pinned = V2.ch5.pinnedAnalysis;
 
+  // 3 cột tách bạch: Chính shop, Vệ tinh, 301 đối tác độc lập
   const liveYieldBars = [
     {
-      channel: L('Chính chủ (@shop_official)', 'Official (@shop_official)'),
-      vndPerView: le.officialVndPerView,
+      channel: L('Chính shop', 'Official shop'),
+      vndPerView: 2163,
+      label: '2.163 đ',
       fill: KAMI_BRAND_PALETTE.tealInk,
     },
     {
-      channel: L('Affiliate ngoài (302 KOC)', 'External Affiliates (302 KOCs)'),
-      vndPerView: le.extVndPerView,
+      channel: L('Vệ tinh @koc_sat01', 'Satellite @koc_sat01'),
+      vndPerView: 2021,
+      label: '2.021 đ',
       fill: KAMI_BRAND_PALETTE.amber,
+    },
+    {
+      channel: L('301 đối tác ngoài', '301 independent partners'),
+      vndPerView: 40.8,
+      label: '40,8 đ',
+      fill: KAMI_BRAND_PALETTE.cyan,
     },
   ];
 
@@ -71,72 +81,54 @@ export default function Chapter5LiveVideoAds() {
       scopeLabel={L(`AffLive · CrLive · AffVid (${n(le.affVideos)} clip)`, `AffLive · CrLive · AffVid (${n(le.affVideos)} clips)`)}
       question={L('Live hay Video, chính chủ hay affiliate, Ads hay Organic hiệu quả hơn?', 'How do Live vs Video, official vs affiliate, and Ads vs Organic compare in efficiency?')}
       conclusion={L(
-        'Hiệu suất chuyển đổi tập trung vượt trội ở các phiên Live của chính shop so với creator ngoài; quảng cáo trả phí giúp mở rộng tỷ lệ video phát sinh đơn nhưng hiệu quả doanh thu trên mỗi nghìn lượt xem (GPM) chịu ảnh hưởng lớn theo tính thời điểm của mùa vụ.',
-        'Conversion efficiency concentrates overwhelmingly in self-operated Live sessions; paid advertising expands the share of converting videos but revenue per 1,000 views (GPM) depends heavily on seasonal timing.'
+        'Hiệu suất tập trung vượt trội ở phiên Live của chính shop và kênh vệ tinh; quảng cáo video giúp mở rộng xác suất ra đơn nhưng không nâng GPM toàn kỳ.',
+        'Efficiency concentrates overwhelmingly in official and satellite Live streams; video Ads expands order conversion probability without lifting overall GPM.'
       )}
       soWhat={L(
-        'Ưu tiên ngân sách và nhân lực cho Live của chính shop, trọng tâm ở khung 12h đến 18h; dùng Ads có chọn lọc cho video đã có đà tự nhiên và gắn hashtag đặc thù theo mã sản phẩm.',
-        'Prioritize budget and staffing on official Live sessions centered in the 12:00-18:00 slot; deploy Ads selectively on videos with organic traction and product-specific hashtags.'
+        'Ưu tiên nhân lực và lịch phát sóng cho kênh chính shop; với video Ads, chỉ chạy có chọn lọc cho clip đã có đà tự nhiên và theo dõi GMV mỗi lượt xem theo khung giờ trước khi dồn ngân sách.',
+        'Prioritize staffing and schedules for official streams; deploy video Ads selectively on organically proven clips and monitor GMV per view by time slot before scaling budget.'
       )}
     >
-      {/* Ba lát cắt phân tích Chương 5 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs tabular-nums">
-        <div className="rounded-xl border border-[#C8EEF7] bg-[#C8EEF7]/20 p-3 dark:border-slate-800 dark:bg-slate-950/60 space-y-1">
-          <div className="font-extrabold text-[#074553] dark:text-[#9BE7FA]">
-            {L('Live chính chủ đối chiếu creator ngoài', 'Official Live vs external creators')}
-          </div>
-          <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-            {L(
-              `Kênh @shop_official đạt tỷ lệ ra đơn ${n(le.crLiveConvPct, 1)}% mỗi ca và ${n(le.officialVndPerView)} đ/lượt xem (PV), trong khi creator ngoài chỉ đạt ${n(le.extLiveConvPct, 1)}% số ca ra đơn và ${n(le.extVndPerView)} đ/PV dù thu hút đến ${n(le.extViewSharePct, 1)}% tổng lượt xem toàn sàn (thước đo UV trên CrLive đạt ${n(le.crLiveVndPerUv)} đ/người xem).`,
-              `@shop_official converts orders in ${n(le.crLiveConvPct, 1)}% of streams at ${n(le.officialVndPerView)} VND/view (PV), while external affiliates convert in ${n(le.extLiveConvPct, 1)}% at ${n(le.extVndPerView)} VND/PV despite pulling ${n(le.extViewSharePct, 1)}% of total views (UV on CrLive reaches ${n(le.crLiveVndPerUv)} VND/viewer).`
-            )}
-          </p>
+      {/* 1 thẻ Lưu ý khi đọc (thay 3 thẻ cũ) */}
+      <div className="rounded-xl border border-[#9BE7FA]/80 bg-[#C8EEF7]/30 p-3.5 dark:border-slate-800 dark:bg-slate-950/60 space-y-1">
+        <div className="text-xs font-extrabold text-[#074553] dark:text-[#9BE7FA]">
+          {L('Lưu ý khi đọc số liệu hiệu suất nội dung và quảng cáo', 'Notes on content format efficiency and Ads metrics')}
         </div>
-        <div className="rounded-xl border border-[#C8EEF7] bg-[#C8EEF7]/20 p-3 dark:border-slate-800 dark:bg-slate-950/60 space-y-1">
-          <div className="font-extrabold text-[#074553] dark:text-[#9BE7FA]">
-            {L('Khung giờ UTC+7 & độ dài ca Live', 'UTC+7 start slots & stream duration')}
-          </div>
-          <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-            {L(
-              `Sau dịch +13h trên 600 ca CrLive, khung 12-18h dẫn đầu với ${n(le.crLiveBySlotAll[2].gmvPerUv)} đ/UV (${le.crLiveBySlotAll[2].sessions} ca), kế đến 06-12h đạt ${n(le.crLiveBySlotAll[1].gmvPerUv)} đ (${le.crLiveBySlotAll[1].sessions} ca), 18-24h đạt ${n(le.crLiveBySlotAll[3].gmvPerUv)} đ và 00-06h đạt ${n(le.crLiveBySlotAll[0].gmvPerUv)} đ (${le.crLiveBySlotAll[0].sessions} ca). Nhóm ${le.crLiveGt8Sessions} ca trên 8 giờ đạt ${n(le.crLiveGt8VndPerUv)} đ/UV so với ${n(le.crLiveLe8VndPerUv)} đ ở ca ngắn hơn (gồm cả yếu tố ca sale lớn hoặc mở máy dài).`,
-              `Shifted +13h across 600 CrLive sessions, 12-18h leads at ${n(le.crLiveBySlotAll[2].gmvPerUv)} VND/UV (${le.crLiveBySlotAll[2].sessions} sessions), followed by 06-12h at ${n(le.crLiveBySlotAll[1].gmvPerUv)} (${le.crLiveBySlotAll[1].sessions}), 18-24h at ${n(le.crLiveBySlotAll[3].gmvPerUv)}, and 00-06h at ${n(le.crLiveBySlotAll[0].gmvPerUv)} (${le.crLiveBySlotAll[0].sessions}). Streams >8h (${le.crLiveGt8Sessions}) average ${n(le.crLiveGt8VndPerUv)} vs ${n(le.crLiveLe8VndPerUv)} VND/UV (partly reflecting mega-sale marathons).`
-            )}
-          </p>
-        </div>
-        <div className="rounded-xl border border-[#C8EEF7] bg-[#C8EEF7]/20 p-3 dark:border-slate-800 dark:bg-slate-950/60 space-y-1">
-          <div className="font-extrabold text-[#074553] dark:text-[#9BE7FA]">
-            {L('Video Ads so với Organic (4.796 clip)', 'Ads vs Organic across 4,796 clips')}
-          </div>
-          <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-            {L(
-              `Quảng cáo trả phí giúp tăng xác suất video có đơn từ ${n(slices[0].orgConvPct, 1)}% lên ${n(slices[0].adsConvPct, 1)}% (OR = ${n(slices[0].oddsRatio, 1)}, Fisher p < 0,001). Tuy nhiên, GPM toàn mẫu của Ads (${n(slices[0].adsGpmK, 1)}k đ) thấp hơn Organic (${n(slices[0].orgGpmK, 1)}k đ) do Organic bật mạnh vào mùa Thu Đông và các clip viral tự nhiên.`,
-              `Paid Ads boosts video conversion probability from ${n(slices[0].orgConvPct, 1)}% to ${n(slices[0].adsConvPct, 1)}% (OR = ${n(slices[0].oddsRatio, 1)}, Fisher p < 0.001). However, full-sample Ads GPM (${n(slices[0].adsGpmK, 1)}k) trails Organic (${n(slices[0].orgGpmK, 1)}k) as Organic surged in Autumn-Winter and viral organic hits.`
-            )}
-          </p>
-        </div>
+        <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed tabular-nums">
+          {L(
+            'Kênh vệ tinh @koc_sat01 đạt năng suất 2.021 đ/lượt xem, gần bằng chính shop (2.163 đ), vượt xa 301 đối tác độc lập (40,8 đ). Hiệu ứng cờ Ads trong phân tích là so sánh quan sát có thiên lệch chọn mẫu, không phải thử nghiệm ngẫu nhiên A/B.',
+            'In-house satellite @koc_sat01 yielded 2,021 VND/view, rivaling official Live (2,163 VND) and far exceeding 301 independent partners (40.8 VND). The Ads flag reflects an observational comparison subject to selection bias, not a randomized A/B trial.'
+          )}
+        </p>
       </div>
-      {/* 5.1 [CHÍNH] GMV mỗi lượt xem Live: chính chủ so với affiliate */}
+
+      {/* 5.1 [CHÍNH] GMV mỗi lượt xem Live: 3 cột */}
       <ChartCard
         height=""
         badge={<ChartRoleBadge kind="main" />}
         title={L(
-          `5.1. Live chính chủ tạo ${n(le.officialVndPerView)} đ/lượt xem so với ${n(le.extVndPerView)} đ ở affiliate; mạng ngoài chiếm ${n(le.extViewSharePct, 1)}% lượt xem nhưng chỉ mang về ${n(le.extGmvSharePct, 1)}% GMV`,
-          `5.1. Official Live yields ${n(le.officialVndPerView)} VND/view vs ${n(le.extVndPerView)} VND for affiliates; affiliates hold ${n(le.extViewSharePct, 1)}% of views yet ${n(le.extGmvSharePct, 1)}% of GMV`
+          '5.1. Chính shop và vệ tinh đạt trên 2.000 đ/lượt xem; 301 đối tác chỉ đạt 40,8 đ',
+          '5.1. Official and satellite yield over 2,000 VND/view; 301 partners reach 40.8 VND'
         )}
         footer={L(
-          `Nguồn: Affiliate_Livestreams [Tổng Lượt Xem Live, Doanh Thu Cho Shop (VNĐ)] · 07/03 - 20/10/2026 · n = ${le.officialSessions} phiên chính chủ và ${n(le.extSessions)} phiên affiliate. Ghi chú phương pháp: Nếu tính trên bảng Creator_Livestreams theo Tổng Người Xem (UV, không cùng định nghĩa với lượt xem PV), kênh chính chủ đạt ${n(le.crLiveVndPerUv)} đ/người xem. Ở mảng Video, ${le.officialVideos} clip chính chủ tạo ${n(le.officialVideoGmvM, 1)} Tr đ so với ${n(le.affVideoGmvB, 2)} tỷ đ từ ${n(le.affVideos)} clip affiliate.`,
-          `Source: Affiliate_Livestreams [Total Live Views (PV), Shop Revenue] · 07/03 - 20/10/2026 · n = ${le.officialSessions} official and ${n(le.extSessions)} affiliate sessions. Methodological note: Creator_Livestreams measures Unique Viewers (UV = ${n(le.crLiveVndPerUv)} VND/UV), which is not directly comparable to PV. On Video, ${le.officialVideos} official clips drove ${n(le.officialVideoGmvM, 1)}M vs ${n(le.affVideoGmvB, 2)}B across ${n(le.affVideos)} affiliate clips.`
+          `Nguồn: Affiliate_Livestreams [Lượt Xem, Doanh Thu Cho Shop] · 07/03 - 20/10/2026 · n = 595 phiên chính shop, 261 phiên vệ tinh và 7.499 phiên đối tác độc lập. Mạng ngoài chiếm ${n(le.extViewSharePct, 1)}% lượt xem nhưng chỉ mang về ${n(le.extGmvSharePct, 1)}% GMV.`,
+          `Source: Affiliate_Livestreams [Views, Shop GMV] · 07/03 - 20/10/2026 · n = 595 official, 261 satellite, and 7,499 independent partner sessions. Affiliates hold ${n(le.extViewSharePct, 1)}% of views yet only ${n(le.extGmvSharePct, 1)}% of GMV.`
         )}
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center pt-1">
-          <div className="lg:col-span-6 h-48 w-full">
+          <div className="lg:col-span-6 h-56 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={liveYieldBars} margin={{ top: 12, right: 16, left: 4, bottom: 4 }}>
+              <BarChart data={liveYieldBars} margin={{ top: 20, right: 16, left: 4, bottom: 4 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
                 <XAxis dataKey="channel" tick={axisTick} />
-                <YAxis domain={[0, 2500]} width={52} tick={axisTick} tickFormatter={(v: number) => `${v}đ`} />
-                <Tooltip content={<ChartTooltip fmt={(v) => `${n(v, 0)} đ/lượt xem`} />} />
+                <YAxis domain={[0, 2600]} width={52} tick={axisTick} tickFormatter={(v: number) => `${v}đ`} />
+                <Tooltip content={<ChartTooltip fmt={(v) => `${n(v, 1)} đ/lượt xem`} />} />
                 <Bar dataKey="vndPerView" name={L('GMV / lượt xem Live', 'GMV / Live view')} radius={[6, 6, 0, 0]} isAnimationActive={false}>
+                  <LabelList
+                    dataKey="label"
+                    position="top"
+                    style={{ fontSize: '11px', fontWeight: 700, fill: '#074553' }}
+                  />
                   {liveYieldBars.map((b, i) => (
                     <Cell key={i} fill={b.fill} stroke={KAMI_BRAND_PALETTE.tealInk} strokeWidth={0.8} />
                   ))}
@@ -156,7 +148,7 @@ export default function Chapter5LiveVideoAds() {
                   {n(le.officialViewSharePct, 0)}%
                 </div>
                 <div style={{ width: `${le.extViewSharePct}%`, backgroundColor: KAMI_BRAND_PALETTE.amber }} className="flex items-center justify-center text-slate-950">
-                  Affiliate {n(le.extViewSharePct, 1)}% ({n(le.extViewsM, 2)}M PV)
+                  Đối tác ngoài {n(le.extViewSharePct, 1)}% ({n(le.extViewsM, 2)}M PV)
                 </div>
               </div>
             </div>
@@ -184,25 +176,33 @@ export default function Chapter5LiveVideoAds() {
         height=""
         badge={<ChartRoleBadge kind="main" />}
         title={L(
-          '5.2. Forest plot 6 lát cắt: Cờ Ads tăng tỷ lệ video có đơn từ +11,0 đến +30,3 điểm %, nhưng tỷ số GPM đổi chiều từ 1,75x (Hè) sang 0,63x (90N cuối)',
-          '5.2. Six-slice forest plot: Ads lifts conversion probability by +11.0 to +30.3 pp, while GPM ratio flips from 1.75x (Summer) to 0.63x (last 90d)'
+          '5.2. Cờ Ads tăng tỷ lệ ra đơn nhưng GPM toàn kỳ thấp hơn Organic',
+          '5.2. Ads flag lifts conversion rate but full-sample GPM trails Organic'
         )}
         footer={L(
-          `Nguồn: Affiliate_Videos sau khử trùng [Ủy Quyền Quảng Cáo, Doanh Thu Đóng Góp, Lượt Xem, Followers, KOC ID, Thời Gian Xuất Bản] · n = ${n(le.affVideos)} video (${n(slices[0].adsN)} Ads so với ${n(slices[0].orgN)} Organic). Không suy diễn nhân quả vì nhãn hàng thường cấp quyền chạy Ads cho các clip vốn đã có tín hiệu bán tốt.`,
-          `Source: Deduplicated Affiliate_Videos [Ad Auth, Contributed Revenue, Views, Followers, KOC ID, Publish Date] · n = ${n(le.affVideos)} clips (${n(slices[0].adsN)} Ads vs ${n(slices[0].orgN)} Organic). Observational comparison only due to reverse selection into ad boosting.`
+          `Nguồn: Affiliate_Videos sau khử trùng · n = ${n(le.affVideos)} video (${n(slices[0].adsN)} Ads so với ${n(slices[0].orgN)} Organic). So sánh quan sát có thiên lệch chọn mẫu vì nhãn hàng thường cấp quyền Ads cho clip có tín hiệu tốt sẵn.`,
+          `Source: Deduplicated Affiliate_Videos · n = ${n(le.affVideos)} clips (${n(slices[0].adsN)} Ads vs ${n(slices[0].orgN)} Organic). Observational comparison subject to selection bias.`
         )}
       >
         <div className="space-y-2.5 pt-1">
           <div className="grid grid-cols-12 gap-2 text-[11px] font-extrabold text-slate-700 dark:text-slate-300 pb-1 border-b border-[#C8EEF7] dark:border-slate-800">
             <div className="col-span-12 md:col-span-4">{L('Lát cắt kiểm soát (n Ads / n Organic)', 'Control slice (Ads n / Organic n)')}</div>
-            <div className="col-span-6 md:col-span-4">{L('Panel 1: Chênh lệch tỷ lệ có đơn (điểm %, CI 95%)', 'Panel 1: Conversion rate lift (pp, 95% CI)')}</div>
-            <div className="col-span-6 md:col-span-4">{L('Panel 2: Tỷ số GPM Ads / Organic (mốc 1,0x)', 'Panel 2: GPM ratio Ads / Organic (ref 1.0x)')}</div>
+            <div className="col-span-6 md:col-span-4">
+              <div className="flex justify-between">
+                <span>{L('Độ tăng tỷ lệ có đơn', 'Conversion lift')}</span>
+                <span className="text-[11px] text-slate-400">[0% → +40%]</span>
+              </div>
+            </div>
+            <div className="col-span-6 md:col-span-4">
+              <div className="flex justify-between">
+                <span>{L('Tỷ số GPM Ads/Org', 'GPM ratio')}</span>
+                <span className="text-[11px] text-slate-400">[0x · 1.0x · 2.0x]</span>
+              </div>
+            </div>
           </div>
 
           {slices.map((s) => {
-            // Panel 1 scale: 0 to +40 percentage points
             const toConvPct = (v: number) => Math.max(0, Math.min(100, (v / 40) * 100));
-            // Panel 2 scale: 0x to 2.0x (1.0x is exactly at 50%!)
             const toRatioPct = (v: number) => Math.max(2, Math.min(98, (v / 2.0) * 100));
             const adsWinsGpm = s.gpmRatio >= 1.0;
 
@@ -285,12 +285,12 @@ export default function Chapter5LiveVideoAds() {
             height=""
             badge={<ChartRoleBadge kind="more" />}
             title={L(
-              `5.3. Ca Live chính chủ khung 12-18h kéo dài trên 8 giờ đạt đỉnh ${n(heatmap[2].cells[3].gmvPerUv)} đ/người xem (n = ${heatmap[2].cells[3].sessions} phiên)`,
-              `5.3. Official afternoon streams (12-18h) lasting >8h peak at ${n(heatmap[2].cells[3].gmvPerUv)} VND/UV (n = ${heatmap[2].cells[3].sessions} sessions)`
+              '5.3. Ca Live chính chủ kéo dài trên 8 giờ đạt năng suất cao nhất',
+              '5.3. Official live streams over 8 hours achieve highest yield'
             )}
             footer={L(
-              'Nguồn: Creator_Livestreams dịch +13 giờ về UTC+7 [Thời Gian Bắt Đầu Live, Thời Lượng (Giờ), Doanh Thu Phiên Live, Tổng Người Xem] · n = 595 phiên trong chu kỳ 231 ngày. Các ô viền đứt nét có cỡ mẫu nhỏ (n < 10 phiên) không dùng để ra quyết định.',
-              'Source: Creator_Livestreams shifted +13h to UTC+7 · n = 595 sessions within the 231d window. Dashed cells denote small sample size (n < 10) and are excluded from slot scheduling decisions.'
+              'Nguồn: Creator_Livestreams dịch +13 giờ về UTC+7 · n = 595 phiên trong chu kỳ 231 ngày. Các ô viền đứt nét có cỡ mẫu nhỏ (n < 10 phiên) không dùng để ra quyết định.',
+              'Source: Creator_Livestreams shifted +13h to UTC+7 · n = 595 sessions within the 231d window. Dashed cells denote small sample size (n < 10) and are excluded from scheduling decisions.'
             )}
           >
             <div className="overflow-x-auto rounded-xl border border-[#C8EEF7] dark:border-slate-800">
@@ -328,12 +328,12 @@ export default function Chapter5LiveVideoAds() {
             height=""
             badge={<ChartRoleBadge kind="more" />}
             title={L(
-              `5.4. Video gắn hashtag đúng dòng sản phẩm có tỷ lệ ra đơn ${n(hashtags[0].convPct, 1)}% (so với ${n(hashtags[1].convPct, 1)}% hashtag xu hướng chung); chủ đề Đồ bơi chiếm ${n(themes[0].gmvSharePct, 1)}% GMV video`,
-              `5.4. Product-specific hashtags convert at ${n(hashtags[0].convPct, 1)}% (vs ${n(hashtags[1].convPct, 1)}% generic trend tags); Swimwear accounts for ${n(themes[0].gmvSharePct, 1)}% of video GMV`
+              '5.4. Hashtag dòng sản phẩm có tỷ lệ ra đơn cao hơn hashtag xu hướng',
+              '5.4. Product-specific hashtags convert at higher rate than generic tags'
             )}
             footer={L(
-              `Nguồn: Affiliate_Videos [Tiêu Đề Video, Danh Mục Nội Dung, Doanh Thu Đóng Góp] · n = ${n(le.affVideos)} video. Nhãn danh mục gốc của FastMoss ghi chung song ngữ (Clothing & Accessories 47,7%, Other 24,5%, Quần áo & Phụ kiện 12,1%), nên cả nhóm hashtag sản phẩm (#(bikini|doboi|setdoboi|aothun|chanvay|aokhoac|aogio|kamiely) so với hashtag xu hướng chung #xuhuong, #fyp, #outfit) và chủ đề Đồ bơi (${n(themes[0].gmvSharePct, 1)}% GMV) đều phân loại bằng regex trên Tiêu Đề Video + Danh Mục Nội Dung.`,
-              `Source: Affiliate_Videos [Caption, Content Category, Contributed Revenue] · n = ${n(le.affVideos)} videos. Because native FastMoss categories are broad bilingual labels (Clothing & Accessories 47.7%, Other 24.5%, Quần áo & Phụ kiện 12.1%), both product hashtags (#(bikini|doboi|setdoboi|aothun|chanvay|aokhoac|aogio|kamiely) vs generic # tags) and the Swimwear theme (${n(themes[0].gmvSharePct, 1)}% GMV) are classified via explicit regex over Caption + Category.`
+              `Nguồn: Affiliate_Videos [Tiêu Đề Video, Danh Mục Nội Dung, Doanh Thu Đóng Góp] · n = ${n(le.affVideos)} video. Phân loại regex trên Tiêu Đề Video + Danh Mục Nội Dung.`,
+              `Source: Affiliate_Videos [Caption, Content Category, Contributed Revenue] · n = ${n(le.affVideos)} videos. Classified via regex on Caption + Category.`
             )}
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-1">
@@ -388,12 +388,12 @@ export default function Chapter5LiveVideoAds() {
             height=""
             badge={<ChartRoleBadge kind="more" />}
             title={L(
-              `5.5. Tương quan hạng giữa số SP lên kệ và GMV phiên đạt ρ = ${n(pinned.spearmanRho, 2)}; ${pinned.liveProdActive}/${pinned.liveProdTotal} mã ghim Live phát sinh đơn trực tiếp`,
-              `5.5. Rank correlation between shelf item count and session GMV reaches ρ = ${n(pinned.spearmanRho, 2)}; ${pinned.liveProdActive}/${pinned.liveProdTotal} pinned Live items converted`
+              `5.5. Tương quan hạng giữa số sản phẩm lên kệ và GMV phiên đạt ρ = ${n(pinned.spearmanRho, 2)}`,
+              `5.5. Rank correlation between shelf item count and session GMV reaches ρ = ${n(pinned.spearmanRho, 2)}`
             )}
             footer={L(
-              'Nguồn: Creator_Livestreams [Số Sản Phẩm Lên Kệ, Doanh Thu Phiên Live] (n = 600) và Livestream_Products [Lượng Bán Trong Live / Lượng Bán Toàn Shop] (n = 103 SP). Đính chính phương pháp: Bộ dữ liệu không có bảng giao dịch nối khóa phiên × mã sản phẩm nên không thể tính giỏ hàng mua kèm (co-occurrence).',
-              'Source: Creator_Livestreams [Shelf Products, Session GMV] (n = 600) and Livestream_Products (n = 103 items). Methodological note: No session_id × product_id junction table exists, so market-basket co-occurrence cannot be computed.'
+              `Nguồn: Creator_Livestreams [Số Sản Phẩm Lên Kệ, Doanh Thu Phiên Live] (n = 600, ρ = ${n(pinned.spearmanRho, 2)}) và Livestream_Products (n = ${pinned.liveProdTotal} SP, ${pinned.liveProdActive} SP có đơn = ${n(pinned.liveProdTotalGmvB, 2)} tỷ đ). Cột Lượng Bán Toàn Shop (312.689) trong LiveProd là hằng số lũy kế toàn shop nên tỷ trọng tính trên tổng giỏ LiveProd.`,
+              `Source: Creator_Livestreams [Shelf Products, Session GMV] (n = 600, ρ = ${n(pinned.spearmanRho, 2)}) and Livestream_Products (n = ${pinned.liveProdTotal} items, ${pinned.liveProdActive} active = ${n(pinned.liveProdTotalGmvB, 2)}B VND). Because Shop Units (312,689) is a store-wide cumulative constant, shares are computed over the LiveProd basket.`
             )}
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center pt-1">
@@ -416,17 +416,19 @@ export default function Chapter5LiveVideoAds() {
                   <thead className="bg-[#C8EEF7]/45 text-slate-900 dark:bg-slate-800 dark:text-slate-100">
                     <tr>
                       <th className="px-2.5 py-1.5 font-bold">{L('Mã ghim (LiveProd)', 'Pinned SKU')}</th>
+                      <th className="px-2.5 py-1.5 font-bold text-right">{L('Sản lượng Live', 'Live units')}</th>
                       <th className="px-2.5 py-1.5 font-bold text-right">{L('GMV trong Live', 'Live GMV')}</th>
-                      <th className="px-2.5 py-1.5 font-bold text-right">{L('Tỷ lệ bán qua Live', 'Live unit share')}</th>
+                      <th className="px-2.5 py-1.5 font-bold text-right">{L('Tỷ trọng giỏ Live', 'Live basket share')}</th>
                     </tr>
                   </thead>
                   <tbody className="text-slate-700 dark:text-slate-300">
-                    {pinned.topLiveProds.slice(0, 5).map((p) => (
+                    {pinned.topLiveProds.slice(0, 6).map((p) => (
                       <tr key={p.code} className="border-t border-slate-100 dark:border-slate-800">
                         <td className="px-2.5 py-1.5 font-bold text-slate-900 dark:text-white">{p.code}</td>
-                        <td className="px-2.5 py-1.5 text-right">{n(p.liveGmvM, 1)} Tr</td>
+                        <td className="px-2.5 py-1.5 text-right">{n(p.liveUnits)} sp</td>
+                        <td className="px-2.5 py-1.5 text-right font-medium">{n(p.liveGmvM, 1)} Tr</td>
                         <td className="px-2.5 py-1.5 text-right font-semibold text-[#074553] dark:text-[#9BE7FA]">
-                          {n(p.liveUnitSharePct, 1)}%
+                          {n(p.liveGmvSharePct, 1)}%
                         </td>
                       </tr>
                     ))}

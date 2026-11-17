@@ -223,8 +223,8 @@ export const creatorProfile = {
   totalUnitsSold: '69.9k',
   videoGmv: '3,2 Tỷ đ',
   liveGmv: '5,9 Tỷ đ',
-  videoGpm: '134,8k - 135,2k đ',
-  liveGpm: '29,2k - 30,2k đ',
+  videoGpm: '134,8k - 135,2k đ (UI 28d)',
+  liveGpm: '29,2k - 30,2k đ (UI 28d)',
   collaborativeShopsCount: 4,
   showcasedProductsCount: 394,
 };

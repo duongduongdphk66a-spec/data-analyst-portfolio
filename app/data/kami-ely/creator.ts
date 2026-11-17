@@ -156,7 +156,7 @@ export const creatorLiveKPIs = {
   concurrentPeak: '1.2k',
   units180d: '49.8k',
   gmv180d: '7,02 Tỷ đ',
-  liveGpm: '29,2k - 30,2k đ'
+  liveGpm: '29,2k - 30,2k đ (UI 28 ngày)'
 };
 
 export const creatorTopLiveStreams = [
@@ -509,7 +509,7 @@ export const creatorLiveDiagnosticsData = {
     }
   },
 
-  // 2. Bóc tách 3 trụ cột nội dung & Nghịch lý GPM 4,5x (Đồng bộ bảng 180 ngày & 90 ngày)
+  // 2. Bóc tách 3 trụ cột nội dung & Đối chiếu GPM 28 ngày UI vs 180 ngày theo từng phiên/video
   formatComparison: [
     {
       formatId: 'self-live',
@@ -527,10 +527,10 @@ export const creatorLiveDiagnosticsData = {
         en: 'High fixed cost: Studio setup, host base salary + KPI, fixed ~7.5h/day schedule (11:30–13:30 & 16:30–22:00).'
       },
       conversionEfficiency: {
-        vi: 'GPM thấp (29,2k – 30,2k VNĐ); 95,58% phiên có đơn (454/475 phiên); gắn dàn trải 375 SKUs gây loãng nhận diện.',
-        en: 'Low GPM (29.2k – 30.2k VND); 95.58% converting sessions (454/475); diluted by 375 pinned SKUs.'
+        vi: 'GPM 28 ngày trên UI FastMoss là 29,2k – 30,2k VNĐ; 95,58% phiên có đơn (454/475 phiên). Trên dữ liệu từng phiên 231 ngày (600 phiên), GPM trung bình đạt 1.719,2k VNĐ/1.000 lượt xem.',
+        en: 'FastMoss 28d UI reports 29.2k – 30.2k VND GPM; 95.58% converting sessions (454/475). Across 600 exported sessions, per-session GPM averages 1,719.2k VND/1k views.'
       },
-      gpmRange: '29,2k – 30,2k VNĐ'
+      gpmRange: '29,2k – 30,2k VNĐ (28d UI)'
     },
     {
       formatId: 'affiliate-live',
@@ -569,10 +569,10 @@ export const creatorLiveDiagnosticsData = {
         en: 'One-time production cost, 24/7 distribution (focused on 137 core SKUs).'
       },
       conversionEfficiency: {
-        vi: 'GPM vượt trội (134,8k – 135,2k VNĐ), cao gấp 4,5 lần so với Livestream.',
-        en: 'Superior GPM (134.8k – 135.2k VND), 4.5x higher than Livestream.'
+        vi: 'GPM 28 ngày trên ảnh chụp UI là 134,8k – 135,2k VNĐ (gấp 4,5x mức Live 28 ngày trên UI), nhưng ở dữ liệu từng video xuất 231 ngày (n = 276) thì GPM thấp hơn Live (TB 90,9k/1.000 lượt xem).',
+        en: '28d UI snapshot shows 134.8k – 135.2k VND GPM (4.5x 28d UI Live), whereas per-clip exports (n = 276) show lower GPM than Live (mean 90.9k/1k views).'
       },
-      gpmRange: '134,8k – 135,2k VNĐ (4,5x)'
+      gpmRange: '134,8k – 135,2k VNĐ (28d UI)'
     }
   ] as CreatorFormatComparisonItem[],
 

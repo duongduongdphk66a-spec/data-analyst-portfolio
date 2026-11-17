@@ -38,8 +38,8 @@ export const ABOUT_US_DATA = {
   scope: {
     titleVi: 'Phạm vi dự án',
     titleEn: 'Project Scope',
-    descVi: 'Dự án chỉ gồm phần thiết kế UX/UI: nghiên cứu, hệ thống thiết kế, wireframe và giao diện cho 20 màn hình desktop, kèm bản mobile. Sách, xe, tuyến và người dùng trong giao diện là dữ liệu mẫu để minh họa bố cục.',
-    descEn: 'The project covers UX/UI design only: research, design system, wireframes and interfaces for 20 desktop screens plus mobile versions. Books, buses, routes and users shown in the interface are sample data used to illustrate layouts.'
+    descVi: 'Dự án bao gồm đặc tả nghiệp vụ (BA), hệ thống thiết kế UX/UI, cặp Wireframe và giao diện cho 11 màn hình cốt lõi (Desktop 1440px và Mobile 390px) cùng kiến trúc dữ liệu Django. Sách, xe, tuyến và người dùng trong giao diện là dữ liệu hạt giống phục vụ kiểm thử.',
+    descEn: 'The project covers BA specification, UX/UI design system, paired wireframes and interfaces for 11 core screens (Desktop 1440px and Mobile 390px), plus Django data architecture. Books, buses, routes and users shown in the interface are seeded prototype data.'
   },
   brandMeaning: {
     titleVi: 'Ý nghĩa tên thương hiệu',

@@ -61,7 +61,7 @@
   --font-serif: "Times New Roman", Times, "Noto Serif", Georgia, serif;
   --font-sans: "Times New Roman", Times, "Noto Serif", Georgia, serif;
   --font-heading: "Times New Roman", Times, "Noto Serif", Georgia, serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace; /* taste-skill-ignore: font token for code elements */
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; /* taste-skill-ignore: font token for code elements */
 
   /* Easing */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -99,43 +99,51 @@
   --color-border-subtle: #1E2B3E;
 }
 
-html {
-  font-size: 18px;
-  scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
-}
+@layer base {
+  html {
+    font-size: 18px;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
 
-section[id], header[id], div[id] {
-  scroll-margin-top: 5rem;
-}
+  section[id], header[id], div[id] {
+    scroll-margin-top: 5rem;
+  }
 
-*, ::before, ::after {
-  font-family: inherit;
-}
+  *, ::before, ::after {
+    font-family: inherit;
+  }
 
-html, body {
-  background-color: var(--color-surface);
-  color: var(--color-text);
-  font-family: var(--font-serif);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
+  html, body {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-serif);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
 
-button, a, [role="button"] {
-  cursor: pointer;
-  font-family: inherit;
-}
+  button, a, [role="button"] {
+    cursor: pointer;
+    font-family: inherit;
+  }
 
-:where(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  color: var(--color-text);
-  letter-spacing: -0.01em;
-}
+  :where(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
 
-.dark :where(h1, h2, h3, h4, h5, h6) {
-  color: #F8FAFC;
+  .dark :where(h1, h2, h3, h4, h5, h6) {
+    color: #F8FAFC;
+  }
+
+  /* Link base reset inside base layer so utility text-* colors win */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 /* Tabular numbers for accurate data alignment */
@@ -323,11 +331,7 @@ kbd {
   background: #82e2f8;
 }
 
-/* Link base reset */
-a {
-  color: inherit;
-  text-decoration: none;
-}
+/* Link base reset moved into @layer base above */
 
 /* Focus ring: accessible, branded, WCAG 2.2 AA compliant */
 :focus-visible {

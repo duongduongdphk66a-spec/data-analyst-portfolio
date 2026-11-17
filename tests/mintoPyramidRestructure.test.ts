@@ -12,12 +12,12 @@ describe('Minto Pyramid Restructuring for Kami Ely Case Study', () => {
 
   it('should have exact 4 KPI items in the header strip (Biểu đồ #1)', () => {
     expect(MINTO_NARRATIVE.header.kpiStrip).toHaveLength(4);
-    expect(MINTO_NARRATIVE.header.kpiStrip[0].value).toContain('12,74 Tỉ');
+    expect(MINTO_NARRATIVE.header.kpiStrip[0].value).toContain('15,01 Tỉ');
   });
 
   it('should cover all 22 numbered charts across the sections', () => {
     // Biểu đồ 1 & 2 in header
-    expect(MINTO_NARRATIVE.header.telemetry.verifiedRate).toContain('100%');
+    expect(MINTO_NARRATIVE.header.telemetry.verifiedRate).toContain('CROSS-CHECKED');
 
     // Biểu đồ 3, 4 in tab1 sec1_1
     expect(MINTO_NARRATIVE.tab1.sec1_1.chart3.vi).toContain('Biểu đồ #3');

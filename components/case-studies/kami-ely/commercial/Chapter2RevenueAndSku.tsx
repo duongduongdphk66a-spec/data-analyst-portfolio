@@ -16,6 +16,7 @@ import {
   ReferenceLine,
   ResponsiveContainer,
   Cell,
+  LabelList,
 } from 'recharts';
 import {
   ChapterShell,
@@ -37,19 +38,29 @@ export default function Chapter2RevenueAndSku() {
   const lzAll = V2.ch2.lorenz.allActive;
   const lzExt = V2.ch2.lorenz.externalOnly;
 
-  // Merge Lorenz curves on nearest creatorPct grid for dual-line comparison
-  const lorenzData = lzAll.curve.map((pt, idx) => {
-    const extPt = lzExt.curve[Math.min(idx, lzExt.curve.length - 1)];
+  // Ghép đường Lorenz theo giá trị creatorPct gần nhất thay vì ghép chỉ số mảng
+  const lorenzData = lzAll.curve.map((pt) => {
+    let closestExt = lzExt.curve[0];
+    let minDiff = Math.abs(closestExt.creatorPct - pt.creatorPct);
+    for (let i = 1; i < lzExt.curve.length; i++) {
+      const diff = Math.abs(lzExt.curve[i].creatorPct - pt.creatorPct);
+      if (diff < minDiff) {
+        minDiff = diff;
+        closestExt = lzExt.curve[i];
+      }
+    }
     return {
       creatorPct: pt.creatorPct,
       equalityPct: pt.equalityPct,
       allGmvPct: pt.gmvPct,
-      extGmvPct: extPt ? extPt.gmvPct : pt.gmvPct,
+      extGmvPct: closestExt ? closestExt.gmvPct : pt.gmvPct,
     };
   });
 
   const priceBandBars = sp.priceBandsLower.map((b) => ({
     ...b,
+    gmvShareFormatted: `${n(b.gmvSharePct, 1)}%`,
+    realizedAspSharePct: sp.priceBandsRealizedAsp.find((r) => r.band === b.band)?.gmvSharePct ?? b.gmvSharePct,
     fill:
       b.band === '75k-150k'
         ? KAMI_BRAND_PALETTE.tealInk
@@ -60,8 +71,6 @@ export default function Chapter2RevenueAndSku() {
             : KAMI_BRAND_PALETTE.ice,
   }));
 
-  const sat = V2.ch4.satelliteSummary;
-
   return (
     <ChapterShell
       id="sec-ch2-sku"
@@ -70,61 +79,38 @@ export default function Chapter2RevenueAndSku() {
       scopeLabel={L('AffLive 231N · ShopProd & KOL 90N', 'AffLive 231d · ShopProd & KOL 90d')}
       question={L('Kênh nào, creator nào và sản phẩm nào tạo ra GMV?', 'Which channels, creators, and products generate GMV?')}
       conclusion={L(
-        'Doanh thu tập trung cao độ vào Livestream tự vận hành và nhóm nhỏ sản phẩm chủ lực; kênh bán hàng chính chủ là trụ cột doanh thu trong khi mạng lưới creator đối tác đóng vai trò bổ trợ phân phối.',
-        'Revenue concentrates heavily in self-operated Livestreams and a narrow set of hero SKUs; the official channel acts as the primary revenue pillar while external creators serve a supplementary distribution role.'
+        'Live tạo 69,8% GMV shop và phiên của chính shop chiếm 72,5% GMV Live; doanh thu sản phẩm dồn vào 12/133 mã, trong đó AT06 chịu ảnh hưởng của cửa sổ 90 ngày vắt qua chuyển mùa.',
+        'Live drives 69.8% of store GMV and official shop sessions account for 72.5% of Live GMV; catalog revenue concentrates in 12/133 SKUs, with AT06 influenced by the 90-day window spanning season shifts.'
       )}
       soWhat={L(
         `Rủi ro tập trung lớn nhất nằm ở mức độ phụ thuộc vào lịch phát sóng của kênh chính chủ @shop_official và ${sp.skusFor80Pct} sản phẩm đầu bảng hơn là số lượng creator trong danh bạ.`,
-        `Concentration risk centers on dependence on @shop_official Live scheduling and the top ${sp.skusFor80Pct} SKUs rather than raw creator headcount.`
+        `Concentration risk centers on dependence on @shop_official Live scheduling and the top ${sp.skusFor80Pct} hero SKUs rather than raw creator headcount.`
       )}
     >
-      {/* Ba lát cắt phân tích: Theo kênh · Theo creator · Theo sản phẩm */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs tabular-nums">
-        <div className="rounded-xl border border-[#C8EEF7] bg-[#C8EEF7]/20 p-3 dark:border-slate-800 dark:bg-slate-950/60 space-y-1">
-          <div className="font-extrabold text-[#074553] dark:text-[#9BE7FA]">
-            {L('Theo kênh (231N đối chiếu 180N)', 'By channel (231d vs 180d check)')}
-          </div>
-          <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-            {L(
-              `Sau khử trùng, Live đạt ${n(cm.liveTotalB, 2)} tỷ đ (${n(cm.liveShareOfStorePct, 1)}% GMV toàn shop), còn ${n(cm.nonLiveShareOfStorePct, 1)}% đến từ video và kệ hàng. Trong kênh Live, @shop_official chiếm ${n(cm.officialShareOfLivePct, 1)}%, vệ tinh nội bộ @koc_sat01 chiếm ${n(cm.satelliteShareOfLivePct, 1)}% và toàn bộ creator ngoài còn lại chiếm ${n(cm.otherAffShareOfLivePct, 1)}% (kết quả nhất quán khi đối soát trên cửa sổ 180 ngày).`,
-              `Post-dedup Live generated ${n(cm.liveTotalB, 2)}B VND (${n(cm.liveShareOfStorePct, 1)}% of store GMV), with ${n(cm.nonLiveShareOfStorePct, 1)}% from video and showcase cards. Within Live, @shop_official holds ${n(cm.officialShareOfLivePct, 1)}%, in-house satellite @koc_sat01 holds ${n(cm.satelliteShareOfLivePct, 1)}%, and all external creators hold ${n(cm.otherAffShareOfLivePct, 1)}% (consistent on the 180d window).`
-            )}
-          </p>
+      {/* 1 thẻ Lưu ý khi đọc (thay thế 3 thẻ trước đây) */}
+      <div className="rounded-xl border border-[#9BE7FA]/80 bg-[#C8EEF7]/30 p-3.5 dark:border-slate-800 dark:bg-slate-950/60 space-y-1">
+        <div className="text-xs font-extrabold text-[#074553] dark:text-[#9BE7FA]">
+          {L('Lưu ý khi đọc số liệu danh mục và mạng lưới', 'Notes on catalog and creator figures')}
         </div>
-        <div className="rounded-xl border border-[#C8EEF7] bg-[#C8EEF7]/20 p-3 dark:border-slate-800 dark:bg-slate-950/60 space-y-1">
-          <div className="font-extrabold text-[#074553] dark:text-[#9BE7FA]">
-            {L('Theo creator (KOL 90 ngày)', 'By creator (90d KOL directory)')}
-          </div>
-          <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-            {L(
-              `Tài khoản dẫn đầu chiếm ${n(lzAll.top1SharePct, 1)}% doanh số đóng góp và Top 10 chiếm ${n(lzAll.top10SharePct, 1)}%. Tài khoản @koc_sat01 vận hành như kênh vệ tinh nội bộ với ${sat.sessions} phiên và ${n(sat.gmvB, 2)} tỷ đ (${n(sat.shareOfExtLivePct, 1)}% GMV Live ngoài shop), cần tách riêng khỏi đối tác độc lập.`,
-              `The top account drives ${n(lzAll.top1SharePct, 1)}% of contributed sales and Top 10 drive ${n(lzAll.top10SharePct, 1)}%. @koc_sat01 operates as an in-house satellite (${sat.sessions} sessions, ${n(sat.gmvB, 2)}B VND = ${n(sat.shareOfExtLivePct, 1)}% of external Live GMV) and is separated from independent partners.`
-            )}
-          </p>
-        </div>
-        <div className="rounded-xl border border-[#C8EEF7] bg-[#C8EEF7]/20 p-3 dark:border-slate-800 dark:bg-slate-950/60 space-y-1">
-          <div className="font-extrabold text-[#074553] dark:text-[#9BE7FA]">
-            {L('Theo sản phẩm (ShopProd & CrProd)', 'By product (ShopProd & CrProd)')}
-          </div>
-          <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-            {L(
-              `Danh mục 339 sản phẩm có độ phân hóa mạnh: 206 mã không phát sinh đơn thì 204 mã là hàng tồn cũ tạo từ giai đoạn 2022-2025; ngược lại, 43/45 mã ra mắt năm 2026 đều có đơn. Doanh số dồn vào phân khúc bình dân 75-150k đ và duy trì mức tập trung cao cả ở kỳ cao điểm Hè lẫn Thu Đông.`,
-              `The 339-SKU catalog shows sharp historical divergence: 204 of 206 zero-sale items were legacy listings created in 2022-2025; conversely, 43 of 45 items launched in 2026 converted. Revenue centers in the mass 75-150k tier across both Summer and Autumn-Winter periods.`
-            )}
-          </p>
-        </div>
+        <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed tabular-nums">
+          {L(
+            'Trong 206 mã không có đơn, 204 mã là mã niêm yết cũ trước 2026 (dữ liệu không có tồn kho nên đây là phân loại danh mục, không phải hàng tồn); 43/45 mã ra mắt năm 2026 đều có đơn. Tài khoản @koc_sat01 là kênh vệ tinh nội bộ của shop, không phải đối tác độc lập.',
+            'Among 206 zero-sale SKUs, 204 are legacy listings prior to 2026 (the dataset lacks inventory levels, so this reflects catalog history rather than physical stock); 43 of 45 products launched in 2026 converted. Account @koc_sat01 is an in-house satellite channel, not an independent partner.'
+          )}
+        </p>
       </div>
-      {/* 2.1 [CHÍNH] Cơ cấu GMV Live và GMV toàn shop (thanh xếp chồng 100%, hai thanh) */}
+
+      {/* 2.1 [CHÍNH] Cơ cấu GMV Live và GMV toàn shop */}
       <ChartCard
         height=""
         badge={<ChartRoleBadge kind="main" />}
         title={L(
-          `2.1. Cơ cấu GMV Live: @shop_official (${n(cm.officialShareOfLivePct, 1)}%) và vệ tinh @koc_sat01 (${n(cm.satelliteShareOfLivePct, 1)}%) áp đảo toàn bộ 301 creator đối tác ngoài (${n(cm.otherAffShareOfLivePct, 1)}%)`,
-          `2.1. Live GMV structure: @shop_official (${n(cm.officialShareOfLivePct, 1)}%) and satellite @koc_sat01 (${n(cm.satelliteShareOfLivePct, 1)}%) dominate all 301 external affiliate partners (${n(cm.otherAffShareOfLivePct, 1)}%)`
+          '2.1. Live chiếm 69,8% GMV shop; chính shop và vệ tinh tạo 84,5% kênh Live',
+          '2.1. Live accounts for 69.8% of store GMV; official and satellite drive 84.5%'
         )}
         footer={L(
-          `Nguồn: Affiliate_Livestreams [KOC ID, Doanh Thu Cho Shop (VNĐ)] sau khử trùng và Store_Daily_Overview · 09/03 - 25/10/2026 · n = ${n(cm.liveSessions)} phiên Live / ${V2.meta.days} ngày.`,
-          `Source: Deduplicated Affiliate_Livestreams [KOC ID, Shop Revenue] and Store_Daily_Overview · 09/03 - 25/10/2026 · n = ${n(cm.liveSessions)} Live sessions / ${V2.meta.days} days.`
+          `Nguồn: Affiliate_Livestreams [KOC ID, Doanh Thu Cho Shop (VNĐ)] sau khử trùng và Store_Daily_Overview · 09/03 - 25/10/2026 · n = ${n(cm.liveSessions)} phiên Live / ${V2.meta.days} ngày. Kênh vệ tinh @koc_sat01 đóng góp ${n(cm.satelliteGmvB, 2)} tỷ đ (${n(cm.satelliteShareOfLivePct, 1)}% Live).`,
+          `Source: Deduplicated Affiliate_Livestreams [KOC ID, Shop Revenue] and Store_Daily_Overview · 09/03 - 25/10/2026 · n = ${n(cm.liveSessions)} Live sessions / ${V2.meta.days} days. Satellite @koc_sat01 contributed ${n(cm.satelliteGmvB, 2)}B VND (${n(cm.satelliteShareOfLivePct, 1)}% of Live).`
         )}
       >
         <div className="space-y-4 pt-1">
@@ -205,17 +191,17 @@ export default function Chapter2RevenueAndSku() {
         </div>
       </ChartCard>
 
-      {/* 2.2 [CHÍNH] Pareto SKU và dải giá (hai panel cạnh nhau) */}
+      {/* 2.2 [CHÍNH] Pareto SKU và dải giá */}
       <ChartCard
         height=""
         badge={<ChartRoleBadge kind="main" />}
         title={L(
-          `2.2. Chỉ ${sp.skusFor80Pct}/${sp.totalSkus} SKU tạo ${n(sp.skusFor80SharePct, 1)}% GMV (riêng ${sp.top1Code} chiếm ${n(sp.top1SharePct, 1)}%); dải giá 75-150k chiếm ${n(sp.priceBandsLower[1].gmvSharePct, 1)}%`,
-          `2.2. Just ${sp.skusFor80Pct}/${sp.totalSkus} SKUs drive ${n(sp.skusFor80SharePct, 1)}% GMV (${sp.top1Code} alone at ${n(sp.top1SharePct, 1)}%); 75-150k VND holds ${n(sp.priceBandsLower[1].gmvSharePct, 1)}%`
+          '2.2. Chỉ 12/133 SKU tạo 80,6% GMV; dải giá 75–150k chiếm 62,6% doanh thu',
+          '2.2. Just 12/133 SKUs drive 80.6% of GMV; 75–150k VND tier holds 62.6%'
         )}
         footer={L(
-          `Nguồn: Shop_Products [Doanh Thu Gần Nhất (VNĐ), Giá Bán Niêm Yết (cận dưới), Ngày Giờ Lên Sàn] · Cửa sổ 90 ngày (${n(sp.catalogGmvB, 2)} tỷ đ) · n = ${sp.totalSkus} SKU (${sp.activeSkus} có đơn, ${sp.zeroSaleSkus} không đơn). Tính theo đơn giá thực bán ASP, dải 75-150k chiếm ${n(sp.priceBandsRealizedAsp[1].gmvSharePct, 1)}%. Có ${sp.zeroLaunchPre2026}/${sp.zeroSaleSkus} SKU 0 đơn (${n(sp.zeroLaunchPre2026Pct, 1)}%) là mã cũ đăng từ 2022-2025; ${sp.launches2026Active}/${sp.launches2026Total} mã mở năm 2026 đều phát sinh đơn.`,
-          `Source: Shop_Products [Recent GMV, Listed Price lower bound, Launch Date] · 90-day window (${n(sp.catalogGmvB, 2)}B VND) · n = ${sp.totalSkus} SKUs (${sp.activeSkus} active, ${sp.zeroSaleSkus} zero-sale). By realized ASP, 75-150k reaches ${n(sp.priceBandsRealizedAsp[1].gmvSharePct, 1)}%. ${sp.zeroLaunchPre2026}/${sp.zeroSaleSkus} zero-sale SKUs (${n(sp.zeroLaunchPre2026Pct, 1)}%) are 2022-2025 legacy listings, whereas ${sp.launches2026Active}/${sp.launches2026Total} 2026 launches converted.`
+          `Nguồn: Shop_Products [Doanh Thu Gần Nhất, Giá Niêm Yết, Ngày Lên Sàn] · Cửa sổ 90 ngày (${n(sp.catalogGmvB, 2)} tỷ đ) · n = ${sp.totalSkus} SKU (${sp.activeSkus} có đơn, ${sp.zeroSaleSkus} mã niêm yết cũ). Theo giá niêm yết, dải 75–150k chiếm ${n(sp.priceBandsLower[1].gmvSharePct, 1)}% GMV (theo ASP thực bán là ${n(sp.priceBandsRealizedAsp[1].gmvSharePct, 1)}%).`,
+          `Source: Shop_Products [Recent GMV, Listed Price, Launch Date] · 90-day window (${n(sp.catalogGmvB, 2)}B VND) · n = ${sp.totalSkus} SKUs (${sp.activeSkus} active, ${sp.zeroSaleSkus} legacy listings). By listed price, 75–150k holds ${n(sp.priceBandsLower[1].gmvSharePct, 1)}% (by realized ASP: ${n(sp.priceBandsRealizedAsp[1].gmvSharePct, 1)}%).`
         )}
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-1">
@@ -229,7 +215,7 @@ export default function Chapter2RevenueAndSku() {
             </div>
             <div className="h-56 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={sp.curve} margin={{ top: 14, right: 16, left: 0, bottom: 6 }}>
+                <AreaChart data={sp.curve} margin={{ top: 16, right: 16, left: 0, bottom: 6 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
                   <XAxis
                     type="number"
@@ -250,10 +236,13 @@ export default function Chapter2RevenueAndSku() {
                         head={(lbl, pl) => {
                           const row = pl?.[0]?.payload;
                           if (!row || row.rank === 0) return L('Bắt đầu (0 SKU)', 'Origin (0 SKUs)');
-                          return L(
-                            `Hạng #${row.rank} (${row.skuCode}) · Đơn lẻ ${n(row.gmvM, 1)} Tr đ`,
-                            `Rank #${row.rank} (${row.skuCode}) · ${n(row.gmvM, 1)}M VND`
-                          );
+                          const isGenericCode = !row.skuCode || row.skuCode.startsWith('SKU_') || row.skuCode === 'KOC';
+                          return isGenericCode
+                            ? L(`Hạng #${row.rank} · Đơn lẻ ${n(row.gmvM, 1)} Tr đ`, `Rank #${row.rank} · ${n(row.gmvM, 1)}M VND`)
+                            : L(
+                                `Hạng #${row.rank} (${row.skuCode}) · Đơn lẻ ${n(row.gmvM, 1)} Tr đ`,
+                                `Rank #${row.rank} (${row.skuCode}) · ${n(row.gmvM, 1)}M VND`
+                              );
                         }}
                         fmt={(v) => `${n(v, 1)}%`}
                       />
@@ -275,7 +264,7 @@ export default function Chapter2RevenueAndSku() {
                     strokeDasharray="4 3"
                     label={{
                       value: L(`${sp.skusFor80Pct} SKU = ${n(sp.skusFor80SharePct, 1)}%`, `${sp.skusFor80Pct} SKUs = ${n(sp.skusFor80SharePct, 1)}%`),
-                      position: 'insideBottomRight',
+                      position: 'insideTopRight',
                       fill: KAMI_BRAND_PALETTE.amberStroke,
                       fontSize: 11,
                       fontWeight: 700,
@@ -287,7 +276,7 @@ export default function Chapter2RevenueAndSku() {
             </div>
           </div>
 
-          {/* Panel phải: Tỷ trọng GMV theo dải giá (bắt đầu từ 0) */}
+          {/* Panel phải: Tỷ trọng GMV theo dải giá */}
           <div className="space-y-1">
             <div className="text-xs font-bold text-slate-800 dark:text-slate-200">
               {L(
@@ -297,11 +286,11 @@ export default function Chapter2RevenueAndSku() {
             </div>
             <div className="h-56 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={priceBandBars} margin={{ top: 14, right: 16, left: 0, bottom: 6 }}>
+                <BarChart data={priceBandBars} margin={{ top: 20, right: 16, left: 0, bottom: 6 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
                   <XAxis dataKey="band" tick={axisTick} />
                   <YAxis
-                    domain={[0, 75]}
+                    domain={[0, 80]}
                     width={46}
                     tick={axisTick}
                     tickFormatter={(v: number) => `${v}%`}
@@ -319,12 +308,25 @@ export default function Chapter2RevenueAndSku() {
                         fmt={(v) => `${n(v, 1)}%`}
                         extraRow={(pl) => {
                           const r = pl?.[0]?.payload;
-                          return r ? L(`Doanh thu: ${n(r.gmvM, 1)} Tr đ`, `GMV: ${n(r.gmvM, 1)}M VND`) : null;
+                          if (!r) return null;
+                          return (
+                            <div className="space-y-0.5 pt-0.5">
+                              <div>{L(`Doanh thu: ${n(r.gmvM, 1)} Tr đ`, `GMV: ${n(r.gmvM, 1)}M VND`)}</div>
+                              <div className="text-slate-500 dark:text-slate-400">
+                                {L(`Theo ASP thực bán: ${n(r.realizedAspSharePct, 1)}%`, `By realized ASP: ${n(r.realizedAspSharePct, 1)}%`)}
+                              </div>
+                            </div>
+                          );
                         }}
                       />
                     }
                   />
                   <Bar dataKey="gmvSharePct" name={L('Tỷ trọng GMV', 'GMV share')} radius={[6, 6, 0, 0]} isAnimationActive={false}>
+                    <LabelList
+                      dataKey="gmvShareFormatted"
+                      position="top"
+                      style={{ fontSize: '11px', fontWeight: 700, fill: '#074553' }}
+                    />
                     {priceBandBars.map((entry, idx) => (
                       <Cell key={idx} fill={entry.fill} stroke={KAMI_BRAND_PALETTE.tealInk} strokeWidth={0.8} />
                     ))}
@@ -339,8 +341,8 @@ export default function Chapter2RevenueAndSku() {
       {/* 2.3 [XEM THÊM] Đường Lorenz creator */}
       <ExpandableMoreSection
         title={L(
-          `2.3. Đường Lorenz mức độ tập trung creator: Top 1 chiếm ${n(lzAll.top1SharePct, 1)}% toàn danh bạ, riêng mạng ngoài Top 1 chiếm ${n(lzExt.top1SharePct, 1)}%`,
-          `2.3. Creator Lorenz concentration curve: Top 1 holds ${n(lzAll.top1SharePct, 1)}% overall and ${n(lzExt.top1SharePct, 1)}% among external affiliates`
+          '2.3. Top 1 tài khoản tạo 60,1% GMV danh bạ; tách kênh chủ shop còn 43,7%',
+          '2.3. Top 1 account drives 60.1% of directory GMV; drops to 43.7% excluding official'
         )}
         countLabel={L(`1 biểu đồ · n = ${lzAll.count} tài khoản`, `1 chart · n = ${lzAll.count} accounts`)}
       >
@@ -348,12 +350,12 @@ export default function Chapter2RevenueAndSku() {
           height="h-64"
           badge={<ChartRoleBadge kind="more" />}
           title={L(
-            `2.3. Top 10 tài khoản tạo ${n(lzAll.top10SharePct, 1)}% doanh số KOL (HHI = ${n(lzAll.hhi)}); khi tách kênh chủ shop, @koc_sat01 vẫn chiếm ${n(lzExt.top1SharePct, 1)}% mạng ngoài`,
-            `2.3. Top 10 accounts drive ${n(lzAll.top10SharePct, 1)}% of KOL sales (HHI = ${n(lzAll.hhi)}); excluding official channel, @koc_sat01 holds ${n(lzExt.top1SharePct, 1)}%`
+            '2.3. Top 10 tài khoản tạo 83,7% doanh số KOL (HHI = 3.842); kênh vệ tinh @koc_sat01 chiếm 43,7% mạng ngoài',
+            '2.3. Top 10 accounts drive 83.7% of KOL sales (HHI = 3,842); satellite @koc_sat01 holds 43.7% among affiliates'
           )}
           footer={L(
-            `Nguồn: Affiliate_KOL [Doanh Số Đóng Góp (VNĐ) > 0] · Cửa sổ trượt 90 ngày · n = ${lzAll.count} tài khoản có đơn (gồm @shop_official) và n = ${lzExt.count} KOC ngoài (HHI ngoài = ${n(lzExt.hhi)}, Gini = ${n(lzExt.gini, 3)}).`,
-            `Source: Affiliate_KOL [Contributed Sales > 0] · 90-day rolling window · n = ${lzAll.count} converting accounts (incl. @shop_official) and n = ${lzExt.count} external KOCs (external HHI = ${n(lzExt.hhi)}, Gini = ${n(lzExt.gini, 3)}).`
+            `Nguồn: Affiliate_KOL [Doanh Số Đóng Góp (VNĐ) > 0] · Cửa sổ trượt 90 ngày · n = ${lzAll.count} tài khoản có đơn (gồm @shop_official) và n = ${lzExt.count} đối tác ngoài (HHI ngoài = ${n(lzExt.hhi)}, Gini = ${n(lzExt.gini, 3)}).`,
+            `Source: Affiliate_KOL [Contributed Sales > 0] · 90-day rolling window · n = ${lzAll.count} converting accounts (incl. @shop_official) and n = ${lzExt.count} external partners (external HHI = ${n(lzExt.hhi)}, Gini = ${n(lzExt.gini, 3)}).`
           )}
         >
           <ResponsiveContainer width="100%" height="100%">

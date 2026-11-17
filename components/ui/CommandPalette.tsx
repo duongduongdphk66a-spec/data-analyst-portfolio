@@ -191,7 +191,7 @@ export default function CommandPalette({
         id: 'action-download-cv',
         category: { vi: 'Tài liệu & thiết lập', en: 'Documents & preferences' },
         title: {
-          vi: 'Tải xuống CV PDF (Mã Văn Hùng - Data Analyst 2026)',
+          vi: 'Tải xuống CV PDF (Ma Văn Hùng - Data Analyst 2026)',
           en: 'Download Resume PDF (Ma Van Hung - Data Analyst 2026)',
         },
         subtitle: {

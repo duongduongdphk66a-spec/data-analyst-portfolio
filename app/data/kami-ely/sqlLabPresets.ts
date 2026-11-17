@@ -1,5 +1,5 @@
 // FILE: app/data/kami-ely/sqlLabPresets.ts
-// 4 TRUY VẤN SQL TRÊN 8 BẢNG DỮ LIỆU KAMI ELY CHO TRANG /LAB
+// 4 TRUY VẤN SQL TRÊN 10 BẢNG DỮ LIỆU KAMI ELY (231 NGÀY, 23.364 DÒNG)
 
 export interface KamiSqlPresetItem {
   id: string;
@@ -14,187 +14,203 @@ export interface KamiSqlPresetItem {
 
 export const KAMI_ELY_SQL_LAB_PRESETS: KamiSqlPresetItem[] = [
   {
-    id: 'sql-01-channel-reconciliation-90d',
-    badge: 'RECONCILIATION • 90 DAYS',
+    id: 'sql-01-channel-reconciliation-231d',
+    badge: 'RECONCILIATION • 231 DAYS',
     title: {
-      vi: '1. Đối soát 3 Kênh Giao Dịch 90 Ngày & Giải Mã Khoảng Trống Kệ Hàng (22,85%)',
-      en: '1. 90-Day 3-Channel Reconciliation & Product Card Gap (22.85%)'
+      vi: '1. Đối soát Cơ Cấu Doanh Thu 231 Ngày: Kênh Chính Chủ, Vệ Tinh & 301 Đối Tác Ngoài',
+      en: '1. 231-Day Revenue Reconciliation: Official Shop, In-House Satellite & 301 Partners'
     },
     businessQuestion: {
-      vi: 'Làm thế nào để tách bạch doanh số Kênh chính chủ, 5.712 KOC ngoài và Thẻ sản phẩm (Kệ hàng) từ bảng _product data và _Creators_merged?',
-      en: 'How do we separate Official Channel, 5,712 External KOCs, and Product Card sales using _product data and _Creators_merged?'
+      vi: 'Làm thế nào để khử trùng 595 phiên @shop_official giữa AffLive và CrLive, tách riêng kênh vệ tinh @koc_sat01 và xác định phần đóng góp của Video + Kệ hàng trên tổng 15,01 tỷ đ?',
+      en: 'How do we deduplicate 595 @shop_official sessions across AffLive and CrLive, isolate satellite @koc_sat01, and reconcile Video + Product Card revenue within the 15.01B VND total?'
     },
-    sqlQuery: `-- Đối soát 3 kênh bán hàng 90 ngày từ bảng kami_product_data_90d (331 SKUs) và kami_creators_merged_90d (5.713 Creators)
-WITH shop_totals AS (
+    sqlQuery: `-- Đối soát cơ cấu kênh 231 ngày từ stg_store_daily (231 ngày) và stg_affiliate_live (8.355 phiên đã khử trùng CrLive)
+WITH store_totals AS (
     SELECT 
         SUM(units_sold) AS total_shop_units,
-        SUM(gmv_vnd) AS total_shop_gmv
-    FROM kami_product_data_90d
+        SUM(daily_gmv_vnd) AS total_shop_gmv
+    FROM stg_store_daily
 ),
-creator_split AS (
+live_split AS (
     SELECT 
-        SUM(CASE WHEN creator_handle = '@kami_official' THEN units_sold ELSE 0 END) AS self_units,
-        SUM(CASE WHEN creator_handle = '@kami_official' THEN gmv_vnd ELSE 0 END) AS self_gmv,
-        SUM(CASE WHEN creator_handle <> '@kami_official' THEN units_sold ELSE 0 END) AS affiliate_units,
-        SUM(CASE WHEN creator_handle <> '@kami_official' THEN gmv_vnd ELSE 0 END) AS affiliate_gmv,
-        SUM(units_sold) AS all_creators_units,
-        SUM(gmv_vnd) AS all_creators_gmv
-    FROM kami_creators_merged_90d
+        SUM(CASE WHEN creator_alias = '@shop_official' THEN shop_gmv_vnd ELSE 0 END) AS official_live_gmv,
+        SUM(CASE WHEN creator_alias = '@koc_sat01' THEN shop_gmv_vnd ELSE 0 END) AS satellite_live_gmv,
+        SUM(CASE WHEN creator_alias NOT IN ('@shop_official', '@koc_sat01') THEN shop_gmv_vnd ELSE 0 END) AS partner_live_gmv,
+        SUM(shop_gmv_vnd) AS dedup_live_gmv
+    FROM stg_affiliate_live
 )
 SELECT 
-    '1. Kênh Chính Chủ (@kami_official)' AS channel_segment,
-    c.self_units AS units_sold,
-    ROUND(c.self_units * 100.0 / s.total_shop_units, 2) AS units_share_pct,
-    c.self_gmv AS net_gmv_vnd,
-    ROUND(c.self_gmv * 100.0 / s.total_shop_gmv, 2) AS gmv_share_pct
-FROM shop_totals s CROSS JOIN creator_split c
+    '1. Live Chính Chủ (@shop_official · 595 phiên)' AS channel_segment,
+    ROUND(l.official_live_gmv / 1e9, 2) AS gmv_billion_vnd,
+    ROUND(l.official_live_gmv * 100.0 / l.dedup_live_gmv, 1) AS share_of_live_pct,
+    ROUND(l.official_live_gmv * 100.0 / s.total_shop_gmv, 1) AS share_of_store_pct
+FROM store_totals s CROSS JOIN live_split l
 UNION ALL
 SELECT 
-    '2. Mạng Lưới Affiliate (5.712 KOC ngoài)',
-    c.affiliate_units,
-    ROUND(c.affiliate_units * 100.0 / s.total_shop_units, 2),
-    c.affiliate_gmv,
-    ROUND(c.affiliate_gmv * 100.0 / s.total_shop_gmv, 2)
-FROM shop_totals s CROSS JOIN creator_split c
+    '2. Live Vệ Tinh Nội Bộ (@koc_sat01 · 261 phiên)',
+    ROUND(l.satellite_live_gmv / 1e9, 2),
+    ROUND(l.satellite_live_gmv * 100.0 / l.dedup_live_gmv, 1),
+    ROUND(l.satellite_live_gmv * 100.0 / s.total_shop_gmv, 1)
+FROM store_totals s CROSS JOIN live_split l
 UNION ALL
 SELECT 
-    '3. Thẻ Sản Phẩm / Kệ Hàng (Product Card)',
-    s.total_shop_units - c.all_creators_units,
-    ROUND((s.total_shop_units - c.all_creators_units) * 100.0 / s.total_shop_units, 2),
-    s.total_shop_gmv - c.all_creators_gmv,
-    ROUND((s.total_shop_gmv - c.all_creators_gmv) * 100.0 / s.total_shop_gmv, 2)
-FROM shop_totals s CROSS JOIN creator_split c;`,
-    columns: ['channel_segment', 'units_sold', 'units_share_pct', 'net_gmv_vnd', 'gmv_share_pct'],
+    '3. Live 301 Đối Tác Độc Lập (7.499 phiên)',
+    ROUND(l.partner_live_gmv / 1e9, 2),
+    ROUND(l.partner_live_gmv * 100.0 / l.dedup_live_gmv, 1),
+    ROUND(l.partner_live_gmv * 100.0 / s.total_shop_gmv, 1)
+FROM store_totals s CROSS JOIN live_split l
+UNION ALL
+SELECT 
+    '4. Video Gắn Giỏ & Kệ Hàng Tự Nhiên (Non-Live)',
+    ROUND((s.total_shop_gmv - l.dedup_live_gmv) / 1e9, 2),
+    NULL,
+    ROUND((s.total_shop_gmv - l.dedup_live_gmv) * 100.0 / s.total_shop_gmv, 1)
+FROM store_totals s CROSS JOIN live_split l;`,
+    columns: ['channel_segment', 'gmv_billion_vnd', 'share_of_live_pct', 'share_of_store_pct'],
     rows: [
-      ['1. Kênh Chính Chủ (@kami_official)', 20027, '49.78%', '3.026.026.869 đ', '49.31%'],
-      ['2. Mạng Lưới Affiliate (5.712 KOC ngoài)', 11572, '28.77%', '1.708.159.874 đ', '27.84%'],
-      ['3. Thẻ Sản Phẩm / Kệ Hàng (Product Card)', 8630, '21.45%', '1.402.019.230 đ', '22.85%'],
-      ['TỔNG TOÀN GIAN HÀNG (90 NGÀY)', 40229, '100.00%', '6.136.205.973 đ', '100.00%']
+      ['1. Live Chính Chủ (@shop_official · 595 phiên)', '7,59 tỷ đ', '72.5%', '50.6%'],
+      ['2. Live Vệ Tinh Nội Bộ (@koc_sat01 · 261 phiên)', '1,26 tỷ đ', '12.0%', '8.4%'],
+      ['3. Live 301 Đối Tác Độc Lập (7.499 phiên)', '1,62 tỷ đ', '15.5%', '10.8%'],
+      ['4. Video Gắn Giỏ & Kệ Hàng Tự Nhiên (Non-Live)', '4,54 tỷ đ', '—', '30.2%'],
+      ['TỔNG TOÀN GIAN HÀNG (231 NGÀY)', '15,01 tỷ đ', '100.0% (Live = 10,47 tỷ)', '100.0%']
     ],
     analystInterpretation: {
-      vi: 'Giải quyết triệt để ngộ nhận "4,73 Tỉ đ là riêng Affiliate": 4.734.186.743 đ là tổng khối Creators (gồm 3,03 Tỉ đ Chính chủ + 1,71 Tỉ đ KOC ngoài). Phần dư 1.402.019.230 đ (22,85%) khớp tuyệt đối với kênh Thẻ sản phẩm trên ảnh 073520 (22,87%).',
-      en: 'Resolves the "4.73B Affiliate" misconception: 4,734,186,743 VND is total Creators (3.03B Official + 1.71B External KOCs). The 1,402,019,230 VND (22.85%) remainder matches Product Cards on screenshot 073520 (22.87%).'
+      vi: 'Cộng thẳng AffLive (10,47 tỷ) và CrLive (7,59 tỷ) sẽ rơi vào bẫy cộng đôi 18,06 tỷ đ (vượt cả GMV shop 15,01 tỷ). Sau khi khử trùng 595 phiên @shop_official, Live chiếm 69,8% GMV toàn shop, trong đó hệ thống nội bộ (@shop_official + @koc_sat01) nắm giữ 84,5% doanh thu kênh Live.',
+      en: 'Naively summing AffLive (10.47B) and CrLive (7.59B) creates an 18.06B VND double-counting trap (exceeding 15.01B store GMV). After deduplicating 595 @shop_official sessions, Live drives 69.8% of store GMV, with in-house streams (@shop_official + @koc_sat01) generating 84.5% of Live revenue.'
     }
   },
   {
     id: 'sql-02-paid-ads-video-dependency',
-    badge: 'VIDEO FUNNEL • 4,417 VIDEOS',
+    badge: 'VIDEO FOREST • 4,796 CLIPS',
     title: {
-      vi: '2. Kiểm Toán Sự Lệ Thuộc Vào Quảng Cáo Trả Phí Trên 4.417 Shoppable Videos',
-      en: '2. Auditing Paid Ads Dependency Across 4,417 Shoppable Videos'
+      vi: '2. Kiểm Định Hiệu Suất Ads vs. Organic Trên 4.796 Video Sau Khử Trùng Khóa Phức Hợp',
+      en: '2. Auditing Paid Ads vs. Organic Efficiency Across 4,796 Deduplicated Videos'
     },
     businessQuestion: {
-      vi: 'Tỷ trọng doanh thu và sản lượng của các video có chạy quảng cáo (Ads = YES) so với video tự nhiên (Ads = NO) là bao nhiêu?',
-      en: 'What is the GMV and unit volume share of Paid Ads videos (Ads = YES) versus Organic videos (Ads = NO)?'
+      vi: 'Sau khi gộp chuẩn hóa nhãn YES/có và NO/không trên 4.796 video, cờ Ads làm thay đổi tỷ lệ ra đơn và doanh thu trên 1.000 lượt xem (GPM) như thế nào ở toàn mẫu và trong cùng 192 KOC?',
+      en: 'After unifying YES/có and NO/không labels across 4,796 clips, how does the Ads flag affect conversion rate and GPM across the full sample versus within the same 192 creators?'
     },
-    sqlQuery: `-- Phân tích hiệu suất Paid Ads vs. Organic trên 4.417 video gắn giỏ hàng
+    sqlQuery: `-- Đối chiếu hiệu suất Ads vs. Organic toàn mẫu (4.796 clip) và kiểm soát nội bộ cùng KOC (192 creator có cả hai loại)
+WITH dual_creators AS (
+    SELECT creator_hash
+    FROM stg_affiliate_videos
+    GROUP BY creator_hash
+    HAVING SUM(CASE WHEN is_ads_auth = 1 THEN 1 ELSE 0 END) > 0
+       AND SUM(CASE WHEN is_ads_auth = 0 THEN 1 ELSE 0 END) > 0
+)
 SELECT 
-    is_ads AS ads_status,
-    COUNT(video_id) AS video_count,
-    ROUND(COUNT(video_id) * 100.0 / SUM(COUNT(video_id)) OVER (), 2) AS video_share_pct,
-    SUM(units_sold_90d) AS units_sold,
-    ROUND(SUM(units_sold_90d) * 100.0 / SUM(SUM(units_sold_90d)) OVER (), 2) AS units_share_pct,
-    SUM(gmv_90d) AS total_gmv_vnd,
-    ROUND(SUM(gmv_90d) * 100.0 / SUM(SUM(gmv_90d)) OVER (), 2) AS gmv_share_pct
-FROM kami_shoppable_videos_180d
-GROUP BY is_ads
-ORDER BY total_gmv_vnd DESC;`,
-    columns: ['ads_status', 'video_count', 'video_share_pct', 'units_sold', 'units_share_pct', 'total_gmv_vnd', 'gmv_share_pct'],
+    'Toàn mẫu (4.796 clip)' AS analysis_slice,
+    CASE WHEN is_ads_auth = 1 THEN 'Ads (YES/có)' ELSE 'Organic (NO/không)' END AS ads_status,
+    COUNT(*) AS clip_count,
+    ROUND(SUM(CASE WHEN contributed_gmv_vnd > 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) AS conv_rate_pct,
+    ROUND(SUM(contributed_gmv_vnd) * 1.0 / NULLIF(SUM(views_cnt), 0), 1) AS vnd_per_view
+FROM stg_affiliate_videos
+GROUP BY is_ads_auth
+UNION ALL
+SELECT 
+    'Cùng KOC (192 creator)',
+    CASE WHEN v.is_ads_auth = 1 THEN 'Ads (YES/có)' ELSE 'Organic (NO/không)' END,
+    COUNT(*),
+    ROUND(SUM(CASE WHEN v.contributed_gmv_vnd > 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1),
+    ROUND(SUM(v.contributed_gmv_vnd) * 1.0 / NULLIF(SUM(v.views_cnt), 0), 1)
+FROM stg_affiliate_videos v
+JOIN dual_creators d ON v.creator_hash = d.creator_hash
+GROUP BY v.is_ads_auth;`,
+    columns: ['analysis_slice', 'ads_status', 'clip_count', 'conv_rate_pct', 'vnd_per_view'],
     rows: [
-      ['YES (Có chạy Ads)', 3482, '78.83%', 12398, '94.76%', '2.055.758.301 đ', '94.70%'],
-      ['NO (Tự nhiên - Organic)', 935, '21.17%', 685, '5.24%', '115.082.025 đ', '5.30%'],
-      ['TỔNG CỘNG', 4417, '100.00%', 13083, '100.00%', '2.170.840.326 đ', '100.00%']
+      ['Toàn mẫu (4.796 clip)', 'Ads (YES/có)', 3775, '30.3%', '65,7 đ/view (GPM 0,84x)'],
+      ['Toàn mẫu (4.796 clip)', 'Organic (NO/không)', 1021, '10.2%', '77,8 đ/view (Baseline 1,00x)'],
+      ['Cùng KOC (192 creator)', 'Ads (YES/có)', 1131, '36.5%', '89,0 đ/view (GPM 0,73x)'],
+      ['Cùng KOC (192 creator)', 'Organic (NO/không)', 340, '12.9%', '121,4 đ/view (Baseline 1,00x)']
     ],
     analystInterpretation: {
-      vi: '94,70% doanh thu Shoppable Video đến từ Paid Ads. Để tăng doanh thu Organic (hiện chỉ 5,30%), kênh chính chủ cần gắn giỏ hàng cho 308 video đang bỏ trống và đổi giờ đăng từ buổi sáng (08:00–12:00) sang khung giờ vàng 12:00–13:00 và 15:00–16:00.',
-      en: '94.70% of Shoppable Video GMV relies on Paid Ads. To grow Organic share (currently 5.30%), attach product links to the 308 unlinked official videos and shift posting from morning (08:00–12:00) to peak hours at 12:00–13:00 and 15:00–16:00.'
+      vi: 'Cờ Ads giúp tăng xác suất video có đơn thêm +20,1 đ% toàn mẫu (+23,6 đ% trong cùng KOC, OR = 3,8–3,9), nhưng GPM trên mỗi 1.000 lượt xem của Ads lại thấp hơn Organic (0,84x toàn mẫu và 0,73x trong cùng KOC). Do đó chỉ nên cấp quyền Ads có chọn lọc cho clip đã có đơn tự nhiên kèm hashtag mã SP (BR-02).',
+      en: 'Ad authorization lifts order conversion probability by +20.1 pp overall (+23.6 pp within-creator, OR = 3.8–3.9), yet Ads GPM trails Organic (0.84x overall and 0.73x within-creator). Ad boosting should be gated to organically converting clips with product hashtags (BR-02).'
     }
   },
   {
     id: 'sql-03-live-saturation-and-seasonality',
-    badge: 'TIME-SERIES • 180 DAYS',
+    badge: 'TIME-SERIES • 231 DAYS',
     title: {
-      vi: '3. Phát Hiện "Bẫy Số Lượng Phiên LIVE" & Chu Kỳ Mùa Vụ 180 Ngày',
-      en: '3. Detecting the "LIVE Session Volume Trap" & 180-Day Seasonality'
+      vi: '3. Phân Rã Hai Pha Suy Giảm Mùa Vụ (T6 → T8) & Hồi Phục Hiệu Suất Tháng 10',
+      en: '3. Two-Phase Seasonal Contraction Decomposition (Jun → Aug) & October Yield Rebound'
     },
     businessQuestion: {
-      vi: 'Việc tăng ồ ạt số phiên LIVE trong ngày có tỷ lệ thuận với doanh thu không? Đâu là các mốc ngày cực trị trong 180 ngày?',
-      en: 'Does spamming daily LIVE sessions linearly increase GMV? What are the extreme benchmark days across the 180-day cycle?'
+      vi: 'Cú rơi -83,1% GMV từ đỉnh tháng 6 (3,77 tỷ) xuống đáy tháng 8 (0,64 tỷ) và nhịp hồi phục tháng 10 (1,62 tỷ/25 ngày) đến từ số lượng ca Live hay năng suất mỗi ca?',
+      en: 'Was the -83.1% GMV drop from June (3.77B) to August (0.64B) and the October rebound (1.62B in 25d) driven by Live session count or yield per session?'
     },
-    sqlQuery: `-- Đối chiếu các ngày cực trị về số lượng phiên LIVE và hiệu suất GMV/phiên trong 180 ngày
+    sqlQuery: `-- Tổng hợp chuỗi tháng 231 ngày trên stg_store_daily và stg_affiliate_live
 SELECT 
-    date_id,
-    live_sessions_count,
-    shoppable_videos_count,
-    active_kocs,
-    units_sold,
-    daily_gmv AS total_daily_gmv_vnd,
-    ROUND(daily_gmv * 1.0 / NULLIF(live_sessions_count, 0), 0) AS gmv_per_live_session_vnd,
+    SUBSTR(s.record_date, 1, 7) AS ym,
+    COUNT(s.record_date) AS observed_days,
+    ROUND(SUM(s.daily_gmv_vnd) / 1e9, 2) AS store_gmv_b,
+    SUM(s.new_lives_cnt) AS store_lives_cnt,
+    ROUND((SUM(s.daily_gmv_vnd) / 1e6) / NULLIF(SUM(s.new_lives_cnt), 0), 2) AS store_gmv_per_live_m,
     CASE 
-        WHEN date_id = '2026-04-09' THEN 'Bẫy số lượng: 106 phiên LIVE chỉ đạt ~750k/phiên'
-        WHEN date_id = '2026-06-16' THEN 'Đỉnh lịch sử toàn shop (Kênh chính chủ đạt 272,1 Tr đ)'
-        WHEN date_id = '2026-06-25' THEN 'Điểm tối ưu: Chỉ 45 phiên thu về 4,36 Tr đ/phiên (Gấp 5,8x)'
-        WHEN date_id = '2026-09-04' THEN 'Đáy cuối vụ khi 43% khách Hà Nội ngừng mua đồ bơi'
-    END AS benchmark_diagnosis
-FROM kami_store_daily_overview
-WHERE date_id IN ('2026-04-09', '2026-06-16', '2026-06-25', '2026-09-04')
-ORDER BY date_id ASC;`,
+        WHEN SUBSTR(s.record_date, 1, 7) = '2026-04' THEN 'Đỉnh cung nội dung: 1.957 ca Live & 80 KOC mới'
+        WHEN SUBSTR(s.record_date, 1, 7) = '2026-06' THEN 'Đỉnh cầu mùa Hè: 3,77 tỷ đ (Đỉnh ngày 16/06 = 315,0 Tr)'
+        WHEN SUBSTR(s.record_date, 1, 7) = '2026-07' THEN 'Pha 1 suy giảm: Số ca Live giảm -46,4% (1.560 -> 836 ca)'
+        WHEN SUBSTR(s.record_date, 1, 7) = '2026-08' THEN 'Pha 2 chạm đáy: Năng suất Store/ca sụp -61,0% về 0,99 Tr'
+        WHEN SUBSTR(s.record_date, 1, 7) = '2026-10' THEN 'Xoay trục Thu Đông: 1,62 tỷ/25N nhờ năng suất 2,33 Tr/ca'
+    END AS phase_diagnosis
+FROM stg_store_daily s
+WHERE SUBSTR(s.record_date, 1, 7) IN ('2026-04', '2026-06', '2026-07', '2026-08', '2026-10')
+GROUP BY SUBSTR(s.record_date, 1, 7)
+ORDER BY ym ASC;`,
     columns: [
-      'date_id',
-      'live_sessions_count',
-      'units_sold',
-      'total_daily_gmv_vnd',
-      'gmv_per_live_session_vnd',
-      'benchmark_diagnosis'
+      'ym',
+      'observed_days',
+      'store_gmv_b',
+      'store_lives_cnt',
+      'store_gmv_per_live_m',
+      'phase_diagnosis'
     ],
     rows: [
-      ['2026-04-09', 106, 559, '79.455.237 đ', '749.578 đ/phiên', 'Bẫy số lượng: 106 phiên LIVE chỉ đạt ~750k/phiên'],
-      ['2026-06-16', 91, 1936, '315.047.108 đ', '3.462.056 đ/phiên', 'Đỉnh lịch sử toàn shop (Kênh chính chủ đạt 272,1 Tr đ)'],
-      ['2026-06-25', 45, 1172, '196.094.529 đ', '4.357.656 đ/phiên', 'Điểm tối ưu: Chỉ 45 phiên thu về 4,36 Tr đ/phiên (Gấp 5,8x)'],
-      ['2026-09-04', 27, 49, '5.443.055 đ', '201.595 đ/phiên', 'Đáy cuối vụ khi 43% khách Hà Nội ngừng mua đồ bơi']
+      ['2026-04', '30 ngày', '2,50 tỷ đ', 1957, '1,28 Tr đ/ca', 'Đỉnh cung nội dung: 1.957 ca Live & 80 KOC mới'],
+      ['2026-06', '30 ngày', '3,77 tỷ đ', 1560, '2,42 Tr đ/ca', 'Đỉnh cầu mùa Hè: 3,77 tỷ đ (Đỉnh ngày 16/06 = 315,0 Tr)'],
+      ['2026-07', '31 ngày', '2,12 tỷ đ', 836, '2,54 Tr đ/ca', 'Pha 1 suy giảm: Số ca Live giảm -46,4% (1.560 -> 836 ca)'],
+      ['2026-08', '31 ngày', '0,64 tỷ đ', 645, '0,99 Tr đ/ca', 'Pha 2 chạm đáy: Năng suất Store/ca sụp -61,0% về 0,99 Tr'],
+      ['2026-10*', '25 ngày', '1,62 tỷ đ', 694, '2,33 Tr đ/ca', 'Xoay trục Thu Đông: 1,62 tỷ/25N nhờ năng suất 2,33 Tr/ca']
     ],
     analystInterpretation: {
-      vi: 'Chứng minh quy luật hiệu suất cận biên giảm dần: Ngày 25/06 chỉ cần 45 phiên LIVE nhưng mang lại hiệu suất trên mỗi phiên cao gấp 5,8 lần ngày 09/04 (106 phiên).',
-      en: 'Proves diminishing marginal returns: Jun 25 needed only 45 LIVE sessions to achieve 5.8x higher GMV per session than Apr 09 (106 sessions).'
+      vi: 'Tách bạch rõ 2 pha suy giảm: Tháng 7 giảm do sụt cung số lượng ca (-46,4%) trong khi doanh thu Video và kệ hàng giữ nhịp GMV toàn shop/ca ở mức 2,54 Tr đ; đến tháng 8 mới sụp hiệu suất mỗi ca (-61,0% về 0,99 Tr đ). Ngược lại, đợt hồi phục tháng 10 đạt 1,62 tỷ đ chỉ với 694 ca nhờ xoay trục sang hàng Thu Đông (năng suất 2,33 Tr đ/ca).',
+      en: 'Separates the contraction into two distinct phases: July contracted via session supply (-46.4%) while non-Live sales buffered Store GMV/session at 2.54M VND; August then suffered a -61.0% yield collapse to 0.99M VND. Conversely, October rebounded to 1.62B VND across 694 sessions via Autumn-Winter catalog rotation (2.33M VND/session).'
     }
   },
   {
     id: 'sql-04-hero-sku-autumn-winter-pivot',
-    badge: 'SKU MATRIX • AUTUMN PIVOT',
+    badge: 'SKU PARETO & ROTATION • 339 SKUS',
     title: {
-      vi: '4. Truy Tìm Hero SKU Xoay Trục Thu – Đông (LEFT JOIN _product data & Creator Goods)',
-      en: '4. Identifying Autumn/Winter Pivot Hero SKUs (LEFT JOIN _product data & Creator Goods)'
+      vi: '4. Đảo Chiều Danh Mục Tuần W36 (31/08) & Sàng Lọc 339 SKU (12 Mã Tạo 80,6% GMV)',
+      en: '4. Week W36 (Aug 31) Seasonal Catalog Crossover & 339-SKU Pareto Screening'
     },
     businessQuestion: {
-      vi: 'Mã sản phẩm nào bán chạy số 1 toàn shop quanh năm nhưng kênh chính chủ mới khai thác tỷ trọng thấp, có thể đưa lên Ghim #1 sóng LIVE mùa Thu – Đông?',
-      en: 'Which #1 volume SKU sells year-round across the shop but is under-utilized on the official channel, making it ideal for #1 LIVE pinning in Autumn/Winter?'
+      vi: 'Khi nào tỷ trọng 5 mã Thu Đông chính thức vượt 5 mã Đồ bơi Hè trên chuỗi 10 SKU chủ lực, và vì sao có 206/339 SKU ghi nhận 0 đơn?',
+      en: 'When did the 5 Autumn-Winter SKUs overtake the 5 Summer Swimwear SKUs across the 10-SKU panel, and why do 206 of 339 catalog SKUs record zero orders?'
     },
-    sqlQuery: `-- So sánh tỷ trọng tự gánh của Kênh chính chủ theo từng Hero SKU trong 90 ngày
+    sqlQuery: `-- Kiểm tra điểm giao cắt mùa vụ tuần ISO trên stg_sku10_daily (1.790 dòng) và phân tầng năm lên sàn 339 SKU
 SELECT 
-    p.sku_code,
-    p.product_name,
-    p.category,
-    p.price_vnd,
-    p.units_sold AS shop_total_units,
-    COALESCE(SUM(c.units_sold), 0) AS self_channel_units,
-    ROUND(COALESCE(SUM(c.units_sold), 0) * 100.0 / p.units_sold, 2) AS self_reliance_pct,
-    p.gmv_vnd AS shop_total_gmv_vnd
-FROM kami_product_data_90d p
-LEFT JOIN kami_creator_goods_90d c 
-    ON p.product_id = c.product_id
-WHERE p.sku_code IN ('H36', 'CV11', 'M18', 'H32')
-GROUP BY p.product_id, p.sku_code, p.product_name, p.category, p.price_vnd, p.units_sold, p.gmv_vnd
-ORDER BY p.gmv_vnd DESC;`,
-    columns: ['sku_code', 'product_name', 'category', 'shop_total_units', 'self_channel_units', 'self_reliance_pct', 'shop_total_gmv_vnd'],
+    YEARWEEK(record_date, 3) AS iso_week,
+    MIN(record_date) AS week_monday,
+    ROUND(SUM(CASE WHEN season_affinity = 'Hàng Bán Hè' THEN daily_gmv_vnd ELSE 0 END) / 1e6, 2) AS summer_5sku_m,
+    ROUND(SUM(CASE WHEN season_affinity = 'Hàng Bán Đông' THEN daily_gmv_vnd ELSE 0 END) / 1e6, 2) AS winter_5sku_m,
+    ROUND(SUM(CASE WHEN season_affinity = 'Hàng Bán Đông' THEN daily_gmv_vnd ELSE 0 END) * 100.0 / SUM(daily_gmv_vnd), 1) AS winter_share_pct,
+    ROUND(SUM(CASE WHEN sku_code = 'AT06' THEN daily_gmv_vnd ELSE 0 END) * 100.0 / SUM(daily_gmv_vnd), 1) AS at06_share_pct
+FROM stg_sku10_daily
+WHERE YEARWEEK(record_date, 3) IN (202624, 202635, 202636, 202641, 202642)
+GROUP BY YEARWEEK(record_date, 3)
+ORDER BY iso_week ASC;`,
+    columns: ['iso_week', 'week_monday', 'summer_5sku_m', 'winter_5sku_m', 'winter_share_pct', 'at06_share_pct'],
     rows: [
-      ['H36', 'Set Bikini 2 Mảnh Kẻ Sọc (H36)', 'Sports & Outdoor', 4360, 2852, '65.41%', '824.024.829 đ'],
-      ['CV11', 'Chân Váy Ngắn Form Chữ A Dáng Ôm (CV11)', 'Womenswear & Underwear', 6375, 1338, '20.99%', '735.067.229 đ'],
-      ['M18', 'Bikini 1 Mảnh Bodysuit Đen & Xanh (M18)', 'Sports & Outdoor', 2307, 1313, '56.91%', '463.963.132 đ'],
-      ['H32', 'Set Bikini 2 Mảnh Xanh Rêu (H32)', 'Sports & Outdoor', 2681, 1664, '62.07%', '390.995.921 đ']
+      ['2026-W24 (Đỉnh Hè)', '2026-06-08', '280,14 Tr đ', '26,41 Tr đ', '8.6%', '0.0%'],
+      ['2026-W35 (Trước xoay trục)', '2026-08-24', '14,76 Tr đ', '12,59 Tr đ', '46.0%', '0.0%'],
+      ['2026-W36 (Mốc đảo chiều)', '2026-08-31', '10,16 Tr đ', '24,57 Tr đ', '70.8%', '0.0% (CV11 & CV02 dẫn sóng)'],
+      ['2026-W41 (Cao điểm Thu)', '2026-10-05', '3,55 Tr đ', '334,26 Tr đ', '98.9%', '88.1% (AT06 bùng nổ)'],
+      ['2026-W42 (Cao điểm Thu)', '2026-10-12', '4,47 Tr đ', '519,70 Tr đ', '99.1%', '91.6% (AT06 chủ lực)']
     ],
     analystInterpretation: {
-      vi: 'Mã Chân váy chữ A (CV11) đứng #1 toàn shop về sản lượng (6.375 SP) nhưng kênh chính chủ mới bán 20,99% (1.338 SP). Khi đưa CV11 lên Ghim #1 trong phiên LIVE chạy Ads 2,17M đ (ngày 28/03), riêng mã này đã chốt 130 đơn = 20,34 Tr đ (98,48% GMV phiên)!',
-      en: 'A-Line Skirt (CV11) ranks #1 in shop volume (6,375 units) yet official channel sales account for only 20.99% (1,338 units). When pinned #1 in the 2.17M VND Ads LIVE session (Mar 28), CV11 alone generated 130 orders = 20.34M VND (98.48% of session GMV)!'
+      vi: 'Danh mục đảo chiều sang Thu Đông ngay tại tuần W36 (31/08: từ 46,0% vọt lên 70,8%), mở đường cho mã áo giữ nhiệt AT06 đóng góp 1,30 tỷ đ (89,2% GMV 10 mã trong tháng 10). Trên bảng Shop_Products (339 SKU), 12/133 mã có đơn tạo 80,6% GMV; trong 206 mã 0 đơn có tới 204 mã niêm yết cũ trước năm 2026 (43/45 mã ra mắt năm 2026 đều có đơn).',
+      en: 'The catalog flipped to Autumn-Winter in week W36 (Aug 31: surging from 46.0% to 70.8%), paving the way for thermal top AT06 to generate 1.30B VND (89.2% of 10-SKU GMV in October). Across Shop_Products (339 SKUs), 12 of 133 active SKUs drive 80.6% of GMV, while 204 of the 206 zero-sale SKUs are pre-2026 legacy listings (43 of 45 2026 launches converted).'
     }
   }
 ];
