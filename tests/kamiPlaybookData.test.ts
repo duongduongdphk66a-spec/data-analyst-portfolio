@@ -121,8 +121,8 @@ describe('Kami Ely playbook data', () => {
     expect(v2.ch4.survival.first3ZeroNeverConvertPct).toBeCloseTo(77.2, 1);
 
     // Ch 5 & Ch 6 & Appendix
-    expect(v2.ch3.sku10Summary.junSummerSharePct).toBeCloseTo(90.9, 1);
-    expect(v2.ch3.sku10Summary.octWinterSharePct).toBeCloseTo(98.4, 1);
+    expect(v2.ch3.sku10Summary.junSummerSharePct).toBeCloseTo(91.2, 1);
+    expect(v2.ch3.sku10Summary.octWinterSharePct).toBeCloseTo(98.3, 1);
     expect(v2.ch3.peakZScores.trailing28Excl).toBeCloseTo(6.81, 2);
     expect(v2.ch3.dowIndex[3].meanIndex).toBeCloseTo(112.6, 1);
     expect(v2.ch5.videoForestSlices).toHaveLength(6);

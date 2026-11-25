@@ -1,444 +1,429 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import {
-  BarChart,
   Bar,
+  CartesianGrid,
+  Cell,
+  ComposedChart,
+  Line,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  Cell,
-  LabelList,
 } from 'recharts';
-import {
-  ChapterShell,
-  ChartCard,
-  ChartRoleBadge,
-  ChartTooltip,
-  ExpandableMoreSection,
-  axisTick,
-  legendFormatter,
-  GRID_STROKE,
-  usePlaybookLang,
-} from '../playbook/PlaybookUi';
-import { KAMI_BRAND_PALETTE, V2 } from './kamiOutlineV2Metrics';
+import { V2 } from './kamiOutlineV2Metrics';
 
-export default function Chapter5LiveVideoAds() {
-  const { L, n } = usePlaybookLang();
-  const le = V2.ch5.liveEfficiency;
+interface Props {
+  lang: 'vi' | 'en';
+}
+
+export function Chapter5LiveVideoAds({ lang }: Props) {
+  const isVi = lang === 'vi';
+  const [showTechAppendix, setShowTechAppendix] = useState(false);
+
+  const dur5 = V2.ch5.durationBuckets5;
+  const vAds = V2.ch5.videoAdsComparison;
   const slices = V2.ch5.videoForestSlices;
-  const heatmap = V2.ch5.crLiveHeatmap;
-  const hashtags = V2.ch5.videoHashtagStats;
-  const themes = V2.ch5.videoThemeStats;
-  const pinned = V2.ch5.pinnedAnalysis;
+  const hm = V2.ch5.crLiveHeatmap;
+  const pin = V2.ch5.pinnedAnalysis;
 
-  // 3 cột tách bạch: Chính shop, Vệ tinh, 301 đối tác độc lập
-  const liveYieldBars = [
+  const videoComparisonBars = [
     {
-      channel: L('Chính shop', 'Official shop'),
-      vndPerView: 2163,
-      label: '2.163 đ',
-      fill: KAMI_BRAND_PALETTE.tealInk,
+      group: isVi ? 'Có ủy quyền Ads (3.775 clip)' : 'Ad-Authorized (3,775 clips)',
+      shortGroup: isVi ? 'Có ủy quyền Ads' : 'Ad-Authorized',
+      clips: vAds.adsClips,
+      convPct: vAds.adsConvPct,
+      meanGmvK: vAds.adsMeanGmvK,
+      totalGmvB: vAds.adsTotalGmvB,
+      fill: '#0D7287',
     },
     {
-      channel: L('Vệ tinh @koc_sat01', 'Satellite @koc_sat01'),
-      vndPerView: 2021,
-      label: '2.021 đ',
-      fill: KAMI_BRAND_PALETTE.amber,
-    },
-    {
-      channel: L('301 đối tác ngoài', '301 independent partners'),
-      vndPerView: 40.8,
-      label: '40,8 đ',
-      fill: KAMI_BRAND_PALETTE.cyan,
+      group: isVi ? 'Không ủy quyền (1.021 clip)' : 'Non-Authorized (1,021 clips)',
+      shortGroup: isVi ? 'Không ủy quyền' : 'Non-Authorized',
+      clips: vAds.orgClips,
+      convPct: vAds.orgConvPct,
+      meanGmvK: vAds.orgMeanGmvK,
+      totalGmvB: vAds.orgTotalGmvB,
+      fill: '#94A3B8',
     },
   ];
 
-  const heatCellClass = (val: number, lowSample: boolean) => {
-    if (lowSample) {
-      return 'bg-slate-100 text-slate-400 dark:bg-slate-800/60 dark:text-slate-500 border border-dashed border-slate-300 dark:border-slate-700';
-    }
-    if (val >= 2800) {
-      return 'bg-[#0D7287] text-white font-extrabold';
-    }
-    if (val >= 1500) {
-      return 'bg-[#9BE7FA] text-slate-950 font-bold';
-    }
-    if (val >= 1000) {
-      return 'bg-[#C8EEF7] text-slate-900 font-semibold dark:bg-[#9BE7FA]/25 dark:text-white';
-    }
-    return 'bg-[#FFE485]/45 text-amber-950 dark:bg-[#FFD14C]/15 dark:text-[#FFE485]';
-  };
-
   return (
-    <ChapterShell
-      id="sec-ch5-ads"
-      chapterNum={L('Chương 5', 'Chapter 5')}
-      title={L('Hiệu suất định dạng nội dung: Live, Video và kiểm định Ads so với Organic', 'Content format efficiency: Live, Video, and Ads vs Organic forest plot')}
-      scopeLabel={L(`AffLive · CrLive · AffVid (${n(le.affVideos)} clip)`, `AffLive · CrLive · AffVid (${n(le.affVideos)} clips)`)}
-      question={L('Live hay Video, chính chủ hay affiliate, Ads hay Organic hiệu quả hơn?', 'How do Live vs Video, official vs affiliate, and Ads vs Organic compare in efficiency?')}
-      conclusion={L(
-        'Hiệu suất tập trung vượt trội ở phiên Live của chính shop và kênh vệ tinh; quảng cáo video giúp mở rộng xác suất ra đơn nhưng không nâng GPM toàn kỳ.',
-        'Efficiency concentrates overwhelmingly in official and satellite Live streams; video Ads expands order conversion probability without lifting overall GPM.'
-      )}
-      soWhat={L(
-        'Ưu tiên nhân lực và lịch phát sóng cho kênh chính shop; với video Ads, chỉ chạy có chọn lọc cho clip đã có đà tự nhiên và theo dõi GMV mỗi lượt xem theo khung giờ trước khi dồn ngân sách.',
-        'Prioritize staffing and schedules for official streams; deploy video Ads selectively on organically proven clips and monitor GMV per view by time slot before scaling budget.'
-      )}
-    >
-      {/* 1 thẻ Lưu ý khi đọc (thay 3 thẻ cũ) */}
-      <div className="rounded-xl border border-[#9BE7FA]/80 bg-[#C8EEF7]/30 p-3.5 dark:border-slate-800 dark:bg-slate-950/60 space-y-1">
-        <div className="text-xs font-extrabold text-[#074553] dark:text-[#9BE7FA]">
-          {L('Lưu ý khi đọc số liệu hiệu suất nội dung và quảng cáo', 'Notes on content format efficiency and Ads metrics')}
-        </div>
-        <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed tabular-nums">
-          {L(
-            'Kênh vệ tinh @koc_sat01 đạt năng suất 2.021 đ/lượt xem, gần bằng chính shop (2.163 đ), vượt xa 301 đối tác độc lập (40,8 đ). Hiệu ứng cờ Ads trong phân tích là so sánh quan sát có thiên lệch chọn mẫu, không phải thử nghiệm ngẫu nhiên A/B.',
-            'In-house satellite @koc_sat01 yielded 2,021 VND/view, rivaling official Live (2,163 VND) and far exceeding 301 independent partners (40.8 VND). The Ads flag reflects an observational comparison subject to selection bias, not a randomized A/B trial.'
-          )}
+    <section id="sec-content" className="scroll-mt-28 space-y-6">
+      <div className="space-y-1.5">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+          {isVi
+            ? 'Hiệu suất Livestream & Đòn bẩy Ủy quyền quảng cáo Video'
+            : 'Livestream Duration Efficiency & Video Ad Authorization Leverage'}
+        </h2>
+        <p className="text-sm text-slate-600 dark:text-slate-300 max-w-prose leading-relaxed">
+          {isVi
+            ? 'Kiểm định 600 phiên Livestream chính chủ (Creator_Livestreams) theo 5 mốc thời lượng và 4.796 video gắn giỏ sau khử trùng (từ 4.797 dòng thô Affiliate_Videos) sau khi chuẩn hóa nhãn song ngữ YES/có và NO/không.'
+            : 'Evaluating 600 official livestream sessions (Creator_Livestreams) across 5 duration buckets and 4,796 deduplicated shoppable videos (from 4,797 raw Affiliate_Videos rows) after bilingual YES/có and NO/không normalization.'}
         </p>
       </div>
 
-      {/* 5.1 [CHÍNH] GMV mỗi lượt xem Live: 3 cột */}
-      <ChartCard
-        height=""
-        badge={<ChartRoleBadge kind="main" />}
-        title={L(
-          '5.1. Chính shop và vệ tinh đạt trên 2.000 đ/lượt xem; 301 đối tác chỉ đạt 40,8 đ',
-          '5.1. Official and satellite yield over 2,000 VND/view; 301 partners reach 40.8 VND'
-        )}
-        footer={L(
-          `Nguồn: Affiliate_Livestreams [Lượt Xem, Doanh Thu Cho Shop] · 07/03 - 20/10/2026 · n = 595 phiên chính shop, 261 phiên vệ tinh và 7.499 phiên đối tác độc lập. Mạng ngoài chiếm ${n(le.extViewSharePct, 1)}% lượt xem nhưng chỉ mang về ${n(le.extGmvSharePct, 1)}% GMV.`,
-          `Source: Affiliate_Livestreams [Views, Shop GMV] · 07/03 - 20/10/2026 · n = 595 official, 261 satellite, and 7,499 independent partner sessions. Affiliates hold ${n(le.extViewSharePct, 1)}% of views yet only ${n(le.extGmvSharePct, 1)}% of GMV.`
-        )}
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center pt-1">
-          <div className="lg:col-span-6 h-56 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={liveYieldBars} margin={{ top: 20, right: 16, left: 4, bottom: 4 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
-                <XAxis dataKey="channel" tick={axisTick} />
-                <YAxis domain={[0, 2600]} width={52} tick={axisTick} tickFormatter={(v: number) => `${v}đ`} />
-                <Tooltip content={<ChartTooltip fmt={(v) => `${n(v, 1)} đ/lượt xem`} />} />
-                <Bar dataKey="vndPerView" name={L('GMV / lượt xem Live', 'GMV / Live view')} radius={[6, 6, 0, 0]} isAnimationActive={false}>
-                  <LabelList
-                    dataKey="label"
-                    position="top"
-                    style={{ fontSize: '11px', fontWeight: 700, fill: '#074553' }}
+      {/* Biểu đồ 4: 2 Biểu đồ ghép ngang (Trái: Thời lượng phiên Live vs GMV/giờ | Phải: Ủy quyền quảng cáo Video vs Không ủy quyền) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {/* Bên trái: Thời lượng phiên Live vs Hiệu suất GMV/giờ (600 phiên Creator_Livestreams) */}
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5 md:p-6 flex flex-col justify-between">
+          <div>
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+              <span className="inline-flex items-center rounded-md bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 px-2.5 py-0.5 text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA]">
+                {isVi ? 'Biểu đồ 4A · Creator_Livestreams (600 phiên)' : 'Chart 4A · Creator_Livestreams (600 sessions)'}
+              </span>
+              <span className="rounded-md bg-emerald-500/15 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-300 tabular-nums">
+                {isVi ? '>10h: 4,55 triệu/giờ (4,1× ca <2h)' : '>10h: 4.55M/hour (4.1x <2h)'}
+              </span>
+            </div>
+            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+              {isVi
+                ? 'Thời lượng phiên Live vs. Hiệu suất GMV bình quân mỗi giờ'
+                : 'Live Session Duration vs. Average GMV per Hour'}
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 tabular-nums">
+              {isVi
+                ? 'Cột = Tổng GMV nhóm (Tỷ VNĐ) · Đường = GMV bình quân mỗi giờ live (Triệu VNĐ/giờ)'
+                : 'Bars = Total Bucket GMV (B VND) · Line = Average GMV per Live Hour (M VND/hour)'}
+            </p>
+
+            <div className="h-[260px] w-full mt-3">
+              <ResponsiveContainer width="100%" height="100%">
+                <ComposedChart data={dur5} margin={{ top: 12, right: 16, left: 0, bottom: 6 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.18)" />
+                  <XAxis
+                    dataKey="bucket"
+                    tick={{ fontSize: 11, fill: '#64748b', fontWeight: 600 }}
+                    tickLine={false}
                   />
-                  {liveYieldBars.map((b, i) => (
-                    <Cell key={i} fill={b.fill} stroke={KAMI_BRAND_PALETTE.tealInk} strokeWidth={0.8} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+                  <YAxis
+                    yAxisId="left"
+                    tick={{ fontSize: 11, fill: '#64748b' }}
+                    tickFormatter={(v) => `${v}B`}
+                    tickLine={false}
+                    axisLine={false}
+                    domain={[0, 4.6]}
+                  />
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    tick={{ fontSize: 11, fill: '#d97706' }}
+                    tickFormatter={(v) => `${v}M/h`}
+                    tickLine={false}
+                    axisLine={false}
+                    domain={[0, 5.2]}
+                  />
+                  <Tooltip
+                    content={({ active, payload }) => {
+                      if (!active || !payload || !payload.length) return null;
+                      const d = payload[0].payload;
+                      return (
+                        <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 p-3 text-xs tabular-nums space-y-1">
+                          <p className="font-bold text-slate-900 dark:text-white">
+                            {isVi ? d.labelVi : d.labelEn} ({d.sessions} {isVi ? 'phiên' : 'sessions'})
+                          </p>
+                          <p>
+                            {isVi ? 'Hiệu suất bình quân/giờ (Đường): ' : 'Mean GMV/hour (Line): '}
+                            <strong className="text-amber-600 dark:text-amber-400">
+                              {d.gmvPerHourM.toFixed(2).replace('.', ',')} {isVi ? 'triệu/giờ' : 'M/hour'}
+                            </strong>
+                          </p>
+                          <p>
+                            {isVi ? 'Tổng GMV đóng góp (Cột): ' : 'Total GMV (Bar): '}
+                            <strong className="text-slate-900 dark:text-white">
+                              {d.totalGmvB.toFixed(2).replace('.', ',')} {isVi ? 'tỷ VNĐ' : 'B VND'} ({d.gmvSharePct}%)
+                            </strong>
+                          </p>
+                          <p>
+                            {isVi ? 'Tổng số giờ live: ' : 'Total live hours: '}
+                            <strong>{d.totalHours}h</strong>
+                          </p>
+                        </div>
+                      );
+                    }}
+                  />
+                  <Bar
+                    yAxisId="left"
+                    dataKey="totalGmvB"
+                    name={isVi ? 'Tổng GMV (Tỷ VNĐ)' : 'Total GMV (B VND)'}
+                    fill="#9BE7FA"
+                    radius={[6, 6, 0, 0]}
+                    maxBarSize={42}
+                  />
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="gmvPerHourM"
+                    name={isVi ? 'GMV/giờ (Triệu/giờ)' : 'GMV/hour (M/hour)'}
+                    stroke="#D97706"
+                    strokeWidth={2.75}
+                    dot={{ r: 4.5, fill: '#FFD14C', stroke: '#D97706', strokeWidth: 2 }}
+                  />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
           </div>
 
-          <div className="lg:col-span-6 space-y-3 text-xs tabular-nums">
-            <div className="space-y-1">
-              <div className="flex justify-between font-bold text-slate-800 dark:text-slate-200">
-                <span>{L('Phân bổ Tổng Lượt Xem Live (43,79 triệu PV)', 'Share of Total Live Views (43.79M PV)')}</span>
-                <span>{n(le.officialViewSharePct, 1)}% / {n(le.extViewSharePct, 1)}%</span>
-              </div>
-              <div className="flex h-7 w-full overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700 font-bold">
-                <div style={{ width: `${le.officialViewSharePct}%`, backgroundColor: KAMI_BRAND_PALETTE.tealInk }} className="flex items-center justify-center text-white">
-                  {n(le.officialViewSharePct, 0)}%
-                </div>
-                <div style={{ width: `${le.extViewSharePct}%`, backgroundColor: KAMI_BRAND_PALETTE.amber }} className="flex items-center justify-center text-slate-950">
-                  Đối tác ngoài {n(le.extViewSharePct, 1)}% ({n(le.extViewsM, 2)}M PV)
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-1">
-              <div className="flex justify-between font-bold text-slate-800 dark:text-slate-200">
-                <span>{L('Phân bổ Doanh thu Live (10,47 tỷ đ)', 'Share of Total Live GMV (10.47B VND)')}</span>
-                <span>{n(le.officialGmvSharePct, 1)}% / {n(le.extGmvSharePct, 1)}%</span>
-              </div>
-              <div className="flex h-7 w-full overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700 font-bold">
-                <div style={{ width: `${le.officialGmvSharePct}%`, backgroundColor: KAMI_BRAND_PALETTE.tealInk }} className="flex items-center justify-center text-white">
-                  @shop_official {n(le.officialGmvSharePct, 1)}%
-                </div>
-                <div style={{ width: `${le.extGmvSharePct}%`, backgroundColor: KAMI_BRAND_PALETTE.amber }} className="flex items-center justify-center text-slate-950">
-                  {n(le.extGmvSharePct, 1)}%
-                </div>
-              </div>
-            </div>
+          <div className="mt-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-3.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 tabular-nums leading-relaxed">
+            <strong className="text-slate-900 dark:text-white">
+              {isVi ? 'Kết luận (lưu ý nhân quả ngược): ' : 'Takeaway (reverse-causality caveat): '}
+            </strong>
+            {isVi
+              ? '67 ca mega-live >10h đạt 4,55 Tr/giờ (gấp 4,1× ca <2h) và tạo 53,8% GMV Live chính chủ (4,08 tỷ). T8–T9 thời lượng tụt về 2,25–4,46h/phiên kéo GMV giảm theo. Tuy nhiên, phiên bán tốt vào ngày sale lớn thường được giữ sóng lâu hơn nên cần kiểm chứng có kiểm soát khi áp dụng cho ngày thường.'
+              : '67 >10h mega-lives yielded 4.55M/hr (4.1x <2h) and drove 53.8% of official Live GMV (4.08B), while Aug–Sep dropped to 2.25–4.46h. Because strong promo sessions tend to stay live longer (reverse causality), longer shifts require controlled pilot validation on non-promo days.'}
           </div>
         </div>
-      </ChartCard>
 
-      {/* 5.2 [CHÍNH] Forest plot Ads so với Organic qua 6 lát cắt */}
-      <ChartCard
-        height=""
-        badge={<ChartRoleBadge kind="main" />}
-        title={L(
-          '5.2. Cờ Ads tăng tỷ lệ ra đơn nhưng GPM toàn kỳ thấp hơn Organic',
-          '5.2. Ads flag lifts conversion rate but full-sample GPM trails Organic'
-        )}
-        footer={L(
-          `Nguồn: Affiliate_Videos sau khử trùng · n = ${n(le.affVideos)} video (${n(slices[0].adsN)} Ads so với ${n(slices[0].orgN)} Organic). So sánh quan sát có thiên lệch chọn mẫu vì nhãn hàng thường cấp quyền Ads cho clip có tín hiệu tốt sẵn.`,
-          `Source: Deduplicated Affiliate_Videos · n = ${n(le.affVideos)} clips (${n(slices[0].adsN)} Ads vs ${n(slices[0].orgN)} Organic). Observational comparison subject to selection bias.`
-        )}
-      >
-        <div className="space-y-2.5 pt-1">
-          <div className="grid grid-cols-12 gap-2 text-[11px] font-extrabold text-slate-700 dark:text-slate-300 pb-1 border-b border-[#C8EEF7] dark:border-slate-800">
-            <div className="col-span-12 md:col-span-4">{L('Lát cắt kiểm soát (n Ads / n Organic)', 'Control slice (Ads n / Organic n)')}</div>
-            <div className="col-span-6 md:col-span-4">
-              <div className="flex justify-between">
-                <span>{L('Độ tăng tỷ lệ có đơn', 'Conversion lift')}</span>
-                <span className="text-[11px] text-slate-400">[0% → +40%]</span>
-              </div>
+        {/* Bên phải: Tác động của Ủy quyền quảng cáo Video (4.797 clip Affiliate_Videos) */}
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5 md:p-6 flex flex-col justify-between">
+          <div>
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+              <span className="inline-flex items-center rounded-md bg-[#FFE485]/60 dark:bg-[#FFD14C]/15 px-2.5 py-0.5 text-xs font-semibold text-slate-900 dark:text-[#FFE485]">
+                {isVi ? 'Biểu đồ 4B · Affiliate_Videos (4.796 clip sau khử trùng)' : 'Chart 4B · Affiliate_Videos (4,796 deduped clips)'}
+              </span>
+              <span className="rounded-md bg-emerald-500/15 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-300 tabular-nums">
+                {isVi ? 'Doanh thu/clip gấp 4,4 lần khi bật Ads' : '4.4x higher revenue/clip with Ads'}
+              </span>
             </div>
-            <div className="col-span-6 md:col-span-4">
-              <div className="flex justify-between">
-                <span>{L('Tỷ số GPM Ads/Org', 'GPM ratio')}</span>
-                <span className="text-[11px] text-slate-400">[0x · 1.0x · 2.0x]</span>
-              </div>
-            </div>
-          </div>
+            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+              {isVi
+                ? 'Tác động của Ủy quyền quảng cáo Video (Sau gộp nhãn YES/có)'
+                : 'Impact of Video Ad Authorization (After YES/có Bilingual Merge)'}
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 tabular-nums">
+              {isVi
+                ? 'So sánh trực tiếp Doanh thu bình quân mỗi clip (Nghìn VNĐ/clip) và Tỷ lệ clip phát sinh đơn (%)'
+                : 'Direct comparison of Mean Revenue per Clip (k VND/clip) and Clip Conversion Rate (%)'}
+            </p>
 
-          {slices.map((s) => {
-            const toConvPct = (v: number) => Math.max(0, Math.min(100, (v / 40) * 100));
-            const toRatioPct = (v: number) => Math.max(2, Math.min(98, (v / 2.0) * 100));
-            const adsWinsGpm = s.gpmRatio >= 1.0;
-
-            return (
-              <div key={s.id} className="grid grid-cols-12 items-center gap-2 text-xs tabular-nums py-1">
-                <div className="col-span-12 md:col-span-4">
-                  <div className="font-bold text-slate-900 dark:text-white">{L(s.labelVi, s.labelEn)}</div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                    Ads {n(s.adsN)} ({n(s.adsConvPct, 1)}%) · Org {n(s.orgN)} ({n(s.orgConvPct, 1)}%)
-                  </div>
-                </div>
-
-                {/* Panel 1: Conversion lift CI */}
-                <div className="col-span-6 md:col-span-4 flex items-center gap-2">
-                  <div className="relative h-6 flex-1 rounded bg-[#C8EEF7]/30 dark:bg-slate-800">
-                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-slate-400" />
-                    <div
-                      className="absolute top-1/2 -translate-y-1/2 h-1.5 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]"
-                      style={{
-                        left: `${toConvPct(s.ciLowPp)}%`,
-                        width: `${Math.max(2, toConvPct(s.ciHighPp) - toConvPct(s.ciLowPp))}%`,
-                      }}
-                    />
-                    <div
-                      className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[#074553] dark:bg-[#9BE7FA] border-2 border-white dark:border-slate-900"
-                      style={{ left: `${toConvPct(s.diffPp)}%` }}
-                    />
-                  </div>
-                  <span className="w-16 text-right font-bold text-[#074553] dark:text-[#9BE7FA]">
-                    +{n(s.diffPp, 1)} đ%
-                  </span>
-                </div>
-
-                {/* Panel 2: GPM Ratio around 1.0x */}
-                <div className="col-span-6 md:col-span-4 flex items-center gap-2">
-                  <div className="relative h-6 flex-1 rounded bg-[#FFE485]/30 dark:bg-slate-800">
-                    {/* Reference line at 1.0x (50%) */}
-                    <div className="absolute left-1/2 top-0 bottom-0 w-px bg-slate-500" />
-                    <div
-                      className={`absolute top-1/2 -translate-y-1/2 h-2 rounded-full ${
-                        adsWinsGpm ? 'bg-[#0D7287]' : 'bg-[#FFD14C] border border-amber-700/40'
-                      }`}
-                      style={{
-                        left: `${Math.min(50, toRatioPct(s.gpmRatio))}%`,
-                        width: `${Math.max(2, Math.abs(toRatioPct(s.gpmRatio) - 50))}%`,
-                      }}
-                    />
-                    <div
-                      className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 rounded-full border-2 border-white dark:border-slate-900 ${
-                        adsWinsGpm ? 'bg-[#074553]' : 'bg-amber-600'
-                      }`}
-                      style={{ left: `${toRatioPct(s.gpmRatio)}%` }}
-                    />
-                  </div>
-                  <span
-                    className={`w-16 text-right font-bold ${
-                      adsWinsGpm ? 'text-[#074553] dark:text-[#9BE7FA]' : 'text-amber-800 dark:text-[#FFE485]'
-                    }`}
+            <div className="h-[260px] w-full mt-3">
+              <ResponsiveContainer width="100%" height="100%">
+                <ComposedChart data={videoComparisonBars} margin={{ top: 12, right: 16, left: 0, bottom: 6 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.18)" />
+                  <XAxis
+                    dataKey="shortGroup"
+                    tick={{ fontSize: 11, fill: '#64748b', fontWeight: 600 }}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    yAxisId="left"
+                    tick={{ fontSize: 11, fill: '#64748b' }}
+                    tickFormatter={(v) => `${v}k`}
+                    tickLine={false}
+                    axisLine={false}
+                    domain={[0, 620]}
+                  />
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    tick={{ fontSize: 11, fill: '#059669' }}
+                    tickFormatter={(v) => `${v}%`}
+                    tickLine={false}
+                    axisLine={false}
+                    domain={[0, 40]}
+                  />
+                  <Tooltip
+                    content={({ active, payload }) => {
+                      if (!active || !payload || !payload.length) return null;
+                      const d = payload[0].payload;
+                      return (
+                        <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 p-3 text-xs tabular-nums space-y-1">
+                          <p className="font-bold text-slate-900 dark:text-white">{d.group}</p>
+                          <p>
+                            {isVi ? 'Doanh thu bình quân/clip (Cột): ' : 'Mean revenue/clip (Bar): '}
+                            <strong className="text-[#0D7287] dark:text-[#9BE7FA]">
+                              {d.meanGmvK.toFixed(1).replace('.', ',')}k VNĐ/clip
+                            </strong>
+                          </p>
+                          <p>
+                            {isVi ? 'Tỷ lệ clip có đơn (Đường): ' : 'Clip conversion rate (Line): '}
+                            <strong className="text-emerald-600 dark:text-emerald-400">
+                              {d.convPct.toFixed(1).replace('.', ',')}%
+                            </strong>
+                          </p>
+                          <p>
+                            {isVi ? 'Tổng doanh thu đóng góp: ' : 'Total GMV contribution: '}
+                            <strong>
+                              {d.totalGmvB.toFixed(2).replace('.', ',')} {isVi ? 'tỷ VNĐ' : 'B VND'}
+                            </strong>
+                          </p>
+                        </div>
+                      );
+                    }}
+                  />
+                  <Bar
+                    yAxisId="left"
+                    dataKey="meanGmvK"
+                    name={isVi ? 'Doanh thu TB/clip (Nghìn VNĐ)' : 'Mean GMV/clip (k VND)'}
+                    radius={[6, 6, 0, 0]}
+                    maxBarSize={64}
                   >
-                    {n(s.gpmRatio, 2)}x
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </ChartCard>
+                    {videoComparisonBars.map((entry, idx) => (
+                      <Cell key={`vbar-${idx}`} fill={entry.fill} />
+                    ))}
+                  </Bar>
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="convPct"
+                    name={isVi ? 'Tỷ lệ có đơn (%)' : 'Conversion Rate (%)'}
+                    stroke="#059669"
+                    strokeWidth={2.75}
+                    dot={{ r: 5, fill: '#10B981', stroke: '#059669', strokeWidth: 2 }}
+                  />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
 
-      {/* 5.3, 5.4, 5.5 [XEM THÊM] */}
-      <ExpandableMoreSection
-        title={L(
-          '5.3 - 5.5. Ma trận khung giờ × thời lượng Live chính chủ, phân tích hashtag/danh mục video và tương quan số sản phẩm ghim kệ',
-          '5.3 - 5.5. Official Live hour × duration heatmap, video hashtag/theme analysis, and pinned shelf correlation'
-        )}
-        countLabel={L('3 phân tích mở rộng', '3 deep-dive views')}
-      >
-        <div className="space-y-3.5">
-          {/* 5.3 Heatmap khung giờ × thời lượng */}
-          <ChartCard
-            height=""
-            badge={<ChartRoleBadge kind="more" />}
-            title={L(
-              '5.3. Ca Live chính chủ kéo dài trên 8 giờ đạt năng suất cao nhất',
-              '5.3. Official live streams over 8 hours achieve highest yield'
-            )}
-            footer={L(
-              'Nguồn: Creator_Livestreams dịch +13 giờ về UTC+7 · n = 595 phiên trong chu kỳ 231 ngày. Các ô viền đứt nét có cỡ mẫu nhỏ (n < 10 phiên) không dùng để ra quyết định.',
-              'Source: Creator_Livestreams shifted +13h to UTC+7 · n = 595 sessions within the 231d window. Dashed cells denote small sample size (n < 10) and are excluded from scheduling decisions.'
-            )}
-          >
-            <div className="overflow-x-auto rounded-xl border border-[#C8EEF7] dark:border-slate-800">
-              <table className="w-full text-center text-xs tabular-nums border-collapse">
-                <thead className="bg-[#C8EEF7]/45 text-slate-900 dark:bg-slate-800 dark:text-slate-100">
-                  <tr>
-                    <th className="px-3 py-2 text-left font-bold">{L('Khung mở ca (UTC+7)', 'Start slot (UTC+7)')}</th>
-                    <th className="px-3 py-2 font-bold">&lt; 2h</th>
-                    <th className="px-3 py-2 font-bold">2 - 4h</th>
-                    <th className="px-3 py-2 font-bold">4 - 8h</th>
-                    <th className="px-3 py-2 font-bold">&gt; 8h</th>
+          <div className="mt-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-3.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 tabular-nums leading-relaxed">
+            <strong className="text-slate-900 dark:text-white">
+              {isVi ? 'Chênh lệch 4,4× (lưu ý chọn mẫu ngược): ' : '4.4x Lift (observational caveat): '}
+            </strong>
+            {isVi
+              ? '3.775 clip bật Ads đạt 30,3% tỷ lệ ra đơn và 547,7k/clip (2,07 tỷ), so với 10,2% và 125,5k/clip ở 1.021 clip không Ads (nhãn hàng thường ưu tiên bật Ads cho clip vốn bán tốt).'
+              : '3,775 Ad-authorized clips converted at 30.3% and 547.7k/clip (2.07B) vs. 10.2% and 125.5k/clip for 1,021 non-authorized clips (subject to selection into boosting winners).'}
+          </div>
+        </div>
+      </div>
+
+      {/* Collapsible Technical Accordion for Forest Plot, Heatmap & Pinned Shelf (-55% height reduction) */}
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-4">
+        <button
+          type="button"
+          onClick={() => setShowTechAppendix((v) => !v)}
+          className="w-full min-h-[44px] rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900 px-4 py-2.5 text-xs font-bold text-slate-800 dark:text-slate-200 hover:border-[#0D7287] flex items-center justify-between transition-colors cursor-pointer"
+        >
+          <span>
+            {showTechAppendix
+              ? isVi
+                ? 'Thu gọn kiểm định độ nhạy 6 lát cắt Video Ads, Heatmap khung giờ Live & Kệ ghim'
+                : 'Collapse 6-slice Video Ads sensitivity, Live hour heatmap & pinned shelf analysis'
+              : isVi
+              ? 'Xem kiểm định thống kê chuyên sâu (so sánh Ads vs Organic trong cùng KOC): Forest Plot 6 lát cắt, Heatmap 16 ô khung giờ Live & Top SKU ghim kệ'
+              : 'View technical statistical tests (within-KOC Ads vs. Organic): 6-Slice Forest Plot, 16-Cell Live Heatmap & Top Pinned Live SKUs'}
+          </span>
+          {showTechAppendix ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+        </button>
+
+        {showTechAppendix && (
+          <div className="space-y-5 pt-4">
+            {/* 6-Slice Forest Table */}
+            <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+              <p className="text-xs font-bold text-slate-900 dark:text-white mb-2">
+                {isVi
+                  ? 'Kiểm định độ nhạy 6 lát cắt Video Ads (Toàn mẫu OR = 3,8x, +20,1 điểm %; Cùng 192 KOC OR = 3,9x, +23,6 điểm %)'
+                  : '6-Slice Video Ads Sensitivity Audit (Full sample OR = 3.8x, +20.1pp; Within 192 KOCs OR = 3.9x, +23.6pp)'}
+              </p>
+              <table className="w-full text-left border-collapse text-xs tabular-nums">
+                <thead>
+                  <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                    <th className="py-2 pr-3 font-semibold">{isVi ? 'Lát cắt kiểm định' : 'Subgroup Slice'}</th>
+                    <th className="py-2 px-2 font-semibold text-right">n (Ads / Org)</th>
+                    <th className="py-2 px-2 font-semibold text-right">Conv% Ads</th>
+                    <th className="py-2 px-2 font-semibold text-right">Conv% Org</th>
+                    <th className="py-2 px-2 font-semibold text-right">Δ (95% CI)</th>
+                    <th className="py-2 pl-2 font-semibold text-right">OR</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {heatmap.map((row) => (
-                    <tr key={row.hourSlot} className="border-t border-slate-100 dark:border-slate-800">
-                      <td className="px-3 py-2 text-left font-bold text-slate-900 dark:text-white">{row.hourSlot}</td>
-                      {row.cells.map((c) => (
-                        <td key={c.durBucket} className={`p-2 ${heatCellClass(c.gmvPerUv, c.lowSample)}`}>
-                          <div>{c.sessions > 0 ? `${n(c.gmvPerUv)} đ` : '0 đ'}</div>
-                          <div className="text-[11px] opacity-85">
-                            n = {c.sessions} {c.lowSample ? L('(mẫu nhỏ)', '(low n)') : `· ${n(c.gmvM, 0)}Tr`}
-                          </div>
-                        </td>
-                      ))}
+                  {slices.map((s) => (
+                    <tr key={s.id} className="border-b border-slate-100 dark:border-slate-800/60">
+                      <td className="py-2 pr-3 font-semibold text-slate-800 dark:text-slate-200">
+                        {isVi ? s.labelVi : s.labelEn}
+                      </td>
+                      <td className="py-2 px-2 text-right text-slate-500">
+                        {s.adsN} / {s.orgN}
+                      </td>
+                      <td className="py-2 px-2 text-right font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                        {s.adsConvPct}%
+                      </td>
+                      <td className="py-2 px-2 text-right text-slate-600 dark:text-slate-400">
+                        {s.orgConvPct}%
+                      </td>
+                      <td className="py-2 px-2 text-right font-semibold text-emerald-700 dark:text-emerald-400">
+                        +{s.diffPp}pp [{s.ciLowPp}, {s.ciHighPp}]
+                      </td>
+                      <td className="py-2 pl-2 text-right font-bold text-slate-900 dark:text-white">
+                        {s.oddsRatio}x
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </ChartCard>
 
-          {/* 5.4 Hashtag và danh mục video */}
-          <ChartCard
-            height=""
-            badge={<ChartRoleBadge kind="more" />}
-            title={L(
-              '5.4. Hashtag dòng sản phẩm có tỷ lệ ra đơn cao hơn hashtag xu hướng',
-              '5.4. Product-specific hashtags convert at higher rate than generic tags'
-            )}
-            footer={L(
-              `Nguồn: Affiliate_Videos [Tiêu Đề Video, Danh Mục Nội Dung, Doanh Thu Đóng Góp] · n = ${n(le.affVideos)} video. Phân loại regex trên Tiêu Đề Video + Danh Mục Nội Dung.`,
-              `Source: Affiliate_Videos [Caption, Content Category, Contributed Revenue] · n = ${n(le.affVideos)} videos. Classified via regex on Caption + Category.`
-            )}
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-1">
-              <div className="space-y-2">
-                <div className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                  {L('Tỷ lệ video phát sinh đơn theo cấu trúc hashtag', 'Order conversion rate by caption hashtag pattern')}
-                </div>
-                {hashtags.map((h) => (
-                  <div key={h.id} className="space-y-1 text-xs tabular-nums">
-                    <div className="flex justify-between gap-2">
-                      <span className="text-slate-700 dark:text-slate-300 truncate">{L(h.labelVi, h.labelEn)}</span>
-                      <span className="font-bold text-slate-900 dark:text-white shrink-0">
-                        {n(h.convPct, 1)}% ({n(h.clips)} clip)
-                      </span>
-                    </div>
-                    <div className="h-3 w-full rounded bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                      <div
-                        className="h-full rounded bg-[#0D7287] dark:bg-[#9BE7FA]"
-                        style={{ width: `${Math.min(100, h.convPct * 2)}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="space-y-2">
-                <div className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                  {L('Tỷ trọng GMV video theo nhóm chủ đề sản phẩm', 'Share of total video GMV by product theme')}
-                </div>
-                {themes.map((th) => (
-                  <div key={th.id} className="space-y-1 text-xs tabular-nums">
-                    <div className="flex justify-between gap-2">
-                      <span className="text-slate-700 dark:text-slate-300 truncate">{L(th.labelVi, th.labelEn)}</span>
-                      <span className="font-bold text-slate-900 dark:text-white shrink-0">
-                        {n(th.gmvSharePct, 1)}% ({n(th.gmvM, 1)} Tr)
-                      </span>
-                    </div>
-                    <div className="h-3 w-full rounded bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                      <div
-                        className="h-full rounded bg-[#FFD14C] border-r border-amber-600"
-                        style={{ width: `${th.gmvSharePct}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </ChartCard>
-
-          {/* 5.5 Số sản phẩm ghim kệ vs GMV phiên & LiveProd */}
-          <ChartCard
-            height=""
-            badge={<ChartRoleBadge kind="more" />}
-            title={L(
-              `5.5. Tương quan hạng giữa số sản phẩm lên kệ và GMV phiên đạt ρ = ${n(pinned.spearmanRho, 2)}`,
-              `5.5. Rank correlation between shelf item count and session GMV reaches ρ = ${n(pinned.spearmanRho, 2)}`
-            )}
-            footer={L(
-              `Nguồn: Creator_Livestreams [Số Sản Phẩm Lên Kệ, Doanh Thu Phiên Live] (n = 600, ρ = ${n(pinned.spearmanRho, 2)}) và Livestream_Products (n = ${pinned.liveProdTotal} SP, ${pinned.liveProdActive} SP có đơn = ${n(pinned.liveProdTotalGmvB, 2)} tỷ đ). Cột Lượng Bán Toàn Shop (312.689) trong LiveProd là hằng số lũy kế toàn shop nên tỷ trọng tính trên tổng giỏ LiveProd.`,
-              `Source: Creator_Livestreams [Shelf Products, Session GMV] (n = 600, ρ = ${n(pinned.spearmanRho, 2)}) and Livestream_Products (n = ${pinned.liveProdTotal} items, ${pinned.liveProdActive} active = ${n(pinned.liveProdTotalGmvB, 2)}B VND). Because Shop Units (312,689) is a store-wide cumulative constant, shares are computed over the LiveProd basket.`
-            )}
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center pt-1">
-              <div className="h-48 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={pinned.shelfBucketStats} margin={{ top: 10, right: 12, left: 0, bottom: 4 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
-                    <XAxis dataKey="bucket" tick={axisTick} />
-                    <YAxis width={48} tick={axisTick} tickFormatter={(v: number) => `${v}Tr`} />
-                    <Tooltip content={<ChartTooltip fmt={(v) => `${n(v, 2)} Tr đ`} />} />
-                    <Legend formatter={legendFormatter} />
-                    <Bar dataKey="meanGmvM" name={L('GMV TB phiên', 'Mean session GMV')} fill={KAMI_BRAND_PALETTE.cyan} stroke={KAMI_BRAND_PALETTE.tealInk} strokeWidth={0.8} radius={[4, 4, 0, 0]} isAnimationActive={false} />
-                    <Bar dataKey="medianGmvM" name={L('GMV trung vị phiên', 'Median session GMV')} fill={KAMI_BRAND_PALETTE.tealInk} radius={[4, 4, 0, 0]} isAnimationActive={false} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-
-              <div className="overflow-x-auto rounded-xl border border-[#C8EEF7] dark:border-slate-800">
-                <table className="w-full text-left text-xs tabular-nums">
-                  <thead className="bg-[#C8EEF7]/45 text-slate-900 dark:bg-slate-800 dark:text-slate-100">
-                    <tr>
-                      <th className="px-2.5 py-1.5 font-bold">{L('Mã ghim (LiveProd)', 'Pinned SKU')}</th>
-                      <th className="px-2.5 py-1.5 font-bold text-right">{L('Sản lượng Live', 'Live units')}</th>
-                      <th className="px-2.5 py-1.5 font-bold text-right">{L('GMV trong Live', 'Live GMV')}</th>
-                      <th className="px-2.5 py-1.5 font-bold text-right">{L('Tỷ trọng giỏ Live', 'Live basket share')}</th>
+            {/* 16-Cell Heatmap & Top Pinned SKUs */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+                <p className="text-xs font-bold text-slate-900 dark:text-white mb-2">
+                  {isVi
+                    ? 'Ma trận Khung giờ bắt đầu × Thời lượng phiên Live (595 phiên chính chủ UTC+7)'
+                    : 'Start Hour × Session Duration Matrix (595 official sessions UTC+7)'}
+                </p>
+                <table className="w-full text-center border-collapse text-xs tabular-nums">
+                  <thead>
+                    <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                      <th className="py-1.5 pr-2 text-left font-semibold">{isVi ? 'Khung giờ' : 'Hour Slot'}</th>
+                      <th className="py-1.5 px-2 font-semibold">&lt;2h</th>
+                      <th className="py-1.5 px-2 font-semibold">2-4h</th>
+                      <th className="py-1.5 px-2 font-semibold">4-8h</th>
+                      <th className="py-1.5 px-2 font-semibold">&gt;8h</th>
                     </tr>
                   </thead>
-                  <tbody className="text-slate-700 dark:text-slate-300">
-                    {pinned.topLiveProds.slice(0, 6).map((p) => (
-                      <tr key={p.code} className="border-t border-slate-100 dark:border-slate-800">
-                        <td className="px-2.5 py-1.5 font-bold text-slate-900 dark:text-white">{p.code}</td>
-                        <td className="px-2.5 py-1.5 text-right">{n(p.liveUnits)} sp</td>
-                        <td className="px-2.5 py-1.5 text-right font-medium">{n(p.liveGmvM, 1)} Tr</td>
-                        <td className="px-2.5 py-1.5 text-right font-semibold text-[#074553] dark:text-[#9BE7FA]">
-                          {n(p.liveGmvSharePct, 1)}%
+                  <tbody>
+                    {hm.map((row) => (
+                      <tr key={row.hourSlot} className="border-b border-slate-100 dark:border-slate-800/60">
+                        <td className="py-1.5 pr-2 text-left font-bold text-slate-900 dark:text-white">
+                          {row.hourSlot}
                         </td>
+                        {row.cells.map((c) => (
+                          <td key={c.durBucket} className="py-1.5 px-2">
+                            <span className="font-bold text-slate-900 dark:text-white">{c.gmvPerUv}đ/UV</span>
+                            <span className="block text-[11px] text-slate-500">n={c.sessions}</span>
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+                <p className="text-xs font-bold text-slate-900 dark:text-white mb-2">
+                  {isVi
+                    ? `Top 8 SKU ghim Live (Spearman ρ = +${pin.spearmanRho}, tổng ${pin.liveProdTotalGmvB} tỷ VNĐ)`
+                    : `Top 8 Pinned Live SKUs (Spearman ρ = +${pin.spearmanRho}, total ${pin.liveProdTotalGmvB}B VND)`}
+                </p>
+                <table className="w-full text-left border-collapse text-xs tabular-nums">
+                  <thead>
+                    <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                      <th className="py-1.5 pr-2 font-semibold">SKU</th>
+                      <th className="py-1.5 px-2 font-semibold text-right">{isVi ? 'Sản lượng Live' : 'Live Units'}</th>
+                      <th className="py-1.5 px-2 font-semibold text-right">{isVi ? 'GMV Live' : 'Live GMV'}</th>
+                      <th className="py-1.5 pl-2 font-semibold text-right">% GMV</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pin.topLiveProds.map((p) => (
+                      <tr key={p.code} className="border-b border-slate-100 dark:border-slate-800/60">
+                        <td className="py-1.5 pr-2 font-bold text-slate-900 dark:text-white">{p.code}</td>
+                        <td className="py-1.5 px-2 text-right">{p.liveUnits.toLocaleString(isVi ? 'vi-VN' : 'en-US')}</td>
+                        <td className="py-1.5 px-2 text-right font-semibold text-[#0D7287] dark:text-[#9BE7FA]">
+                          {p.liveGmvM}M
+                        </td>
+                        <td className="py-1.5 pl-2 text-right font-bold">{p.liveGmvSharePct}%</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             </div>
-          </ChartCard>
-        </div>
-      </ExpandableMoreSection>
-    </ChapterShell>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }

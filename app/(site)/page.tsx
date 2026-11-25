@@ -10,8 +10,8 @@ export async function generateMetadata() {
   return {
     title: `${displayName} | Fresher Data Analyst / Business Analyst`,
     description: isEn
-      ? `${displayName}: a Japanese Studies graduate moving into data analysis. Projects on TikTok Shop sales (231 days of data), heritage tourism in Japan and UX/UI design, built with SQL and Python.`
-      : `${displayName}: cử nhân Nhật Bản học chuyển sang phân tích dữ liệu. Dự án phân tích TikTok Shop (231 ngày dữ liệu), du lịch di sản Nhật Bản và thiết kế UX/UI, dùng SQL và Python.`,
+      ? `${displayName}: a Japanese Studies graduate moving into data and business analysis. Projects on TikTok Shop sales (231 days of data), heritage tourism in Japan, and Library Bus BA & telemetry design, built with SQL and Python.`
+      : `${displayName}: cử nhân Nhật Bản học chuyển sang phân tích dữ liệu và nghiệp vụ. Dự án phân tích TikTok Shop (231 ngày dữ liệu), du lịch di sản Nhật Bản và đặc tả BA & Telemetry cho Library Bus, dùng SQL và Python.`,
   };
 }
 

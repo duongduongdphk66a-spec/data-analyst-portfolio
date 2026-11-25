@@ -1,665 +1,418 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import {
-  AreaChart,
   Area,
-  BarChart,
+  AreaChart,
   Bar,
-  ComposedChart,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
   CartesianGrid,
-  Tooltip,
-  Legend,
-  ReferenceArea,
+  Cell,
+  ComposedChart,
+  Line,
   ReferenceLine,
   ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts';
-import {
-  ChapterShell,
-  ChartCard,
-  ChartRoleBadge,
-  ChartTooltip,
-  ExpandableMoreSection,
-  GranularityToggle,
-  axisTick,
-  legendFormatter,
-  GRID_STROKE,
-  useChartGranularity,
-  usePlaybookLang,
-} from '../playbook/PlaybookUi';
-import { KAMI_BRAND_PALETTE, V2 } from './kamiOutlineV2Metrics';
+import { V2 } from './kamiOutlineV2Metrics';
 
-export default function Chapter3SeasonalityAndRegression() {
-  const { L, n } = usePlaybookLang();
-  const [yieldGranularity, setYieldGranularity] = useChartGranularity<'month' | 'week'>('month', [
-    'month',
-    'week',
-  ]);
-  const daily = V2.ch0.dailySeries;
-  const ch3 = V2.ch3;
-  const yieldSeries =
-    yieldGranularity === 'week'
-      ? (ch3.weekly || []).map((w) => ({
-          xLabel: w.week,
-          ddmm: w.ddmm,
-          days: w.days,
-          storeLives: w.storeLives,
-          storeGmvPerLiveM: w.storeGmvPerLiveM,
-          actualLiveGmvPerSessionM: w.actualLiveGmvPerSessionM,
+interface Props {
+  lang: 'vi' | 'en';
+}
+
+type ParetoMode = 'koc' | 'sku';
+
+export function Chapter3SeasonalityAndRegression({ lang }: Props) {
+  const isVi = lang === 'vi';
+  const [paretoMode, setParetoMode] = useState<ParetoMode>('koc');
+  const [showRegressionAccordion, setShowRegressionAccordion] = useState(false);
+
+  const skuMonthly = V2.ch3.skuMonthlySeries;
+  const dp = V2.ch2.dualPareto;
+  const reg = V2.ch3.panelRegression;
+
+  const paretoChartItems =
+    paretoMode === 'koc'
+      ? dp.koc.items.map((x) => ({
+          name: x.rank === 1 ? '@shop_official' : x.rank === 2 ? '@koc_sat01' : `KOC #${x.rank}`,
+          fullName: x.label,
+          gmvM: x.gmvM,
+          sharePct: x.sharePct,
+          cumPct: x.cumPct,
+          highlight: x.isInHouse,
         }))
-      : ch3.monthly.map((m) => ({
-          xLabel: m.shortLabel,
-          ddmm: m.month,
-          days: m.days,
-          storeLives: m.storeLives,
-          storeGmvPerLiveM: m.storeGmvPerLiveM,
-          actualLiveGmvPerSessionM: m.actualLiveGmvPerSessionM,
+      : dp.sku.items.slice(0, 12).map((x) => ({
+          name: x.code,
+          fullName: `SKU ${x.code}`,
+          gmvM: x.gmvM,
+          sharePct: x.sharePct,
+          cumPct: x.cumPct,
+          highlight: x.rank === 1,
         }));
-  const yieldXKey = 'xLabel';
-  const s10 = ch3.sku10Summary;
-  const wf1 = ch3.waterfalls.junToJul;
-  const wf2 = ch3.waterfalls.julToAug;
-  const wfAll = ch3.waterfalls.junToAug;
 
   return (
-    <ChapterShell
-      id="sec-ch3-season"
-      chapterNum={L('Chương 3', 'Chapter 3')}
-      title={L('Biến động doanh thu, phân rã hai pha và chuyển mùa danh mục', 'Revenue volatility, two-phase contraction, and seasonal SKU rotation')}
-      scopeLabel={L('Store 231N · SKU10 (1.790 dòng)', 'Store 231d · SKU10 (1,790 rows)')}
-      question={L('Biên độ biến động do mùa vụ sản phẩm hay do cường độ marketing?', 'Is revenue volatility driven by product seasonality or marketing intensity?')}
-      conclusion={L(
-        'GMV tăng gấp bốn từ T3 (0,95 tỷ) lên T6 (3,77 tỷ), giảm 83,1% xuống T8 (0,64 tỷ) rồi hồi lên 1,62 tỷ trong 25 ngày T10. Số ca live giảm mạnh từ T7 (1.560 xuống 836), nhưng việc T7 giảm do số ca hay do năng suất mỗi ca phụ thuộc thước đo (GMV toàn shop mỗi ca chỉ sụp ở T8; GMV Live mỗi phiên giảm từ T7 nhưng T6 bị đẩy cao vì gán theo giờ mở ca); riêng đợt hồi phục T10 đến từ năng suất mỗi ca, không phải số ca.',
-        'GMV quadrupled from Mar (0.95B) to Jun (3.77B), dropped 83.1% to Aug (0.64B), and recovered to 1.62B in 25 days of Oct. Live sessions fell steeply in Jul (1,560 to 836), but whether Jul contracted via volume or yield depends on the metric (Store GMV/Live crashed in Aug; pure Live GMV/session fell from Jul though Jun was inflated by start-time booking); October recovery was yield-driven, not volume-driven.'
-      )}
-      soWhat={L(
-        'Danh mục đảo chiều sang hàng Thu Đông từ tuần 31/08 (tỷ trọng Thu Đông từ 46,0% lên 70,8% trong một tuần). Dữ liệu một mùa không tách được mùa vụ khỏi cường độ marketing, nên kế hoạch hàng và lịch live cần đi trước chuyển mùa một đến hai tháng.',
-        'The catalog rotated to Autumn-Winter from week 31/08 (winter share surged from 46.0% to 70.8% in one week). Single-season data cannot separate seasonality from marketing intensity, requiring stock and Live scheduling 1-2 months ahead of rotation.'
-      )}
-    >
-      {/* 1 thẻ Lưu ý khi đọc (thay thế 3 thẻ cũ) */}
-      <div className="rounded-xl border border-[#9BE7FA]/80 bg-[#C8EEF7]/30 p-3.5 dark:border-slate-800 dark:bg-slate-950/60 space-y-1">
-        <div className="text-xs font-extrabold text-[#074553] dark:text-[#9BE7FA]">
-          {L('Lưu ý khi đọc số liệu mùa vụ và năng suất ca', 'Notes on seasonality and session yield metrics')}
-        </div>
-        <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed tabular-nums">
-          {L(
-            'Thước Store ("GMV toàn shop trên mỗi ca Live") giữ 2,54 Tr ở T7 nhờ doanh thu Video và kệ hàng đệm vào tử số; trong khi thước Live thực trên AffLive giảm từ T7 do phiên lớn kéo dài qua đêm được gán trọn vào giờ mở ca tháng 6. Giá trị z-score chuẩn mực của đỉnh 16/06 là +6,81 (tính lùi 28 ngày trước đó, không gồm ngày đỉnh).',
-            'Store metric ("Store GMV per Live") held at 2.54M in Jul buffered by Video and Card sales; whereas pure Live session yield on AffLive fell from Jul because overnight sessions booked entirely to June start hours. The standardized z-score for the June 16 peak is +6.81 (trailing 28-day window excluding peak day).'
-          )}
+    <section id="sec-seasonality" className="scroll-mt-28 space-y-6">
+      <div id="sec-revenue" className="scroll-mt-28 space-y-1.5">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+          {isVi
+            ? 'Mạng lưới Affiliate & Danh mục SKU: Chuyển giao mùa vụ & Phân phối Pareto'
+            : 'Affiliate Network & SKU Catalog: Seasonal Transition & Pareto Concentration'}
+        </h2>
+        <p className="text-sm text-slate-600 dark:text-slate-300 max-w-prose leading-relaxed">
+          {isVi
+            ? 'Đặt cạnh nhau quá trình chuyển giao Hè → Đông của 10 SKU chủ lực (chiếm 52,1% GMV toàn shop giai đoạn 30/04–25/10) và mức độ tập trung Pareto của 6.086 kênh KOC cùng 339 mã sản phẩm.'
+            : 'Pairing the Summer-to-Winter transition across the 10 tracked core SKUs (52.1% of store GMV during Apr 30–Oct 25) with the dual-layer Pareto concentration of 6,086 KOC channels and 339 catalog SKUs.'}
         </p>
       </div>
 
-      {/* 3.1 [CHÍNH] GMV ngày + MA7 + MA28 với 4 pha mùa vụ và 4 mốc MA7 < MA28 */}
-      <ChartCard
-        height="h-64 sm:h-72"
-        badge={<ChartRoleBadge kind="main" />}
-        title={L(
-          '3.1. GMV 231 ngày qua 4 pha và 4 mốc MA7 cắt xuống MA28',
-          '3.1. 231-day GMV across four seasonal phases and four MA cross events'
-        )}
-        footer={L(
-          `Nguồn: Store_Daily_Overview · 09/03 - 25/10/2026 · n = ${V2.meta.days} ngày. Đỉnh 16/06 đạt 315,0 Tr đ (z = +6,81). 4 mốc MA7 < MA28: 29/04, 04/06, 26/06 và 22/10. Dải màu: Pha 1 Tăng trưởng, Pha 2 Đỉnh hè, Pha 3 Suy giảm, Pha 4 Thu Đông.`,
-          `Source: Store_Daily_Overview · 09/03 - 25/10/2026 · n = ${V2.meta.days} days. Peak Jun 16 reached 315.0M VND (z = +6.81). Four MA7 < MA28 crosses: 29/04, 04/06, 26/06, 22/10.`
-        )}
-      >
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={daily} margin={{ top: 22, right: 16, left: 4, bottom: 4 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
-            <ReferenceArea
-              x1="09/03"
-              x2="31/05"
-              fill={KAMI_BRAND_PALETTE.ice}
-              fillOpacity={0.25}
-              label={{ value: L('Pha 1: Tăng trưởng', 'Phase 1: Ramp'), position: 'insideTopLeft', fill: '#074553', fontSize: 10, fontWeight: 700 }}
-            />
-            <ReferenceArea
-              x1="01/06"
-              x2="30/06"
-              fill={KAMI_BRAND_PALETTE.cyan}
-              fillOpacity={0.3}
-              label={{ value: L('Pha 2: Đỉnh hè', 'Phase 2: Peak'), position: 'insideTop', fill: '#074553', fontSize: 10, fontWeight: 700 }}
-            />
-            <ReferenceArea
-              x1="01/07"
-              x2="31/08"
-              fill={KAMI_BRAND_PALETTE.butter}
-              fillOpacity={0.35}
-              label={{ value: L('Pha 3: Suy giảm', 'Phase 3: Drop'), position: 'insideTop', fill: '#92400E', fontSize: 10, fontWeight: 700 }}
-            />
-            <ReferenceArea
-              x1="01/09"
-              x2="25/10"
-              fill={KAMI_BRAND_PALETTE.ice}
-              fillOpacity={0.2}
-              label={{ value: L('Pha 4: Thu Đông', 'Phase 4: Autumn'), position: 'insideTopRight', fill: '#074553', fontSize: 10, fontWeight: 700 }}
-            />
-            <XAxis dataKey="ddmm" tick={axisTick} interval={24} />
-            <YAxis width={52} domain={[0, 340]} tick={axisTick} tickFormatter={(v: number) => `${v}Tr`} />
-            <Tooltip
-              content={
-                <ChartTooltip
-                  head={(lbl) => L(`Ngày ${lbl}/2026`, `Date ${lbl}/2026`)}
-                  fmt={(v) => `${n(v, 1)} Tr đ`}
-                />
-              }
-            />
-            <Legend formatter={legendFormatter} />
-            <Line
-              type="monotone"
-              dataKey="gmvM"
-              name={L('GMV ngày', 'Daily GMV')}
-              stroke={KAMI_BRAND_PALETTE.slateMuted}
-              strokeWidth={1.25}
-              dot={false}
-              isAnimationActive={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="ma7M"
-              name="MA7"
-              stroke={KAMI_BRAND_PALETTE.tealInk}
-              strokeWidth={2.3}
-              dot={false}
-              connectNulls={false}
-              isAnimationActive={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="ma28M"
-              name="MA28"
-              stroke={KAMI_BRAND_PALETTE.amberStroke}
-              strokeWidth={1.8}
-              strokeDasharray="5 3"
-              dot={false}
-              connectNulls={false}
-              isAnimationActive={false}
-            />
-            {ch3.maCrossovers.map((c, idx) => {
-              // Phân tách vị trí nhãn 04/06 và 26/06 để không chen chúc
-              let pos: 'insideTopLeft' | 'insideTopRight' | 'top' = 'insideTopLeft';
-              if (c.ddmm === '04/06') pos = 'insideTopLeft';
-              if (c.ddmm === '26/06') pos = 'insideTopRight';
-              if (c.ddmm === '22/10') pos = 'insideTopRight';
-              return (
-                <ReferenceLine
-                  key={c.date}
-                  x={c.ddmm}
-                  stroke={idx === 2 ? KAMI_BRAND_PALETTE.negative : KAMI_BRAND_PALETTE.amberStroke}
-                  strokeDasharray="3 3"
-                  label={{
-                    value: c.ddmm,
-                    position: pos,
-                    fill: idx === 2 ? KAMI_BRAND_PALETTE.negative : KAMI_BRAND_PALETTE.amberStroke,
-                    fontSize: 10,
-                    fontWeight: 700,
-                  }}
-                />
-              );
-            })}
-          </ComposedChart>
-        </ResponsiveContainer>
-      </ChartCard>
-
-      {/* 3.2 [CHÍNH] Số ca Live và GMV mỗi ca theo tháng / tuần */}
-      <ChartCard
-        height=""
-        badge={
-          <div className="flex flex-wrap items-center gap-2">
-            <GranularityToggle
-              value={yieldGranularity}
-              onChange={setYieldGranularity}
-              options={[
-                { id: 'month', label: L('Tháng (8T)', 'Month (8M)') },
-                { id: 'week', label: L('Tuần (33W)', 'Week (33W)') },
-              ]}
-            />
-            <ChartRoleBadge kind="main" />
-          </div>
-        }
-        title={L(
-          '3.2. Số ca live giảm 46% ở T7; GMV mỗi ca sụp ở T8 hoặc từ T7',
-          '3.2. Live sessions fell 46% in Jul; session yield dropped at T8 or T7'
-        )}
-        footer={L(
-          'Nguồn: Store_Daily_Overview và Affiliate_Livestreams · T3 (23 ngày) và T10 (25 ngày) là tháng thiếu. Thước Store: GMV toàn shop trên mỗi ca Live giữ mức 2,54 Tr ở T7 do Video & Kệ hàng đệm vào; thước Live thực trên AffLive giảm từ T7.',
-          'Source: Store_Daily_Overview and Affiliate_Livestreams · Mar (23d) and Oct (25d) are partial months. Store GMV per Live session buffered by non-Live sales in Jul; pure Live session yield dropped from Jul.'
-        )}
-      >
-        <div className="space-y-3.5 pt-1">
-          {/* Panel trên: Số ca Live theo tháng / tuần */}
+      {/* Side-by-Side Grid: Biểu đồ 3 (Vùng xếp chồng Hè vs Đông từ 10 SKU) & Biểu đồ 5 (Pareto 2 lớp KOC Affiliate | Danh mục SKU) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {/* Biểu đồ 3: Biểu đồ Vùng xếp chồng "Vùng trũng giao mùa" từ 10 SKU chủ lực (52,1% GMV toàn shop) */}
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5 md:p-6 flex flex-col justify-between">
           <div>
-            <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">
-              {yieldGranularity === 'week'
-                ? L('Panel trên: Số ca Livestream mới theo tuần ISO (33 tuần)', 'Top panel: Weekly Live session count across 33 ISO weeks')
-                : L('Panel trên: Số ca Livestream mới theo tháng (bắt đầu từ 0)', 'Top panel: Monthly Live session count (zero baseline)')}
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+              <span className="inline-flex items-center rounded-md bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 px-2.5 py-0.5 text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA]">
+                {isVi ? 'Biểu đồ 3 · 10_SKU_Daily_Timeseries (52,1% GMV shop)' : 'Chart 3 · 10_SKU_Daily_Timeseries (52.1% store GMV)'}
+              </span>
+              <span className="rounded-md bg-rose-500/15 px-2 py-0.5 text-xs font-bold text-rose-700 dark:text-rose-300 tabular-nums">
+                {isVi ? 'AT06 mở bán 09/09 · AG01 14/09 (Trễ ~1 tháng)' : 'AT06 launched Sep 09 · AG01 Sep 14 (~1m late)'}
+              </span>
             </div>
-            <div className="h-44 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={yieldSeries} margin={{ top: 10, right: 16, left: 4, bottom: 2 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
-                  <XAxis dataKey={yieldXKey} tick={axisTick} interval={yieldGranularity === 'week' ? 2 : 0} />
-                  <YAxis domain={[0, yieldGranularity === 'week' ? 600 : 2200]} width={50} tick={axisTick} />
-                  <Tooltip
-                    content={
-                      <ChartTooltip
-                        head={(lbl, pl) => {
-                          const r = pl?.[0]?.payload;
-                          if (yieldGranularity === 'week') {
-                            return L(
-                              `Tuần ${lbl} (từ ${r?.ddmm ?? ''} · ${r?.days ?? 7}N)`,
-                              `Week ${lbl} (from ${r?.ddmm ?? ''} · ${r?.days ?? 7}d)`
-                            );
-                          }
-                          return L(
-                            `Tháng ${lbl}/2026 (${r?.days ?? 30} ngày)`,
-                            `Month ${lbl}/2026 (${r?.days ?? 30} days)`
-                          );
-                        }}
-                        fmt={(v) => `${n(v, 0)} ca`}
-                      />
-                    }
-                  />
-                  <Bar
-                    dataKey="storeLives"
-                    name={
-                      yieldGranularity === 'week'
-                        ? L('Số ca Live tuần (Store)', 'Weekly Live count')
-                        : L('Số ca Live tháng (Store)', 'Monthly Live count')
-                    }
-                    fill={KAMI_BRAND_PALETTE.cyan}
-                    stroke={KAMI_BRAND_PALETTE.tealInk}
-                    strokeWidth={1}
-                    radius={[6, 6, 0, 0]}
-                    isAnimationActive={false}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Panel dưới: GMV mỗi ca */}
-          <div>
-            <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">
-              {L('Panel dưới: Hiệu suất doanh thu bình quân mỗi ca (Triệu đ/ca, bắt đầu từ 0)', 'Bottom panel: Average revenue yield per session (Million VND, zero baseline)')}
-            </div>
-            <div className="h-48 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={yieldSeries} margin={{ top: 10, right: 16, left: 4, bottom: 2 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
-                  <XAxis dataKey={yieldXKey} tick={axisTick} interval={yieldGranularity === 'week' ? 2 : 0} />
-                  <YAxis domain={[0, yieldGranularity === 'week' ? 5.5 : 3.5]} width={50} tick={axisTick} tickFormatter={(v: number) => `${v}Tr`} />
-                  <Tooltip
-                    content={
-                      <ChartTooltip
-                        head={(lbl, pl) => {
-                          const r = pl?.[0]?.payload;
-                          return yieldGranularity === 'week'
-                            ? L(`Tuần ${lbl} (từ ${r?.ddmm ?? ''})`, `Week ${lbl} (from ${r?.ddmm ?? ''})`)
-                            : L(`Tháng ${lbl}/2026`, `Month ${lbl}/2026`);
-                        }}
-                        fmt={(v) => `${n(v, 2)} Tr đ`}
-                      />
-                    }
-                  />
-                  <Legend formatter={legendFormatter} />
-                  <Bar
-                    dataKey="storeGmvPerLiveM"
-                    name={L('GMV toàn shop trên mỗi ca Live', 'Store GMV per Live session')}
-                    fill={KAMI_BRAND_PALETTE.tealInk}
-                    radius={[5, 5, 0, 0]}
-                    isAnimationActive={false}
-                  />
-                  <Bar
-                    dataKey="actualLiveGmvPerSessionM"
-                    name={L('GMV Live thực / phiên (AffLive)', 'Pure Live GMV / session (AffLive)')}
-                    fill={KAMI_BRAND_PALETTE.amber}
-                    stroke={KAMI_BRAND_PALETTE.amberStroke}
-                    strokeWidth={0.8}
-                    radius={[5, 5, 0, 0]}
-                    isAnimationActive={false}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Bảng phân rã Waterfall T6 → T7, T7 → T8, T6 → T8 kèm thanh trực quan */}
-          <div className="rounded-xl border border-[#C8EEF7] bg-[#C8EEF7]/20 p-3 dark:border-slate-800 dark:bg-slate-950/60 space-y-2">
-            <div className="text-xs font-extrabold text-slate-900 dark:text-white">
-              {L('Phân rã đại số mức sụt giảm GMV (Hiệu ứng số lượng ΔN·Y₀ + Hiệu suất N₀·ΔY + Tương tác ΔN·ΔY)', 'Algebraic decomposition of GMV contraction (Volume + Yield + Cross-interaction)')}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs tabular-nums">
-              {[wf1, wf2, wfAll].map((w) => {
-                const maxBarRef = 2200;
-                const volBarPct = Math.min(100, Math.round((Math.abs(w.volEffectM) / maxBarRef) * 100));
-                const yieldBarPct = Math.min(100, Math.round((Math.abs(w.yieldEffectM) / maxBarRef) * 100));
-                const dominantDriver =
-                  Math.abs(w.volEffectM) >= Math.abs(w.yieldEffectM)
-                    ? L('Chủ đạo: Sụt số lượng ca', 'Primary driver: Session volume')
-                    : L('Chủ đạo: Sụt năng suất/ca', 'Primary driver: Session yield');
-                return (
-                  <div key={`${w.from}-${w.to}`} className="rounded-lg bg-white dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 p-2.5 space-y-1.5">
-                    <div className="font-bold text-[#074553] dark:text-[#9BE7FA] flex justify-between items-center">
-                      <span>{w.from} → {w.to}</span>
-                      <span className="text-rose-600 dark:text-rose-400">{n(w.deltaM, 1)} Tr ({n(w.deltaPct, 1)}%)</span>
-                    </div>
-                    <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                      {dominantDriver}
-                    </div>
-                    <div className="space-y-0.5">
-                      <div className="flex justify-between text-slate-700 dark:text-slate-300">
-                        <span>{L('Do số lượng ca (ΔN·Y₀):', 'Volume effect (ΔN·Y₀):')}</span>
-                        <span className="font-bold text-rose-600 dark:text-rose-400">{n(w.volEffectM, 1)} Tr</span>
-                      </div>
-                      <div className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                        <div className="h-full rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" style={{ width: `${volBarPct}%` }} />
-                      </div>
-                    </div>
-                    <div className="space-y-0.5">
-                      <div className="flex justify-between text-slate-700 dark:text-slate-300">
-                        <span>{L('Do GMV/ca (N₀·ΔY):', 'Yield effect (N₀·ΔY):')}</span>
-                        <span className={`font-bold ${w.yieldEffectM >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
-                          {w.yieldEffectM > 0 ? `+${n(w.yieldEffectM, 1)}` : n(w.yieldEffectM, 1)} Tr
-                        </span>
-                      </div>
-                      <div className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                        <div
-                          className={`h-full rounded-full ${w.yieldEffectM >= 0 ? 'bg-emerald-500' : 'bg-amber-500'}`}
-                          style={{ width: `${yieldBarPct}%` }}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex justify-between text-slate-500 dark:text-slate-400 pt-0.5 border-t border-slate-100 dark:border-slate-800">
-                      <span>{L('Tương tác chéo (ΔN·ΔY):', 'Interaction (ΔN·ΔY):')}</span>
-                      <span>{w.interEffectM > 0 ? `+${n(w.interEffectM, 1)}` : n(w.interEffectM, 1)} Tr</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-              {L(
-                `Giải thích kỹ thuật: Khi cả số lượng ca (ΔN < 0) và hiệu suất mỗi ca (ΔY < 0) cùng giảm ở giai đoạn T6 → T8, tích số tương tác ΔN × ΔY mang dấu dương (+${n(wfAll.interEffectM, 1)} Tr đ), giúp tránh trừ trùng phần doanh thu đã mất nên tổng hai hiệu ứng riêng lẻ lớn hơn 100% mức giảm ròng.`,
-                `Technical note: When both session count (ΔN < 0) and yield (ΔY < 0) decline simultaneously across Jun → Aug, the cross-term ΔN × ΔY is positive (+${n(wfAll.interEffectM, 1)}M VND) to prevent double-counting lost volume, explaining why pure volume and yield shares exceed 100% of the net drop.`
-              )}
+            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+              {isVi
+                ? 'Vùng trũng giao mùa: 6 mã Đồ bơi Hè (gồm AQ1) vs. 4 mã Thu Đông'
+                : 'Seasonal Transition Chasm: 6 Summer Swimwear SKUs (incl. AQ1) vs. 4 Autumn-Winter SKUs'}
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 tabular-nums">
+              {isVi
+                ? 'Trục X = Tháng (T5 → T10) · Đơn vị: Triệu VNĐ (AQ1 đã chuẩn hóa về nhóm Đồ bơi Hè)'
+                : 'X-Axis = Month (May → Oct) · Unit: Million VND (AQ1 normalized into Summer Swimwear)'}
             </p>
+
+            <div className="h-[265px] w-full mt-3">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={skuMonthly} margin={{ top: 12, right: 16, left: 0, bottom: 6 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.18)" />
+                  <XAxis
+                    dataKey="shortLabel"
+                    tick={{ fontSize: 11, fill: '#64748b', fontWeight: 600 }}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 11, fill: '#64748b' }}
+                    tickFormatter={(v) => `${v}M`}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <Tooltip
+                    content={({ active, payload }) => {
+                      if (!active || !payload || !payload.length) return null;
+                      const d = payload[0].payload;
+                      return (
+                        <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 p-3 text-xs tabular-nums space-y-1">
+                          <p className="font-bold text-slate-900 dark:text-white">
+                            {isVi ? `Tháng ${d.month} (${d.shortLabel})` : `Month ${d.month}`}
+                          </p>
+                          <p>
+                            {isVi ? 'Nhóm Hàng Hè (6 mã Đồ bơi gồm AQ1): ' : 'Summer Swimwear (6 SKUs incl. AQ1): '}
+                            <strong className="text-amber-600 dark:text-amber-400">
+                              {d.summerGmvM}M ({d.summerSharePct}%)
+                            </strong>
+                            <span className="block text-[11px] text-slate-500">
+                              5 Bikini: {d.bikini5GmvM}M · AQ1: {d.aq1GmvM}M
+                            </span>
+                          </p>
+                          <p>
+                            {isVi ? 'Nhóm Hàng Đông (AT06, CV11, CV02, AG01): ' : 'Winter Merchandise (AT06, CV11, CV02, AG01): '}
+                            <strong className="text-[#0D7287] dark:text-[#9BE7FA]">
+                              {d.winterGmvM}M ({d.winterSharePct}%)
+                            </strong>
+                            <span className="block text-[11px] text-slate-500">
+                              AT06: {d.at06GmvM}M · AG01: {d.ag01GmvM}M · CV11+CV02: {d.skirtsGmvM}M
+                            </span>
+                          </p>
+                        </div>
+                      );
+                    }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="summerGmvM"
+                    stackId="season"
+                    name={isVi ? 'Nhóm Hàng Hè (6 mã Đồ bơi gồm AQ1)' : 'Summer Swimwear (6 SKUs incl. AQ1)'}
+                    stroke="#D97706"
+                    fill="#FFD14C"
+                    fillOpacity={0.7}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="winterGmvM"
+                    stackId="season"
+                    name={isVi ? 'Nhóm Hàng Đông (AT06, CV11, CV02, AG01)' : 'Autumn-Winter (AT06, CV11, CV02, AG01)'}
+                    stroke="#0D7287"
+                    fill="#9BE7FA"
+                    fillOpacity={0.8}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className="mt-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-3 text-xs text-slate-700 dark:text-slate-300 tabular-nums leading-relaxed">
+            <strong className="text-slate-900 dark:text-white">
+              {isVi ? 'Từ đứt gãy mùa vụ sang phụ thuộc đơn mã: ' : 'From Seasonal Gap to Single-SKU Dependency: '}
+            </strong>
+            {isVi
+              ? 'Đồ bơi đạt đỉnh T6 (1,57 tỷ) rồi rơi 90% trong T8 xuống 0,15 tỷ (gộp AQ1 là 0,17 tỷ). Hai mã Thu Đông mới AT06 (mở bán 09/09) và AG01 (mở bán 14/09) lên kệ chậm gần 1 tháng tạo khoảng trống T8. Sang T10, riêng 1 mã AT06 đạt 1,30 tỷ (chiếm 80,5% tổng doanh thu toàn shop T10).'
+              : 'Swimwear peaked in June (1.57B) and dropped 90% in August to 0.15B (0.17B incl. AQ1). Autumn heroes AT06 (first sale Sep 09) and AG01 (Sep 14) launched nearly 1 month late, leaving an August product gap. In October, single SKU AT06 hit 1.30B (80.5% of total October store GMV).'}
           </div>
         </div>
-      </ChartCard>
 
-      {/* 3.3 [CHÍNH] Mùa vụ 10 SKU chủ lực */}
-      <ChartCard
-        height="h-64"
-        badge={<ChartRoleBadge kind="main" />}
-        title={L(
-          '3.3. Đảo chiều danh mục tại tuần 31/08: Thu Đông đạt 70,8% vào tháng 10',
-          '3.3. Catalog rotated in week 31/08: Autumn-Winter reached 70.8% in October'
-        )}
-        footer={L(
-          `Nguồn: 10_SKU_Daily_Timeseries · 30/04 - 25/10/2026 · n = 1.790 dòng (${n(s10.totalGmvB, 2)} tỷ đ; riêng AT06 đạt ${n(s10.octAt06GmvB, 2)} tỷ đ = ${n(s10.octAt06SharePct, 1)}% doanh thu 10 mã trong tháng 10).`,
-          `Source: 10_SKU_Daily_Timeseries · 30/04 - 25/10/2026 · n = 1,790 rows (${n(s10.totalGmvB, 2)}B VND; AT06 alone drove ${n(s10.octAt06GmvB, 2)}B = ${n(s10.octAt06SharePct, 1)}% of 10-SKU GMV in October).`
-        )}
-      >
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={ch3.skuWeekly100} margin={{ top: 16, right: 16, left: 4, bottom: 4 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
-            <XAxis dataKey="ddmm" tick={axisTick} interval={2} />
-            <YAxis domain={[0, 100]} width={46} tick={axisTick} tickFormatter={(v: number) => `${v}%`} />
-            <Tooltip
-              content={
-                <ChartTooltip
-                  head={(lbl, pl) => {
-                    const r = pl?.[0]?.payload;
-                    return L(
-                      `Tuần ${r?.week ?? ''} (từ ${lbl}/2026) · AT06 = ${n(r?.at06Pct ?? 0, 1)}%`,
-                      `Week ${r?.week ?? ''} (from ${lbl}/2026) · AT06 = ${n(r?.at06Pct ?? 0, 1)}%`
-                    );
-                  }}
-                  fmt={(v) => `${n(v, 1)}%`}
-                  extraRow={(pl) => {
-                    const r = pl?.[0]?.payload;
-                    return r
-                      ? L(
-                          `Hè: ${n(r.summerM, 1)} Tr đ | Thu Đông: ${n(r.winterM, 1)} Tr đ`,
-                          `Summer: ${n(r.summerM, 1)}M | Winter: ${n(r.winterM, 1)}M`
-                        )
-                      : null;
-                  }}
-                />
-              }
-            />
-            <Legend formatter={legendFormatter} />
-            <Area
-              type="monotone"
-              dataKey="summerPct"
-              stackId="season100"
-              name={L('5 SKU Đồ bơi Hè (H36, M18, H32, SW01, H30)', '5 Summer Swimwear SKUs')}
-              stroke={KAMI_BRAND_PALETTE.amberStroke}
-              fill={KAMI_BRAND_PALETTE.amber}
-              fillOpacity={0.75}
-              isAnimationActive={false}
-            />
-            <Area
-              type="monotone"
-              dataKey="winterPct"
-              stackId="season100"
-              name={L('5 SKU Thu Đông (AT06, CV11, CV02, AG01, AQ1)', '5 Autumn-Winter SKUs (led by AT06)')}
-              stroke={KAMI_BRAND_PALETTE.tealInk}
-              fill={KAMI_BRAND_PALETTE.cyan}
-              fillOpacity={0.85}
-              isAnimationActive={false}
-            />
-            <ReferenceLine
-              x={ch3.crossoverDate}
-              stroke={KAMI_BRAND_PALETTE.deepInk}
-              strokeDasharray="4 3"
-              label={{
-                value: L(`Đảo chiều ${ch3.crossoverDate}`, `Crossover ${ch3.crossoverDate}`),
-                position: 'insideTopLeft',
-                fill: KAMI_BRAND_PALETTE.deepInk,
-                fontSize: 11,
-                fontWeight: 700,
-              }}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </ChartCard>
+        {/* Biểu đồ 5: Biểu đồ Pareto 2 lớp có nút gạt [KOC Affiliate | Danh mục SKU] */}
+        <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5 md:p-6 flex flex-col justify-between">
+          <div>
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span className="inline-flex items-center rounded-md bg-[#FFE485]/60 dark:bg-[#FFD14C]/15 px-2.5 py-0.5 text-xs font-semibold text-slate-900 dark:text-[#FFE485]">
+                {isVi ? 'Biểu đồ 5 · Phân phối Pareto & Đường tích lũy 80%' : 'Chart 5 · Dual Pareto & 80% Cumulative Curve'}
+              </span>
 
-      {/* 3.4, 3.5, 3.6 [XEM THÊM] */}
-      <ExpandableMoreSection
-        title={L(
-          '3.4 - 3.6. Đối soát đỉnh 16/06, mùa vụ thứ trong tuần, tương quan trễ và hồi quy kinh tế lượng bảng 10 SKU',
-          '3.4 - 3.6. June 16 peak audit, day-of-week index, lag correlations, and 10-SKU panel fixed-effects regression'
-        )}
-        countLabel={L('3 phân tích mở rộng', '3 deep-dive analyses')}
-      >
-        <div className="space-y-3.5">
-          {/* 3.4 Đỉnh 16-18/06 và Z-score */}
-          <ChartCard
-            height=""
-            badge={<ChartRoleBadge kind="more" />}
-            title={L(
-              '3.4. Đỉnh 16/06 đạt z-score +6,81; phiên lớn nhất vượt doanh thu ngày Store',
-              '3.4. Peak June 16 achieved z-score +6.81; top session exceeded Store daily GMV'
+              <div
+                role="group"
+                aria-label={isVi ? 'Chuyển lớp Pareto' : 'Toggle Pareto mode'}
+                className="inline-flex rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800/70 p-1"
+              >
+                <button
+                  type="button"
+                  onClick={() => setParetoMode('koc')}
+                  className={`min-h-[34px] px-2.5 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                    paretoMode === 'koc'
+                      ? 'bg-[#9BE7FA] text-slate-950'
+                      : 'text-slate-600 dark:text-slate-300'
+                  }`}
+                >
+                  {isVi ? 'KOC Affiliate (6.086)' : 'KOC Affiliate (6,086)'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setParetoMode('sku')}
+                  className={`min-h-[34px] px-2.5 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                    paretoMode === 'sku'
+                      ? 'bg-[#9BE7FA] text-slate-950'
+                      : 'text-slate-600 dark:text-slate-300'
+                  }`}
+                >
+                  {isVi ? 'Danh mục SKU (339)' : 'SKU Catalog (339)'}
+                </button>
+              </div>
+            </div>
+
+            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+              {paretoMode === 'koc'
+                ? isVi
+                  ? 'Pareto KOC Affiliate: 329/6.086 kênh có đơn (5,4%) · 2 kênh nội bộ chiếm 74,9%'
+                  : 'KOC Affiliate Pareto: 329/6,086 Active (5.4%) · 2 In-House Channels Drive 74.9%'
+                : isVi
+                ? 'Pareto Danh mục SKU: 133/339 mã có đơn (39,2%) · Top 12 mã tạo 80,6% GMV'
+                : 'SKU Catalog Pareto: 133/339 Active (39.2%) · Top 12 SKUs Drive 80.6% GMV'}
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 tabular-nums">
+              {paretoMode === 'koc'
+                ? isVi
+                  ? 'Bảng Affiliate_KOL (Tổng 2,92 tỷ VNĐ cửa sổ cuốn chiếu) · Top 10 kênh chiếm 83,7%'
+                  : 'Affiliate_KOL table (2.92B VND rolling window) · Top 10 channels account for 83.7%'
+                : isVi
+                ? 'Bảng Shop_Products (Tổng 3,16 tỷ VNĐ cửa sổ cuốn chiếu) · Riêng mã AT06 chiếm 46,9% (1,48 tỷ)'
+                : 'Shop_Products table (3.16B VND rolling window) · AT06 alone drives 46.9% (1.48B)'}
+            </p>
+
+            <div className="h-[265px] w-full mt-3">
+              <ResponsiveContainer width="100%" height="100%">
+                <ComposedChart data={paretoChartItems} margin={{ top: 12, right: 16, left: 0, bottom: 16 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.18)" />
+                  <XAxis
+                    dataKey="name"
+                    tick={{ fontSize: 10, fill: '#64748b', fontWeight: 600 }}
+                    interval={0}
+                    angle={-25}
+                    textAnchor="end"
+                    tickLine={false}
+                  />
+                  <YAxis
+                    yAxisId="left"
+                    tick={{ fontSize: 11, fill: '#64748b' }}
+                    tickFormatter={(v) => `${v}M`}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    domain={[0, 100]}
+                    tick={{ fontSize: 11, fill: '#d97706' }}
+                    tickFormatter={(v) => `${v}%`}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <Tooltip
+                    content={({ active, payload }) => {
+                      if (!active || !payload || !payload.length) return null;
+                      const d = payload[0].payload;
+                      return (
+                        <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 p-3 text-xs tabular-nums space-y-1">
+                          <p className="font-bold text-slate-900 dark:text-white">{d.fullName}</p>
+                          <p>
+                            {isVi ? 'Doanh thu đóng góp: ' : 'GMV contribution: '}
+                            <strong className="text-[#0D7287] dark:text-[#9BE7FA]">{d.gmvM}M VNĐ ({d.sharePct}%)</strong>
+                          </p>
+                          <p>
+                            {isVi ? 'Tỷ trọng tích lũy: ' : 'Cumulative share: '}
+                            <strong className="text-amber-600 dark:text-amber-400">{d.cumPct}%</strong>
+                          </p>
+                        </div>
+                      );
+                    }}
+                  />
+                  <ReferenceLine yAxisId="right" y={80} stroke="#E11D48" strokeDasharray="3 3" />
+                  <Bar
+                    yAxisId="left"
+                    dataKey="gmvM"
+                    name={isVi ? 'Doanh thu (Triệu VNĐ)' : 'GMV (M VND)'}
+                    radius={[5, 5, 0, 0]}
+                    maxBarSize={32}
+                  >
+                    {paretoChartItems.map((entry, idx) => (
+                      <Cell key={`pcell-${idx}`} fill={entry.highlight ? '#0D7287' : '#9BE7FA'} />
+                    ))}
+                  </Bar>
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="cumPct"
+                    name={isVi ? '% GMV tích lũy' : 'Cumulative GMV %'}
+                    stroke="#D97706"
+                    strokeWidth={2.5}
+                    dot={{ r: 3.5, fill: '#FFD14C', stroke: '#D97706', strokeWidth: 1.5 }}
+                  />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className="mt-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-3 text-xs text-slate-700 dark:text-slate-300 tabular-nums leading-relaxed">
+            {paretoMode === 'koc' ? (
+              <>
+                <strong className="text-slate-900 dark:text-white">
+                  {isVi ? 'Đuôi dài KOC 94,6% không ra đơn: ' : '94.6% Zero-Sale KOC Long Tail: '}
+                </strong>
+                {isVi
+                  ? 'Chỉ 329/6.086 tài khoản (5,4%) trong bảng Affiliate_KOL phát sinh doanh thu. Riêng kênh chính chủ @shop_official (60,1%) + kênh vệ tinh @koc_sat01 (14,8%) chiếm 74,9% tổng doanh thu bảng KOL (2,92 tỷ); Top 10 kênh chiếm 83,7%.'
+                  : 'Only 329/6,086 accounts (5.4%) in Affiliate_KOL generated revenue. In-house @shop_official (60.1%) + satellite @koc_sat01 (14.8%) account for 74.9% of KOL table GMV (2.92B); Top 10 channels reach 83.7%.'}
+              </>
+            ) : (
+              <>
+                <strong className="text-slate-900 dark:text-white">
+                  {isVi ? 'Tập trung danh mục & Bẫy trùng mã H30: ' : 'Catalog Concentration & H30 Duplicate Listing: '}
+                </strong>
+                {isVi
+                  ? 'Chỉ 133/339 SKU (39,2%) có đơn (206 mã = 60,8% doanh số 0đ). Mã AT06 chiếm 46,9% (1,48 tỷ) và Top 12 SKU tạo ra 80,6% tổng GMV (3,16 tỷ). Lưu ý làm sạch: mã H30 có 2 link sản phẩm tách biệt cùng nằm trong Top 13 (38,3 triệu và 32,7 triệu).'
+                  : 'Only 133/339 SKUs (39.2%) had orders (206 SKUs = 60.8% zero-sale). AT06 takes 46.9% (1.48B) and the Top 12 SKUs drive 80.6% of total GMV (3.16B). Data audit note: SKU H30 has 2 separate product links in the Top 13 (38.3M and 32.7M).'}
+              </>
             )}
-            footer={L(
-              'Nguồn: Creator_Livestreams (+13h về UTC+7), Affiliate_Livestreams, Store_Daily_Overview · 15/06 - 18/06/2026. Z-score +6,81 tính theo 28 ngày lùi không gồm ngày đỉnh (+4,04 nếu gồm ngày đỉnh; +5,83 toàn kỳ 231 ngày). Vì GMV phiên cộng dồn vào ngày mở ca, tỷ lệ phiên trên ngày mang tính ước lượng.',
-              'Source: Creator_Livestreams (+13h UTC+7), Affiliate_Livestreams, Store_Daily_Overview · Jun 15-18, 2026. Z-score +6.81 uses 28 trailing days excluding peak (+4.04 including peak; +5.83 full 231d).'
-            )}
-          >
-            <div className="overflow-x-auto rounded-xl border border-[#C8EEF7] dark:border-slate-800">
-              <table className="w-full text-left text-xs tabular-nums">
-                <thead className="bg-[#C8EEF7]/45 text-slate-900 dark:bg-slate-800 dark:text-slate-100">
-                  <tr>
-                    <th className="px-3 py-2 font-bold">{L('Ngày (UTC+7)', 'Date (UTC+7)')}</th>
-                    <th className="px-3 py-2 font-bold text-right">{L('GMV Store ngày', 'Store daily GMV')}</th>
-                    <th className="px-3 py-2 font-bold text-right">{L('Z-score trượt 28N', '28d trailing Z')}</th>
-                    <th className="px-3 py-2 font-bold text-right">{L('Tổng Live gán theo ngày mở ca', 'Start-attributed Live sum')}</th>
-                    <th className="px-3 py-2 font-bold">{L('Phiên lớn nhất bắt đầu trong ngày', 'Largest session started')}</th>
+          </div>
+        </div>
+      </div>
+
+      {/* Collapsible Technical Accordion for Panel Fixed-Effects Regression & Price Bands */}
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-4">
+        <button
+          type="button"
+          onClick={() => setShowRegressionAccordion((v) => !v)}
+          className="w-full min-h-[44px] rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900 px-4 py-2.5 text-xs font-bold text-slate-800 dark:text-slate-200 hover:border-[#0D7287] flex items-center justify-between transition-colors cursor-pointer"
+        >
+          <span>
+            {showRegressionAccordion
+              ? isVi
+                ? 'Thu gọn bảng hệ số hồi quy Panel Fixed-Effects, phân rã dải giá & đối soát đỉnh 16/06'
+                : 'Collapse Panel Fixed-Effects regression coefficients, price bands & Jun 16 peak reconciliation'
+              : isVi
+              ? 'Xem kiểm định chuyên sâu (nhân tố tăng trưởng): Hồi quy Panel Fixed-Effects (n = 1.760), Phân bổ 4 dải giá ASP & Đối soát đỉnh 16/06'
+              : 'View technical audit (growth drivers): Panel Fixed-Effects Regression (n = 1,760), 4-Band ASP Distribution & Jun 16 Peak Audit'}
+          </span>
+          {showRegressionAccordion ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+        </button>
+
+        {showRegressionAccordion && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-4">
+            {/* Panel FE Regression Table */}
+            <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+              <p className="text-xs font-bold text-slate-900 dark:text-white mb-2">
+                {isVi
+                  ? `Hồi quy Panel Fixed-Effects trên 10 SKU (n = ${reg.nObs} quan sát SKU-ngày, ${reg.bootstrapReps} lần cluster bootstrap)`
+                  : `Panel Fixed-Effects Regression across 10 SKUs (n = ${reg.nObs} SKU-day obs, ${reg.bootstrapReps} cluster bootstrap reps)`}
+              </p>
+              <table className="w-full text-left border-collapse text-xs tabular-nums">
+                <thead>
+                  <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                    <th className="py-1.5 pr-2 font-semibold">{isVi ? 'Biến giải thích (log1p)' : 'Regressor (log1p)'}</th>
+                    <th className="py-1.5 px-2 font-semibold text-right">β</th>
+                    <th className="py-1.5 pl-2 font-semibold text-right">95% CI</th>
                   </tr>
                 </thead>
-                <tbody className="text-slate-700 dark:text-slate-300">
-                  {ch3.junePeakReconciliation.map((r) => (
-                    <tr key={r.date} className={r.ddmm === '16/06' || r.ddmm === '17/06' ? 'bg-[#FFE485]/25 dark:bg-[#FFD14C]/10' : ''}>
-                      <td className="px-3 py-2 font-bold">{r.ddmm}/2026</td>
-                      <td className="px-3 py-2 text-right font-semibold">{n(r.storeGmvM, 1)} Tr</td>
-                      <td className="px-3 py-2 text-right font-bold text-[#074553] dark:text-[#9BE7FA]">
-                        {r.z28 !== null && r.z28 > 0 ? `+${n(r.z28, 2)}` : n(r.z28 ?? 0, 2)}
+                <tbody>
+                  {reg.coefficients.map((c) => (
+                    <tr key={c.key} className="border-b border-slate-100 dark:border-slate-800/60">
+                      <td className="py-1.5 pr-2 font-medium text-slate-800 dark:text-slate-200">
+                        {isVi ? c.labelVi : c.labelEn}
                       </td>
-                      <td className="px-3 py-2 text-right">{n(r.dedupLiveGmvM, 1)} Tr ({r.sessionCount} ca)</td>
-                      <td className="px-3 py-2">
-                        {n(r.topSessionGmvM, 1)} Tr ({L('mở lúc', 'start')} {r.topSessionStart}, {n(r.topSessionDurationH, 1)}h)
+                      <td className="py-1.5 px-2 text-right font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                        +{c.beta.toFixed(3)}
+                      </td>
+                      <td className="py-1.5 pl-2 text-right text-slate-600 dark:text-slate-400">
+                        [{c.ciLow.toFixed(3)}, +{c.ciHigh.toFixed(3)}]
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </ChartCard>
 
-          {/* 3.5 Thứ trong tuần và tương quan trễ 0-7 ngày */}
-          <ChartCard
-            height=""
-            badge={<ChartRoleBadge kind="more" />}
-            title={L(
-              '3.5. Thứ Năm đạt doanh thu cao nhất tuần; tương quan cùng ngày r = 0,44',
-              '3.5. Thursday leads intra-week revenue; same-day correlation r = 0.44'
-            )}
-            footer={L(
-              `Nguồn: Store_Daily_Overview [Doanh Thu Trong Ngày, Livestream Mới Trong Ngày, KOC Mới Trong Ngày] · n = ${V2.meta.days} ngày. Chênh lệch giữa các ngày trong tuần nhỏ hơn nhiều so với biên độ mùa vụ giữa các tháng.`,
-              `Source: Store_Daily_Overview [Daily GMV, New Livestreams, New KOCs] · n = ${V2.meta.days} days. Intra-week variation is minor compared to month-to-month seasonal swings.`
-            )}
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-1">
-              <div className="h-52 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={ch3.dowIndex} margin={{ top: 12, right: 12, left: 0, bottom: 4 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
-                    <XAxis dataKey="labelVi" tick={axisTick} />
-                    <YAxis domain={[0, 130]} width={46} tick={axisTick} tickFormatter={(v: number) => `${v}%`} />
-                    <Tooltip
-                      content={
-                        <ChartTooltip
-                          fmt={(v) => `${n(v, 1)}%`}
-                          extraRow={(pl) => {
-                            const r = pl?.[0]?.payload;
-                            return r ? L(`TB: ${n(r.meanM, 1)} Tr | Trung vị: ${n(r.medianM, 1)} Tr`, `Mean: ${n(r.meanM, 1)}M`) : null;
-                          }}
-                        />
-                      }
-                    />
-                    <ReferenceLine y={100} stroke={KAMI_BRAND_PALETTE.amberStroke} strokeDasharray="3 3" />
-                    <Bar
-                      dataKey="meanIndex"
-                      name={L('Chỉ số GMV theo thứ (TB tuần = 100%)', 'DOW GMV index (Mean = 100%)')}
-                      fill={KAMI_BRAND_PALETTE.cyan}
-                      stroke={KAMI_BRAND_PALETTE.tealInk}
-                      strokeWidth={1}
-                      radius={[5, 5, 0, 0]}
-                      isAnimationActive={false}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-
-              <div className="h-52 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={ch3.lagCorrelations} margin={{ top: 12, right: 12, left: 0, bottom: 4 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
-                    <XAxis dataKey="label" tick={axisTick} />
-                    <YAxis domain={[0, 0.6]} width={46} tick={axisTick} />
-                    <Tooltip content={<ChartTooltip fmt={(v) => n(v, 3)} />} />
-                    <Legend formatter={legendFormatter} />
-                    <Line
-                      type="monotone"
-                      dataKey="rLive"
-                      name={L('r(Livestream mới, GMV)', 'r(New Lives, GMV)')}
-                      stroke={KAMI_BRAND_PALETTE.tealInk}
-                      strokeWidth={2.2}
-                      isAnimationActive={false}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="rKoc"
-                      name={L('r(KOC mới, GMV)', 'r(New KOCs, GMV)')}
-                      stroke={KAMI_BRAND_PALETTE.amberStroke}
-                      strokeWidth={2}
-                      isAnimationActive={false}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
+            {/* 4 Price Bands Table */}
+            <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+              <p className="text-xs font-bold text-slate-900 dark:text-white mb-2">
+                {isVi
+                  ? 'Phân bổ 339 SKU theo 4 dải giá bán thực tế (Dải 75k–250k chiếm 93,1% GMV)'
+                  : '339 SKUs Across 4 Realized ASP Price Bands (75k–250k Band Drives 93.1% GMV)'}
+              </p>
+              <table className="w-full text-left border-collapse text-xs tabular-nums">
+                <thead>
+                  <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                    <th className="py-1.5 pr-2 font-semibold">{isVi ? 'Dải giá' : 'Price Band'}</th>
+                    <th className="py-1.5 px-2 font-semibold text-right">{isVi ? 'Có đơn / Tổng' : 'Active / Total'}</th>
+                    <th className="py-1.5 px-2 font-semibold text-right">% SP</th>
+                    <th className="py-1.5 pl-2 font-semibold text-right">% GMV</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {V2.ch2.skuPareto.priceBandsRealizedAsp.map((b) => (
+                    <tr key={b.band} className="border-b border-slate-100 dark:border-slate-800/60">
+                      <td className="py-1.5 pr-2 font-bold text-slate-900 dark:text-white">{b.band}</td>
+                      <td className="py-1.5 px-2 text-right text-slate-600 dark:text-slate-300">
+                        {b.activeSkus} / {b.skus}
+                      </td>
+                      <td className="py-1.5 px-2 text-right">{b.unitsSharePct}%</td>
+                      <td className="py-1.5 pl-2 text-right font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                        {b.gmvSharePct}%
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          </ChartCard>
-
-          {/* 3.6 Hồi quy kinh tế lượng Panel FE */}
-          <ChartCard
-            height=""
-            badge={<ChartRoleBadge kind="more" />}
-            title={L(
-              '3.6. Hồi quy bảng gợi ý liên hệ dương giữa Live và lượng bán',
-              '3.6. Panel regression suggests positive correlation between Live and sales'
-            )}
-            footer={L(
-              `Nguồn: 10_SKU_Daily_Timeseries · Biến phụ thuộc log(1 + Lượng bán), biến giải thích log(1 + Đầu vào marketing) với hiệu ứng cố định SKU và biến giả thứ trong tuần · n = ${n(ch3.panelRegression.nObs)} quan sát (${ch3.panelRegression.nSkus} cụm SKU, 176 ngày sau trễ). Khoảng tin cậy 95% bootstrap theo cụm SKU (${ch3.panelRegression.bootstrapReps} vòng). Kết quả mang tính gợi ý quan sát, không phải suy diễn nhân quả.`,
-              `Source: 10_SKU_Daily_Timeseries · Dependent variable log(1 + units), regressors log(1 + inputs) with SKU fixed effects and DOW dummies · n = ${n(ch3.panelRegression.nObs)} obs (${ch3.panelRegression.nSkus} SKU clusters, 176 post-lag days). 95% CI from ${ch3.panelRegression.bootstrapReps} SKU-cluster bootstrap reps. Results are suggestive of correlation rather than causal proof.`
-            )}
-          >
-            <div className="space-y-3 pt-1">
-              <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400 px-1 border-b border-slate-200 dark:border-slate-800 pb-1">
-                <span>{L('Biến giải thích', 'Explanatory variable')}</span>
-                <span className="hidden sm:inline">{L('Phân phối hệ số hồi quy β [-0.5 → +1.1]', 'Regression coefficient β distribution [-0.5 → +1.1]')}</span>
-                <span>{L('Hệ số β [KTC 95%]', 'β [95% CI]')}</span>
-              </div>
-              {ch3.panelRegression.coefficients.map((c) => {
-                const toPct = (v: number) => Math.max(0, Math.min(100, ((v + 0.5) / 1.6) * 100));
-                const zeroPct = toPct(0);
-                const lowPct = toPct(c.ciLow);
-                const highPct = toPct(c.ciHigh);
-                const ptPct = toPct(c.beta);
-                const sig = c.ciLow > 0;
-                return (
-                  <div key={c.key} className="grid grid-cols-12 items-center gap-2 text-xs tabular-nums">
-                    <div className="col-span-5 sm:col-span-4 font-semibold text-slate-800 dark:text-slate-200">
-                      {L(c.labelVi, c.labelEn)}
-                    </div>
-                    <div className="col-span-4 sm:col-span-5 relative h-6 rounded bg-slate-100 dark:bg-slate-800">
-                      <div
-                        className="absolute top-0 bottom-0 w-px bg-slate-400 dark:bg-slate-500"
-                        style={{ left: `${zeroPct}%` }}
-                        title="Điểm 0"
-                      />
-                      <div
-                        className={`absolute top-1/2 -translate-y-1/2 h-1.5 rounded-full ${
-                          sig ? 'bg-[#0D7287] dark:bg-[#9BE7FA]' : 'bg-slate-400 dark:bg-slate-500'
-                        }`}
-                        style={{ left: `${lowPct}%`, width: `${Math.max(1.5, highPct - lowPct)}%` }}
-                      />
-                      <div
-                        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 rounded-full border-2 border-white dark:border-slate-900 ${
-                          sig ? 'bg-[#074553] dark:bg-[#9BE7FA]' : 'bg-[#FFD14C]'
-                        }`}
-                        style={{ left: `${ptPct}%` }}
-                      />
-                    </div>
-                    <div className="col-span-3 text-right font-bold text-slate-900 dark:text-slate-100">
-                      {c.beta > 0 ? `+${n(c.beta, 2)}` : n(c.beta, 2)}{' '}
-                      <span className="font-normal text-slate-500 dark:text-slate-400">
-                        [{n(c.ciLow, 2)}, {n(c.ciHigh, 2)}]
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </ChartCard>
-        </div>
-      </ExpandableMoreSection>
-    </ChapterShell>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }

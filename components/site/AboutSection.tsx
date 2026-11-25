@@ -137,8 +137,8 @@ export default function AboutSection() {
   const linkedinUrl = profile?.linkedin?.trim() || DEFAULT_PROFILE.linkedin || "";
 
   const provenTools = isVi
-    ? ["SQL", "Python", "Thống kê ứng dụng", "Recharts"]
-    : ["SQL", "Python", "Applied Statistics", "Recharts"];
+    ? ["SQL", "Python", "Thống kê ứng dụng", "Recharts", "BI Spec (Power BI / Looker)"]
+    : ["SQL", "Python", "Applied Statistics", "Recharts", "BI Spec (Power BI / Looker)"];
 
   const projectQuestions = [
     {
@@ -163,8 +163,8 @@ export default function AboutSection() {
         },
       ],
       sourceNote: isVi
-        ? "Nguồn: 10 bảng ước tính FastMoss (ảnh chụp tháng 9, file xuất đến 25/10/2026), tách biệt khỏi thực tập Steve x Kami (2022-2023). Cửa sổ 180 ngày: 12,74 tỷ / 85,5k sản phẩm; toàn thời gian: 31,6 tỷ / 238,4k sản phẩm; chỉ 329/6.086 creator affiliate có doanh thu (5,4%)."
-        : "Source: 10 FastMoss estimated tables (Sep screenshots, exports through Oct 25, 2026), separate from my Steve x Kami internship (2022-2023). 180-day slice: 12.74B VND / 85.5k units; all-time: 31.6B VND / 238.4k units; only 329/6,086 affiliate creators generated revenue (5.4%).",
+        ? "Nguồn: 10 bảng ước tính FastMoss (231 ngày, 23.364 dòng), tách biệt hoàn toàn khỏi công việc tại Steve x Kami (2022–2023)."
+        : "Source: 10 FastMoss estimated tables (231 days, 23,364 rows), separate from the 2022–2023 role at Steve x Kami.",
       accent: "cyan" as const,
     },
     {
@@ -195,28 +195,28 @@ export default function AboutSection() {
     },
     {
       href: "/projects/proj-library-bus",
-      domain: isVi ? "Business Analysis & UX/UI" : "Business Analysis & UX/UI",
+      domain: isVi ? "BA, Product Telemetry & UX/UI" : "BA, Product Telemetry & UX/UI",
       title: "Library Bus",
       question: isVi
-        ? "Cấu trúc tra cứu và luồng mượn trả nào giảm thao tác cho học sinh trên xe thư viện?"
-        : "Which catalog structure and borrow flow reduces friction for students using the mobile bus library?",
+        ? "Làm sao chống đặt trùng tồn kho khi mượn đồng thời và đo lường hiệu suất đội xe thư viện lưu động?"
+        : "How do we prevent concurrent inventory race conditions and measure mobile library fleet telemetry?",
       metrics: [
         {
-          value: isVi ? "11 cặp màn hình" : "11 screen pairs",
-          label: isVi ? "Wireframe & UI (Desktop + Mobile)" : "Wireframes & UI (Desktop + Mobile)",
+          value: isVi ? "7 Apps • 36 Models" : "7 Apps • 36 Models",
+          label: isVi ? "Django 5.2 • MySQL 8.0 • UUIDv4" : "Django 5.2 • MySQL 8.0 • UUIDv4",
         },
         {
-          value: isVi ? "4 luồng BA" : "4 BA flows",
-          label: isVi ? "Tra cứu, đặt giữ, mượn trả, quyên góp" : "Search, reserve, borrow, donate",
+          value: "select_for_update()",
+          label: isVi ? "Khóa bi quan ACID • BR-01..04" : "Pessimistic ACID lock • BR-01..04",
         },
         {
-          value: "ACID + ERD",
-          label: isVi ? "6 bảng CSDL & khóa dòng" : "6-table schema & row lock",
+          value: isVi ? "9 Cron • 171 Tests" : "9 Cron • 171 Tests",
+          label: isVi ? "Celery Beat + Redis 7 • 11 luồng UI" : "Celery Beat + Redis 7 • 11 UI flows",
         },
       ],
       sourceNote: isVi
-        ? "Nguồn: Dự án BA, UX/UI & Kiến trúc ứng dụng Django dùng dữ liệu hạt giống (seed data) để kiểm thử luồng."
-        : "Source: BA, UX/UI & Django architecture project using seeded records to verify business rules and flows.",
+        ? "Nguồn: Đặc tả BA (BR-01..04), lược đồ Telemetry + prototype Django 5.2/MySQL 8.0 và 11 cặp màn hình Wireframe – UI."
+        : "Source: BA rules (BR-01..04), Telemetry schema + Django 5.2/MySQL 8.0 prototype, and 11 Wireframe-to-UI screen pairs.",
       accent: "slate" as const,
     },
   ];
@@ -380,7 +380,9 @@ export default function AboutSection() {
                 {isVi ? "Kinh nghiệm thực tế" : "Hands-on experience"}
               </p>
               <p className="text-sm font-bold text-slate-900 dark:text-white mt-1">
-                {isVi ? "Thực tập TMĐT tại Steve x Kami (2022-2023)" : "E-Commerce Intern at Steve x Kami (2022-2023)"}
+                {isVi
+                  ? "Nhân viên Hỗ trợ Vận hành & Báo cáo Dữ liệu E-Commerce tại Steve x Kami (2022–2023)"
+                  : "E-Commerce Operations & Data Reporting Staff (Full-time) at Steve x Kami (2022–2023)"}
               </p>
               <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
                 {isVi
@@ -572,7 +574,7 @@ export default function AboutSection() {
           {BLOG_POSTS.slice(0, 3).map((post) => (
             <Link
               key={post.id}
-              href="/blog"
+              href={`/blog?post=${post.slug}`}
               className="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 flex flex-col justify-between gap-4 hover:border-[#0D7287] dark:hover:border-[#9BE7FA] cursor-pointer transition-colors"
             >
               <div className="space-y-2.5">

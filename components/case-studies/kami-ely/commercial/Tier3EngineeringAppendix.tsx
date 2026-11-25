@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import {
   ChevronDown,
   ChevronUp,
@@ -11,6 +12,7 @@ import {
   Check,
   Copy,
   ExternalLink,
+  LayoutDashboard,
 } from 'lucide-react';
 import { ChartRoleBadge, Chip, usePlaybookLang } from '../playbook/PlaybookUi';
 import { KAMI_BRAND_PALETTE, V2 } from './kamiOutlineV2Metrics';
@@ -280,8 +282,8 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
     },
     {
       id: 5,
-      vi: 'Gắn cờ kiểm toán thay vì xóa dòng: tạo cờ is_orphan (1,59% KOC), is_outlier_duration (15 ca > 24h, 69 ca = 0h), followers_unknown.',
-      en: 'Audit flagging over row deletion: attach is_orphan (1.59%), is_outlier_duration (15 > 24h, 69 = 0h), and followers_unknown flags.',
+      vi: 'Gắn cờ kiểm toán thay vì xóa dòng: tạo cờ is_orphan (24/303 KOC live = 7,92%, 88 phiên chưa có trong danh bạ KOL), is_outlier_duration (28 ca > 24h, 83 ca = 0h trên AffLive; 2 ca = 0h trên CrLive), followers_unknown.',
+      en: 'Audit flagging over row deletion: attach is_orphan (24/303 live KOCs = 7.92%, 88 sessions absent from KOL directory), is_outlier_duration (28 > 24h, 83 = 0h on AffLive; 2 = 0h on CrLive), and followers_unknown flags.',
     },
     {
       id: 6,
@@ -521,44 +523,6 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
     },
   ];
 
-  const changelogEntries = [
-    {
-      id: 1,
-      titleVi: 'Thống nhất chu kỳ 231 ngày toàn shop (09/03 - 25/10/2026)',
-      titleEn: 'Unified 231-day store cycle (09/03 - 25/10/2026)',
-      descVi: 'Sử dụng 231 ngày làm mốc quy chiếu duy nhất cho toàn bộ 7 chương, loại bỏ hoàn toàn các con số và mẫu 180 ngày cũ.',
-      descEn: 'Adopted 231 days as the single reference timeline across all 7 chapters, fully removing legacy 180-day numbers.',
-    },
-    {
-      id: 2,
-      titleVi: 'Tách riêng kênh vệ tinh nội bộ @koc_sat01',
-      titleEn: 'Isolated in-house satellite @koc_sat01',
-      descVi: 'Tách khỏi 301 đối tác độc lập để giữ tính khách quan của mạng lưới affiliate ngoài; ghi nhận riêng 12,0% GMV Live và năng suất 2.021 đ/view của kênh.',
-      descEn: 'Separated from 301 independent partners to preserve affiliate network objectivity; tracked its 12.0% Live GMV and 2,021 VND/view separately.',
-    },
-    {
-      id: 3,
-      titleVi: 'Cố định dải giá niêm yết 75–150k (62,6% GMV) làm số chính',
-      titleEn: 'Locked 75k-150k list price band (62.6% GMV) as primary metric',
-      descVi: 'Thống nhất dùng giá niêm yết làm số liệu chính thức ở Chương 2; chuyển số đo theo ASP thực bán (75,4%) vào tooltip giải thích.',
-      descEn: 'Standardized list price band as primary metric in Chapter 2; moved realized ASP (75.4%) into explanatory tooltips.',
-    },
-    {
-      id: 4,
-      titleVi: 'Chọn z-score chuẩn mực duy nhất +6,81 cho xung lực đỉnh',
-      titleEn: 'Standardized single z-score (+6.81) for peak impulse',
-      descVi: 'Quy chiếu độ lệch chuẩn toàn chu kỳ 231 ngày cho đỉnh ngày 16/06 ở Chương 3.4; đưa các z-score cửa sổ trượt ngắn vào chú thích.',
-      descEn: 'Used 231-day full-cycle standard deviation for the 16/06 peak in Chapter 3.4; relegated rolling short-window z-scores to footnotes.',
-    },
-    {
-      id: 5,
-      titleVi: 'Đưa Playbook 3 hành động & Bảng đèn giao thông ra hiển thị mặc định',
-      titleEn: 'Surfaced 3-Action Playbook & Traffic Light Table by default',
-      descVi: 'Chuyển khối giá trị thực thi nhất ở Chương 6 ra ngoài hiển thị sẵn; thu gọn toàn bộ phần chứng minh kỹ thuật và truy vấn SQL vào Phụ lục.',
-      descEn: 'Surfaced the most actionable execution block in Chapter 6 by default; collapsed technical proofs and SQL queries into Appendices.',
-    },
-  ];
-
   const currentSql = REPRESENTATIVE_CHAPTER_SQL[sqlIdx] || REPRESENTATIVE_CHAPTER_SQL[0];
 
   return (
@@ -583,7 +547,7 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
             {L(
-              'Toàn bộ chi tiết kỹ thuật, bảng kiểm định chất lượng và truy vấn SQL được gập gọn tại đây để giữ trang chính cô đọng (~5.100 từ) nhưng vẫn minh bạch cho kiểm toán độc lập.',
+              'Toàn bộ chi tiết kỹ thuật, bảng kiểm định chất lượng và truy vấn SQL được gập gọn tại đây để giữ phần đọc chính tập trung vào phát hiện và khuyến nghị, nhưng vẫn minh bạch cho kiểm toán độc lập.',
               'All engineering lineage, quality gate assertions, and SQL queries are housed here in collapsible drawers to keep the main narrative concise while preserving full auditability.'
             )}
           </p>
@@ -887,8 +851,8 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
                 {L('Ghi chú phương ngữ SQL:', 'SQL dialect note:')}
               </strong>
               {L(
-                'Các đoạn mã tiêu biểu bên dưới được chuẩn hóa theo phương ngữ MySQL 8.0+ / ANSI SQL thống nhất: dùng hàm YEARWEEK(..., 3) cho tuần ISO, DATEDIFF() cho khoảng cách ngày và các hàm cửa sổ tiêu chuẩn (OVER, ROW_NUMBER, LAG, AVG/SUM ROWS PRECEDING). Khi chạy trên kho dữ liệu khác, chỉ cần chuyển đổi hàm ngày tương ứng.',
-                'Representative queries below are unified in MySQL 8.0+ / ANSI SQL: using YEARWEEK(..., 3) for ISO weeks, DATEDIFF() for date arithmetic, and standard analytic window functions (OVER, ROW_NUMBER, LAG, AVG/SUM ROWS PRECEDING).'
+                'Các đoạn mã tiêu biểu bên dưới được chuẩn hóa theo phương ngữ MySQL 8.0+ / ANSI SQL thống nhất: dùng hàm YEARWEEK(..., 3) cho tuần ISO, DATEDIFF() cho khoảng cách ngày và các hàm cửa sổ tiêu chuẩn (OVER, ROW_NUMBER, LAG, AVG/SUM ROWS PRECEDING). Tên bảng và cột tiền tố stg_* là tầng staging chuẩn hóa được ánh xạ trực tiếp từ 10 bảng thô kami_* trong cơ sở dữ liệu MySQL.',
+                'Representative queries below are unified in MySQL 8.0+ / ANSI SQL: using YEARWEEK(..., 3) for ISO weeks, DATEDIFF() for date arithmetic, and standard analytic window functions (OVER, ROW_NUMBER, LAG, AVG/SUM ROWS PRECEDING). Table and column names prefixed with stg_* represent the cleaned staging layer mapped from the 10 raw kami_* MySQL tables.'
               )}
             </div>
 
@@ -923,6 +887,22 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
             <pre className="overflow-x-auto rounded-2xl bg-slate-950 p-4 text-xs leading-relaxed text-[#C8EEF7] border border-slate-800 font-mono">
               <code>{currentSql.code}</code>
             </pre>
+
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[#9BE7FA]/60 bg-[#C8EEF7]/20 dark:bg-slate-950/60 dark:border-slate-800 px-3.5 py-2.5 text-xs">
+              <span className="text-slate-700 dark:text-slate-300">
+                {L(
+                  'Muốn xem thiết kế Star Schema (3 Fact · 3 Dim), 6 nhóm công thức DAX và bố cục 3 trang Power BI / Looker Studio cho dự án này?',
+                  'Want to inspect the Star Schema (3 Fact · 3 Dim), 6 DAX measure blocks, and 3-page Power BI / Looker Studio layout spec?'
+                )}
+              </span>
+              <Link
+                href="/projects/kami-ely/bi-spec"
+                className="min-h-[44px] inline-flex items-center gap-1.5 rounded-lg bg-[#9BE7FA] hover:bg-[#C8EEF7] px-3 py-1.5 font-bold text-slate-950 transition-colors cursor-pointer shrink-0"
+              >
+                <LayoutDashboard className="w-3.5 h-3.5 text-[#074553]" aria-hidden="true" />
+                <span>{L('Mở đặc tả BI (In / PDF)', 'Open BI Spec (Print / PDF)')}</span>
+              </Link>
+            </div>
           </section>
         )}
       </div>
@@ -1050,34 +1030,6 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
                   >
                     <div className="font-bold text-[#074553] dark:text-[#9BE7FA]">{isEn ? r.stepEn : r.stepVi}</div>
                     <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{isEn ? r.detailEn : r.detailVi}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Nhật ký thay đổi so với bản trước */}
-            <div className="space-y-2 pt-2 border-t border-slate-200/80 dark:border-slate-800">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="p-1.5 rounded-lg bg-[#FFE485] text-slate-950 font-bold text-xs">
-                  {L('Cập nhật 01/11/2026', 'Updated 01/11/2026')}
-                </span>
-                <h4 className="text-xs sm:text-sm font-bold text-slate-950 dark:text-white">
-                  {L('Nhật ký thay đổi phương pháp luận so với bản trước', 'Methodological changelog vs previous version')}
-                </h4>
-              </div>
-              <div className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-                {changelogEntries.map((c) => (
-                  <div
-                    key={c.id}
-                    className="rounded-lg border border-slate-200/80 bg-slate-50/70 p-3 dark:border-slate-800 dark:bg-slate-950/60 flex items-start gap-2.5"
-                  >
-                    <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#9BE7FA] text-[11px] font-black text-slate-950">
-                      {c.id}
-                    </span>
-                    <div className="space-y-0.5">
-                      <div className="font-bold text-slate-950 dark:text-white">{isEn ? c.titleEn : c.titleVi}</div>
-                      <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{isEn ? c.descEn : c.descVi}</p>
-                    </div>
                   </div>
                 ))}
               </div>

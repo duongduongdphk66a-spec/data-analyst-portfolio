@@ -187,7 +187,7 @@ export default function HeroSection({
               href="/projects/proj-kami-ely"
               className={`mt-auto pt-6 self-start inline-flex items-center gap-1 min-h-[44px] text-sm font-bold text-[#074553] dark:text-[#9BE7FA] hover:underline ${FOCUS}`}
             >
-              {isVi ? "Mở dự án và SQL Lab" : "Open the project and SQL Lab"}
+              {isVi ? "Xem phân tích & Thư viện SQL" : "Open case study & SQL library"}
               <ArrowUpRight className="w-4 h-4 shrink-0" aria-hidden="true" />
             </Link>
           </div>

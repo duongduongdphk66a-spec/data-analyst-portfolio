@@ -10,6 +10,7 @@ import {
   pearson,
   joinOnYear,
   logLinearTrend,
+  yoy,
   fmtPct,
   fmtNum,
 } from '@/app/lib/heritageAnalytics';
@@ -24,8 +25,11 @@ import {
   GraduationCap,
   Copy,
   Check,
-  Globe,
-  Users,
+  ChevronDown,
+  ChevronUp,
+  Info,
+  CheckCircle2,
+  Layers,
 } from 'lucide-react';
 
 interface HeritageJapanProjectProps {
@@ -42,76 +46,95 @@ const SECTION_IDS = [
   'sec-sql-python',
 ] as const;
 
+type RegionToggle = 'japan' | 'kyoto' | 'nara';
+type IndexedLineFilter = 'all' | 'japan' | 'kyoto' | 'nara';
+
 const HERITAGE_SQL_PYTHON_SNIPPETS = [
   {
     id: 'sql-indexed-audit',
-    labelVi: 'SQL · Đồng bộ Chuỗi Thời gian & Chỉ số hóa (2013 = 100)',
-    labelEn: 'SQL · Time-Series Alignment & Indexing (2013 = 100)',
-    code: `-- Mục đích: Đồng bộ chuỗi khách quốc tế Toàn quốc, Kyoto, Nara và tính chỉ số tăng trưởng (2013 = 100)
--- Kiểm định tỷ trọng địa phương/toàn quốc để phát hiện lỗi nhập liệu thập phân (Kyoto 2020)
-WITH base_2013 AS (
+    labelVi: 'SQL · Window Functions & Chuẩn hóa 6 chuỗi thời gian',
+    labelEn: 'SQL · Window Functions & Time-Series Normalization',
+    code: `-- Mục đích: Chuẩn hóa 6 chuỗi thời gian (hiệu chỉnh lệch trục năm Kyoto -1, quy đổi 億円/万人 của Nara)
+-- Tính chỉ số tăng trưởng (2013 = 100), YoY% bằng LAG() và gắn cờ đứt gãy phương pháp thống kê R1/2019
+WITH cleaned_series AS (
   SELECT
-    MAX(CASE WHEN region_code = 'JP_NATIONAL' THEN visitors_k END) AS jp_2013_k,
-    MAX(CASE WHEN region_code = 'KYOTO_CITY'  THEN visitors_k END) AS kyoto_2013_k,
-    MAX(CASE WHEN region_code = 'NARA_CITY'   THEN visitors_k END) AS nara_2013_k
-  FROM fact_heritage_arrivals
-  WHERE report_year = 2013
+    region_code,
+    -- Hiệu chỉnh lùi trục năm -1 cho dữ liệu Kyoto bị đẩy tiến trong niên luận gốc
+    CASE
+      WHEN region_code = 'KYOTO_CITY' AND raw_year >= 2013 THEN raw_year - 1
+      ELSE raw_year
+    END AS report_year,
+    -- Chuẩn hóa đơn vị: Nara 2020 (28,9 万人 -> 289 nghìn); Chi tiêu Nara (億円 -> chia 10 về Tỷ Yên)
+    CASE
+      WHEN region_code = 'NARA_CITY' AND raw_year = 2020 THEN raw_visitors_k * 10.0
+      ELSE raw_visitors_k
+    END AS visitors_k,
+    CASE
+      WHEN region_code = 'NARA_CITY' THEN raw_spend_unit / 10.0
+      ELSE raw_spend_unit
+    END AS spend_normalized,
+    CASE
+      WHEN region_code = 'KYOTO_CITY' AND (raw_year - 1) = 2019 THEN 'METHOD_BREAK_R1_2019'
+      ELSE 'CONTINUOUS'
+    END AS method_flag
+  FROM raw_heritage_thesis_tables
 ),
-aligned_series AS (
+base_2013 AS (
   SELECT
-    report_year,
-    MAX(CASE WHEN region_code = 'JP_NATIONAL' THEN visitors_k END) AS jp_visitors_k,
-    MAX(CASE WHEN region_code = 'KYOTO_CITY'  THEN visitors_k END) AS kyoto_visitors_k,
-    MAX(CASE WHEN region_code = 'NARA_CITY'   THEN visitors_k END) AS nara_visitors_k
-  FROM fact_heritage_arrivals
-  WHERE report_year BETWEEN 2009 AND 2020
-  GROUP BY report_year
+    region_code,
+    visitors_k AS base_visitors_2013,
+    spend_normalized AS base_spend_2013
+  FROM cleaned_series
+  WHERE report_year = 2013
 )
 SELECT
-  a.report_year,
-  ROUND(a.jp_visitors_k / 1000.0, 2) AS jp_visitors_m,
-  ROUND(a.kyoto_visitors_k, 1) AS kyoto_visitors_k,
-  ROUND(a.nara_visitors_k, 1) AS nara_visitors_k,
-  ROUND(a.jp_visitors_k * 100.0 / NULLIF(b.jp_2013_k, 0), 1) AS jp_index_2013,
-  ROUND(a.kyoto_visitors_k * 100.0 / NULLIF(b.kyoto_2013_k, 0), 1) AS kyoto_index_2013,
-  ROUND(a.nara_visitors_k * 100.0 / NULLIF(b.nara_2013_k, 0), 1) AS nara_index_2013,
-  ROUND(a.kyoto_visitors_k * 100.0 / NULLIF(a.jp_visitors_k, 0), 2) AS kyoto_share_of_national_pct
-FROM aligned_series a
-CROSS JOIN base_2013 b
-ORDER BY a.report_year;`,
+  c.region_code,
+  c.report_year,
+  ROUND(c.visitors_k, 1) AS visitors_k,
+  ROUND(c.spend_normalized, 2) AS spend_norm,
+  ROUND(c.visitors_k * 100.0 / NULLIF(b.base_visitors_2013, 0), 1) AS index_2013_100,
+  ROUND(
+    (c.visitors_k - LAG(c.visitors_k) OVER (PARTITION BY c.region_code ORDER BY c.report_year)) * 100.0
+    / NULLIF(LAG(c.visitors_k) OVER (PARTITION BY c.region_code ORDER BY c.report_year), 0),
+    1
+  ) AS yoy_visitors_pct,
+  c.method_flag
+FROM cleaned_series c
+JOIN base_2013 b ON c.region_code = b.region_code
+WHERE c.report_year BETWEEN 2013 AND 2022
+ORDER BY c.region_code, c.report_year;`,
   },
   {
     id: 'py-counterfactual',
-    labelVi: 'Python · Hồi quy Log-Linear Counterfactual & CAGR',
-    labelEn: 'Python · Log-Linear Counterfactual & CAGR Modeling',
-    code: `# Mục đích: Ước lượng xu thế phản thực tế (Log-Linear Counterfactual) giai đoạn nền 2003-2012
-# và lượng hóa thặng dư du khách giai đoạn chính sách 2013-2019
+    labelVi: 'Python · Đối soát Chuỗi Thời gian & Hồi quy Log-Linear',
+    labelEn: 'Python · Time-Series Audit & Log-Linear Counterfactual',
+    code: `# Mục đích: Đối soát 6 chuỗi dữ liệu niên luận với báo cáo gốc JNTO, TP. Kyoto, TP. Nara
+# Chuẩn hóa chỉ số (2013 = 100) và kiểm định độ lệch pha Khách vs. Tổng chi tiêu
 import numpy as np
 import pandas as pd
-from scipy.stats import pearsonr
 
-visitors = pd.DataFrame([
-    (2003, 5.2), (2004, 6.1), (2005, 6.7), (2006, 7.3), (2007, 8.3),
-    (2008, 8.4), (2009, 6.8), (2010, 8.6), (2011, 6.2), (2012, 8.4),
-    (2013, 10.4), (2014, 13.4), (2015, 19.7), (2016, 24.0),
-    (2017, 28.7), (2018, 31.2), (2019, 31.9), (2020, 4.1), (2021, 0.2), (2022, 3.4)
-], columns=["year", "visitors_m"])
+# 1. Chuỗi khách đã chuẩn hóa (Toàn Nhật: triệu; Kyoto & Nara: nghìn người)
+df_visitors = pd.DataFrame({
+    "year":  [2013,   2014,   2015,   2016,   2017,   2018,   2019,   2020,  2021,  2022],
+    "japan": [10.40,  13.40,  19.70,  24.00,  28.70,  31.20,  31.90,  4.10,  0.20,  3.83], # 2022 chốt 3,83M JNTO
+    "kyoto": [1127.9, 1828.6, 3158.6, 3184.8, 3527.8, 4503.3, 3799.0, 448.8, 54.4,  576.1], # Lùi -1 năm; 2019 đổi PP
+    "nara":  [435.0,  630.0,  975.0,  1576.0, 1990.0, 2651.0, 3318.0, 289.0, np.nan, np.nan], # 2020 = 289k (28,9 万人)
+})
 
-# 1. Tính CAGR trước chính sách (2003-2012) và giai đoạn chính sách (2013-2019)
-cagr_pre = (8.4 / 5.2) ** (1 / (2012 - 2003)) - 1      # +5.48%/năm
-cagr_policy = (31.9 / 10.4) ** (1 / (2019 - 2013)) - 1 # +20.53%/năm
+# 2. Tính chỉ số tăng trưởng (2013 = 100)
+for col in ["japan", "kyoto", "nara"]:
+    base = df_visitors.loc[df_visitors["year"] == 2013, col].values[0]
+    df_visitors[f"{col}_idx"] = (df_visitors[col] / base * 100).round(1)
 
-# 2. Khớp mô hình Log-Linear ln(y) = alpha + beta * t trên cửa sổ huấn luyện 2003-2012
-train = visitors[visitors["year"].between(2003, 2012)]
-beta, alpha = np.polyfit(train["year"], np.log(train["visitors_m"]), 1)
-visitors["counterfactual_m"] = np.exp(alpha + beta * visitors["year"]).round(2)
+# Kết quả đỉnh: Toàn Nhật (2019) = 306.7 (+206.7%) | Kyoto (2018, cùng PP) = 399.3 (+299.3%) | Nara (2019) = 762.8 (+662.8%)
 
-# 3. Thặng dư chính sách tại đỉnh 2019 và lũy kế 2013-2019
-policy_window = visitors[visitors["year"].between(2013, 2019)]
-surplus_2019 = 31.9 - float(visitors.loc[visitors["year"] == 2019, "counterfactual_m"].iloc[0])
-cum_surplus = (policy_window["visitors_m"] - policy_window["counterfactual_m"]).sum()
-print(f"CAGR 2003-2012: {cagr_pre:.2%}, CAGR 2013-2019: {cagr_policy:.2%}")
-print(f"2019 Surplus: +{surplus_2019:.1f}M, Cumulative 2013-2019: +{cum_surplus:.1f}M")`,
+# 3. Chuẩn hóa Tổng chi tiêu (Nội địa + Quốc tế) tại Kyoto & Nara (Đơn vị: Tỷ Yên)
+df_regional_spend = pd.DataFrame({
+    "year":        [2013,  2014,  2015,  2016,   2017,   2018,   2019],
+    "kyoto_b_jpy": [699.4, 761.7, 970.4, 1085.5, 1126.4, 1308.2, 1236.7], # +87.0% (2013->2018)
+    "nara_b_jpy":  [87.26, 89.24, 99.46, 103.59, 112.86, 120.80, 114.70], # Chia 10 từ 億円; 2018 = ~1/11 Kyoto
+})
+print(df_visitors[["year", "japan_idx", "kyoto_idx", "nara_idx"]].head(7))`,
   },
 ];
 
@@ -128,10 +151,10 @@ const POLICY_PILLARS_EN = [
   {
     year: '2006 – 2008',
     name: 'Tourism Nation Promotion Basic Law & 2008 White Paper',
-    focus: 'Sustainable Tourism Governance',
+    focus: 'Sustainable Tourism & Historic Town Planning',
     highlights: [
       'Established the Japan Tourism Agency (2008) and the Historic Town Development Act (>100 heritage zones).',
-      'Set dual goals: green growth replacing heavy industry and balancing economic benefits with local life.',
+      'Set dual goals: green growth replacing heavy industry and balancing economic benefits with community life.',
     ],
   },
   {
@@ -150,99 +173,100 @@ const CASE_STUDIES_EN = [
     site: 'Historic Kyoto',
     prefecture: 'Kyoto Prefecture',
     type: 'Cultural Heritage (1994)',
-    pressureMetric: '4.5M foreign visitors (2019) | Lodging shortage (53k rooms)',
+    pressureMetric: '4.50M foreign overnight guests (2018, 4.0×) vs 53,000 rooms (1.8×)',
     coreIssue:
-      'Severe city bus congestion around Gion and Kinkakuji; residential apartment rentals causing noise; littering in Arashiyama.',
+      'City bus gridlock at Gion & Kinkakuji; hotel deficit pushed tourists into residential flats causing noise.',
     intervention:
-      'Installed real-time congestion live cameras; dispersed tourists to 6 peripheral zones; attracted luxury hotels (Park Hyatt, Aman).',
+      'Installed real-time congestion live cameras; dispersed visitors across 6 satellite zones; attracted Park Hyatt & Aman.',
   },
   {
-    site: 'Historic Nara',
-    prefecture: 'Nara Prefecture',
-    type: 'Cultural Heritage (1998)',
-    pressureMetric: '3.318M foreign visitors (2019) | 2019 revenue dip',
+    site: 'Shirakawa-go & Gokayama',
+    prefecture: 'Gifu & Toyama',
+    type: 'Cultural Heritage (1995)',
+    pressureMetric: '1.8M visitors/yr per ~600 local residents (3,000× ratio)',
     coreIssue:
-      'Shortage of overnight hotels (day-tripper leakage); plastic litter from feeding sacred deer harming wildlife and farming.',
+      'Exceeded infrastructure capacity during Winter Light-up nights; waste and noise disrupting village life.',
     intervention:
-      'Launched hotel siting subsidies; opened JW Marriott and Fufu Nara; permitted converting cultural properties into lodging.',
+      'Enforced 100% advance reservations for light-up events, raised ticket prices, and capped parking & observation deck.',
+  },
+  {
+    site: 'Itsukushima Shrine (Miyajima)',
+    prefecture: 'Hiroshima',
+    type: 'Cultural Heritage (1996)',
+    pressureMetric: '4.60M island visitors (2019)',
+    coreIssue:
+      'High footfall straining historic over-water wooden shrine architecture and island marine sanitation.',
+    intervention:
+      'Implemented a 100 JPY/person Miyajima island entry tax to directly fund heritage conservation.',
   },
   {
     site: 'Mount Fuji (Fujisan)',
     prefecture: 'Yamanashi & Shizuoka',
     type: 'Cultural Heritage (2013)',
-    pressureMetric: '5.06M visitors (2019, 2.2x vs 2012)',
+    pressureMetric: '5.06M visitors (2019, 2.2× vs 2012)',
     coreIssue:
       'Seasonal climbing congestion, hiker safety hazards, and waste accumulation along mountain trails.',
     intervention:
-      'Established the Mt. Fuji Conservation Cooperation Fund (2014); opened the Mt. Fuji World Heritage Center with VR climbing (2017); proposed mountain rail.',
+      'Created Conservation Cooperation Fund (2014); opened 6,100 m² World Heritage Center with VR climbing (2017); proposed mountain rail.',
   },
   {
-    site: 'Historic Villages of Shirakawa-go & Gokayama',
-    prefecture: 'Gifu & Toyama',
-    type: 'Cultural Heritage (1995)',
-    pressureMetric: '1.8M visitors/yr per 600 residents (3,000:1)',
+    site: 'Historic Nara',
+    prefecture: 'Nara Prefecture',
+    type: 'Cultural Heritage (1998)',
+    pressureMetric: '3.32M foreign visitors (2019, +662.8%) but total spend fell -5.0% (¥114.7B)',
     coreIssue:
-      'Exceeded infrastructure capacity during Winter Light-up nights; noise and waste disrupting local village life.',
+      'Day-trip leakage from Kyoto/Osaka due to hotel shortage; plastic litter harming sacred deer.',
     intervention:
-      'Enforced 100% advance reservation for light-up events, raised entry fees, and capped parking and observation deck access.',
-  },
-  {
-    site: 'Itsukushima Shrine (Miyajima Island)',
-    prefecture: 'Hiroshima',
-    type: 'Cultural Heritage (1996)',
-    pressureMetric: '4.6M island visitors (2019)',
-    coreIssue:
-      'High visitor footfall straining historic wooden shrine structures and marine island sanitation.',
-    intervention:
-      'Introduced a 100 JPY/person Miyajima visitor tax to directly fund heritage preservation and environmental maintenance.',
+      'Subsidized hotel siting (JW Marriott, Fufu Nara); permitted converting cultural properties into lodging.',
   },
 ];
 
-const LIMITATIONS_EN: Record<
-  string,
-  { category: string; severity: string; flawInThesis: string; portfolioFix: string }
-> = {
-  'LIM-01': {
-    category: 'Proxy Metric Bias',
-    severity: 'High',
-    flawInThesis:
-      'Japanese national statistics do not isolate a separate "heritage tourism" industry code. The thesis used total inbound arrivals and Kyoto/Nara figures as proxies.',
-    portfolioFix:
-      'Explicitly state proxy assumptions and incorporate the 2017 domestic vs. international visitor mix to separate true local load.',
+const POLICY_RECOMMENDATIONS = [
+  {
+    id: 'rec-01',
+    titleVi: '1. Đo theo phân vị & phân tán 6 vùng vệ tinh',
+    titleEn: '1. Quantile Tracking & 6-Zone Spatial Dispersion',
+    descVi:
+      'Dùng mật độ phân vị tại điểm lõi thay cho trung bình cộng quốc gia; điều hướng khách từ trục trung tâm Gion ra 6 vùng vệ tinh.',
+    descEn:
+      'Replace national averages with core-site quantile density; disperse Gion bus congestion across 6 satellite zones.',
+    metricVi: '6 vùng vệ tinh · Giảm tải tuyến xe buýt Gion',
+    metricEn: '6 satellite zones · Relieve Gion bus gridlock',
   },
-  'LIM-02': {
-    category: 'Narrow Quantitative Coverage vs. Title',
-    severity: 'High',
-    flawInThesis:
-      'The thesis title covers 25 UNESCO sites in Japan, but time-series charts in Section 3.1 focused only on Kyoto and Nara.',
-    portfolioFix:
-      'Expand quantitative hotspot metrics to Mt. Fuji (5.06M), Itsukushima (4.6M), and Shirakawa-go (1.8M).',
+  {
+    id: 'rec-02',
+    titleVi: '2. Điều tiết bằng thuế bảo tồn & hạn ngạch đặt chỗ',
+    titleEn: '2. Conservation Taxes & Hard Reservation Quotas',
+    descVi:
+      'Thu phí bảo tồn trực tiếp (100 Yên/người tại đảo Miyajima) và bắt buộc đặt chỗ 100% mùa cao điểm (Shirakawa-go).',
+    descEn:
+      'Apply direct conservation levies (100 JPY/person at Miyajima) and mandatory 100% peak-event reservations (Shirakawa-go).',
+    metricVi: 'Thuế 100 Yên (Itsukushima) · Đặt chỗ 100% (Shirakawa-go)',
+    metricEn: '100 JPY levy (Itsukushima) · 100% booking (Shirakawa-go)',
   },
-  'LIM-03': {
-    category: 'Uncontrolled Confounding Factors',
-    severity: 'Medium',
-    flawInThesis:
-      'Attributed post-2013 growth directly to tourism policy without isolating Yen depreciation (Abenomics) and low-cost carrier expansion.',
-    portfolioFix:
-      'Add indexed growth (2013 = 100) comparing Kyoto/Nara against the national baseline and log-linear counterfactual modeling.',
+  {
+    id: 'rec-03',
+    titleVi: '3. Quy hoạch lưu trú giữ chân khách ngủ đêm',
+    titleEn: '3. Overnight Lodging Zoning & Day-Trip Conversion',
+    descVi:
+      'Trợ cấp mở khách sạn tại Nara (nơi tổng chi tiêu chỉ bằng ~1/11 Kyoto do khách đi về trong ngày) và siết cho thuê căn hộ dân sinh tại Kyoto.',
+    descEn:
+      'Subsidize overnight hotels in Nara (where total spend is ~1/11 of Kyoto due to day-trippers) while regulating Kyoto residential rentals.',
+    metricVi: 'Quỹ phòng Kyoto <30k → ~53k · Tăng lưu trú đêm Nara',
+    metricEn: 'Kyoto <30k → ~53k rooms · Convert Nara day-trips',
   },
-  'LIM-04': {
-    category: 'Typographical & Year Errors in Original Text',
-    severity: 'Corrected',
-    flawInThesis:
-      'Section 3.1.2 misstated that spending hit 4.81T Yen in 2020 (actually 2019; 2020 fell to 0.70T) and Chart 3.2 plotted Kyoto 2020 at 3,799k instead of 379.9k.',
-    portfolioFix:
-      'Corrected the 2019 peak label and fixed Kyoto 2020 directly in the data source to 379.9k visitors per DMO Kyoto.',
+  {
+    id: 'rec-04',
+    titleVi: '4. Giám sát mật độ thời gian thực & trải nghiệm ảo VR',
+    titleEn: '4. Live Crowd Telemetry & VR Heritage Centers',
+    descVi:
+      'Kết hợp Bản đồ camera mật độ thời gian thực tại Kyoto với Trung tâm leo núi ảo VR 6.100 m² và Quỹ bảo tồn tại Núi Phú Sĩ.',
+    descEn:
+      'Pair Kyoto’s real-time live camera congestion map with Mt. Fuji’s 6,100 m² VR climbing center and Conservation Fund.',
+    metricVi: 'Camera trực tiếp Kyoto · Trung tâm VR 6.100 m² Phú Sĩ',
+    metricEn: 'Kyoto live cameras · Mt. Fuji 6,100 m² VR Center',
   },
-  'LIM-05': {
-    category: 'Reference Source Standardization',
-    severity: 'Medium',
-    flawInThesis:
-      'The original bibliography included 4 Wikipedia links ([13], [14], [16], [19]) alongside government sources.',
-    portfolioFix:
-      'Standardized all quantitative series against primary JNTO, MLIT, JTA, UNWTO, and prefectural statistical reports.',
-  },
-};
+];
 
 export default function HeritageJapanProject({
   onBack,
@@ -254,6 +278,11 @@ export default function HeritageJapanProject({
   const isEn = language === 'en';
 
   const [activeSection, setActiveSection] = useState<string>('sec-macro-policy');
+  const [indexedLineFilter, setIndexedLineFilter] = useState<IndexedLineFilter>('all');
+  const [part1Region, setPart1Region] = useState<RegionToggle>('japan');
+  const [part2Region, setPart2Region] = useState<RegionToggle>('nara');
+  const [showPart1Table, setShowPart1Table] = useState<boolean>(false);
+  const [showCodeAccordion, setShowCodeAccordion] = useState<boolean>(false);
   const [selectedCodeIdx, setSelectedCodeIdx] = useState<number>(0);
   const [copiedCode, setCopiedCode] = useState<boolean>(false);
 
@@ -290,6 +319,9 @@ export default function HeritageJapanProject({
 
   const handleJumpToSection = (sectionId: string) => {
     setActiveSection(sectionId);
+    if (sectionId === 'sec-sql-python') {
+      setShowCodeAccordion(true);
+    }
     const el = document.getElementById(sectionId);
     if (el) {
       const y = el.getBoundingClientRect().top + window.scrollY - 92;
@@ -298,51 +330,13 @@ export default function HeritageJapanProject({
   };
 
   // ============================================================================
-  // 1. SYNCHRONIZED TIME-SERIES WINDOWS ACROSS PAIRED CHARTS
-  // ============================================================================
-  // Pair 1 (Biểu đồ 1 & 2 - Toàn quốc): Đồng bộ 12 năm liên tục 2010–2021
-  const synchronizedVisitors = useMemo(
-    () =>
-      HERITAGE_JAPAN_DATA.japanVisitors.filter(
-        (d) => Number(d.year) >= 2010 && Number(d.year) <= 2021
-      ),
-    []
-  );
-  const synchronizedSpending = useMemo(
-    () =>
-      HERITAGE_JAPAN_DATA.japanSpending.filter(
-        (d) => Number(d.year) >= 2010 && Number(d.year) <= 2021
-      ),
-    []
-  );
-
-  // Pair 2 (Biểu đồ 4 & 5 - Kyoto vs. Nara): Đồng bộ 12 năm liên tục 2009–2020
-  const synchronizedKyotoVisitors = useMemo(
-    () =>
-      HERITAGE_JAPAN_DATA.kyotoVisitors.filter(
-        (d) => Number(d.year) >= 2009 && Number(d.year) <= 2020
-      ),
-    []
-  );
-  const synchronizedNaraVisitors = useMemo(
-    () =>
-      HERITAGE_JAPAN_DATA.naraVisitors.filter(
-        (d) => Number(d.year) >= 2009 && Number(d.year) <= 2020
-      ),
-    []
-  );
-
-  // Biểu đồ 6 (Chi tiêu Kyoto vs. Nara): Đồng bộ 7 năm liên tục 2014–2020
-  const synchronizedRegionalSpendingYears = ['2014', '2015', '2016', '2017', '2018', '2019', '2020'];
-
-  // ============================================================================
-  // 2. QUANTITATIVE METRICS FROM heritageAnalytics.ts (20-YEAR BASELINE 2003-2022)
+  // QUANTITATIVE METRICS & STANDARDIZED SERIES
   // ============================================================================
   const quantStats = useMemo(() => {
     const prePolicyCagr = seriesCagr(HERITAGE_JAPAN_DATA.japanVisitors, '2003', '2012');
     const policyCagr = seriesCagr(HERITAGE_JAPAN_DATA.japanVisitors, '2013', '2019');
-    const kyotoCagr = seriesCagr(HERITAGE_JAPAN_DATA.kyotoVisitors, '2013', '2019');
-    const naraCagr = seriesCagr(HERITAGE_JAPAN_DATA.naraVisitors, '2013', '2019');
+    const kyotoCagr2013To2018 = seriesCagr(HERITAGE_JAPAN_DATA.kyotoVisitors, '2013', '2018');
+    const naraCagr2013To2019 = seriesCagr(HERITAGE_JAPAN_DATA.naraVisitors, '2013', '2019');
 
     const trendModel = logLinearTrend(HERITAGE_JAPAN_DATA.japanVisitors, '2003', '2012');
     const predicted2019 = trendModel.predict(2019);
@@ -359,54 +353,126 @@ export default function HeritageJapanProject({
       pairedNat.map((p) => p.b)
     );
 
-    const series20YrWithCounterfactual = HERITAGE_JAPAN_DATA.japanVisitors.map((pt) => {
-      const yr = Number(pt.year);
-      const cf = Number(trendModel.predict(yr).toFixed(1));
-      return {
-        year: pt.year,
-        actual: pt.value,
-        counterfactual: cf,
-        surplus: yr >= 2013 && yr <= 2019 ? Number((pt.value - cf).toFixed(1)) : 0,
-      };
-    });
-
     return {
       prePolicyCagr,
       policyCagr,
-      kyotoCagr,
-      naraCagr,
+      kyotoCagr2013To2018,
+      naraCagr2013To2019,
       predicted2019,
       surplus2019,
       corrNat,
-      series20YrWithCounterfactual,
     };
   }, []);
+
+  // Chuỗi Indexed Line Chart (2013 = 100) cho giai đoạn 2013–2022
+  const indexedSeries2013To2022 = useMemo(() => {
+    const years = ['2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022'];
+    const jpBase = 10.4;
+    const kyBase = 1127.9;
+    const naBase = 435.0;
+
+    return years.map((yr) => {
+      const jpVal = HERITAGE_JAPAN_DATA.japanVisitors.find((d) => d.year === yr)?.value ?? null;
+      const kyVal = HERITAGE_JAPAN_DATA.kyotoVisitors.find((d) => d.year === yr)?.value ?? null;
+      const naVal = HERITAGE_JAPAN_DATA.naraVisitors.find((d) => d.year === yr)?.value ?? null;
+      return {
+        year: yr,
+        japanVal: jpVal,
+        kyotoVal: kyVal,
+        naraVal: naVal,
+        japanIdx: jpVal !== null ? Number(((jpVal / jpBase) * 100).toFixed(1)) : null,
+        kyotoIdx: kyVal !== null ? Number(((kyVal / kyBase) * 100).toFixed(1)) : null,
+        naraIdx: naVal !== null ? Number(((naVal / naBase) * 100).toFixed(1)) : null,
+      };
+    });
+  }, []);
+
+  // Chuỗi Biểu đồ Phải Phần 01: Cột số tuyệt đối + Đường YoY% có nút chuyển [Toàn Nhật | Kyoto | Nara]
+  // Đồng bộ khung thời gian 2013–2020 cho cả 3 tab (và cả Biểu đồ đường chuẩn hóa bên trái)
+  const indexedSeries2013To2020 = useMemo(
+    () => indexedSeries2013To2022.filter((d) => Number(d.year) >= 2013 && Number(d.year) <= 2020),
+    [indexedSeries2013To2022]
+  );
+
+  const part1RightSeries = useMemo(() => {
+    const raw =
+      part1Region === 'japan'
+        ? HERITAGE_JAPAN_DATA.japanVisitors.filter((d) => Number(d.year) >= 2012 && Number(d.year) <= 2020)
+        : part1Region === 'kyoto'
+        ? HERITAGE_JAPAN_DATA.kyotoVisitors.filter((d) => Number(d.year) >= 2012 && Number(d.year) <= 2020)
+        : HERITAGE_JAPAN_DATA.naraVisitors.filter((d) => Number(d.year) >= 2012 && Number(d.year) <= 2020);
+
+    const yoyList = yoy(raw);
+    return raw
+      .filter((d) => Number(d.year) >= 2013)
+      .map((d) => {
+        const yItem = yoyList.find((y) => y.year === d.year);
+        const pct = yItem && yItem.growth !== null ? Number((yItem.growth * 100).toFixed(1)) : null;
+        return {
+          year: d.year,
+          value: d.value,
+          yoyPct: pct,
+        };
+      });
+  }, [part1Region]);
+
+  // Chuỗi Biểu đồ Trái Phần 02: Dual-Axis Combo Chart (Cột = Lượng khách | Đường = Chi tiêu)
+  // Đồng bộ cùng một trục thời gian 2013–2019 cho cả 3 biểu đồ [Toàn Nhật | TP. Kyoto | TP. Nara]
+  const part2ComboSeries = useMemo(() => {
+    const years = ['2013', '2014', '2015', '2016', '2017', '2018', '2019'];
+    if (part2Region === 'japan') {
+      return years.map((yr) => ({
+        year: yr,
+        visitors: HERITAGE_JAPAN_DATA.japanVisitors.find((d) => d.year === yr)?.value ?? null,
+        spend: HERITAGE_JAPAN_DATA.japanSpending.find((d) => d.year === yr)?.value ?? null,
+        isGap: false,
+        isMethodBreak: false,
+      }));
+    }
+    if (part2Region === 'kyoto') {
+      return years.map((yr) => ({
+        year: yr,
+        visitors: HERITAGE_JAPAN_DATA.kyotoVisitors.find((d) => d.year === yr)?.value ?? null,
+        spend: HERITAGE_JAPAN_DATA.kyotoSpending.find((d) => d.year === yr)?.value ?? null,
+        isGap: false,
+        isMethodBreak: yr === '2019',
+      }));
+    }
+    // nara
+    return years.map((yr) => ({
+      year: yr,
+      visitors: HERITAGE_JAPAN_DATA.naraVisitors.find((d) => d.year === yr)?.value ?? null,
+      spend: HERITAGE_JAPAN_DATA.naraSpending.find((d) => d.year === yr)?.value ?? null,
+      isGap: false,
+      isMethodBreak: false,
+    }));
+  }, [part2Region]);
 
   const navItems = [
     {
       id: 'sec-macro-policy',
-      labelVi: '1. Chính sách & Chuỗi 20 năm',
-      labelEn: '1. Policy & 20-Yr Series',
+      labelVi: 'Phần 01 · Tăng trưởng khách',
+      labelEn: 'Part 01 · Visitor Growth',
     },
     {
       id: 'sec-kyoto-nara',
-      labelVi: '2. Đối sánh Kyoto & Nara',
-      labelEn: '2. Kyoto vs. Nara',
+      labelVi: 'Phần 02 · Chi tiêu & Kinh tế',
+      labelEn: 'Part 02 · Spend & Economy',
     },
     {
       id: 'sec-overtourism',
-      labelVi: '3. Sức chứa & 5 Di sản',
-      labelEn: '3. Capacity & 5 Sites',
+      labelVi: 'Phần 03 · Quá tải & 5 Di sản',
+      labelEn: 'Part 03 · Overtourism & 5 Sites',
     },
     {
       id: 'sec-data-audit',
-      labelVi: '4. Data Audit & Phản biện',
-      labelEn: '4. Data Audit & Critique',
+      labelVi: 'Phần 04 · Hàm ý Chính sách',
+      labelEn: 'Part 04 · Policy & Governance',
     },
     {
       id: 'sec-sql-python',
-      labelVi: '5. Mã nguồn SQL & Python',
-      labelEn: '5. SQL & Python Code',
+      labelVi: 'Mã nguồn SQL & Python',
+      labelEn: 'SQL & Python Code',
     },
   ];
 
@@ -418,7 +484,9 @@ export default function HeritageJapanProject({
 
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6 text-slate-800 dark:text-slate-100 font-sans transition-colors duration-200">
-      {/* HERO & KPI SUMMARY */}
+      {/* =====================================================================
+       * TẦNG MỞ ĐẦU: HEADER + 4 THẺ KPI + DẢI "TÓM TẮT 60 GIÂY"
+       * ===================================================================== */}
       <header className="rounded-3xl bg-white dark:bg-slate-950 text-slate-900 dark:text-white p-5 sm:p-8 border border-[#C8EEF7] dark:border-slate-800 space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="inline-flex flex-wrap items-center gap-2 rounded-xl bg-[#FFE485]/45 border border-[#FFD14C] px-3 py-1.5 text-xs font-semibold text-amber-950 dark:bg-[#FFD14C]/15 dark:border-[#FFD14C]/40 dark:text-[#FFE485]">
@@ -437,7 +505,7 @@ export default function HeritageJapanProject({
               className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#C8EEF7]/45 hover:bg-[#C8EEF7] px-3.5 py-2 text-xs font-bold text-[#074553] border border-[#9BE7FA]/60 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 transition-colors cursor-pointer"
             >
               <ShieldAlert className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" aria-hidden="true" />
-              <span>{isEn ? 'Data Audit (5 Fixes)' : 'Kiểm toán Dữ liệu (5 Hiệu đính)'}</span>
+              <span>{isEn ? 'Policy Recommendations' : 'Hàm ý Chính sách'}</span>
             </button>
             <button
               type="button"
@@ -445,147 +513,139 @@ export default function HeritageJapanProject({
               className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] px-3.5 py-2 text-xs font-bold text-slate-950 border border-[#0D7287]/20 transition-colors cursor-pointer"
             >
               <Code2 className="w-4 h-4 text-[#074553]" aria-hidden="true" />
-              <span>{isEn ? 'SQL & Python Model' : 'Mô hình SQL & Python'}</span>
+              <span>{isEn ? 'SQL & Python Audit' : 'Mã nguồn SQL & Python'}</span>
             </button>
           </div>
         </div>
 
-        <div className="space-y-3 max-w-5xl">
+        <div className="space-y-2 max-w-4xl">
           <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white leading-tight text-balance">
             {isEn ? (
               <>
-                Quantitative Analysis of Japanese Heritage Tourism{' '}
-                <span className="text-[#0D7287] dark:text-[#9BE7FA]">(2013–2023)</span>: Policy
-                Drivers & Overtourism Capacity
+                Japan Heritage Tourism{' '}
+                <span className="text-[#0D7287] dark:text-[#9BE7FA]">(2013–2023)</span>: Time-Series
+                Data Audit &amp; Overtourism
               </>
             ) : (
               <>
-                Phân Tích Tăng Trưởng & Sức Chứa Du Lịch Di Sản Nhật Bản{' '}
-                <span className="text-[#0D7287] dark:text-[#9BE7FA]">(2013–2023)</span>: Từ Đòn Bẩy
-                Chính Sách Đến Bài Toán Quá Tải
+                Du Lịch Di Sản Nhật Bản{' '}
+                <span className="text-[#0D7287] dark:text-[#9BE7FA]">(2013–2023)</span>: Kiểm Toán
+                Dữ Liệu &amp; Bài Toán Quá Tải
               </>
             )}
           </h1>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
             {isEn
-              ? 'Built on a 20-year empirical baseline (2003–2022) from JNTO and MLIT across 25 UNESCO World Heritage sites. Evaluates the June 2013 Action Program, log-linear counterfactual growth, the Nara day-tripper paradox, and local carrying capacity limits.'
-              : 'Xây dựng trên nền chuỗi dữ liệu 20 năm (2003–2022) từ JNTO và MLIT tại 25 Di sản Thế giới UNESCO. Lượng hóa tác động của Chương trình Hành động 06/2013 qua mô hình đối chứng log-linear, giải mã nghịch lý khách đi trong ngày tại Nara và đánh giá sức chứa địa phương.'}
+              ? 'Audited 6 Japanese time-series (JNTO, MLIT, Kyoto & Nara) to evaluate the 2013 tourism policy, spend divergence, and local carrying capacity.'
+              : 'Đối soát 6 chuỗi dữ liệu gốc tiếng Nhật (JNTO, MLIT, Kyoto, Nara) để đánh giá hiệu lực chính sách 2013, độ lệch chi tiêu và ngưỡng chịu tải cục bộ.'}
           </p>
         </div>
 
-        {/* 4 BENTO KPI CARDS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3.5">
+        {/* 4 THẺ KPI ĐẦU TRANG (GỌN 1 DÒNG MÔ TẢ) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
           {[
             {
               id: 'kpi-heritage-visitors',
-              badge: { vi: 'QUY MÔ KHÁCH • 2013–2019', en: 'VISITOR VOLUME • 2013–2019' },
-              badgeColor:
-                'bg-[#C8EEF7]/50 text-[#074553] border-[#9BE7FA]/40 dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30',
-              title: {
-                vi: 'Đỉnh Khách Quốc Tế Toàn Quốc (2019)',
-                en: 'Peak International Visitors (2019)',
-              },
-              primaryValue: '31,9M',
+              title: { vi: 'Đỉnh khách quốc tế (2019)', en: 'Peak Inbound Visitors (2019)' },
+              primaryValue: isEn ? '31.9M' : '31,9 triệu',
               exactSubValue: {
                 vi: `+206,7% vs 2013 (CAGR ${fmtPct(quantStats.policyCagr, 1, false)}/năm)`,
                 en: `+206.7% vs 2013 (CAGR ${fmtPct(quantStats.policyCagr, 1, true)}/yr)`,
               },
-              comparisonNote: {
-                vi: 'Tăng gấp 3,8 lần so với mức nền 6–8,6 triệu lượt trước năm 2013 nhờ nới lỏng thị thực ASEAN và mở rộng hàng không.',
-                en: 'Grew 3.8x over the pre-2013 baseline of 6–8.6M visitors following ASEAN visa waivers and Open Skies aviation.',
-              },
+              tone: 'bg-[#9BE7FA]/25 border-[#9BE7FA]/70 dark:bg-slate-900/80 dark:border-[#9BE7FA]/30',
             },
             {
               id: 'kpi-heritage-spending',
-              badge: { vi: 'DOANH THU DU LỊCH • ĐỈNH 2019', en: 'TOURISM REVENUE • 2019 PEAK' },
-              badgeColor:
-                'bg-[#FFE485]/45 text-amber-950 border-[#FFD14C]/40 dark:bg-[#FFE485]/15 dark:text-[#FFE485] dark:border-[#FFE485]/30',
-              title: {
-                vi: 'Chi Tiêu Khách Quốc Tế Tại Nhật Bản',
-                en: 'Inbound Tourist Expenditure in Japan',
-              },
+              title: { vi: 'Chi tiêu quốc tế đỉnh (2019)', en: 'Peak Inbound Spend (2019)' },
               primaryValue: isEn ? '¥4.81T' : '4,81 nghìn tỷ ¥',
               exactSubValue: {
-                vi: `Tăng 3,41x vs 2013 (Tương quan r = ${fmtNum(quantStats.corrNat, 3, false)})`,
-                en: `3.41x vs 2013 (Pearson r = ${fmtNum(quantStats.corrNat, 3, true)})`,
+                vi: `3,41× vs 2013 · Pearson r = ${fmtNum(quantStats.corrNat, 3, false)}`,
+                en: `3.41× vs 2013 · Pearson r = ${fmtNum(quantStats.corrNat, 3, true)}`,
               },
-              comparisonNote: {
-                vi: 'Chiếm 11,5% tổng doanh thu toàn ngành du lịch Nhật Bản (41,94 nghìn tỷ ¥), thúc đẩy bởi chính sách miễn thuế tiêu dùng (Tax-free).',
-                en: 'Accounted for 11.5% of total Japanese tourism revenue (¥41.94T), accelerated by nationwide duty-free retail expansion.',
-              },
+              tone: 'bg-[#FFE485]/35 border-[#FFD14C]/70 dark:bg-slate-900/80 dark:border-[#FFD14C]/30',
             },
             {
               id: 'kpi-heritage-gdp',
-              badge: { vi: 'TỶ TRỌNG KINH TẾ • ĐÓNG GÓP GDP', en: 'ECONOMIC IMPACT • GDP SHARE' },
-              badgeColor:
-                'bg-[#C8EEF7]/50 text-[#074553] border-[#9BE7FA]/40 dark:bg-[#9BE7FA]/15 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/30',
-              title: {
-                vi: 'Đóng Góp Kinh Tế Vĩ Mô & Việc Làm',
-                en: 'Macroeconomic Contribution & Jobs',
-              },
+              title: { vi: 'Đóng góp kinh tế vĩ mô (2019)', en: 'Macro Economic Share (2019)' },
               primaryValue: '7,5% GDP',
               exactSubValue: {
-                vi: '375,4 Tỷ USD · Hạng 3 Thế giới',
-                en: '$375.4B USD · Ranked 3rd Globally',
+                vi: '375,4 tỷ USD (#3 TG) · >4M việc làm',
+                en: '$375.4B (#3 Global) · >4M jobs',
               },
-              comparisonNote: {
-                vi: 'Tăng từ 2,2% GDP (2000), vượt Đức (344,8 tỷ USD) và duy trì hơn 4 triệu việc làm (6,9% tổng lực lượng lao động).',
-                en: 'Rose from 2.2% GDP (2000), surpassing Germany ($344.8B) and sustaining over 4 million jobs (6.9% of total employment).',
-              },
+              tone: 'bg-[#C8EEF7]/35 border-[#C8EEF7] dark:bg-slate-900/80 dark:border-slate-800',
             },
             {
               id: 'kpi-heritage-overtourism',
-              badge: { vi: 'SỨC CHỨA DI SẢN • OVERTOURISM', en: 'HERITAGE CAPACITY • OVERTOURISM' },
-              badgeColor:
-                'bg-[#FFE485]/45 text-amber-950 border-[#FFD14C]/40 dark:bg-[#FFE485]/15 dark:text-[#FFE485] dark:border-[#FFE485]/30',
-              title: {
-                vi: 'Tỷ Lệ Áp Lực Quá Tải Cục Bộ (UNESCO)',
-                en: 'Peak Local Overtourism Ratio (UNESCO)',
-              },
-              primaryValue: '3.000 : 1',
+              title: { vi: 'Quá tải cục bộ (Shirakawa-go)', en: 'Local Strain (Shirakawa-go)' },
+              primaryValue: '3.000×',
               exactSubValue: {
-                vi: '1,8M Khách / 600 Cư dân bản địa',
-                en: '1.8M Visitors / 600 Local Residents',
+                vi: '1,8 triệu khách / ~600 cư dân bản địa',
+                en: '1.8M visitors / ~600 local residents',
               },
-              comparisonNote: {
-                vi: 'Ghi nhận tại làng cổ Shirakawa-go & Gokayama, buộc chính quyền áp dụng đặt chỗ trước 100% và giới hạn phương tiện.',
-                en: 'Recorded at historic Shirakawa-go & Gokayama, prompting mandatory 100% advance booking and vehicle caps.',
-              },
+              tone: 'bg-rose-500/5 border-rose-500/30 dark:bg-slate-900/80 dark:border-rose-900/50',
             },
           ].map((card) => {
             const lang = isEn ? 'en' : 'vi';
             return (
               <div
                 key={card.id}
-                className="p-4 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200 dark:bg-slate-900/80 dark:border-slate-800 flex flex-col justify-between space-y-2.5"
+                className={`p-4 rounded-2xl border flex flex-col justify-between space-y-1 ${card.tone}`}
               >
-                <div className="space-y-2">
-                  <span
-                    className={`inline-block px-2.5 py-0.5 rounded-md text-xs tabular-nums font-bold border ${card.badgeColor}`}
-                  >
-                    {card.badge[lang]}
-                  </span>
-                  <h2 className="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 leading-snug">
-                    {card.title[lang]}
-                  </h2>
-                  <div className="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-950 dark:text-white tracking-tight">
-                    {card.primaryValue}
-                  </div>
-                  <div className="text-xs sm:text-sm tabular-nums font-bold text-[#074553] dark:text-[#9BE7FA] leading-snug">
-                    {card.exactSubValue[lang]}
-                  </div>
+                <div className="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-950 dark:text-white tracking-tight">
+                  {card.primaryValue}
                 </div>
-
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pt-2 border-t border-slate-200/70 dark:border-slate-800">
-                  {card.comparisonNote[lang]}
-                </p>
+                <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 leading-snug">
+                  {card.title[lang]}
+                </h2>
+                <div className="text-xs tabular-nums font-semibold text-[#074553] dark:text-[#9BE7FA] leading-snug">
+                  {card.exactSubValue[lang]}
+                </div>
               </div>
             );
           })}
         </div>
+
+        {/* TÓM TẮT 60 GIÂY GỌN 3 ĐIỂM */}
+        <div className="rounded-2xl bg-[#F0F9FB] dark:bg-slate-900/90 border border-[#C8EEF7] dark:border-slate-800 p-4 sm:p-5 space-y-2.5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-[#074553] dark:text-[#9BE7FA]">
+              <Layers className="w-4 h-4" aria-hidden="true" />
+              <span>{isEn ? '60-Second Executive Brief' : 'Tóm tắt 60 giây · 3 điểm cốt lõi'}</span>
+            </span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 tabular-nums">
+              {isEn ? '6 Audited Series · 25 UNESCO Sites' : '6 chuỗi đã đối soát · 25 Di sản UNESCO'}
+            </span>
+          </div>
+          <ul className="grid grid-cols-1 lg:grid-cols-3 gap-3 text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+            <li className="p-3.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800">
+              <strong className="block text-slate-950 dark:text-white mb-0.5">
+                {isEn ? '1. Heritage grew faster than national average' : '1. Điểm di sản tăng nóng hơn toàn quốc'}
+              </strong>
+              {isEn
+                ? 'Japan rose +206.7% (2013–2019), while Kyoto foreign stays surged +299.3% (2013–2018) and Nara jumped +662.8%.'
+                : 'Toàn Nhật tăng +206,7% (2013–2019), trong khi Kyoto tăng +299,3% (2013–2018) và Nara tăng +662,8%.'}
+            </li>
+            <li className="p-3.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800">
+              <strong className="block text-slate-950 dark:text-white mb-0.5">
+                {isEn ? '2. Volume vs. spend divergence in Nara' : '2. Nghịch lý lượng khách – chi tiêu tại Nara'}
+              </strong>
+              {isEn
+                ? 'Nara hit 3.32M foreign visitors in 2019, yet total spend fell -5.0% (¥114.7B = ~1/11 of Kyoto) due to day-tripping.'
+                : 'Nara đón 3,32M khách quốc tế năm 2019 nhưng tổng chi tiêu giảm -5,0% (114,7 tỷ ¥ ≈ 1/11 Kyoto) vì khách đi trong ngày.'}
+            </li>
+            <li className="p-3.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800">
+              <strong className="block text-slate-950 dark:text-white mb-0.5">
+                {isEn ? '3. Empirical Data Audit value' : '3. Giá trị Kiểm toán Dữ liệu (Data Audit)'}
+              </strong>
+              {isEn
+                ? 'Cross-checking Japanese source reports fixed Kyoto’s +1yr shift, Nara’s 10× unit errors (億円/万人), and the R1/2019 break.'
+                : 'Đối chiếu báo cáo gốc Nhật Bản đã sửa lỗi lệch năm +1 ở Kyoto, lỗi đơn vị ×10 (億円/万人) ở Nara và mốc đổi PP R1/2019.'}
+            </li>
+          </ul>
+        </div>
       </header>
 
-      {/* STICKY NAVIGATION BAR */}
+      {/* THANH ĐIỀU HƯỚNG DÍNH (STICKY NAVIGATION BAR) */}
       <nav
         aria-label={isEn ? 'Heritage Japan Case Study Navigation' : 'Điều hướng dự án Du lịch Di sản'}
         className="sticky top-2 z-30 w-full rounded-2xl border border-[#C8EEF7] bg-white/95 dark:border-slate-800 dark:bg-slate-950/95 backdrop-blur-md p-2.5"
@@ -621,1257 +681,1654 @@ export default function HeritageJapanProject({
       </nav>
 
       {/* =====================================================================
-       * PHẦN 1: BỐI CẢNH CHÍNH SÁCH, KINH TẾ VĨ MÔ & MÔ HÌNH PHẢN THỰC TẾ
+       * PHẦN 01 — TĂNG TRƯỞNG LƯỢNG KHÁCH QUỐC TẾ
        * ===================================================================== */}
-      <section id="sec-macro-policy" className="space-y-8 scroll-mt-24">
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#F0F9FB] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 space-y-2.5">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="px-3 py-1 rounded-xl bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 text-xs font-black tabular-nums">
-              {isEn ? 'PART 1' : 'PHẦN 1'}
+      <section id="sec-macro-policy" className="space-y-5 scroll-mt-24">
+        <div className="space-y-1">
+          <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-950 dark:text-white flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA] shrink-0" aria-hidden="true" />
+            <span>
+              {isEn
+                ? '1. Inbound Visitor Acceleration: National vs. Kyoto & Nara'
+                : '1. Tăng trưởng khách quốc tế: Toàn Nhật so với Kyoto & Nara'}
             </span>
-            <span className="text-xs sm:text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
-              <TrendingUp className="w-4 h-4" aria-hidden="true" />
-              <span>
-                {isEn
-                  ? 'Policy Framework, Global Context & Macro Time-Series'
-                  : 'Khung Chính sách, Bối cảnh Toàn cầu & Chuỗi Thời gian Vĩ mô'}
-              </span>
-            </span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white">
-            {isEn
-              ? '1. The 2013 Policy Catalyst and National Inbound Acceleration'
-              : '1. Đòn bẩy chính sách năm 2013 và cú hích du lịch quốc tế'}
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
+          <p className="text-sm text-slate-600 dark:text-slate-300">
             {isEn
-              ? 'Examining Japan’s three legislative pillars (1950/2004, 2006/2008, and 06/2013), global heritage market share, and synchronized national arrival and expenditure trajectories.'
-              : 'Phân tích 3 trụ cột luật pháp và chính sách (1950/2004, 2006/2008 và 06/2013), vị thế thị trường di sản toàn cầu và chuỗi dữ liệu đồng bộ giữa lượng khách và chi tiêu quốc tế.'}
+              ? 'Three policy milestones (1950/2004, 2006–2008, 06/2013) drove a 3×–7.6× visitor surge across UNESCO heritage cities. Core charts align to 2013–2020 to match Nara’s available series, with 2022–2023 national & Kyoto updates noted in the table below.'
+              : 'Ba cột mốc chính sách (1950/2004, 2006–2008, 06/2013) kích hoạt mức tăng 3× đến 7,6× tại các đô thị di sản. Biểu đồ chính khóa mốc 2013–2020 để khớp chuỗi có sẵn của Nara; số liệu chốt 2022 và phục hồi 2023 của toàn Nhật & Kyoto nằm trong bảng đối soát bên dưới.'}
           </p>
         </div>
 
-        {/* 3 Trụ cột chính sách (Chương 2 Niên luận) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
+        {/* HÀNG 3 THẺ MỐC CHÍNH SÁCH (RÚT GỌN 1 DÒNG MỖI THẺ) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 items-stretch">
           {(isEn ? POLICY_PILLARS_EN : HERITAGE_JAPAN_DATA.policyPillars).map((p, i) => (
             <div
               key={i}
-              className="flex flex-col justify-between rounded-2xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 h-full"
+              className="rounded-2xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1.5"
             >
-              <div>
-                <div className="mb-3">
-                  <span className="inline-block px-3 py-1 rounded-md text-xs font-bold bg-[#C8EEF7]/60 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA]">
-                    {p.year} · {p.focus}
-                  </span>
-                </div>
-                <h3 className="text-base sm:text-lg font-bold mb-3 text-slate-900 dark:text-white leading-snug">
-                  {p.name}
-                </h3>
-                <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed list-disc list-inside">
-                  {p.highlights.map((h, j) => (
-                    <li key={j}>{h}</li>
-                  ))}
-                </ul>
-              </div>
+              <span className="inline-block px-2 py-0.5 rounded-md text-xs font-bold bg-[#C8EEF7]/60 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA]">
+                {p.year} · {p.focus}
+              </span>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white leading-snug">
+                {p.name}
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                {p.highlights[0]}
+              </p>
             </div>
           ))}
         </div>
 
-        {/* Bối cảnh Thị trường Du lịch Di sản Toàn cầu (Mở đầu & Chương 1.2.5 Niên luận) */}
-        <div className="rounded-2xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <Globe className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" aria-hidden="true" />
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-                {isEn
-                  ? 'Global Heritage Tourism Market & Japan’s Position (UNWTO & Grand View Research)'
-                  : 'Quy mô Thị trường Du lịch Di sản Toàn cầu & Vị thế Nhật Bản (UNWTO & Grand View Research)'}
-              </h3>
-            </div>
-            <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-[#FFE485]/50 text-amber-950 dark:bg-[#FFE485]/15 dark:text-[#FFE485]">
-              {isEn
-                ? 'UNWTO: 40% of global trips include heritage'
-                : 'UNWTO: Di sản thu hút 40% khách du lịch toàn cầu'}
-            </span>
-          </div>
+        {/* 2 BIỂU ĐỒ XẾP NGANG (65% / 35% -> lg:col-span-7 / lg:col-span-5) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          {/* TRÁI (65% -> col-span-7): BIỂU ĐỒ ĐƯỜNG CHUẨN HÓA MỐC GỐC (INDEXED LINE CHART, 2013 = 100) */}
+          <div className="lg:col-span-7 rounded-2xl p-5 sm:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+            <div>
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                  {isEn
+                    ? 'Indexed Growth Line Chart (Base Year 2013 = 100)'
+                    : 'Biểu đồ đường chuẩn hóa mốc gốc (Năm 2013 = 100)'}
+                </span>
+                <span className="text-xs font-bold px-2.5 py-0.5 rounded-md bg-[#FFE485]/50 text-amber-950 dark:bg-[#FFE485]/15 dark:text-[#FFE485]">
+                  {isEn
+                    ? 'Nara 2019: 762.8 · Kyoto 2018: 399.3 · Japan 2019: 306.7'
+                    : 'Nara 2019: 762,8 · Kyoto 2018: 399,3 · Toàn Nhật 2019: 306,7'}
+                </span>
+              </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-            {HERITAGE_JAPAN_DATA.globalBenchmarks.map((b, idx) => {
-              const labelsEn = [
-                'Global Heritage Tourism Market (2021)',
-                'Projected Global Market (2030)',
-                'Japan Total Tourism Economy (2019 · #3 Global)',
-                'Germany Total Tourism Economy (2019 · #4 Global)',
-              ];
-              const unitsEn = [
-                'Billion USD (Asia-Pacific holds ~40% share)',
-                'Billion USD (CAGR 3.8%/yr, 2022–2030)',
-                'Billion USD (¥41.94T total, ¥4.81T inbound)',
-                'Billion USD (OECD/WTTC benchmark)',
-              ];
-              return (
-                <div
-                  key={idx}
-                  className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/70 space-y-1"
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">
+                {isEn
+                  ? 'Relative Growth Speed: Japan vs. Kyoto Overnight Guests vs. Nara (2013–2020)'
+                  : 'So sánh tốc độ tăng trưởng: Toàn Nhật vs. Khách lưu trú Kyoto vs. Nara (2013–2020)'}
+              </h3>
+
+              {/* Interactive Filter Pills: Xem tất cả hoặc xem riêng từng đường */}
+              <div className="flex flex-wrap items-center gap-2 text-xs font-semibold mb-3">
+                <button
+                  type="button"
+                  onClick={() => setIndexedLineFilter('all')}
+                  aria-pressed={indexedLineFilter === 'all'}
+                  className={`min-h-[34px] inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border transition-colors cursor-pointer ${
+                    indexedLineFilter === 'all'
+                      ? 'bg-[#9BE7FA] text-[#074553] border-[#0D7287]/30 font-extrabold dark:text-slate-950'
+                      : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100 dark:bg-slate-800/70 dark:text-slate-300 dark:border-slate-700'
+                  }`}
                 >
-                  <p className="text-xs font-semibold text-slate-600 dark:text-slate-400">
-                    {isEn ? labelsEn[idx] : b.label}
-                  </p>
-                  <p className="text-xl sm:text-2xl font-extrabold tabular-nums text-slate-950 dark:text-white">
-                    ${fmtNum(b.value, idx < 2 ? 2 : 1, isEn)}B
-                  </p>
-                  <p className="text-xs text-[#074553] dark:text-[#9BE7FA] font-medium">
-                    {isEn ? unitsEn[idx] : b.unit}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+                  <span>{isEn ? 'All 3 Lines' : 'Tất cả 3 đường'}</span>
+                </button>
 
-        {/* CẶP BIỂU ĐỒ 1 & 2 ĐỒNG BỘ THỜI GIAN (2010–2021): KHÁCH QUỐC TẾ & CHI TIÊU QUỐC TẾ */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-          {/* BIỂU ĐỒ 1: KHÁCH QUỐC TẾ ĐẾN NHẬT BẢN (2010–2021) */}
-          <div className="rounded-2xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between h-full">
-            <div>
-              <div className="flex flex-wrap justify-between items-center gap-2 mb-2">
-                <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                  {isEn
-                    ? 'Chart 1 (Aligned Window 2010–2021) · Unit: Million Visitors'
-                    : 'Biểu đồ 1 (Khung đồng bộ 2010–2021) · Đơn vị: Triệu người'}
-                </span>
-                <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-[#C8EEF7]/50 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] border border-[#9BE7FA]/40">
-                  {isEn ? '2019 Peak: 31.9M' : 'Đỉnh 2019: 31,9M lượt'}
-                </span>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setIndexedLineFilter((prev) => (prev === 'japan' ? 'all' : 'japan'))
+                  }
+                  aria-pressed={indexedLineFilter === 'japan'}
+                  className={`min-h-[34px] inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border transition-colors cursor-pointer ${
+                    indexedLineFilter === 'japan'
+                      ? 'bg-slate-200/90 text-slate-950 border-slate-500 font-extrabold dark:bg-slate-700 dark:text-white dark:border-slate-400'
+                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 dark:bg-slate-800/70 dark:text-slate-300 dark:border-slate-700'
+                  }`}
+                >
+                  <span className="w-3 h-1 rounded-full bg-slate-500 inline-block" />
+                  <span>{isEn ? 'All Japan (2019 = 306.7)' : 'Toàn Nhật (2019 = 306,7)'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setIndexedLineFilter((prev) => (prev === 'kyoto' ? 'all' : 'kyoto'))
+                  }
+                  aria-pressed={indexedLineFilter === 'kyoto'}
+                  className={`min-h-[34px] inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border transition-colors cursor-pointer ${
+                    indexedLineFilter === 'kyoto'
+                      ? 'bg-[#C8EEF7] text-[#074553] border-[#0D7287] font-extrabold dark:bg-[#9BE7FA]/25 dark:text-[#9BE7FA] dark:border-[#9BE7FA]'
+                      : 'bg-slate-50 text-[#074553] border-slate-200 hover:bg-[#F0F9FB] dark:bg-slate-800/70 dark:text-[#9BE7FA] dark:border-slate-700'
+                  }`}
+                >
+                  <span className="w-3 h-1 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA] inline-block" />
+                  <span>{isEn ? 'Kyoto City (2018 = 399.3)' : 'TP. Kyoto (2018 = 399,3)'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setIndexedLineFilter((prev) => (prev === 'nara' ? 'all' : 'nara'))
+                  }
+                  aria-pressed={indexedLineFilter === 'nara'}
+                  className={`min-h-[34px] inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border transition-colors cursor-pointer ${
+                    indexedLineFilter === 'nara'
+                      ? 'bg-[#FFE485]/70 text-amber-950 border-amber-600 font-extrabold dark:bg-[#FFD14C]/25 dark:text-[#FFE485] dark:border-[#FFD14C]'
+                      : 'bg-slate-50 text-amber-800 border-slate-200 hover:bg-amber-50 dark:bg-slate-800/70 dark:text-[#FFE485] dark:border-slate-700'
+                  }`}
+                >
+                  <span className="w-3 h-1 rounded-full bg-[#D97706] dark:bg-[#FFD14C] inline-block" />
+                  <span>{isEn ? 'Nara City (2019 = 762.8)' : 'TP. Nara (2019 = 762,8)'}</span>
+                </button>
               </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-3 text-slate-900 dark:text-white">
-                {isEn
-                  ? 'International Visitors to Japan (2010–2021)'
-                  : 'Số lượng khách du lịch quốc tế đến Nhật Bản (2010–2021)'}
-              </h3>
 
-              <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-slate-500 dark:text-slate-400 mb-5">
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-slate-300 dark:bg-slate-700" />{' '}
-                  {isEn ? 'Pre-2013 / COVID-19' : 'Trước 2013 / COVID-19'}
-                </span>
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-[#0D7287] dark:bg-[#9BE7FA]" />{' '}
-                  {isEn ? 'Growth 2013–2018' : 'Tăng trưởng 2013–2018'}
-                </span>
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-[#FFD14C]" />{' '}
-                  {isEn ? '2019 Peak' : 'Đỉnh 2019'}
-                </span>
-              </div>
+              {/* SVG Indexed Line Chart */}
+              {(() => {
+                const w = 640;
+                const h = 270;
+                const padL = 44;
+                const padR = 24;
+                const padT = 28;
+                const padB = 34;
+                const plotW = w - padL - padR;
+                const plotH = h - padT - padB;
+                const yMax =
+                  indexedLineFilter === 'japan'
+                    ? 360
+                    : indexedLineFilter === 'kyoto'
+                    ? 450
+                    : 800;
+                const yTicks =
+                  indexedLineFilter === 'japan'
+                    ? [0, 100, 200, 300, 360]
+                    : indexedLineFilter === 'kyoto'
+                    ? [0, 100, 200, 300, 400, 450]
+                    : [0, 100, 200, 400, 600, 800];
+                const n = indexedSeries2013To2020.length;
 
-              <div className="w-full">
-                <div className="h-56 flex items-end gap-1 sm:gap-2 px-1 border-b-2 border-slate-200 dark:border-slate-700">
-                  {synchronizedVisitors.map((d) => {
-                    const barHeight = Math.max(Math.round((d.value / 34) * 160), 6);
-                    const isBoom = Number(d.year) >= 2013 && Number(d.year) <= 2018;
-                    const isPeak = d.year === '2019';
-                    return (
-                      <div
-                        key={d.year}
-                        className="flex-1 flex flex-col items-center justify-end h-full group"
+                const showJapan = indexedLineFilter === 'all' || indexedLineFilter === 'japan';
+                const showKyoto = indexedLineFilter === 'all' || indexedLineFilter === 'kyoto';
+                const showNara = indexedLineFilter === 'all' || indexedLineFilter === 'nara';
+                const isSingleLine = indexedLineFilter !== 'all';
+
+                const xAt = (idx: number) => padL + (idx / (n - 1)) * plotW;
+                const yAt = (val: number) => padT + plotH - (val / yMax) * plotH;
+
+                // Build paths
+                const jpPts = indexedSeries2013To2020
+                  .map((d, i) => (d.japanIdx !== null ? { x: xAt(i), y: yAt(d.japanIdx), val: d.japanIdx, yr: d.year } : null))
+                  .filter((p): p is { x: number; y: number; val: number; yr: string } => p !== null);
+
+                const naPts = indexedSeries2013To2020
+                  .map((d, i) => (d.naraIdx !== null ? { x: xAt(i), y: yAt(d.naraIdx), val: d.naraIdx, yr: d.year } : null))
+                  .filter((p): p is { x: number; y: number; val: number; yr: string } => p !== null);
+
+                // Kyoto continuous 2013..2018 (indices 0..5), dashed 2018..2019 (5..6), post-2019 (6..7)
+                const kyPts = indexedSeries2013To2020
+                  .map((d, i) => (d.kyotoIdx !== null ? { x: xAt(i), y: yAt(d.kyotoIdx), val: d.kyotoIdx, yr: d.year, idx: i } : null))
+                  .filter((p): p is { x: number; y: number; val: number; yr: string; idx: number } => p !== null);
+
+                const toPath = (pts: Array<{ x: number; y: number }>) =>
+                  pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+
+                const kyPre2018 = kyPts.filter((p) => Number(p.yr) <= 2018);
+                const kyBreak2018To2019 = kyPts.filter((p) => p.yr === '2018' || p.yr === '2019');
+                const kyPost2019 = kyPts.filter((p) => Number(p.yr) >= 2019);
+
+                const x2013 = xAt(0);
+                const x2018 = xAt(5);
+                const x2019 = xAt(6);
+                const x2020 = xAt(7);
+
+                return (
+                  <div className="w-full overflow-x-auto">
+                    <svg
+                      viewBox={`0 0 ${w} ${h}`}
+                      className="w-full h-auto select-none overflow-visible"
+                      role="img"
+                      aria-label="Indexed Line Chart 2013=100"
+                    >
+                      {/* Horizontal gridlines */}
+                      {yTicks.map((tick) => {
+                        const y = yAt(tick);
+                        return (
+                          <g key={tick}>
+                            <line
+                              x1={padL}
+                              y1={y}
+                              x2={w - padR}
+                              y2={y}
+                              stroke="currentColor"
+                              strokeDasharray={tick === 100 ? '4 2' : tick === 0 ? undefined : '2 3'}
+                              className={
+                                tick === 100
+                                  ? 'text-slate-400 dark:text-slate-600'
+                                  : 'text-slate-200 dark:text-slate-800'
+                              }
+                              strokeWidth={tick === 100 || tick === 0 ? 1.2 : 1}
+                            />
+                            <text
+                              x={padL - 8}
+                              y={y + 4}
+                              textAnchor="end"
+                              className="fill-slate-500 dark:fill-slate-400 text-[11px] tabular-nums font-semibold"
+                            >
+                              {tick}
+                            </text>
+                          </g>
+                        );
+                      })}
+
+                      {/* Event Marker 1: 2013 (Mở cửa & Miễn thị thực ASEAN) */}
+                      <line
+                        x1={x2013}
+                        y1={padT}
+                        x2={x2013}
+                        y2={padT + plotH}
+                        stroke="#0D7287"
+                        strokeDasharray="3 3"
+                        strokeWidth="1.5"
+                      />
+                      <text
+                        x={x2013 + 6}
+                        y={padT + 12}
+                        textAnchor="start"
+                        className="fill-[#074553] dark:fill-[#9BE7FA] text-[11px] font-bold"
                       >
-                        <span className="text-xs font-bold tabular-nums text-slate-700 dark:text-slate-200 mb-1.5 select-none">
-                          {d.value}
-                        </span>
-                        <div
-                          style={{ height: `${barHeight}px` }}
-                          className={`w-full rounded-t-md transition-opacity duration-200 group-hover:opacity-90 ${
-                            isPeak
-                              ? 'bg-[#FFD14C]'
-                              : isBoom
-                              ? 'bg-[#0D7287] dark:bg-[#9BE7FA]'
-                              : 'bg-slate-300 dark:bg-slate-700'
-                          }`}
-                          title={`${d.year}: ${d.value}M`}
-                        />
-                      </div>
+                        {isEn ? '06/2013: Visa Waiver & Action Plan' : '2013: Mở cửa & Miễn thị thực ASEAN'}
+                      </text>
+
+                      {/* Event Marker 2: 2020 (COVID-19) */}
+                      <line
+                        x1={x2020}
+                        y1={padT}
+                        x2={x2020}
+                        y2={padT + plotH}
+                        stroke="#E11D48"
+                        strokeDasharray="3 3"
+                        strokeWidth="1.5"
+                      />
+                      <text
+                        x={x2020 - 5}
+                        y={padT + 14}
+                        textAnchor="end"
+                        className="fill-rose-600 dark:fill-rose-400 text-[11px] font-bold"
+                      >
+                        {isEn ? '2020: COVID-19' : '2020: COVID-19'}
+                      </text>
+
+                      {/* Japan Line */}
+                      {showJapan && (
+                        <g>
+                          <path
+                            d={toPath(jpPts)}
+                            fill="none"
+                            stroke="#64748B"
+                            strokeWidth={isSingleLine ? '3' : '2.2'}
+                          />
+                          {jpPts.map((pt) => (
+                            <g key={`jp-${pt.yr}`}>
+                              <circle
+                                cx={pt.x}
+                                cy={pt.y}
+                                r={pt.yr === '2019' ? 4.5 : isSingleLine ? 3.5 : 2.5}
+                                className="fill-slate-600 dark:fill-slate-300"
+                              />
+                              {isSingleLine && (
+                                <text
+                                  x={pt.x}
+                                  y={pt.y - 8}
+                                  textAnchor="middle"
+                                  className="fill-slate-700 dark:fill-slate-200 text-[11px] font-bold tabular-nums"
+                                >
+                                  {fmtNum(pt.val, 1, isEn)}
+                                </text>
+                              )}
+                            </g>
+                          ))}
+                        </g>
+                      )}
+
+                      {/* Kyoto Line: solid 2013-2018, dashed 2018-2019, solid 2019-2022 */}
+                      {showKyoto && (
+                        <g>
+                          <path
+                            d={toPath(kyPre2018)}
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={isSingleLine ? '3.2' : '2.8'}
+                            className="text-[#0D7287] dark:text-[#9BE7FA]"
+                          />
+                          <path
+                            d={toPath(kyBreak2018To2019)}
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={isSingleLine ? '2.8' : '2.5'}
+                            strokeDasharray="5 4"
+                            className="text-[#0D7287] dark:text-[#9BE7FA]"
+                          />
+                          <path
+                            d={toPath(kyPost2019)}
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={isSingleLine ? '2.6' : '2.2'}
+                            className="text-[#0D7287] dark:text-[#9BE7FA]"
+                          />
+                          {kyPts.map((pt) => (
+                            <g key={`ky-${pt.yr}`}>
+                              <circle
+                                cx={pt.x}
+                                cy={pt.y}
+                                r={pt.yr === '2018' || pt.yr === '2019' ? 4.5 : isSingleLine ? 3.5 : 2.8}
+                                className={
+                                  pt.yr === '2019'
+                                    ? 'fill-white dark:fill-slate-900 stroke-[#0D7287] dark:stroke-[#9BE7FA]'
+                                    : 'fill-[#0D7287] dark:fill-[#9BE7FA]'
+                                }
+                                strokeWidth={pt.yr === '2019' ? 2.2 : 0}
+                              />
+                              {isSingleLine && pt.yr !== '2018' && pt.yr !== '2019' && (
+                                <text
+                                  x={pt.x}
+                                  y={pt.y - 8}
+                                  textAnchor="middle"
+                                  className="fill-[#074553] dark:fill-[#9BE7FA] text-[11px] font-bold tabular-nums"
+                                >
+                                  {fmtNum(pt.val, 1, isEn)}
+                                </text>
+                              )}
+                            </g>
+                          ))}
+                        </g>
+                      )}
+
+                      {/* Nara Line */}
+                      {showNara && (
+                        <g>
+                          <path
+                            d={toPath(naPts)}
+                            fill="none"
+                            stroke="#D97706"
+                            strokeWidth={isSingleLine ? '3.2' : '2.8'}
+                          />
+                          {naPts.map((pt) => (
+                            <g key={`na-${pt.yr}`}>
+                              <circle
+                                cx={pt.x}
+                                cy={pt.y}
+                                r={pt.yr === '2019' ? 4.5 : isSingleLine ? 3.5 : 2.8}
+                                className="fill-amber-600 dark:fill-[#FFD14C]"
+                              />
+                              {isSingleLine && pt.yr !== '2019' && (
+                                <text
+                                  x={pt.x}
+                                  y={pt.y - 8}
+                                  textAnchor="middle"
+                                  className="fill-amber-800 dark:fill-[#FFE485] text-[11px] font-bold tabular-nums"
+                                >
+                                  {fmtNum(pt.val, 1, isEn)}
+                                </text>
+                              )}
+                            </g>
+                          ))}
+                        </g>
+                      )}
+
+                      {/* Key Annotations */}
+                      {/* Nara 2019 Peak = 762.8 */}
+                      {showNara && (
+                        <text
+                          x={x2019 - 6}
+                          y={yAt(762.8) - 8}
+                          textAnchor="end"
+                          className="fill-amber-700 dark:fill-[#FFD14C] text-[11px] font-extrabold tabular-nums"
+                        >
+                          Nara &apos;19: 762,8 (+662,8%)
+                        </text>
+                      )}
+
+                      {/* Kyoto 2018 Peak = 399.3 & R1/2019 Method Break */}
+                      {showKyoto && (
+                        <>
+                          <text
+                            x={x2018 - 6}
+                            y={yAt(399.3) - 9}
+                            textAnchor="end"
+                            className="fill-[#074553] dark:fill-[#9BE7FA] text-[11px] font-extrabold tabular-nums"
+                          >
+                            Kyoto &apos;18: 399,3 (+299,3%)
+                          </text>
+                          <text
+                            x={x2019 + 6}
+                            y={yAt(336.8) - 6}
+                            textAnchor="start"
+                            className="fill-[#074553] dark:fill-[#9BE7FA] text-[11px] font-bold"
+                          >
+                            {isEn ? 'R1/2019 New Method (336.8)' : 'Đổi PP thống kê R1/2019 (336,8)'}
+                          </text>
+                        </>
+                      )}
+
+                      {/* Japan 2019 Peak = 306.7 */}
+                      {showJapan && !isSingleLine && (
+                        <text
+                          x={x2019 - 6}
+                          y={yAt(306.7) + 14}
+                          textAnchor="end"
+                          className="fill-slate-700 dark:fill-slate-300 text-[11px] font-bold tabular-nums"
+                        >
+                          {isEn ? "Japan '19: 306.7" : "Toàn Nhật '19: 306,7"}
+                        </text>
+                      )}
+
+                      {/* X-axis labels */}
+                      {indexedSeries2013To2020.map((d, i) => (
+                        <text
+                          key={d.year}
+                          x={xAt(i)}
+                          y={h - 8}
+                          textAnchor="middle"
+                          className="fill-slate-600 dark:fill-slate-400 text-[11px] font-semibold tabular-nums"
+                        >
+                          {d.year}
+                        </text>
+                      ))}
+                    </svg>
+                  </div>
+                );
+              })()}
+            </div>
+
+            <div className="mt-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/70 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1.5">
+              <p>
+                <strong className="text-[#074553] dark:text-[#9BE7FA]">
+                  {isEn ? 'Methodological Note: ' : 'Lưu ý phương pháp thống kê: '}
+                </strong>
+                {isEn
+                  ? 'In matching-methodology years (2013–2018), Kyoto foreign overnight guests grew +299.3% (1.13M → 4.50M, Index 399.3). From R1/2019, Kyoto revised its survey sampling (3,799.0k), plotted as a dashed transition.'
+                  : 'Giai đoạn 2013–2018 (cùng phương pháp thống kê), khách lưu trú nước ngoài tại Kyoto tăng +299,3% (gần gấp 4 lần, từ 1,13 triệu lên đỉnh 4,50 triệu lượt). Từ R1/2019, TP. Kyoto đổi cách tính (3.799,0 nghìn) nên được biểu diễn bằng đường nét đứt.'}
+              </p>
+              <p className="tabular-nums">
+                <strong className="text-emerald-700 dark:text-emerald-400">
+                  {isEn ? 'Log-Linear Counterfactual (2003–2012 baseline): ' : 'Kiểm định Counterfactual (nền 2003–2012): '}
+                </strong>
+                {isEn
+                  ? `Without the 2013 policy acceleration, projected 2019 inbound arrivals were ~${fmtNum(quantStats.predicted2019, 1, true)}M, implying a +${fmtNum(quantStats.surplus2019, 1, true)}M above-trend surplus at the 31.9M peak. Note: this pre-policy trend serves as a descriptive benchmark and does not isolate macroeconomic confounders such as post-2022 JPY depreciation.`
+                  : `Nếu giữ tốc độ tăng nền trước 2013, lượng khách dự phóng năm 2019 chỉ đạt khoảng ${fmtNum(quantStats.predicted2019, 1, false)} triệu lượt; thực tế 31,9 triệu vượt xu hướng nền tới +${fmtNum(quantStats.surplus2019, 1, false)} triệu lượt. Lưu ý: đây là đường nền mô tả giai đoạn tiền chính sách, chưa tách riêng các yếu tố vĩ mô như đồng Yên mất giá mạnh sau năm 2022.`}
+              </p>
+            </div>
+          </div>
+
+          {/* PHẢI (35% -> col-span-5): BIỂU ĐỒ CỘT + ĐƯỜNG YoY% CÓ NÚT CHUYỂN [Toàn Nhật | Kyoto | Nara] */}
+          <div className="lg:col-span-5 rounded-2xl p-5 sm:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+            <div>
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                  {isEn ? 'Absolute Volume & YoY% Growth' : 'Số liệu tuyệt đối & Tốc độ YoY%'}
+                </span>
+                {/* Nút chuyển [Toàn Nhật | Kyoto | Nara] */}
+                <div className="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 border border-slate-200 dark:border-slate-700">
+                  {(
+                    [
+                      { key: 'japan', vi: 'Toàn Nhật', en: 'All Japan' },
+                      { key: 'kyoto', vi: 'Kyoto', en: 'Kyoto' },
+                      { key: 'nara', vi: 'Nara', en: 'Nara' },
+                    ] as Array<{ key: RegionToggle; vi: string; en: string }>
+                  ).map((tab) => {
+                    const active = part1Region === tab.key;
+                    return (
+                      <button
+                        key={tab.key}
+                        type="button"
+                        onClick={() => setPart1Region(tab.key)}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                          active
+                            ? 'bg-[#9BE7FA] text-[#074553] dark:text-slate-950'
+                            : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
+                        }`}
+                      >
+                        {isEn ? tab.en : tab.vi}
+                      </button>
                     );
                   })}
                 </div>
-
-                <div className="flex gap-1 sm:gap-2 px-1 pt-2.5">
-                  {synchronizedVisitors.map((d) => (
-                    <div key={d.year} className="flex-1 text-center">
-                      <span
-                        className={`text-xs font-semibold tabular-nums block truncate ${
-                          d.year === '2019'
-                            ? 'text-slate-950 dark:text-[#FFD14C] font-extrabold'
-                            : 'text-slate-500 dark:text-slate-400'
-                        }`}
-                      >
-                        <span className="hidden sm:inline">20</span>
-                        {d.year.slice(-2)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
               </div>
-            </div>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-5 leading-relaxed pt-3 border-t border-slate-100 dark:border-slate-800">
-              {isEn ? (
-                <>
-                  <strong>Observation:</strong> From 2010 to 2012, inbound volume fluctuated between
-                  6.2M and 8.6M visitors/year. Following the June 2013 Action Program, arrivals grew
-                  at a <strong>20.5% CAGR</strong> to reach 31.9M in 2019 before pandemic border
-                  restrictions.
-                </>
-              ) : (
-                <>
-                  <strong>Nhận xét:</strong> Giai đoạn 2010–2012, lượng khách dao động ở mức 6,2 –
-                  8,6 triệu lượt/năm. Sau Chương trình hành động 06/2013, lượng khách tăng trưởng kép{' '}
-                  <strong>20,5%/năm</strong>, đạt đỉnh 31,9 triệu lượt năm 2019 trước khi đóng cửa
-                  biên giới vì dịch COVID-19.
-                </>
-              )}
-            </p>
-          </div>
 
-          {/* BIỂU ĐỒ 2: CHI TIÊU CỦA KHÁCH QUỐC TẾ (2010–2021) */}
-          <div className="rounded-2xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between h-full">
-            <div>
-              <div className="flex flex-wrap justify-between items-center gap-2 mb-2">
-                <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                  {isEn
-                    ? 'Chart 2 (Aligned Window 2010–2021) · Unit: Trillion Yen'
-                    : 'Biểu đồ 2 (Khung đồng bộ 2010–2021) · Đơn vị: Nghìn tỷ Yên'}
-                </span>
-                <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-[#C8EEF7]/50 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] border border-[#9BE7FA]/40">
-                  {isEn ? '2019 Peak: ¥4.81T' : 'Đỉnh 2019: 4,81 nghìn tỷ ¥'}
-                </span>
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-3 text-slate-900 dark:text-white">
-                {isEn
-                  ? 'International Tourist Spending in Japan (2010–2021)'
-                  : 'Chi tiêu của khách du lịch quốc tế tại Nhật Bản (2010–2021)'}
+              <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">
+                {part1Region === 'japan'
+                  ? isEn
+                    ? 'International Visitors to Japan (Million, 2013–2020)'
+                    : 'Khách quốc tế đến Nhật Bản (Triệu lượt, 2013–2020)'
+                  : part1Region === 'kyoto'
+                  ? isEn
+                    ? 'Actual Foreign Overnight Guests in Kyoto (Thousand, 2013–2020)'
+                    : 'Khách lưu trú nước ngoài thực tế tại TP. Kyoto (Nghìn, 2013–2020)'
+                  : isEn
+                  ? 'International Visitors to Nara City (Thousand, 2013–2020)'
+                  : 'Khách quốc tế đến TP. Nara (Nghìn lượt, 2013–2020)'}
               </h3>
 
-              <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-slate-500 dark:text-slate-400 mb-5">
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-slate-300 dark:bg-slate-700" />{' '}
-                  {isEn ? 'Pre-2013 / COVID-19' : 'Trước 2013 / COVID-19'}
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">
+                {part1Region === 'japan'
+                  ? isEn
+                    ? 'Chart 3.1 (Aligned 2013–2020) · 2019 Peak: 31.9M · 2020: 4.1M (2022 Finalized: 3.83M)'
+                    : 'Biểu đồ 3.1 (Đồng bộ 2013–2020) · Đỉnh 2019: 31,9 triệu · 2020: 4,1 triệu (2022 chốt: 3,83 triệu)'
+                  : part1Region === 'kyoto'
+                  ? isEn
+                    ? 'Chart 3.2 (Aligned 2013–2020) · 2018 Peak: 4,503.3k · 2019 New Method: 3,799.0k · 2020: 448.8k'
+                    : 'Biểu đồ 3.2 (Đồng bộ 2013–2020) · Đỉnh 2018: 4.503,3k · 2019 (PP mới): 3.799,0k · 2020: 448,8k'
+                  : isEn
+                  ? 'Chart 3.3 (Aligned 2013–2020) · 2019 Peak: 3,318k · 2020 Corrected: 289k (28.9 万人)'
+                  : 'Biểu đồ 3.3 (Đồng bộ 2013–2020) · Đỉnh 2019: 3.318 nghìn · Năm 2020 chuẩn hóa: 289 nghìn (28,9 万人)'}
+              </p>
+
+              {/* Legend cho Cột & Đường YoY% */}
+              <div className="flex flex-wrap items-center gap-3 text-xs font-semibold mb-2">
+                <span className="inline-flex items-center gap-1.5 text-[#074553] dark:text-[#9BE7FA]">
+                  <span className="w-3 h-3 rounded-xs bg-[#0D7287] dark:bg-[#9BE7FA] inline-block" />
+                  {isEn ? 'Bars: Visitors (Left)' : 'Cột: Lượng khách'}
                 </span>
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-[#0D7287] dark:bg-[#9BE7FA]" />{' '}
-                  {isEn ? 'Growth 2013–2018' : 'Tăng tốc 2013–2018'}
-                </span>
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-[#FFD14C]" />{' '}
-                  {isEn ? '2019 Peak' : 'Đỉnh 2019'}
+                <span className="inline-flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
+                  <span className="w-4 border-t-2 border-dashed border-emerald-500 inline-block" />
+                  {isEn ? 'Dashed line: YoY% growth (Right axis)' : 'Đường đứt: Tăng trưởng YoY% (Trục phải)'}
                 </span>
               </div>
 
-              <div className="w-full">
-                <div className="h-56 flex items-end gap-1 sm:gap-2 px-1 border-b-2 border-slate-200 dark:border-slate-700">
-                  {synchronizedSpending.map((d) => {
-                    const barHeight = Math.max(Math.round((d.value / 5.2) * 160), 6);
-                    const isPeak = d.year === '2019';
-                    const isBoom = Number(d.year) >= 2013 && Number(d.year) < 2019;
-                    return (
-                      <div
-                        key={d.year}
-                        className="flex-1 flex flex-col items-center justify-end h-full group"
-                      >
-                        <span className="text-xs font-bold tabular-nums text-slate-700 dark:text-slate-200 mb-1.5 select-none">
-                          {d.value}
-                        </span>
-                        <div
-                          style={{ height: `${barHeight}px` }}
-                          className={`w-full rounded-t-md transition-opacity duration-200 group-hover:opacity-90 ${
-                            isPeak
-                              ? 'bg-[#FFD14C]'
-                              : isBoom
-                              ? 'bg-[#0D7287] dark:bg-[#9BE7FA]'
-                              : 'bg-slate-300 dark:bg-slate-700'
-                          }`}
-                          title={`${d.year}: ${d.value}T JPY`}
+              {/* Bar + YoY% SVG Chart */}
+              {(() => {
+                const w = 440;
+                const h = 235;
+                const padL = 24;
+                const padR = 44;
+                const padT = 26;
+                const padB = 30;
+                const plotW = w - padL - padR;
+                const plotH = h - padT - padB;
+                const n = part1RightSeries.length;
+                const maxVal =
+                  part1Region === 'japan' ? 35 : part1Region === 'kyoto' ? 5000 : 3600;
+
+                // YoY scale (-100% to +120%)
+                const yoyMin = -100;
+                const yoyMax = 120;
+                const yAtYoy = (pct: number) => {
+                  const clamped = Math.max(yoyMin, Math.min(yoyMax, pct));
+                  return padT + plotH - ((clamped - yoyMin) / (yoyMax - yoyMin)) * plotH;
+                };
+
+                const yoyPts = part1RightSeries
+                  .map((d, i) => {
+                    if (d.yoyPct === null) return null;
+                    const x = padL + i * (plotW / n) + plotW / n / 2;
+                    return { x, y: yAtYoy(d.yoyPct), pct: d.yoyPct, yr: d.year };
+                  })
+                  .filter((p): p is { x: number; y: number; pct: number; yr: string } => p !== null);
+
+                const yoyPath = yoyPts
+                  .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
+                  .join(' ');
+
+                return (
+                  <svg
+                    viewBox={`0 0 ${w} ${h}`}
+                    className="w-full h-auto select-none overflow-visible"
+                    role="img"
+                    aria-label="Absolute Volume and YoY Chart"
+                  >
+                    {/* Right-axis YoY% reference ticks (+100%, 0%, -100%) */}
+                    {[100, 0, -100].map((tick) => (
+                      <g key={`yoy-tick-${tick}`}>
+                        <line
+                          x1={padL}
+                          y1={yAtYoy(tick)}
+                          x2={w - padR}
+                          y2={yAtYoy(tick)}
+                          stroke="currentColor"
+                          strokeDasharray="2 3"
+                          className="text-slate-200 dark:text-slate-800"
+                          strokeWidth="1"
                         />
-                      </div>
-                    );
-                  })}
-                </div>
+                        <text
+                          x={w - padR + 5}
+                          y={yAtYoy(tick) + 3.5}
+                          textAnchor="start"
+                          className={`text-[11px] tabular-nums font-semibold ${
+                            tick < 0
+                              ? 'fill-rose-600 dark:fill-rose-400'
+                              : tick > 0
+                              ? 'fill-emerald-700 dark:fill-emerald-400'
+                              : 'fill-slate-500 dark:fill-slate-400'
+                          }`}
+                        >
+                          {tick > 0 ? `+${tick}%` : `${tick}%`}
+                        </text>
+                      </g>
+                    ))}
+                    {/* Baseline */}
+                    <line
+                      x1={padL}
+                      y1={padT + plotH}
+                      x2={w - padR}
+                      y2={padT + plotH}
+                      stroke="currentColor"
+                      className="text-slate-300 dark:text-slate-700"
+                      strokeWidth="1.2"
+                    />
 
-                <div className="flex gap-1 sm:gap-2 px-1 pt-2.5">
-                  {synchronizedSpending.map((d) => (
-                    <div key={d.year} className="flex-1 text-center">
-                      <span
-                        className={`text-xs font-semibold tabular-nums block truncate ${
-                          d.year === '2019'
-                            ? 'text-slate-950 dark:text-[#FFD14C] font-extrabold'
-                            : 'text-slate-500 dark:text-slate-400'
-                        }`}
-                      >
-                        <span className="hidden sm:inline">20</span>
-                        {d.year.slice(-2)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                    {/* Bars */}
+                    {part1RightSeries.map((d, i) => {
+                      const colW = plotW / n;
+                      const barW = Math.max(14, colW * 0.62);
+                      const x = padL + i * colW + (colW - barW) / 2;
+                      const barH = Math.max(3, (d.value / maxVal) * plotH);
+                      const y = padT + plotH - barH;
+
+                      const isPeak =
+                        (part1Region === 'japan' && d.year === '2019') ||
+                        (part1Region === 'kyoto' && d.year === '2018') ||
+                        (part1Region === 'nara' && d.year === '2019');
+                      const isMethod2019 = part1Region === 'kyoto' && d.year === '2019';
+                      const isCovid = Number(d.year) >= 2020;
+
+                      const fillClass = isPeak
+                        ? 'fill-[#FFD14C]'
+                        : isMethod2019
+                        ? 'fill-[#0D7287]/65 dark:fill-[#9BE7FA]/65'
+                        : isCovid
+                        ? 'fill-rose-500/80 dark:fill-rose-400/80'
+                        : 'fill-[#0D7287] dark:fill-[#9BE7FA]';
+
+                      const labelStr =
+                        part1Region === 'japan'
+                          ? fmtNum(d.value, 1, isEn)
+                          : part1Region === 'kyoto'
+                          ? fmtNum(d.value, 0, isEn)
+                          : fmtNum(d.value, 0, isEn);
+
+                      return (
+                        <g key={d.year}>
+                          <rect
+                            x={x}
+                            y={y}
+                            width={barW}
+                            height={barH}
+                            rx={3}
+                            className={fillClass}
+                          />
+                          <text
+                            x={x + barW / 2}
+                            y={y - 5}
+                            textAnchor="middle"
+                            className={`text-[11px] tabular-nums font-bold ${
+                              isPeak
+                                ? 'fill-amber-800 dark:fill-[#FFD14C]'
+                                : isCovid
+                                ? 'fill-rose-600 dark:fill-rose-400'
+                                : 'fill-slate-700 dark:fill-slate-200'
+                            }`}
+                          >
+                            {labelStr}
+                          </text>
+                          <text
+                            x={x + barW / 2}
+                            y={h - 8}
+                            textAnchor="middle"
+                            className="fill-slate-500 dark:fill-slate-400 text-[11px] font-semibold tabular-nums"
+                          >
+                            {d.year}
+                          </text>
+                        </g>
+                      );
+                    })}
+
+                    {/* YoY% Line */}
+                    <path
+                      d={yoyPath}
+                      fill="none"
+                      stroke="#10B981"
+                      strokeWidth="1.8"
+                      strokeDasharray="3 2"
+                    />
+                    {yoyPts.map((pt) => (
+                      <g key={`yoy-${pt.yr}`}>
+                        <circle
+                          cx={pt.x}
+                          cy={pt.y}
+                          r="3.2"
+                          className={
+                            pt.pct < 0
+                              ? 'fill-rose-500 stroke-white dark:stroke-slate-900'
+                              : 'fill-emerald-500 stroke-white dark:stroke-slate-900'
+                          }
+                          strokeWidth="1.2"
+                        >
+                          <title>{`${pt.yr} YoY: ${pt.pct > 0 ? '+' : ''}${fmtNum(pt.pct, 1, isEn)}%`}</title>
+                        </circle>
+                      </g>
+                    ))}
+                  </svg>
+                );
+              })()}
             </div>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-5 leading-relaxed pt-3 border-t border-slate-100 dark:border-slate-800">
-              {isEn ? (
+
+            <div className="mt-3 p-3 rounded-xl bg-[#C8EEF7]/25 border border-[#9BE7FA]/60 text-xs text-slate-700 dark:text-slate-200 leading-relaxed">
+              {part1Region === 'japan' ? (
+                isEn ? (
+                  <>
+                    <strong>Audited Highlight:</strong> 2022 national arrivals updated from 3.4M to{' '}
+                    <strong>3.83M</strong> (official JNTO count: 3,832,110 visitors; optional 2023 rebound: 25.07M).
+                  </>
+                ) : (
+                  <>
+                    <strong>Điểm nhấn đã chuẩn hóa:</strong> Năm 2022 toàn Nhật chốt chuẩn{' '}
+                    <strong>3,83 triệu lượt</strong> theo JNTO (3.832.110 lượt, thay cho số cũ 3,4 triệu; năm 2023 phục hồi đạt 25,07 triệu).
+                  </>
+                )
+              ) : part1Region === 'kyoto' ? (
+                isEn ? (
+                  <>
+                    <strong>Audited Highlight:</strong> Shifted year axis back by -1 year: peak under old method was{' '}
+                    <strong>4,503.3k in 2018</strong>, new R1/2019 method recorded <strong>3,799.0k</strong>, and the 2020 COVID drop was <strong>448.8k</strong> (2023 rebound: 5,357k).
+                  </>
+                ) : (
+                  <>
+                    <strong>Điểm nhấn đã chuẩn hóa:</strong> Lùi trục năm -1 về đúng niên độ: đỉnh cũ năm 2018 đạt{' '}
+                    <strong>4.503,3 nghìn</strong>, năm 2019 (PP mới) là <strong>3.799,0 nghìn</strong> và cú rơi đúng năm 2020 là <strong>448,8 nghìn</strong> (năm 2023 đạt 5.357 nghìn).
+                  </>
+                )
+              ) : isEn ? (
                 <>
-                  <strong>Observation:</strong> Inbound tourist expenditure grew{' '}
-                  <strong>3.41x</strong> from ¥1.41T (2013) to ¥4.81T (2019), moving in lockstep
-                  with arrival volume (Pearson correlation <strong>r = 0.982</strong> across
-                  2010–2021).
+                  <strong>Audited Highlight:</strong> Corrected the 2020 unit conversion from 28.9k to{' '}
+                  <strong>289k visitors</strong> (<code>28.9 万人</code> = 289,000), representing a -91.3% drop from the 2019 peak (3,318k).
                 </>
               ) : (
                 <>
-                  <strong>Nhận xét:</strong> Chi tiêu tăng gấp <strong>3,41 lần</strong> từ 1,41
-                  nghìn tỷ Yên (2013) lên đỉnh 4,81 nghìn tỷ Yên (2019), đồng pha chặt chẽ với lượng
-                  khách quốc tế (hệ số tương quan Pearson <strong>r = 0,982</strong> giai đoạn
-                  2010–2021).
+                  <strong>Điểm nhấn đã chuẩn hóa:</strong> Đã sửa mốc 2020 của TP. Nara từ 28,9 nghìn thành{' '}
+                  <strong>289 nghìn lượt</strong> (quy đổi chuẩn <code>28,9 万人</code> = 289.000 người, giảm -91,3% so với đỉnh 3.318 nghìn năm 2019).
                 </>
               )}
-            </p>
+            </div>
           </div>
         </div>
 
-        {/* MÔ HÌNH ĐỐI CHỨNG LOG-LINEAR COUNTERFACTUAL TRÊN CHUỖI NỀN 20 NĂM (2003–2022) */}
-        <div className="rounded-2xl p-6 sm:p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                {isEn
-                  ? 'Econometric Baseline (2003–2022) · Log-Linear Counterfactual Model'
-                  : 'Chuỗi nền 20 năm (2003–2022) · Mô hình Đối chứng Log-Linear Counterfactual'}
+        {/* NÚT ACCORDION: XEM BẢNG SỐ LIỆU CHI TIẾT 2013–2022 */}
+        <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setShowPart1Table((prev) => !prev)}
+            aria-expanded={showPart1Table}
+            className="w-full min-h-[48px] px-5 py-3.5 flex items-center justify-between text-left text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer"
+          >
+            <span className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded bg-[#C8EEF7]/60 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] text-xs font-extrabold">
+                {isEn ? 'DATA TABLE' : 'BẢNG ĐỐI SOÁT'}
               </span>
-              <h3 className="text-lg sm:text-xl font-bold mt-1 text-slate-900 dark:text-white">
+              <span>
                 {isEn
-                  ? 'Actual Inbound Arrivals vs. Pre-2013 Log-Linear Trend Projection (2003–2022)'
-                  : 'Đối sánh Thực tế (2003–2022) với Xu thế Phản thực tế nếu không có Cú hích 2013'}
-              </h3>
-            </div>
+                  ? 'View detailed visitor & counterfactual data table (2013–2022)'
+                  : 'Xem bảng số liệu chi tiết 2013–2022 (Toàn Nhật • TP. Kyoto • TP. Nara & Chỉ số 2013 = 100)'}
+              </span>
+            </span>
+            {showPart1Table ? (
+              <ChevronUp className="w-4 h-4 text-slate-500 shrink-0" />
+            ) : (
+              <ChevronDown className="w-4 h-4 text-slate-500 shrink-0" />
+            )}
+          </button>
 
-            <div className="flex flex-wrap items-center gap-2 text-xs font-bold tabular-nums">
-              <span className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                {isEn
-                  ? `2003–2012 CAGR: ${fmtPct(quantStats.prePolicyCagr, 1, true)}`
-                  : `CAGR 2003–2012: ${fmtPct(quantStats.prePolicyCagr, 1, false)}`}
-              </span>
-              <span className="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
-                {isEn
-                  ? `2013–2019 CAGR: +${fmtPct(quantStats.policyCagr, 1, true)}`
-                  : `CAGR 2013–2019: +${fmtPct(quantStats.policyCagr, 1, false)}`}
-              </span>
-              <span className="px-2.5 py-1 rounded-md bg-[#FFE485]/60 text-amber-950 dark:bg-[#FFE485]/15 dark:text-[#FFE485]">
-                {isEn
-                  ? `2019 Policy Surplus: +${fmtNum(quantStats.surplus2019, 1, true)}M`
-                  : `Thặng dư 2019: +${fmtNum(quantStats.surplus2019, 1, false)}M khách`}
-              </span>
-            </div>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs tabular-nums border-collapse">
-              <thead>
-                <tr className="bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
-                  <th className="py-2.5 px-3 font-bold">
-                    {isEn ? 'Metric / Year' : 'Chỉ số / Năm'}
-                  </th>
-                  {quantStats.series20YrWithCounterfactual
-                    .filter((r) =>
-                      ['2003', '2006', '2009', '2012', '2013', '2015', '2017', '2019', '2020', '2022'].includes(
-                        r.year
-                      )
-                    )
-                    .map((r) => (
+          {showPart1Table && (
+            <div className="p-4 sm:p-5 border-t border-slate-100 dark:border-slate-800 overflow-x-auto">
+              <table className="w-full text-left text-xs tabular-nums border-collapse">
+                <thead>
+                  <tr className="bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300">
+                    <th className="py-2.5 px-3 font-bold">{isEn ? 'Metric / Year' : 'Chỉ số / Năm'}</th>
+                    {indexedSeries2013To2022.map((r) => (
                       <th key={r.year} className="py-2.5 px-2.5 font-extrabold text-right">
                         {r.year}
                       </th>
                     ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                <tr>
-                  <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-white">
-                    {isEn ? 'Actual Arrivals (M)' : 'Khách thực tế JNTO (Triệu)'}
-                  </td>
-                  {quantStats.series20YrWithCounterfactual
-                    .filter((r) =>
-                      ['2003', '2006', '2009', '2012', '2013', '2015', '2017', '2019', '2020', '2022'].includes(
-                        r.year
-                      )
-                    )
-                    .map((r) => (
-                      <td
-                        key={r.year}
-                        className={`py-2.5 px-2.5 text-right font-bold ${
-                          r.year === '2019'
-                            ? 'text-emerald-600 dark:text-emerald-400'
-                            : 'text-slate-800 dark:text-slate-200'
+                  </tr>
+                </thead>
+                <tbody className="[&>tr:nth-child(even)]:bg-slate-50/60 dark:[&>tr:nth-child(even)]:bg-slate-800/30">
+                  <tr>
+                    <td className="py-2 px-3 font-bold text-slate-900 dark:text-white">
+                      {isEn ? 'All Japan (Million)' : 'Toàn Nhật (Triệu lượt)'}
+                    </td>
+                    {indexedSeries2013To2022.map((r) => (
+                      <td key={r.year} className="py-2 px-2.5 text-right font-semibold">
+                        {r.japanVal !== null ? fmtNum(r.japanVal, r.year === '2022' ? 2 : 1, isEn) : '-'}
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-3 font-bold text-[#074553] dark:text-[#9BE7FA]">
+                      {isEn ? 'Kyoto Foreign Overnight (Thousand)' : 'Khách lưu trú NN TP. Kyoto (Nghìn)'}
+                    </td>
+                    {indexedSeries2013To2022.map((r) => (
+                      <td key={r.year} className="py-2 px-2.5 text-right font-semibold">
+                        {r.kyotoVal !== null ? fmtNum(r.kyotoVal, 1, isEn) : '-'}
+                        {r.year === '2019' ? '*' : ''}
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-3 font-bold text-amber-800 dark:text-[#FFE485]">
+                      {isEn ? 'Nara Foreign Visitors (Thousand)' : 'Khách quốc tế TP. Nara (Nghìn)'}
+                    </td>
+                    {indexedSeries2013To2022.map((r) => (
+                      <td key={r.year} className="py-2 px-2.5 text-right font-semibold">
+                        {r.naraVal !== null ? fmtNum(r.naraVal, 0, isEn) : '-'}
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-3 font-medium text-slate-500 dark:text-slate-400">
+                      {isEn ? 'Index: Japan / Kyoto / Nara (2013=100)' : 'Index: Nhật / Kyoto / Nara (2013=100)'}
+                    </td>
+                    {indexedSeries2013To2022.map((r) => (
+                      <td key={r.year} className="py-2 px-2.5 text-right text-[11px] text-slate-500 dark:text-slate-400">
+                        {r.japanIdx}/{r.kyotoIdx}/{r.naraIdx ?? '-'}
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+              </table>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-2.5">
+                {isEn
+                  ? '*Note: Kyoto 2012 value was 844.9k. In R1/2019 (3,799.0k), Kyoto City revised its survey methodology. Optional 2023 updates: Japan = 25.07M, Kyoto = 5,357k.'
+                  : '*Chú thích: Năm 2012 khách lưu trú nước ngoài tại Kyoto đạt 844,9 nghìn. Năm 2019* (3.799,0 nghìn) TP. Kyoto đổi phương pháp thống kê (R1/2019). Số liệu bổ sung 2023: Toàn Nhật = 25,07 triệu; TP. Kyoto = 5.357 nghìn.'}
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* =====================================================================
+       * PHẦN 02 — CHI TIÊU DU LỊCH & ĐÓNG GÓP KINH TẾ
+       * ===================================================================== */}
+      <section id="sec-kyoto-nara" className="space-y-5 scroll-mt-24">
+        <div className="space-y-1">
+          <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-950 dark:text-white flex items-center gap-2">
+            <MapPin className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA] shrink-0" aria-hidden="true" />
+            <span>
+              {isEn
+                ? '2. Visitors vs. Expenditure & GDP / GRDP Share'
+                : '2. Tương quan Lượng khách – Chi tiêu & Tỷ trọng GDP / GRDP'}
+            </span>
+          </h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            {isEn
+              ? 'Separates national inbound spend (¥4.81T) from municipal total spend (Domestic + Inbound) in Kyoto and Nara.'
+              : 'Tách bạch chi tiêu quốc tế toàn Nhật (4,81T ¥) với tổng chi tiêu Nội địa + Quốc tế tại Kyoto và Nara.'}
+          </p>
+        </div>
+
+        {/* 2 BIỂU ĐỒ XẾP NGANG (60% / 40% -> lg:col-span-7 / lg:col-span-5) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          {/* TRÁI (60% -> col-span-7): DUAL-Axis COMBO CHART (CỘT = LƯỢNG KHÁCH | ĐƯỜNG = CHI TIÊU) */}
+          <div className="lg:col-span-7 rounded-2xl p-5 sm:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+            <div>
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                  {isEn
+                    ? 'Dual-Axis Combo Chart (Bars = Visitors | Line = Expenditure)'
+                    : 'Biểu đồ kết hợp 2 trục (Cột = Lượng khách | Đường = Chi tiêu)'}
+                </span>
+
+                {/* Nút gạt [Toàn Nhật | TP. Kyoto | TP. Nara] */}
+                <div className="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 border border-slate-200 dark:border-slate-700">
+                  {(
+                    [
+                      { key: 'japan', vi: 'Toàn Nhật', en: 'All Japan' },
+                      { key: 'kyoto', vi: 'TP. Kyoto', en: 'Kyoto City' },
+                      { key: 'nara', vi: 'TP. Nara', en: 'Nara City' },
+                    ] as Array<{ key: RegionToggle; vi: string; en: string }>
+                  ).map((tab) => {
+                    const active = part2Region === tab.key;
+                    return (
+                      <button
+                        key={tab.key}
+                        type="button"
+                        onClick={() => setPart2Region(tab.key)}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                          active
+                            ? 'bg-[#9BE7FA] text-[#074553] dark:text-slate-950'
+                            : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
                         }`}
                       >
-                        {fmtNum(r.actual, 1, isEn)}
-                      </td>
-                    ))}
-                </tr>
-                <tr>
-                  <td className="py-2.5 px-3 font-medium text-slate-500 dark:text-slate-400">
-                    {isEn ? 'Log-Linear Baseline (M)' : 'Dự phóng xu thế cũ 2003–2012 (Triệu)'}
-                  </td>
-                  {quantStats.series20YrWithCounterfactual
-                    .filter((r) =>
-                      ['2003', '2006', '2009', '2012', '2013', '2015', '2017', '2019', '2020', '2022'].includes(
-                        r.year
-                      )
-                    )
-                    .map((r) => (
-                      <td
-                        key={r.year}
-                        className="py-2.5 px-2.5 text-right text-slate-500 dark:text-slate-400"
-                      >
-                        {fmtNum(r.counterfactual, 1, isEn)}
-                      </td>
-                    ))}
-                </tr>
-                <tr>
-                  <td className="py-2.5 px-3 font-bold text-[#074553] dark:text-[#9BE7FA]">
-                    {isEn ? 'Net Policy Surplus (M)' : 'Chênh lệch so với xu thế cũ (Triệu)'}
-                  </td>
-                  {quantStats.series20YrWithCounterfactual
-                    .filter((r) =>
-                      ['2003', '2006', '2009', '2012', '2013', '2015', '2017', '2019', '2020', '2022'].includes(
-                        r.year
-                      )
-                    )
-                    .map((r) => {
-                      const diff = r.actual - r.counterfactual;
-                      return (
-                        <td
-                          key={r.year}
-                          className={`py-2.5 px-2.5 text-right font-bold ${
-                            diff > 1
-                              ? 'text-emerald-600 dark:text-emerald-400'
-                              : diff < -1
-                              ? 'text-rose-600 dark:text-rose-400'
-                              : 'text-slate-500 dark:text-slate-400'
-                          }`}
-                        >
-                          {diff > 0 ? `+${fmtNum(diff, 1, isEn)}` : fmtNum(diff, 1, isEn)}
-                        </td>
-                      );
-                    })}
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* BIỂU ĐỒ 3: CHỈ SỐ HÓA TỐC ĐỘ BỨT PHÁ ĐỒNG BỘ LIÊN TỤC 2013–2019 (MỐC 2013 = 100) */}
-        <div className="rounded-2xl p-6 sm:p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-          <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
-            <div>
-              <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                {isEn
-                  ? 'Chart 3 (Continuous Window 2013–2019) · Indexed Growth (2013 = 100)'
-                  : 'Biểu đồ 3 (Chuỗi liên tục 2013–2019) · Chỉ số hóa tốc độ tăng trưởng (Mốc 2013 = 100)'}
-              </span>
-              <h3 className="text-lg sm:text-xl font-bold mt-1 text-slate-900 dark:text-white">
-                {isEn
-                  ? 'Relative Inbound Acceleration: National vs. Historic Kyoto vs. Historic Nara (2013–2019)'
-                  : 'Tốc độ bứt phá tương đối: Toàn quốc vs. Cố đô Kyoto vs. Cố đô Nara (2013–2019)'}
-              </h3>
-            </div>
-            <div className="flex items-center gap-4 text-xs font-semibold">
-              <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-                <span className="w-3 h-3 rounded-full bg-slate-500" />{' '}
-                {isEn ? 'National' : 'Toàn quốc'}
-              </span>
-              <span className="flex items-center gap-1.5 text-[#074553] dark:text-[#9BE7FA]">
-                <span className="w-3 h-3 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />{' '}
-                {isEn ? 'Kyoto' : 'Cố đô Kyoto'}
-              </span>
-              <span className="flex items-center gap-1.5 text-amber-800 dark:text-[#FFE485]">
-                <span className="w-3 h-3 rounded-full bg-[#FFD14C]" />{' '}
-                {isEn ? 'Nara' : 'Cố đô Nara'}
-              </span>
-            </div>
-          </div>
-
-          <div className="space-y-3.5">
-            {HERITAGE_JAPAN_DATA.indexedGrowth2013To2019.map((row) => (
-              <div
-                key={row.year}
-                className="space-y-2 p-3.5 rounded-xl bg-slate-50/70 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800"
-              >
-                <div className="flex flex-wrap justify-between items-center text-xs sm:text-sm font-medium gap-2 tabular-nums">
-                  <span className="font-extrabold text-slate-900 dark:text-white">
-                    {isEn ? `Year ${row.year}` : `Năm ${row.year}`}
-                  </span>
-                  <span className="text-slate-600 dark:text-slate-300 text-xs">
-                    {isEn ? 'National' : 'Toàn Nhật'}:{' '}
-                    <b className="text-slate-900 dark:text-white">{row.japan}</b> | Kyoto:{' '}
-                    <b className="text-[#0D7287] dark:text-[#9BE7FA]">{row.kyoto}</b> | Nara:{' '}
-                    <b className="text-amber-700 dark:text-[#FFE485] font-bold">{row.nara}</b>
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 tabular-nums">
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
-                      <span>{isEn ? 'National' : 'Toàn quốc'}</span>
-                      <span className="font-bold">{row.japan}</span>
-                    </div>
-                    <div className="bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
-                      <div
-                        className="bg-slate-500 h-full rounded-full"
-                        style={{ width: `${Math.max((row.japan / 800) * 100, 6)}%` }}
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs text-[#074553] dark:text-[#9BE7FA]">
-                      <span>{isEn ? 'Kyoto' : 'Cố đô Kyoto'}</span>
-                      <span className="font-bold">{row.kyoto}</span>
-                    </div>
-                    <div className="bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
-                      <div
-                        className="bg-[#0D7287] dark:bg-[#9BE7FA] h-full rounded-full"
-                        style={{ width: `${Math.max((row.kyoto / 800) * 100, 6)}%` }}
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs text-amber-700 dark:text-[#FFE485]">
-                      <span>{isEn ? 'Nara' : 'Cố đô Nara'}</span>
-                      <span className="font-bold">{row.nara}</span>
-                    </div>
-                    <div className="bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
-                      <div
-                        className="bg-[#FFD14C] h-full rounded-full"
-                        style={{ width: `${Math.max((row.nara / 800) * 100, 6)}%` }}
-                      />
-                    </div>
-                  </div>
+                        {isEn ? tab.en : tab.vi}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
-            ))}
-          </div>
 
-          <div className="mt-5 p-4 rounded-xl bg-[#C8EEF7]/25 border border-[#9BE7FA]/60 text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed">
-            <strong className="text-[#074553] dark:text-[#9BE7FA]">
-              {isEn ? 'Core Finding: ' : 'Phát hiện cốt lõi: '}
-            </strong>
-            {isEn ? (
-              <>
-                From 2013 to 2019, national arrivals grew 3.07x (index 306.7, CAGR{' '}
-                {fmtPct(quantStats.policyCagr, 1, true)}), whereas Historic Kyoto expanded{' '}
-                <strong>5.33x (index 533.0, CAGR {fmtPct(quantStats.kyotoCagr, 1, true)})</strong>{' '}
-                and Historic Nara surged{' '}
-                <strong>7.63x (index 762.8, CAGR {fmtPct(quantStats.naraCagr, 1, true)})</strong>.
-                UNESCO heritage capitals absorbed foreign demand at nearly 2.5x the national rate.
-              </>
-            ) : (
-              <>
-                Giai đoạn 2013–2019, khách quốc tế toàn Nhật tăng 3,07 lần (chỉ số 306,7; CAGR{' '}
-                {fmtPct(quantStats.policyCagr, 1, false)}), trong khi Kyoto tăng{' '}
-                <strong>5,33 lần (chỉ số 533,0; CAGR {fmtPct(quantStats.kyotoCagr, 1, false)})</strong>{' '}
-                và Nara tăng{' '}
-                <strong>7,63 lần (chỉ số 762,8; CAGR {fmtPct(quantStats.naraCagr, 1, false)})</strong>.
-                Các đô thị di sản UNESCO hút khách quốc tế nhanh gấp gần 2,5 lần trung bình toàn
-                quốc.
-              </>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* =====================================================================
-       * PHẦN 2: THỐNG KÊ TẠI CỐ ĐÔ KYOTO & CỐ ĐÔ NARA (ĐỒNG BỘ THỜI GIAN)
-       * ===================================================================== */}
-      <section id="sec-kyoto-nara" className="space-y-8 scroll-mt-24">
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#F0F9FB] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 space-y-2.5">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="px-3 py-1 rounded-xl bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 text-xs font-black tabular-nums">
-              {isEn ? 'PART 2' : 'PHẦN 2'}
-            </span>
-            <span className="text-xs sm:text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
-              <MapPin className="w-4 h-4" aria-hidden="true" />
-              <span>
-                {isEn
-                  ? 'UNESCO Destination Comparison (Synchronized Horizons)'
-                  : 'Đối sánh Điểm đến Di sản UNESCO (Khung thời gian đồng bộ)'}
-              </span>
-            </span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white">
-            {isEn
-              ? '2. Inbound Volume (2009–2020) and Expenditure Divergence (2014–2020) in Kyoto & Nara'
-              : '2. Lượng khách quốc tế (2009–2020) và phân kỳ chi tiêu (2014–2020) tại Kyoto & Nara'}
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
-            {isEn
-              ? 'Synchronized side-by-side comparison on a unified Y-axis scale (with Kyoto 2020 corrected at source to 379.9k) and structural diagnosis of Nara’s day-tripper revenue leakage.'
-              : 'Đối chiếu song song trên cùng khung thời gian 2009–2020 và cùng thang đo trục Y (đã hiệu đính số liệu Kyoto 2020 tại nguồn về 379,9 nghìn người), giải mã hiện tượng khách đi về trong ngày tại Nara.'}
-          </p>
-        </div>
-
-        {/* CẶP BIỂU ĐỒ 4 & 5 ĐỒNG BỘ 2009–2020: KYOTO VS NARA */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-          {/* BIỂU ĐỒ 4: KHÁCH ĐẾN CỐ ĐÔ KYOTO (2009–2020) */}
-          <div className="rounded-2xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between h-full">
-            <div>
-              <div className="flex flex-wrap justify-between items-center gap-2 mb-2">
-                <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                  {isEn
-                    ? 'Chart 4 (Aligned Window 2009–2020) · Unit: Thousand Visitors'
-                    : 'Biểu đồ 4 (Khung đồng bộ 2009–2020) · Đơn vị: Nghìn người'}
-                </span>
-                <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-[#C8EEF7]/50 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] border border-[#9BE7FA]/40">
-                  {isEn ? '2019 Peak: 4,503.3k' : 'Đỉnh 2019: 4.503,3 nghìn'}
-                </span>
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-3 text-slate-900 dark:text-white">
-                {isEn
-                  ? 'International Visitors to Historic Kyoto (2009–2020)'
-                  : 'Khách du lịch quốc tế đến Cố đô Kyoto (2009–2020)'}
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-1">
+                {part2Region === 'japan'
+                  ? isEn
+                    ? 'All Japan: International Visitors (M) vs. Inbound Expenditure (Trillion ¥)'
+                    : 'Toàn Nhật: Khách quốc tế (Triệu) vs. Chi tiêu khách quốc tế (Nghìn tỷ Yên)'
+                  : part2Region === 'kyoto'
+                  ? isEn
+                    ? 'Kyoto City: Foreign Overnight Guests (k) vs. Total Tourism Spend (Domestic + Inbound, B ¥)'
+                    : 'TP. Kyoto: Khách lưu trú nước ngoài (Nghìn) vs. Tổng chi tiêu Nội địa + Quốc tế (Tỷ Yên)'
+                  : isEn
+                  ? 'Nara City: Foreign Visitors (k) vs. Total Tourism Spend (Domestic + Inbound, B ¥)'
+                  : 'TP. Nara: Khách quốc tế (Nghìn) vs. Tổng chi tiêu Nội địa + Quốc tế (Tỷ Yên)'}
               </h3>
 
-              <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-slate-500 dark:text-slate-400 mb-3">
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-slate-300 dark:bg-slate-700" />{' '}
-                  {isEn ? 'Pre-2013 / COVID-19' : 'Trước 2013 / COVID-19'}
-                </span>
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-[#0D7287] dark:bg-[#9BE7FA]" />{' '}
-                  {isEn ? 'Growth 2013–2018' : 'Tăng tốc 2013–2018'}
-                </span>
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-[#FFD14C]" />{' '}
-                  {isEn ? '2019 Peak' : 'Đỉnh 2019'}
-                </span>
-              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">
+                {part2Region === 'japan'
+                  ? isEn
+                    ? 'Charts 3.1 & 3.4 (Synchronized Window 2013–2019) · Inbound Spend rose 3.41× from ¥1.41T to ¥4.81T (2020: ¥0.74T; 2021: ¥0.12T)'
+                    : 'Biểu đồ 3.1 & 3.4 (Khung đồng bộ 2013–2019) · Chi tiêu quốc tế tăng 3,41 lần từ 1,41 lên 4,81 nghìn tỷ Yên (2020: 0,74; 2021: 0,12)'
+                  : part2Region === 'kyoto'
+                  ? isEn
+                    ? 'Charts 3.2 & 3.5 (Synchronized Window 2013–2019) · Total spend grew +87.0% from ¥699.4B (2013) to ¥1,308.2B peak (2018); 2019 R1 new method: ¥1,236.7B'
+                    : 'Biểu đồ 3.2 & 3.5 (Khung đồng bộ 2013–2019) · Tổng chi tiêu tăng +87,0% từ 699,4 tỷ (2013) lên đỉnh 1.308,2 tỷ Yên (2018); năm 2019 (PP mới): 1.236,7 tỷ'
+                  : isEn
+                  ? 'Charts 3.3 & 3.6 (Synchronized Window 2013–2019, converted from 億円) · Total spend rose +38.4% from ¥87.26B (2013) to ¥120.8B peak (2018), dipped -5.0% in 2019 (¥114.7B)'
+                  : 'Biểu đồ 3.3 & 3.6 (Khung đồng bộ 2013–2019, đã chia 10 từ 億円) · Tổng chi tiêu tăng +38,4% từ 87,26 tỷ (2013) lên đỉnh 120,8 tỷ Yên (2018), giảm -5,0% năm 2019 còn 114,7 tỷ'}
+              </p>
 
-              <div className="w-full pt-2">
-                <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2 px-1">
-                  <span className="font-medium">
-                    {isEn ? 'Y-Axis Scale (Thousand)' : 'Thang đo trục Y (Nghìn người)'}
-                  </span>
-                  <span className="font-bold text-[#0D7287] dark:text-[#9BE7FA] bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/15 px-2 py-0.5 rounded-md">
-                    {isEn ? 'Shared Scale: 1,000k = 36px' : 'Thang chuẩn chung: 1.000 nghìn = 36px'}
-                  </span>
-                </div>
-
-                <div className="relative w-full">
-                  <div className="absolute inset-0 pointer-events-none z-0" data-ui="chart-grid">
-                    {[4000, 3000, 2000, 1000].map((lvl) => (
-                      <div
-                        key={lvl}
-                        data-ui="chart-gridline"
-                        className="absolute w-full border-t border-dashed border-slate-200 dark:border-slate-800 flex items-center justify-between px-1"
-                        style={{ bottom: `${(lvl / 1000) * 36}px` }}
-                      >
-                        <span className="text-xs tabular-nums font-semibold text-slate-400 dark:text-slate-500 -mt-3.5 bg-white/90 dark:bg-slate-900/90 px-1 rounded">
-                          {lvl.toLocaleString(isEn ? 'en-US' : 'vi-VN')}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="h-60 flex items-end gap-1 sm:gap-1.5 px-1 border-b-2 border-slate-200 dark:border-slate-700 relative z-10">
-                    {synchronizedKyotoVisitors.map((d) => {
-                      const barHeight = Math.max(Math.round((d.value / 5000) * 180), 4);
-                      const isPeak = d.year === '2019';
-                      const isBoom = Number(d.year) >= 2013 && Number(d.year) < 2019;
-                      return (
-                        <div
-                          key={d.year}
-                          className="flex-1 flex flex-col items-center justify-end h-full group min-w-0"
-                        >
-                          <span
-                            className={`text-xs font-bold mb-1 select-none tabular-nums truncate max-w-full ${
-                              isPeak
-                                ? 'text-[#92400E] dark:text-[#FFD14C] font-extrabold'
-                                : 'text-slate-700 dark:text-slate-200'
-                            }`}
-                          >
-                            {Math.round(d.value)}
-                          </span>
-                          <div
-                            style={{ height: `${barHeight}px` }}
-                            className={`w-full max-w-[24px] rounded-t-md transition-opacity duration-200 group-hover:opacity-90 ${
-                              isPeak
-                                ? 'bg-[#FFD14C]'
-                                : isBoom
-                                ? 'bg-[#0D7287] dark:bg-[#9BE7FA]'
-                                : 'bg-slate-300 dark:bg-slate-700'
-                            }`}
-                            title={`${d.year}: ${d.value}k`}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  <div className="flex gap-1 sm:gap-1.5 px-1 pt-2">
-                    {synchronizedKyotoVisitors.map((d) => (
-                      <div key={d.year} className="flex-1 text-center min-w-0">
-                        <span
-                          className={`text-xs font-semibold tabular-nums block truncate ${
-                            d.year === '2019'
-                              ? 'text-slate-950 dark:text-[#FFD14C] font-extrabold'
-                              : 'text-slate-500 dark:text-slate-400'
-                          }`}
-                        >
-                          {d.year.slice(2)}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-5 leading-relaxed pt-3 border-t border-slate-100 dark:border-slate-800">
-              {isEn ? (
-                <>
-                  <strong>Observation:</strong> Kyoto foreign overnight arrivals rose from 844.9k
-                  (2013) to a peak of 4,503.3k (2019), expanding <strong>5.33x</strong> in 6 years
-                  before dropping to 379.9k in 2020 during pandemic lockdowns.
-                </>
-              ) : (
-                <>
-                  <strong>Nhận xét:</strong> Khách quốc tế đến Kyoto tăng từ 844,9 nghìn (2013) lên
-                  đỉnh 4.503,3 nghìn lượt (2019), gấp <strong>5,33 lần</strong> sau 6 năm trước khi
-                  giảm về mức 379,9 nghìn lượt năm 2020 do đại dịch.
-                </>
-              )}
-            </p>
-          </div>
-
-          {/* BIỂU ĐỒ 5: KHÁCH ĐẾN CỐ ĐÔ NARA (2009–2020) */}
-          <div className="rounded-2xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between h-full">
-            <div>
-              <div className="flex flex-wrap justify-between items-center gap-2 mb-2">
-                <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                  {isEn
-                    ? 'Chart 5 (Aligned Window 2009–2020) · Unit: Thousand Visitors'
-                    : 'Biểu đồ 5 (Khung đồng bộ 2009–2020) · Đơn vị: Nghìn người'}
+              {/* Legend */}
+              <div className="flex flex-wrap items-center gap-4 text-xs font-semibold mb-2">
+                <span className="inline-flex items-center gap-1.5 text-[#074553] dark:text-[#9BE7FA]">
+                  <span className="w-3 h-3 rounded-xs bg-[#0D7287]/80 dark:bg-[#9BE7FA]/80 inline-block" />
+                  {part2Region === 'japan'
+                    ? isEn
+                      ? 'Left Axis: Inbound Visitors (Million)'
+                      : 'Trục trái (Cột): Khách quốc tế (Triệu)'
+                    : part2Region === 'kyoto'
+                    ? isEn
+                      ? 'Left Axis: Foreign Overnight Guests (Thousand)'
+                      : 'Trục trái (Cột): Khách lưu trú nước ngoài (Nghìn)'
+                    : isEn
+                    ? 'Left Axis: Foreign Visitors (Thousand)'
+                    : 'Trục trái (Cột): Khách quốc tế (Nghìn)'}
                 </span>
-                <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-[#C8EEF7]/50 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] border border-[#9BE7FA]/40">
-                  {isEn ? '2019 Peak: 3,318k' : 'Đỉnh 2019: 3.318 nghìn'}
-                </span>
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-3 text-slate-900 dark:text-white">
-                {isEn
-                  ? 'International Visitors to Historic Nara (2009–2020)'
-                  : 'Khách du lịch quốc tế đến Cố đô Nara (2009–2020)'}
-              </h3>
-
-              <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-slate-500 dark:text-slate-400 mb-3">
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-slate-300 dark:bg-slate-700" />{' '}
-                  {isEn ? 'Pre-2013 / COVID-19' : 'Trước 2013 / COVID-19'}
-                </span>
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-[#0D7287] dark:bg-[#9BE7FA]" />{' '}
-                  {isEn ? 'Growth 2013–2018' : 'Tăng tốc 2013–2018'}
-                </span>
-                <span className="inline-flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-[#FFD14C]" />{' '}
-                  {isEn ? '2019 Peak' : 'Đỉnh 2019'}
+                <span className="inline-flex items-center gap-1.5 text-amber-800 dark:text-[#FFD14C]">
+                  <span className="w-3.5 h-1 rounded-full bg-[#D97706] dark:bg-[#FFD14C] inline-block" />
+                  {part2Region === 'japan'
+                    ? isEn
+                      ? 'Right Axis: Inbound Spend (Trillion ¥)'
+                      : 'Trục phải (Đường): Chi tiêu khách quốc tế (Nghìn tỷ ¥)'
+                    : isEn
+                    ? 'Right Axis: Total Spend Domestic + Inbound (Billion ¥)'
+                    : 'Trục phải (Đường): Tổng chi tiêu Nội địa + Quốc tế (Tỷ ¥)'}
                 </span>
               </div>
 
-              <div className="w-full pt-2">
-                <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2 px-1">
-                  <span className="font-medium">
-                    {isEn ? 'Y-Axis Scale (Thousand)' : 'Thang đo trục Y (Nghìn người)'}
-                  </span>
-                  <span className="font-bold text-[#0D7287] dark:text-[#9BE7FA] bg-[#C8EEF7]/40 dark:bg-[#9BE7FA]/15 px-2 py-0.5 rounded-md">
-                    {isEn ? 'Shared Scale: 1,000k = 36px' : 'Thang chuẩn chung: 1.000 nghìn = 36px'}
-                  </span>
-                </div>
+              {/* Dual-Axis SVG */}
+              {(() => {
+                const w = 620;
+                const h = 255;
+                const padL = 44;
+                const padR = 46;
+                const padT = 28;
+                const padB = 32;
+                const plotW = w - padL - padR;
+                const plotH = h - padT - padB;
+                const n = part2ComboSeries.length;
 
-                <div className="relative w-full">
-                  <div className="absolute inset-0 pointer-events-none z-0" data-ui="chart-grid">
-                    {[4000, 3000, 2000, 1000].map((lvl) => (
-                      <div
-                        key={lvl}
-                        data-ui="chart-gridline"
-                        className="absolute w-full border-t border-dashed border-slate-200 dark:border-slate-800 flex items-center justify-between px-1"
-                        style={{ bottom: `${(lvl / 1000) * 36}px` }}
-                      >
-                        <span className="text-xs tabular-nums font-semibold text-slate-400 dark:text-slate-500 -mt-3.5 bg-white/90 dark:bg-slate-900/90 px-1 rounded">
-                          {lvl.toLocaleString(isEn ? 'en-US' : 'vi-VN')}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
+                const maxVis =
+                  part2Region === 'japan' ? 35 : part2Region === 'kyoto' ? 5000 : 3600;
+                const maxSpend =
+                  part2Region === 'japan' ? 5.5 : part2Region === 'kyoto' ? 1500 : 140;
 
-                  <div className="h-60 flex items-end gap-1 sm:gap-1.5 px-1 border-b-2 border-slate-200 dark:border-slate-700 relative z-10">
-                    {synchronizedNaraVisitors.map((d) => {
-                      const barHeight = Math.max(Math.round((d.value / 5000) * 180), 4);
-                      const isPeak = d.year === '2019';
-                      const isBoom = Number(d.year) >= 2013 && Number(d.year) < 2019;
-                      return (
-                        <div
-                          key={d.year}
-                          className="flex-1 flex flex-col items-center justify-end h-full group min-w-0"
-                        >
-                          <span
-                            className={`text-xs font-bold mb-1 select-none tabular-nums truncate max-w-full ${
-                              isPeak
-                                ? 'text-[#92400E] dark:text-[#FFD14C] font-extrabold'
-                                : 'text-slate-700 dark:text-slate-200'
-                            }`}
-                          >
-                            {Math.round(d.value)}
-                          </span>
-                          <div
-                            style={{ height: `${barHeight}px` }}
-                            className={`w-full max-w-[24px] rounded-t-md transition-opacity duration-200 group-hover:opacity-90 ${
-                              isPeak
-                                ? 'bg-[#FFD14C]'
-                                : isBoom
-                                ? 'bg-[#0D7287] dark:bg-[#9BE7FA]'
-                                : 'bg-slate-300 dark:bg-slate-700'
-                            }`}
-                            title={`${d.year}: ${d.value}k`}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
+                const colW = plotW / n;
+                const xCenter = (i: number) => padL + i * colW + colW / 2;
+                const ySpend = (s: number) => padT + plotH - (s / maxSpend) * plotH;
 
-                  <div className="flex gap-1 sm:gap-1.5 px-1 pt-2">
-                    {synchronizedNaraVisitors.map((d) => (
-                      <div key={d.year} className="flex-1 text-center min-w-0">
-                        <span
-                          className={`text-xs font-semibold tabular-nums block truncate ${
-                            d.year === '2019'
-                              ? 'text-slate-950 dark:text-[#FFD14C] font-extrabold'
-                              : 'text-slate-500 dark:text-slate-400'
-                          }`}
-                        >
-                          {d.year.slice(2)}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-5 leading-relaxed pt-3 border-t border-slate-100 dark:border-slate-800">
-              {isEn ? (
-                <>
-                  <strong>Observation:</strong> Starting from 435k visitors in 2013, Nara sustained
-                  40–60% annual growth to reach <strong>3,318k visitors</strong> in 2019 (a{' '}
-                  <strong>7.63x</strong> increase) before falling 99.1% to 28.9k in 2020.
-                </>
-              ) : (
-                <>
-                  <strong>Nhận xét:</strong> Từ mức 435 nghìn khách (2013), Nara duy trì đà tăng
-                  trưởng 40–60%/năm và đạt đỉnh <strong>3.318 nghìn lượt</strong> vào năm 2019 (tăng
-                  gấp <strong>7,63 lần</strong>) trước khi giảm 99,1% còn 28,9 nghìn năm 2020.
-                </>
-              )}
-            </p>
-          </div>
-        </div>
+                // Split spend points into contiguous segments (handling 2011-2012 gap in Kyoto)
+                const segments: Array<Array<{ x: number; y: number; val: number; yr: string; isMethodBreak: boolean }>> = [];
+                let currentSeg: Array<{ x: number; y: number; val: number; yr: string; isMethodBreak: boolean }> = [];
 
-        {/* BIỂU ĐỒ 6: SO SÁNH CHI TIÊU DU LỊCH KYOTO VS NARA ĐỒNG BỘ LIÊN TỤC 2014–2020 */}
-        <div className="rounded-2xl p-6 sm:p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-          <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
-            <div>
-              <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                {isEn
-                  ? 'Chart 6 (Aligned Window 2014–2020) · Unit: Billion Yen (Nara: see unit audit)'
-                  : 'Biểu đồ 6 (Khung đồng bộ liên tục 2014–2020) · Đơn vị: Tỷ Yên (Nara: xem kiểm định đơn vị)'}
-              </span>
-              <h3 className="text-lg sm:text-xl font-bold mt-1 text-slate-900 dark:text-white">
-                {isEn
-                  ? 'Tourism Expenditure Comparison: Historic Kyoto vs. Historic Nara (2014–2020)'
-                  : 'So sánh Chi tiêu Du lịch giữa Cố đô Kyoto và Cố đô Nara (2014–2020)'}
-              </h3>
-            </div>
-            <div className="flex items-center gap-4 text-xs font-semibold">
-              <span className="flex items-center gap-1.5 text-[#074553] dark:text-[#9BE7FA]">
-                <span className="w-3 h-3 rounded-full bg-[#0D7287] dark:bg-[#9BE7FA]" />{' '}
-                {isEn ? 'Kyoto' : 'Cố đô Kyoto'}
-              </span>
-              <span className="flex items-center gap-1.5 text-amber-800 dark:text-[#FFE485]">
-                <span className="w-3 h-3 rounded-full bg-[#FFD14C]" />{' '}
-                {isEn ? 'Nara' : 'Cố đô Nara'}
-              </span>
-            </div>
-          </div>
+                part2ComboSeries.forEach((d, i) => {
+                  if (d.spend === null || d.isGap) {
+                    if (currentSeg.length > 0) {
+                      segments.push(currentSeg);
+                      currentSeg = [];
+                    }
+                  } else {
+                    currentSeg.push({
+                      x: xCenter(i),
+                      y: ySpend(d.spend),
+                      val: d.spend,
+                      yr: d.year,
+                      isMethodBreak: d.isMethodBreak,
+                    });
+                  }
+                });
+                if (currentSeg.length > 0) segments.push(currentSeg);
 
-          <div className="space-y-3.5">
-            {synchronizedRegionalSpendingYears.map((yr) => {
-              const kVal =
-                HERITAGE_JAPAN_DATA.kyotoSpending.find((x) => x.year === yr)?.value || 0;
-              const nVal =
-                HERITAGE_JAPAN_DATA.naraSpending.find((x) => x.year === yr)?.value || 0;
-              return (
-                <div
-                  key={yr}
-                  className="space-y-2 p-3.5 rounded-xl bg-slate-50/70 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 tabular-nums"
-                >
-                  <div className="flex flex-wrap justify-between items-center text-xs sm:text-sm font-medium gap-2">
-                    <span className="font-extrabold text-slate-900 dark:text-white">
-                      {isEn ? `Year ${yr}` : `Năm ${yr}`}
-                    </span>
-                    <span className="text-slate-600 dark:text-slate-300 text-xs">
-                      Kyoto:{' '}
-                      <b className="text-[#0D7287] dark:text-[#9BE7FA]">
-                        {fmtNum(kVal, 1, isEn)} {isEn ? 'B ¥' : 'tỷ ¥'}
-                      </b>{' '}
-                      | Nara:{' '}
-                      <b className="text-amber-700 dark:text-[#FFE485] font-bold">
-                        {fmtNum(nVal, 1, isEn)} {isEn ? 'B ¥' : 'tỷ ¥'}
-                      </b>
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-xs text-[#074553] dark:text-[#9BE7FA]">
-                        <span>Kyoto</span>
-                        <span className="font-bold">
-                          {fmtNum(kVal, 1, isEn)} {isEn ? 'B ¥' : 'tỷ ¥'}
-                        </span>
-                      </div>
-                      <div className="bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
-                        <div
-                          className="h-full bg-[#0D7287] dark:bg-[#9BE7FA] rounded-full"
-                          style={{ width: `${Math.max((kVal / 1400) * 100, 6)}%` }}
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-xs text-amber-700 dark:text-[#FFE485]">
-                        <span>Nara</span>
-                        <span className="font-bold">
-                          {fmtNum(nVal, 1, isEn)} {isEn ? 'B ¥' : 'tỷ ¥'}
-                        </span>
-                      </div>
-                      <div className="bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
-                        <div
-                          className="h-full bg-[#FFD14C] rounded-full"
-                          style={{ width: `${Math.max((nVal / 1400) * 100, 6)}%` }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-5 p-4 rounded-xl bg-[#C8EEF7]/25 border border-[#9BE7FA]/60 text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed">
-            <strong className="text-[#074553] dark:text-[#9BE7FA]">
-              {isEn
-                ? '2019 Expenditure Divergence in Nara (Day-Tripper Paradox): '
-                : 'Nghịch lý phân bổ chi tiêu năm 2019 tại Nara (Hiệu ứng khách đi trong ngày): '}
-            </strong>
-            {isEn ? (
-              <>
-                Although foreign arrivals to Nara jumped <strong>+25.1%</strong> in 2019 (from
-                2,651k to 3,318k), local tourism revenue fell <strong>-5.0%</strong> (from 1,208 to
-                1,147.2). Because Nara is 45 minutes by train from Kyoto and Osaka, over 85% of
-                visitors came as day-trippers without staying overnight, leaving Nara with crowding
-                and waste costs while lodging revenue accrued to Osaka and Kyoto.
-              </>
-            ) : (
-              <>
-                Dù lượng khách quốc tế đến Nara năm 2019 tăng <strong>+25,1%</strong> (từ 2.651
-                nghìn lên đỉnh 3.318 nghìn lượt), tổng thu du lịch tại Nara lại giảm{' '}
-                <strong>-5,0%</strong> (từ 1.208 xuống 1.147,2). Do Nara chỉ cách Kyoto và Osaka 45
-                phút đi tàu, phần lớn du khách chỉ ghé thăm trong ngày rồi quay về ngủ tại khách sạn
-                ở Kyoto/Osaka, khiến Nara chịu áp lực hạ tầng nhưng thất thu dịch vụ lưu trú.
-              </>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* =====================================================================
-       * PHẦN 3: QUÁ TẢI DU LỊCH, CƠ CẤU KHÁCH NỘI ĐỊA/QUỐC TẾ & 5 CASE STUDIES
-       * ===================================================================== */}
-      <section id="sec-overtourism" className="space-y-8 scroll-mt-24">
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#F0F9FB] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 space-y-2.5">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="px-3 py-1 rounded-xl bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 text-xs font-black tabular-nums">
-              {isEn ? 'PART 3' : 'PHẦN 3'}
-            </span>
-            <span className="text-xs sm:text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
-              <AlertTriangle className="w-4 h-4" aria-hidden="true" />
-              <span>
-                {isEn
-                  ? 'Carrying Capacity, Domestic vs. Inbound Mix & 5 UNESCO Case Studies'
-                  : 'Sức chứa Điểm đến, Cơ cấu Nội địa/Quốc tế & 5 Nghiên cứu Trường hợp'}
-              </span>
-            </span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white">
-            {isEn
-              ? '3. Infrastructure Bottlenecks and Governance Matrix Across 5 World Heritage Sites'
-              : '3. Hệ lụy quá tải hạ tầng và ma trận điều tiết tại 5 Di sản Thế giới'}
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
-            {isEn
-              ? 'Combining domestic and international footfall (2017 benchmark), hotel room deficits in Kyoto (2014 vs. 2019), and policy interventions across 5 UNESCO hotspots.'
-              : 'Kết hợp tổng tải khách nội địa và quốc tế (mốc khảo sát 2017 trang 4 niên luận), độ lệch cung cầu phòng lưu trú Kyoto (2014 vs 2019) và giải pháp quản trị tại 5 điểm nóng UNESCO.'}
-          </p>
-        </div>
-
-        {/* CƠ CẤU KHÁCH NỘI ĐỊA VS QUỐC TẾ NĂM 2017 (TỪ MỞ ĐẦU MỤC 4.2 NIÊN LUẬN) */}
-        <div className="rounded-2xl p-6 sm:p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-5">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" aria-hidden="true" />
-              <div>
-                <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA] block">
-                  {isEn
-                    ? 'Thesis Section 4.2 Benchmark (2017) · Domestic vs. International Footfall'
-                    : 'Số liệu Mở đầu Mục 4.2 Niên luận (2017) · Cơ cấu Khách Nội địa vs. Quốc tế'}
-                </span>
-                <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
-                  {isEn
-                    ? 'Total Physical Load at Top 3 UNESCO Heritage Destinations (Million Visitors, 2017)'
-                    : 'Tổng tải lượng du khách thực tế tại 3 điểm di sản hàng đầu (Triệu lượt, 2017)'}
-                </h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 tabular-nums">
-            {HERITAGE_JAPAN_DATA.visitorMix2017.map((item, idx) => {
-              const total = Number((item.domestic + item.international).toFixed(2));
-              const siteNamesEn = ['Historic Kyoto', 'Historic Nara', 'Mount Fuji (Fujisan)'];
-              return (
-                <div
-                  key={idx}
-                  className="p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80 space-y-3"
-                >
-                  <div className="flex items-center justify-between">
-                    <h4 className="text-base font-extrabold text-slate-900 dark:text-white">
-                      {isEn ? siteNamesEn[idx] : item.site}
-                    </h4>
-                    <span className="px-2.5 py-0.5 rounded-md text-xs font-bold bg-[#C8EEF7]/60 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA]">
-                      {isEn
-                        ? `${fmtNum(item.intlShare, 1, true)}% Inbound`
-                        : `${fmtNum(item.intlShare, 1, false)}% Quốc tế`}
-                    </span>
-                  </div>
-
-                  <div className="text-2xl font-extrabold text-slate-950 dark:text-white">
-                    {fmtNum(total, 2, isEn)}M{' '}
-                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                      {isEn ? 'total visits' : 'tổng lượt khách'}
-                    </span>
-                  </div>
-
-                  <div className="w-full h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden flex">
-                    <div
-                      className="h-full bg-[#0D7287] dark:bg-[#9BE7FA]"
-                      style={{ width: `${100 - item.intlShare}%` }}
-                      title={isEn ? 'Domestic' : 'Nội địa'}
-                    />
-                    <div
-                      className="h-full bg-[#FFD14C]"
-                      style={{ width: `${item.intlShare}%` }}
-                      title={isEn ? 'International' : 'Quốc tế'}
-                    />
-                  </div>
-
-                  <div className="flex justify-between text-xs text-slate-600 dark:text-slate-300 font-medium">
-                    <span>
-                      {isEn ? 'Domestic: ' : 'Nội địa: '}
-                      <strong className="text-slate-900 dark:text-white">
-                        {fmtNum(item.domestic, 2, isEn)}M
-                      </strong>
-                    </span>
-                    <span>
-                      {isEn ? 'Inbound: ' : 'Quốc tế: '}
-                      <strong className="text-[#074553] dark:text-[#FFE485]">
-                        {fmtNum(item.international, 2, isEn)}M
-                      </strong>
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* BIỂU ĐỒ 7 & 8 (2 CỘT): CUNG - CẦU PHÒNG KYOTO & QUY MÔ ĐIỂM NÓNG */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* BIỂU ĐỒ 7: ĐỘ LỆCH CUNG CẦU PHÒNG & KINH TẾ KYOTO */}
-          <div className="rounded-2xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-5">
-            <div>
-              <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                {isEn
-                  ? 'Chart 7 · Kyoto Lodging Bottleneck & Municipal Contribution (2014 vs. 2019)'
-                  : 'Biểu đồ 7 · Nút thắt lưu trú & Đóng góp Kinh tế Kyoto (2014 vs. 2019)'}
-              </span>
-              <h3 className="text-lg sm:text-xl font-bold mt-1 text-slate-900 dark:text-white">
-                {isEn
-                  ? 'Hotel Room Supply-Demand Mismatch & Municipal Economic Share'
-                  : 'Độ lệch Cung : Cầu Phòng Khách sạn & Tỷ trọng Kinh tế TP. Kyoto'}
-              </h3>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 tabular-nums">
-              <div className="p-4 rounded-xl bg-[#C8EEF7]/30 border border-[#9BE7FA]/40">
-                <p className="text-xs font-semibold text-slate-600 dark:text-slate-400">
-                  {isEn ? 'Kyoto Foreign Arrivals (2014 → 2019)' : 'Khách quốc tế đến Kyoto (2014 → 2019)'}
-                </p>
-                <p className="text-xl sm:text-2xl font-extrabold text-slate-950 dark:text-white mt-1">
-                  1,13M → 4,50M
-                </p>
-                <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-1">
-                  {isEn ? '+298% surge (4.0x in 5 years)' : 'Tăng +298% (Gấp 4 lần sau 5 năm)'}
-                </p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-[#FFE485]/30 border border-[#FFD14C]/40">
-                <p className="text-xs font-semibold text-slate-600 dark:text-slate-400">
-                  {isEn ? 'Hotel Room Supply (2014 → 2019)' : 'Nguồn cung phòng khách sạn (2014 → 2019)'}
-                </p>
-                <p className="text-xl sm:text-2xl font-extrabold text-slate-950 dark:text-white mt-1">
-                  &lt;30.000 → 53.000
-                </p>
-                <p className="text-xs font-bold text-rose-600 dark:text-rose-400 mt-1">
-                  {isEn
-                    ? '+76.7% growth (Spillover into residential flats)'
-                    : 'Chỉ tăng +76,7% (Tràn sang căn hộ dân sinh)'}
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-3 pt-1 tabular-nums">
-              {HERITAGE_JAPAN_DATA.economicShareComparison.slice(3).map((item, i) => {
-                const metricsEn = [
-                  'Kyoto Municipal GDP Share (2014)',
-                  'Kyoto Municipal GDP Share (2019)',
-                  'Kyoto Municipal Tax Share (¥39B, 2019)',
-                  'Kyoto Employment Share (153,000 jobs, 2019)',
-                ];
                 return (
-                  <div key={i} className="space-y-1">
-                    <div className="flex justify-between text-xs sm:text-sm">
-                      <span className="font-medium text-slate-800 dark:text-slate-200">
-                        {isEn ? metricsEn[i] : item.metric}
-                      </span>
-                      <span className="font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                        {fmtNum(item.share, 1, isEn)}%
-                      </span>
-                    </div>
-                    <div className="w-full h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-[#0D7287] dark:bg-[#9BE7FA] rounded-full"
-                        style={{ width: `${Math.max((item.share / 15) * 100, 6)}%` }}
-                      />
-                    </div>
-                  </div>
+                  <svg
+                    viewBox={`0 0 ${w} ${h}`}
+                    className="w-full h-auto select-none overflow-visible"
+                    role="img"
+                    aria-label="Dual Axis Combo Chart"
+                  >
+                    {/* Gridlines */}
+                    {[0, 0.25, 0.5, 0.75, 1].map((ratio, idx) => {
+                      const y = padT + plotH * (1 - ratio);
+                      const leftLabel = Math.round(maxVis * ratio);
+                      const rightLabel =
+                        part2Region === 'japan'
+                          ? (maxSpend * ratio).toFixed(1)
+                          : Math.round(maxSpend * ratio);
+                      return (
+                        <g key={idx}>
+                          <line
+                            x1={padL}
+                            y1={y}
+                            x2={w - padR}
+                            y2={y}
+                            stroke="currentColor"
+                            strokeDasharray={ratio === 0 ? undefined : '2 3'}
+                            className="text-slate-200 dark:text-slate-800"
+                            strokeWidth="1"
+                          />
+                          <text
+                            x={padL - 6}
+                            y={y + 4}
+                            textAnchor="end"
+                            className="fill-slate-400 dark:fill-slate-500 text-[11px] tabular-nums"
+                          >
+                            {leftLabel}
+                          </text>
+                          <text
+                            x={w - padR + 6}
+                            y={y + 4}
+                            textAnchor="start"
+                            className="fill-amber-700/80 dark:fill-[#FFD14C]/80 text-[11px] tabular-nums font-semibold"
+                          >
+                            {rightLabel}
+                          </text>
+                        </g>
+                      );
+                    })}
+
+                    {/* Bars (Visitors) */}
+                    {part2ComboSeries.map((d, i) => {
+                      const barW = Math.max(12, colW * 0.55);
+                      const x = xCenter(i) - barW / 2;
+                      const v = d.visitors ?? 0;
+                      const barH = d.visitors !== null ? Math.max(3, (v / maxVis) * plotH) : 0;
+                      const y = padT + plotH - barH;
+
+                      return (
+                        <g key={d.year}>
+                          {d.isGap && (
+                            <rect
+                              x={padL + i * colW + 2}
+                              y={padT}
+                              width={colW - 4}
+                              height={plotH}
+                              className="fill-slate-100/80 dark:fill-slate-800/40"
+                            />
+                          )}
+                          {d.visitors !== null && (
+                            <rect
+                              x={x}
+                              y={y}
+                              width={barW}
+                              height={barH}
+                              rx={2.5}
+                              className={
+                                d.isMethodBreak
+                                  ? 'fill-[#0D7287]/55 dark:fill-[#9BE7FA]/55'
+                                  : 'fill-[#0D7287]/80 dark:fill-[#9BE7FA]/75'
+                              }
+                            />
+                          )}
+                          <text
+                            x={xCenter(i)}
+                            y={h - 8}
+                            textAnchor="middle"
+                            className="fill-slate-600 dark:fill-slate-400 text-[11px] font-semibold tabular-nums"
+                          >
+                            {d.year}
+                          </text>
+                        </g>
+                      );
+                    })}
+
+                    {/* Spend Line Segments */}
+                    {segments.map((seg, sIdx) => {
+                      // For Kyoto, draw dashed between 2018 and 2019
+                      if (part2Region === 'kyoto' && seg.length >= 2) {
+                        const pre = seg.filter((p) => Number(p.yr) <= 2018);
+                        const brk = seg.filter((p) => p.yr === '2018' || p.yr === '2019');
+                        const prePath = pre
+                          .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
+                          .join(' ');
+                        const brkPath = brk
+                          .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
+                          .join(' ');
+                        return (
+                          <g key={`seg-${sIdx}`}>
+                            <path d={prePath} fill="none" stroke="#D97706" strokeWidth="2.6" />
+                            <path
+                              d={brkPath}
+                              fill="none"
+                              stroke="#D97706"
+                              strokeWidth="2.4"
+                              strokeDasharray="5 3"
+                            />
+                          </g>
+                        );
+                      }
+                      const pathD = seg
+                        .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
+                        .join(' ');
+                      return (
+                        <path
+                          key={`seg-${sIdx}`}
+                          d={pathD}
+                          fill="none"
+                          stroke="#D97706"
+                          strokeWidth="2.6"
+                        />
+                      );
+                    })}
+
+                    {/* Spend Dots & Values */}
+                    {segments.flat().map((pt) => {
+                      const isPeakSpend =
+                        (part2Region === 'japan' && pt.yr === '2019') ||
+                        (part2Region === 'kyoto' && pt.yr === '2018') ||
+                        (part2Region === 'nara' && pt.yr === '2018');
+                      const digits =
+                        part2Region === 'japan'
+                          ? 2
+                          : part2Region === 'kyoto'
+                          ? 1
+                          : pt.yr === '2018' || pt.yr === '2019' || pt.yr === '2021'
+                          ? 1
+                          : 2;
+                      return (
+                        <g key={`sp-${pt.yr}`}>
+                          <circle
+                            cx={pt.x}
+                            cy={pt.y}
+                            r={isPeakSpend ? 4.5 : 3.2}
+                            className="fill-[#FFD14C] stroke-amber-800 dark:stroke-slate-950"
+                            strokeWidth="1.5"
+                          />
+                          <text
+                            x={pt.x}
+                            y={pt.y - 8}
+                            textAnchor="middle"
+                            className={`text-[11px] tabular-nums font-extrabold ${
+                              isPeakSpend
+                                ? 'fill-amber-900 dark:fill-[#FFD14C]'
+                                : 'fill-amber-800 dark:fill-[#FFE485]'
+                            }`}
+                          >
+                            {fmtNum(pt.val, digits, isEn)}
+                          </text>
+                        </g>
+                      );
+                    })}
+                  </svg>
                 );
-              })}
+              })()}
+            </div>
+
+            {/* Callout chú thích tách biệt phạm vi đo lường (Gọn) */}
+            <div className="mt-3 p-3 rounded-xl bg-[#FFE485]/30 dark:bg-[#FFD14C]/10 border border-[#FFD14C]/60 text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed flex items-start gap-2">
+              <Info className="w-4 h-4 text-amber-800 dark:text-[#FFD14C] shrink-0 mt-0.5" aria-hidden="true" />
+              <span>
+                <strong className="text-amber-950 dark:text-[#FFE485]">
+                  {isEn ? 'Scope Note: ' : 'Phạm vi đo lường: '}
+                </strong>
+                {isEn
+                  ? 'National series tracks inbound spend only (¥4.81T), whereas Kyoto (¥1,308.2B) and Nara (¥120.8B) track combined Domestic + Inbound expenditure.'
+                  : 'Chuỗi toàn Nhật chỉ tính chi tiêu khách quốc tế (4,81T ¥), trong khi Kyoto (1.308,2 tỷ ¥) và Nara (120,8 tỷ ¥) là tổng chi tiêu Nội địa + Quốc tế.'}
+              </span>
             </div>
           </div>
 
-          {/* BIỂU ĐỒ 8: ÁP LỰC TẠI 5 ĐIỂM NÓNG DI SẢN */}
-          <div className="rounded-2xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+          {/* PHẢI (40% -> col-span-5): BIỂU ĐỒ ĐỘ DỐC (SLOPE CHART) ĐÓNG GÓP KINH TẾ */}
+          <div className="lg:col-span-5 rounded-2xl p-5 sm:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
             <div>
-              <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                  {isEn ? 'Slope Chart · Economic Contribution' : 'Biểu đồ độ dốc (Slope Chart) · Đóng góp kinh tế'}
+                </span>
+                <span className="text-xs font-bold px-2.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+                  {isEn ? 'National GDP & Kyoto GRDP' : 'GDP Toàn Nhật & GRDP TP. Kyoto'}
+                </span>
+              </div>
+
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">
                 {isEn
-                  ? 'Chart 8 · Overtourism Intensity at Sensitive UNESCO Sites (2019)'
-                  : 'Biểu đồ 8 · Cường độ quá tải tại 5 Di sản nhạy cảm (2019)'}
-              </span>
-              <h3 className="text-lg sm:text-xl font-bold mt-1 mb-5 text-slate-900 dark:text-white">
-                {isEn
-                  ? 'Annual Visitor Volume Across 5 Overtourism Hotspots (Million Visitors)'
-                  : 'Quy mô khách tại 5 điểm nóng Overtourism (Triệu lượt)'}
+                  ? 'Structural Shift in Tourism Economic Share (Up to 2019 Peak)'
+                  : 'Bước nhảy tỷ trọng đóng góp kinh tế của ngành du lịch (Đến đỉnh 2019)'}
               </h3>
+
+              {/* SVG Slope Chart */}
+              {(() => {
+                const w = 420;
+                const h = 210;
+                const xLeft = 95;
+                const xRight = 325;
+                const padT = 28;
+                const padB = 26;
+                const plotH = h - padT - padB;
+                const yMax = 14;
+                const yAt = (val: number) => padT + plotH - (val / yMax) * plotH;
+
+                const yJpStart = yAt(2.2);
+                const yJpEnd = yAt(7.5);
+                const yKyStart = yAt(7.0);
+                const yKyEnd = yAt(12.0);
+
+                return (
+                  <svg
+                    viewBox={`0 0 ${w} ${h}`}
+                    className="w-full h-auto select-none overflow-visible"
+                    role="img"
+                    aria-label="Economic Contribution Slope Chart"
+                  >
+                    {/* Left & Right Vertical Axes */}
+                    <line
+                      x1={xLeft}
+                      y1={padT}
+                      x2={xLeft}
+                      y2={padT + plotH}
+                      stroke="currentColor"
+                      strokeDasharray="3 3"
+                      className="text-slate-300 dark:text-slate-700"
+                      strokeWidth="1.5"
+                    />
+                    <line
+                      x1={xRight}
+                      y1={padT}
+                      x2={xRight}
+                      y2={padT + plotH}
+                      stroke="currentColor"
+                      strokeDasharray="3 3"
+                      className="text-slate-300 dark:text-slate-700"
+                      strokeWidth="1.5"
+                    />
+
+                    {/* Axis Headers */}
+                    <text
+                      x={xLeft}
+                      y={16}
+                      textAnchor="middle"
+                      className="fill-slate-500 dark:fill-slate-400 text-[11px] font-bold"
+                    >
+                      {isEn ? 'Baseline (2000 / 2014)' : 'Mốc nền (2000 / 2014)'}
+                    </text>
+                    <text
+                      x={xRight}
+                      y={16}
+                      textAnchor="middle"
+                      className="fill-slate-900 dark:fill-white text-[11px] font-extrabold"
+                    >
+                      {isEn ? 'Pre-COVID Peak (2019)' : 'Đỉnh tiền COVID (2019)'}
+                    </text>
+
+                    {/* Line 2: Kyoto GRDP (~7% 2014 -> ~12% 2019) */}
+                    <line
+                      x1={xLeft}
+                      y1={yKyStart}
+                      x2={xRight}
+                      y2={yKyEnd}
+                      stroke="#D97706"
+                      strokeWidth="3.2"
+                    />
+                    <circle cx={xLeft} cy={yKyStart} r="5" className="fill-[#FFD14C] stroke-amber-800" strokeWidth="1.5" />
+                    <circle cx={xRight} cy={yKyEnd} r="5.5" className="fill-[#FFD14C] stroke-amber-800" strokeWidth="1.5" />
+                    <text
+                      x={xLeft - 10}
+                      y={yKyStart + 4}
+                      textAnchor="end"
+                      className="fill-amber-800 dark:fill-[#FFE485] text-xs font-extrabold tabular-nums"
+                    >
+                      ~7% GRDP (2014)
+                    </text>
+                    <text
+                      x={xRight + 10}
+                      y={yKyEnd + 4}
+                      textAnchor="start"
+                      className="fill-amber-800 dark:fill-[#FFD14C] text-xs font-extrabold tabular-nums"
+                    >
+                      ~12% GRDP (2019)
+                    </text>
+                    <text
+                      x={(xLeft + xRight) / 2}
+                      y={(yKyStart + yKyEnd) / 2 - 8}
+                      textAnchor="middle"
+                      className="fill-amber-800 dark:fill-[#FFE485] text-[11px] font-bold"
+                    >
+                      {isEn ? 'Kyoto City (+5 pts GRDP)' : 'TP. Kyoto (~7% → ~12% GRDP)'}
+                    </text>
+
+                    {/* Line 1: All Japan GDP (2.2% 2000 -> 7.5% 2019) */}
+                    <line
+                      x1={xLeft}
+                      y1={yJpStart}
+                      x2={xRight}
+                      y2={yJpEnd}
+                      stroke="currentColor"
+                      strokeWidth="3.2"
+                      className="text-[#0D7287] dark:text-[#9BE7FA]"
+                    />
+                    <circle cx={xLeft} cy={yJpStart} r="5" className="fill-[#0D7287] dark:fill-[#9BE7FA]" />
+                    <circle cx={xRight} cy={yJpEnd} r="5.5" className="fill-[#0D7287] dark:fill-[#9BE7FA]" />
+                    <text
+                      x={xLeft - 10}
+                      y={yJpStart + 4}
+                      textAnchor="end"
+                      className="fill-[#074553] dark:fill-[#9BE7FA] text-xs font-extrabold tabular-nums"
+                    >
+                      2,2% GDP (2000)
+                    </text>
+                    <text
+                      x={xRight + 10}
+                      y={yJpEnd + 4}
+                      textAnchor="start"
+                      className="fill-[#074553] dark:fill-[#9BE7FA] text-xs font-extrabold tabular-nums"
+                    >
+                      7,5% GDP (2019)
+                    </text>
+                    <text
+                      x={(xLeft + xRight) / 2}
+                      y={(yJpStart + yJpEnd) / 2 - 8}
+                      textAnchor="middle"
+                      className="fill-[#074553] dark:fill-[#9BE7FA] text-[11px] font-bold"
+                    >
+                      {isEn ? 'All Japan (2.2% → 7.5% GDP)' : 'Toàn Nhật (2,2% → 7,5% GDP)'}
+                    </text>
+                  </svg>
+                );
+              })()}
+            </div>
+
+            {/* 2 hộp chỉ số kinh tế đi kèm 2 đường Slope */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 tabular-nums">
+              <div className="p-3.5 rounded-xl bg-[#F0F9FB] dark:bg-slate-800/70 border border-[#C8EEF7] dark:border-slate-700 space-y-1">
+                <div className="text-xs font-extrabold text-[#074553] dark:text-[#9BE7FA]">
+                  {isEn ? 'Line 1 · All Japan (2019)' : 'Đường 1 · Toàn Nhật (2019)'}
+                </div>
+                <div className="text-sm font-black text-slate-950 dark:text-white">
+                  {isEn ? '¥41.94T Total Revenue' : '41,94 nghìn tỷ Yên doanh thu'}
+                </div>
+                <p className="text-xs text-slate-600 dark:text-slate-300">
+                  {isEn
+                    ? 'Over 4 million jobs = 6.9% of total national employment ($375.4B USD, #3 globally).'
+                    : 'Tạo hơn 4 triệu việc làm = 6,9% tổng lao động toàn quốc (375,4 tỷ USD, hạng 3 thế giới).'}
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-[#FFE485]/25 dark:bg-slate-800/70 border border-[#FFD14C]/50 dark:border-slate-700 space-y-1">
+                <div className="text-xs font-extrabold text-amber-900 dark:text-[#FFE485]">
+                  {isEn ? 'Line 2 · Kyoto City (2019)' : 'Đường 2 · TP. Kyoto (2019)'}
+                </div>
+                <div className="text-sm font-black text-slate-950 dark:text-white">
+                  {isEn ? '¥39B Tax = 12.8% Municipal Tax' : '39 tỷ Yên thuế = 12,8% tổng thuế'}
+                </div>
+                <p className="text-xs text-slate-600 dark:text-slate-300">
+                  {isEn
+                    ? '153,000 tourism jobs = 12.4% of Kyoto’s workforce (~12% municipal GRDP).'
+                    : '153.000 việc làm = 12,4% lực lượng lao động TP. Kyoto (~12% GRDP địa phương).'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================================
+       * PHẦN 03 — QUÁ TẢI DU LỊCH & BẢO TỒN DI SẢN (3 TẦNG)
+       * ===================================================================== */}
+      <section id="sec-overtourism" className="space-y-5 scroll-mt-24">
+        <div className="space-y-1">
+          <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-950 dark:text-white flex items-center gap-2">
+            <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-[#FFD14C] shrink-0" aria-hidden="true" />
+            <span>
+              {isEn
+                ? '3. Local Carrying Capacity Strain & 5 UNESCO Sites'
+                : '3. Quá tải cục bộ & Ma trận giải pháp tại 5 Di sản UNESCO'}
+            </span>
+          </h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            {isEn
+              ? 'Domestic visitors form 76%–94% of footfall; inbound spikes stack on top of dense domestic peaks.'
+              : 'Khách nội địa chiếm 76%–94% tổng tải lượng; quá tải bùng phát khi sóng khách quốc tế cộng hưởng lên nền nội địa mùa cao điểm.'}
+          </p>
+        </div>
+
+        {/* TẦNG 1: 2 BIỂU ĐỒ NGANG NHAU (CƠ CẤU KHÁCH & HỆ SỐ QUÁ TẢI) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-stretch">
+          {/* TRÁI: BIỂU ĐỒ THANH CHỒNG 100% (100% STACKED BAR) CƠ CẤU KHÁCH NỘI ĐỊA VS QUỐC TẾ (2017) */}
+          <div className="rounded-2xl p-5 sm:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+            <div>
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                  {isEn
+                    ? '100% Stacked Bar · Domestic vs. International Mix (2017)'
+                    : 'Biểu đồ thanh chồng 100% · Cơ cấu Khách nội địa vs Quốc tế (2017)'}
+                </span>
+                <span className="text-xs font-bold px-2.5 py-0.5 rounded-md bg-[#C8EEF7]/50 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA]">
+                  {isEn ? 'Section 4.2 Benchmark' : 'Mốc khảo sát Mục 4.2'}
+                </span>
+              </div>
+
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-3">
+                {isEn
+                  ? 'Total Physical Footfall Composition at Top 3 Heritage Sites (2017)'
+                  : 'Tỷ trọng Khách nội địa và Khách quốc tế tại 3 điểm di sản lớn (2017)'}
+              </h3>
+
+              <div className="flex items-center gap-4 text-xs font-semibold mb-4">
+                <span className="inline-flex items-center gap-1.5 text-[#074553] dark:text-[#9BE7FA]">
+                  <span className="w-3 h-3 rounded-xs bg-[#0D7287] dark:bg-[#9BE7FA] inline-block" />
+                  {isEn ? 'Domestic Visitors' : 'Khách nội địa'}
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-amber-800 dark:text-[#FFD14C]">
+                  <span className="w-3 h-3 rounded-xs bg-[#FFD14C] inline-block" />
+                  {isEn ? 'International Visitors' : 'Khách quốc tế'}
+                </span>
+              </div>
 
               <div className="space-y-4 tabular-nums">
-                {HERITAGE_JAPAN_DATA.overtourismHotspots.map((h, i) => {
-                  const sitesEn = [
-                    'Mount Fuji (2019 vs. 2012: 2.2x surge)',
-                    'Miyajima Island - Itsukushima Shrine (2019)',
-                    'Historic Kyoto - Foreign Overnight Visitors (2019)',
-                    'Historic Nara - Foreign Visitors (2019)',
-                    'Historic Shirakawa-go Village (Only 600 residents)',
-                  ];
-                  return (
-                    <div key={i} className="space-y-1.5">
-                      <div className="flex justify-between text-xs sm:text-sm">
-                        <span className="font-semibold text-slate-900 dark:text-white">
-                          {isEn ? sitesEn[i] : h.site}
+                {[
+                  {
+                    siteVi: 'TP. Kyoto',
+                    siteEn: 'Kyoto City',
+                    domLabelVi: '53,62 triệu nội địa (93,8%)',
+                    domLabelEn: '53.62M domestic (93.8%)',
+                    intlLabelVi: '3,53 triệu quốc tế (6,2%)',
+                    intlLabelEn: '3.53M international (6.2%)',
+                    intlShare: 6.2,
+                  },
+                  {
+                    siteVi: 'TP. Nara',
+                    siteEn: 'Nara City',
+                    domLabelVi: '16,31 triệu nội địa (89,1%)',
+                    domLabelEn: '16.31M domestic (89.1%)',
+                    intlLabelVi: '1,99 triệu quốc tế (10,9%)',
+                    intlLabelEn: '1.99M international (10.9%)',
+                    intlShare: 10.9,
+                  },
+                  {
+                    siteVi: 'Núi Phú Sĩ',
+                    siteEn: 'Mount Fuji',
+                    domLabelVi: '6,4 triệu nội địa (76,2%)',
+                    domLabelEn: '6.4M domestic (76.2%)',
+                    intlLabelVi: '~2 triệu quốc tế (23,8%)',
+                    intlLabelEn: '~2M international (23.8%)',
+                    intlShare: 23.8,
+                  },
+                ].map((row, idx) => (
+                  <div key={idx} className="space-y-1.5">
+                    <div className="flex flex-wrap items-center justify-between text-xs sm:text-sm">
+                      <span className="font-extrabold text-slate-900 dark:text-white">
+                        {isEn ? row.siteEn : row.siteVi}
+                      </span>
+                      <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                        {isEn ? row.domLabelEn : row.domLabelVi} ·{' '}
+                        <span className="text-amber-800 dark:text-[#FFD14C]">
+                          {isEn ? row.intlLabelEn : row.intlLabelVi}
                         </span>
-                        <span className="font-bold text-slate-900 dark:text-white">
-                          {fmtNum(h.visitorsMillion, 2, isEn)} {isEn ? 'M' : 'triệu lượt'}
-                        </span>
+                      </span>
+                    </div>
+
+                    <div className="w-full h-6 rounded-lg overflow-hidden flex bg-slate-200 dark:bg-slate-800">
+                      <div
+                        className="h-full bg-[#0D7287] dark:bg-[#9BE7FA] flex items-center pl-2.5 text-[11px] font-extrabold text-white dark:text-slate-950"
+                        style={{ width: `${100 - row.intlShare}%` }}
+                      >
+                        {fmtNum(100 - row.intlShare, 1, isEn)}%
                       </div>
-                      <div className="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-[#FFD14C] rounded-full"
-                          style={{ width: `${Math.max((h.visitorsMillion / 5.5) * 100, 6)}%` }}
-                        />
+                      <div
+                        className="h-full bg-[#FFD14C] flex items-center justify-end pr-2 text-[11px] font-extrabold text-slate-950"
+                        style={{ width: `${row.intlShare}%` }}
+                      >
+                        {fmtNum(row.intlShare, 1, isEn)}%
                       </div>
                     </div>
-                  );
-                })}
+                  </div>
+                ))}
               </div>
             </div>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-5 leading-relaxed pt-3 border-t border-slate-100 dark:border-slate-800">
-              {isEn ? (
-                <>
-                  At Shirakawa-go village, 1.8 million annual visitors represent{' '}
-                  <strong>3,000x</strong> the local population (~600 residents), requiring strict
-                  advance reservation quotas during winter light-up nights.
-                </>
-              ) : (
-                <>
-                  Tại làng cổ Shirakawa-go, lượng khách 1,8 triệu người/năm gấp{' '}
-                  <strong>3.000 lần</strong> quy mô dân số bản địa (~600 người), buộc chính quyền
-                  phải áp dụng đặt chỗ trước 100% trong dịp lễ hội ánh sáng mùa đông.
-                </>
-              )}
+
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-4 leading-relaxed pt-3">
+              {isEn
+                ? 'Domestic travelers still form 76%–94% of total physical volume at major heritage sites, meaning overtourism occurs when fast-growing inbound surges stack atop an already dense domestic baseline.'
+                : 'Khách nội địa chiếm 76%–94% tổng tải lượng thực tế; hiện tượng quá tải xảy ra khi làn sóng khách quốc tế tăng đột biến cộng hưởng lên nền khách nội địa vốn đã rất cao vào mùa hoa anh đào và lá đỏ.'}
             </p>
+          </div>
+
+          {/* PHẢI: BIỂU ĐỒ KẸO MÚT (LOLLIPOP CHART) NGƯỠNG QUÁ TẢI CỤC BỘ */}
+          <div className="rounded-2xl p-5 sm:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+            <div>
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
+                  {isEn
+                    ? 'Lollipop Chart · Local Overtourism Multipliers'
+                    : 'Biểu đồ kẹo mút (Lollipop Chart) · Ngưỡng quá tải cục bộ'}
+                </span>
+                <span className="text-xs font-bold px-2.5 py-0.5 rounded-md bg-[#FFE485]/50 text-amber-950 dark:bg-[#FFE485]/15 dark:text-[#FFE485]">
+                  {isEn ? 'Capacity Multipliers' : 'Hệ số nhân áp lực'}
+                </span>
+              </div>
+
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-1">
+                {isEn
+                  ? 'Local Pressure & Supply–Demand Multipliers Across Key Hotspots'
+                  : 'Đối chiếu hệ số nhân áp lực khách & sức chứa hạ tầng tại các điểm lõi'}
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+                {isEn
+                  ? 'Note: Each bar illustrates an independent metric ratio (resident density vs. multi-year growth multiplier) on a relative visual track rather than a shared linear scale.'
+                  : 'Lưu ý: Mỗi thanh minh họa tỷ lệ độc lập theo đơn vị riêng của từng điểm (mật độ khách/cư dân so với hệ số tăng trưởng theo kỳ), không dùng chung trục tuyến tính.'}
+              </p>
+
+              <div className="space-y-4 tabular-nums">
+                {[
+                  {
+                    labelVi: 'Làng cổ Shirakawa-go (Tỷ lệ khách / cư dân)',
+                    labelEn: 'Shirakawa-go Village (Visitors / resident ratio)',
+                    subVi: '1,8 triệu khách/năm trên ~600 cư dân bản địa',
+                    subEn: '1.8M annual visitors per ~600 local residents',
+                    badge: '3.000×',
+                    pctWidth: 96,
+                    dotColor: 'bg-rose-500 border-rose-700',
+                    stemColor: 'bg-rose-500/80',
+                  },
+                  {
+                    labelVi: 'Khách lưu trú nước ngoài TP. Kyoto (2013–2018)',
+                    labelEn: 'Kyoto Foreign Overnight Guests (2013–2018)',
+                    subVi: 'Tăng từ 1,13 triệu (2013) lên đỉnh 4,50 triệu lượt (2018, +299,3%)',
+                    subEn: 'Surged from 1.13M (2013) to 4.50M peak (2018, +299.3%)',
+                    badge: '4,0×',
+                    pctWidth: 78,
+                    dotColor: 'bg-[#0D7287] dark:bg-[#9BE7FA] border-[#074553]',
+                    stemColor: 'bg-[#0D7287] dark:bg-[#9BE7FA]',
+                  },
+                  {
+                    labelVi: 'Quỹ phòng khách sạn TP. Kyoto (2013–2018)',
+                    labelEn: 'Kyoto Hotel Room Supply (2013–2018)',
+                    subVi: 'Mở rộng từ <30.000 lên ~53.000 phòng (chậm hơn 2,2 lần so với cầu)',
+                    subEn: 'Expanded from <30,000 to ~53,000 rooms (lagging demand growth)',
+                    badge: '1,8×',
+                    pctWidth: 36,
+                    dotColor: 'bg-slate-400 dark:bg-slate-500 border-slate-600',
+                    stemColor: 'bg-slate-400 dark:bg-slate-500',
+                  },
+                  {
+                    labelVi: 'Núi Phú Sĩ (Giai đoạn 2012–2019)',
+                    labelEn: 'Mount Fuji Visitors (2012–2019)',
+                    subVi: 'Tăng gấp 2,2 lần sau khi được công nhận UNESCO, đạt 5,06 triệu lượt',
+                    subEn: 'Expanded 2.2× post-UNESCO inscription to reach 5.06M visitors',
+                    badge: '2,2×',
+                    pctWidth: 46,
+                    dotColor: 'bg-[#FFD14C] border-amber-700',
+                    stemColor: 'bg-[#FFD14C]',
+                  },
+                ].map((item, idx) => (
+                  <div key={idx} className="space-y-1">
+                    <div className="flex items-center justify-between text-xs sm:text-sm">
+                      <span className="font-bold text-slate-900 dark:text-white">
+                        {isEn ? item.labelEn : item.labelVi}
+                      </span>
+                      <span className="font-extrabold text-sm text-[#074553] dark:text-[#9BE7FA]">
+                        {item.badge}
+                      </span>
+                    </div>
+
+                    {/* Lollipop track */}
+                    <div className="relative w-full h-5 flex items-center bg-slate-100 dark:bg-slate-800/80 rounded-full px-2">
+                      <div
+                        className={`h-1.5 rounded-l-full ${item.stemColor}`}
+                        style={{ width: `${item.pctWidth}%` }}
+                      />
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 -ml-1.5 shrink-0 ${item.dotColor}`}
+                      />
+                    </div>
+
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                      {isEn ? item.subEn : item.subVi}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* BẢNG MA TRẬN 5 CASE STUDIES (CHƯƠNG 3.2 NIÊN LUẬN) */}
+        {/* TẦNG 3: BẢNG SO SÁNH 5 DI SẢN RÚT GỌN (5 DÒNG GỌN, MỖI Ô 1 DÒNG SÚC TÍCH GẮN CON SỐ) */}
         <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden">
-          <div className="p-5 sm:p-6 border-b border-slate-100 dark:border-slate-800">
-            <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+          <div className="p-4 sm:p-5 flex flex-wrap items-center justify-between gap-2">
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
               {isEn
-                ? 'Governance & Conservation Matrix Across 5 UNESCO World Heritage Sites (Section 3.2)'
-                : 'Tổng hợp Giải pháp Quản trị & Bảo tồn tại 5 Di sản Thế giới (Chương 3.2 Niên luận)'}
+                ? 'Comparative Matrix: 5 UNESCO World Heritage Sites (Section 3.2)'
+                : 'Bảng đối sánh 5 Di sản Thế giới UNESCO & Giải pháp điều tiết (Mục 3.2)'}
             </h3>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+              {isEn
+                ? 'Kyoto • Shirakawa-go • Itsukushima • Mt. Fuji • Nara'
+                : 'Kyoto • Shirakawa-go • Đền Itsukushima • Núi Phú Sĩ • Nara'}
+            </span>
           </div>
+
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 text-xs uppercase">
+              <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 text-xs">
                 <tr>
-                  <th className="p-4">{isEn ? 'Heritage Site & Prefecture' : 'Di sản & Địa phương'}</th>
-                  <th className="p-4">{isEn ? 'Quantitative Pressure' : 'Áp lực Dữ liệu'}</th>
-                  <th className="p-4">{isEn ? 'Observed Impacts' : 'Vấn đề Phát sinh'}</th>
-                  <th className="p-4">{isEn ? 'Policy Intervention' : 'Can thiệp Chính sách'}</th>
+                  <th className="py-3 px-4">{isEn ? 'UNESCO Heritage Site' : 'Di sản UNESCO'}</th>
+                  <th className="py-3 px-4">{isEn ? 'Peak Pressure Metric' : 'Chỉ số áp lực định lượng'}</th>
+                  <th className="py-3 px-4">{isEn ? 'Core Bottleneck' : 'Vấn đề quá tải cốt lõi'}</th>
+                  <th className="py-3 px-4">{isEn ? 'Policy & Tech Intervention' : 'Giải pháp can thiệp & công nghệ'}</th>
                 </tr>
               </thead>
               <tbody className="[&>tr:nth-child(even)]:bg-slate-50/70 dark:[&>tr:nth-child(even)]:bg-slate-800/40">
                 {(isEn ? CASE_STUDIES_EN : HERITAGE_JAPAN_DATA.caseStudies).map((cs, idx) => (
                   <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/60">
-                    <td className="p-4 font-bold whitespace-nowrap align-top">
-                      <div className="text-sm text-slate-900 dark:text-white">{cs.site}</div>
-                      <div className="text-xs font-normal text-slate-500 mt-0.5">
-                        {cs.prefecture} · {cs.type}
-                      </div>
+                    <td className="py-3 px-4 font-bold whitespace-nowrap align-top">
+                      <div className="text-slate-900 dark:text-white">{cs.site}</div>
+                      <div className="text-[11px] font-normal text-slate-500">{cs.type}</div>
                     </td>
-                    <td className="p-4 font-bold tabular-nums text-slate-950 dark:text-white align-top">
+                    <td className="py-3 px-4 font-bold tabular-nums text-[#074553] dark:text-[#9BE7FA] align-top">
                       {cs.pressureMetric}
                     </td>
-                    <td className="p-4 text-slate-600 dark:text-slate-300 leading-relaxed max-w-md align-top">
+                    <td className="py-3 px-4 text-slate-600 dark:text-slate-300 align-top">
                       {cs.coreIssue}
                     </td>
-                    <td className="p-4 text-slate-700 dark:text-slate-200 leading-relaxed max-w-md align-top">
+                    <td className="py-3 px-4 text-slate-800 dark:text-slate-200 font-medium align-top">
                       {cs.intervention}
                     </td>
                   </tr>
@@ -1883,153 +2340,121 @@ export default function HeritageJapanProject({
       </section>
 
       {/* =====================================================================
-       * PHẦN 4: DATA AUDIT & PHẢN BIỆN HỌC THUẬT (5 HIỆU ĐÍNH TỪ NIÊN LUẬN GỐC)
+       * PHẦN 04 — HÀM Ý CHÍNH SÁCH & ACCORDION CODE
        * ===================================================================== */}
       <section
         id="sec-data-audit"
-        className="rounded-3xl p-6 sm:p-8 bg-[#F0F9FB] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 space-y-6 scroll-mt-24"
+        className="rounded-3xl p-5 sm:p-7 bg-[#F0F9FB] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 space-y-5 scroll-mt-24"
       >
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="space-y-2">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="px-3 py-1 rounded-xl bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 text-xs font-black tabular-nums">
-                {isEn ? 'PART 4' : 'PHẦN 4'}
-              </span>
-              <span className="text-xs sm:text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
-                <ShieldAlert className="w-4 h-4" aria-hidden="true" />
-                <span>
-                  {isEn ? 'Data Audit & Methodological Critique' : 'Data Audit & Phản biện Học thuật'}
-                </span>
-              </span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white">
+        <div className="space-y-1">
+          <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-950 dark:text-white flex items-center gap-2">
+            <ShieldAlert className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA] shrink-0" aria-hidden="true" />
+            <span>
               {isEn
-                ? '4. Auditing and Correcting 5 Limitations in the Original 2024 Thesis'
-                : '4. Kiểm toán và hiệu đính 5 thiếu sót từ bài niên luận gốc (01/2024)'}
-            </h2>
-          </div>
-          <span className="px-3.5 py-1.5 rounded-full bg-[#C8EEF7]/60 text-[#074553] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] text-xs font-bold border border-[#9BE7FA]/40">
-            {isEn ? '5 Methodological & Data Fixes' : '5 Giới hạn Phương pháp luận & Dữ liệu'}
-          </span>
+                ? '4. Governance Recommendations & Policy Actions'
+                : '4. Hàm ý quản trị & Khuyến nghị chính sách'}
+            </span>
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            {isEn
+              ? 'These 4 policy levers map directly to post-2023 tracking KPIs (Nara overnight stay ratio, Gion peak bus density, and Miyajima levy allocation) to empirically evaluate impact as post-recovery series accumulate.'
+              : '4 nhóm giải pháp gắn trực tiếp với bộ chỉ số hậu kiểm giai đoạn sau 2023 (tỷ lệ khách ngủ qua đêm tại Nara, mật độ giờ cao điểm tại Gion và nguồn thu quỹ bảo tồn Miyajima) để đánh giá hiệu lực chính sách khi chuỗi dữ liệu hậu COVID đủ dài.'}
+          </p>
         </div>
 
-        <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed max-w-4xl">
-          {isEn
-            ? 'The original thesis was written in late 2023 – January 2024 from a Japanese Studies perspective. When rebuilding the study for this Data Analytics portfolio, I audited the underlying tables and corrected five methodological and data issues directly at the source:'
-            : 'Bài niên luận gốc được thực hiện vào cuối năm 2023 – tháng 01/2024 dưới góc độ Nhật Bản học. Khi chuẩn hóa công trình này sang hồ sơ Data Analytics, mình kiểm toán lại toàn bộ các bảng số liệu và hiệu đính trực tiếp 5 điểm hạn chế:'}
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {HERITAGE_JAPAN_DATA.thesisLimitations.map((item) => {
-            const enItem = LIMITATIONS_EN[item.id];
-            const category = isEn && enItem ? enItem.category : item.category;
-            const severity = isEn && enItem ? enItem.severity : item.severity;
-            const flaw = isEn && enItem ? enItem.flawInThesis : item.flawInThesis;
-            const fix = isEn && enItem ? enItem.portfolioFix : item.portfolioFix;
-
-            return (
-              <div
-                key={item.id}
-                className="rounded-2xl p-5 sm:p-6 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-3"
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs sm:text-sm font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                    {item.id} · {category}
-                  </span>
-                  <span
-                    className={`text-xs px-2.5 py-0.5 rounded-md font-bold ${
-                      item.severity === 'Cao'
-                        ? 'bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-500/20'
-                        : item.severity === 'Đã hiệu đính'
-                        ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20'
-                        : 'bg-[#FFE485]/50 text-amber-950 dark:bg-[#FFD14C]/15 dark:text-[#FFE485]'
-                    }`}
-                  >
-                    {severity}
-                  </span>
-                </div>
-
+        {/* LƯỚI CHẴN 4 THẺ KHUYẾN NGHỊ CHÍNH SÁCH (2×2) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {POLICY_RECOMMENDATIONS.map((rec) => (
+            <div
+              key={rec.id}
+              className="rounded-2xl p-5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-2.5"
+            >
+              <div className="space-y-1.5">
+                <h3 className="text-sm sm:text-base font-extrabold text-slate-950 dark:text-white">
+                  {isEn ? rec.titleEn : rec.titleVi}
+                </h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  <strong className="text-slate-900 dark:text-white">
-                    {isEn ? 'Original thesis flaw: ' : 'Hạn chế trong niên luận: '}
-                  </strong>
-                  {flaw}
+                  {isEn ? rec.descEn : rec.descVi}
                 </p>
-
-                <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-800 leading-relaxed">
-                  <strong className="text-[#0D7287] dark:text-[#9BE7FA]">
-                    {isEn ? 'Source & Portfolio Fix: ' : 'Hiệu đính tại nguồn & Portfolio: '}
-                  </strong>
-                  {fix}
-                </div>
               </div>
-            );
-          })}
+              <div className="pt-1 flex items-center gap-2 text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
+                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                <span>{isEn ? rec.metricEn : rec.metricVi}</span>
+              </div>
+            </div>
+          ))}
         </div>
-      </section>
 
-      {/* =====================================================================
-       * PHẦN 5: MÃ NGUỒN SQL & PYTHON TÁI LẬP PHÂN TÍCH
-       * ===================================================================== */}
-      <section
-        id="sec-sql-python"
-        className="rounded-3xl p-6 sm:p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-5 scroll-mt-24"
-      >
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="space-y-1">
-            <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA] flex items-center gap-1.5">
-              <Code2 className="w-4 h-4" aria-hidden="true" />
+        {/* KHỐI CODE NỀN ĐEN CUỐI TRANG: MẶC ĐỊNH Ở TRẠNG THÁI ĐÓNG (ACCORDION) */}
+        <div
+          id="sec-sql-python"
+          className="rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 overflow-hidden scroll-mt-24"
+        >
+          <button
+            type="button"
+            onClick={() => setShowCodeAccordion((prev) => !prev)}
+            aria-expanded={showCodeAccordion}
+            className="w-full min-h-[52px] px-5 py-4 flex items-center justify-between text-left text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors cursor-pointer"
+          >
+            <span className="flex items-center gap-2.5">
+              <Code2 className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA] shrink-0" aria-hidden="true" />
               <span>
                 {isEn
-                  ? 'PART 5 · REPRODUCIBLE SQL & PYTHON PIPELINE'
-                  : 'PHẦN 5 · TRUY VẤN SQL & MÔ HÌNH PYTHON TÁI LẬP KẾT QUẢ'}
+                  ? 'View SQL & Python data reconciliation code (Window Functions • Series Normalization)'
+                  : 'Xem mã nguồn SQL & Python đối soát dữ liệu (Window Functions • Chuẩn hóa chuỗi)'}
               </span>
             </span>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-950 dark:text-white">
-              {isEn
-                ? '5. Time-Series Alignment, Indexing & Log-Linear Counterfactual Code'
-                : '5. Mã nguồn đồng bộ chuỗi thời gian, chỉ số hóa và hồi quy đối chứng'}
-            </h2>
-          </div>
+            {showCodeAccordion ? (
+              <ChevronUp className="w-4 h-4 text-slate-500 shrink-0" />
+            ) : (
+              <ChevronDown className="w-4 h-4 text-slate-500 shrink-0" />
+            )}
+          </button>
 
-          <div className="flex flex-wrap items-center gap-2">
-            {HERITAGE_SQL_PYTHON_SNIPPETS.map((snip, idx) => (
-              <button
-                key={snip.id}
-                type="button"
-                onClick={() => setSelectedCodeIdx(idx)}
-                className={`min-h-[40px] px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
-                  selectedCodeIdx === idx
-                    ? 'bg-[#9BE7FA] text-[#074553] border-[#0D7287]/30'
-                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'
-                }`}
-              >
-                {isEn ? snip.labelEn : snip.labelVi}
-              </button>
-            ))}
-            <button
-              type="button"
-              onClick={() => handleCopySnippet(HERITAGE_SQL_PYTHON_SNIPPETS[selectedCodeIdx].code)}
-              className="min-h-[40px] inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 cursor-pointer transition-colors"
-            >
-              {copiedCode ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-emerald-600" aria-hidden="true" />
-                  <span>{isEn ? 'Copied' : 'Đã chép'}</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>{isEn ? 'Copy code' : 'Sao chép'}</span>
-                </>
-              )}
-            </button>
-          </div>
+          {showCodeAccordion && (
+            <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-800 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  {HERITAGE_SQL_PYTHON_SNIPPETS.map((snip, idx) => (
+                    <button
+                      key={snip.id}
+                      type="button"
+                      onClick={() => setSelectedCodeIdx(idx)}
+                      className={`min-h-[38px] px-3 py-1.5 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
+                        selectedCodeIdx === idx
+                          ? 'bg-[#9BE7FA] text-[#074553] border-[#0D7287]/30'
+                          : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'
+                      }`}
+                    >
+                      {isEn ? snip.labelEn : snip.labelVi}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleCopySnippet(HERITAGE_SQL_PYTHON_SNIPPETS[selectedCodeIdx].code)}
+                  className="min-h-[38px] inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 cursor-pointer transition-colors"
+                >
+                  {copiedCode ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-600" aria-hidden="true" />
+                      <span>{isEn ? 'Copied' : 'Đã chép'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" aria-hidden="true" />
+                      <span>{isEn ? 'Copy code' : 'Sao chép'}</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <pre className="p-4 sm:p-5 rounded-2xl bg-slate-950 text-slate-100 text-xs font-mono leading-relaxed overflow-x-auto border border-slate-800">
+                <code>{HERITAGE_SQL_PYTHON_SNIPPETS[selectedCodeIdx].code}</code>
+              </pre>
+            </div>
+          )}
         </div>
-
-        <pre className="p-4 sm:p-5 rounded-2xl bg-slate-950 text-slate-100 text-xs font-mono leading-relaxed overflow-x-auto border border-slate-800">
-          <code>{HERITAGE_SQL_PYTHON_SNIPPETS[selectedCodeIdx].code}</code>
-        </pre>
       </section>
 
       {/* UNIFIED CASE STUDY FOOTER */}
@@ -2038,13 +2463,13 @@ export default function HeritageJapanProject({
         currentProjectId="proj-heritage-japan"
         attribution={{
           datasetVi:
-            'Dữ liệu chuỗi thời gian MLIT, JNTO, UNWTO & Niên luận Khoa Đông Phương học (ĐHKHXH&NV - ĐHQGHN)',
+            'Dữ liệu chuỗi thời gian JNTO, MLIT, TP. Kyoto, TP. Nara & Niên luận Khoa Đông Phương học (ĐHKHXH&NV - ĐHQGHN)',
           datasetEn:
-            'MLIT, JNTO, UNWTO Time-Series & Undergraduate Thesis at Faculty of Oriental Studies (VNU-USSH)',
+            'JNTO, MLIT, Kyoto City, Nara City Time-Series & Undergraduate Thesis at Faculty of Oriental Studies (VNU-USSH)',
           scopeVi:
-            'Chuỗi nền 2003–2022 · Khung đồng bộ 2009–2021 · 25 di sản UNESCO tại Nhật Bản',
+            '6 chuỗi thời gian đã đối soát (2003–2022) · 25 di sản UNESCO tại Nhật Bản',
           scopeEn:
-            '2003–2022 baseline · 2009–2021 synchronized windows · 25 UNESCO sites in Japan',
+            '6 audited time-series (2003–2022) · 25 UNESCO World Heritage sites in Japan',
         }}
       />
     </div>

@@ -27,12 +27,12 @@ const PROJECT_MAP = {
   },
   'proj-heritage-japan': {
     nextId: 'proj-library-bus',
-    nextTitleVi: 'Library Bus: Thiết kế UX/UI Website Thư Viện Lưu Động',
-    nextTitleEn: 'Library Bus: UX/UI Design for a Mobile Library Website',
-    nextDescVi: 'Nghiên cứu, logo và thành phần giao diện, lưới, wireframe và UI design cho 20 màn hình.',
-    nextDescEn: 'Research, logo and UI components, grid, wireframes and UI design for 20 screens.',
-    categoryVi: 'UX/UI Design',
-    categoryEn: 'UX/UI Design',
+    nextTitleVi: 'Library Bus: Đặc tả Nghiệp vụ (BA), Telemetry & UX/UI',
+    nextTitleEn: 'Library Bus: BA Specification, Telemetry & UX/UI',
+    nextDescVi: '4 quy tắc nghiệp vụ BR-01..04, kiến trúc MySQL/Redis/Celery và 11 cặp màn hình cốt lõi (Desktop & Mobile).',
+    nextDescEn: '4 core business rules (BR-01..04), MySQL/Redis/Celery telemetry architecture, and 11 core screen pairs.',
+    categoryVi: 'BA, Telemetry & UX/UI',
+    categoryEn: 'BA, Telemetry & UX/UI',
   },
   'proj-library-bus': {
     nextId: 'proj-kami-ely',

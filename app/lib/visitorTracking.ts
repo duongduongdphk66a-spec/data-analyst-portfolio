@@ -48,16 +48,3 @@ export function trackVisitorAction(
     // SessionStorage có thể bị tắt trong chế độ ẩn danh nghiêm ngặt
   }
 }
-
-/**
- * Lấy danh sách các hành động tương tác gần đây từ session hiện tại
- */
-export function getRecentVisitorActions(): VisitorActionLog[] {
-  if (typeof window === 'undefined') return [];
-  try {
-    const raw = sessionStorage.getItem(SESSION_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}

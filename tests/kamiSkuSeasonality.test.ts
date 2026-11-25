@@ -33,8 +33,8 @@ describe('Kami Ely SKU Seasonality & Transition Data', () => {
     const cv02 = skuSeasonality.skus.find((s) => s.code === 'CV02');
     expect(cv02?.category).toBe('Chân Váy');
 
-    // Kiểm định thuộc tính mùa vụ: 4 ngành hàng đều là Hàng Bán Đông
-    expect(aq1?.affinity).toBe('Hàng Bán Đông');
+    // Kiểm định thuộc tính mùa vụ: AQ1 (Đồ bơi kín đáo) thuộc Hàng Bán Hè; 4 mã còn lại là Hàng Bán Đông
+    expect(aq1?.affinity).toBe('Hàng Bán Hè');
     expect(at06?.affinity).toBe('Hàng Bán Đông');
     expect(ag01?.affinity).toBe('Hàng Bán Đông');
     expect(cv11?.affinity).toBe('Hàng Bán Đông');

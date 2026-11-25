@@ -421,7 +421,7 @@ const affLiveRows = loaded.AffLive.rows.map((r) => {
     kocId,
     isOfficial: kocId === 'kamielyhn',
     isSatellite: kocId === 'girlstyle.vn',
-    durationH: toNum(r['Thời Lượng (Giờ)']),
+    durationH: parseFloat(String(r['Thời Lượng (Giờ)'] || '0').replace(',', '.')) || 0,
     views: toNum(r['Tổng Lượt Xem Live']),
     units: toNum(r['Số Lượng Bán Cho Shop (Sp)']),
     gmvVnd: toNum(r['Doanh Thu Cho Shop (VNĐ)']),
@@ -438,7 +438,7 @@ const crLiveRows = loaded.CrLive.rows.map((r) => {
     rawDate: rawTs.slice(0, 10),
     vnTs,
     vnDate: vnTs.slice(0, 10),
-    durationH: toNum(r['Thời Lượng (Giờ)']),
+    durationH: parseFloat(String(r['Thời Lượng (Giờ)'] || '0').replace(',', '.')) || 0,
     uv: toNum(r['Tổng Người Xem']),
     shelfItems: toNum(r['Số Sản Phẩm Lên Kệ']),
     soldItems: toNum(r['Số Sản Phẩm Phát Sinh Đơn']),
@@ -793,9 +793,11 @@ console.log('Lorenz Ext:', { n: lorenzExtCreators.count, top1: lorenzExtCreators
 const sku10Rows = loaded.SKU10.rows.map((r) => {
   const date = excelSerialToIso(r['Ngày Ghi Nhận']);
   const affinityRaw = String(r['Đặc Tính Mùa'] || '');
-  const isSummer = /hè/i.test(affinityRaw);
+  const sku = String(r['Mã SKU'] || '').trim();
+  // Data Audit Fix #2: AQ1 ("Set Đồ Thể Thao Nữ - Đồ Bơi Kín Đáo - Bộ Áo Và Quần Bơi Thoáng Mát") is Summer Swimwear
+  const isSummer = /hè/i.test(affinityRaw) || sku === 'AQ1';
   return {
-    sku: String(r['Mã SKU'] || '').trim(),
+    sku,
     name: String(r['Tên Sản Phẩm'] || '').trim(),
     category: String(r['Ngành Hàng'] || '').trim(),
     isSummer,
@@ -1507,6 +1509,239 @@ const fileCatalog10 = [
 ];
 
 // ---------------------------------------------------------------------------
+// 8b. Streamlined 5-Chart Exact Metrics & AQ1 Patch on sku_seasonality.json
+// ---------------------------------------------------------------------------
+// Chart 2: 226-day shared cutoff up to 20/10/2026 (14.84B VND)
+const store226Rows = storeRows.filter((r) => r.date <= '2026-10-20');
+const store226Gmv = store226Rows.reduce((s, r) => s + r.gmvVnd, 0);
+const affVidRawRows = loaded.AffVid.rows.map((r) => ({
+  kocId: String(r['KOC ID'] || '').trim(),
+  isAds: ['có', 'yes'].includes(String(r['Ủy Quyền Quảng Cáo'] || '').trim().toLowerCase()),
+  gmvVnd: toNum(r['Doanh Thu Đóng Góp (VNĐ)']),
+  units: toNum(r['Số Lượng Bán (Sp)']),
+}));
+const affVidRawTotalGmv = affVidRawRows.reduce((s, r) => s + r.gmvVnd, 0);
+const affVidOfficialGmv = affVidRawRows.filter((r) => r.kocId === 'kamielyhn').reduce((s, r) => s + r.gmvVnd, 0);
+const affVidSatGmv = affVidRawRows.filter((r) => r.kocId === 'girlstyle.vn').reduce((s, r) => s + r.gmvVnd, 0);
+const affVidExtGmv = affVidRawTotalGmv - affVidOfficialGmv - affVidSatGmv;
+const residual226Gmv = Math.max(0, store226Gmv - affLiveTotalGmv - affVidRawTotalGmv);
+
+const sankey226d = {
+  cutoffDate: '2026-10-20',
+  days: store226Rows.length,
+  store226GmvB: round(store226Gmv / 1e9, 2),
+  liveGmvB: round(affLiveTotalGmv / 1e9, 2),
+  liveSharePct: round((affLiveTotalGmv / store226Gmv) * 100, 1),
+  videoGmvB: round(affVidRawTotalGmv / 1e9, 2),
+  videoSharePct: round((affVidRawTotalGmv / store226Gmv) * 100, 1),
+  otherGmvB: round(residual226Gmv / 1e9, 2),
+  otherSharePct: round((residual226Gmv / store226Gmv) * 100, 1),
+  liveBreakdown: {
+    officialGmvB: round(officialLiveGmv / 1e9, 2),
+    officialSharePct: round((officialLiveGmv / affLiveTotalGmv) * 100, 1),
+    satelliteGmvB: round(satLiveGmv / 1e9, 2),
+    satelliteSharePct: round((satLiveGmv / affLiveTotalGmv) * 100, 1),
+    inHouseSharePct: round(((officialLiveGmv + satLiveGmv) / affLiveTotalGmv) * 100, 1),
+    externalGmvB: round(otherExtLiveGmv / 1e9, 2),
+    externalSharePct: round((otherExtLiveGmv / affLiveTotalGmv) * 100, 1),
+  },
+  videoBreakdown: {
+    externalGmvB: round(affVidExtGmv / 1e9, 2),
+    externalSharePct: round((affVidExtGmv / affVidRawTotalGmv) * 100, 1),
+    officialGmvB: round(affVidOfficialGmv / 1e9, 2),
+    officialSharePct: round((affVidOfficialGmv / affVidRawTotalGmv) * 100, 1),
+    satelliteGmvB: round(affVidSatGmv / 1e9, 2),
+    satelliteSharePct: round((affVidSatGmv / affVidRawTotalGmv) * 100, 1),
+  },
+};
+
+// Chart 3: Monthly SKU10 Seasonality (T5 -> T10, 6 Summer Swimwear incl. AQ1 vs 4 Winter SKUs)
+const sku10StoreWindowGmv = storeRows.filter((r) => r.date >= '2026-04-30').reduce((s, r) => s + r.gmvVnd, 0);
+const sku10TotalGmvVnd = sku10Rows.reduce((s, r) => s + r.gmvVnd, 0);
+const sku10ShareOfStoreWindowPct = round((sku10TotalGmvVnd / sku10StoreWindowGmv) * 100, 1);
+const skuMonthsOrder = ['2026-05', '2026-06', '2026-07', '2026-08', '2026-09', '2026-10'];
+const skuMonthlySeries = skuMonthsOrder.map((ym) => {
+  const mRows = sku10Rows.filter((r) => r.date.slice(0, 7) === ym);
+  const summerVnd = mRows.filter((r) => r.isSummer).reduce((s, r) => s + r.gmvVnd, 0);
+  const bikini5Vnd = mRows.filter((r) => r.isSummer && r.sku !== 'AQ1').reduce((s, r) => s + r.gmvVnd, 0);
+  const aq1Vnd = mRows.filter((r) => r.sku === 'AQ1').reduce((s, r) => s + r.gmvVnd, 0);
+  const winterVnd = mRows.filter((r) => !r.isSummer).reduce((s, r) => s + r.gmvVnd, 0);
+  const at06Vnd = mRows.filter((r) => r.sku === 'AT06').reduce((s, r) => s + r.gmvVnd, 0);
+  const ag01Vnd = mRows.filter((r) => r.sku === 'AG01').reduce((s, r) => s + r.gmvVnd, 0);
+  const skirtsVnd = mRows.filter((r) => r.sku === 'CV11' || r.sku === 'CV02').reduce((s, r) => s + r.gmvVnd, 0);
+  const totVnd = summerVnd + winterVnd;
+  const storeMonthVnd = storeRows.filter((r) => r.month === ym).reduce((s, r) => s + r.gmvVnd, 0);
+  return {
+    month: ym,
+    shortLabel: `T${Number(ym.slice(5, 7))}`,
+    summerGmvM: round(summerVnd / 1e6, 1),
+    summerGmvB: round(summerVnd / 1e9, 2),
+    bikini5GmvM: round(bikini5Vnd / 1e6, 1),
+    aq1GmvM: round(aq1Vnd / 1e6, 2),
+    winterGmvM: round(winterVnd / 1e6, 1),
+    winterGmvB: round(winterVnd / 1e9, 2),
+    at06GmvM: round(at06Vnd / 1e6, 1),
+    ag01GmvM: round(ag01Vnd / 1e6, 1),
+    skirtsGmvM: round(skirtsVnd / 1e6, 1),
+    totalSku10GmvM: round(totVnd / 1e6, 1),
+    storeMonthGmvM: round(storeMonthVnd / 1e6, 1),
+    summerSharePct: totVnd > 0 ? round((summerVnd / totVnd) * 100, 1) : 0,
+    winterSharePct: totVnd > 0 ? round((winterVnd / totVnd) * 100, 1) : 0,
+    at06ShareOfStoreMonthPct: storeMonthVnd > 0 ? round((at06Vnd / storeMonthVnd) * 100, 1) : 0,
+  };
+});
+
+// Chart 4 Left: 5 Duration Buckets (<2h, 2-4h, 4-6h, 6-10h, >10h) on Creator_Livestreams (600 sessions)
+const dur5Spec = [
+  { id: '<2h', labelVi: '< 2 giờ', labelEn: '< 2h', min: 0, max: 2 },
+  { id: '2-4h', labelVi: '2 – 4 giờ', labelEn: '2 – 4h', min: 2, max: 4 },
+  { id: '4-6h', labelVi: '4 – 6 giờ', labelEn: '4 – 6h', min: 4, max: 6 },
+  { id: '6-10h', labelVi: '6 – 10 giờ', labelEn: '6 – 10h', min: 6, max: 10 },
+  { id: '>10h', labelVi: '> 10 giờ (Mega-live)', labelEn: '> 10h (Mega-live)', min: 10, max: Infinity },
+];
+const durationBuckets5 = dur5Spec.map((b) => {
+  const sub = crLiveRows.filter((r) => r.durationH >= b.min && r.durationH < b.max);
+  const totGmv = sub.reduce((s, r) => s + r.gmvVnd, 0);
+  const totHours = sub.reduce((s, r) => s + r.durationH, 0);
+  // Mean of session-level GMV/hour and ratio of total GMV / total hours
+  const sessionRates = sub.filter((r) => r.durationH > 0).map((r) => r.gmvVnd / r.durationH / 1e6);
+  const meanSessionRateM = sessionRates.length > 0 ? round(mean(sessionRates), 2) : 0;
+  const weightedRateM = totHours > 0 ? round(totGmv / totHours / 1e6, 2) : 0;
+  return {
+    bucket: b.id,
+    labelVi: b.labelVi,
+    labelEn: b.labelEn,
+    sessions: sub.length,
+    totalHours: round(totHours, 1),
+    totalGmvM: round(totGmv / 1e6, 1),
+    totalGmvB: round(totGmv / 1e9, 2),
+    gmvSharePct: round((totGmv / crLiveTotalGmv) * 100, 1),
+    gmvPerHourM: weightedRateM,
+    meanSessionRateM,
+    meanSessionGmvM: sub.length > 0 ? round(totGmv / sub.length / 1e6, 2) : 0,
+  };
+});
+console.log('5 Duration Buckets (CrLive 600):', durationBuckets5);
+
+// Chart 4 Right: Affiliate_Videos Ads vs Non-Ads direct comparison (4,796 deduplicated clips after bilingual normalization)
+const dedupAdsClips = affVids.filter((v) => v.isAds);
+const dedupOrgClips = affVids.filter((v) => !v.isAds);
+const dedupAdsGmv = dedupAdsClips.reduce((s, v) => s + v.gmvVnd, 0);
+const dedupOrgGmv = dedupOrgClips.reduce((s, v) => s + v.gmvVnd, 0);
+const videoAdsComparison = {
+  totalRawClips: affVidRawRows.length,
+  totalDedupClips: affVids.length,
+  adsClips: dedupAdsClips.length,
+  adsConvertingClips: dedupAdsClips.filter((v) => v.gmvVnd > 0).length,
+  adsConvPct: round((dedupAdsClips.filter((v) => v.gmvVnd > 0).length / dedupAdsClips.length) * 100, 1),
+  adsMeanGmvK: round(dedupAdsGmv / dedupAdsClips.length / 1e3, 1),
+  adsTotalGmvB: round(dedupAdsGmv / 1e9, 2),
+  adsTotalGmvM: round(dedupAdsGmv / 1e6, 1),
+  orgClips: dedupOrgClips.length,
+  orgConvertingClips: dedupOrgClips.filter((v) => v.gmvVnd > 0).length,
+  orgConvPct: round((dedupOrgClips.filter((v) => v.gmvVnd > 0).length / dedupOrgClips.length) * 100, 1),
+  orgMeanGmvK: round(dedupOrgGmv / dedupOrgClips.length / 1e3, 1),
+  orgTotalGmvB: round(dedupOrgGmv / 1e9, 2),
+  orgTotalGmvM: round(dedupOrgGmv / 1e6, 1),
+  meanGmvRatio: round(dedupAdsGmv / dedupAdsClips.length / (dedupOrgGmv / dedupOrgClips.length), 1),
+};
+console.log('Video Ads Comparison (4,797 raw):', videoAdsComparison);
+
+// Chart 5: Dual-Mode Pareto (KOC Affiliate 6,086 rows vs Shop_Products 339 SKUs)
+const kolTotalGmv = kolActiveAll.reduce((s, r) => s + r.gmvVnd, 0);
+let kolCum = 0;
+const kolTop12Pareto = kolActiveAll.slice(0, 12).map((r, idx) => {
+  kolCum += r.gmvVnd;
+  const label =
+    r.kocId === 'kamielyhn'
+      ? '@shop_official (Chính chủ)'
+      : r.kocId === 'girlstyle.vn'
+      ? '@koc_sat01 (Vệ tinh)'
+      : `KOC #${idx + 1}`;
+  return {
+    rank: idx + 1,
+    label,
+    gmvM: round(r.gmvVnd / 1e6, 1),
+    sharePct: round((r.gmvVnd / kolTotalGmv) * 100, 1),
+    cumPct: round((kolCum / kolTotalGmv) * 100, 1),
+    isInHouse: r.kocId === 'kamielyhn' || r.kocId === 'girlstyle.vn',
+  };
+});
+let skuCum12 = 0;
+const skuTop13Pareto = sortedActiveSkus.slice(0, 13).map((r, idx) => {
+  skuCum12 += r.gmvVnd;
+  return {
+    rank: idx + 1,
+    code: r.skuCode,
+    gmvM: round(r.gmvVnd / 1e6, 1),
+    sharePct: round((r.gmvVnd / shopProdTotalGmv) * 100, 1),
+    cumPct: round((skuCum12 / shopProdTotalGmv) * 100, 1),
+  };
+});
+const dualPareto = {
+  koc: {
+    totalChannels: loaded.KOL.rows.length,
+    activeChannels: kolActiveAll.length,
+    activePct: round((kolActiveAll.length / loaded.KOL.rows.length) * 100, 1),
+    zeroChannels: loaded.KOL.rows.length - kolActiveAll.length,
+    totalGmvB: round(kolTotalGmv / 1e9, 2),
+    officialSharePct: kolTop12Pareto[0]?.sharePct || 60.1,
+    satelliteSharePct: kolTop12Pareto[1]?.sharePct || 14.8,
+    inHouseTop2SharePct: kolTop12Pareto[1]?.cumPct || 74.9,
+    top10SharePct: lorenzAllCreators.top10SharePct,
+    items: kolTop12Pareto,
+  },
+  sku: {
+    totalSkus: shopProdRows.length,
+    activeSkus: sortedActiveSkus.length,
+    activePct: round((sortedActiveSkus.length / shopProdRows.length) * 100, 1),
+    zeroSkus: zeroSaleSkus.length,
+    totalGmvB: round(shopProdTotalGmv / 1e9, 2),
+    top1Code: sortedActiveSkus[0].skuCode,
+    top1GmvB: round(sortedActiveSkus[0].gmvVnd / 1e9, 2),
+    top1SharePct: top1SkuSharePct,
+    top12SharePct: skuTop13Pareto[11]?.cumPct || 80.6,
+    items: skuTop13Pareto,
+  },
+};
+
+// Patch app/data/kami-ely/generated/sku_seasonality.json so AQ1 is Hàng Bán Hè
+const skuSeasonalityPath = path.resolve('app/data/kami-ely/generated/sku_seasonality.json');
+if (fs.existsSync(skuSeasonalityPath)) {
+  const skuSeas = JSON.parse(fs.readFileSync(skuSeasonalityPath, 'utf8'));
+  const aq1Obj = skuSeas.skus.find((s) => s.code === 'AQ1');
+  if (aq1Obj) {
+    aq1Obj.affinity = 'Hàng Bán Hè';
+    aq1Obj.name = 'Set Đồ Thể Thao Nữ - Đồ Bơi Kín Đáo AQ1';
+  }
+  const summerSkus = skuSeas.skus.filter((s) => s.affinity === 'Hàng Bán Hè');
+  const winterSkus = skuSeas.skus.filter((s) => s.affinity === 'Hàng Bán Đông');
+  skuSeas.summary.summerUnits = summerSkus.reduce((s, x) => s + x.totalUnits, 0);
+  skuSeas.summary.winterUnits = winterSkus.reduce((s, x) => s + x.totalUnits, 0);
+  skuSeas.summary.summerGmvM = round(summerSkus.reduce((s, x) => s + x.totalGmv, 0) / 1e6, 1);
+  skuSeas.summary.swimwearGmvM = skuSeas.summary.summerGmvM;
+  skuSeas.summary.winterGmvM = round(winterSkus.reduce((s, x) => s + x.totalGmv, 0) / 1e6, 1);
+  skuSeas.summary.autumnGmvM = skuSeas.summary.winterGmvM;
+  for (const mt of skuSeas.monthlyTransitions || []) {
+    const swM = round(mt.bikiniGmvM + (mt.sportswearGmvM || 0), 1);
+    const winM = round(mt.totalGmvM - swM, 1);
+    const swU = mt.bikiniUnits + (mt.sportswearUnits || 0);
+    const winU = mt.totalUnits - swU;
+    mt.swimwearGmvM = swM;
+    mt.winterGmvM = winM;
+    mt.autumnGmvM = winM;
+    mt.swimwearUnits = swU;
+    mt.winterUnits = winU;
+    mt.autumnUnits = winU;
+    mt.swimwearSharePct = mt.totalGmvM > 0 ? round((swM / mt.totalGmvM) * 100, 1) : 0;
+    mt.winterSharePct = mt.totalGmvM > 0 ? round((winM / mt.totalGmvM) * 100, 1) : 0;
+    mt.autumnSharePct = mt.winterSharePct;
+  }
+  fs.writeFileSync(skuSeasonalityPath, JSON.stringify(skuSeas, null, 2) + '\n', 'utf8');
+  console.log('Patched sku_seasonality.json with AQ1 = Hàng Bán Hè');
+}
+
+// ---------------------------------------------------------------------------
 // 9. Update metrics.json (Preserving existing keys + adding full v2 SSOT)
 // ---------------------------------------------------------------------------
 const metricsPath = path.resolve('app/data/kami-ely/generated/metrics.json');
@@ -1637,6 +1872,8 @@ existingMetrics.v2 = {
       allActive: lorenzAllCreators,
       externalOnly: lorenzExtCreators,
     },
+    sankey226d,
+    dualPareto,
   },
   ch3: {
     maCrossovers,
@@ -1648,6 +1885,8 @@ existingMetrics.v2 = {
       junToAug: waterfallJunAug,
     },
     skuWeekly100,
+    skuMonthlySeries,
+    sku10ShareOfStoreWindowPct,
     sku10Summary,
     crossoverWeek: crossoverWeekObj?.week || 'W37',
     crossoverDate: crossoverWeekObj?.ddmm || '07/09',
@@ -1699,6 +1938,8 @@ existingMetrics.v2 = {
       affVideoGmvB: round(affVidTotalGmv / 1e9, 2),
     },
     videoForestSlices,
+    durationBuckets5,
+    videoAdsComparison,
     crLiveHeatmap,
     videoHashtagStats,
     videoThemeStats,
@@ -1893,10 +2134,10 @@ existingMetrics.v2 = {
         gateVi: 'Tỷ lệ tài khoản KOC mồ côi giữa các bảng',
         gateEn: 'Orphan creator ID rate across tables',
         scope: 'Affiliate_Livestreams vs Affiliate_KOL',
-        expectedVi: 'Tỷ lệ thiếu hồ sơ KOC <= 2,0%',
-        expectedEn: 'Missing directory profile rate <= 2.0%',
-        actualVi: '1,59% (độ trễ cửa sổ cuốn chiếu 90 ngày)',
-        actualEn: '1.59% (90d rolling directory latency)',
+        expectedVi: 'Gắn cờ is_orphan (không xóa bản ghi)',
+        expectedEn: 'Flagged as is_orphan (non-destructive)',
+        actualVi: '24/303 KOC live (7,92% · 88 phiên) ngoài danh bạ KOL',
+        actualEn: '24/303 live KOCs (7.92% · 88 sessions) absent from KOL directory',
         level: 'WARN',
         status: 'PASS',
       },

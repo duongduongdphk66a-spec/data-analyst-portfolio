@@ -26,20 +26,6 @@ export interface BlogPost {
   tags: string[];
 }
 
-export interface TestimonialItem {
-  id: string;
-  roleType: "academic" | "business" | "peer";
-  quoteVi: string;
-  quoteEn: string;
-  authorVi: string;
-  authorEn: string;
-  titleVi: string;
-  titleEn: string;
-  contextVi: string;
-  contextEn: string;
-  projectLink: string;
-}
-
 export const BLOG_POSTS: BlogPost[] = [
   {
     id: "heritage-japan-averages",
@@ -180,43 +166,53 @@ def evaluate_channel_gmv(df: pd.DataFrame, group_col: str, metric_col: str):
     titleEn:
       "From UX Research to Telemetry Architecture: Designing Data Flows for a Mobile Library",
     excerptVi:
-      "Kinh nghiệm chuyển hóa kết quả nghiên cứu người dùng và 34 màn hình Wireframe/UI thành lược đồ cơ sở dữ liệu và bảng điều khiển vận hành thời gian thực.",
+      "Kinh nghiệm chuyển hóa 4 quy tắc nghiệp vụ (BR-01..04) và 11 luồng màn hình Wireframe/UI thành kiến trúc 7 phân hệ Django 5.2 (36 model MySQL 8.0, Redis 7, 9 tác vụ Celery Beat) và phân hệ Telemetry analytics.",
     excerptEn:
-      "Translating user research findings and 34 mobile/web wireframes into a relational database schema and real-time operational analytics dashboards.",
+      "Translating 4 business rules (BR-01..04) and 11 paired Wireframe/UI flows into a 7-app Django 5.2 architecture (36 MySQL 8.0 models, Redis 7, 9 Celery Beat tasks) and an event-driven analytics app.",
     problemVi:
-      "Một sản phẩm số phục vụ cộng đồng như Thư viện Lưu động (Library Bus) thường gặp đứt gãy giữa thiết kế giao diện (UI/UX) và hệ thống dữ liệu hậu cần: Làm sao để người đọc đặt trước sách tại một trạm xe buýt di động mà tồn kho sách vẫn được đồng bộ chính xác theo thời gian thực?",
+      "Hệ thống xe thư viện lưu động (Library Bus) cần giải quyết bài toán kép giữa nghiệp vụ hậu cần và đo lường sản phẩm: Làm sao để khóa tồn kho an toàn khi nhiều độc giả đặt mượn đồng thời (chống lỗi TOCTOU Race Condition), tự động dịch chuyển hàng đợi FIFO mỗi 30 phút và thu thập Telemetry đánh giá hiệu suất từng xe buýt?",
     problemEn:
-      "Community-facing digital products like Library Bus often suffer from a disconnect between frontend UX design and backend logistics data: How can readers reserve books for a moving bus stop while keeping physical inventory synchronized in real time?",
+      "A mobile library network (Library Bus) faces a dual logistics and product analytics challenge: How do we safely lock book inventory during concurrent borrowing (preventing TOCTOU race conditions), auto-advance FIFO reservation queues every 30 minutes, and capture event telemetry to score bus efficiency?",
     processVi: [
-      "Khảo sát hành trình người dùng (User Journey) và đối chiếu trực tiếp giữa bản vẽ Wireframe với giao diện UI hoàn chỉnh trên 20 màn hình Web & 34 màn hình Mobile.",
-      "Thiết kế máy trạng thái (State Machine) cho quy trình Mượn, Đặt trước và Quyên góp sách gắn liền với định vị lộ trình xe buýt.",
-      "Xây dựng kiến trúc luồng dữ liệu (Analytics Dataflow) thu thập các chỉ số chuyển đổi phễu (Funnel Conversion), tỷ lệ hoàn thành phiếu mượn và mật độ nhu cầu theo từng điểm dừng.",
+      "Thực thi 4 bộ quy tắc nghiệp vụ (BR-01..04) trong TransactionService bằng khóa bi quan select_for_update() trên cả bản ghi Book và User trong transaction.atomic() (MySQL 8.0, khóa chính UUIDv4 kế thừa TimestampedModel, SoftDeleteModel & AuditMixin).",
+      "Cấu hình 9 tác vụ định kỳ Celery Beat + Redis 7 (CacheMixin có đánh số phiên bản): quét hàng đợi đặt trước FIFO mỗi 30 phút, tính phạt lũy tiến 3 bậc (5k/10k/15k) lúc 06:00, tổng hợp bảng DailyStats lúc 00:15 và chuyển log sự kiện >90 ngày sang ArchivedUserActivity.",
+      "Thiết kế phân hệ analytics ghi nhận sự kiện UserActivity (view_book, borrow, return, review, bus_visit), tính điểm phổ biến sách BookAnalytics (60% mượn + 30% đánh giá + 10% xem + 20đ thưởng 30 ngày) và hiệu suất xe BusAnalytics.",
     ],
     processEn: [
-      "Mapped the end-to-end User Journey and conducted side-by-side Wireframe-to-UI audits across 20 Web and 34 Mobile screens.",
-      "Engineered a transactional State Machine for Borrowing, Reservation, and Book Donation tied to dynamic bus route schedules.",
-      "Architected the Analytics Dataflow capturing funnel conversion rates, loan fulfillment velocity, and stop-level demand heatmaps.",
+      "Implemented 4 core business rules (BR-01..04) in TransactionService using pessimistic select_for_update() row locks on Book and User inside transaction.atomic() (MySQL 8.0, UUIDv4 TimestampedModel, SoftDeleteModel & AuditMixin).",
+      "Configured 9 scheduled Celery Beat tasks + Redis 7 versioned CacheMixin: scanning FIFO reservation queues every 30 minutes, calculating 3-tier progressive fines (5k/10k/15k) at 06:00, aggregating DailyStats at 00:15, and archiving >90d events to ArchivedUserActivity.",
+      "Architected the analytics app capturing UserActivity logs (view_book, borrow, return, review, bus_visit), BookAnalytics popularity scores (60% borrows + 30% ratings + 10% views + 20pt recency bonus), and BusAnalytics efficiency scores.",
     ],
     findingsVi:
-      "Khi Data Analyst tham gia ngay từ khâu thiết kế Wireframe và kiến trúc hệ thống, doanh nghiệp vừa tối ưu hóa được trải nghiệm người dùng vừa đảm bảo đầy đủ log dữ liệu sạch khi đo lường hiệu quả sản phẩm.",
+      "Việc tách luồng ghi nhận Telemetry sang tác vụ nền qua transaction.on_commit (gọi update_analytics_on_borrow_task bất đồng bộ trên Celery) giúp giao dịch mượn sách trên MySQL 8.0 luôn đạt tính nguyên tử ACID mà không làm tăng độ trễ phản hồi HTTP.",
     findingsEn:
-      "When data analysts participate early in wireframing and system architecture, teams eliminate user friction while guaranteeing clean, complete event telemetry for downstream BI dashboards.",
+      "Decoupling telemetry ingestion into background Celery tasks via transaction.on_commit (update_analytics_on_borrow_task) guarantees ACID transactional safety on MySQL 8.0 with zero HTTP latency overhead.",
     codeLanguage: "sql",
-    codeTitleVi: "Truy vấn theo dõi tỷ lệ chuyển đổi Phễu Đặt trước & Mượn sách",
-    codeTitleEn: "Funnel Conversion & Route Fulfillment Telemetry Query",
+    codeTitleVi: "Truy vấn MySQL 8.0 đối soát Hàng đợi Đặt trước FIFO & Hiệu suất Xe buýt (Schema thật)",
+    codeTitleEn: "MySQL 8.0 FIFO Reservation Fulfillment & Bus Efficiency Telemetry Query (Actual Schema)",
     codeSnippet: `SELECT
-  bus_route_id,
-  stop_name,
-  COUNT(DISTINCT reservation_id) AS total_reservations,
-  COUNT(DISTINCT CASE WHEN status = 'CHECKED_OUT' THEN reservation_id END) AS fulfilled_loans,
+  b.bus_number,
+  b.license_plate,
+  COUNT(r.id) AS total_reservations,
+  SUM(CASE WHEN r.is_fulfilled = 1 THEN 1 ELSE 0 END) AS fulfilled_reservations,
+  SUM(CASE WHEN r.is_fulfilled = 0 AND r.expires_date < NOW() THEN 1 ELSE 0 END) AS expired_unclaimed,
   ROUND(
-    COUNT(DISTINCT CASE WHEN status = 'CHECKED_OUT' THEN reservation_id END) * 100.0
-    / NULLIF(COUNT(DISTINCT reservation_id), 0),
+    SUM(CASE WHEN r.is_fulfilled = 1 THEN 1 ELSE 0 END) * 100.0
+    / NULLIF(COUNT(r.id), 0),
     2
-  ) AS fulfillment_rate_pct
-FROM library_bus_transactions
-WHERE transaction_date >= CURRENT_DATE - INTERVAL '30 days'
-GROUP BY bus_route_id, stop_name
+  ) AS fulfillment_rate_pct,
+  ROUND(
+    LEAST((ba.total_borrows / NULLIF(ba.total_visits, 0)) * 100.0, 100.0),
+    1
+  ) AS bus_efficiency_score
+FROM transactions_bookreservation r
+INNER JOIN inventory_librarybus b
+  ON r.preferred_pickup_location_id = b.id
+LEFT JOIN analytics_busanalytics ba
+  ON ba.bus_id = b.id
+WHERE r.is_deleted = 0
+  AND r.reserved_date >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL 30 DAY )
+GROUP BY b.id, b.bus_number, b.license_plate, ba.total_borrows, ba.total_visits
 ORDER BY fulfillment_rate_pct DESC;`,
     tags: ["Product Analytics", "UX Research", "System Architecture", "Library Bus"],
   },
@@ -254,9 +250,9 @@ ORDER BY fulfillment_rate_pct DESC;`,
       "Stages 6-8 (Experimentation, Complex Silos & Executive Output): Shaping validated statistical outputs into clean marts for interactive dashboards.",
     ],
     findingsVi:
-      "Việc tuân thủ kỷ luật 8 giai đoạn giúp giảm hơn 60% thời gian gỡ lỗi số liệu khi lên báo cáo, đồng thời giúp mã nguồn SQL luôn minh bạch, dễ bảo trì và dễ kiểm chứng.",
+      "Việc tuân thủ kỷ luật 8 giai đoạn giúp phát hiện sớm sai lệch số liệu trước khi lên báo cáo, đồng thời giữ mã nguồn SQL minh bạch, dễ bảo trì và dễ kiểm chứng lại từng bước.",
     findingsEn:
-      "Following this disciplined 8-stage progression cuts downstream dashboard debugging time by over 60% while keeping SQL codebases modular, auditable, and reproducible.",
+      "Following this disciplined 8-stage progression catches metric discrepancies before reporting while keeping SQL queries modular, auditable, and reproducible.",
     codeLanguage: "sql",
     codeTitleVi: "Mẫu Window Function tính Trung bình trượt & Tăng trưởng kỳ trước",
     codeTitleEn: "Rolling 7-Day Average & Period-over-Period Growth Pattern",
@@ -274,53 +270,5 @@ ORDER BY fulfillment_rate_pct DESC;`,
   ) AS wow_growth_pct
 FROM daily_kpi_fact;`,
     tags: ["SQL for Data Analysis", "Window Functions", "Cohort Analysis", "Best Practices"],
-  },
-];
-
-export const TESTIMONIALS: TestimonialItem[] = [
-  {
-    id: "academic-advisor",
-    roleType: "academic",
-    quoteVi:
-      "Hùng thể hiện tư duy nghiên cứu định lượng rất nghiêm túc và độc lập. Bên cạnh các thống kê mô tả, bạn chủ động kiểm toán nguồn dữ liệu, đặt câu hỏi phản biện về sự phân hóa vùng miền và sử dụng bằng chứng thống kê thuyết phục để bảo vệ luận điểm chính sách.",
-    quoteEn:
-      "Hùng demonstrated strong quantitative rigor and independent research maturity. Beyond descriptive statistics, he proactively audited raw data sources, questioned regional disparities, and used solid statistical evidence to defend policy conclusions.",
-    authorVi: "Giảng viên Hướng dẫn Nghiên cứu Khoa học",
-    authorEn: "Academic Research Advisor",
-    titleVi: "Hội đồng Đánh giá Nghiên cứu Khoa học Sinh viên",
-    titleEn: "University Scientific Research Committee",
-    contextVi: "Dự án Kinh tế học Du lịch Di sản Nhật Bản (Heritage Japan)",
-    contextEn: "Japanese World Heritage Tourism Research Project",
-    projectLink: "/projects/proj-heritage-japan",
-  },
-  {
-    id: "ecommerce-stakeholder",
-    roleType: "business",
-    quoteVi:
-      "Điểm mạnh nhất của Hùng là khả năng biến những bảng dữ liệu TikTok Shop rối rắm và chênh lệch giữa các nguồn thành một bức tranh rõ ràng, đáng tin cậy. Các phân tích về hiệu quả Creator và cấu trúc giá SKU của bạn giúp đội ngũ vận hành biết chính xác cần tối ưu ở đâu.",
-    quoteEn:
-      "Hùng's greatest strength is turning messy, conflicting e-commerce exports into a single, trustworthy picture. His reconciliation of Creator vs. Shop GMV and SKU pricing analysis gave our operations team clear, actionable priorities.",
-    authorVi: "Quản lý Vận hành Thương mại Điện tử",
-    authorEn: "E-Commerce Operations Lead",
-    titleVi: "Đối tác Dự án Phân tích Tăng trưởng TikTok Shop",
-    titleEn: "TikTok Shop Growth Analytics Stakeholder",
-    contextVi: "Dự án Phân tích Toàn diện Kami Ely",
-    contextEn: "Kami Ely End-to-End Analytics Case Study",
-    projectLink: "/projects/proj-kami-ely",
-  },
-  {
-    id: "product-collaborator",
-    roleType: "peer",
-    quoteVi:
-      "Làm việc cùng Hùng rất hiệu quả vì bạn vừa hiểu sâu về cấu trúc cơ sở dữ liệu (SQL), vừa có tư duy trải nghiệm người dùng (UX). Bạn luôn biết cách giải thích các thuật toán và luồng dữ liệu phức tạp thành ngôn ngữ trực quan mà mọi thành viên trong nhóm đều nắm bắt được.",
-    quoteEn:
-      "Collaborating with Hùng is highly effective and direct because he bridges deep SQL/data architecture knowledge with strong UX intuition. He consistently translates complex data pipelines and statistical logic into visual stories that everyone on the team can immediately understand.",
-    authorVi: "Cộng sự Thiết kế & Phát triển Hệ thống",
-    authorEn: "Product & Systems Collaborator",
-    titleVi: "Nhóm Dự án Sản phẩm & Kiến trúc Dữ liệu",
-    titleEn: "Product UX & Data Architecture Team",
-    contextVi: "Dự án Hệ sinh thái Thư viện Lưu động (Library Bus)",
-    contextEn: "Library Bus UX & Telemetry System",
-    projectLink: "/projects/proj-library-bus",
   },
 ];

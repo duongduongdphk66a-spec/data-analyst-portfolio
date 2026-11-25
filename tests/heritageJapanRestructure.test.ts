@@ -35,8 +35,18 @@ describe('Heritage Japan Case Study Restructuring & Quality Standards', () => {
     expect(HERITAGE_JAPAN_DATA.naraSpending.length).toBeGreaterThanOrEqual(10);
     // Chart 8: Visitor mix 2017
     expect(HERITAGE_JAPAN_DATA.visitorMix2017).toHaveLength(3);
-    // Chart 9: Kyoto supply demand mismatch
-    expect(HERITAGE_JAPAN_DATA.kyotoSupplyDemandMismatch.visitors2019).toBe(4.5);
+    // Chart 9: Kyoto supply demand mismatch (2013–2018 standardized window)
+    expect(HERITAGE_JAPAN_DATA.kyotoSupplyDemandMismatch.visitors2013).toBe(1.13);
+    expect(HERITAGE_JAPAN_DATA.kyotoSupplyDemandMismatch.visitors2018).toBe(4.5);
+    // Verify key audited numbers
+    expect(HERITAGE_JAPAN_DATA.japanVisitors.find((d) => d.year === '2022')?.value).toBe(3.83);
+    expect(HERITAGE_JAPAN_DATA.kyotoVisitors.find((d) => d.year === '2018')?.value).toBe(4503.3);
+    expect(HERITAGE_JAPAN_DATA.kyotoVisitors.find((d) => d.year === '2019')?.value).toBe(3799.0);
+    expect(HERITAGE_JAPAN_DATA.kyotoVisitors.find((d) => d.year === '2020')?.value).toBe(448.8);
+    expect(HERITAGE_JAPAN_DATA.naraVisitors.find((d) => d.year === '2020')?.value).toBe(289);
+    expect(HERITAGE_JAPAN_DATA.kyotoSpending.find((d) => d.year === '2018')?.value).toBe(1308.2);
+    expect(HERITAGE_JAPAN_DATA.naraSpending.find((d) => d.year === '2018')?.value).toBe(120.8);
+    expect(HERITAGE_JAPAN_DATA.naraSpending.find((d) => d.year === '2020')?.value).toBe(50.64);
     // Chart 10: Economic share comparison
     expect(HERITAGE_JAPAN_DATA.economicShareComparison.length).toBeGreaterThanOrEqual(7);
     // Chart 11: Overtourism hotspots

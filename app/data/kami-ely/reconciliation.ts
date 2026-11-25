@@ -379,72 +379,72 @@ export const kamiReconciliationData = {
     {
       ruleCode: 'REC-03',
       title: {
-        vi: 'Đồng bộ Hóa Cửa Sổ 28 Ngày Seller Center Về Đầu Chu Kỳ 180 Ngày (09/03 – 05/04/2026)',
-        en: 'Synchronizing Seller Center 28d Window to Early 180d Cycle (Mar 09 – Apr 05, 2026)'
+        vi: 'Đối soát Cửa Sổ 28 Ngày Đầu Chu Kỳ (09/03 – 05/04/2026) Trong Chuỗi FastMoss',
+        en: 'Reconciling the Opening 28-Day FastMoss Window (Mar 09 – Apr 05, 2026)'
       },
       sourceAValue: {
-        vi: 'Tổng 28 dòng đầu trong CSV Store Overview (09/03 – 05/04/2026): 1.376.597.102 đ (~1,38 Tỉ đ) và 11.051 SP',
-        en: 'Sum of first 28 rows in Store Overview CSV (Mar 09 – Apr 05, 2026): 1,376,597,102 VND (~1.38B) and 11,051 units'
+        vi: 'Tổng 28 dòng đầu trong FastMoss Store Overview (09/03 – 05/04/2026): 1.376.597.102 đ (~1,38 Tỉ đ) và 11.051 SP',
+        en: 'Sum of first 28 rows in FastMoss Store Overview (Mar 09 – Apr 05, 2026): 1,376,597,102 VND (~1.38B) and 11,051 units'
       },
       sourceBValue: {
-        vi: 'Báo cáo Seller Center 28 ngày: Net GMV 1,35 Tỉ đ (+56,24%), Doanh thu gộp 1,40 Tỉ đ (+36,29%), 10.554 SP (+40,31%)',
-        en: 'Seller Center 28d Report: Net GMV 1.35B VND (+56.24%), Gross Revenue 1.40B VND (+36.29%), 10,554 units (+40.31%)'
+        vi: 'Ảnh chụp tổng quan FastMoss 28 ngày đầu kỳ: ~1,35–1,40 Tỉ đ và ~10,5k–11,1k SP (làm tròn hiển thị UI)',
+        en: 'FastMoss 28-day UI summary snapshot: ~1.35–1.40B VND and ~10.5k–11.1k units (UI display rounding)'
       },
       deltaSummary: {
-        vi: 'Khớp 98,1% về quy mô doanh thu (1,35 Tỉ Net / 1,38 Tỉ CSV / 1,40 Tỉ Gross) và sản lượng (10.554 Net / 11.051 Gross)',
-        en: '98.1% alignment in revenue (1.35B Net / 1.38B CSV / 1.40B Gross) and volume (10,554 Net / 11,051 Gross)'
+        vi: 'Sai lệch ước tính 0,05–3,3% giữa ảnh chụp giao diện FastMoss và tệp xuất Excel/CSV theo ngày',
+        en: '0.05–3.3% estimation variance between FastMoss UI summaries and daily Excel/CSV exports'
       },
       technicalResolution: {
-        vi: 'Chuẩn hóa nhãn thời gian của báo cáo Seller Center 28 ngày thành "09/03/2026 – 05/04/2026 (28 ngày đầu chu kỳ 180d)", giữ nguyên toàn bộ chỉ số CR 1,68%, AOV 128.600 đ và Kệ hàng 442,36 Tr đ (CVR 0,25% trên 1,17M người xem).',
-        en: 'Standardized Seller Center 28d label to "Mar 09 – Apr 05, 2026 (First 28d of 180d cycle)", preserving CR 1.68%, AOV 128,600 VND, and Product Card 442.36M VND (0.25% CVR on 1.17M viewers).'
+        vi: 'Chốt bảng Store_Daily_Overview 231 ngày từ tệp xuất FastMoss làm nguồn chuẩn duy nhất (SSOT); không gộp trộn với dữ liệu nội bộ bên ngoài phạm vi 10 tệp FastMoss.',
+        en: 'Standardized on the 231-day FastMoss Store_Daily_Overview export as the Single Source of Truth (SSOT), excluding any out-of-scope internal shop data.'
       },
       status: 'WINDOW_SYNCED'
     },
     {
       ruleCode: 'REC-04',
       title: {
-        vi: 'Đồng bộ Thực Nghiệm A/B Testing 2 Phiên LIVE Vào Ngày 22/03 & 28/03/2026',
-        en: 'Synchronizing LIVE Ads A/B Testing Sessions to Mar 22 & Mar 28, 2026'
+        vi: 'Khử Trùng 595 Phiên LIVE Giữa Affiliate_Livestreams và Creator_Livestreams (Tránh Cộng Đôi +3,05 Tỷ)',
+        en: 'Deduplicating 595 Overlapping LIVE Sessions Between Affiliate_Livestreams and Creator_Livestreams'
       },
       sourceAValue: {
-        vi: 'CSV Store Overview: Ngày 22/03 đạt 24,53 Tr đ (215 SP); Ngày 28/03 bùng nổ đạt 81,72 Tr đ (734 SP)',
-        en: 'CSV Store Overview: Mar 22 reached 24.53M VND (215 units); Mar 28 surged to 81.72M VND (734 units)'
+        vi: 'Affiliate_Livestreams (8.355 phiên) = 10,47 Tỉ đ | Creator_Livestreams (600 phiên, 595 phiên trong khung) = 7,59 Tỉ đ',
+        en: 'Affiliate_Livestreams (8,355 sessions) = 10.47B VND | Creator_Livestreams (600 sessions, 595 in window) = 7.59B VND'
       },
       sourceBValue: {
-        vi: 'Live Workbench: Phiên A (Ads 678,75K -> 9,25 Tr đ, 1,81M/giờ) vs. Phiên B (Ads 2,17M -> 20,65 Tr đ, 5,73M/giờ)',
-        en: 'Live Workbench: Profile A (Ads 678.75K -> 9.25M VND, 1.81M/hr) vs. Profile B (Ads 2.17M -> 20.65M VND, 5.73M/hr)'
+        vi: 'Cộng gộp thô = 18,06 Tỉ đ (120% GMV toàn shop 15,01 Tỉ đ); mốc đồng bộ 226 ngày đến 20/10 đạt 14,84 Tỉ đ',
+        en: 'Naive sum = 18.06B VND (120% of 15.01B store GMV); synchronized 226-day cutoff through Oct 20 = 14.84B VND'
       },
       deltaSummary: {
-        vi: 'Trong 188 đơn vị xuất kho của Phiên B có 134 SP thương mại (130 Chân váy CV11 = 20,34 Tr đ + 4 SP phụ) và 54 quà tặng 0đ',
-        en: 'Out of 188 dispatched units in Profile B, 134 are commercial units (130 CV11 Skirts = 20.34M + 4 aux) and 54 are 0-VND gift bows'
+        vi: 'Loại trừ bẫy cộng trùng 595 phiên của kênh chính chủ @shop_official (nằm sẵn trong cả 2 bảng xuất FastMoss)',
+        en: 'Eliminates double-counting of 595 @shop_official sessions present in both FastMoss exports'
       },
       technicalResolution: {
-        vi: 'Ánh xạ Phiên A vào ngày 22/03/2026 và Phiên B vào ngày 28/03/2026 trong chuỗi 180 ngày; bóc tách rõ 134 SP thương mại chính + 54 phụ kiện quà tặng kèm ([TẶNG NƠ CÀI ÁO]) để triệt tiêu sai số đơn giá.',
-        en: 'Mapped Profile A to Mar 22, 2026 and Profile B to Mar 28, 2026 within the 180d timeline; separated 134 commercial units + 54 free gift bows ([FREE BOW GIFT]) to eliminate unit price discrepancy.'
+        vi: 'Giữ Affiliate_Livestreams làm nguồn tổng kênh LIVE (10,47 Tỉ đ = 69,8% GMV 231d / 70,5% GMV 226d) và dùng Creator_Livestreams làm bảng chi tiết riêng cho 600 phiên kênh chính chủ sau khi bù múi giờ +13h về UTC+7.',
+        en: 'Uses Affiliate_Livestreams as the deduplicated LIVE total (10.47B = 69.8% of 231d / 70.5% of 226d GMV) and Creator_Livestreams solely for official-channel session drill-down after +13h UTC+7 alignment.'
       },
-      status: 'WINDOW_SYNCED'
+      status: 'VERIFIED_EXACT'
     },
     {
       ruleCode: 'REC-05',
       title: {
-        vi: 'Đối soát Chuỗi Kích Hoạt Siêu KOC @koc_sat01 (Từ 0 đ Đầu Tháng 3 Lên 732,77 Tr đ Mùa Hè)',
-        en: 'Reconciling Super-KOC @koc_sat01 Activation (From 0 VND in Mid-March to 732.77M VND in 90d)'
+        vi: 'Đối Soát Kênh Vệ Tinh @koc_sat01 Qua Hai Kỳ FastMoss (Hợp Nhất 2 Tên Hiển Thị Theo KOC ID Ẩn Danh)',
+        en: 'Reconciling In-House Satellite @koc_sat01 Across FastMoss Snapshots (Merging 2 Display Names by Pseudonymized ID)'
       },
       sourceAValue: {
-        vi: 'Ảnh Chẩn đoán Tài khoản 7 ngày (12/03 – 18/03/2026): @shop_official đạt 33.011.731 đ; @koc_sat01 ghi nhận 0 đ',
-        en: '7d Account Diagnostics (Mar 12 – Mar 18, 2026): @shop_official reached 33,011,731 VND; @koc_sat01 recorded 0 VND'
+        vi: 'Kỳ đầu chu kỳ FastMoss (tháng 3/2026): @koc_sat01 mới khởi động lịch phát sóng vệ tinh',
+        en: 'Early FastMoss cycle (Mar 2026): @koc_sat01 ramping up satellite broadcast cadence'
       },
       sourceBValue: {
-        vi: 'CSV _Creators_merged (90 ngày cao điểm hè): @koc_sat01 đứng Top 1 KOC với 732.771.719 đ (5.009 SP = 42,9% Affiliate)',
-        en: 'CSV _Creators_merged (90d summer peak): @koc_sat01 ranks #1 KOC with 732,771,719 VND (5,009 units = 42.9% Affiliate)'
+        vi: 'Tổng hợp 231 ngày FastMoss Affiliate_Livestreams: @koc_sat01 đạt 261 phiên LIVE, đóng góp 1,26 Tỉ đ (12,0% tổng Live)',
+        en: '231-day FastMoss Affiliate_Livestreams rollup: @koc_sat01 ran 261 LIVE sessions generating 1.26B VND (12.0% of Live GMV)'
       },
       deltaSummary: {
-        vi: 'Chuyển trạng thái từ KOC ngủ đông (tuần 12–18/03) sang Siêu KOC gánh 42,9% mạng lưới Affiliate trong 90 ngày hè',
-        en: 'Transitioned from dormant account (Mar 12–18 week) to #1 Super-KOC driving 42.9% of Affiliate GMV in the 90d summer window'
+        vi: 'Khi gộp đúng KOC ID ẩn danh, @koc_sat01 cùng @shop_official tạo 84,5% doanh thu Livestream (72,5% + 12,0%)',
+        en: 'Under a unified pseudonymized KOC ID, @koc_sat01 and @shop_official generate 84.5% of Livestream GMV (72.5% + 12.0%)'
       },
       technicalResolution: {
-        vi: 'Minh chứng thực tế cho quy trình KOC Activation: Phát hiện tài khoản liên kết ngủ đông ở đầu chu kỳ 180 ngày (tháng 3) và cấp mẫu thử/hoa hồng kích hoạt trong 90 ngày cao điểm hè.',
-        en: 'Provides empirical proof of KOC Activation workflow: Identifying dormant linked accounts in early March and activating them with samples/commissions during the 90d peak season.'
+        vi: 'Gắn khóa định danh Salted SHA-256 nhất quán để không tách nhầm @koc_sat01 thành 2 KOC ngoài khác nhau; tách rõ nhóm In-house khỏi 301 đối tác KOC độc lập.',
+        en: 'Applies deterministic Salted SHA-256 hashing so @koc_sat01 is never split into two external accounts, cleanly isolating in-house rooms from 301 independent KOCs.'
       },
       status: 'VERIFIED_EXACT'
     },
@@ -474,118 +474,114 @@ export const kamiReconciliationData = {
     }
   ] as ReconciliationRuleItem[],
 
-  // 5. Dữ Liệu Telemetry TikTok Seller Center & Live Workbench Đã Đồng Bộ Vào Khung 180 Ngày
+  // 5. Các Khung Thời Gian Đối Soát Trên Bộ Dữ Liệu Ước Tính FastMoss (10 Tệp, 231 Ngày)
   synchronizedTelemetryModules: [
     {
       moduleId: 'telemetry-growth-28d',
       moduleName: {
-        vi: '1. Đà Tăng Trưởng Khởi Động 28 Ngày (09/03 – 05/04/2026)',
-        en: '1. Early-Cycle 28-Day Growth Momentum (Mar 09 – Apr 05, 2026)'
+        vi: '1. Đà Tăng Trưởng Khởi Động 28 Ngày Đầu Kỳ FastMoss (09/03 – 05/04/2026)',
+        en: '1. Early-Cycle 28-Day FastMoss Growth Momentum (Mar 09 – Apr 05, 2026)'
       },
       synchronizedWindow: '09/03/2026 – 05/04/2026',
       csvAnchorMetric: {
-        vi: 'Khớp tổng 28 dòng đầu bảng kami_store_daily_overview: 1.376.597.102 VNĐ (~1,38 Tỉ đ) & 11.051 SP',
-        en: 'Matches sum of first 28 rows in kami_store_daily_overview: 1,376,597,102 VND (~1.38B) & 11,051 units'
+        vi: 'Khớp tổng 28 dòng đầu bảng Store_Daily_Overview: 1.376.597.102 VNĐ (~1,38 Tỉ đ) & 11.051 SP',
+        en: 'Matches sum of first 28 rows in Store_Daily_Overview: 1,376,597,102 VND (~1.38B) & 11,051 units'
       },
       telemetryMetrics: [
         {
-          vi: 'Net GMV: 1,35 Tỉ VNĐ (+56,24%) | Doanh thu gộp: 1,40 Tỉ VNĐ (+36,29%) | Số món bán: 10.554 SP (+40,31%)',
-          en: 'Net GMV: 1.35B VND (+56.24%) | Gross Revenue: 1.40B VND (+36.29%) | Units Sold: 10,554 (+40.31%)'
+          vi: 'Tổng 28 ngày đầu chu kỳ (FastMoss): 1,38 Tỉ VNĐ | 11.051 sản phẩm | Bình quân ~49,2 Tr đ/ngày',
+          en: 'Opening 28-day FastMoss total: 1.38B VND | 11,051 units | Daily avg ~49.2M VND/day'
         },
         {
-          vi: 'Snapshot trong ngày (13:12): GMV 17,37 Tr đ | 135 món | 7.250 khách truy cập | 122 người mua | CR = 1,68% | AOV = 128.600 đ',
-          en: 'Intraday Snapshot (13:12): GMV 17.37M VND | 135 units | 7,250 visitors | 122 buyers | CR = 1.68% | AOV = 128,600 VND'
+          vi: 'Đơn giá bán trung bình ước tính (ASP): ~124.568 đ/sản phẩm (không có mã đơn order_id để tính AOV giỏ hàng)',
+          en: 'Estimated Average Selling Price (ASP): ~124,568 VND/unit (no order_id available for basket AOV)'
         }
       ],
       strategicTakeaway: {
-        vi: 'Tỷ lệ chuyển đổi cửa hàng (1,68%) đang bị kìm hãm do lẻ size các mẫu hot và thiếu Freeship Xtra.',
-        en: 'Store conversion rate (1.68%) is constrained by broken sizes on hot SKUs and missing Freeship Xtra.'
+        vi: 'Giai đoạn khởi động tháng 3–4 tạo bước đệm cung nội dung trước khi doanh thu bứt phá lên đỉnh tháng 6 (3,77 Tỉ đ).',
+        en: 'Early Mar–Apr content volume established the runway before store GMV peaked in June (3.77B VND).'
       }
     },
     {
-      moduleId: 'telemetry-shopping-tab',
+      moduleId: 'telemetry-channel-split-226d',
       moduleName: {
-        vi: '2. Phễu Thẻ Sản Phẩm & Kệ Hàng (09/03 – 05/04/2026 & Tuần 25/03 – 31/03/2026)',
-        en: '2. Product Card & Shopping Tab Funnel (Mar 09 – Apr 05 & Mar 25 – Mar 31, 2026)'
+        vi: '2. Phân Rã 3 Kênh Trên Khung Đồng Bộ 226 Ngày (09/03 – 20/10/2026)',
+        en: '2. 3-Channel Decomposition at Shared 226-Day Cutoff (Mar 09 – Oct 20, 2026)'
       },
-      synchronizedWindow: '25/03/2026 – 31/03/2026 (7d) & 09/03 – 05/04/2026 (28d)',
+      synchronizedWindow: '09/03/2026 – 20/10/2026 (226d)',
       csvAnchorMetric: {
-        vi: 'Khớp tuần 25/03 – 31/03/2026 toàn shop đạt 355,28 Tr đ & Kệ hàng 90d đạt 1.402.019.230 đ (22,85% GMV)',
-        en: 'Matches Mar 25–31 shop GMV of 355.28M VND & 90d Product Card GMV of 1,402,019,230 VND (22.85% share)'
+        vi: 'Toàn shop 226 ngày = 14,84 Tỉ đ (đủ 231 ngày đến 25/10 = 15,01 Tỉ đ)',
+        en: 'Whole-shop 226d GMV = 14.84B VND (full 231d through Oct 25 = 15.01B VND)'
       },
       telemetryMetrics: [
         {
-          vi: 'Phễu 28 ngày: 1,17 Triệu người xem (+34,46% - Top 20% ngành) | GMV: 442,36 Tr đ (-11,93%) | CVR: 0,25% (-38,4%)',
-          en: '28d Funnel: 1.17M viewers (+34.46% - Top 20% peers) | GMV: 442.36M VND (-11.93%) | CVR: 0.25% (-38.4%)'
+          vi: 'Livestream (8.355 phiên khử trùng): 10,47 Tỉ đ (70,5%) — trong đó @shop_official 72,5% + @koc_sat01 12,0%',
+          en: 'Livestream (8,355 deduped sessions): 10.47B VND (70.5%) — @shop_official 72.5% + @koc_sat01 12.0%'
         },
         {
-          vi: 'Nguồn Kệ hàng: Khác/Shopping Ads 192,55 Tr đ (17,04% PV) | Tìm kiếm 74,65 Tr đ (25,03% PV) | Đề xuất 58,12 Tr đ (29,23% PV - 1,71M PV)',
-          en: 'Card Sources: Others/Ads 192.55M (17.04% PV) | Search 74.65M (25.03% PV) | Recommendations 58.12M (29.23% PV - 1.71M PV)'
+          vi: 'Video ngắn (4.796 clip khử trùng): 2,20 Tỉ đ (14,8%) — KOC bên ngoài chiếm 58,4% (1,28 Tỉ đ)',
+          en: 'Short Video (4,796 deduped clips): 2.20B VND (14.8%) — external KOCs drive 58.4% (1.28B VND)'
         },
         {
-          vi: 'Hero Card 7 ngày: Chân Váy Chữ A (CV11) đạt 161,42K người xem, 10,08K click (CTR 6,25%), 782 khách; Chân váy dài viền ren tăng +471,28% GMV (4,03 Tr đ)',
-          en: '7d Hero Cards: A-Line Skirt (CV11) hit 161.42K viewers, 10.08K clicks (6.25% CTR), 782 buyers; Lace Midi Skirt surged +471.28% GMV (4.03M VND)'
+          vi: 'Phần còn lại (Kệ hàng / Shop Tab / Tự nhiên): 2,18 Tỉ đ (14,7%)',
+          en: 'Residual (Product Card / Shop Tab / Organic): 2.18B VND (14.7%)'
         }
       ],
       strategicTakeaway: {
-        vi: 'Nâng CVR Kệ hàng từ 0,25% lên 1,0% trên nền 1,17M người xem sẽ mở khóa +1,32 Tỉ đ/tháng mà không tốn hoa hồng KOC.',
-        en: 'Lifting Card CVR from 0.25% to 1.0% across 1.17M viewers unlocks +1.32B VND/month with zero KOC commission.'
+        vi: 'Cơ cấu kênh lệch chiều rõ rệt: Livestream dựa vào đội In-house (84,5%), trong khi Video ngắn dựa vào mạng lưới KOC ngoài (58,4%).',
+        en: 'Channel structure is sharply asymmetric: In-house rooms anchor Livestream (84.5%) while external KOCs drive Short Video (58.4%).'
       }
     },
     {
-      moduleId: 'telemetry-live-funnel-ab',
+      moduleId: 'telemetry-content-efficiency',
       moduleName: {
-        vi: '3. Phễu Lưu Lượng Phòng LIVE (12/03 – 18/03) & A/B Testing Live Ads (22/03 vs. 28/03/2026)',
-        en: '3. LIVE Room Traffic Funnel (Mar 12–18) & Live Ads A/B Testing (Mar 22 vs. Mar 28, 2026)'
+        vi: '3. Hiệu Suất Phiên LIVE Chính Chủ (600 Phiên) & Cờ Quảng Cáo Video (4.796 Clip)',
+        en: '3. Official LIVE Efficiency (600 Sessions) & Video Ad Authorization (4,796 Clips)'
       },
-      synchronizedWindow: '12/03 – 18/03/2026 & 22/03 vs. 28/03/2026',
+      synchronizedWindow: '07/03/2026 – 20/10/2026',
       csvAnchorMetric: {
-        vi: 'Khớp trực tiếp các phiên ngày 16–18/03 (33,01 Tr đ) và cú bùng nổ ngày 28/03 (81,72 Tr đ toàn shop)',
-        en: 'Directly matches Mar 16–18 sessions (33.01M VND) and the Mar 28 surge (81.72M VND shop-wide)'
+        vi: 'Khớp trực tiếp bảng Creator_Livestreams (600 phiên) và Affiliate_Videos (4.796 clip sau khử trùng khóa phức hợp)',
+        en: 'Directly aligned with Creator_Livestreams (600 sessions) and Affiliate_Videos (4,796 deduplicated clips)'
       },
       telemetryMetrics: [
         {
-          vi: 'Điểm nghẽn Bảng tin - Ô Live: Chiếm 46% PV nhưng tỷ lệ vào phòng chỉ đạt 5,09% vs. Tìm kiếm chiếm 43% PV đạt tỷ lệ vào phòng 25,68%',
-          en: 'Feed Live Preview Bottleneck: 46% PV share but only 5.09% room entry rate vs. Search with 43% PV and 25.68% entry rate'
+          vi: '67 ca Mega-Live >10h đạt bình quân 4,55 Tr đ/giờ (gấp 4,1× ca <2h); lưu ý khả năng nhân quả ngược vào ngày sale lớn',
+          en: '67 >10h Mega-Lives averaged 4.55M VND/hr (4.1x <2h sessions); subject to reverse causality on promo days'
         },
         {
-          vi: 'Phiên Tiêu Chuẩn (22/03 - Ads 678,75K): 53,52K hiển thị | GMV 9,25 Tr đ (83 SP) | Tốc độ 1,81M đ/giờ | Search chiếm 8,26% GMV',
-          en: 'Baseline Session (Mar 22 - Ads 678.75K): 53.52K impressions | GMV 9.25M VND (83 units) | 1.81M/hr velocity | Search 8.26% GMV'
-        },
-        {
-          vi: 'Phiên Bùng Nổ (28/03 - Ads 2,17M): 94,76K hiển thị | GMV 20,65 Tr đ (134 SP chính + 54 quà tặng) | Tốc độ 5,73M đ/giờ (Gấp 3,16x) | Search chiếm 15,97% GMV',
-          en: 'Breakout Session (Mar 28 - Ads 2.17M): 94.76K impressions | GMV 20.65M VND (134 paid units + 54 gifts) | 5.73M/hr velocity (3.16x) | Search 15.97% GMV'
+          vi: 'Video bật cờ Ads (3.775 clip) đạt 30,3% có đơn (vs. 10,2% Organic), nhưng GPM/1k views lại thấp hơn (0,84× toàn mẫu; 0,73× trong cùng 192 KOC)',
+          en: 'Ad-tagged videos (3,775 clips) converted at 30.3% (vs. 10.2% Organic), yet GPM per 1k views trailed Organic (0.84x overall; 0.73x within 192 dual KOCs)'
         }
       ],
       strategicTakeaway: {
-        vi: 'Tăng ngân sách Ads có kiểm soát (3,2x) kết hợp bắt luồng Tìm kiếm và ghim Chân váy CV11 giúp nhân 3,16 lần tốc độ doanh thu mỗi giờ LIVE.',
-        en: 'Controlled 3.2x Ads scaling paired with Search intent capture and pinning CV11 Skirt multiplies hourly LIVE GMV velocity by 3.16x.'
+        vi: 'Chỉ nên cấp ngân sách Spark Ads có chọn lọc cho clip đã chứng minh chuyển đổi tự nhiên và theo dõi ROAS biên khi có dữ liệu chi phí Ads thực.',
+        en: 'Deploy Spark Ads selectively on organically converting clips and track marginal ROAS once internal ad-spend data is available.'
       }
     },
     {
-      moduleId: 'telemetry-marketing-late-season',
+      moduleId: 'telemetry-seasonal-transition',
       moduleName: {
-        vi: '4. Công Cụ Khuyến Mãi & Suy Thoái Chuyển Mùa 28 Ngày Cuối (08/08 – 04/09/2026)',
-        en: '4. Promotion Tools & Late-Season 28d Transition Drop (Aug 08 – Sep 04, 2026)'
+        vi: '4. Chuyển Giao Mùa Vụ Hè → Thu Đông Trên 10 SKU Chủ Lực (T5 – T10/2026)',
+        en: '4. Summer-to-Autumn Transition Across 10 Core SKUs (May – Oct 2026)'
       },
-      synchronizedWindow: '08/08/2026 – 04/09/2026',
+      synchronizedWindow: '30/04/2026 – 25/10/2026 (179d)',
       csvAnchorMetric: {
-        vi: 'Khớp đà suy giảm tháng 8 (645,53 Tr đ) và 4 ngày đầu tháng 9 (35,08 Tr đ) khi miền Bắc (41% Hà Nội) hết mùa biển',
-        en: 'Matches August decline (645.53M VND) and Sep 01–04 trough (35.08M VND) as Northern Vietnam (41% Hanoi) exits beach season'
+        vi: 'Khớp đà giảm Tháng 8 (0,64 Tỉ đ, -83,1% vs Tháng 6) và nhịp hồi phục Tháng 10 (1,62 Tỉ đ trong 25 ngày)',
+        en: 'Matches August contraction (0.64B VND, -83.1% vs June) and October rebound (1.62B VND across 25 days)'
       },
       telemetryMetrics: [
         {
-          vi: 'Khuyến mãi: Tạo 35,86% GMV (123,3 Tr đ), nâng AOV lên 150.991 đ nhưng tốn 62,2 Tr đ chi phí giảm giá (50,45% chiết khấu); 96,35% lệ thuộc Giảm giá cố định, Flash Sale LIVE chỉ 19,65%',
-          en: 'Promotions: Drives 35.86% GMV (123.3M VND), lifts AOV to 150,991 VND but costs 62.2M in discounts (50.45% rate); 96.35% relies on Fixed Discounts, LIVE Flash Sale is only 19.65%'
+          vi: '6 mã Đồ bơi Hè (gồm AQ1) rơi 90% từ 1,57 Tỉ (T6) xuống 0,15 Tỉ (T8), trong khi 2 mã Thu Đông AT06 (09/09) và AG01 (14/09) lên kệ trễ gần 1 tháng',
+          en: '6 Summer Swimwear SKUs (incl. AQ1) fell 90% from 1.57B (Jun) to 0.15B (Aug), while autumn heroes AT06 (Sep 09) and AG01 (Sep 14) launched nearly 1 month late'
         },
         {
-          vi: 'Suy thoái 28 ngày cuối vụ: Nhánh nội dung chuyển mùa giảm -81,26% (còn 93.504.198 đ | 846 món | 712 khách), CTOR rơi xuống 1,44% (-81,51%), giảm -260 followers',
-          en: 'Late-season 28d drop: Transition content branch fell -81.26% (to 93,504,198 VND | 846 units | 712 buyers), CTOR dropped to 1.44% (-81.51%), net -260 followers'
+          vi: 'Tháng 10 hồi phục lên 64,7 Tr/ngày (+214,9% vs T8), nhưng riêng mã AT06 chiếm 80,5% GMV tháng (rủi ro phụ thuộc đơn mã)',
+          en: 'October rebounded to 64.7M/day (+214.9% vs Aug), but single SKU AT06 drove 80.5% of monthly GMV (single-SKU concentration risk)'
         }
       ],
       strategicTakeaway: {
-        vi: 'Xoay trục ngay danh mục ghim LIVE từ Bikini sang Chân váy chữ A (CV11) & Thời trang Thu – Đông cho tệp 41% khách Hà Nội.',
-        en: 'Immediately pivot pinned LIVE catalog from Bikinis to A-Line Skirts (CV11) & Autumn/Winter apparel for the 41% Hanoi audience.'
+        vi: 'Đẩy lịch ra mắt hàng Thu Đông sớm 4 tuần từ đầu tháng 8 và ghép bán chéo AT06 cùng CV11/CV02/AG01 để giảm phụ thuộc đơn mã.',
+        en: 'Advance autumn SKU launches by 4 weeks to early August and bundle AT06 with CV11/CV02/AG01 to diversify revenue.'
       }
     }
   ] as SynchronizedTelemetryItem[]

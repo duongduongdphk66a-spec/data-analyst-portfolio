@@ -1,10 +1,10 @@
-import { ProfileData, ProjectData, DashboardData } from './types';
+import { ProfileData, ProjectData } from './types';
 import { libraryBusMarkdownContent } from './data/libraryBusContent';
 
 export const DEFAULT_PROFILE: ProfileData = {
   name: "Ma Văn Hùng",
-  subtitle: "Fresher Data Analyst | Business Intelligence & Analytics",
-  title: "Fresher Data Analyst",
+  subtitle: "Fresher Data Analyst / Business Analyst",
+  title: "Fresher Data Analyst / BA",
   bio: "Fresher Data Analyst phân tích dữ liệu kinh doanh bằng SQL, Python, thống kê ứng dụng và Recharts. Tập trung làm sạch dữ liệu đa nguồn, kiểm định giả thuyết, đối soát số liệu (Data Reconciliation) và thiết kế báo cáo vận hành.",
   careerGoal: "Thiết kế hệ thống dữ liệu và báo cáo phân tích kinh doanh",
   careerGoalsList: [
@@ -34,7 +34,7 @@ export const DEFAULT_PROFILE: ProfileData = {
   skills: [
     { id: 'sk-1', name: 'SQL (PostgreSQL / MySQL)', category: 'Languages & Querying', level: 4, icon: 'sql', proficiencyNote: 'Complex Joins, CTEs, Window Functions, Subqueries, Data Reconciliation', tags: ['Joins', 'CTEs', 'Window Functions', 'Reconciliation'] },
     { id: 'sk-2', name: 'Python for Analytics', category: 'Languages & Querying', level: 4, icon: 'python', proficiencyNote: 'Pandas, NumPy, SciPy, Statsmodels, Automated Data Wrangling', tags: ['Pandas', 'NumPy', 'SciPy', 'Data Cleaning'] },
-    { id: 'sk-3', name: 'BI & Data Visualization (Recharts)', category: 'BI & Visualization', level: 4, icon: 'uiux', proficiencyNote: 'Recharts Interactive Dashboards, Custom SVG Charts, Data Storytelling', tags: ['Recharts', 'Interactive Dashboards', 'Data Storytelling'] },
+    { id: 'sk-3', name: 'BI & Data Visualization (Recharts / BI Spec)', category: 'BI & Visualization', level: 4, icon: 'uiux', proficiencyNote: 'Recharts Interactive Dashboards, Power BI / Looker Studio Spec (Star Schema & DAX), Data Storytelling', tags: ['Recharts', 'BI Spec (Power BI / Looker)', 'Data Storytelling'] },
     { id: 'sk-4', name: 'Data Reconciliation & CSV Prep', category: 'BI & Visualization', level: 4, icon: 'database', proficiencyNote: 'Cross-Source Reconciliation, Definition Auditing, CSV & Tabular Cleaning', tags: ['Reconciliation', 'Metric Auditing', 'CSV Cleanup'] },
     { id: 'sk-5', name: 'Thống kê & Phân tích Khám phá (EDA)', category: 'Statistical & Modeling', level: 4, icon: 'ml', proficiencyNote: 'OLS Regression, Mann-Whitney U, HHI Concentration, Cohort & Time-series', tags: ['EDA', 'OLS & Mann-Whitney', 'Cohort', 'Time-series'] },
     { id: 'sk-6', name: 'Business Analysis & System Design', category: 'Data Engineering', level: 3, icon: 'devops', proficiencyNote: 'User Research, Sitemap, User Flow, Wireframe & Relational Schema (ERD)', tags: ['BRD & User Flow', 'ERD Design', 'Sitemap', 'Wireframe'] },
@@ -66,7 +66,7 @@ export const DEFAULT_PROFILE: ProfileData = {
     },
     {
       id: 'exp-work-2',
-      role: 'Steve x Kami Company: Hỗ trợ Vận hành & Báo cáo Dữ liệu E-Commerce',
+      role: 'Steve x Kami Company: Nhân viên Hỗ trợ Vận hành & Báo cáo Dữ liệu E-Commerce (Full-time)',
       company: 'Steve x Kami Company',
       period: '2022 - 2023',
       type: 'work',
@@ -78,14 +78,14 @@ export const DEFAULT_PROFILE: ProfileData = {
     },
     {
       id: 'exp-work-3',
-      role: 'Library Bus: Phân tích Nghiệp vụ (BA) & Thiết kế UX/UI Website Thư Viện Lưu Động',
-      company: 'Dự án Thiết kế Sản phẩm & Nghiên cứu UX',
+      role: 'Library Bus: Phân tích Nghiệp vụ (BA), Kiến trúc Dữ liệu (MySQL/Redis/Celery) & UX/UI',
+      company: 'Dự án Hệ thống Thư viện Lưu động (Django 5.2 • 7 Apps • 36 Models)',
       period: '2023 - 2024',
       type: 'work',
       location: 'Hà Nội, Việt Nam',
       description: [
-        'Nghiên cứu nhu cầu độc giả (User Research, Persona), xây dựng Sitemap, User Flow và quy trình nghiệp vụ đặt mượn sách theo điểm dừng xe buýt.',
-        'Thiết kế hệ thống lưới 12 cột, bộ thành phần giao diện và 20 cặp màn hình Wireframe – UI (Desktop & Mobile) kèm giao diện Dashboard quản trị mẫu.'
+        'Đặc tả 4 bộ quy tắc nghiệp vụ (BR-01..04), khóa bi quan select_for_update() chống Race Condition trên MySQL 8.0, 9 tác vụ nền Celery Beat + Redis 7 và 171 unit test tự động.',
+        'Thiết kế phân hệ Telemetry (analytics app: UserActivity, BookAnalytics, BusAnalytics, DailyStats) cùng 11 cặp màn hình Wireframe – UI (Desktop 1440px & Mobile 390px).'
       ]
     }
   ]
@@ -140,129 +140,27 @@ export const DEFAULT_PROJECTS: ProjectData[] = [
   },
   {
     id: 'proj-library-bus',
-    title: 'Library Bus: Phân tích Nghiệp vụ (BA) & Thiết kế UX/UI Website Thư Viện Lưu Động',
-    titleEn: 'Library Bus: Business Analysis (BA) & UX/UI Design for a Mobile Library Website',
-    desc: 'Dự án Phân tích Nghiệp vụ (BA) và Thiết kế UX/UI cho hệ thống xe thư viện lưu động: nghiên cứu người dùng, xây dựng sitemap, luồng nghiệp vụ mượn/trả và thiết kế 20 cặp màn hình Wireframe – UI (Desktop & Mobile) trên bộ dữ liệu mẫu.',
-    descEn: 'A Business Analysis (BA) and UX/UI system design project for a mobile library service: user research, sitemap, borrowing user flows, and 20 Wireframe-to-UI screen pairs (Desktop & Mobile) built with sample data.',
-    tags: ['Business Analysis (BA)', 'UX/UI Design', 'Sitemap & User Flow', 'Wireframe', 'Design System'],
+    title: 'Library Bus: Phân tích Nghiệp vụ (BA), Kiến trúc Telemetry (MySQL 8.0 / Redis / Celery) & UX/UI',
+    titleEn: 'Library Bus: BA Specification, Telemetry Architecture (MySQL 8.0 / Redis / Celery) & UX/UI',
+    desc: 'Hệ thống số hóa mạng lưới xe buýt thư viện lưu động xây dựng trên Django 5.2 (7 phân hệ, 36 model dữ liệu, 97 template HTML, 171 unit test), MySQL 8.0, Redis 7 và 9 cron job Celery Beat, kết hợp đối chiếu 11 cặp màn hình Wireframe – UI (Desktop 1440px & Mobile 390px).',
+    descEn: 'Mobile library network platform built on Django 5.2 (7 apps, 36 data models, 97 HTML templates, 171 unit tests), MySQL 8.0, Redis 7, and 9 Celery Beat cron jobs, paired with 11 core Desktop & Mobile Wireframe-to-UI screen flows.',
+    tags: ['Business Analysis (BA)', 'MySQL 8.0 & Django 5.2', 'Redis & Celery Beat', 'Product Telemetry', 'Wireframe & UI'],
     img: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&auto=format&fit=crop&q=80',
     demoUrl: '/library-bus/website.html',
     featured: true,
     content: libraryBusMarkdownContent,
-    problem: 'Thư viện cố định khó tiếp cận với người ở xa hoặc ít thời gian. Dịch vụ xe thư viện lưu động cần một hệ thống chuẩn hóa luồng nghiệp vụ giúp độc giả tra cứu tồn kho sách theo xe, theo dõi lộ trình điểm dừng và đặt mượn trước.',
-    problemEn: 'A fixed library is hard to reach for people who live far away or have little time. A mobile library service needs a structured product workflow where readers check bus-level inventory, track route stops, and reserve books in advance.',
-    method: 'Thực hiện quy trình BA, UX/UI & Kiến trúc dữ liệu: xây dựng Persona, Sitemap, User Flow, quy tắc nghiệp vụ (BR-01..04), hệ thống lưới 12 cột, cặp Wireframe – UI cho 11 màn hình cốt lõi (Desktop & Mobile) và lược đồ CSDL PostgreSQL ACID.',
-    methodEn: 'Executed an end-to-end BA, UX/UI & Data Architecture workflow: Personas, Sitemap, User Flows, Business Rules (BR-01..04), 12-column grid, paired Wireframe-to-UI designs across 11 core screens (Desktop & Mobile), and PostgreSQL ACID schema.',
-    insight: 'Chuẩn hóa luồng đặt giữ sách trước tại trạm dừng với khóa dòng dữ liệu (select_for_update) và đối chiếu trực tiếp 11 cặp Wireframe – UI giúp đồng bộ yêu cầu nghiệp vụ giữa BA, thiết kế và kỹ thuật. Số liệu hiển thị trên giao diện là dữ liệu hạt giống phục vụ kiểm thử.',
-    insightEn: 'Standardizing the stop-based reservation flow with row-level locking (select_for_update) and pairing all 11 core Wireframes with final UI aligns requirements across BA, design, and engineering. Interface metrics represent seeded prototype data.',
+    problem: 'Dịch vụ xe thư viện lưu động cần ngăn chặn lỗi đặt trùng cuốn sách cuối cùng khi nhiều độc giả thao tác đồng thời (TOCTOU Race Condition), tự động hóa hàng đợi đặt trước FIFO, tính phí phạt lũy tiến và đo lường hiệu suất từng chuyến xe.',
+    problemEn: 'A mobile library network must prevent concurrent double-booking on the last book copy (TOCTOU race conditions), automate FIFO reservation queues, calculate progressive overdue fines, and track bus-level operational telemetry.',
+    method: 'Đặc tả 4 quy tắc nghiệp vụ (BR-01..04) thực thi bằng khóa bi quan select_for_update() trong transaction.atomic() trên MySQL 8.0 (UUIDv4, SoftDeleteModel, AuditMixin), 9 cron job Celery Beat + Redis 7 CacheMixin, và đối chiếu 11 cặp màn hình Wireframe – UI.',
+    methodEn: 'Specified 4 business rules (BR-01..04) enforced via pessimistic select_for_update() locks inside transaction.atomic() on MySQL 8.0 (UUIDv4, SoftDeleteModel, AuditMixin), 9 Celery Beat cron jobs + Redis 7 CacheMixin, and 11 paired Wireframe-to-UI screens.',
+    insight: 'Tích hợp phân hệ analytics trực tiếp vào luồng giao dịch (transaction.on_commit đẩy task bất đồng bộ) giúp đo lường phễu gợi ý sách (Click Rate -> Borrow Rate), điểm phổ biến sách (BookAnalytics), hiệu suất xe (BusAnalytics) và lưu trữ lạnh sự kiện sau 90 ngày.',
+    insightEn: 'Integrating the analytics app directly into transactional commits (transaction.on_commit async tasks) tracks recommendation funnels (Click Rate -> Borrow Rate), BookAnalytics popularity scores, BusAnalytics efficiency, and 90-day cold event archiving.',
     metrics: [
-      { label: 'Màn Hình Cốt Lõi', labelEn: 'Core Screen Pairs', value: '11 Cặp', change: 'Desktop 1440px & Mobile 390px', changeEn: 'Desktop 1440px & Mobile 390px', isPositive: true },
-      { label: 'Bản Thiết Kế', labelEn: 'Total Views', value: '44 Bản', change: '22 Wireframe + 22 UI đối chiếu', changeEn: '22 Wireframe + 22 UI paired', isPositive: true },
-      { label: 'Luồng Nghiệp Vụ BA', labelEn: 'BA User Flows', value: '4 Luồng', change: 'Tra cứu · Đặt giữ · Mượn trả · Quyên góp', changeEn: 'Search · Reserve · Borrow · Donate', isPositive: true },
-      { label: 'Kiến Trúc & Chỉ Số', labelEn: 'Schema & Analytics', value: '6 Bảng', change: 'ACID Lock · Bayesian & Cosine', changeEn: 'ACID Lock · Bayesian & Cosine', isPositive: true }
+      { label: 'Quy Mô Kiến Trúc', labelEn: 'System Architecture', value: '7 Apps • 36 Models', change: 'Django 5.2 • MySQL 8.0 • UUIDv4', changeEn: 'Django 5.2 • MySQL 8.0 • UUIDv4', isPositive: true },
+      { label: 'Quy Tắc BA & Khóa DB', labelEn: 'BA Rules & Concurrency', value: 'BR-01..04 • ACID', change: 'select_for_update() chống Race Condition', changeEn: 'select_for_update() row locking', isPositive: true },
+      { label: 'Tác Vụ Nền Tự Động', labelEn: 'Automated Cron Jobs', value: '9 Celery Jobs', change: 'Redis 7 CacheMixin • Quét FIFO 30p', changeEn: 'Redis 7 CacheMixin • 30m FIFO scan', isPositive: true },
+      { label: 'Kiểm Thử & Giao Diện', labelEn: 'Tests & UI Flows', value: '171 Unit Tests', change: '11 cặp Wireframe–UI • 97 Templates', changeEn: '11 Wireframe–UI pairs • 97 Templates', isPositive: true }
     ],
-    tools: ['Business Analysis (BA)', 'UX/UI Design', 'Sitemap & User Flow', 'PostgreSQL ACID', 'Django ORM']
+    tools: ['MySQL 8.0', 'Redis 7 & Celery', 'Django 5.2 ORM', 'Business Analysis (BA)', 'Product Telemetry']
   }
 ];
-
-export const DEFAULT_DASHBOARD: DashboardData = {
-  title: "Executive Business Analytics Dashboard",
-  description: "Trực quan hóa các chỉ số kinh doanh từ dữ liệu ước tính FastMoss (Kami Ely 231 ngày) và chuỗi thời gian JNTO (Heritage Japan).",
-  kpis: [
-    {
-      id: 'kpi-1',
-      title: 'Tổng Doanh Thu Ước Tính (GMV)',
-      value: '15,01 Tỉ VNĐ',
-      change: 'Chu kỳ 231 ngày (101.896 sản phẩm)',
-      isPositive: true,
-      icon: 'dollar'
-    },
-    {
-      id: 'kpi-2',
-      title: 'Dữ Liệu Chuỗi Thời Gian JNTO',
-      value: '20 Năm',
-      change: '2003 - 2022 (Trọng tâm 2013 - 2023)',
-      isPositive: true,
-      icon: 'activity'
-    },
-    {
-      id: 'kpi-3',
-      title: 'Mạng Lưới Creators',
-      value: '329/6.086',
-      change: '5,4% affiliate có doanh thu (chính chủ 60,1% KOL)',
-      isPositive: true,
-      icon: 'users'
-    },
-    {
-      id: 'kpi-4',
-      title: 'Giá Bán Bình Quân (ASP)',
-      value: '147.298 đ',
-      change: 'Doanh thu / Sản phẩm (231 ngày)',
-      isPositive: true,
-      icon: 'trending'
-    }
-  ],
-  charts: [
-    {
-      id: 'chart-1',
-      title: 'Xu Hướng Doanh Thu TikTok Shop Kami Ely (231 Ngày: 09/03 – 25/10/2026)',
-      type: 'area',
-      description: 'Doanh số ước tính từ FastMoss qua 8 tháng vận hành (tổng 15,01 tỷ VNĐ, 101.896 sản phẩm; cửa sổ 180 ngày gần nhất đạt 12,74 tỷ VNĐ).',
-      xAxisKey: 'month',
-      series: [
-        { dataKey: 'revenue', name: 'GMV ước tính (Triệu VNĐ)', color: '#9BE7FA' },
-        { dataKey: 'orders', name: 'Sản phẩm bán ra (SP)', color: '#FFD14C' }
-      ],
-      data: [
-        { month: 'T3 (23d)', revenue: 950, orders: 8039 },
-        { month: 'T4', revenue: 2459, orders: 17358 },
-        { month: 'T5', revenue: 2747, orders: 17267 },
-        { month: 'T6', revenue: 3772, orders: 22096 },
-        { month: 'T7', revenue: 2126, orders: 13358 },
-        { month: 'T8', revenue: 637, orders: 6622 },
-        { month: 'T9', revenue: 701, orders: 5841 },
-        { month: 'T10 (25d)', revenue: 1617, orders: 11315 }
-      ]
-    },
-    {
-      id: 'chart-2',
-      title: 'Cơ Cấu Doanh Thu Top 10 SKU Chủ Lực Theo Nhóm Hàng (Kami Ely)',
-      type: 'bar',
-      description: 'Phân bổ GMV giữa nhóm Đồ bơi mùa Hè và Thời trang Thu Đông trong Top 10 SKU đầu bảng (6,09 tỷ VNĐ / 38.037 sản phẩm).',
-      xAxisKey: 'category',
-      series: [
-        { dataKey: 'revenue', name: 'Doanh thu (Triệu VNĐ)', color: '#9BE7FA' }
-      ],
-      data: [
-        { category: 'Bikini / Đồ bơi hè (5 SKU)', revenue: 2465 },
-        { category: 'Áo thun Thu Đông (AT06)', revenue: 1580 },
-        { category: 'Chân váy chữ A (CV11, CV02)', revenue: 1245 },
-        { category: 'Áo gió & Set thể thao (AG01, AQ1)', revenue: 802 }
-      ]
-    },
-    {
-      id: 'chart-3',
-      title: 'Đóng Góp Doanh Thu Theo Kênh Nội Dung (Chu Kỳ 231 Ngày)',
-      type: 'line',
-      description: 'Tỷ trọng GMV phân bổ giữa Live chính chủ, Kênh vệ tinh & Affiliate Live, và Video / Kệ hàng.',
-      xAxisKey: 'quarter',
-      series: [
-        { dataKey: 'official', name: 'Live Chính chủ (@shop_official)', color: '#9BE7FA' },
-        { dataKey: 'affiliate', name: 'Kênh Vệ tinh & KOC Live', color: '#FFD14C' },
-        { dataKey: 'showcase', name: 'Video gắn giỏ & Kệ hàng', color: '#FFE485' }
-      ],
-      data: [
-        { quarter: 'GĐ Khởi động (T3-T4)', official: 1620, affiliate: 640, showcase: 900 },
-        { quarter: 'Đỉnh Hè (T5-T7)', official: 4380, affiliate: 1490, showcase: 2430 },
-        { quarter: 'Chuyển mùa Thu Đông (T8-T10)', official: 1590, affiliate: 740, showcase: 1220 }
-      ]
-    }
-  ],
-  tableData: [
-    { id: '1', date: '2026-06-16', channel: 'Chính chủ LIVE (Đỉnh hè)', region: 'Toàn quốc', orders: 1936, revenue: 315050000, status: 'Completed' },
-    { id: '2', date: '2026-06-25', channel: 'Tối ưu 45 phiên LIVE', region: 'Toàn quốc', orders: 1320, revenue: 196090000, status: 'Completed' },
-    { id: '3', date: '2026-05-13', channel: 'Video gắn giỏ Top 1', region: 'Toàn quốc', orders: 856, revenue: 170160000, status: 'Completed' },
-    { id: '4', date: '2026-09-04', channel: 'Đáy giao mùa cuối vụ hè', region: 'Miền Bắc', orders: 49, revenue: 5440000, status: 'Completed' },
-    { id: '5', date: '2026-10-18', channel: 'Phục hồi Thu Đông (AT06, CV11)', region: 'Toàn quốc', orders: 940, revenue: 142500000, status: 'Completed' }
-  ]
-};

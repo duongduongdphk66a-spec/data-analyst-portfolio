@@ -221,9 +221,9 @@ export function buildStage1Data(): Stage1Payload {
   const dataFlowSteps: Stage1Payload['dataFlowSteps'] = [
     {
       step: 1,
-      phase: { vi: 'Xuất dữ liệu nền tảng', en: 'Platform Export' },
-      action: { vi: 'TikTok Shop Seller Center & FastMoss export báo cáo theo 3 khung thời gian', en: 'TikTok Shop Seller Center & FastMoss export across 3 windows' },
-      tables: '8 file XLSX/CSV gốc',
+      phase: { vi: 'Xuất dữ liệu bên thứ ba', en: 'Third-Party Export' },
+      action: { vi: 'FastMoss Market Intelligence xuất 10 tệp Excel/CSV ước tính theo nhiều khung thời gian (231 ngày, 90 ngày)', en: 'FastMoss Market Intelligence exports 10 estimated XLSX/CSV tables across 231d and 90d windows' },
+      tables: '10 file XLSX/CSV ước tính',
       cadence: { vi: 'Hàng ngày / Hàng tuần', en: 'Daily / Weekly' },
     },
     {

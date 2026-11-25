@@ -113,18 +113,18 @@ export const HERITAGE_JAPAN_DATA = {
     { year: '2008', value: 8.4 },
     { year: '2009', value: 6.8 },
     { year: '2010', value: 8.6 },
-    { year: '2011', value: 6.2, note: 'Động đất sóng thần Tohoku' },
+    { year: '2011', value: 6.2 },
     { year: '2012', value: 8.4 },
-    { year: '2013', value: 10.4, note: 'Mốc kích cầu 06/2013' },
+    { year: '2013', value: 10.4 },
     { year: '2014', value: 13.4 },
     { year: '2015', value: 19.7 },
     { year: '2016', value: 24.0 },
     { year: '2017', value: 28.7 },
     { year: '2018', value: 31.2 },
-    { year: '2019', value: 31.9, note: 'Đỉnh lịch sử trước dịch' },
-    { year: '2020', value: 4.1, note: 'Đại dịch COVID-19' },
+    { year: '2019', value: 31.9 },
+    { year: '2020', value: 4.1 },
     { year: '2021', value: 0.2 },
-    { year: '2022', value: 3.4 },
+    { year: '2022', value: 3.83 },
   ] as TimeSeriesPoint[],
 
   // Chart 2: Biểu đồ 3.4 - Chi tiêu khách quốc tế tại Nhật (2010 - 2021, Nghìn tỷ Yên)
@@ -139,19 +139,19 @@ export const HERITAGE_JAPAN_DATA = {
     { year: '2017', value: 4.41 },
     { year: '2018', value: 4.50 },
     { year: '2019', value: 4.81 },
-    { year: '2020', value: 0.70 },
-    { year: '2021', value: 0.10 },
+    { year: '2020', value: 0.74 },
+    { year: '2021', value: 0.12 },
   ] as TimeSeriesPoint[],
 
   // Chart 3: Chỉ số hóa tốc độ tăng trưởng khách quốc tế (2013 = 100)
   indexedGrowth2013To2019: [
-    { year: '2013', japan: 100, kyoto: 100, nara: 100 },
-    { year: '2014', japan: 128.8, kyoto: 133.5, nara: 144.8 },
-    { year: '2015', japan: 189.4, kyoto: 216.4, nara: 224.1 },
-    { year: '2016', japan: 230.8, kyoto: 373.8, nara: 362.3 },
-    { year: '2017', japan: 276.0, kyoto: 376.9, nara: 457.5 },
-    { year: '2018', japan: 300.0, kyoto: 417.5, nara: 609.4 },
-    { year: '2019', japan: 306.7, kyoto: 533.0, nara: 762.8 },
+    { year: '2013', japan: 100.0, kyoto: 100.0, nara: 100.0 },
+    { year: '2014', japan: 128.8, kyoto: 162.1, nara: 144.8 },
+    { year: '2015', japan: 189.4, kyoto: 280.0, nara: 224.1 },
+    { year: '2016', japan: 230.8, kyoto: 282.4, nara: 362.3 },
+    { year: '2017', japan: 276.0, kyoto: 312.8, nara: 457.5 },
+    { year: '2018', japan: 300.0, kyoto: 399.3, nara: 609.4 },
+    { year: '2019', japan: 306.7, kyoto: 336.8, nara: 762.8 },
   ],
 
   // Chart 4: Quy mô thị trường toàn cầu & vị thế Nhật Bản
@@ -162,27 +162,27 @@ export const HERITAGE_JAPAN_DATA = {
     { label: 'Quy mô Du lịch Đức (2019 - Hạng 4 TG)', value: 344.8, unit: 'Tỷ USD' },
   ],
 
-  // Chart 5: Biểu đồ 3.2 - Khách quốc tế đến Kyoto (2008 - 2023, Nghìn người)
+  // Chart 5: Biểu đồ 3.2 - Khách lưu trú nước ngoài thực tế tại TP. Kyoto (2008 - 2023, Nghìn người)
   kyotoVisitors: [
     { year: '2008', value: 926.8 },
     { year: '2009', value: 937.2 },
     { year: '2010', value: 783.8 },
-    { year: '2011', value: 983.9 },
-    { year: '2012', value: 515.4 },
-    { year: '2013', value: 844.9 },
-    { year: '2014', value: 1127.9 },
-    { year: '2015', value: 1828.6 },
-    { year: '2016', value: 3158.6 },
-    { year: '2017', value: 3184.8 },
-    { year: '2018', value: 3527.8 },
-    { year: '2019', value: 4503.3 },
-    { year: '2020', value: 379.9 },
-    { year: '2021', value: 448.8 },
-    { year: '2022', value: 54.4 },
-    { year: '2023', value: 576.1 },
+    { year: '2011', value: 515.4 },
+    { year: '2012', value: 844.9 },
+    { year: '2013', value: 1127.9 },
+    { year: '2014', value: 1828.6 },
+    { year: '2015', value: 3158.6 },
+    { year: '2016', value: 3184.8 },
+    { year: '2017', value: 3527.8 },
+    { year: '2018', value: 4503.3 },
+    { year: '2019', value: 3799.0 },
+    { year: '2020', value: 448.8 },
+    { year: '2021', value: 54.4 },
+    { year: '2022', value: 576.1 },
+    { year: '2023', value: 5357.0 },
   ] as TimeSeriesPoint[],
 
-  // Chart 6: Biểu đồ 3.3 - Khách quốc tế đến Cố đô Nara (2009 - 2020, Nghìn người)
+  // Chart 6: Biểu đồ 3.3 - Khách quốc tế đến TP. Nara (2009 - 2020, Nghìn người)
   naraVisitors: [
     { year: '2009', value: 407 },
     { year: '2010', value: 629 },
@@ -195,35 +195,34 @@ export const HERITAGE_JAPAN_DATA = {
     { year: '2017', value: 1990 },
     { year: '2018', value: 2651 },
     { year: '2019', value: 3318 },
-    { year: '2020', value: 28.9 },
+    { year: '2020', value: 289 },
   ] as TimeSeriesPoint[],
 
-  // Chart 7: Biểu đồ 3.5 & 3.6 - Chi tiêu du lịch tại Kyoto & Nara (Tỷ Yên)
+  // Chart 7: Biểu đồ 3.5 & 3.6 - Tổng chi tiêu du lịch (Nội địa + Quốc tế) tại TP. Kyoto & TP. Nara (Tỷ Yên)
   kyotoSpending: [
     { year: '2008', value: 649.1 },
     { year: '2009', value: 655.9 },
     { year: '2010', value: 608.1 },
-    { year: '2011', value: 648.8 },
-    { year: '2014', value: 699.4 },
-    { year: '2015', value: 761.7 },
-    { year: '2016', value: 970.1 },
-    { year: '2017', value: 1085.5 },
-    { year: '2018', value: 1126.4 },
-    { year: '2019', value: 1308.1 },
-    { year: '2020', value: 1236.2 },
+    { year: '2013', value: 699.4 },
+    { year: '2014', value: 761.7 },
+    { year: '2015', value: 970.4 },
+    { year: '2016', value: 1085.5 },
+    { year: '2017', value: 1126.4 },
+    { year: '2018', value: 1308.2 },
+    { year: '2019', value: 1236.7 },
   ] as TimeSeriesPoint[],
 
   naraSpending: [
-    { year: '2013', value: 872.6 },
-    { year: '2014', value: 892.4 },
-    { year: '2015', value: 994.6 },
-    { year: '2016', value: 1035.9 },
-    { year: '2017', value: 1128.6 },
-    { year: '2018', value: 1208.0 },
-    { year: '2019', value: 1147.2 },
-    { year: '2020', value: 402.2 },
-    { year: '2021', value: 428.0 },
-    { year: '2022', value: 598.0 },
+    { year: '2013', value: 87.26 },
+    { year: '2014', value: 89.24 },
+    { year: '2015', value: 99.46 },
+    { year: '2016', value: 103.59 },
+    { year: '2017', value: 112.86 },
+    { year: '2018', value: 120.8 },
+    { year: '2019', value: 114.7 },
+    { year: '2020', value: 50.64 },
+    { year: '2021', value: 42.8 },
+    { year: '2022', value: 59.83 },
   ] as TimeSeriesPoint[],
 
   // Chart 8: Cơ cấu khách Nội địa vs Quốc tế năm 2017 (Triệu lượt)
@@ -233,12 +232,12 @@ export const HERITAGE_JAPAN_DATA = {
     { site: 'Núi Phú Sĩ (Fuji)', domestic: 6.40, international: 2.00, intlShare: 23.8 },
   ],
 
-  // Chart 9: Độ lệch Cung - Cầu lưu trú tại Kyoto (2014 vs 2019)
+  // Chart 9: Độ lệch Cung - Cầu lưu trú tại Kyoto (2013 vs 2018)
   kyotoSupplyDemandMismatch: {
-    visitors2014: 1.13, // Triệu khách quốc tế
-    visitors2019: 4.50, // Triệu khách quốc tế (+299%)
-    rooms2014: 30.0, // Nghìn phòng (<30.000)
-    rooms2019: 53.0, // Nghìn phòng (+76.7%)
+    visitors2013: 1.13, // Triệu khách lưu trú nước ngoài (1.127,9k)
+    visitors2018: 4.50, // Triệu khách lưu trú nước ngoài (+299,3%)
+    rooms2013: 30.0, // Nghìn phòng (<30.000)
+    rooms2018: 53.0, // Nghìn phòng (~53.000, ~1,8x)
   },
 
   // Chart 10: Tác động kinh tế đa chiều tại Kyoto & Toàn quốc (2019)
@@ -246,22 +245,22 @@ export const HERITAGE_JAPAN_DATA = {
     { metric: 'Đóng góp GDP Nhật Bản (2000)', share: 2.2 },
     { metric: 'Đóng góp GDP Nhật Bản (2019)', share: 7.5 },
     { metric: 'Tỷ trọng việc làm toàn quốc (2019 - >4M việc)', share: 6.9 },
-    { metric: 'Đóng góp GDP TP. Kyoto (2014)', share: 7.0 },
-    { metric: 'Đóng góp GDP TP. Kyoto (2019)', share: 12.0 },
+    { metric: 'Đóng góp GRDP TP. Kyoto (2014)', share: 7.0 },
+    { metric: 'Đóng góp GRDP TP. Kyoto (2019)', share: 12.0 },
     { metric: 'Đóng góp Thuế TP. Kyoto (39 tỷ Yên)', share: 12.8 },
-    { metric: 'Đóng góp Lao động TP. Kyoto (153.000 người)', share: 12.4 },
+    { metric: 'Đóng góp Việc làm TP. Kyoto (153.000 người)', share: 12.4 },
   ],
 
-  // Chart 11: Cường độ quá tải tại các điểm di sản nhạy cảm (2019)
+  // Chart 11: Cường độ quá tải tại các điểm di sản nhạy cảm
   overtourismHotspots: [
     { site: 'Núi Phú Sĩ (2019 vs 2012: gấp 2,2x)', visitorsMillion: 5.06, benchmarkMillion: 2.3 },
     { site: 'Đảo Miyajima - Đền Itsukushima (2019)', visitorsMillion: 4.60, benchmarkMillion: 2.0 },
-    { site: 'Cố đô Kyoto - Khách quốc tế (2019)', visitorsMillion: 4.50, benchmarkMillion: 1.13 },
-    { site: 'Cố đô Nara - Khách quốc tế (2019)', visitorsMillion: 3.32, benchmarkMillion: 0.63 },
-    { site: 'Làng cổ Shirakawa-go (Chỉ có 600 cư dân)', visitorsMillion: 1.80, benchmarkMillion: 0.5 },
+    { site: 'Cố đô Kyoto - Khách lưu trú nước ngoài (Đỉnh 2018)', visitorsMillion: 4.50, benchmarkMillion: 1.13 },
+    { site: 'Cố đô Nara - Khách quốc tế (Đỉnh 2019)', visitorsMillion: 3.32, benchmarkMillion: 0.44 },
+    { site: 'Làng cổ Shirakawa-go (Chỉ có ~600 cư dân)', visitorsMillion: 1.80, benchmarkMillion: 0.5 },
   ],
 
-  // Chart 12: Ma trận điểm áp lực vs. mức độ can thiệp chính sách (Thang 100)
+  // Chart 12: Ma trận điểm áp lực vs. mức độ can thiệp chính sách (Thang tham chiếu định tính 0-100 tổng hợp từ tư liệu case study, không phải chỉ số chính thức của JNTO)
   sustainabilityScores: [
     { site: 'Cố đô Kyoto', crowdingPressure: 95, commercialization: 90, ecoWasteRisk: 85, policyResponse: 92 },
     { site: 'Cố đô Nara', crowdingPressure: 80, commercialization: 78, ecoWasteRisk: 88, policyResponse: 82 },
@@ -270,48 +269,26 @@ export const HERITAGE_JAPAN_DATA = {
     { site: 'Đền Itsukushima', crowdingPressure: 84, commercialization: 70, ecoWasteRisk: 75, policyResponse: 85 },
   ],
 
-  // Ma trận 5 Case Studies ở Chương 3.2
+  // Ma trận 5 Case Studies ở Chương 3.2 (Súc tích 1 dòng/ô gắn thẳng con số)
   caseStudies: [
     {
       site: 'Cố đô Kyoto',
       prefecture: 'Phủ Kyoto',
       type: 'Di sản Văn hóa (1994)',
-      pressureMetric: '4,5M khách quốc tế (2019) | Thiếu lưu trú (53k phòng)',
+      pressureMetric: '4,50M khách lưu trú NN (2018, 4,0×) vs 53.000 phòng (1,8×)',
       coreIssue:
-        'Tắc nghẽn xe buýt tại Gion và Kinkakuji; du khách thuê chung cư dân sinh gây ồn; rác thải tại Arashiyama.',
+        'Tắc nghẽn xe buýt Gion & Kinkakuji; thiếu khách sạn nên tràn sang thuê chung cư dân sinh gây ồn.',
       intervention:
-        'Lắp camera trực tiếp báo tắc nghẽn thời gian thực; phân tán khách ra 6 vùng ven; mở khách sạn cao cấp (Park Hyatt, Aman).',
+        'Lắp camera trực tiếp báo mật độ thời gian thực; phân tán khách ra 6 vùng vệ tinh; thu hút Park Hyatt, Aman.',
       status: 'Đang vận hành hiệu quả',
-    },
-    {
-      site: 'Cố đô Nara',
-      prefecture: 'Tỉnh Nara',
-      type: 'Di sản Văn hóa (1998)',
-      pressureMetric: '3,318M khách quốc tế (2019) | Doanh thu giảm năm 2019',
-      coreIssue:
-        'Thiếu khách sạn lưu trú qua đêm; rác nhựa do du khách cho hươu ăn gây hại đàn hươu và nông nghiệp.',
-      intervention:
-        'Trợ cấp vị trí xây cơ sở lưu trú; mở JW Marriott, Fufu Nara; cho phép cải tạo tài sản văn hóa làm nơi lưu trú.',
-      status: 'Đang mở rộng lưu trú',
-    },
-    {
-      site: 'Núi Phú Sĩ (Fuji)',
-      prefecture: 'Yamanashi & Shizuoka',
-      type: 'Di sản Văn hóa (2013)',
-      pressureMetric: '5,06M khách (2019, gấp 2,2 lần năm 2012)',
-      coreIssue:
-        'Quá tải leo núi theo mùa, rủi ro an toàn và xả rác trên các cung đường mòn.',
-      intervention:
-        'Lập Quỹ hợp tác bảo tồn (2014); mở Trung tâm Di sản Thế giới leo núi ảo VR (2017); đề xuất đường sắt leo núi.',
-      status: 'Quỹ và Trung tâm VR vận hành tốt; Đường sắt đang thảo luận',
     },
     {
       site: 'Làng cổ Shirakawa-go & Gokayama',
       prefecture: 'Gifu & Toyama',
       type: 'Di sản Văn hóa (1995)',
-      pressureMetric: '1,8M khách/năm trên 600 dân bản địa (3.000:1)',
+      pressureMetric: '1,8M khách/năm trên ~600 cư dân bản địa (tỷ lệ 3.000×)',
       coreIssue:
-        'Vượt sức chứa hạ tầng dịp Lễ hội ánh sáng mùa đông; tiếng ồn và rác thải ảnh hưởng sinh hoạt cộng đồng.',
+        'Vượt sức chứa hạ tầng dịp Lễ hội ánh sáng mùa đông; rác thải và tiếng ồn xâm phạm sinh hoạt làng cổ.',
       intervention:
         'Bắt buộc đặt chỗ trước 100% đêm thắp sáng, tăng giá vé, giới hạn bãi đỗ xe và lối lên đài quan sát.',
       status: 'Đã kiểm soát tốt mùa cao điểm',
@@ -320,61 +297,83 @@ export const HERITAGE_JAPAN_DATA = {
       site: 'Đền Itsukushima (Đảo Miyajima)',
       prefecture: 'Hiroshima',
       type: 'Di sản Văn hóa (1996)',
-      pressureMetric: '4,6M lượt khách lên đảo (2019)',
+      pressureMetric: '4,60M lượt khách lên đảo (2019)',
       coreIssue:
-        'Lượng khách lớn gây áp lực lên công trình tôn giáo cổ và môi trường biển đảo.',
+        'Mật độ du khách cao gây áp lực bảo dưỡng kiến trúc gỗ trên biển và vệ sinh môi trường đảo.',
       intervention:
-        'Thu thuế du khách lên đảo (100 Yên/người) để tạo quỹ tài chính trực tiếp cho bảo tồn di sản.',
+        'Thu thuế du khách lên đảo 100 Yên/người để tạo nguồn thu trực tiếp cho quỹ bảo tồn di sản.',
       status: 'Đã áp dụng thu phí bảo tồn',
+    },
+    {
+      site: 'Núi Phú Sĩ (Fuji)',
+      prefecture: 'Yamanashi & Shizuoka',
+      type: 'Di sản Văn hóa (2013)',
+      pressureMetric: '5,06M lượt khách (2019, gấp 2,2× so với 2012)',
+      coreIssue:
+        'Quá tải leo núi theo mùa, rủi ro an toàn và ứ đọng rác thải dọc các tuyến đường mòn.',
+      intervention:
+        'Lập Quỹ hợp tác bảo tồn (2014); mở Trung tâm Di sản Thế giới leo núi ảo VR 6.100 m² (2017); đề xuất đường sắt leo núi.',
+      status: 'Quỹ và Trung tâm VR vận hành tốt',
+    },
+    {
+      site: 'Cố đô Nara',
+      prefecture: 'Tỉnh Nara',
+      type: 'Di sản Văn hóa (1998)',
+      pressureMetric: '3,32M khách quốc tế (2019, +662,8%) nhưng tổng chi tiêu giảm -5,0% (114,7 tỷ ¥)',
+      coreIssue:
+        'Khách đi về trong ngày (day-trip) từ Kyoto/Osaka do thiếu khách sạn; rác nhựa gây hại đàn hươu.',
+      intervention:
+        'Trợ cấp vị trí mở khách sạn (JW Marriott, Fufu Nara); cho phép cải tạo tài sản văn hóa làm nơi lưu trú.',
+      status: 'Đang mở rộng lưu trú',
     },
   ] as CaseStudyMatrixItem[],
 
-  // Phần thừa nhận thiếu sót của bài niên luận gốc
+  // Phần thừa nhận thiếu sót & Nhật ký Đối soát Dữ liệu của bài niên luận gốc
   thesisLimitations: [
     {
       id: 'LIM-01',
-      category: 'Độ lệch biến đại diện (Proxy Metric Bias)',
-      severity: 'Cao',
+      category: 'Chuẩn hóa đơn vị (億円 & 万人)',
+      severity: 'Đã hiệu đính',
       flawInThesis:
-        'Thống kê Nhật Bản không tách riêng mã ngành du lịch di sản. Niên luận dùng tổng khách quốc tế và số liệu Kyoto, Nara làm proxy.',
+        'Biểu đồ 3.6 ghi chi tiêu Nara theo "tỷ Yên" (phóng đại ×10 lần từ 億円); Biểu đồ 3.3 đổi nhầm 28,9 万人 năm 2020 thành 28,9 nghìn.',
       portfolioFix:
-        'Minh bạch giả định proxy; bổ sung cơ cấu khách quốc tế/nội địa (2017) để bóc tách tỷ trọng thực tế.',
+        'Chia 10 chuỗi chi tiêu Nara về Tỷ Yên (2018: 120,8 tỷ ¥ = ~1/11 Kyoto; 2019: 114,7; 2020: 50,64) và sửa khách Nara 2020 thành 289 nghìn.',
     },
     {
       id: 'LIM-02',
-      category: 'Phạm vi khảo sát hẹp so với tên đề tài',
-      severity: 'Cao',
+      category: 'Hiệu chỉnh lệch trục năm (+1 năm) tại Kyoto',
+      severity: 'Đã hiệu đính',
       flawInThesis:
-        'Đề tài khảo sát 25 di sản UNESCO nhưng chuỗi dữ liệu định lượng Chương 3.1 chỉ tập trung vào Kyoto và Nara.',
+        'Biểu đồ 3.2 (khách lưu trú nước ngoài từ 2012) và Biểu đồ 3.5 (chi tiêu 2014–2020) tại Kyoto bị đẩy tiến +1 năm so với báo cáo gốc.',
       portfolioFix:
-        'Mở rộng số liệu điểm nóng sang Núi Phú Sĩ (5,06M khách), Itsukushima (4,6M) và Shirakawa-go (1,8M).',
+        'Lùi trục năm -1: giai đoạn 2013–2018 khách lưu trú nước ngoài Kyoto tăng +299,3% (1.127,9k → 4.503,3k); tổng chi tiêu tăng +87,0% (699,4 → 1.308,2 tỷ ¥).',
     },
     {
       id: 'LIM-03',
-      category: 'Chưa kiểm định quan hệ nhân quả',
-      severity: 'Trung bình',
+      category: 'Gắn cờ đứt gãy phương pháp (R1/2019 & 2011–2012)',
+      severity: 'Đã hiệu đính',
       flawInThesis:
-        'Niên luận quy tăng trưởng sau 2013 cho chính sách, chưa bóc tách tác động của tỷ giá Yên thấp (Abenomics) và vé máy bay giá rẻ.',
+        'Nối liền tuyến tính chuỗi Kyoto qua năm đổi phương pháp khảo sát R1/2019 (3.799,0k khách) và khoảng trống chi tiêu 2011–2012.',
       portfolioFix:
-        'Bổ sung biểu đồ chỉ số hóa (2013 = 100) so sánh Kyoto/Nara với cả nước để chứng minh sức hút riêng của di sản.',
+        'Vẽ nét đứt đoạn 2018→2019 kèm nhãn "Đổi phương pháp thống kê R1/2019"; tách rõ "Khách lưu trú nước ngoài thực tế" và "Tổng chi tiêu (Nội địa + Quốc tế)".',
     },
     {
       id: 'LIM-04',
-      category: 'Sai sót chế bản và mốc thời gian',
+      category: 'Chốt số JNTO 2022 & mốc thuyết minh 3.1.2',
       severity: 'Đã hiệu đính',
       flawInThesis:
-        'Mục 3.1.2 ghi nhầm chi tiêu đạt 4,81 nghìn tỷ Yên năm 2020 (thực tế là 2019; năm 2020 giảm còn 0,7 nghìn tỷ do COVID-19).',
+        'Biểu đồ 3.1 ghi khách đến Nhật năm 2022 là 3,4 triệu; mục 3.1.2 ghi nhầm chi tiêu đạt 4,81 nghìn tỷ Yên giai đoạn "2013 đến 2020".',
       portfolioFix:
-        'Hiệu đính chính xác mốc đỉnh 2019 trên toàn bộ biểu đồ, thẻ KPI và tài liệu hiển thị.',
+        'Chốt khách năm 2022 là 3,83 triệu theo JNTO (3.832.110 lượt); sửa mốc đỉnh 4,81 nghìn tỷ ¥ về giai đoạn 2013–2019 (2020: 0,74; 2021: 0,12).',
     },
     {
       id: 'LIM-05',
-      category: 'Độ chuẩn hóa nguồn tài liệu',
-      severity: 'Trung bình',
+      category: 'Tách phạm vi đo lường & chuẩn hóa nguồn gốc',
+      severity: 'Đã hiệu đính',
       flawInThesis:
-        'Niên luận sử dụng 4 liên kết Wikipedia ([13], [14], [16], [19]) thay vì toàn bộ nguồn thống kê gốc.',
+        'Chưa tách nhãn chi tiêu quốc tế với tổng chi tiêu địa phương và dùng 4 liên kết thứ cấp trong tài liệu tham khảo.',
       portfolioFix:
-        'Lọc bỏ nguồn Wikipedia; chuẩn hóa 100% dữ liệu theo UNWTO, OECD, JNTO/MLIT và số liệu thống kê cấp tỉnh.',
+        'Chuẩn hóa nhãn phạm vi trên biểu đồ kết hợp 2 trục và đối soát 100% chuỗi số liệu với báo cáo gốc JNTO, MLIT, TP. Kyoto, TP. Nara.',
     },
   ] as ThesisLimitationItem[],
 };
@@ -432,18 +431,18 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
   {
     stt: 2,
     chartId: '3.2',
-    nameVi: 'Số lượng khách du lịch nước ngoài đến Kyoto (2008 – 2023)',
-    nameEn: 'International Visitors to Kyoto (2008 – 2023)',
+    nameVi: 'Khách lưu trú nước ngoài thực tế tại TP. Kyoto (2008 – 2022)',
+    nameEn: 'Actual Foreign Overnight Guests in Kyoto City (2008 – 2022)',
     imageSrc: '/heritage-japan/thesis-chart-3-2.png',
     unitVi: 'Nghìn người',
-    unitEn: 'Thousand visitors',
+    unitEn: 'Thousand guests',
     pageInDoc: 31,
   },
   {
     stt: 3,
     chartId: '3.3',
-    nameVi: 'Số lượng khách du lịch nước ngoài đến Cố đô Nara (2009 – 2020)',
-    nameEn: 'International Visitors to Nara (2009 – 2020)',
+    nameVi: 'Số lượng khách du lịch nước ngoài đến TP. Nara (2009 – 2020)',
+    nameEn: 'International Visitors to Nara City (2009 – 2020)',
     imageSrc: '/heritage-japan/thesis-chart-3-3.png',
     unitVi: 'Nghìn người',
     unitEn: 'Thousand visitors',
@@ -462,8 +461,8 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
   {
     stt: 5,
     chartId: '3.5',
-    nameVi: 'Chi tiêu du lịch tại Thành phố Kyoto (2008 – 2020)',
-    nameEn: 'Tourism Expenditure in Kyoto City (2008 – 2020)',
+    nameVi: 'Tổng chi tiêu du lịch (Nội địa + Quốc tế) tại TP. Kyoto (2008 – 2019)',
+    nameEn: 'Total Tourism Expenditure (Domestic + International) in Kyoto City (2008 – 2019)',
     imageSrc: '/heritage-japan/thesis-chart-3-5.png',
     unitVi: 'Tỷ Yên',
     unitEn: 'Billion JPY',
@@ -472,11 +471,11 @@ export const THESIS_CHARTS_CATALOG: ChartCatalogItem[] = [
   {
     stt: 6,
     chartId: '3.6',
-    nameVi: 'Chi tiêu du lịch tại Nara (2013 – 2022)',
-    nameEn: 'Tourism Expenditure in Nara (2013 – 2022)',
+    nameVi: 'Tổng chi tiêu du lịch (Nội địa + Quốc tế) tại TP. Nara (2013 – 2022)',
+    nameEn: 'Total Tourism Expenditure (Domestic + International) in Nara City (2013 – 2022)',
     imageSrc: '/heritage-japan/thesis-chart-3-6.png',
-    unitVi: 'Tỷ Yên (theo niên luận: nghi vấn, xem kiểm định)',
-    unitEn: 'Billion JPY (as labelled: disputed, see audit)',
+    unitVi: 'Tỷ Yên (đã chuẩn hóa từ 億円)',
+    unitEn: 'Billion JPY (normalized from 100M JPY / 億円)',
     pageInDoc: 34,
   },
 ];
@@ -505,42 +504,38 @@ export const touristsData = [
   { year: '2019', value: 31.9, isThesis: true, counterfactual: 12.1 }, // Đỉnh cao tiền Covid-19 (+19.8M thặng dư chính sách)
   { year: '2020', value: 4.1, isThesis: true, counterfactual: 12.7 },  // Đại dịch Covid-19
   { year: '2021', value: 0.2, isThesis: true, counterfactual: 13.4 },  // Đáy lịch sử
-  { year: '2022', value: 3.4, isThesis: true, counterfactual: 14.1 },  // Bắt đầu mở cửa lại cuối 2022
-  { year: '2023', value: 25.1, isThesis: false, counterfactual: 14.9, source: 'JNTO (25.07M)' },
-  { year: '2024', value: 36.9, isThesis: false, counterfactual: 15.7, source: 'JNTO (36.87M kỷ lục mới)' },
-  { year: '2025', value: 42.7, isThesis: false, counterfactual: 16.5, source: 'JNTO (42.68M kỷ lục lịch sử)' }
+  { year: '2022', value: 3.83, isThesis: true, counterfactual: 14.1, source: 'JNTO chốt 3.832.110 lượt' },
+  { year: '2023', value: 25.07, isThesis: false, counterfactual: 14.9, source: 'JNTO (25,07M)' },
+  { year: '2024', value: 36.87, isThesis: false, counterfactual: 15.7, source: 'JNTO (36,87M kỷ lục mới)' },
+  { year: '2025', value: 42.68, isThesis: false, counterfactual: 16.5, source: 'JNTO (42,68M kỷ lục lịch sử)' }
 ];
 
-// Biểu đồ 3.2: Khách nước ngoài đến Kyoto (nghìn người)
-// Niên luận: Cục Du lịch Kyoto / DMO KYOTO (2008 - 2023)
-// LƯU Ý KIỂM ĐỊNH DATA: Năm 2020 trong đồ thị gốc của Niên luận ghi 3799k (lỗi đánh máy thiếu dấu phẩy: 379.9k).
+// Biểu đồ 3.2: Khách lưu trú nước ngoài thực tế tại TP. Kyoto (nghìn người)
 export const kyotoVisitorsData = [
   { year: '2008', value: 926.8, thesisRawValue: 926.8, isThesis: true },
   { year: '2009', value: 937.2, thesisRawValue: 937.2, isThesis: true },
   { year: '2010', value: 783.8, thesisRawValue: 783.8, isThesis: true },
-  { year: '2011', value: 983.9, thesisRawValue: 983.9, isThesis: true },
-  { year: '2012', value: 515.4, thesisRawValue: 515.4, isThesis: true },
-  { year: '2013', value: 844.9, thesisRawValue: 844.9, isThesis: true },
-  { year: '2014', value: 1127.9, thesisRawValue: 1127.9, isThesis: true },
-  { year: '2015', value: 1828.6, thesisRawValue: 1828.6, isThesis: true },
-  { year: '2016', value: 3158.6, thesisRawValue: 3158.6, isThesis: true },
-  { year: '2017', value: 3184.8, thesisRawValue: 3184.8, isThesis: true },
-  { year: '2018', value: 3527.8, thesisRawValue: 3527.8, isThesis: true },
-  { year: '2019', value: 4503.3, thesisRawValue: 4503.3, isThesis: true },
-  // 2020: Niên luận ghi 3799 (3.799k) - Đã kiểm định và chuẩn hóa thành 379.9k
-  { year: '2020', value: 379.9, thesisRawValue: 3799.0, isThesis: true, hasAnomaly: true, auditNote: 'Lỗi gõ phím trong đồ thị gốc: ghi 3799 thay vì 379.9k' },
-  { year: '2021', value: 448.8, thesisRawValue: 448.8, isThesis: true },
-  { year: '2022', value: 54.4, thesisRawValue: 54.4, isThesis: true },
-  { year: '2023', value: 576.1, thesisRawValue: 576.1, isThesis: true },
-  { year: '2024', value: 8210.0, isThesis: false, source: 'DMO KYOTO 2024' }
+  { year: '2011', value: 515.4, thesisRawValue: 983.9, isThesis: true },
+  { year: '2012', value: 844.9, thesisRawValue: 515.4, isThesis: true },
+  { year: '2013', value: 1127.9, thesisRawValue: 844.9, isThesis: true },
+  { year: '2014', value: 1828.6, thesisRawValue: 1127.9, isThesis: true },
+  { year: '2015', value: 3158.6, thesisRawValue: 1828.6, isThesis: true },
+  { year: '2016', value: 3184.8, thesisRawValue: 3158.6, isThesis: true },
+  { year: '2017', value: 3527.8, thesisRawValue: 3184.8, isThesis: true },
+  { year: '2018', value: 4503.3, thesisRawValue: 3527.8, isThesis: true },
+  { year: '2019', value: 3799.0, thesisRawValue: 4503.3, isThesis: true, hasAnomaly: true },
+  { year: '2020', value: 448.8, thesisRawValue: 3799.0, isThesis: true },
+  { year: '2021', value: 54.4, thesisRawValue: 448.8, isThesis: true },
+  { year: '2022', value: 576.1, thesisRawValue: 54.4, isThesis: true },
+  { year: '2023', value: 5357.0, thesisRawValue: 576.1, isThesis: false },
 ];
 
-// Biểu đồ 3.3: Khách nước ngoài đến Cố đô Nara (nghìn người)
-// Niên luận: Cục Du lịch Tỉnh Nara (2009 - 2020)
+// Biểu đồ 3.3: Khách quốc tế đến TP. Nara (nghìn người)
+// Đã sửa năm 2020 từ 28,9 nghìn thành 289 nghìn (28,9 万人)
 export const naraVisitorsData = [
   { year: '2009', value: 407.0, isThesis: true },
   { year: '2010', value: 629.0, isThesis: true },
-  { year: '2011', value: 174.0, isThesis: true }, // Tác động động đất Tohoku
+  { year: '2011', value: 174.0, isThesis: true },
   { year: '2012', value: 267.0, isThesis: true },
   { year: '2013', value: 435.0, isThesis: true },
   { year: '2014', value: 630.0, isThesis: true },
@@ -548,32 +543,24 @@ export const naraVisitorsData = [
   { year: '2016', value: 1576.0, isThesis: true },
   { year: '2017', value: 1990.0, isThesis: true },
   { year: '2018', value: 2651.0, isThesis: true },
-  { year: '2019', value: 3318.0, isThesis: true }, // Đỉnh cao 3.32 triệu khách
-  { year: '2020', value: 28.9, isThesis: true },   // Rơi tự do -99.1%
-  { year: '2021', value: 456.3, isThesis: false, source: 'Cục Thống kê Nara' },
-  { year: '2022', value: 663.5, isThesis: false, source: 'Cục Thống kê Nara' },
-  { year: '2023', value: 2581.7, isThesis: false, source: 'Cục Thống kê Nara' },
-  { year: '2024', value: 3140.0, isThesis: false, source: 'Cục Thống kê Nara (Ước tính)' }
+  { year: '2019', value: 3318.0, isThesis: true }, // Đỉnh cao 3,32 triệu khách (+662,8% vs 2013)
+  { year: '2020', value: 289.0, isThesis: true },  // Quy đổi chuẩn 28,9 万人 = 289 nghìn
 ];
 
 // So sánh Kyoto vs Nara (nghìn người)
 export const kyotoNaraVisitorsData = [
   { year: '2009', kyoto: 937.2, nara: 407.0 },
   { year: '2010', kyoto: 783.8, nara: 629.0 },
-  { year: '2011', kyoto: 983.9, nara: 174.0 },
-  { year: '2012', kyoto: 515.4, nara: 267.0 },
-  { year: '2013', kyoto: 844.9, nara: 435.0 },
-  { year: '2014', kyoto: 1127.9, nara: 630.0 },
-  { year: '2015', kyoto: 1828.6, nara: 975.0 },
-  { year: '2016', kyoto: 3158.6, nara: 1576.0 },
-  { year: '2017', kyoto: 3184.8, nara: 1990.0 },
-  { year: '2018', kyoto: 3527.8, nara: 2651.0 },
-  { year: '2019', kyoto: 4503.3, nara: 3318.0 },
-  { year: '2020', kyoto: 379.9, nara: 28.9 },
-  { year: '2021', kyoto: 448.8, nara: 456.3 },
-  { year: '2022', kyoto: 54.4, nara: 663.5 },
-  { year: '2023', kyoto: 576.1, nara: 2581.7 },
-  { year: '2024', kyoto: 8210.0, nara: 3140.0 },
+  { year: '2011', kyoto: 515.4, nara: 174.0 },
+  { year: '2012', kyoto: 844.9, nara: 267.0 },
+  { year: '2013', kyoto: 1127.9, nara: 435.0 },
+  { year: '2014', kyoto: 1828.6, nara: 630.0 },
+  { year: '2015', kyoto: 3158.6, nara: 975.0 },
+  { year: '2016', kyoto: 3184.8, nara: 1576.0 },
+  { year: '2017', kyoto: 3527.8, nara: 1990.0 },
+  { year: '2018', kyoto: 4503.3, nara: 2651.0 },
+  { year: '2019', kyoto: 3799.0, nara: 3318.0 },
+  { year: '2020', kyoto: 448.8, nara: 289.0 },
 ];
 
 // Biểu đồ 3.4: Chi tiêu quốc tế toàn quốc (nghìn tỷ Yên)
@@ -589,66 +576,49 @@ export const spendNationalData = [
   { year: '2017', value: 4.41, isThesis: true },
   { year: '2018', value: 4.50, isThesis: true },
   { year: '2019', value: 4.81, isThesis: true },
-  { year: '2020', value: 0.70, isThesis: true },
-  { year: '2021', value: 0.10, isThesis: true },
-  { year: '2022', value: 0.75, isThesis: false, source: 'JTA (0.75T)' },
-  { year: '2023', value: 5.31, isThesis: false, source: 'JTA (5.31T)' },
-  { year: '2024', value: 8.14, isThesis: false, source: 'JTA (8.14T kỷ lục)' },
-  { year: '2025', value: 9.46, isThesis: false, source: 'JTA (9.46T sơ bộ)' }
+  { year: '2020', value: 0.74, isThesis: true },
+  { year: '2021', value: 0.12, isThesis: true },
 ];
 
-// Biểu đồ 3.5: Chi tiêu tại Kyoto (tỷ Yên)
-// Niên luận: Kyoto City Tourism Survey (2008 - 2020)
+// Biểu đồ 3.5: Tổng chi tiêu du lịch (Nội địa + Quốc tế) tại TP. Kyoto (tỷ Yên)
+// Đã lùi trục năm 2014–2020 về đúng 2013–2019; 2011–2012 không có ước tính do đổi phương pháp
 export const kyotoSpendData = [
   { year: '2008', value: 649.1, isThesis: true },
   { year: '2009', value: 655.9, isThesis: true },
   { year: '2010', value: 608.1, isThesis: true },
-  { year: '2011', value: 648.8, isThesis: true },
-  { year: '2014', value: 699.4, isThesis: true },
-  { year: '2015', value: 761.7, isThesis: true },
-  { year: '2016', value: 970.1, isThesis: true },
-  { year: '2017', value: 1085.5, isThesis: true },
-  { year: '2018', value: 1126.4, isThesis: true },
-  { year: '2019', value: 1308.1, isThesis: true },
-  { year: '2020', value: 1236.2, isThesis: true },
-  { year: '2021', value: 671.0, isThesis: false, source: 'DMO KYOTO' },
-  { year: '2022', value: 980.0, isThesis: false, source: 'DMO KYOTO' },
-  { year: '2023', value: 1536.6, isThesis: false, source: 'DMO KYOTO' },
-  { year: '2024', value: 1907.5, isThesis: false, source: 'DMO KYOTO' }
+  { year: '2013', value: 699.4, isThesis: true },
+  { year: '2014', value: 761.7, isThesis: true },
+  { year: '2015', value: 970.4, isThesis: true },
+  { year: '2016', value: 1085.5, isThesis: true },
+  { year: '2017', value: 1126.4, isThesis: true },
+  { year: '2018', value: 1308.2, isThesis: true },
+  { year: '2019', value: 1236.7, isThesis: true },
 ];
 
-// Biểu đồ 3.6: Chi tiêu tại Nara (2013 - 2022)
-// LƯU Ý KIỂM ĐỊNH: Tiêu đề biểu đồ ghi "tỷ yên", nhưng các con số (872.6, 1208...) phản ánh
-// số liệu tổng chi tiêu gồm cả khách nội địa hoặc đơn vị trăm triệu Yên (億円).
+// Biểu đồ 3.6: Tổng chi tiêu du lịch (Nội địa + Quốc tế) tại TP. Nara (2013 - 2022, Tỷ Yên)
+// Đã chia 10 toàn bộ chuỗi để quy đổi đúng từ 億円 sang Tỷ Yên
 export const naraSpendData = [
-  { year: '2013', value: 872.6, isThesis: true },
-  { year: '2014', value: 892.4, isThesis: true },
-  { year: '2015', value: 994.6, isThesis: true },
-  { year: '2016', value: 1035.9, isThesis: true },
-  { year: '2017', value: 1128.6, isThesis: true },
-  { year: '2018', value: 1208.0, isThesis: true },
-  { year: '2019', value: 1147.2, isThesis: true },
-  { year: '2020', value: 402.2, isThesis: true },
-  { year: '2021', value: 428.0, isThesis: true },
-  { year: '2022', value: 598.0, isThesis: true },
-  { year: '2023', value: 1807.0, isThesis: false, source: 'Nara Tourism Portal' },
-  { year: '2024', value: 2060.0, isThesis: false, source: 'Nara Tourism Portal' }
+  { year: '2013', value: 87.26, isThesis: true },
+  { year: '2014', value: 89.24, isThesis: true },
+  { year: '2015', value: 99.46, isThesis: true },
+  { year: '2016', value: 103.59, isThesis: true },
+  { year: '2017', value: 112.86, isThesis: true },
+  { year: '2018', value: 120.8, isThesis: true },
+  { year: '2019', value: 114.7, isThesis: true },
+  { year: '2020', value: 50.64, isThesis: true },
+  { year: '2021', value: 42.8, isThesis: true },
+  { year: '2022', value: 59.83, isThesis: true },
 ];
 
-// So sánh chi tiêu khu vực Kyoto & Nara
+// So sánh tổng chi tiêu khu vực TP. Kyoto & TP. Nara (Tỷ Yên, 2013–2019)
 export const spendRegionalComparisonData = [
-  { year: '2013', kyoto: 648.8, nara: 872.6 },
-  { year: '2014', kyoto: 699.4, nara: 892.4 },
-  { year: '2015', kyoto: 761.7, nara: 994.6 },
-  { year: '2016', kyoto: 970.1, nara: 1035.9 },
-  { year: '2017', kyoto: 1085.5, nara: 1128.6 },
-  { year: '2018', kyoto: 1126.4, nara: 1208.0 },
-  { year: '2019', kyoto: 1308.1, nara: 1147.2 },
-  { year: '2020', kyoto: 1236.2, nara: 402.2 },
-  { year: '2021', kyoto: 671.0, nara: 428.0 },
-  { year: '2022', kyoto: 980.0, nara: 598.0 },
-  { year: '2023', kyoto: 1536.6, nara: 1807.0 },
-  { year: '2024', kyoto: 1907.5, nara: 2060.0 }
+  { year: '2013', kyoto: 699.4, nara: 87.26 },
+  { year: '2014', kyoto: 761.7, nara: 89.24 },
+  { year: '2015', kyoto: 970.4, nara: 99.46 },
+  { year: '2016', kyoto: 1085.5, nara: 103.59 },
+  { year: '2017', kyoto: 1126.4, nara: 112.86 },
+  { year: '2018', kyoto: 1308.2, nara: 120.8 },
+  { year: '2019', kyoto: 1236.7, nara: 114.7 },
 ];
 
 // Tỷ trọng đóng góp GDP & Doanh thu du lịch trực tiếp (Nguồn: METI / WTTC)
@@ -681,46 +651,46 @@ export interface DataAuditFinding {
 
 export const DATA_AUDIT_FINDINGS: DataAuditFinding[] = [
   {
-    id: 'audit-kyoto-2020',
-    chartId: '3.2',
-    titleVi: 'Phát hiện Lỗi Nhập Liệu Điểm Dị Biệt (Outlier Typo) tại Kyoto 2020',
-    titleEn: 'Data Typo & Outlier Detection: Kyoto 2020 Inbound Visitors',
+    id: 'audit-kyoto-shift',
+    chartId: '3.2 & 3.5',
+    titleVi: 'Hiệu chỉnh Lệch Trục Năm (+1 năm) & Đứt Gãy Phương Pháp Thống Kê R1/2019 tại TP. Kyoto',
+    titleEn: 'Year-Axis Shift (+1 Year) Correction & R1/2019 Methodological Break in Kyoto City',
     severity: 'high',
-    summaryVi: 'Cột năm 2020 trong đồ thị gốc ghi nhận 3,799 nghìn khách, mâu thuẫn hoàn toàn với thực tế toàn quốc mùa dịch.',
-    summaryEn: 'The 2020 bar in the original chart reads 3,799k visitors, a major logical contradiction during global lockdown.',
-    originalInDoc: 'Biểu đồ 3.2 (trang 31): Giá trị cột năm 2020 vẽ cao chạm mốc 3,800 nghìn người (nhãn số: 3799).',
-    auditExplanationVi: 'Năm 2020, đại dịch COVID-19 bùng phát khiến toàn bộ Nhật Bản chỉ đón 4.1 triệu khách quốc tế (giảm 87%). Một thành phố như Kyoto không thể đón tới 3.8 triệu khách (chiếm 92% toàn quốc). Thực tế theo DMO Kyoto (京都観光総合調査), số lượng khách lưu trú quốc tế năm 2020 là 379.9 nghìn khách. Tác giả niên luận đã gõ nhầm dấu chấm thập phân (3799 thay vì 379.9), khiến đồ thị Excel tự động vẽ cột cao bất thường.',
-    auditExplanationEn: 'In 2020, nationwide inbound visitors plunged to 4.12M due to COVID border closures. Kyoto alone could not possibly account for 3.8M foreign visitors (92% of the national total). Official Kyoto DMO reports record 379.9 thousand international overnight visitors. The author evidently missed a decimal separator (3799 instead of 379.9), which skewed the Excel chart bar.',
-    suggestedActionVi: 'Hiệu đính trực tiếp tại nguồn dữ liệu về mức chuẩn 379,9 nghìn người theo báo cáo DMO Kyoto.',
-    suggestedActionEn: 'Corrected directly at the data source to the verified DMO Kyoto figure of 379.9k visitors.'
+    summaryVi: 'Trục năm của Biểu đồ 3.2 (từ 2012) và Biểu đồ 3.5 (2014–2020) bị đẩy tiến +1 năm so với báo cáo gốc của TP. Kyoto, đồng thời nối liền qua mốc đổi phương pháp khảo sát R1/2019.',
+    summaryEn: 'The year axis in Chart 3.2 (from 2012) and Chart 3.5 (2014–2020) was shifted forward by +1 year, and connected linearly across the R1/2019 survey methodology revision.',
+    originalInDoc: 'Biểu đồ 3.2 & 3.5 (trang 31, 33): Ghi đỉnh khách 4.503,3k và đỉnh chi tiêu 1.308,1 tỷ ¥ vào năm 2019; ghi năm 2020 là 3.799k khách và 1.236,2 tỷ ¥.',
+    auditExplanationVi: 'Đối chiếu với báo cáo gốc TP. Kyoto (京都観光総合調査), mức đỉnh 4.503,3 nghìn khách lưu trú nước ngoài và 1.308,2 tỷ Yên tổng chi tiêu thực chất thuộc về năm 2018 (tăng +299,3% khách và +87,0% chi tiêu so với năm 2013). Năm 2019 (Reiwa 1), TP. Kyoto đổi phương pháp ước tính (ghi nhận 3.799,0 nghìn khách và 1.236,7 tỷ Yên), còn cú rơi COVID-19 năm 2020 là 448,8 nghìn khách.',
+    auditExplanationEn: 'Cross-checking with Kyoto City official reports (京都観光総合調査) confirms that the 4,503.3k foreign overnight guests and ¥1,308.2B total expenditure peaks occurred in 2018 (+299.3% guests and +87.0% spend vs. 2013). In 2019 (Reiwa 1), Kyoto revised its estimation methodology (3,799.0k guests and ¥1,236.7B), while the 2020 COVID plunge was 448.8k guests.',
+    suggestedActionVi: 'Lùi trục năm -1 về đúng niên độ 2012–2022 (khách) và 2013–2019 (chi tiêu), đổi tên chỉ số thành "Khách lưu trú nước ngoài thực tế" và vẽ đường nét đứt tại mốc đổi phương pháp R1/2019.',
+    suggestedActionEn: 'Shift the year axis back by -1 year to match official reporting years, rename the metric to "Actual Foreign Overnight Guests", and render a dashed line for the R1/2019 methodology break.'
   },
   {
     id: 'audit-nara-unit',
-    chartId: '3.6',
-    titleVi: 'Phát hiện Nhập Nhằng Đơn Vị Đo Lường: Doanh Thu Nara (Tỷ Yên vs Trăm Triệu Yên)',
-    titleEn: 'Measurement Unit Discrepancy: Nara Tourism Expenditure',
-    severity: 'medium',
-    summaryVi: 'Biểu đồ ghi đơn vị "tỷ yên" với quy mô 1,208 tỷ Yên, gần bằng Kyoto dù lượng khách chỉ bằng một phần ba.',
-    summaryEn: 'Chart 3.6 is labelled "Billion JPY" with a peak of 1,208B, rivaling Kyoto despite having 1/3 the tourists.',
-    originalInDoc: 'Biểu đồ 3.6 (trang 34): "Chi tiêu du lịch tại Thành phố Nara giai đoạn 2013 - 2022 (đơn vị: tỷ yên)". Giá trị đỉnh năm 2018 là 1208.',
-    auditExplanationVi: 'Trong thống kê địa phương của Nhật Bản (奈良県観光統計調査), số liệu chi tiêu cấp tỉnh thường được công bố theo đơn vị 億円 (trăm triệu Yên / 100M JPY). Nếu đơn vị là 億円 thì 1,208 億円 tương đương khoảng 120.8 tỷ Yên. Nếu hiểu theo "tỷ Yên" thì 1,208 tỷ Yên là quy mô quá lớn đối với một tỉnh nhỏ như Nara (gần bằng toàn bộ doanh thu du lịch Kyoto 1,308 tỷ Yên). Việc nhầm lẫn giữa 億円 và 10億円 (tỷ Yên) là sai sót phổ biến khi dịch thuật tài liệu kinh tế Nhật Bản sang tiếng Việt.',
-    auditExplanationEn: 'Japanese prefectural reports typically report spending in 億円 (100 million JPY). If 1,208 represents 億円, total spending was ~120.8B JPY. If interpreted literally as billions of JPY, 1,208B JPY for Nara would implausibly rival Kyoto (1,308B JPY) despite Nara being primarily a day-trip destination with far lower hotel capacity.',
-    suggestedActionVi: 'Thêm chú thích cảnh báo kiểm định dữ liệu cho người đọc và giải thích bối cảnh kinh tế đằng sau.',
-    suggestedActionEn: 'Add an analytical auditing caveat and explain the economic context of day-tripper economics.'
+    chartId: '3.3 & 3.6',
+    titleVi: 'Chuẩn Hóa Đơn Vị Đo Lường: Quy Đổi 億円 (Chi Tiêu Nara) và 万人 (Khách Nara 2020)',
+    titleEn: 'Unit Normalization: Converting 億円 (Nara Spend) and 万人 (Nara 2020 Visitors)',
+    severity: 'high',
+    summaryVi: 'Tổng chi tiêu TP. Nara bị phóng đại ×10 lần do dịch nhầm 億円 thành tỷ Yên (đỉnh 1.208 tỷ thay vì 120,8 tỷ ¥), còn khách Nara 2020 bị chia nhỏ ×10 lần (28,9 nghìn thay vì 289 nghìn).',
+    summaryEn: 'Nara total spending was inflated 10x by translating 億円 as Billion JPY (1,208B instead of 120.8B JPY), while 2020 visitors were understated 10x (28.9k instead of 289k from 28.9 万人).',
+    originalInDoc: 'Biểu đồ 3.3 (trang 31): Năm 2020 ghi 28,9 nghìn người. Biểu đồ 3.6 (trang 34): Ghi đơn vị "tỷ yên" với đỉnh năm 2018 là 1.208 và năm 2020 là 402,2.',
+    auditExplanationVi: 'Báo cáo gốc TP. Nara công bố tổng chi tiêu du lịch (Nội địa + Quốc tế) theo đơn vị 億円 (trăm triệu Yên = 0,1 tỷ Yên) và lượng khách theo 万人 (vạn người = 10 nghìn người). Khi chia 10 chuỗi chi tiêu về đúng đơn vị Tỷ Yên, đỉnh năm 2018 của TP. Nara là 120,8 tỷ Yên (bằng khoảng 1/11 quy mô 1.308,2 tỷ Yên của TP. Kyoto) và năm 2020 là 50,64 tỷ Yên; còn khách quốc tế năm 2020 là 28,9 万人 = 289 nghìn lượt.',
+    auditExplanationEn: 'Nara City official reports publish total tourism expenditure (Domestic + International) in 億円 (100M JPY = 0.1B JPY) and visitor volume in 万人 (10,000 persons). Dividing the spending series by 10 yields Nara’s true 2018 peak of ¥120.8B (~1/11 of Kyoto’s ¥1,308.2B) and ¥50.64B in 2020, while 2020 foreign arrivals equal 28.9 万人 = 289k visitors.',
+    suggestedActionVi: 'Chia 10 toàn bộ chuỗi chi tiêu Nara về đúng Tỷ Yên, sửa mốc khách Nara 2020 thành 289 nghìn và ghi rõ nhãn phạm vi "Tổng chi tiêu du lịch (Nội địa + Quốc tế)".',
+    suggestedActionEn: 'Divide the entire Nara expenditure series by 10 to true Billion JPY, update 2020 Nara visitors to 289k, and label the scope as "Total Tourism Expenditure (Domestic + International)".'
   },
   {
     id: 'audit-daytripper-paradox',
-    chartId: '3.3 vs 3.5',
-    titleVi: 'Phát hiện Bản Chất: Nghịch Lý Khách Đi Trong Ngày (Day-Tripper Paradox) tại Nara',
-    titleEn: 'Analytical Discovery: The Day-Tripper Paradox in Nara Prefecture',
+    chartId: '3.3 vs 3.6',
+    titleVi: 'Phát Hiện Thực Nghiệm: Lệch Pha Giữa Lượng Khách và Tổng Chi Tiêu tại TP. Nara (2018–2019)',
+    titleEn: 'Empirical Discovery: Visitor Volume vs. Total Expenditure Divergence in Nara (2018–2019)',
     severity: 'insight',
-    summaryVi: 'Lượng khách đến Nara tăng 7.6 lần (2011–2019) nhưng tỷ trọng lưu trú qua đêm dưới 15%, gây áp lực hạ tầng nhưng thu ngân sách thấp.',
-    summaryEn: 'Inbound visitors to Nara grew 7.6x (2011–2019), but overnight stay share was <15%, creating high strain but low local spend.',
-    originalInDoc: 'Niên luận so sánh số lượng khách Nara (3.3M năm 2019) và Kyoto (4.5M) nhưng chưa phân rã cơ cấu lưu trú.',
-    auditExplanationVi: 'Nara cách Kyoto và Osaka chỉ 45 phút đi tàu nhanh Kintetsu/JR. Du khách thường lưu trú tại Osaka hoặc Kyoto rồi ghé công viên Nara ngắm hươu trong 3–4 tiếng rồi quay về. Hệ quả: Nara chịu toàn bộ ngoại ứng tiêu cực (rác thải, kẹt xe, ô nhiễm) nhưng không thu được thuế lưu trú hay chi tiêu khách sạn. Đây chính là lý do Tỉnh Nara ban hành Pháp lệnh lưu trú cao cấp (2020) để thu hút các chuỗi khách sạn sang (JW Marriott, Fufu Nara).',
-    auditExplanationEn: 'Nara is only 45 minutes by rapid train from Osaka and Kyoto. Over 85% of foreign visitors are day-trippers who feed the sacred deer for 3 hours and return to Osaka/Kyoto hotels. Nara absorbs municipal maintenance and trash costs without capturing lodging taxes, leading to the 2020 Luxury Accommodation Ordinance.',
-    suggestedActionVi: 'Trình bày mô hình đối sánh cấu trúc chi tiêu và thời gian lưu trú giữa Kyoto và Nara.',
-    suggestedActionEn: 'Present a comparative structural analysis of stay duration and expenditure per visitor.'
+    summaryVi: 'Khách quốc tế đến Nara tăng +662,8% giai đoạn 2013–2019 (đạt đỉnh 3.318 nghìn), nhưng tổng chi tiêu du lịch đạt đỉnh từ 2018 (120,8 tỷ ¥) rồi giảm -5,0% năm 2019 (114,7 tỷ ¥).',
+    summaryEn: 'International visitors to Nara grew +662.8% from 2013 to 2019 (peaking at 3,318k), yet total tourism expenditure peaked in 2018 (¥120.8B) and dipped -5.0% in 2019 (¥114.7B).',
+    originalInDoc: 'Niên luận so sánh lượng khách và doanh thu Nara nhưng chưa tách biệt phạm vi chi tiêu quốc tế với tổng chi tiêu địa phương.',
+    auditExplanationVi: 'Do Nara chỉ cách Kyoto và Osaka khoảng 45 phút đi tàu, phần lớn khách quốc tế tăng thêm trong năm 2019 đi về trong ngày (day-trip) mà không lưu trú qua đêm. Quy mô tổng chi tiêu du lịch Nara (120,8 tỷ Yên năm 2018) chỉ bằng ~1/11 của Kyoto (1.308,2 tỷ Yên), lý giải vì sao tỉnh Nara phải ưu tiên trợ cấp mở khách sạn cao cấp (JW Marriott, Fufu Nara).',
+    auditExplanationEn: 'Located 45 minutes by train from Kyoto and Osaka, most incremental foreign arrivals in 2019 visited Nara on day-trips without staying overnight. Nara’s total tourism spend (¥120.8B in 2018) was roughly 1/11 of Kyoto’s (¥1,308.2B), explaining Nara’s policy push for luxury overnight hotels (JW Marriott, Fufu Nara).',
+    suggestedActionVi: 'Biểu diễn trên Biểu đồ kết hợp 2 trục (Cột = Lượng khách | Đường = Tổng chi tiêu) kèm chú thích tách biệt phạm vi đo lường.',
+    suggestedActionEn: 'Visualize on a Dual-Axis Combo Chart (Bars = Visitors | Line = Total Spend) with an explicit measurement-scope callout.'
   }
 ];
 

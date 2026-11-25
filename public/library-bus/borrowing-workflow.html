@@ -393,12 +393,23 @@
 
     /* Gallery/embed mode keeps the generated artifact as the source of truth
        while presenting only its diagram surface inside a proof card. */
+    html[data-embed="true"] {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
     html[data-embed="true"] body {
+      height: 100%;
+      width: 100%;
       min-height: 0;
       padding: 0;
+      margin: 0;
       overflow: hidden;
       background: var(--bg);
       background-image: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     html[data-embed="true"] .toolbar,
     html[data-embed="true"] .header,
@@ -411,14 +422,33 @@
     html[data-embed="true"] .diagram-guide,
     html[data-embed="true"] .node-finder,
     html[data-embed="true"] .guided-views { display: none !important; }
-    html[data-embed="true"] .container { max-width: none; }
+    html[data-embed="true"] .container {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     html[data-embed="true"] .diagram-container {
-      padding: 0.5rem;
+      width: 100%;
+      height: 100%;
+      padding: 0.35rem;
       border: 0;
       border-radius: 0;
       box-shadow: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    html[data-embed="true"] .diagram-container svg { min-width: 0; }
+    html[data-embed="true"] .diagram-container svg {
+      min-width: 0;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+    }
 
     /* Share Chapter Cue lives in the HTML viewer layer, not inside the SVG.
        It gives one-shot embeds a title, authored note, truthful stop order,

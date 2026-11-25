@@ -20,8 +20,8 @@ export const MINTO_NARRATIVE = {
       en: 'Evaluate GMV generation, content conversion behavior (Video vs. Livestream), and product SKU architecture for the Kami Ely brand on TikTok Shop to identify sustainable growth levers.'
     },
     conclusion: {
-      vi: 'Doanh thu tập trung mạnh theo mùa du lịch biển hè (đỉnh tháng 6 đạt 3,77 Tỉ đ, giảm 83,1% sang tháng 8) và vào nhóm SKU chủ lực (12/133 mã có đơn trên tổng 339 SKU chiếm 80,6% GMV). Kênh chính chủ (@kamielyhn) và một kênh vệ tinh nội bộ tạo 84,5% doanh thu livestream, trong khi chỉ 329/6.086 creator affiliate phát sinh doanh thu (5,4%). Trên dữ liệu từng phiên/video 231 ngày, Live chính chủ đạt GPM cao hơn Video.',
-      en: 'Revenue concentrates heavily around summer beach seasonality (peaking at 3.77B VND in June before dropping 83.1% by August) and core SKUs (12 of 133 converting SKUs out of 339 listed generate 80.6% of GMV). The official shop channel and one satellite account drive 84.5% of livestream GMV, while only 329 of 6,086 affiliate creators generate revenue (5.4%). Session-level tests across 231 days show official Live sessions achieve higher GPM than individual clips.'
+      vi: 'Doanh thu tập trung mạnh theo mùa du lịch biển hè (đỉnh tháng 6 đạt 3,77 Tỉ đ, giảm 83,1% sang tháng 8) và vào nhóm SKU chủ lực (12/133 mã có đơn trên tổng 339 SKU chiếm 80,6% GMV). Kênh chính chủ (@shop_official) và một kênh vệ tinh nội bộ tạo 84,5% doanh thu livestream, trong khi chỉ 329/6.086 creator affiliate phát sinh doanh thu (5,4%). Trên dữ liệu từng phiên/video 231 ngày, Live chính chủ đạt GPM cao hơn Video.',
+      en: 'Revenue concentrates heavily around summer beach seasonality (peaking at 3.77B VND in June before dropping 83.1% by August) and core SKUs (12 of 133 converting SKUs out of 339 listed generate 80.6% of GMV). The official shop channel (@shop_official) and one satellite account drive 84.5% of livestream GMV, while only 329 of 6,086 affiliate creators generate revenue (5.4%). Session-level tests across 231 days show official Live sessions achieve higher GPM than individual clips.'
     },
     proofCta: {
       vi: 'Xem 19 ảnh bằng chứng FastMoss & Đối soát dữ liệu',

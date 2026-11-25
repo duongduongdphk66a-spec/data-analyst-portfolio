@@ -8,7 +8,7 @@ Built with Next.js 15 (App Router), React 19, Tailwind CSS 4, MySQL, and Rechart
 
 ## Key Features
 
-- **In-Browser SQL Engine & CSV Upload**: Client-side in-memory SQL execution supporting `SELECT`, `WHERE`, `GROUP BY`, `ORDER BY`, `SUM`, `AVG`, `COUNT`, and `LIMIT` with live Recharts visualization and custom CSV uploads.
+- **Auditable SQL & Python Code Library**: Reproducible MySQL 8.0+ / ANSI SQL chapter queries, 9 automated data quality gates, and downloadable Python statistical verification notebooks (`.ipynb`).
 - **Spotlight Command Palette (`Ctrl + K` / `Cmd + K`)**: Keyboard navigation across case studies, skills, theme toggling, language switching, and CMS shortcuts.
 - **Admin CMS Portal (`Ctrl + E`)**:
   - Password authentication with session tokens, timing-safe validation, and HTTP 401 API guards.
@@ -18,7 +18,7 @@ Built with Next.js 15 (App Router), React 19, Tailwind CSS 4, MySQL, and Rechart
 - **Interactive Case Studies**:
   1. **Kami Ely TikTok Shop & Affiliate Performance (231 Days: Mar 09 – Oct 25, 2026)**: Independent analysis of 15.01B VND estimated GMV and 101,896 units sold from 10 third-party FastMoss telemetry tables (reconciled with the 180-day window of 12.74B VND / 85,500 units and all-time cumulative store total of 31.6B VND / 238.4k units).
   2. **Heritage Tourism in Japan (2013–2023 Policy Era on 2003–2022 Time-Series Baseline)**: Quantitative modeling of 31.9M peak tourist inflow (2019), 4.81T Yen expenditure, 7.5% GDP contribution, and 3,000:1 local overtourism pressure at Shirakawa-go.
-  3. **Library Bus — Business Analysis (BA) & UX/UI System Design**: User research, sitemap, borrowing user flows, 12-column grid system, and 20 paired Wireframe–UI screens (Desktop & Mobile) with sample prototype data.
+  3. **Library Bus — Business Analysis (BA), Telemetry Architecture & UX/UI**: 4 business rule specifications (BR-01..04), MySQL 8.0 / Redis 7 / Celery Beat architecture, product telemetry schema, and 11 core paired Wireframe–UI screens (Desktop 1440px & Mobile 390px) with simulated prototype funnel data.
 - **SEO & Performance**: Dynamic SSR với Per-Request Cryptographic Nonce CSP (30 routes), dynamic `sitemap.xml`, `robots.txt`, và Schema.org JSON-LD structured data.
 
 ---

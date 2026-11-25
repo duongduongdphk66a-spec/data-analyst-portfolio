@@ -35,10 +35,10 @@ const GROUPS: Group[] = [
       {
         id: "steve-kami",
         period: { vi: "2022 - 2023", en: "2022 - 2023" },
-        meta: { vi: "Hà Nội, Việt Nam", en: "Hanoi, Vietnam" },
+        meta: { vi: "Full-time · Hà Nội, Việt Nam", en: "Full-time · Hanoi, Vietnam" },
         role: {
-          vi: "Hỗ trợ vận hành và báo cáo dữ liệu E-commerce",
-          en: "E-commerce operations support and data reporting",
+          vi: "Nhân viên Hỗ trợ Vận hành & Báo cáo Dữ liệu E-Commerce",
+          en: "E-Commerce Operations & Data Reporting Staff",
         },
         org: { vi: "Steve x Kami Company", en: "Steve x Kami Company" },
         bullets: [
@@ -103,28 +103,28 @@ const GROUPS: Group[] = [
         id: "library-bus",
         period: { vi: "2023 - 2024", en: "2023 - 2024" },
         meta: {
-          vi: "Dữ liệu trong giao diện là dữ liệu hạt giống kiểm thử",
-          en: "Data shown in the interface is seeded prototype data",
+          vi: "7 phân hệ Django • 36 Models • 171 Unit Tests",
+          en: "7 Django Apps • 36 Models • 171 Unit Tests",
         },
         role: {
-          vi: "Phân tích nghiệp vụ (BA), Thiết kế UX/UI & Kiến trúc hệ thống thư viện lưu động",
-          en: "BA Specification, UX/UI Design & System Architecture for Mobile Library",
+          vi: "Phân tích nghiệp vụ (BA), Kiến trúc Dữ liệu & Telemetry hệ thống thư viện lưu động",
+          en: "BA Specification, Data & Telemetry Architecture for Mobile Library System",
         },
         org: { vi: "Library Bus", en: "Library Bus" },
         bullets: [
           {
-            vi: "Đặc tả quy tắc nghiệp vụ (BR-01..04), xây dựng sitemap và luồng người dùng cho dịch vụ xe thư viện lưu động.",
-            en: "Specified business rules (BR-01..04) and built the sitemap and user flows for a mobile library service.",
+            vi: "Đặc tả 4 quy tắc nghiệp vụ cốt lõi (BR-01..04): khóa bi quan select_for_update() trong transaction.atomic() trên MySQL 8.0 chống Race Condition/TOCTOU khi mượn sách đồng thời, hàng đợi đặt trước FIFO 7 ngày và biểu phí phạt lũy tiến 3 bậc.",
+            en: "Specified 4 core business rules (BR-01..04): pessimistic select_for_update() locks inside transaction.atomic() on MySQL 8.0 to prevent concurrent TOCTOU race conditions, 7-day FIFO reservation queues, and a 3-tier progressive fine engine.",
           },
           {
-            vi: "Thiết kế hệ thống lưới 12 cột, bộ thành phần giao diện và đối chiếu 11 cặp màn hình cốt lõi (Wireframe & UI cho cả Desktop 1440px và Mobile 390px).",
-            en: "Designed a 12-column grid, UI component set, and 11 core paired screens (Wireframe & UI across Desktop 1440px and Mobile 390px).",
+            vi: "Thiết kế phân hệ Telemetry (analytics app: UserActivity, BookAnalytics, BusAnalytics, BookRecommendation, DailyStats), 9 cron job Celery Beat + Redis 7 CacheMixin và đối chiếu 11 cặp màn hình cốt lõi (Wireframe & UI trên Desktop 1440px, Mobile 390px).",
+            en: "Engineered the Telemetry module (analytics app: UserActivity, BookAnalytics, BusAnalytics, BookRecommendation, DailyStats), 9 Celery Beat cron jobs + Redis 7 CacheMixin, and 11 paired Wireframe-to-UI core screen flows.",
           },
         ],
         tools: [
+          { vi: "MySQL 8.0 • Redis • Celery • Django 5.2", en: "MySQL 8.0 • Redis • Celery • Django 5.2" },
           { vi: "Phân tích nghiệp vụ (BA)", en: "Business Analysis (BA)" },
-          { vi: "Wireframe & UI", en: "Wireframe & UI" },
-          { vi: "PostgreSQL & Django", en: "PostgreSQL & Django" },
+          { vi: "Product Telemetry & Wireframe/UI", en: "Product Telemetry & Wireframe/UI" },
         ],
         link: {
           label: { vi: "Xem dự án", en: "Open the project" },
@@ -164,7 +164,7 @@ const GROUPS: Group[] = [
           { vi: "Đối soát dữ liệu", en: "Data reconciliation" },
         ],
         link: {
-          label: { vi: "Xem dự án và SQL Lab", en: "Open the project and SQL Lab" },
+          label: { vi: "Xem dự án & Thư viện SQL", en: "Open case study & SQL library" },
           href: "/projects/proj-kami-ely",
         },
       },
@@ -310,8 +310,8 @@ export default function ExperiencePage() {
           </h2>
           <p className="text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed">
             {isVi
-              ? "Chạy thử truy vấn trong SQL Lab của dự án Kami Ely và xem biểu đồ đi kèm."
-              : "Run queries in the Kami Ely SQL Lab and see the charts that go with them."}
+              ? "Xem hệ thống truy vấn SQL, sổ tay kiểm định Python và biểu đồ tương tác trong dự án Kami Ely."
+              : "Inspect the SQL queries, Python statistical notebook, and interactive charts in the Kami Ely case study."}
           </p>
         </div>
         <Link

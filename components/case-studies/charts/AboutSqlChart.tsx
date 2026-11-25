@@ -155,18 +155,16 @@ FROM ranked_creators;`,
     queryTitleVi: "Chuẩn bị biến độc lập & phụ thuộc cho mô hình",
     queryTitleEn: "Econometric Modeling Feature Set Extraction",
     sqlSnippet: `SELECT
-  prefecture_id,
-  prefecture_name,
-  overnight_tourist_count,
-  unesco_heritage_sites_count,
-  railway_transit_stations,
-  gdp_per_capita_yen,
-  LOG(NULLIF(overnight_tourist_count, 0)) AS log_tourists
-FROM heritage_econometric_mart
-WHERE survey_year = 2024;`,
+  region_code,
+  report_year,
+  visitors_k,
+  spend_billion_jpy,
+  LN(NULLIF(visitors_k, 0)) AS log_visitors
+FROM heritage_japan_audited_series
+WHERE report_year BETWEEN 2013 AND 2022;`,
     keyDeliverableVi: "Bảng đặc trưng định lượng (Analytical Feature Mart)",
     keyDeliverableEn: "Structured Feature Mart for Python Modeling",
-    appliedCase: "Heritage Japan Econometrics",
+    appliedCase: "Heritage Japan Time-Series",
   },
   {
     id: 7,

@@ -51,7 +51,7 @@ export default function Sidebar() {
               {profile.name || 'Ma Văn Hùng'}
             </h2>
             <p className="text-xs text-[#0D7287] dark:text-[#9BE7FA] font-semibold truncate">
-              {profile.title || 'Fresher Data Analyst'}
+              {profile.title || 'Fresher Data Analyst / BA'}
             </p>
           </div>
         </Link>
@@ -60,10 +60,10 @@ export default function Sidebar() {
         <div className="hidden lg:block mt-3">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-xs font-bold text-emerald-800 dark:text-emerald-300">
             <span className="inline-flex rounded-full h-2 w-2 bg-emerald-600 dark:bg-emerald-400" />
-            <span>{language === 'en' ? 'Open for Analytics' : 'Sẵn sàng nhận dự án DA'}</span>
+            <span>{language === 'en' ? 'Seeking Fresher DA / BA' : 'Tìm việc Fresher DA / BA'}</span>
           </div>
         </div>
-        <div className="lg:hidden flex justify-center mt-3" title={language === 'en' ? 'Open for Analytics' : 'Sẵn sàng nhận dự án DA'}>
+        <div className="lg:hidden flex justify-center mt-3" title={language === 'en' ? 'Seeking Fresher DA / BA' : 'Tìm việc Fresher DA / BA'}>
           <span className="inline-flex rounded-full h-2 w-2 bg-emerald-600 dark:bg-emerald-400" />
         </div>
       </div>
@@ -129,8 +129,8 @@ export default function Sidebar() {
                         en: 'Japan Heritage Tourism (JNTO)',
                       },
                       'proj-library-bus': {
-                        vi: 'Library Bus · Thiết kế UX/UI',
-                        en: 'Library Bus · UX/UI Design',
+                        vi: 'Library Bus · BA & Telemetry',
+                        en: 'Library Bus · BA & Telemetry',
                       },
                     };
                     const fullTitle = language === 'en' && proj.titleEn ? proj.titleEn : proj.title;

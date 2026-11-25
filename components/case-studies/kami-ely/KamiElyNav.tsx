@@ -1,95 +1,111 @@
 'use client';
 
 import React from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Code2 } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
-export interface KamiElyNavProps {
-  activeSection?: string;
-  onSelectSection?: (_sectionId: string) => void;
-  onBack?: () => void;
-}
-
 export const KAMI_SECTION_IDS = [
-  'sec-exec-summary',
-  'sec-ch1-data',
-  'sec-ch2-sku',
-  'sec-ch3-season',
-  'sec-ch4-koc',
-  'sec-ch5-ads',
-  'sec-ch6-conclusion',
+  'sec-overview',
+  'sec-context',
+  'sec-content',
+  'sec-seasonality',
+  'sec-koc',
+  'sec-warning',
   'sec-appendix',
 ] as const;
 
-export default function KamiElyNav({
-  activeSection = 'sec-exec-summary',
+export type KamiSectionId = (typeof KAMI_SECTION_IDS)[number];
+
+interface Props {
+  lang?: 'vi' | 'en';
+  activeSection: string;
+  onSelectSection: (_id: string) => void;
+  onBack?: () => void;
+  onOpenSqlLab?: () => void;
+}
+
+const NAV_ITEMS: { id: KamiSectionId; labelVi: string; labelEn: string }[] = [
+  { id: 'sec-overview', labelVi: 'Tổng quan', labelEn: 'Overview' },
+  { id: 'sec-context', labelVi: 'Đối soát kênh', labelEn: 'Channel Audit' },
+  { id: 'sec-content', labelVi: 'Live & Video', labelEn: 'Live & Video' },
+  { id: 'sec-seasonality', labelVi: 'SKU & Affiliate', labelEn: 'SKU & Affiliate' },
+  { id: 'sec-warning', labelVi: 'Khuyến nghị', labelEn: 'Playbook' },
+  { id: 'sec-appendix', labelVi: 'Phụ lục & SQL', labelEn: 'Appendix & SQL' },
+];
+
+export function KamiElyNav({
+  lang,
+  activeSection,
   onSelectSection,
   onBack,
-}: KamiElyNavProps) {
+  onOpenSqlLab,
+}: Props) {
   const { language } = useLanguage();
-  const lang = language === 'en' ? 'en' : 'vi';
+  const isVi = (lang ?? language) === 'vi';
 
-  const sections = [
-    { id: 'sec-exec-summary', label: { vi: '0. Tóm tắt', en: '0. Executive brief' } },
-    { id: 'sec-ch1-data', label: { vi: '1. Bài toán & Dữ liệu', en: '1. Problem & Data' } },
-    { id: 'sec-ch2-sku', label: { vi: '2. Cơ cấu doanh thu', en: '2. Revenue sources' } },
-    { id: 'sec-ch3-season', label: { vi: '3. Mùa vụ & Biến động', en: '3. Seasonality' } },
-    { id: 'sec-ch4-koc', label: { vi: '4. Mạng lưới KOC', en: '4. KOC network' } },
-    { id: 'sec-ch5-ads', label: { vi: '5. Live, Video & Ads', en: '5. Content & Ads' } },
-    { id: 'sec-ch6-conclusion', label: { vi: '6. Cảnh báo & Playbook', en: '6. Early warning & Playbook' } },
-    { id: 'sec-appendix', label: { vi: 'Phụ lục (A·B·C)', en: 'Appendix (A·B·C)' } },
-  ];
-
-  const handleScrollTo = (id: string) => {
-    if (onSelectSection) onSelectSection(id);
-    const el = document.getElementById(id);
-    if (el) {
-      if (id === 'sec-appendix') {
-        el.dispatchEvent(new CustomEvent('kami-open-appendix'));
+  const handleJump = (id: KamiSectionId) => {
+    onSelectSection(id);
+    if (typeof window !== 'undefined') {
+      const el = document.getElementById(id);
+      if (el) {
+        if (id === 'sec-appendix') {
+          el.dispatchEvent(new CustomEvent('kami-open-appendix'));
+        }
+        const y = el.getBoundingClientRect().top + window.scrollY - 92;
+        window.scrollTo({ top: y, behavior: 'smooth' });
       }
-      const y = el.getBoundingClientRect().top + window.scrollY - 92;
-      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
   return (
-    <nav
-      aria-label="Điều hướng chương báo cáo Kami Ely"
-      className="sticky top-2 z-30 w-full rounded-2xl border border-slate-200/90 bg-white/95 dark:border-slate-800/90 dark:bg-slate-950/90 backdrop-blur-md p-1.5" /* taste-skill-ignore: single sticky bar allowed */
-    >
-      <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-0.5">
-        {onBack && (
-          <button
-            type="button"
-            onClick={onBack}
-            className="min-h-[44px] px-3 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:text-slate-950 hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:text-white dark:hover:bg-slate-800 transition-colors flex items-center gap-1.5 shrink-0 cursor-pointer"
-            title={lang === 'vi' ? 'Quay lại Portfolio' : 'Back to Portfolio'}
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">{lang === 'vi' ? 'Quay lại' : 'Back'}</span>
-          </button>
-        )}
-
-        {sections.map((sec) => {
-          const isActive = activeSection === sec.id;
-          return (
+    <div className="sticky top-16 z-30 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 rounded-2xl">
+      <div className="max-w-7xl mx-auto px-3 md:px-5 flex flex-wrap items-center justify-between gap-2 py-2">
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+          {onBack && (
             <button
-              key={sec.id}
               type="button"
-              onClick={() => handleScrollTo(sec.id)}
-              className={`min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-colors border cursor-pointer shrink-0 flex items-center ${
-                isActive
-                  ? 'bg-[#C8EEF7]/60 text-[#074553] border-[#9BE7FA] dark:bg-[#9BE7FA]/20 dark:text-[#9BE7FA] dark:border-[#9BE7FA]/50'
-                  : 'bg-slate-50 text-slate-600 border-slate-200/80 hover:text-slate-950 hover:bg-slate-100 dark:bg-slate-900/60 dark:text-slate-400 dark:border-slate-800 dark:hover:text-white dark:hover:bg-slate-900'
-              }`}
+              onClick={onBack}
+              className="min-h-[44px] inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors cursor-pointer shrink-0"
             >
-              {sec.label[lang]}
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>{isVi ? 'Quay lại' : 'Back'}</span>
             </button>
-          );
-        })}
+          )}
+          <nav
+            aria-label={isVi ? 'Mục lục báo cáo Kami Ely' : 'Kami Ely Case Study Sections'}
+            className="flex items-center gap-1"
+          >
+            {NAV_ITEMS.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => handleJump(item.id)}
+                  className={`min-h-[44px] px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
+                    isActive
+                      ? 'bg-[#9BE7FA] text-slate-950'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900'
+                  }`}
+                >
+                  {isVi ? item.labelVi : item.labelEn}
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => (onOpenSqlLab ? onOpenSqlLab() : handleJump('sec-appendix'))}
+          className="min-h-[44px] inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border border-[#C8EEF7] dark:border-slate-700 bg-[#C8EEF7]/25 dark:bg-slate-900 text-slate-900 dark:text-[#9BE7FA] hover:bg-[#9BE7FA]/40 transition-colors cursor-pointer shrink-0"
+        >
+          <Code2 className="w-3.5 h-3.5" />
+          <span>{isVi ? 'Phụ lục & Mã SQL' : 'Appendix & SQL'}</span>
+        </button>
       </div>
-    </nav>
+    </div>
   );
 }
 
-export { KamiElyNav };
+export default KamiElyNav;

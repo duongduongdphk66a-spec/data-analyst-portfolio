@@ -25,7 +25,7 @@ export default function KamiElyProject(props: KamiElyProjectProps = {}) {
   const { language } = useLanguage();
   const isEn = language === 'en';
 
-  const [activeSection, setActiveSection] = useState<string>('sec-exec-summary');
+  const [activeSection, setActiveSection] = useState<string>('sec-overview');
   const [isNotebookModalOpen, setIsNotebookModalOpen] = useState(false);
   const [selectedSnippetIdx, setSelectedSnippetIdx] = useState(0);
   const [copiedCode, setCopiedCode] = useState(false);

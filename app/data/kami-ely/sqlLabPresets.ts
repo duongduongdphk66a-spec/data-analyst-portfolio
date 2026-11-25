@@ -147,11 +147,11 @@ SELECT
     SUM(s.new_lives_cnt) AS store_lives_cnt,
     ROUND((SUM(s.daily_gmv_vnd) / 1e6) / NULLIF(SUM(s.new_lives_cnt), 0), 2) AS store_gmv_per_live_m,
     CASE 
-        WHEN SUBSTR(s.record_date, 1, 7) = '2026-04' THEN 'Đỉnh cung nội dung: 1.957 ca Live & 80 KOC mới'
+        WHEN SUBSTR(s.record_date, 1, 7) = '2026-04' THEN 'Đỉnh cung nội dung: 1.957 ca Live & 80 KOC Live mới'
         WHEN SUBSTR(s.record_date, 1, 7) = '2026-06' THEN 'Đỉnh cầu mùa Hè: 3,77 tỷ đ (Đỉnh ngày 16/06 = 315,0 Tr)'
         WHEN SUBSTR(s.record_date, 1, 7) = '2026-07' THEN 'Pha 1 suy giảm: Số ca Live giảm -46,4% (1.560 -> 836 ca)'
         WHEN SUBSTR(s.record_date, 1, 7) = '2026-08' THEN 'Pha 2 chạm đáy: Năng suất Store/ca sụp -61,0% về 0,99 Tr'
-        WHEN SUBSTR(s.record_date, 1, 7) = '2026-10' THEN 'Xoay trục Thu Đông: 1,62 tỷ/25N nhờ năng suất 2,33 Tr/ca'
+        WHEN SUBSTR(s.record_date, 1, 7) = '2026-10' THEN 'Xoay trục Thu Đông: 1,62 tỷ/25N nhờ năng suất 2,30 Tr/ca'
     END AS phase_diagnosis
 FROM stg_store_daily s
 WHERE SUBSTR(s.record_date, 1, 7) IN ('2026-04', '2026-06', '2026-07', '2026-08', '2026-10')
@@ -166,15 +166,15 @@ ORDER BY ym ASC;`,
       'phase_diagnosis'
     ],
     rows: [
-      ['2026-04', '30 ngày', '2,50 tỷ đ', 1957, '1,28 Tr đ/ca', 'Đỉnh cung nội dung: 1.957 ca Live & 80 KOC mới'],
+      ['2026-04', '30 ngày', '2,46 tỷ đ', 1957, '1,26 Tr đ/ca', 'Đỉnh cung nội dung: 1.957 ca Live & 80 KOC Live mới'],
       ['2026-06', '30 ngày', '3,77 tỷ đ', 1560, '2,42 Tr đ/ca', 'Đỉnh cầu mùa Hè: 3,77 tỷ đ (Đỉnh ngày 16/06 = 315,0 Tr)'],
-      ['2026-07', '31 ngày', '2,12 tỷ đ', 836, '2,54 Tr đ/ca', 'Pha 1 suy giảm: Số ca Live giảm -46,4% (1.560 -> 836 ca)'],
-      ['2026-08', '31 ngày', '0,64 tỷ đ', 645, '0,99 Tr đ/ca', 'Pha 2 chạm đáy: Năng suất Store/ca sụp -61,0% về 0,99 Tr'],
-      ['2026-10*', '25 ngày', '1,62 tỷ đ', 694, '2,33 Tr đ/ca', 'Xoay trục Thu Đông: 1,62 tỷ/25N nhờ năng suất 2,33 Tr/ca']
+      ['2026-07', '31 ngày', '2,13 tỷ đ', 836, '2,54 Tr đ/ca', 'Pha 1 suy giảm: Số ca Live giảm -46,4% (1.560 -> 836 ca)'],
+      ['2026-08', '31 ngày', '0,64 tỷ đ', 640, '0,99 Tr đ/ca', 'Pha 2 chạm đáy: Năng suất Store/ca sụp -61,0% về 0,99 Tr'],
+      ['2026-10*', '25 ngày', '1,62 tỷ đ', 703, '2,30 Tr đ/ca', 'Xoay trục Thu Đông: 1,62 tỷ/25N nhờ năng suất 2,30 Tr/ca']
     ],
     analystInterpretation: {
-      vi: 'Tách bạch rõ 2 pha suy giảm: Tháng 7 giảm do sụt cung số lượng ca (-46,4%) trong khi doanh thu Video và kệ hàng giữ nhịp GMV toàn shop/ca ở mức 2,54 Tr đ; đến tháng 8 mới sụp hiệu suất mỗi ca (-61,0% về 0,99 Tr đ). Ngược lại, đợt hồi phục tháng 10 đạt 1,62 tỷ đ chỉ với 694 ca nhờ xoay trục sang hàng Thu Đông (năng suất 2,33 Tr đ/ca).',
-      en: 'Separates the contraction into two distinct phases: July contracted via session supply (-46.4%) while non-Live sales buffered Store GMV/session at 2.54M VND; August then suffered a -61.0% yield collapse to 0.99M VND. Conversely, October rebounded to 1.62B VND across 694 sessions via Autumn-Winter catalog rotation (2.33M VND/session).'
+      vi: 'Tách bạch rõ 2 pha suy giảm: Tháng 7 giảm do sụt cung số lượng ca (-46,4%) trong khi doanh thu Video và kệ hàng giữ nhịp GMV toàn shop/ca ở mức 2,54 Tr đ; đến tháng 8 mới sụp hiệu suất mỗi ca (-61,0% về 0,99 Tr đ). Ngược lại, đợt hồi phục tháng 10 đạt 1,62 tỷ đ chỉ với 703 ca nhờ xoay trục sang hàng Thu Đông (năng suất 2,30 Tr đ/ca).',
+      en: 'Separates the contraction into two distinct phases: July contracted via session supply (-46.4%) while non-Live sales buffered Store GMV/session at 2.54M VND; August then suffered a -61.0% yield collapse to 0.99M VND. Conversely, October rebounded to 1.62B VND across 703 sessions via Autumn-Winter catalog rotation (2.30M VND/session).'
     }
   },
   {
@@ -185,32 +185,32 @@ ORDER BY ym ASC;`,
       en: '4. Week W36 (Aug 31) Seasonal Catalog Crossover & 339-SKU Pareto Screening'
     },
     businessQuestion: {
-      vi: 'Khi nào tỷ trọng 5 mã Thu Đông chính thức vượt 5 mã Đồ bơi Hè trên chuỗi 10 SKU chủ lực, và vì sao có 206/339 SKU ghi nhận 0 đơn?',
-      en: 'When did the 5 Autumn-Winter SKUs overtake the 5 Summer Swimwear SKUs across the 10-SKU panel, and why do 206 of 339 catalog SKUs record zero orders?'
+      vi: 'Khi nào tỷ trọng 4 mã Thu Đông chính thức vượt 6 mã Đồ bơi Hè (sau chuẩn hóa AQ1 về nhóm Hè) trên chuỗi 10 SKU chủ lực, và vì sao có 206/339 SKU ghi nhận 0 đơn?',
+      en: 'When did the 4 Autumn-Winter SKUs overtake the 6 Summer Swimwear SKUs (with AQ1 normalized to Summer) across the 10-SKU panel, and why do 206 of 339 catalog SKUs record zero orders?'
     },
-    sqlQuery: `-- Kiểm tra điểm giao cắt mùa vụ tuần ISO trên stg_sku10_daily (1.790 dòng) và phân tầng năm lên sàn 339 SKU
+    sqlQuery: `-- Kiểm tra điểm giao cắt mùa vụ tuần ISO trên stg_sku10_daily (1.790 dòng; chuẩn hóa AQ1 về nhóm Hè: 6 Hè vs. 4 Thu Đông)
 SELECT 
     YEARWEEK(record_date, 3) AS iso_week,
     MIN(record_date) AS week_monday,
-    ROUND(SUM(CASE WHEN season_affinity = 'Hàng Bán Hè' THEN daily_gmv_vnd ELSE 0 END) / 1e6, 2) AS summer_5sku_m,
-    ROUND(SUM(CASE WHEN season_affinity = 'Hàng Bán Đông' THEN daily_gmv_vnd ELSE 0 END) / 1e6, 2) AS winter_5sku_m,
-    ROUND(SUM(CASE WHEN season_affinity = 'Hàng Bán Đông' THEN daily_gmv_vnd ELSE 0 END) * 100.0 / SUM(daily_gmv_vnd), 1) AS winter_share_pct,
+    ROUND(SUM(CASE WHEN sku_code = 'AQ1' OR season_affinity = 'Hàng Bán Hè' THEN daily_gmv_vnd ELSE 0 END) / 1e6, 2) AS summer_6sku_m,
+    ROUND(SUM(CASE WHEN sku_code <> 'AQ1' AND season_affinity <> 'Hàng Bán Hè' THEN daily_gmv_vnd ELSE 0 END) / 1e6, 2) AS winter_4sku_m,
+    ROUND(SUM(CASE WHEN sku_code <> 'AQ1' AND season_affinity <> 'Hàng Bán Hè' THEN daily_gmv_vnd ELSE 0 END) * 100.0 / SUM(daily_gmv_vnd), 1) AS winter_share_pct,
     ROUND(SUM(CASE WHEN sku_code = 'AT06' THEN daily_gmv_vnd ELSE 0 END) * 100.0 / SUM(daily_gmv_vnd), 1) AS at06_share_pct
 FROM stg_sku10_daily
 WHERE YEARWEEK(record_date, 3) IN (202624, 202635, 202636, 202641, 202642)
 GROUP BY YEARWEEK(record_date, 3)
 ORDER BY iso_week ASC;`,
-    columns: ['iso_week', 'week_monday', 'summer_5sku_m', 'winter_5sku_m', 'winter_share_pct', 'at06_share_pct'],
+    columns: ['iso_week', 'week_monday', 'summer_6sku_m', 'winter_4sku_m', 'winter_share_pct', 'at06_share_pct'],
     rows: [
-      ['2026-W24 (Đỉnh Hè)', '2026-06-08', '280,14 Tr đ', '26,41 Tr đ', '8.6%', '0.0%'],
-      ['2026-W35 (Trước xoay trục)', '2026-08-24', '14,76 Tr đ', '12,59 Tr đ', '46.0%', '0.0%'],
-      ['2026-W36 (Mốc đảo chiều)', '2026-08-31', '10,16 Tr đ', '24,57 Tr đ', '70.8%', '0.0% (CV11 & CV02 dẫn sóng)'],
-      ['2026-W41 (Cao điểm Thu)', '2026-10-05', '3,55 Tr đ', '334,26 Tr đ', '98.9%', '88.1% (AT06 bùng nổ)'],
-      ['2026-W42 (Cao điểm Thu)', '2026-10-12', '4,47 Tr đ', '519,70 Tr đ', '99.1%', '91.6% (AT06 chủ lực)']
+      ['2026-W24 (Đỉnh Hè)', '2026-06-08', '457,67 Tr đ', '37,89 Tr đ', '7.6%', '0.0%'],
+      ['2026-W35 (Trước xoay trục)', '2026-08-24', '24,54 Tr đ', '18,98 Tr đ', '43.6%', '0.0%'],
+      ['2026-W36 (Mốc đảo chiều)', '2026-08-31', '11,19 Tr đ', '23,54 Tr đ', '67.8%', '0.0% (CV11 & CV02 dẫn sóng)'],
+      ['2026-W41 (Cao điểm Thu)', '2026-10-05', '9,71 Tr đ', '407,72 Tr đ', '97.7%', '82.0% (AT06 bùng nổ)'],
+      ['2026-W42 (Cao điểm Thu)', '2026-10-12', '6,49 Tr đ', '663,79 Tr đ', '99.0%', '88.8% (AT06 chủ lực)']
     ],
     analystInterpretation: {
-      vi: 'Danh mục đảo chiều sang Thu Đông ngay tại tuần W36 (31/08: từ 46,0% vọt lên 70,8%), mở đường cho mã áo giữ nhiệt AT06 đóng góp 1,30 tỷ đ (89,2% GMV 10 mã trong tháng 10). Trên bảng Shop_Products (339 SKU), 12/133 mã có đơn tạo 80,6% GMV; trong 206 mã 0 đơn có tới 204 mã niêm yết cũ trước năm 2026 (43/45 mã ra mắt năm 2026 đều có đơn).',
-      en: 'The catalog flipped to Autumn-Winter in week W36 (Aug 31: surging from 46.0% to 70.8%), paving the way for thermal top AT06 to generate 1.30B VND (89.2% of 10-SKU GMV in October). Across Shop_Products (339 SKUs), 12 of 133 active SKUs drive 80.6% of GMV, while 204 of the 206 zero-sale SKUs are pre-2026 legacy listings (43 of 45 2026 launches converted).'
+      vi: 'Danh mục đảo chiều sang Thu Đông ngay tại tuần W36 (31/08: từ 43,6% vọt lên 67,8%), mở đường cho mã áo giữ nhiệt AT06 đóng góp 1,30 tỷ đ (83,5% GMV 10 mã và 80,5% GMV toàn shop trong tháng 10). Trên bảng Shop_Products (339 SKU), 12/133 mã có đơn tạo 80,6% GMV; trong 206 mã 0 đơn có tới 204 mã niêm yết cũ trước năm 2026 (43/45 mã ra mắt năm 2026 đều có đơn).',
+      en: 'The catalog flipped to Autumn-Winter in week W36 (Aug 31: rising from 43.6% to 67.8%), paving the way for thermal top AT06 to generate 1.30B VND (83.5% of 10-SKU GMV and 80.5% of store GMV in October). Across Shop_Products (339 SKUs), 12 of 133 active SKUs drive 80.6% of GMV, while 204 of the 206 zero-sale SKUs are pre-2026 legacy listings (43 of 45 2026 launches converted).'
     }
   }
 ];

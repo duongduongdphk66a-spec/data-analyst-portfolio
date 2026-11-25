@@ -5,7 +5,7 @@ import { ArrowLeft, ExternalLink } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Library Bus - UX/UI Design Guidelines Deck | Ma Văn Hùng',
-  description: '30-slide UX/UI deck in three chapters: introduction and research, logo and UI components, and website design with wireframe and UI pairs for 20 screens.',
+  description: '30-slide BA & UX/UI deck in three chapters: introduction and research, brand and UI components, and website design with wireframe and UI pairs for 11 core screens.',
 };
 
 export default function PresentationPage() {
@@ -15,7 +15,7 @@ export default function PresentationPage() {
       <header className="min-h-[56px] py-2 bg-slate-900/90 border-[#C8EEF7]/20 px-4 flex items-center justify-between z-10 shrink-0">
         <div className="flex items-center gap-3">
           <Link
-            href="/projects/library-bus"
+            href="/projects/proj-library-bus"
             className="inline-flex items-center gap-1.5 min-h-[44px] text-xs font-semibold text-slate-300 hover:text-[#9BE7FA] px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700/80 border border-slate-700/60 hover:border-[#9BE7FA]/40 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />

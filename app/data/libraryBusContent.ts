@@ -1,28 +1,26 @@
 /**
- * Library Bus: project summary in Markdown.
- * The project is a UX/UI design project. Books, buses, routes and users in the
- * interface are sample data used to illustrate layouts.
+ * Library Bus: project summary in Markdown aligned with the actual 229-file Django 5.2 + MySQL 8.0 + Redis 7 + Celery codebase.
  */
 export const libraryBusMarkdownContent = `
-# Library Bus: Phân tích nghiệp vụ (BA), UX/UI & Kiến trúc hệ thống xe thư viện lưu động
+# Library Bus: Phân tích nghiệp vụ (BA), Kiến trúc Telemetry (MySQL 8.0 / Redis / Celery) & UX/UI
 
-Library Bus là dự án đặc tả nghiệp vụ (BA), thiết kế UX/UI và kiến trúc ứng dụng web Django cho dịch vụ xe thư viện lưu động. Độc giả tra cứu tồn kho sách theo từng xe buýt, xem lộ trình điểm đón trên bản đồ và đặt giữ sách trước. Thủ thư quản lý mượn trả, xử lý quá hạn, duyệt sách quyên góp và theo dõi báo cáo phân tích. Các con số hiển thị trên giao diện là dữ liệu hạt giống (seed data) phục vụ kiểm thử luồng.
+Library Bus là hệ thống số hóa mạng lưới xe buýt thư viện lưu động được phát triển trên **Django 5.2 (7 phân hệ, 36 model dữ liệu + 3 base model/mixin, 97 HTML template, 171 unit test tự động)**, hệ quản trị cơ sở dữ liệu **MySQL 8.0**, bộ nhớ đệm **Redis 7** và **9 tác vụ định kỳ Celery Beat**.
 
-## 01. Phân tích nghiệp vụ (BA) và nghiên cứu UX
-- Về dự án: bài toán tiếp cận thư viện cố định, phạm vi sản phẩm và ý nghĩa thương hiệu.
-- Chân dung người dùng mục tiêu (Persona), trọng số ưu tiên tính năng MVP, sơ đồ trang web (Sitemap) và lưu đồ quyết định mượn sách.
-- Quy tắc nghiệp vụ cốt lõi (BR-01..BR-04) và tiêu chí nghiệm thu (Given / When / Then).
+## 01. Bài toán Nghiệp vụ & 4 Quy tắc cốt lõi (BR-01..04)
+- **BR-01 (Hạn mức mượn & Chống tranh chấp tồn kho):** Hạn mượn mặc định 14 ngày (giao tận nơi \`ShippingRequest\` 21 ngày), hạn mức theo hạng thẻ (\`basic: 3\`, \`premium: 5\`, \`vip: 10\`). Sử dụng khóa bi quan \`select_for_update()\` trên cả \`Book\` và \`User\` trong \`transaction.atomic()\` để chặn lỗi TOCTOU Race Condition.
+- **BR-02 (Hàng đợi Đặt trước FIFO & Giải phóng tự động):** Chỉ mở khi \`not is_available\`, cấp \`queue_position\`, giữ chỗ tối đa 7 ngày (\`expires_date\`), tự động dồn hàng \`F('queue_position') - 1\` và quét định kỳ mỗi 30 phút qua Celery Beat.
+- **BR-03 (Điều kiện Gia hạn - Renewal Gate):** Gia hạn +14 ngày, tối đa 2 lần (\`renewal_count < 2\`); chặn nếu quá hạn (\`is_overdue\`) hoặc có người đang xếp hàng đặt trước.
+- **BR-04 (Biểu phí phạt lũy tiến 3 bậc):** Ngày 1–7: \`5.000đ/ngày\` → Ngày 8–30: \`10.000đ/ngày\` → Ngày 31+: \`15.000đ/ngày\` (\`TransactionService.calculate_fine\`), quét tự động lúc 06:00 và nhắc hạn lúc 08:00 hàng ngày.
 
-## 02. Logo và thành phần giao diện
-- Ý tưởng, ý nghĩa, cấu trúc tỷ lệ X và khoảng cách an toàn của logo.
-- Typography (Lora và Outfit) và bảng màu 6 tông ấm Neo-Bakery từ Molasses Ink đến Butter Cream.
-- Nút bấm, ô nhập liệu, bộ icon 24 x 24 px, header và thanh điều hướng.
+## 02. Kiến trúc Dữ liệu (MySQL 8.0 + Redis 7 + Celery) & Hệ thống Telemetry (\`analytics\` app)
+- **Kiến trúc 5 lớp:** 7 Django Apps (\`users\`, \`inventory\`, \`transactions\`, \`analytics\`, \`notifications\`, \`blog\`, \`core\`) → Service Layer khóa bi quan → MySQL 8.0 chuẩn UUIDv4 (\`TimestampedModel\`, \`SoftDeleteModel\`, \`AuditMixin\`) → Redis 7 Cache Versioning (\`CacheMixin\`) → Celery Worker/Beat (9 cron jobs).
+- **Công thức Telemetry thực tế:**
+  - \`UserActivity\`: Ghi nhận sự kiện (\`borrow\`, \`return\`, \`review\`, \`reputation_gained\`, \`level_up\`, \`login\`, \`view_book\`, \`bus_visit\`) kèm \`JSONField metadata\`, lưu trữ lạnh sang \`ArchivedUserActivity\` sau 90 ngày.
+  - \`BookAnalytics\`: \`60% lượt mượn + 30% đánh giá + 10% lượt xem + 20đ thưởng mới mượn trong 30 ngày\`.
+  - \`BusAnalytics\`: \`efficiency_score = min((total_borrows / total_visits) * 100, 100)\`.
+  - \`BookRecommendation\` & \`UserReadingStats\`: Đo lường phễu \`is_clicked\` → \`is_borrowed\` (Click Rate & Borrow Rate cho 5 thuật toán gợi ý) và điểm uy tín \`0–1.000\` phân 5 hạng từ Đồng đến Kim cương.
 
-## 03. Thiết kế website (11 cặp màn hình cốt lõi)
-- Hệ thống lưới 12 cột cho Desktop (1440px) và bố cục 1 cột tối ưu chạm cho Mobile (390px).
-- 11 cặp màn hình cốt lõi trên cả Desktop và Mobile (44 bản thiết kế), đối chiếu trực tiếp từng cặp Wireframe và UI Design.
-
-## 04. Logic Backend, Lược đồ CSDL và Chỉ số vận hành
-- Kiểm soát đồng thời PostgreSQL ACID với khóa dòng select_for_update() và hàng đợi bất đồng bộ Celery + Redis.
-- Lược đồ cơ sở dữ liệu quan hệ (6 bảng cốt lõi) và từ điển chỉ số vận hành (Overdue Rate, Fleet Turnover, Bayesian Rating, Cosine Similarity).
+## 03. Khung Master–Detail 11 cặp màn hình cốt lõi & Hệ thống Thiết kế
+- Khung Master–Detail đối chiếu 11 cặp màn hình cốt lõi (Wireframe vs UI trên Desktop 1440px & Mobile 390px) gắn liền dấu vết API/Rule nghiệp vụ.
+- Hệ thống thiết kế Neo-Bakery 6-Tone (\`#4E0705\` Molasses → \`#FDE971\` Butter), cặp phông chữ \`Lora\` + \`Outfit\`, lưới 12 cột và chuyển động GSAP 60 FPS.
 `;

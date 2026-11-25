@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { BLOG_POSTS, BlogPost } from "@/app/data/blogData";
@@ -33,6 +33,15 @@ export default function BlogPage() {
     useState<FilterCategory>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [activePost, setActivePost] = useState<BlogPost | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const slug = new URLSearchParams(window.location.search).get("post");
+    if (slug) {
+      const matched = BLOG_POSTS.find((p) => p.slug === slug || p.id === slug);
+      if (matched) setActivePost(matched);
+    }
+  }, []);
 
   const categories: { id: FilterCategory; labelVi: string; labelEn: string }[] =
     [
@@ -189,11 +198,11 @@ export default function BlogPage() {
       </section>
 
       {/* =====================================================================
-       * 3. ARTICLES LIST (Max 2 Columns per Article Card)
+       * 3. ARTICLES LIST (Scannable Summary Cards -> Full Note & Code in Modal)
        * ===================================================================== */}
-      <section className="space-y-8">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {filteredPosts.length === 0 ? (
-          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-12 text-center">
+          <div className="md:col-span-2 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-12 text-center">
             <p className="text-slate-500 dark:text-slate-400 text-sm">
               {isVi
                 ? "Không tìm thấy bài viết phù hợp với từ khóa của bạn."
@@ -204,124 +213,80 @@ export default function BlogPage() {
           filteredPosts.map((post) => (
             <article
               key={post.id}
-              className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-9 hover:border-[#9BE7FA]/60 transition-colors grid grid-cols-1 lg:grid-cols-12 gap-8"
+              className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-7 hover:border-[#9BE7FA]/60 transition-colors flex flex-col justify-between gap-5"
             >
-              {/* Left Column (7 Cols): Narrative, Process & Actions */}
-              <div className="lg:col-span-7 flex flex-col justify-between space-y-5">
-                <div className="space-y-4">
-                  {/* Meta Badges */}
-                  <div className="flex flex-wrap items-center gap-2.5 text-xs">
-                    <span className="px-3 py-1 rounded-full font-bold bg-[#9BE7FA]/15 dark:bg-[#9BE7FA]/10 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/30">
-                      {isVi ? post.categoryVi : post.categoryEn}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 tabular-nums">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {post.date}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 tabular-nums">
-                      <Clock className="w-3.5 h-3.5" />
-                      {isVi ? post.readTimeVi : post.readTimeEn}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-snug">
-                    {isVi ? post.titleVi : post.titleEn}
-                  </h2>
-
-                  {/* Problem Context */}
-                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                    {isVi ? post.problemVi : post.problemEn}
-                  </p>
-
-                  {/* Process Steps */}
-                  <div className="space-y-2 pt-1">
-                    <h3 className="text-sm font-bold text-[#074553] dark:text-[#9BE7FA]">
-                      {isVi
-                        ? "Quy trình Phân tích (Analytical Process):"
-                        : "Analytical Process:"}
-                    </h3>
-                    <ul className="space-y-2">
-                      {(isVi ? post.processVi : post.processEn).map(
-                        (step, idx) => (
-                          <li
-                            key={idx}
-                            className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300"
-                          >
-                            <CheckCircle2 className="w-4 h-4 text-[#074553] dark:text-[#9BE7FA] shrink-0 mt-0.5" />
-                            <span>{step}</span>
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
+              <div className="space-y-3.5">
+                {/* Meta Badges */}
+                <div className="flex flex-wrap items-center gap-2.5 text-xs">
+                  <span className="px-3 py-1 rounded-full font-bold bg-[#9BE7FA]/15 dark:bg-[#9BE7FA]/10 text-[#074553] dark:text-[#9BE7FA] border border-[#9BE7FA]/30">
+                    {isVi ? post.categoryVi : post.categoryEn}
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 tabular-nums">
+                    <Calendar className="w-3.5 h-3.5" />
+                    {post.date}
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 tabular-nums">
+                    <Clock className="w-3.5 h-3.5" />
+                    {isVi ? post.readTimeVi : post.readTimeEn}
+                  </span>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold">
+                    <Terminal className="w-3 h-3 text-[#0D7287] dark:text-[#9BE7FA]" />
+                    {post.codeLanguage.toUpperCase()}
+                  </span>
                 </div>
 
-                {/* Tags & Action Bar */}
-                <div className="pt-5 flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex flex-wrap gap-1.5">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
-                      >
-                        <Tag className="w-2.5 h-2.5" />
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                {/* Title */}
+                <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white leading-snug">
+                  {isVi ? post.titleVi : post.titleEn}
+                </h2>
 
-                  <div className="flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setActivePost(post)}
-                      className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-bold transition-colors cursor-pointer border border-[#9BE7FA]"
-                    >
-                      <BookOpen className="w-3.5 h-3.5" />
-                      {isVi ? "Đọc chi tiết" : "Read Full Note"}
-                    </button>
-                    <Link
-                      href={post.projectSlug}
-                      className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold transition-colors cursor-pointer"
-                    >
-                      {isVi ? "Xem Dự án" : "View Case Study"}
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </Link>
+                {/* Concise Excerpt */}
+                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {isVi ? post.excerptVi : post.excerptEn}
+                </p>
+
+                {/* Condensed Key Finding Highlight */}
+                <div className="rounded-2xl bg-[#FFE485]/15 dark:bg-[#FFE485]/10 border border-[#FFE485]/35 p-3.5">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900 dark:text-[#FFE485] mb-1">
+                    <Sparkles className="w-3.5 h-3.5 text-[#FFD14C]" />
+                    <span>{isVi ? "Điểm cốt lõi" : "Key takeaway"}</span>
                   </div>
+                  <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed line-clamp-3">
+                    {isVi ? post.findingsVi : post.findingsEn}
+                  </p>
                 </div>
               </div>
 
-              {/* Right Column (5 Cols): Code Snippet & Key Finding Highlight in #FFE485 */}
-              <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
-                {/* Code Block Card */}
-                <div className="rounded-2xl bg-slate-950 border border-slate-800 overflow-hidden">
-                  <div className="px-4 py-2.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between" /* taste-skill-ignore: code block header */>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-300">
-                      <Terminal className="w-3.5 h-3.5 text-[#9BE7FA]" />
-                      {isVi ? post.codeTitleVi : post.codeTitleEn}
+              {/* Tags & Action Bar */}
+              <div className="space-y-3.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <div className="flex flex-wrap gap-1.5">
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
+                    >
+                      <Tag className="w-2.5 h-2.5" />
+                      {tag}
                     </span>
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#9BE7FA]/20 text-[#9BE7FA]">
-                      {post.codeLanguage.toUpperCase()}
-                    </span>
-                  </div>
-                  <pre className="p-4 text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed max-h-60">
-                    <code>{post.codeSnippet}</code>
-                  </pre>
+                  ))}
                 </div>
 
-                {/* Key Findings Box with Gold Accent (#FFE485 & #FFD14C) */}
-                <div className="rounded-2xl bg-[#FFE485]/15 dark:bg-[#FFE485]/10 border border-[#FFE485]/35 p-5">
-                  <div className="flex items-center gap-2 text-sm font-bold text-amber-900 dark:text-[#FFE485] mb-2">
-                    <Sparkles className="w-4 h-4 text-[#FFD14C]" />
-                    <span>
-                      {isVi
-                        ? "Phát hiện & Giá trị Cốt lõi (Key Findings)"
-                        : "Key Findings & Impact"}
-                    </span>
-                  </div>
-                  <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed">
-                    {isVi ? post.findingsVi : post.findingsEn}
-                  </p>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setActivePost(post)}
+                    className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#9BE7FA] hover:bg-[#C8EEF7] text-[#074553] text-xs font-bold transition-colors cursor-pointer border border-[#9BE7FA]"
+                  >
+                    <BookOpen className="w-3.5 h-3.5" />
+                    {isVi ? "Đọc chi tiết & xem mã nguồn" : "Read full note & code"}
+                  </button>
+                  <Link
+                    href={post.projectSlug}
+                    className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold transition-colors cursor-pointer"
+                  >
+                    {isVi ? "Xem Dự án" : "View Case Study"}
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
               </div>
             </article>

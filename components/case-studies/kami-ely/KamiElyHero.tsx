@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Code2, Database, FileSpreadsheet } from 'lucide-react';
+import Link from 'next/link';
+import { Code2, Database, FileSpreadsheet, LayoutDashboard } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { V2 } from './commercial/kamiOutlineV2Metrics';
 
@@ -92,6 +93,13 @@ export default function KamiElyHero({
               <span>{isEn ? 'Python & SQL Notebook' : 'Sổ tay Python & SQL'}</span>
             </button>
           )}
+          <Link
+            href="/projects/kami-ely/bi-spec"
+            className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#FFE485]/60 hover:bg-[#FFE485] px-3.5 py-2 text-xs font-bold text-amber-950 border border-[#FFD14C] dark:bg-[#FFD14C]/15 dark:hover:bg-[#FFD14C]/25 dark:text-[#FFE485] dark:border-[#FFD14C]/40 transition-colors cursor-pointer"
+          >
+            <LayoutDashboard className="w-4 h-4 text-amber-800 dark:text-[#FFD14C]" aria-hidden="true" />
+            <span>{isEn ? 'BI Spec (Power BI / Looker)' : 'Đặc tả BI (Power BI / Looker)'}</span>
+          </Link>
           {onJumpToSection && (
             <button
               type="button"
@@ -105,39 +113,17 @@ export default function KamiElyHero({
         </div>
       </div>
 
-      <div className="space-y-2.5 max-w-4xl">
+      <div className="space-y-2 max-w-4xl">
         <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white leading-tight text-balance">
           {isEn
-            ? 'Kami Ely (@shop_official): Where does revenue come from, and which signals precede a peak-season drop?'
-            : 'Kami Ely (@shop_official): doanh thu đến từ đâu, và tín hiệu nào báo trước khi mùa cao điểm gãy?'}
+            ? 'Kami Ely (@shop_official): Where does revenue come from, and why did August drop 83.1%?'
+            : 'Kami Ely (@shop_official): Doanh thu đến từ đâu và vì sao Tháng 8 rơi 83,1%?'}
         </h1>
-
-        <ul className="space-y-1.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed max-w-3xl tabular-nums">
-          <li>
-            <strong className="font-bold text-slate-950 dark:text-white">
-              {isEn ? 'Where does revenue come from?' : 'Doanh thu đến từ đâu?'}
-            </strong>{' '}
-            {isEn
-              ? 'Live accounts for 69.8% of shop GMV, with official shop streams generating 72.5%; 12/133 SKUs drive 80.6% of GMV.'
-              : 'Live chiếm 69,8% GMV shop, trong đó phiên của chính shop chiếm 72,5%; 12/133 mã tạo 80,6% GMV.'}
-          </li>
-          <li>
-            <strong className="font-bold text-slate-950 dark:text-white">
-              {isEn ? 'What does it depend on?' : 'Phụ thuộc vào đâu?'}
-            </strong>{' '}
-            {isEn
-              ? 'Seasonality and official Live scheduling: monthly GMV quadrupled from Mar to Jun then fell 83.1% to Aug.'
-              : 'Mùa vụ và lịch live của chính shop: GMV tăng gấp bốn từ T3 lên T6 rồi giảm 83,1% đến T8.'}
-          </li>
-          <li>
-            <strong className="font-bold text-slate-950 dark:text-white">
-              {isEn ? 'Risk signals?' : 'Tín hiệu rủi ro?'}
-            </strong>{' '}
-            {isEn
-              ? 'With single-season data, no signal is both early and reliable; MA7/MA28 crossovers lag and produce false alarms.'
-              : 'Với dữ liệu một mùa, chưa có tín hiệu nào vừa sớm vừa đúng; MA7/MA28 báo trễ và hay báo giả.'}
-          </li>
-        </ul>
+        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
+          {isEn
+            ? 'Independent SQL and Python audit across 231 days (10 FastMoss exports) decomposing channel reliance, seasonal SKU transition, and KOC conversion.'
+            : 'Kiểm toán độc lập bằng SQL và Python trên 231 ngày vận hành (10 bảng FastMoss) nhằm bóc tách cơ cấu kênh bán, vùng trũng giao mùa và hiệu suất mạng lưới KOC.'}
+        </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">

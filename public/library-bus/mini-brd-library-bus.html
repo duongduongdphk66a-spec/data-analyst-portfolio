@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini-BRD: Hệ thống Xe Thư Viện Lưu Động (Library Bus) | Ma Văn Hùng</title>
+  <style>
+    :root {
+      --cyan: #9BE7FA;
+      --ice: #C8EEF7;
+      --butter: #FFE485;
+      --amber: #FFD14C;
+      --teal-dark: #074553;
+      --teal: #0D7287;
+      --ink: #0f172a;
+      --muted: #475569;
+      --line: #e2e8f0;
+      --surface: #f8fafc;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+      background: #f1f5f9;
+      line-height: 1.55;
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: var(--teal-dark);
+      font-size: 13px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 40px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--ink);
+      transition: background-color 150ms ease, border-color 150ms ease;
+    }
+
+    .btn:hover { background: var(--surface); border-color: var(--teal); }
+
+    .btn-primary {
+      background: var(--cyan);
+      border-color: #72d5ee;
+      color: var(--teal-dark);
+    }
+
+    .btn-primary:hover { background: var(--ice); }
+
+    .sheet {
+      max-width: 960px;
+      margin: 24px auto 48px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 36px 40px;
+    }
+
+    .doc-header {
+      border-bottom: 2px solid var(--teal-dark);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+
+    .doc-pill {
+      display: inline-block;
+      background: rgba(200, 238, 247, 0.65);
+      border: 1px solid var(--cyan);
+      color: var(--teal-dark);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      max-width: 72ch;
+      font-size: 14px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .meta-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .meta-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .meta-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    section {
+      margin-top: 26px;
+      page-break-inside: avoid;
+    }
+
+    section.allow-break {
+      page-break-inside: auto;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 17px;
+      letter-spacing: -0.01em;
+      color: var(--teal-dark);
+      padding-left: 10px;
+      border-left: 4px solid var(--cyan);
+    }
+
+    h3 {
+      margin: 14px 0 6px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    p { margin: 0 0 10px; color: #334155; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .box {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+      background: #ffffff;
+    }
+
+    .box-in {
+      border-color: #a7f3d0;
+      background: #f0fdf4;
+    }
+
+    .box-out {
+      border-color: #cbd5e1;
+      background: var(--surface);
+    }
+
+    .box-warn {
+      border-color: var(--amber);
+      background: rgba(255, 228, 133, 0.28);
+    }
+
+    ul {
+      margin: 6px 0 0;
+      padding-left: 18px;
+      color: #334155;
+    }
+
+    li { margin-bottom: 5px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      margin-top: 8px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: rgba(200, 238, 247, 0.55);
+      color: var(--teal-dark);
+      font-weight: 700;
+    }
+
+    tr:nth-child(even) td { background: #f8fafc; }
+
+    .code-tag {
+      display: inline-block;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: var(--teal-dark);
+      color: #ffffff;
+      padding: 2px 7px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .code-inline {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11.5px;
+      background: #f1f5f9;
+      color: var(--teal-dark);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .kpi-item {
+      border: 1px solid var(--ice);
+      background: rgba(200, 238, 247, 0.22);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    .kpi-item strong {
+      display: block;
+      font-size: 14px;
+      color: var(--teal-dark);
+      margin-bottom: 4px;
+    }
+
+    .doc-footer {
+      margin-top: 30px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 720px) {
+      .sheet { margin: 12px; padding: 20px 18px; }
+      .meta-grid, .two-col, .kpi-strip { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      @page { size: A4; margin: 14mm 12mm; }
+      body { background: #ffffff; font-size: 11.5px; }
+      .toolbar { display: none !important; }
+      .sheet {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+      }
+      tr { page-break-inside: avoid; }
+      .box, .kpi-item, .meta-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span>Mini-BRD · Library Bus System (v1.0)</span>
+    </div>
+    <div class="toolbar-actions">
+      <a class="btn" href="/projects/proj-library-bus">Về Case Study</a>
+      <button type="button" class="btn btn-primary" onclick="window.print()">In / Lưu PDF (A4)</button>
+    </div>
+  </div>
+
+  <main class="sheet">
+    <header class="doc-header">
+      <span class="doc-pill">Business Requirements Document (Mini-BRD) · Chuẩn BA &amp; Product Telemetry</span>
+      <h1>Hệ thống Xe Thư Viện Lưu Động (Library Bus System)</h1>
+      <p class="subtitle">
+        Tài liệu đặc tả yêu cầu nghiệp vụ, quy tắc mượn/trả/phạt, User Stories kèm Acceptance Criteria (Given–When–Then),
+        Ma trận truy vết yêu cầu (RTM) và kế hoạch đo lường Product Telemetry, được đối chiếu trực tiếp với bản mẫu triển khai trên Django 5.2 + MySQL 8.0 + Redis 7 + Celery 5.5.3.
+      </p>
+
+      <div class="meta-grid">
+        <div class="meta-card">
+          <div class="meta-label">Tác giả / Vai trò</div>
+          <div class="meta-val">Ma Văn Hùng · BA &amp; Data</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">Phiên bản &amp; Trạng thái</div>
+          <div class="meta-val">v1.0 · Đã kiểm chứng Prototype</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">Quy mô kiểm toán mã nguồn</div>
+          <div class="meta-val">7 Apps · 36 Models · 11 Screens</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">Độ phủ kiểm thử tự động</div>
+          <div class="meta-val">171 Unit Tests · 9 Cron Jobs</div>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <h2>1. Bối cảnh nghiệp vụ và Mục tiêu bài toán</h2>
+      <p>
+        Mạng lưới xe thư viện lưu động phục vụ bạn đọc tại Hà Nội và các tỉnh lân cận gặp ba điểm nghẽn vận hành khi quản lý thủ công:
+        (1) sai lệch tồn kho sách trên từng xe dẫn đến đặt trùng bản sao cuối cùng,
+        (2) không có hàng đợi tự động cho sách hết bản khiến độc giả bỏ lỡ lượt nhận sách, và
+        (3) thiếu công cụ ghi nhận phí phạt quá hạn theo bậc cũng như thiếu dữ liệu đo hiệu suất từng tuyến xe và đầu sách.
+      </p>
+      <p>
+        <strong>Mục tiêu giai đoạn 1 (MVP):</strong> Chuẩn hóa trọn vòng đời mượn, đặt trước, gia hạn và thu hồi sách bằng 4 bộ quy tắc nghiệp vụ (<span class="code-inline">BR-01</span> đến <span class="code-inline">BR-04</span>), đồng thời nhúng tầng Product Telemetry ngay từ ngày đầu để theo dõi hành vi đọc và hiệu quả phân bổ đội xe.
+      </p>
+    </section>
+
+    <section>
+      <h2>2. Phạm vi dự án (In-Scope &amp; Out-of-Scope)</h2>
+      <div class="two-col">
+        <div class="box box-in">
+          <h3>Trong phạm vi (In-Scope · GĐ 1 MVP)</h3>
+          <ul>
+            <li>Tra cứu kho sách theo từng xe buýt (<span class="code-inline">available_copies</span>) và lịch trình điểm đón.</li>
+            <li>Đặt mượn sách an toàn chống tranh chấp tồn kho (<span class="code-inline">BR-01</span>) với khóa bi quan ACID.</li>
+            <li>Hàng đợi đặt trước FIFO giữ chỗ 7 ngày và tự động đôn lượt mỗi 30 phút (<span class="code-inline">BR-02</span>).</li>
+            <li>Cổng kiểm tra điều kiện gia hạn phiếu mượn tối đa 2 lần (<span class="code-inline">BR-03</span>).</li>
+            <li>Tính phí phạt lũy tiến 3 bậc tự động lúc 06:00, nhắc hạn lúc 08:00 và luồng duyệt miễn giảm có log (<span class="code-inline">BR-04</span>).</li>
+            <li>Quyên góp sách hỗ trợ trích xuất metadata ISBN bằng Gemini AI và tầng Product Telemetry (8 loại sự kiện).</li>
+          </ul>
+        </div>
+        <div class="box box-out">
+          <h3>Ngoài phạm vi (Out-of-Scope · Chuyển sang GĐ 2)</h3>
+          <ul>
+            <li>Tích hợp cổng thanh toán trực tuyến tự động thu tiền phạt (GĐ 1 thủ thư xác nhận tại quầy qua bảng <span class="code-inline">FinePayment</span>).</li>
+            <li>Thiết bị định vị GPS phần cứng thời gian thực gắn trên xe buýt vật lý.</li>
+            <li>Nghiệp vụ điều chuyển tồn kho tự động giữa kho trung tâm và xe lưu động liên tỉnh.</li>
+            <li>Ứng dụng di động gốc iOS/Android (GĐ 1 triển khai web responsive chuẩn Desktop 1440px và Mobile 390px).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>3. Các bên liên quan và Tác nhân hệ thống (Actors)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 20%;">Tác nhân</th>
+            <th style="width: 42%;">Mục tiêu chính</th>
+            <th style="width: 38%;">Quyền hạn &amp; Điểm chạm màn hình</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Độc giả (Reader)</strong></td>
+            <td>Tìm sách còn trên xe gần nhất, đặt mượn hoặc xếp hàng đặt trước, theo dõi hạn trả và gia hạn trực tuyến.</td>
+            <td>#01 Trang chủ, #03 Kho sách, #04 Chi tiết sách, #05 Quyên góp, #06 Đội xe, #07 Lộ trình, #08 Hồ sơ bạn đọc.</td>
+          </tr>
+          <tr>
+            <td><strong>Thủ thư vận hành (Librarian)</strong></td>
+            <td>Xác nhận giao/nhận sách tại điểm dừng, duyệt sách quyên góp, xử lý phiếu quá hạn và ghi nhận thanh toán phạt.</td>
+            <td>#09 Quản lý mượn trả, #10 Analytics Dashboard, #11 Django Admin (quyền duyệt <span class="code-inline">FinePayment</span>).</td>
+          </tr>
+          <tr>
+            <td><strong>Quản trị viên (Admin)</strong></td>
+            <td>Quản trị danh mục 7 phân hệ, cấp hạn mức hội viên, phê duyệt miễn giảm phạt 0–100% và kiểm tra log kiểm toán.</td>
+            <td>#10 Analytics Dashboard, #11 Django Admin (<span class="code-inline">AuditMixin</span> &amp; <span class="code-inline">ArchivedUserActivity</span>).</td>
+          </tr>
+          <tr>
+            <td><strong>Tác vụ nền (Celery Beat)</strong></td>
+            <td>Tự động hóa vận hành lặp lại mà không cần can thiệp thủ công: quét hàng đợi, tính phạt, gửi email, tổng hợp chỉ số.</td>
+            <td>9 tác vụ định kỳ chạy qua Redis 7 Broker (30p FIFO, 06:00 phạt, 08:00 nhắc hạn, 00:15 DailyStats, 01:00 streak, lưu kho lạnh &gt;90 ngày).</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="allow-break">
+      <h2>4. Danh mục Quy tắc nghiệp vụ (Business Rules Catalog)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 9%;">Mã BR</th>
+            <th style="width: 24%;">Tên quy tắc</th>
+            <th style="width: 34%;">Quy định nghiệp vụ &amp; Ngoại lệ chặn</th>
+            <th style="width: 33%;">Ràng buộc kỹ thuật thực thi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="code-tag">BR-01</span></td>
+            <td><strong>Hạn mức mượn &amp; Chống trùng tồn kho</strong></td>
+            <td>
+              Hạn mượn mặc định 14 ngày (21 ngày nếu giao tận nơi <span class="code-inline">ShippingRequest</span>). Giới hạn 5 cuốn mặc định (hoặc theo hạng <span class="code-inline">borrow_limit</span>: basic 3, premium 5, vip 10).<br />
+              <strong>Chặn:</strong> Độc giả chạm trần hạn mức, đang có sách quá hạn chưa trả, hoặc <span class="code-inline">available_copies = 0</span>.
+            </td>
+            <td>
+              Khóa bi quan <span class="code-inline">select_for_update()</span> đồng thời trên <span class="code-inline">Book</span> và <span class="code-inline">User</span> trong <span class="code-inline">transaction.atomic()</span> (<span class="code-inline">transactions/services.py</span>) + ràng buộc <span class="code-inline">unique_active_borrow</span>.
+            </td>
+          </tr>
+          <tr>
+            <td><span class="code-tag">BR-02</span></td>
+            <td><strong>Hàng đợi đặt trước FIFO &amp; Giữ chỗ 7 ngày</strong></td>
+            <td>
+              Mở đặt trước khi sách hết bản (<span class="code-inline">not is_available</span>). Mỗi độc giả giữ tối đa 1 lượt đặt chưa hoàn tất cho cùng đầu sách.<br />
+              <strong>Chặn / Tự động:</strong> Quá 7 ngày (<span class="code-inline">expires_date &lt; now</span>) không nhận tại xe đăng ký, hệ thống tự hủy và đẩy người kế tiếp.
+            </td>
+            <td>
+              Ràng buộc <span class="code-inline">unique_active_reservation</span>; cấp <span class="code-inline">queue_position</span> tự động; dồn hàng nguyên tử bằng <span class="code-inline">F('queue_position') - 1</span>; Celery Beat quét 30 phút/lần.
+            </td>
+          </tr>
+          <tr>
+            <td><span class="code-tag">BR-03</span></td>
+            <td><strong>Cổng kiểm tra Gia hạn (Renewal Gate)</strong></td>
+            <td>
+              Mỗi phiếu mượn được gia hạn tối đa 2 lần (<span class="code-inline">renewal_count &lt; 2</span>), cộng thêm +14 ngày cho mỗi lần.<br />
+              <strong>Chặn cứng:</strong> Phiếu đã quá hạn (<span class="code-inline">is_overdue</span>) HOẶC đầu sách đang có người đặt trước chưa hoàn tất.
+            </td>
+            <td>
+              Kiểm tra nguyên tử trong <span class="code-inline">TransactionService.renew_book()</span>; ghi vết <span class="code-inline">AuditMixin</span> và xóa cache phiên bản Redis (<span class="code-inline">CacheMixin</span>).
+            </td>
+          </tr>
+          <tr>
+            <td><span class="code-tag">BR-04</span></td>
+            <td><strong>Biểu phí phạt lũy tiến 3 bậc</strong></td>
+            <td>
+              Ngày 1–7: 5.000đ/ngày (tối đa 35k); Ngày 8–30: +10.000đ/ngày (mốc 30 ngày = 265k); Từ ngày 31+: +15.000đ/ngày (mốc 40 ngày = 415k).<br />
+              <strong>Ngoại lệ:</strong> Cho phép miễn giảm 0–100% (<span class="code-inline">discount_percentage</span>) bắt buộc có người duyệt và lý do.
+            </td>
+            <td>
+              Hàm <span class="code-inline">TransactionService.calculate_fine()</span>; Celery Beat quét và cập nhật <span class="code-inline">FinePayment</span> lúc 06:00 sáng, gửi email nhắc hạn lúc 08:00 sáng hằng ngày.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="allow-break">
+      <h2>5. User Stories và Acceptance Criteria (Given–When–Then)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 11%;">ID / BR</th>
+            <th style="width: 31%;">User Story</th>
+            <th style="width: 58%;">Tiêu chí nghiệm thu (Acceptance Criteria)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>US-01</strong><br /><span class="code-inline">BR-01</span></td>
+            <td>Là độc giả, tôi muốn đặt mượn bản sao cuối cùng an toàn để không bị lỗi trùng đơn với người khác.</td>
+            <td>
+              <strong>Given</strong> đầu sách có <span class="code-inline">available_copies = 1</span> và 2 độc giả bấm Mượn đồng thời;<br />
+              <strong>When</strong> <span class="code-inline">TransactionService</span> chạy khóa <span class="code-inline">select_for_update()</span> trong <span class="code-inline">transaction.atomic()</span>;<br />
+              <strong>Then</strong> chỉ giao dịch đầu tiên tạo <span class="code-inline">BorrowRecord</span> thành công (<span class="code-inline">available_copies = 0</span>), giao dịch thứ hai bị chặn mượn trực tiếp và nhận gợi ý chuyển sang đặt trước FIFO.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>US-02</strong><br /><span class="code-inline">BR-02</span></td>
+            <td>Là độc giả đang xếp hàng, tôi muốn tự động được đôn lượt khi người trước bỏ hẹn quá 7 ngày.</td>
+            <td>
+              <strong>Given</strong> phiếu đặt trước có <span class="code-inline">is_fulfilled = False</span> và <span class="code-inline">expires_date &lt; now</span>;<br />
+              <strong>When</strong> tác vụ Celery Beat quét hàng đợi chạy định kỳ mỗi 30 phút;<br />
+              <strong>Then</strong> phiếu hết hạn chuyển trạng thái hủy, các vị trí phía sau giảm <span class="code-inline">queue_position - 1</span> và độc giả kế tiếp nhận thông báo đến điểm dừng nhận sách.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>US-03</strong><br /><span class="code-inline">BR-03</span></td>
+            <td>Là độc giả, tôi muốn gia hạn sách đang đọc thêm 14 ngày ngay trên hồ sơ cá nhân nếu đủ điều kiện.</td>
+            <td>
+              <strong>Given</strong> phiếu mượn chưa quá hạn, <span class="code-inline">renewal_count &lt; 2</span> và không có độc giả khác đặt trước sách đó;<br />
+              <strong>When</strong> độc giả chọn Gia hạn tại màn hình #08 Hồ sơ bạn đọc;<br />
+              <strong>Then</strong> <span class="code-inline">due_date</span> cộng thêm 14 ngày, <span class="code-inline">renewal_count</span> tăng 1 và cache Redis của độc giả được làm mới. Nếu có người đặt trước hoặc đã quá hạn, hệ thống từ chối kèm thông báo lý do rõ ràng.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>US-04</strong><br /><span class="code-inline">BR-04</span></td>
+            <td>Là thủ thư, tôi muốn hệ thống tự tính tiền phạt lũy tiến và lưu vết khi duyệt miễn giảm để minh bạch công nợ.</td>
+            <td>
+              <strong>Given</strong> độc giả có phiếu mượn quá hạn 14 ngày;<br />
+              <strong>When</strong> tác vụ 06:00 chạy <span class="code-inline">calculate_fine()</span>;<br />
+              <strong>Then</strong> hệ thống ghi nhận 105.000đ (7 ngày × 5k + 7 ngày × 10k) vào <span class="code-inline">FinePayment</span>. Nếu Admin áp dụng giảm 50%, số tiền cập nhật còn 52.500đ và lưu bắt buộc ID người duyệt cùng lý do qua <span class="code-inline">AuditMixin</span>.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>US-05</strong><br /><span class="code-inline">Telemetry</span></td>
+            <td>Là quản trị vận hành, tôi muốn theo dõi tỷ lệ chuyển đổi gợi ý sách và hiệu suất từng tuyến xe để điều phối đầu sách.</td>
+            <td>
+              <strong>Given</strong> độc giả xem sách (<span class="code-inline">track_book_view</span>), ghé xe (<span class="code-inline">track_bus_visit</span>) hoặc bấm vào sách gợi ý;<br />
+              <strong>When</strong> sự kiện hoàn tất và tác vụ <span class="code-inline">DailyStats</span> (00:15) tổng hợp dữ liệu;<br />
+              <strong>Then</strong> màn hình #10 Analytics Dashboard hiển thị phễu Click Rate → Borrow Rate của 5 thuật toán gợi ý, điểm <span class="code-inline">BookAnalytics</span> và điểm hiệu suất <span class="code-inline">BusAnalytics</span> theo thời gian.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="allow-break">
+      <h2>6. Ma trận Truy vết Yêu cầu (Requirements Traceability Matrix — RTM)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Yêu cầu</th>
+            <th>Màn hình giao diện (11 Core Flows)</th>
+            <th>Thực thể DB / Dịch vụ / Cron Job</th>
+            <th>Kiểm chứng</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>US-01 / BR-01</strong></td>
+            <td>#03 Kho sách, #04 Chi tiết sách (<span class="code-inline">/inventory/books/&lt;uuid&gt;/</span>)</td>
+            <td><span class="code-inline">Book</span>, <span class="code-inline">BorrowRecord</span>, <span class="code-inline">TransactionService.borrow_book</span></td>
+            <td>Unit tests khóa ACID &amp; hạn mức mượn</td>
+          </tr>
+          <tr>
+            <td><strong>US-02 / BR-02</strong></td>
+            <td>#04 Chi tiết sách, #07 Lộ trình &amp; Trạm đón (<span class="code-inline">/inventory/routes/&lt;uuid&gt;/</span>)</td>
+            <td><span class="code-inline">BookReservation</span>, Celery FIFO scan (30 phút/lần)</td>
+            <td>Unit tests thứ tự hàng đợi &amp; tự hủy sau 7 ngày</td>
+          </tr>
+          <tr>
+            <td><strong>US-03 / BR-03</strong></td>
+            <td>#08 Hồ sơ bạn đọc (<span class="code-inline">/users/profile/</span>)</td>
+            <td><span class="code-inline">TransactionService.renew_book</span>, <span class="code-inline">CacheMixin</span></td>
+            <td>Unit tests chặn gia hạn quá hạn / có người chờ</td>
+          </tr>
+          <tr>
+            <td><strong>US-04 / BR-04</strong></td>
+            <td>#09 Quản lý mượn trả, #11 Django Admin (<span class="code-inline">/transactions/borrows/</span>)</td>
+            <td><span class="code-inline">FinePayment</span>, Celery 06:00 fine &amp; 08:00 email</td>
+            <td>Unit tests 3 bậc phạt &amp; miễn giảm 0–100%</td>
+          </tr>
+          <tr>
+            <td><strong>US-05 / Telemetry</strong></td>
+            <td>#01 Trang chủ, #05 Quyên góp, #06 Đội xe, #10 Analytics Dashboard</td>
+            <td><span class="code-inline">UserActivity</span>, <span class="code-inline">ArchivedUserActivity</span>, <span class="code-inline">BookAnalytics</span>, <span class="code-inline">BusAnalytics</span>, <span class="code-inline">DailyStats</span> (00:15)</td>
+            <td>Bộ 171 Unit Tests trên 7 phân hệ Django</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>7. Kế hoạch đo lường Product Telemetry và Yêu cầu phi chức năng (NFR)</h2>
+      <div class="kpi-strip">
+        <div class="kpi-item">
+          <strong>BookAnalytics.popularity_score</strong>
+          Công thức trọng số: 60% lượt mượn + 30% đánh giá + 10% lượt xem + 20 điểm thưởng sách mới.
+        </div>
+        <div class="kpi-item">
+          <strong>BusAnalytics.efficiency_score</strong>
+          Công thức: <span class="code-inline">min((borrows / visits) * 100, 100)</span>, đánh giá tỷ lệ chuyển đổi độc giả ghé xe sang mượn sách.
+        </div>
+        <div class="kpi-item">
+          <strong>Recommendation Funnel</strong>
+          Theo dõi <span class="code-inline">Click Rate → Borrow Rate</span> cho 5 thuật toán gợi ý qua bảng <span class="code-inline">BookRecommendation</span>.
+        </div>
+      </div>
+
+      <h3>Yêu cầu phi chức năng chính (NFRs)</h3>
+      <ul>
+        <li><strong>Toàn vẹn dữ liệu:</strong> Toàn bộ 36 model kế thừa 3 lớp nền <span class="code-inline">UUIDv4</span>, <span class="code-inline">SoftDelete</span> (không xóa cứng giao dịch lịch sử) và <span class="code-inline">AuditMixin</span>.</li>
+        <li><strong>Quản trị dung lượng log:</strong> 8 loại sự kiện <span class="code-inline">UserActivity</span> (kèm <span class="code-inline">JSONField</span> metadata) tự động chuyển sang kho lạnh <span class="code-inline">ArchivedUserActivity</span> sau 90 ngày để giữ tốc độ truy vấn bảng nóng.</li>
+        <li><strong>Hiệu năng &amp; Triển khai:</strong> Bộ nhớ đệm phiên bản Redis 7 (<span class="code-inline">CacheMixin</span>), đóng gói 5 dịch vụ Docker Compose (Web, MySQL 8.0, Redis 7, Celery Worker, Celery Beat).</li>
+      </ul>
+
+      <div class="box box-warn" style="margin-top: 12px;">
+        <strong>Minh bạch dữ liệu bản mẫu:</strong> Các quy tắc <span class="code-inline">BR-01..04</span>, lược đồ 36 bảng và 171 unit tests là mã nguồn thực tế đã kiểm chứng. Tỷ trọng nhóm Persona (48% / 32% / 20%) và các số liệu minh họa trên màn hình dashboard là dữ liệu giả lập phục vụ kiểm thử thiết kế, không phải dữ liệu vận hành thực địa.
+      </div>
+    </section>
+
+    <footer class="doc-footer">
+      <span>Ma Văn Hùng · Data Analyst &amp; Business Analyst Portfolio</span>
+      <span>Tài liệu Mini-BRD · Library Bus System (Sẵn sàng in hoặc lưu PDF A4)</span>
+    </footer>
+  </main>
+</body>
+</html>

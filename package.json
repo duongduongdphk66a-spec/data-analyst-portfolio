@@ -12,6 +12,7 @@
     "lint": "next lint",
     "test": "vitest run",
     "verify": "node scripts/verify_system_integrity.js",
+    "cv:build": "node scripts/generate_cv_pdf.mjs",
     "clean": "node -e \"fs.rmSync('.next', { recursive: true, force: true })\"",
     "kami:import-supplementary": "python scripts/kami/import_kami_supplementary.py",
     "kami:merge-all-timeframes": "python scripts/kami/import_kami_all_timeframes.py"

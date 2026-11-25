@@ -45,9 +45,9 @@ const PROJECT_METADATA: Record<string, { title: string; desc: string; keywords?:
     keywords: ['Time Series', 'Heritage Tourism', 'Japan JNTO', 'Data Modeling', 'Data Storytelling', 'Python'],
   },
   'proj-library-bus': {
-    title: 'Library Bus: UX/UI Design for a Mobile Library Website | Ma Văn Hùng',
-    desc: 'Dự án thiết kế UX/UI cho website xe thư viện lưu động: nghiên cứu, logo và thành phần giao diện, hệ thống lưới, wireframe và UI design cho 20 màn hình desktop kèm bản mobile.',
-    keywords: ['UX/UI Design', 'Wireframe', 'Design System', 'Website Design', 'Responsive'],
+    title: 'Library Bus: Đặc tả Nghiệp vụ (BA), Telemetry & UX/UI | Ma Văn Hùng',
+    desc: 'Đặc tả 4 quy tắc nghiệp vụ (BR-01..04), kiến trúc MySQL 8.0/Redis/Celery, phân hệ Product Telemetry và 11 cặp màn hình Wireframe – UI cốt lõi (Desktop & Mobile).',
+    keywords: ['Business Analysis', 'Product Telemetry', 'MySQL 8.0', 'Wireframe', 'UX/UI Design'],
   },
 };
 

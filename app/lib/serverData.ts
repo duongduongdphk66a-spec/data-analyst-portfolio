@@ -4,7 +4,7 @@ import { getDbPool } from './db';
 import { getApiCacheAsync, setApiCacheAsync } from './cache';
 import { DEFAULT_PROFILE, DEFAULT_PROJECTS } from '../defaultData';
 import { ProfileData, ProjectData } from '../types';
-import { KamiElyDataPayload, HeritageJapanDataPayload, LibraryBusDataPayload, KamiEly7StagesPayload } from '../types/caseStudies';
+import { KamiElyDataPayload, HeritageJapanDataPayload, LibraryBusDataPayload } from '../types/caseStudies';
 import { buildKamiEly7StagesPayload } from './kamiElyStagesData';
 import { RowDataPacket } from 'mysql2';
 import { safeJsonParse } from './security';
@@ -331,23 +331,6 @@ export async function getKamiElyDataWithFallback(): Promise<KamiElyDataPayload> 
   };
 
   setApiCacheAsync(cacheKey, payload, 120000).catch(() => {});
-  return payload;
-}
-
-/**
- * Fetch compiled 7-stage commercial payload with caching.
- */
-export async function getKamiElyCommercialStagesPayload(): Promise<KamiEly7StagesPayload> {
-  const cacheKey = 'case-study:kami-ely:commercial-stages';
-  try {
-    const cached = await getApiCacheAsync<KamiEly7StagesPayload>(cacheKey);
-    if (cached) return cached;
-  } catch {
-    // Non-critical cache error
-  }
-
-  const payload = buildKamiEly7StagesPayload();
-  setApiCacheAsync(cacheKey, payload, 300000).catch(() => {});
   return payload;
 }
 

@@ -4693,6 +4693,249 @@
           }
         ]
       }
+    },
+    "sankey226d": {
+      "cutoffDate": "2026-10-20",
+      "days": 226,
+      "store226GmvB": 14.84,
+      "liveGmvB": 10.47,
+      "liveSharePct": 70.5,
+      "videoGmvB": 2.2,
+      "videoSharePct": 14.8,
+      "otherGmvB": 2.18,
+      "otherSharePct": 14.7,
+      "liveBreakdown": {
+        "officialGmvB": 7.59,
+        "officialSharePct": 72.5,
+        "satelliteGmvB": 1.26,
+        "satelliteSharePct": 12,
+        "inHouseSharePct": 84.5,
+        "externalGmvB": 1.62,
+        "externalSharePct": 15.5
+      },
+      "videoBreakdown": {
+        "externalGmvB": 1.28,
+        "externalSharePct": 58.4,
+        "officialGmvB": 0.8,
+        "officialSharePct": 36.5,
+        "satelliteGmvB": 0.11,
+        "satelliteSharePct": 5.1
+      }
+    },
+    "dualPareto": {
+      "koc": {
+        "totalChannels": 6086,
+        "activeChannels": 329,
+        "activePct": 5.4,
+        "zeroChannels": 5757,
+        "totalGmvB": 2.92,
+        "officialSharePct": 60.1,
+        "satelliteSharePct": 14.8,
+        "inHouseTop2SharePct": 74.9,
+        "top10SharePct": 83.7,
+        "items": [
+          {
+            "rank": 1,
+            "label": "@shop_official (Chính chủ)",
+            "gmvM": 1754.2,
+            "sharePct": 60.1,
+            "cumPct": 60.1,
+            "isInHouse": true
+          },
+          {
+            "rank": 2,
+            "label": "@koc_sat01 (Vệ tinh)",
+            "gmvM": 432.3,
+            "sharePct": 14.8,
+            "cumPct": 74.9,
+            "isInHouse": true
+          },
+          {
+            "rank": 3,
+            "label": "KOC #3",
+            "gmvM": 55.1,
+            "sharePct": 1.9,
+            "cumPct": 76.7,
+            "isInHouse": false
+          },
+          {
+            "rank": 4,
+            "label": "KOC #4",
+            "gmvM": 54.2,
+            "sharePct": 1.9,
+            "cumPct": 78.6,
+            "isInHouse": false
+          },
+          {
+            "rank": 5,
+            "label": "KOC #5",
+            "gmvM": 33.1,
+            "sharePct": 1.1,
+            "cumPct": 79.7,
+            "isInHouse": false
+          },
+          {
+            "rank": 6,
+            "label": "KOC #6",
+            "gmvM": 30.2,
+            "sharePct": 1,
+            "cumPct": 80.8,
+            "isInHouse": false
+          },
+          {
+            "rank": 7,
+            "label": "KOC #7",
+            "gmvM": 26,
+            "sharePct": 0.9,
+            "cumPct": 81.7,
+            "isInHouse": false
+          },
+          {
+            "rank": 8,
+            "label": "KOC #8",
+            "gmvM": 21.2,
+            "sharePct": 0.7,
+            "cumPct": 82.4,
+            "isInHouse": false
+          },
+          {
+            "rank": 9,
+            "label": "KOC #9",
+            "gmvM": 20.2,
+            "sharePct": 0.7,
+            "cumPct": 83.1,
+            "isInHouse": false
+          },
+          {
+            "rank": 10,
+            "label": "KOC #10",
+            "gmvM": 19.7,
+            "sharePct": 0.7,
+            "cumPct": 83.7,
+            "isInHouse": false
+          },
+          {
+            "rank": 11,
+            "label": "KOC #11",
+            "gmvM": 18.5,
+            "sharePct": 0.6,
+            "cumPct": 84.4,
+            "isInHouse": false
+          },
+          {
+            "rank": 12,
+            "label": "KOC #12",
+            "gmvM": 16.6,
+            "sharePct": 0.6,
+            "cumPct": 84.9,
+            "isInHouse": false
+          }
+        ]
+      },
+      "sku": {
+        "totalSkus": 339,
+        "activeSkus": 133,
+        "activePct": 39.2,
+        "zeroSkus": 206,
+        "totalGmvB": 3.16,
+        "top1Code": "AT06",
+        "top1GmvB": 1.48,
+        "top1SharePct": 46.9,
+        "top12SharePct": 80.6,
+        "items": [
+          {
+            "rank": 1,
+            "code": "AT06",
+            "gmvM": 1483.7,
+            "sharePct": 46.9,
+            "cumPct": 46.9
+          },
+          {
+            "rank": 2,
+            "code": "SKU_2",
+            "gmvM": 339.6,
+            "sharePct": 10.7,
+            "cumPct": 57.7
+          },
+          {
+            "rank": 3,
+            "code": "SKU_3",
+            "gmvM": 146.2,
+            "sharePct": 4.6,
+            "cumPct": 62.3
+          },
+          {
+            "rank": 4,
+            "code": "H36",
+            "gmvM": 104,
+            "sharePct": 3.3,
+            "cumPct": 65.6
+          },
+          {
+            "rank": 5,
+            "code": "H32",
+            "gmvM": 90.9,
+            "sharePct": 2.9,
+            "cumPct": 68.5
+          },
+          {
+            "rank": 6,
+            "code": "SW01",
+            "gmvM": 77.3,
+            "sharePct": 2.4,
+            "cumPct": 70.9
+          },
+          {
+            "rank": 7,
+            "code": "H31",
+            "gmvM": 62.3,
+            "sharePct": 2,
+            "cumPct": 72.9
+          },
+          {
+            "rank": 8,
+            "code": "SKU_8",
+            "gmvM": 59,
+            "sharePct": 1.9,
+            "cumPct": 74.8
+          },
+          {
+            "rank": 9,
+            "code": "SKU_9",
+            "gmvM": 55.5,
+            "sharePct": 1.8,
+            "cumPct": 76.5
+          },
+          {
+            "rank": 10,
+            "code": "SW08",
+            "gmvM": 46.9,
+            "sharePct": 1.5,
+            "cumPct": 78
+          },
+          {
+            "rank": 11,
+            "code": "H01",
+            "gmvM": 43.5,
+            "sharePct": 1.4,
+            "cumPct": 79.4
+          },
+          {
+            "rank": 12,
+            "code": "H30",
+            "gmvM": 38.3,
+            "sharePct": 1.2,
+            "cumPct": 80.6
+          },
+          {
+            "rank": 13,
+            "code": "H30",
+            "gmvM": 32.7,
+            "sharePct": 1,
+            "cumPct": 81.6
+          }
+        ]
+      }
     }
   },
   "ch3": {
@@ -5622,10 +5865,10 @@
         "week": "W26",
         "monday": "2026-06-22",
         "ddmm": "22/06",
-        "summerM": 310.19,
-        "winterM": 48.46,
-        "summerPct": 86.5,
-        "winterPct": 13.5,
+        "summerM": 313.13,
+        "winterM": 45.53,
+        "summerPct": 87.3,
+        "winterPct": 12.7,
         "at06Pct": 0,
         "h36Pct": 31.3
       },
@@ -5633,10 +5876,10 @@
         "week": "W27",
         "monday": "2026-06-29",
         "ddmm": "29/06",
-        "summerM": 259.43,
-        "winterM": 35.14,
-        "summerPct": 88.1,
-        "winterPct": 11.9,
+        "summerM": 264.48,
+        "winterM": 30.09,
+        "summerPct": 89.8,
+        "winterPct": 10.2,
         "at06Pct": 0,
         "h36Pct": 30.3
       },
@@ -5644,10 +5887,10 @@
         "week": "W28",
         "monday": "2026-07-06",
         "ddmm": "06/07",
-        "summerM": 213.63,
-        "winterM": 47.63,
-        "summerPct": 81.8,
-        "winterPct": 18.2,
+        "summerM": 218.08,
+        "winterM": 43.19,
+        "summerPct": 83.5,
+        "winterPct": 16.5,
         "at06Pct": 0,
         "h36Pct": 32.6
       },
@@ -5655,10 +5898,10 @@
         "week": "W29",
         "monday": "2026-07-13",
         "ddmm": "13/07",
-        "summerM": 145.14,
-        "winterM": 34.43,
-        "summerPct": 80.8,
-        "winterPct": 19.2,
+        "summerM": 148.54,
+        "winterM": 31.04,
+        "summerPct": 82.7,
+        "winterPct": 17.3,
         "at06Pct": 0,
         "h36Pct": 27
       },
@@ -5666,10 +5909,10 @@
         "week": "W30",
         "monday": "2026-07-20",
         "ddmm": "20/07",
-        "summerM": 124.64,
-        "winterM": 42.77,
-        "summerPct": 74.5,
-        "winterPct": 25.5,
+        "summerM": 128.86,
+        "winterM": 38.54,
+        "summerPct": 77,
+        "winterPct": 23,
         "at06Pct": 0,
         "h36Pct": 22.4
       },
@@ -5677,10 +5920,10 @@
         "week": "W31",
         "monday": "2026-07-27",
         "ddmm": "27/07",
-        "summerM": 85.12,
-        "winterM": 39.89,
-        "summerPct": 68.1,
-        "winterPct": 31.9,
+        "summerM": 89.29,
+        "winterM": 35.72,
+        "summerPct": 71.4,
+        "winterPct": 28.6,
         "at06Pct": 0,
         "h36Pct": 28.7
       },
@@ -5688,10 +5931,10 @@
         "week": "W32",
         "monday": "2026-08-03",
         "ddmm": "03/08",
-        "summerM": 49.43,
-        "winterM": 30.72,
-        "summerPct": 61.7,
-        "winterPct": 38.3,
+        "summerM": 55.72,
+        "winterM": 24.43,
+        "summerPct": 69.5,
+        "winterPct": 30.5,
         "at06Pct": 0,
         "h36Pct": 12.5
       },
@@ -5699,10 +5942,10 @@
         "week": "W33",
         "monday": "2026-08-10",
         "ddmm": "10/08",
-        "summerM": 36.1,
-        "winterM": 23.35,
-        "summerPct": 60.7,
-        "winterPct": 39.3,
+        "summerM": 40.38,
+        "winterM": 19.07,
+        "summerPct": 67.9,
+        "winterPct": 32.1,
         "at06Pct": 0,
         "h36Pct": 16.2
       },
@@ -5710,10 +5953,10 @@
         "week": "W34",
         "monday": "2026-08-17",
         "ddmm": "17/08",
-        "summerM": 28.99,
-        "winterM": 23.18,
-        "summerPct": 55.6,
-        "winterPct": 44.4,
+        "summerM": 30.64,
+        "winterM": 21.52,
+        "summerPct": 58.7,
+        "winterPct": 41.3,
         "at06Pct": 0,
         "h36Pct": 15.5
       },
@@ -5721,10 +5964,10 @@
         "week": "W35",
         "monday": "2026-08-24",
         "ddmm": "24/08",
-        "summerM": 23.5,
-        "winterM": 20.02,
-        "summerPct": 54,
-        "winterPct": 46,
+        "summerM": 24.54,
+        "winterM": 18.99,
+        "summerPct": 56.4,
+        "winterPct": 43.6,
         "at06Pct": 0,
         "h36Pct": 17
       },
@@ -5732,10 +5975,10 @@
         "week": "W36",
         "monday": "2026-08-31",
         "ddmm": "31/08",
-        "summerM": 10.16,
-        "winterM": 24.57,
-        "summerPct": 29.2,
-        "winterPct": 70.8,
+        "summerM": 11.19,
+        "winterM": 23.54,
+        "summerPct": 32.2,
+        "winterPct": 67.8,
         "at06Pct": 0,
         "h36Pct": 5.7
       },
@@ -5743,10 +5986,10 @@
         "week": "W37",
         "monday": "2026-09-07",
         "ddmm": "07/09",
-        "summerM": 17.3,
-        "winterM": 47.01,
-        "summerPct": 26.9,
-        "winterPct": 73.1,
+        "summerM": 20.59,
+        "winterM": 43.72,
+        "summerPct": 32,
+        "winterPct": 68,
         "at06Pct": 26.3,
         "h36Pct": 4.8
       },
@@ -5754,10 +5997,10 @@
         "week": "W38",
         "monday": "2026-09-14",
         "ddmm": "14/09",
-        "summerM": 12.77,
-        "winterM": 138.37,
-        "summerPct": 8.4,
-        "winterPct": 91.6,
+        "summerM": 15.62,
+        "winterM": 135.51,
+        "summerPct": 10.3,
+        "winterPct": 89.7,
         "at06Pct": 44.7,
         "h36Pct": 1.9
       },
@@ -5765,10 +6008,10 @@
         "week": "W39",
         "monday": "2026-09-21",
         "ddmm": "21/09",
-        "summerM": 9.02,
-        "winterM": 157.74,
-        "summerPct": 5.4,
-        "winterPct": 94.6,
+        "summerM": 9.58,
+        "winterM": 157.18,
+        "summerPct": 5.7,
+        "winterPct": 94.3,
         "at06Pct": 51.9,
         "h36Pct": 1.2
       },
@@ -5776,10 +6019,10 @@
         "week": "W40",
         "monday": "2026-09-28",
         "ddmm": "28/09",
-        "summerM": 9.33,
-        "winterM": 370.45,
-        "summerPct": 2.5,
-        "winterPct": 97.5,
+        "summerM": 10.51,
+        "winterM": 369.27,
+        "summerPct": 2.8,
+        "winterPct": 97.2,
         "at06Pct": 78.8,
         "h36Pct": 0.2
       },
@@ -5787,10 +6030,10 @@
         "week": "W41",
         "monday": "2026-10-05",
         "ddmm": "05/10",
-        "summerM": 8.5,
-        "winterM": 408.94,
-        "summerPct": 2,
-        "winterPct": 98,
+        "summerM": 9.71,
+        "winterM": 407.72,
+        "summerPct": 2.3,
+        "winterPct": 97.7,
         "at06Pct": 82,
         "h36Pct": 0.3
       },
@@ -5798,10 +6041,10 @@
         "week": "W42",
         "monday": "2026-10-12",
         "ddmm": "12/10",
-        "summerM": 5.97,
-        "winterM": 664.31,
-        "summerPct": 0.9,
-        "winterPct": 99.1,
+        "summerM": 6.49,
+        "winterM": 663.79,
+        "summerPct": 1,
+        "winterPct": 99,
         "at06Pct": 88.8,
         "h36Pct": 0.1
       },
@@ -5817,14 +6060,125 @@
         "h36Pct": 0.2
       }
     ],
+    "skuMonthlySeries": [
+      {
+        "month": "2026-05",
+        "shortLabel": "T5",
+        "summerGmvM": 794.8,
+        "summerGmvB": 0.79,
+        "bikini5GmvM": 794.8,
+        "aq1GmvM": 0,
+        "winterGmvM": 251.3,
+        "winterGmvB": 0.25,
+        "at06GmvM": 0,
+        "ag01GmvM": 0,
+        "skirtsGmvM": 251.3,
+        "totalSku10GmvM": 1046.1,
+        "storeMonthGmvM": 0,
+        "summerSharePct": 76,
+        "winterSharePct": 24,
+        "at06ShareOfStoreMonthPct": 0
+      },
+      {
+        "month": "2026-06",
+        "shortLabel": "T6",
+        "summerGmvM": 1571.7,
+        "summerGmvB": 1.57,
+        "bikini5GmvM": 1566.1,
+        "aq1GmvM": 5.55,
+        "winterGmvM": 151.5,
+        "winterGmvB": 0.15,
+        "at06GmvM": 0,
+        "ag01GmvM": 0,
+        "skirtsGmvM": 151.5,
+        "totalSku10GmvM": 1723.1,
+        "storeMonthGmvM": 0,
+        "summerSharePct": 91.2,
+        "winterSharePct": 8.8,
+        "at06ShareOfStoreMonthPct": 0
+      },
+      {
+        "month": "2026-07",
+        "shortLabel": "T7",
+        "summerGmvM": 744.9,
+        "summerGmvB": 0.74,
+        "bikini5GmvM": 727.9,
+        "aq1GmvM": 16.94,
+        "winterGmvM": 161.2,
+        "winterGmvB": 0.16,
+        "at06GmvM": 0,
+        "ag01GmvM": 0,
+        "skirtsGmvM": 161.2,
+        "totalSku10GmvM": 906.1,
+        "storeMonthGmvM": 0,
+        "summerSharePct": 82.2,
+        "winterSharePct": 17.8,
+        "at06ShareOfStoreMonthPct": 0
+      },
+      {
+        "month": "2026-08",
+        "shortLabel": "T8",
+        "summerGmvM": 167.7,
+        "summerGmvB": 0.17,
+        "bikini5GmvM": 152.7,
+        "aq1GmvM": 15,
+        "winterGmvM": 94.6,
+        "winterGmvB": 0.09,
+        "at06GmvM": 0,
+        "ag01GmvM": 0,
+        "skirtsGmvM": 94.6,
+        "totalSku10GmvM": 262.2,
+        "storeMonthGmvM": 0,
+        "summerSharePct": 63.9,
+        "winterSharePct": 36.1,
+        "at06ShareOfStoreMonthPct": 0
+      },
+      {
+        "month": "2026-09",
+        "shortLabel": "T9",
+        "summerGmvM": 61.8,
+        "summerGmvB": 0.06,
+        "bikini5GmvM": 53.4,
+        "aq1GmvM": 8.4,
+        "winterGmvM": 510.4,
+        "winterGmvB": 0.51,
+        "at06GmvM": 297.7,
+        "ag01GmvM": 47.4,
+        "skirtsGmvM": 165.3,
+        "totalSku10GmvM": 572.2,
+        "storeMonthGmvM": 0,
+        "summerSharePct": 10.8,
+        "winterSharePct": 89.2,
+        "at06ShareOfStoreMonthPct": 0
+      },
+      {
+        "month": "2026-10",
+        "shortLabel": "T10",
+        "summerGmvM": 26.5,
+        "summerGmvB": 0.03,
+        "bikini5GmvM": 24.2,
+        "aq1GmvM": 2.26,
+        "winterGmvM": 1531.2,
+        "winterGmvB": 1.53,
+        "at06GmvM": 1301,
+        "ag01GmvM": 11.6,
+        "skirtsGmvM": 218.6,
+        "totalSku10GmvM": 1557.7,
+        "storeMonthGmvM": 0,
+        "summerSharePct": 1.7,
+        "winterSharePct": 98.3,
+        "at06ShareOfStoreMonthPct": 0
+      }
+    ],
+    "sku10ShareOfStoreWindowPct": 52.1,
     "sku10Summary": {
       "totalGmvB": 6.09,
       "totalUnits": 38037,
-      "junSummerSharePct": 90.9,
+      "junSummerSharePct": 91.2,
       "junH36GmvM": 572.8,
-      "sepWinterSharePct": 90.7,
+      "sepWinterSharePct": 89.2,
       "sepAt06GmvM": 297.7,
-      "octWinterSharePct": 98.4,
+      "octWinterSharePct": 98.3,
       "octAt06GmvB": 1.3,
       "octAt06SharePct": 83.5
     },
@@ -6876,9 +7230,9 @@
       "crLiveVndPerUv": 2142,
       "crLiveConvPct": 94.3,
       "extLiveConvPct": 24.7,
-      "crLiveGt8Sessions": 118,
-      "crLiveGt8VndPerUv": 2980,
-      "crLiveLe8VndPerUv": 1394,
+      "crLiveGt8Sessions": 104,
+      "crLiveGt8VndPerUv": 3103,
+      "crLiveLe8VndPerUv": 1361,
       "crLiveBySlotAll": [
         {
           "hourSlot": "00-06h",
@@ -7005,6 +7359,90 @@
         "oddsRatio": 1.6
       }
     ],
+    "durationBuckets5": [
+      {
+        "bucket": "<2h",
+        "labelVi": "< 2 giờ",
+        "labelEn": "< 2h",
+        "sessions": 136,
+        "totalHours": 211.2,
+        "totalGmvM": 233,
+        "totalGmvB": 0.23,
+        "gmvSharePct": 3.1,
+        "gmvPerHourM": 1.1,
+        "meanSessionRateM": 1.05,
+        "meanSessionGmvM": 1.71
+      },
+      {
+        "bucket": "2-4h",
+        "labelVi": "2 – 4 giờ",
+        "labelEn": "2 – 4h",
+        "sessions": 232,
+        "totalHours": 616.9,
+        "totalGmvM": 940.3,
+        "totalGmvB": 0.94,
+        "gmvSharePct": 12.4,
+        "gmvPerHourM": 1.52,
+        "meanSessionRateM": 1.49,
+        "meanSessionGmvM": 4.05
+      },
+      {
+        "bucket": "4-6h",
+        "labelVi": "4 – 6 giờ",
+        "labelEn": "4 – 6h",
+        "sessions": 107,
+        "totalHours": 519.2,
+        "totalGmvM": 1217.6,
+        "totalGmvB": 1.22,
+        "gmvSharePct": 16,
+        "gmvPerHourM": 2.34,
+        "meanSessionRateM": 2.33,
+        "meanSessionGmvM": 11.38
+      },
+      {
+        "bucket": "6-10h",
+        "labelVi": "6 – 10 giờ",
+        "labelEn": "6 – 10h",
+        "sessions": 58,
+        "totalHours": 462.3,
+        "totalGmvM": 1117.1,
+        "totalGmvB": 1.12,
+        "gmvSharePct": 14.7,
+        "gmvPerHourM": 2.42,
+        "meanSessionRateM": 2.38,
+        "meanSessionGmvM": 19.26
+      },
+      {
+        "bucket": ">10h",
+        "labelVi": "> 10 giờ (Mega-live)",
+        "labelEn": "> 10h (Mega-live)",
+        "sessions": 67,
+        "totalHours": 898.6,
+        "totalGmvM": 4084.8,
+        "totalGmvB": 4.08,
+        "gmvSharePct": 53.8,
+        "gmvPerHourM": 4.55,
+        "meanSessionRateM": 4.39,
+        "meanSessionGmvM": 60.97
+      }
+    ],
+    "videoAdsComparison": {
+      "totalRawClips": 4797,
+      "totalDedupClips": 4796,
+      "adsClips": 3775,
+      "adsConvertingClips": 1143,
+      "adsConvPct": 30.3,
+      "adsMeanGmvK": 547.7,
+      "adsTotalGmvB": 2.07,
+      "adsTotalGmvM": 2067.7,
+      "orgClips": 1021,
+      "orgConvertingClips": 104,
+      "orgConvPct": 10.2,
+      "orgMeanGmvK": 125.5,
+      "orgTotalGmvB": 0.13,
+      "orgTotalGmvM": 128.2,
+      "meanGmvRatio": 4.4
+    },
     "crLiveHeatmap": [
       {
         "hourSlot": "00-06h",
@@ -7049,33 +7487,33 @@
           {
             "hourSlot": "06-12h",
             "durBucket": "<2h",
-            "sessions": 39,
-            "gmvM": 64.3,
-            "gmvPerUv": 874,
+            "sessions": 41,
+            "gmvM": 68.4,
+            "gmvPerUv": 891,
             "lowSample": false
           },
           {
             "hourSlot": "06-12h",
             "durBucket": "2-4h",
-            "sessions": 72,
-            "gmvM": 226.9,
-            "gmvPerUv": 1246,
+            "sessions": 74,
+            "gmvM": 232,
+            "gmvPerUv": 1245,
             "lowSample": false
           },
           {
             "hourSlot": "06-12h",
             "durBucket": "4-8h",
-            "sessions": 38,
-            "gmvM": 557.1,
-            "gmvPerUv": 1562,
+            "sessions": 40,
+            "gmvM": 575,
+            "gmvPerUv": 1546,
             "lowSample": false
           },
           {
             "hourSlot": "06-12h",
             "durBucket": ">8h",
-            "sessions": 74,
-            "gmvM": 3384.1,
-            "gmvPerUv": 2802,
+            "sessions": 68,
+            "gmvM": 3357,
+            "gmvPerUv": 2833,
             "lowSample": false
           }
         ]
@@ -7086,33 +7524,33 @@
           {
             "hourSlot": "12-18h",
             "durBucket": "<2h",
-            "sessions": 39,
-            "gmvM": 106.7,
-            "gmvPerUv": 1928,
+            "sessions": 40,
+            "gmvM": 106.8,
+            "gmvPerUv": 1904,
             "lowSample": false
           },
           {
             "hourSlot": "12-18h",
             "durBucket": "2-4h",
-            "sessions": 76,
-            "gmvM": 336.5,
+            "sessions": 77,
+            "gmvM": 340.9,
             "gmvPerUv": 1444,
             "lowSample": false
           },
           {
             "hourSlot": "12-18h",
             "durBucket": "4-8h",
-            "sessions": 34,
-            "gmvM": 291.8,
+            "sessions": 35,
+            "gmvM": 293.9,
             "gmvPerUv": 1552,
             "lowSample": false
           },
           {
             "hourSlot": "12-18h",
             "durBucket": ">8h",
-            "sessions": 39,
-            "gmvM": 1582.7,
-            "gmvPerUv": 3858,
+            "sessions": 36,
+            "gmvM": 1576.3,
+            "gmvPerUv": 3891,
             "lowSample": false
           }
         ]
@@ -7131,25 +7569,25 @@
           {
             "hourSlot": "18-24h",
             "durBucket": "2-4h",
-            "sessions": 74,
-            "gmvM": 348.1,
-            "gmvPerUv": 1211,
+            "sessions": 78,
+            "gmvM": 359.4,
+            "gmvPerUv": 1063,
             "lowSample": false
           },
           {
             "hourSlot": "18-24h",
             "durBucket": "4-8h",
-            "sessions": 52,
-            "gmvM": 612.6,
-            "gmvPerUv": 1468,
+            "sessions": 53,
+            "gmvM": 617.3,
+            "gmvPerUv": 1467,
             "lowSample": false
           },
           {
             "hourSlot": "18-24h",
             "durBucket": ">8h",
-            "sessions": 5,
-            "gmvM": 15.9,
-            "gmvPerUv": 295,
+            "sessions": 0,
+            "gmvM": 0,
+            "gmvPerUv": 0,
             "lowSample": true
           }
         ]
@@ -7557,10 +7995,10 @@
         "gateVi": "Tỷ lệ tài khoản KOC mồ côi giữa các bảng",
         "gateEn": "Orphan creator ID rate across tables",
         "scope": "Affiliate_Livestreams vs Affiliate_KOL",
-        "expectedVi": "Tỷ lệ thiếu hồ sơ KOC <= 2,0%",
-        "expectedEn": "Missing directory profile rate <= 2.0%",
-        "actualVi": "1,59% (độ trễ cửa sổ cuốn chiếu 90 ngày)",
-        "actualEn": "1.59% (90d rolling directory latency)",
+        "expectedVi": "Gắn cờ is_orphan (không xóa bản ghi)",
+        "expectedEn": "Flagged as is_orphan (non-destructive)",
+        "actualVi": "24/303 KOC live (7,92% · 88 phiên) ngoài danh bạ KOL",
+        "actualEn": "24/303 live KOCs (7.92% · 88 sessions) absent from KOL directory",
         "level": "WARN",
         "status": "PASS"
       },

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Terminal, Download, X, Check, Copy } from 'lucide-react';
-import { KAMI_MATH_STATS } from '@/app/data/kamiElyData';
+import { notebookSnippets } from '@/app/data/kami-ely/stats/notebookSnippets';
 
 interface ScienceNotebookModalProps {
   isOpen: boolean;
@@ -70,7 +70,7 @@ export default function ScienceNotebookModal({
 
         {/* Snippet Tabs */}
         <div className="flex overflow-x-auto px-5 sm:px-6 py-1.5 bg-slate-50/70 dark:bg-slate-950/50 gap-1">
-          {KAMI_MATH_STATS.notebookSnippets.map((snippet: any, idx: number) => (
+          {notebookSnippets.map((snippet: any, idx: number) => (
             <button
               key={snippet.title}
               type="button"
@@ -90,14 +90,14 @@ export default function ScienceNotebookModal({
         <div className="relative flex-1 overflow-y-auto p-5 sm:p-6 tabular-nums text-xs">
           <button
             type="button"
-            onClick={() => handleCopyCode(KAMI_MATH_STATS.notebookSnippets[selectedSnippetIdx].code)}
+            onClick={() => handleCopyCode(notebookSnippets[selectedSnippetIdx].code)}
             className="absolute right-8 top-8 inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800/95 px-3.5 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700 cursor-pointer transition-colors"
           >
             {copiedCode ? <Check className="h-4 w-4 text-[#9BE7FA]" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
             {copiedCode ? (isEn ? 'Copied' : 'Đã sao chép') : (isEn ? 'Copy code' : 'Sao chép mã')}
           </button>
           <pre className="rounded-2xl border border-slate-800 bg-slate-950 p-5 pt-14 sm:pt-5 text-[#9BE7FA] dark:text-[#C8EEF7] leading-relaxed overflow-x-auto">
-            <code>{KAMI_MATH_STATS.notebookSnippets[selectedSnippetIdx].code}</code>
+            <code>{notebookSnippets[selectedSnippetIdx].code}</code>
           </pre>
         </div>
 

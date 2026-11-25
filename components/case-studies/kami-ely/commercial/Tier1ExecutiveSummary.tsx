@@ -1,350 +1,407 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  BarChart,
   Bar,
+  CartesianGrid,
   ComposedChart,
   Line,
-  Cell,
+  ReferenceDot,
+  ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  LabelList,
 } from 'recharts';
-import {
-  usePlaybookLang,
-  useChartGranularity,
-  GranularityToggle,
-  ChartCard,
-  ChartRoleBadge,
-  ChartTooltip,
-  ChapterShell,
-  axisTick,
-  legendFormatter,
-  GRID_STROKE,
-} from '../playbook/PlaybookUi';
-import { KAMI_BRAND_PALETTE, V2 } from './kamiOutlineV2Metrics';
+import { V2 } from './kamiOutlineV2Metrics';
 
-export default function Tier1ExecutiveSummary() {
-  const { L, n } = usePlaybookLang();
-  const [granularity, setGranularity] = useChartGranularity<'month' | 'week' | 'day'>('month', [
-    'month',
-    'week',
-    'day',
-  ]);
+interface Props {
+  lang: 'vi' | 'en';
+}
 
-  const monthlyChartData = V2.ch3.monthly.map((m) => {
-    let phaseNameVi = 'Tăng trưởng';
-    let phaseNameEn = 'Ramp';
-    let fill: string = KAMI_BRAND_PALETTE.tealInk;
-    if (m.shortLabel === 'T6') {
-      phaseNameVi = 'Đỉnh hè';
-      phaseNameEn = 'Peak';
-      fill = '#059669'; // Emerald
-    } else if (m.shortLabel === 'T7' || m.shortLabel === 'T8') {
-      phaseNameVi = 'Suy giảm';
-      phaseNameEn = 'Contraction';
-      fill = '#E11D48'; // Rose
-    } else if (m.shortLabel === 'T9' || m.shortLabel === 'T10') {
-      phaseNameVi = 'Thu Đông';
-      phaseNameEn = 'Autumn Rebound';
-      fill = '#D97706'; // Amber
-    }
+type Granularity = 'month' | 'week' | 'day';
 
-    return {
-      monthLabel: m.isPartial ? `${m.shortLabel}*` : m.shortLabel,
-      rawLabel: m.shortLabel,
-      storeGmvB: m.storeGmvB,
-      storeGmvFormatted: `${n(m.storeGmvB, 2)} tỷ`,
-      days: m.days,
-      isPartial: m.isPartial,
-      phaseNameVi,
-      phaseNameEn,
-      fill,
-    };
-  });
+const MONTH_GROWTH_NOTES: Record<string, { momVi: string; momEn: string }> = {
+  '2026-03': { momVi: '23 ngày mở bán', momEn: '23 partial days' },
+  '2026-04': { momVi: '+98,7% TB/ngày', momEn: '+98.7% daily avg' },
+  '2026-05': { momVi: '+8,1% TB/ngày', momEn: '+8.1% daily avg' },
+  '2026-06': { momVi: '+41,8% · Đỉnh Hè', momEn: '+41.8% · Summer Peak' },
+  '2026-07': { momVi: '-45,4% TB/ngày', momEn: '-45.4% daily avg' },
+  '2026-08': { momVi: '-70,1% (-83,7% TB/ngày vs T6)', momEn: '-70.1% (-83.7% daily avg vs Jun)' },
+  '2026-09': { momVi: '+13,9% TB/ngày', momEn: '+13.9% daily avg' },
+  '2026-10': { momVi: '+176,8% (+214,9% vs T8)', momEn: '+176.8% (+214.9% vs Aug)' },
+};
 
-  const weeklyChartData = (V2.ch3.weekly || []).map((w) => {
-    let phaseNameVi = 'Tăng trưởng';
-    let phaseNameEn = 'Ramp';
-    let fill: string = KAMI_BRAND_PALETTE.tealInk;
-    if (w.phase === 'peak') {
-      phaseNameVi = 'Đỉnh hè';
-      phaseNameEn = 'Peak';
-      fill = '#059669';
-    } else if (w.phase === 'contraction') {
-      phaseNameVi = 'Suy giảm';
-      phaseNameEn = 'Contraction';
-      fill = '#E11D48';
-    } else if (w.phase === 'autumn') {
-      phaseNameVi = 'Thu Đông';
-      phaseNameEn = 'Autumn Rebound';
-      fill = '#D97706';
-    }
-    return {
-      ...w,
-      phaseNameVi,
-      phaseNameEn,
-      fill,
-    };
-  });
+export function Tier1ExecutiveSummary({ lang }: Props) {
+  const isVi = lang === 'vi';
+  const [granularity, setGranularity] = useState<Granularity>('month');
 
-  const findings = [
-    L(
-      'Doanh thu tập trung: Phiên của chính shop chiếm 72,5% GMV Live, một kênh vệ tinh nội bộ 12,0% và 301 đối tác độc lập 15,5%. 12/133 mã tạo 80,6% GMV; riêng AT06 chiếm 46,9% vì cửa sổ 90 ngày vắt qua chuyển mùa.',
-      'Concentrated revenue: Official streams drove 72.5% of Live GMV, one internal satellite channel 12.0%, and 301 independent partners 15.5%. 12/133 SKUs generated 80.6% of GMV; AT06 alone took 46.9% due to the 90-day window spanning season shifts.'
-    ),
-    L(
-      'Biên độ mùa vụ lớn: GMV đi từ 0,95 tỷ (T3) lên 3,77 tỷ (T6), xuống 0,64 tỷ (T8) rồi hồi lên 1,62 tỷ chỉ trong 25 ngày T10. Việc giảm do số ca hay do năng suất mỗi ca phụ thuộc thước đo.',
-      'Wide seasonal amplitude: Monthly GMV swung from 0.95B (Mar) to 3.77B (Jun), down to 0.64B (Aug), and rebounded to 1.62B in just 25 days of Oct. Whether the contraction was driven by session volume or session yield depends on the metric used.'
-    ),
-    L(
-      'Hiệu quả nằm ở Live của chính shop và kênh vệ tinh (2.163 và 2.021 đ mỗi lượt xem); 301 đối tác độc lập chỉ đạt 40,8 đ và 22,7% phiên ra đơn. Chỉ 129/302 creator ngoài từng có đơn.',
-      'Efficiency concentrated in official and satellite Live (2,163 and 2,021 VND per view); 301 independent partners achieved only 40.8 VND with a 22.7% session conversion rate. Only 129 of 302 external creators ever converted.'
-    ),
-  ];
-
-  const recommendations = [
-    L(
-      'Lập kế hoạch tồn kho và lịch live trước chuyển mùa 1–2 tháng; đối chiếu kho thực với 206 mã không có đơn (204 mã niêm yết trước 2026). Đây là sàng lọc danh mục, chưa phải quyết định thanh lý.',
-      'Plan inventory and Live schedules 1–2 months ahead of seasonal rotation; reconcile physical stock against the 206 zero-order SKUs (204 listed before 2026). This serves as catalog screening, not a liquidation decision.'
-    ),
-    L(
-      'Ưu tiên nhân lực Live cho chính shop; dùng Ads có chọn lọc và đo cả tỷ lệ có đơn lẫn GMV trên 1.000 lượt xem; theo dõi GMV theo khung giờ trước khi chuyển ngân sách.',
-      'Prioritize Live staffing for the official shop; deploy Ads selectively and track both order conversion rate and GMV per 1,000 views; monitor GMV by time slot before shifting budget.'
-    ),
-    L(
-      'Theo dõi hằng tuần số ca live, creator mới, GMV mỗi ca; chưa đặt ngưỡng tự động. Thử nghiệm hỗ trợ 3 ca đầu theo hướng khám phá, vì cần khoảng 150 creator mỗi nhóm.',
-      'Track weekly Live count, new creators, and GMV per session; refrain from hard automated alert thresholds. Design exploratory 3-session onboarding support, requiring ~150 creators per test cell.'
-    ),
-  ];
-
-  const limitsSummary = [
-    L(
-      'Không có mã đơn, mã khách hàng và giá vốn nên dự án thay phễu giỏ hàng, A/B test và CLTV khách bằng cohort creator, phễu nội dung và so sánh quan sát.',
-      'Without order_id, customer_id, or COGS, checkout funnels, A/B tests, and customer CLTV are replaced with creator cohorts, content funnels, and observational slices.'
-    ),
-    L(
-      `Chuỗi quan sát mới gồm một mùa (${V2.meta.days} ngày) từ số liệu ước tính của bên thứ ba (FastMoss).`,
-      `Observations span a single season (${V2.meta.days} days) of third-party FastMoss market estimates.`
-    ),
-    L(
-      'Các bảng dữ liệu gốc dùng khung thời gian khác nhau (231 ngày toàn shop, 179 ngày SKU, cửa sổ trượt 90 ngày cho KOL/sản phẩm và snapshot 2 kỳ); chân mỗi biểu đồ ghi rõ phạm vi đang dùng.',
-      'Source tables span distinct windows (231d store-wide, 179d SKU, rolling 90d for creators/products, and dual snapshots); every chart footer states its active window.'
-    ),
-  ];
+  const monthlyComboData = V2.ch3.monthly.map((m) => ({
+    ...m,
+    axisLabel: m.isPartial ? `${m.shortLabel} (${m.days}d)` : m.shortLabel,
+    momNote: isVi
+      ? MONTH_GROWTH_NOTES[m.month]?.momVi || ''
+      : MONTH_GROWTH_NOTES[m.month]?.momEn || '',
+  }));
 
   return (
-    <ChapterShell
-      id="sec-exec-summary"
-      chapterNum={L('Chương 0', 'Chapter 0')}
-      title={L('Tóm tắt điều hành', 'Executive summary')}
-      scopeLabel={L(`Store · ${V2.meta.days} ngày`, `Store · ${V2.meta.days}d`)}
-      question={L('Người đọc nên nhớ gì sau 60 giây?', 'What should a reader retain after 60 seconds?')}
-    >
-      <ChartCard
-        title={L(
-          '0.1. GMV tăng gấp bốn đến T6, rồi giảm 83,1% xuống T8',
-          '0.1. Monthly GMV quadrupled to June, then fell 83.1% to August'
-        )}
-        badge={
-          <div className="flex flex-wrap items-center gap-2">
-            <GranularityToggle
-              value={granularity}
-              onChange={setGranularity}
-              options={[
-                { id: 'month', label: L('Tháng (8T)', 'Month (8M)') },
-                { id: 'week', label: L('Tuần (33W)', 'Week (33W)') },
-                { id: 'day', label: L('Ngày (231N)', 'Day (231d)') },
-              ]}
-            />
-            <ChartRoleBadge kind="main" />
+    <section id="sec-overview" className="scroll-mt-28 space-y-6">
+      {/* Single Concise 60-Second Executive Summary Strip */}
+      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-[#C8EEF7]/15 dark:bg-slate-900/70 p-4 md:p-5">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight">
+            {isVi ? 'Tóm tắt 60 giây · 3 phát hiện cốt lõi' : '60-Second Summary · 3 Core Findings'}
+          </h2>
+          <span className="text-xs font-medium text-slate-500 dark:text-slate-400 tabular-nums">
+            {isVi
+              ? '231 ngày (09/03 – 25/10/2026) · 15,01 tỷ · 101.896 sp'
+              : '231 days (Mar 09 – Oct 25, 2026) · 15.01B · 101,896 units'}
+          </span>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+          <div className="rounded-xl bg-white/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-4">
+            <p className="font-bold text-slate-900 dark:text-white mb-1">
+              {isVi ? '1. Vùng trũng T8 (-83,1% GMV tháng)' : '1. August Trough (-83.1% Monthly GMV)'}
+            </p>
+            <p className="tabular-nums text-xs sm:text-sm">
+              {isVi
+                ? 'GMV rơi từ 3,77 tỷ (T6) xuống 0,64 tỷ (T8, -83,7% TB/ngày) vì đồ bơi thoái trào trong khi 2 mã Thu Đông (AT06, AG01) lên kệ trễ gần 1 tháng.'
+                : 'GMV fell from 3.77B (Jun) to 0.64B (Aug, -83.7% daily avg) as swimwear faded while autumn heroes (AT06, AG01) launched nearly 1 month late.'}
+            </p>
           </div>
-        }
-        height="h-64 sm:h-72"
-        footer={
-          granularity === 'month'
-            ? L(
-                'Nguồn: Store_Daily_Overview · Khung 09/03 - 25/10/2026. *Tháng thiếu: T3 (23 ngày: 0,95 tỷ) và T10 (25 ngày: 1,62 tỷ đ) có vân gạch chéo.',
-                'Source: Store_Daily_Overview · Range 09/03 - 25/10/2026. *Incomplete months: Mar (23d: 0.95B) and Oct (25d: 1.62B VND) shown with diagonal stripes.'
-              )
-            : granularity === 'week'
-              ? L(
-                  'Nguồn: Store_Daily_Overview gộp theo 33 tuần ISO (W11 - W43, 09/03 - 25/10/2026). Đỉnh tuần W25 (từ 15/06) đạt 1.057,2 Tr đ.',
-                  'Source: Store_Daily_Overview aggregated across 33 ISO weeks (W11 - W43, Mar 09 - Oct 25, 2026). Peak week W25 (from Jun 15) reached 1,057.2M VND.'
-                )
-              : L(
-                  'Nguồn: Store_Daily_Overview · Chuỗi 231 ngày liên tục (09/03 - 25/10/2026) kèm đường trung bình trượt MA7 và MA28. Đỉnh 16/06 đạt 315,0 Tr đ.',
-                  'Source: Store_Daily_Overview · Continuous 231-day series (Mar 09 - Oct 25, 2026) with MA7 and MA28 trailing averages. Peak Jun 16 reached 315.0M VND.'
-                )
-        }
-      >
-        <ResponsiveContainer width="100%" height="100%">
-          {granularity === 'month' ? (
-            <BarChart data={monthlyChartData} margin={{ top: 24, right: 16, left: 4, bottom: 8 }}>
-              <defs>
-                <pattern id="stripe-pattern-t3" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                  <rect width="4" height="8" fill={KAMI_BRAND_PALETTE.tealInk} />
-                  <rect x="4" width="4" height="8" fill="#C8EEF7" />
-                </pattern>
-                <pattern id="stripe-pattern-t10" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                  <rect width="4" height="8" fill="#D97706" />
-                  <rect x="4" width="4" height="8" fill="#FFE485" />
-                </pattern>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
-              <XAxis dataKey="monthLabel" tick={axisTick} />
-              <YAxis
-                width={52}
-                domain={[0, 4.5]}
-                tick={axisTick}
-                tickFormatter={(v: number) => `${v} tỷ`}
-              />
-              <Tooltip
-                content={
-                  <ChartTooltip
-                    head={(lbl, p) => {
-                      const row = p?.[0]?.payload;
-                      return row ? `${L('Tháng', 'Month')} ${row.rawLabel} (${row.days} ${L('ngày', 'days')}) · ${L(row.phaseNameVi, row.phaseNameEn)}` : String(lbl);
-                    }}
-                    fmt={(v) => `${n(v, 2)} tỷ đ`}
-                  />
-                }
-              />
-              <Bar dataKey="storeGmvB" name={L('GMV tháng', 'Monthly GMV')} radius={[6, 6, 0, 0]}>
-                <LabelList
-                  dataKey="storeGmvFormatted"
-                  position="top"
-                  style={{ fontSize: '11px', fontWeight: 700, fill: '#074553' }}
+          <div className="rounded-xl bg-white/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-4">
+            <p className="font-bold text-slate-900 dark:text-white mb-1">
+              {isVi ? '2. Lệch kênh: Live Nội bộ vs. Video KOC' : '2. Channel Split: In-House Live vs. KOC Video'}
+            </p>
+            <p className="tabular-nums text-xs sm:text-sm">
+              {isVi
+                ? 'Livestream (70,5% GMV tại mốc 20/10) phụ thuộc 84,5% vào 2 kênh nội bộ (@shop_official, @koc_sat01). Ngược lại, KOC ngoài tạo 58,4% doanh thu Video ngắn.'
+                : 'Livestream (70.5% GMV at Oct 20 cutoff) relies 84.5% on 2 in-house rooms (@shop_official, @koc_sat01), whereas external KOCs drive 58.4% of Short Video.'}
+            </p>
+          </div>
+          <div className="rounded-xl bg-white/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-4">
+            <p className="font-bold text-slate-900 dark:text-white mb-1">
+              {isVi ? '3. Đòn bẩy Mega-Live & Rủi ro đơn mã AT06' : '3. Mega-Live Leverage & AT06 Risk'}
+            </p>
+            <p className="tabular-nums text-xs sm:text-sm">
+              {isVi
+                ? '67 ca live >10h đạt 4,55 Tr/giờ (4,1× ca <2h); Video bật Ads đạt 547,6k/clip (4,4× không Ads). T10 hồi phục nhưng riêng AT06 chiếm 80,5% GMV.'
+                : '67 >10h mega-lives yielded 4.55M/hr (4.1x <2h); Ad-auth videos hit 547.6k/clip (4.4x organic). Oct rebounded, but AT06 alone drove 80.5% of GMV.'}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Biểu đồ 1: Xu hướng GMV tháng & Vùng trũng tháng 8 (Combo Chart: Bar = Monthly GMV | Line = Daily Mean GMV) */}
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5 md:p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
+          <div>
+            <div className="flex flex-wrap items-center gap-2 mb-1.5">
+              <span className="inline-flex items-center rounded-md bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 px-2.5 py-0.5 text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA]">
+                {isVi ? 'Biểu đồ 1 · Cột = Tổng GMV tháng | Đường = GMV bình quân/ngày' : 'Chart 1 · Bars = Monthly GMV | Line = Daily Average GMV'}
+              </span>
+              <span className="text-xs font-medium text-slate-500 dark:text-slate-400 tabular-nums">
+                {isVi ? 'Hiệu chỉnh tháng thiếu ngày: T3 (23 ngày) & T10 (25 ngày)' : 'Adjusted for partial months: Mar (23d) & Oct (25d)'}
+              </span>
+            </div>
+            <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+              {isVi
+                ? 'Xu hướng GMV 8 tháng & Vùng trũng giao mùa Tháng 8'
+                : '8-Month GMV Trajectory & The August Seasonal Trough'}
+            </h3>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <div
+              role="group"
+              aria-label={isVi ? 'Chọn độ phân giải thời gian' : 'Select time granularity'}
+              className="inline-flex rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800/70 p-1"
+            >
+              {(
+                [
+                  { id: 'month', labelVi: 'Theo tháng (Cột + TB/ngày)', labelEn: 'Monthly (Bar + Daily Avg)' },
+                  { id: 'week', labelVi: 'Theo tuần (33 tuần)', labelEn: 'Weekly (33w)' },
+                  { id: 'day', labelVi: 'Theo ngày (231 ngày)', labelEn: 'Daily (231d)' },
+                ] as const
+              ).map((tab) => {
+                const active = granularity === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setGranularity(tab.id)}
+                    className={`min-h-[38px] px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
+                      active
+                        ? 'bg-[#9BE7FA] text-slate-950'
+                        : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                    }`}
+                  >
+                    {isVi ? tab.labelVi : tab.labelEn}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* 3 Direct Milestone Callouts */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-4 text-xs tabular-nums">
+          <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/5 px-3.5 py-2.5 flex items-center justify-between">
+            <div>
+              <span className="font-semibold text-slate-600 dark:text-slate-400">
+                {isVi ? 'Đỉnh Hè (Tháng 6 · 30 ngày)' : 'Summer Peak (June · 30d)'}
+              </span>
+              <p className="text-sm font-bold text-slate-900 dark:text-white mt-0.5">
+                {isVi ? '3,77 tỷ · 125,7 triệu/ngày' : '3.77B · 125.7M/day'}
+              </p>
+            </div>
+            <span className="rounded-md bg-emerald-500/15 px-2 py-0.5 font-bold text-emerald-700 dark:text-emerald-300">
+              +41,8%
+            </span>
+          </div>
+
+          <div className="rounded-xl border border-rose-500/25 bg-rose-500/5 px-3.5 py-2.5 flex items-center justify-between">
+            <div>
+              <span className="font-semibold text-slate-600 dark:text-slate-400">
+                {isVi ? 'Đáy giao mùa (Tháng 8 · 31 ngày)' : 'Seasonal Trough (August · 31d)'}
+              </span>
+              <p className="text-sm font-bold text-slate-900 dark:text-white mt-0.5">
+                {isVi ? '0,64 tỷ · 20,5 triệu/ngày' : '0.64B · 20.5M/day'}
+              </p>
+            </div>
+            <span className="rounded-md bg-rose-500/15 px-2 py-0.5 font-bold text-rose-700 dark:text-rose-300">
+              {isVi ? '-83,1% (-83,7%/ngày)' : '-83.1% (-83.7%/d)'}
+            </span>
+          </div>
+
+          <div className="rounded-xl border border-[#0D7287]/30 bg-[#C8EEF7]/20 dark:bg-[#9BE7FA]/10 px-3.5 py-2.5 flex items-center justify-between">
+            <div>
+              <span className="font-semibold text-slate-600 dark:text-slate-400">
+                {isVi ? 'Bật lại Thu Đông (Tháng 10 · 25 ngày)' : 'Autumn Rebound (Oct · 25d)'}
+              </span>
+              <p className="text-sm font-bold text-slate-900 dark:text-white mt-0.5">
+                {isVi ? '1,62 tỷ · 64,7 triệu/ngày' : '1.62B · 64.7M/day'}
+              </p>
+            </div>
+            <span className="rounded-md bg-emerald-500/15 px-2 py-0.5 font-bold text-emerald-700 dark:text-emerald-300">
+              {isVi ? '+214,9% vs T8' : '+214.9% vs Aug'}
+            </span>
+          </div>
+        </div>
+
+        <div className="h-[340px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            {granularity === 'month' ? (
+              <ComposedChart data={monthlyComboData} margin={{ top: 14, right: 20, left: 4, bottom: 8 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.18)" />
+                <XAxis
+                  dataKey="axisLabel"
+                  tick={{ fontSize: 11, fill: '#64748b' }}
+                  tickLine={false}
                 />
-                {monthlyChartData.map((entry, index) => {
-                  let cellFill: string = entry.fill;
-                  if (entry.rawLabel === 'T3') cellFill = 'url(#stripe-pattern-t3)';
-                  if (entry.rawLabel === 'T10') cellFill = 'url(#stripe-pattern-t10)';
-                  return <Cell key={`cell-${index}`} fill={cellFill} stroke={entry.fill} strokeWidth={1} />;
-                })}
-              </Bar>
-            </BarChart>
-          ) : granularity === 'week' ? (
-            <BarChart data={weeklyChartData} margin={{ top: 16, right: 16, left: 4, bottom: 8 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
-              <XAxis dataKey="week" tick={axisTick} interval={2} />
-              <YAxis
-                width={56}
-                domain={[0, 1150]}
-                tick={axisTick}
-                tickFormatter={(v: number) => `${v}Tr`}
-              />
-              <Tooltip
-                content={
-                  <ChartTooltip
-                    head={(lbl, p) => {
-                      const row = p?.[0]?.payload;
-                      return row
-                        ? `${L('Tuần', 'Week')} ${row.week} (${L('từ', 'from')} ${row.ddmm} · ${row.days}N) · ${L(row.phaseNameVi, row.phaseNameEn)}`
-                        : String(lbl);
-                    }}
-                    fmt={(v) => `${n(v, 1)} Tr đ`}
-                  />
-                }
-              />
-              <Bar dataKey="storeGmvM" name={L('GMV tuần', 'Weekly GMV')} radius={[4, 4, 0, 0]} isAnimationActive={false}>
-                {weeklyChartData.map((entry, idx) => (
-                  <Cell key={`wk-${idx}`} fill={entry.fill} />
-                ))}
-              </Bar>
-            </BarChart>
-          ) : (
-            <ComposedChart data={V2.ch0.dailySeries} margin={{ top: 16, right: 16, left: 4, bottom: 8 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
-              <XAxis dataKey="ddmm" tick={axisTick} interval={24} />
-              <YAxis width={52} domain={[0, 340]} tick={axisTick} tickFormatter={(v: number) => `${v}Tr`} />
-              <Tooltip
-                content={
-                  <ChartTooltip
-                    head={(lbl) => L(`Ngày ${lbl}/2026`, `Date ${lbl}/2026`)}
-                    fmt={(v) => `${n(v, 1)} Tr đ`}
-                  />
-                }
-              />
-              <Legend formatter={legendFormatter} />
-              <Line
-                type="monotone"
-                dataKey="gmvM"
-                name={L('GMV ngày', 'Daily GMV')}
-                stroke={KAMI_BRAND_PALETTE.slateMuted}
-                strokeWidth={1.25}
-                dot={false}
-                isAnimationActive={false}
-              />
-              <Line
-                type="monotone"
-                dataKey="ma7M"
-                name="MA7"
-                stroke={KAMI_BRAND_PALETTE.tealInk}
-                strokeWidth={2.2}
-                dot={false}
-                connectNulls={false}
-                isAnimationActive={false}
-              />
-              <Line
-                type="monotone"
-                dataKey="ma28M"
-                name="MA28"
-                stroke={KAMI_BRAND_PALETTE.amberStroke}
-                strokeWidth={1.8}
-                strokeDasharray="5 3"
-                dot={false}
-                connectNulls={false}
-                isAnimationActive={false}
-              />
-            </ComposedChart>
-          )}
-        </ResponsiveContainer>
-      </ChartCard>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-        <div className="rounded-2xl border border-[#9BE7FA]/70 bg-[#C8EEF7]/25 p-3.5 dark:border-slate-800 dark:bg-slate-950/60 space-y-1.5">
-          <h3 className="text-xs sm:text-sm font-extrabold text-[#074553] dark:text-[#9BE7FA]">
-            {L('Ba phát hiện cốt lõi', 'Three core findings')}
-          </h3>
-          <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300 leading-relaxed list-disc pl-4">
-            {findings.map((item, i) => (
-              <li key={i} className="tabular-nums">
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="rounded-2xl border border-[#FFD14C] bg-[#FFE485]/30 p-3.5 dark:border-slate-800 dark:bg-[#FFD14C]/10 space-y-1.5">
-          <h3 className="text-xs sm:text-sm font-extrabold text-amber-950 dark:text-[#FFE485]">
-            {L('Ba khuyến nghị hành động', 'Three prioritized actions')}
-          </h3>
-          <ul className="space-y-1.5 text-xs text-slate-800 dark:text-slate-200 leading-relaxed list-disc pl-4">
-            {recommendations.map((item, i) => (
-              <li key={i} className="tabular-nums">
-                {item}
-              </li>
-            ))}
-          </ul>
+                <YAxis
+                  yAxisId="left"
+                  tick={{ fontSize: 11, fill: '#64748b' }}
+                  tickFormatter={(v) => `${v}B`}
+                  tickLine={false}
+                  axisLine={false}
+                  domain={[0, 4.2]}
+                />
+                <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  tick={{ fontSize: 11, fill: '#d97706' }}
+                  tickFormatter={(v) => `${v}M/d`}
+                  tickLine={false}
+                  axisLine={false}
+                  domain={[0, 140]}
+                />
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (!active || !payload || !payload.length) return null;
+                    const d = payload[0].payload;
+                    return (
+                      <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 p-3.5 text-xs tabular-nums">
+                        <p className="font-bold text-slate-900 dark:text-white mb-1">
+                          {isVi ? `Tháng ${d.month} (${d.days} ngày)` : `Month ${d.month} (${d.days} days)`}
+                          {d.isPartial ? (isVi ? ' · Tháng chưa đủ 30 ngày' : ' · Partial month') : ''}
+                        </p>
+                        <div className="space-y-1 text-slate-600 dark:text-slate-300">
+                          <p>
+                            {isVi ? 'Tổng GMV tháng (Cột): ' : 'Monthly Total GMV (Bar): '}
+                            <strong className="text-slate-900 dark:text-white">
+                              {d.storeGmvB.toFixed(2).replace('.', ',')} {isVi ? 'tỷ VNĐ' : 'B VND'} ({d.storeGmvM}M)
+                            </strong>
+                          </p>
+                          <p>
+                            {isVi ? 'GMV bình quân/ngày (Đường): ' : 'Daily Average GMV (Line): '}
+                            <strong className="text-amber-600 dark:text-amber-400">
+                              {d.dailyAvgM.toFixed(1).replace('.', ',')} {isVi ? 'triệu/ngày' : 'M/day'}
+                            </strong>
+                          </p>
+                          <p>
+                            {isVi ? 'Sản lượng bán: ' : 'Units sold: '}
+                            <strong>{(d.units ?? 0).toLocaleString(isVi ? 'vi-VN' : 'en-US')} sp</strong>
+                          </p>
+                          <p className="text-[11px] font-semibold text-[#0D7287] dark:text-[#9BE7FA]">
+                            {d.momNote}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  }}
+                />
+                <Bar
+                  yAxisId="left"
+                  dataKey="storeGmvB"
+                  name={isVi ? 'Tổng GMV tháng (Tỷ VNĐ)' : 'Monthly Total GMV (B VND)'}
+                  fill="#9BE7FA"
+                  radius={[6, 6, 0, 0]}
+                  maxBarSize={46}
+                />
+                <Line
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="dailyAvgM"
+                  name={isVi ? 'GMV bình quân/ngày (Triệu/ngày)' : 'Daily Avg GMV (M/day)'}
+                  stroke="#D97706"
+                  strokeWidth={2.75}
+                  dot={{ r: 4.5, fill: '#FFD14C', stroke: '#D97706', strokeWidth: 2 }}
+                />
+              </ComposedChart>
+            ) : granularity === 'week' ? (
+              <ComposedChart data={V2.ch3.weekly} margin={{ top: 14, right: 16, left: 4, bottom: 8 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.18)" />
+                <XAxis
+                  dataKey="week"
+                  tick={{ fontSize: 11, fill: '#64748b' }}
+                  interval={2}
+                  tickLine={false}
+                />
+                <YAxis
+                  tick={{ fontSize: 11, fill: '#64748b' }}
+                  tickFormatter={(v) => `${v}M`}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (!active || !payload || !payload.length) return null;
+                    const d = payload[0].payload;
+                    return (
+                      <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 p-3.5 text-xs tabular-nums">
+                        <p className="font-bold text-slate-900 dark:text-white mb-1">
+                          {d.week} ({isVi ? `Tuần ${d.ddmm} · ${d.days} ngày` : `Week of ${d.ddmm} · ${d.days}d`})
+                        </p>
+                        <div className="space-y-1 text-slate-600 dark:text-slate-300">
+                          <p>
+                            {isVi ? 'Tổng GMV tuần: ' : 'Weekly GMV: '}
+                            <strong className="text-slate-900 dark:text-white">{d.storeGmvM}M đ</strong>
+                          </p>
+                          <p>
+                            {isVi ? 'Trung bình ngày: ' : 'Daily average: '}
+                            <strong>{d.dailyAvgM}M đ/ngày</strong>
+                          </p>
+                          <p>
+                            {isVi ? 'Sản lượng: ' : 'Units sold: '}
+                            <strong>{(d.units ?? 0).toLocaleString(isVi ? 'vi-VN' : 'en-US')} sp</strong>
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  }}
+                />
+                <Bar
+                  dataKey="storeGmvM"
+                  name={isVi ? 'GMV tuần (Triệu đ)' : 'Weekly GMV (M VND)'}
+                  fill="#9BE7FA"
+                  radius={[4, 4, 0, 0]}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="dailyAvgM"
+                  name={isVi ? 'TB ngày trong tuần (Triệu đ)' : 'Daily Mean in Week (M VND)'}
+                  stroke="#D97706"
+                  strokeWidth={2}
+                  dot={{ r: 3, fill: '#FFD14C' }}
+                />
+              </ComposedChart>
+            ) : (
+              <ComposedChart data={V2.ch0.dailySeries} margin={{ top: 14, right: 16, left: 4, bottom: 8 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.18)" />
+                <XAxis
+                  dataKey="ddmm"
+                  tick={{ fontSize: 11, fill: '#64748b' }}
+                  interval={18}
+                  tickLine={false}
+                />
+                <YAxis
+                  tick={{ fontSize: 11, fill: '#64748b' }}
+                  tickFormatter={(v) => `${v}M`}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (!active || !payload || !payload.length) return null;
+                    const d = payload[0].payload;
+                    return (
+                      <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 p-3.5 text-xs tabular-nums">
+                        <p className="font-bold text-slate-900 dark:text-white mb-1.5">
+                          {isVi ? `Ngày ${d.ddmm}/2026` : `Date ${d.date}`}
+                        </p>
+                        <div className="space-y-1 text-slate-600 dark:text-slate-300">
+                          <p>
+                            {isVi ? 'Doanh thu ngày: ' : 'Daily GMV: '}
+                            <strong className="text-slate-900 dark:text-white">{d.gmvM}M đ</strong>
+                          </p>
+                          {d.ma7M !== null && (
+                            <p>
+                              MA7: <strong className="text-[#0D7287] dark:text-[#9BE7FA]">{d.ma7M}M đ</strong>
+                            </p>
+                          )}
+                          {d.ma28M !== null && (
+                            <p>
+                              MA28: <strong className="text-amber-600 dark:text-amber-400">{d.ma28M}M đ</strong>
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  }}
+                />
+                <ReferenceLine x="16/06" stroke="#059669" strokeDasharray="3 3" />
+                <Bar
+                  dataKey="gmvM"
+                  name={isVi ? 'GMV ngày (Triệu đ)' : 'Daily GMV (M VND)'}
+                  fill="#C8EEF7"
+                  opacity={0.75}
+                  radius={[2, 2, 0, 0]}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="ma7M"
+                  name="MA7 (7d)"
+                  stroke="#0D7287"
+                  strokeWidth={2.2}
+                  dot={false}
+                  connectNulls={false}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="ma28M"
+                  name="MA28 (28d)"
+                  stroke="#FFD14C"
+                  strokeWidth={2.4}
+                  dot={false}
+                  connectNulls={false}
+                />
+                <ReferenceDot x="16/06" y={315.0} r={5} fill="#059669" stroke="#ffffff" strokeWidth={1.5} />
+              </ComposedChart>
+            )}
+          </ResponsiveContainer>
         </div>
       </div>
-
-      <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-3.5 dark:border-slate-800 dark:bg-slate-950/60 space-y-1">
-        <h3 className="text-xs font-extrabold text-slate-900 dark:text-white">
-          {L('Giới hạn phạm vi đọc số', 'Scope & data boundaries')}
-        </h3>
-        <ul className="space-y-1 text-xs text-slate-600 dark:text-slate-400 leading-relaxed list-disc pl-4 tabular-nums">
-          {limitsSummary.map((lim, i) => (
-            <li key={i}>{lim}</li>
-          ))}
-        </ul>
-      </div>
-    </ChapterShell>
+    </section>
   );
 }

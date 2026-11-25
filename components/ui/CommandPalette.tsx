@@ -125,14 +125,14 @@ export default function CommandPalette({
         id: 'case-library-bus',
         category: { vi: 'Dự án mũi nhọn (Case studies)', en: 'Featured case studies' },
         title: {
-          vi: 'Library Bus: Thiết kế UX/UI Website thư viện lưu động',
-          en: 'Library Bus: UX/UI Design for a Mobile Library Website',
+          vi: 'Library Bus: Đặc tả Nghiệp vụ (BA), Telemetry & UX/UI',
+          en: 'Library Bus: BA Specification, Telemetry & UX/UI',
         },
         subtitle: {
-          vi: 'Nghiên cứu UX, sitemap, wireframe và UI design cho 20 màn hình desktop kèm bản mobile',
-          en: 'UX research, sitemap, wireframes and UI design for 20 desktop screens plus mobile',
+          vi: '4 quy tắc nghiệp vụ BR-01..04, kiến trúc MySQL/Redis/Celery và 11 cặp màn hình cốt lõi (Desktop & Mobile)',
+          en: '4 business rules (BR-01..04), MySQL/Redis/Celery telemetry architecture, and 11 core Desktop & Mobile screen pairs',
         },
-        keywords: 'library bus ux ui design wireframe sitemap responsive',
+        keywords: 'library bus ba business analysis telemetry mysql redis celery ux ui wireframe 11 screens',
         icon: <Bus className="w-4 h-4 text-[#9BE7FA]" />,
         action: () => {
           navigateSpa('/projects/proj-library-bus');
@@ -156,7 +156,7 @@ export default function CommandPalette({
         category: { vi: 'Công cụ & điều hướng', en: 'Navigation & tools' },
         title: { vi: 'Báo cáo phân tích Kami Ely & Phụ lục SQL', en: 'Kami Ely Case Study & SQL Appendix' },
         subtitle: { vi: 'Xem 7 chương phân tích dữ liệu TikTok Shop và thư viện SQL/Python', en: 'View 7-chapter TikTok Shop analytics and SQL/Python library' },
-        keywords: 'projects kami ely sql lab case study',
+        keywords: 'projects kami ely sql notebook case study',
         icon: <FolderOpen className="w-4 h-4 text-slate-300" />,
         action: () => {
           navigateSpa('/projects/proj-kami-ely');
