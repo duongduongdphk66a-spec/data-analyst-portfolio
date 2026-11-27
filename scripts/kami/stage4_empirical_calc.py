@@ -1,8 +1,15 @@
+import hashlib
 import os
 import sys
 import re
 import pandas as pd
 import numpy as np
+
+OFFICIAL_SHA256 = "2884bd95e154a3255b1c0272bcfe9505211a293710db406701023782eb0645ec"
+SATELLITE_SHA256 = "6aa6d7c1d040cfe8c061b3e7d7700969504d16b70fe6e65a45d3b573ef71f7bb"
+
+def _h(s):
+    return hashlib.sha256(str(s).strip().lower().encode("utf-8")).hexdigest()
 
 sys.stdout.reconfigure(encoding="utf-8")
 DATA_DIR = r"c:\Users\ADMIN\Documents\data-analyst-portfolio\data\kami"
@@ -49,8 +56,8 @@ df_live["creator_id"] = df_live["creator id"].astype(str).str.strip()
 print(f"Total LIVE rows: {len(df_live)}")
 print(f"Distinct creators in LIVE: {df_live['creator_id'].nunique()}")
 
-# Filter out own brand: kamielyhn
-df_aff = df_live[df_live["creator_id"] != "kamielyhn"].copy()
+# Filter out own brand (@shop_official)
+df_aff = df_live[df_live["creator_id"].map(_h) != OFFICIAL_SHA256].copy()
 print(f"Affiliate LIVE rows: {len(df_aff)}, Affiliate creators: {df_aff['creator_id'].nunique()}")
 
 # Monthly cohort for each affiliate creator
@@ -148,7 +155,7 @@ print(f"Ever had sale: {ever_sale}/{len(first_live)} ({ever_sale/len(first_live)
 
 # 4.3.F: Girl Style & Concentration
 print("\n=== 4.3.F: GIRL STYLE & CONCENTRATION ===")
-gs_rows = df_aff[df_aff["creator_id"] == "girlstyle.vn"]
+gs_rows = df_aff[df_aff["creator_id"].map(_h) == SATELLITE_SHA256]
 total_aff_gmv = df_aff["gmv"].sum()
 gs_gmv = gs_rows["gmv"].sum()
 print(f"Total Affiliate Live GMV: {total_aff_gmv:,.0f} VND")
@@ -162,7 +169,7 @@ first_live_gmv = df_aff.groupby(["creator_id", "ym"])["gmv"].sum().reset_index()
 first_live_gmv = first_live_gmv.merge(first_live[["creator_id", "cohort_m"]], on="creator_id")
 
 cohort_gmv_all = df_aff.merge(first_live[["creator_id", "cohort_m"]], on="creator_id").groupby("cohort_m")["gmv"].sum()
-cohort_gmv_no_gs = df_aff[df_aff["creator_id"] != "girlstyle.vn"].merge(first_live[["creator_id", "cohort_m"]], on="creator_id").groupby("cohort_m")["gmv"].sum()
+cohort_gmv_no_gs = df_aff[df_aff["creator_id"].map(_h) != SATELLITE_SHA256].merge(first_live[["creator_id", "cohort_m"]], on="creator_id").groupby("cohort_m")["gmv"].sum()
 
 print("\nCohort Total GMV (With vs Without Girl Style):")
 for cm in cohort_sizes.index:

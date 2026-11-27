@@ -89,14 +89,14 @@ export default function CommandPalette({
         id: 'case-kami-ely',
         category: { vi: 'Dự án mũi nhọn (Case studies)', en: 'Featured case studies' },
         title: {
-          vi: 'Kami Ely: Phân tích TikTok Shop & mạng lưới Affiliate (15,01 tỷ đ · 231N)',
-          en: 'Kami Ely: TikTok Shop & Affiliate Network Analytics (15.01B VND · 231d)',
+          vi: 'Kami Ely: Phân tích TikTok Shop, Affiliate & Đặc tả BI (15,01 tỷ đ · 231N)',
+          en: 'Kami Ely: TikTok Shop, Affiliate Analytics & BI Spec (15.01B VND · 231d)',
         },
         subtitle: {
-          vi: 'Phân tích 10 bảng FastMoss, hồi quy OLS mùa vụ, Cohort 302 KOC, chỉ số HHI & 9/9 cổng chất lượng',
-          en: '10 FastMoss tables, seasonal OLS regression, 302-KOC cohorts, HHI & 9/9 quality gates',
+          vi: '10 bảng FastMoss (loại +7,59 tỷ trùng nguồn), Panel FE, Cohort 302 KOC, HHI & Đặc tả BI 4 Fact · 3 Dim',
+          en: '10 FastMoss tables (+7.59B overlap fixed), Panel FE, 302-KOC cohorts, HHI & 4-Fact · 3-Dim BI Spec',
         },
-        keywords: 'kami ely tiktok shop ecommerce live video koc affiliate sql ols hhi 231d',
+        keywords: 'kami ely tiktok shop ecommerce live video koc affiliate sql panel fe hhi bi spec dax 231d',
         icon: <ShoppingBag className="w-4 h-4 text-[#9BE7FA]" />,
         action: () => {
           navigateSpa('/projects/proj-kami-ely');
@@ -107,14 +107,14 @@ export default function CommandPalette({
         id: 'case-heritage-japan',
         category: { vi: 'Dự án mũi nhọn (Case studies)', en: 'Featured case studies' },
         title: {
-          vi: 'Di sản văn hóa & kinh tế du lịch Nhật Bản',
-          en: 'Japan Cultural Heritage & Tourism Economics',
+          vi: 'Du lịch Di sản Nhật Bản (2013–2022): Kiểm toán & Chuỗi Thời gian',
+          en: 'Japan Heritage Tourism (2013–2022): Data Audit & Time-Series',
         },
         subtitle: {
-          vi: 'Kiểm định thống kê, hồi quy không gian & đánh giá chính sách công',
-          en: 'Statistical testing, spatial regression & public policy evaluation',
+          vi: 'Kiểm toán 5 sai lệch niên luận, chuỗi 20 năm (2003–2022), chi tiêu/khách -14,6% & đánh giá chính sách UNESCO',
+          en: '5-error thesis audit, 20-year series (2003–2022), -14.6% per-visitor spend drop & UNESCO policy evaluation',
         },
-        keywords: 'heritage japan tourism policy statistics thesis',
+        keywords: 'heritage japan tourism policy statistics audit time series thesis jnto mlit',
         icon: <Landmark className="w-4 h-4 text-[#FFD14C]" />,
         action: () => {
           navigateSpa('/projects/proj-heritage-japan');
@@ -125,14 +125,14 @@ export default function CommandPalette({
         id: 'case-library-bus',
         category: { vi: 'Dự án mũi nhọn (Case studies)', en: 'Featured case studies' },
         title: {
-          vi: 'Library Bus: Đặc tả Nghiệp vụ (BA), Telemetry & UX/UI',
-          en: 'Library Bus: BA Specification, Telemetry & UX/UI',
+          vi: 'Library Bus: Technical BA, ERD 7 bảng & Tracking Plan',
+          en: 'Library Bus: Technical BA, 7-Entity Core ERD & Tracking Plan',
         },
         subtitle: {
-          vi: '4 quy tắc nghiệp vụ BR-01..04, kiến trúc MySQL/Redis/Celery và 11 cặp màn hình cốt lõi (Desktop & Mobile)',
-          en: '4 business rules (BR-01..04), MySQL/Redis/Celery telemetry architecture, and 11 core Desktop & Mobile screen pairs',
+          vi: 'Mini-BRD & 5 User Stories, BR-01..04, Tracking Plan 8 sự kiện, Pilot 4 tuần và 11 cặp màn hình cốt lõi',
+          en: 'Mini-BRD & 5 User Stories, BR-01..04, 8-event Tracking Plan, 4-week pilot, and 11 core screen pairs',
         },
-        keywords: 'library bus ba business analysis telemetry mysql redis celery ux ui wireframe 11 screens',
+        keywords: 'library bus ba business analysis mini-brd rtm erd tracking plan pilot mysql wireframe 11 screens',
         icon: <Bus className="w-4 h-4 text-[#9BE7FA]" />,
         action: () => {
           navigateSpa('/projects/proj-library-bus');
@@ -154,8 +154,8 @@ export default function CommandPalette({
       {
         id: 'nav-projects',
         category: { vi: 'Công cụ & điều hướng', en: 'Navigation & tools' },
-        title: { vi: 'Báo cáo phân tích Kami Ely & Phụ lục SQL', en: 'Kami Ely Case Study & SQL Appendix' },
-        subtitle: { vi: 'Xem 7 chương phân tích dữ liệu TikTok Shop và thư viện SQL/Python', en: 'View 7-chapter TikTok Shop analytics and SQL/Python library' },
+        title: { vi: 'Báo cáo Kami Ely, SQL & Đặc tả BI', en: 'Kami Ely Analysis, SQL & BI Spec' },
+        subtitle: { vi: 'Mở tóm tắt điều hành, phân tích kênh/mùa vụ/KOC, phụ lục SQL/Python và Đặc tả BI', en: 'Open executive summary, seasonality/channel/KOC analysis, SQL/Python appendix & BI Spec' },
         keywords: 'projects kami ely sql notebook case study',
         icon: <FolderOpen className="w-4 h-4 text-slate-300" />,
         action: () => {

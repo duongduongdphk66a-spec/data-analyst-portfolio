@@ -18,30 +18,30 @@ interface CaseStudyFooterProps {
 const PROJECT_MAP = {
   'proj-kami-ely': {
     nextId: 'proj-heritage-japan',
-    nextTitleVi: 'Niên Luận Du Lịch Di Sản Nhật Bản (JNTO & MLIT)',
-    nextTitleEn: 'Japan Heritage Tourism Quantitative Telemetry (JNTO & MLIT)',
-    nextDescVi: 'Mô hình chuỗi thời gian 20 năm, khủng hoảng quá tải du lịch và quản trị di sản bền vững.',
-    nextDescEn: '20-year time-series modeling, overtourism analysis, and sustainable heritage conservation.',
-    categoryVi: 'Time-Series & Econometrics',
-    categoryEn: 'Time-Series & Econometrics',
+    nextTitleVi: 'Du lịch Di sản Nhật Bản (2013–2022): Kiểm toán & Chuỗi Thời gian',
+    nextTitleEn: 'Japan Heritage Tourism (2013–2022): Data Audit & Time-Series',
+    nextDescVi: 'Kiểm toán 5 sai lệch niên luận, chuỗi thời gian 20 năm (2003–2022), chi tiêu/khách -14,6% và áp lực quá tải UNESCO.',
+    nextDescEn: '5-error thesis data audit, 20-year time-series (2003–2022), -14.6% per-visitor spend drop, and UNESCO overtourism analysis.',
+    categoryVi: 'Data Audit & Time-Series',
+    categoryEn: 'Data Audit & Time-Series',
   },
   'proj-heritage-japan': {
     nextId: 'proj-library-bus',
-    nextTitleVi: 'Library Bus: Đặc tả Nghiệp vụ (BA), Telemetry & UX/UI',
-    nextTitleEn: 'Library Bus: BA Specification, Telemetry & UX/UI',
-    nextDescVi: '4 quy tắc nghiệp vụ BR-01..04, kiến trúc MySQL/Redis/Celery và 11 cặp màn hình cốt lõi (Desktop & Mobile).',
-    nextDescEn: '4 core business rules (BR-01..04), MySQL/Redis/Celery telemetry architecture, and 11 core screen pairs.',
-    categoryVi: 'BA, Telemetry & UX/UI',
-    categoryEn: 'BA, Telemetry & UX/UI',
+    nextTitleVi: 'Library Bus: Technical BA, ERD lõi 7 bảng & Tracking Plan',
+    nextTitleEn: 'Library Bus: Technical BA, 7-Entity Core ERD & Tracking Plan',
+    nextDescVi: 'Mini-BRD & 5 User Stories, BR-01..04, Tracking Plan 8 sự kiện, Pilot 4 tuần và 11 cặp màn hình cốt lõi.',
+    nextDescEn: 'Mini-BRD & 5 User Stories, BR-01..04, 8-event Tracking Plan, 4-week pilot, and 11 core screen pairs.',
+    categoryVi: 'Technical BA & Telemetry',
+    categoryEn: 'Technical BA & Telemetry',
   },
   'proj-library-bus': {
     nextId: 'proj-kami-ely',
-    nextTitleVi: 'Kami Ely: Phân tích hiệu suất TikTok Shop và mạng lưới Affiliate',
-    nextTitleEn: 'Kami Ely: TikTok Shop & Affiliate Network Analytics',
-    nextDescVi: 'Phân tích 231 ngày dữ liệu ước tính FastMoss, hồi quy OLS mùa vụ, độ tập trung HHI và chuyển dịch SKU Thu Đông.',
-    nextDescEn: '231-day FastMoss telemetry analysis, seasonal OLS regression, HHI concentration, and autumn SKU transition.',
-    categoryVi: 'E-Commerce & Commercial BI',
-    categoryEn: 'E-Commerce & Commercial BI',
+    nextTitleVi: 'Kami Ely: Phân tích TikTok Shop, Affiliate & Đặc tả BI',
+    nextTitleEn: 'Kami Ely: TikTok Shop, Affiliate Analytics & BI Spec',
+    nextDescVi: 'Đối soát 10 bảng FastMoss (loại +7,59 tỷ trùng nguồn), phân tầng Live theo tháng, Panel FE, Cohort KOC và Đặc tả BI 4 Fact · 3 Dim.',
+    nextDescEn: '10 FastMoss tables reconciled (+7.59B overlap removed), monthly Live stratification, Panel FE, KOC cohorts, and 4-Fact · 3-Dim BI Spec.',
+    categoryVi: 'E-Commerce Analytics & BI Spec',
+    categoryEn: 'E-Commerce Analytics & BI Spec',
   },
 };
 
@@ -93,7 +93,7 @@ export default function CaseStudyFooter({ isEn, currentProjectId, attribution }:
           </div>
 
           <div className="flex items-center gap-4 text-xs tabular-nums">
-            <span>Ma Văn Hùng · Portfolio Data Analyst</span>
+            <span>Ma Văn Hùng · Data Analyst &amp; Business Analyst Portfolio</span>
             <Link
               href="/"
               className="text-[#074553] dark:text-[#9BE7FA] hover:underline flex items-center gap-1 font-bold cursor-pointer"

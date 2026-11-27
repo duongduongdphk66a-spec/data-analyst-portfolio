@@ -54,18 +54,16 @@ export interface SynchronizedTelemetryItem {
 }
 
 export const kamiReconciliationData = {
-  // 1. Metadata Tổng quan Kiểm toán Dữ liệu
+  // 1. Metadata Tổng quan Kiểm toán Dữ liệu (đồng bộ 10 tệp Excel hợp nhất 231 ngày)
   auditSummary: {
-    collectionDate: '2026-09-05',
+    collectionDate: '2026-10-25',
     storeFoundedDate: '2022-08-18',
-    master180dPeriod: '09/03/2026 – 04/09/2026 (180 ngày)',
-    attribution90dPeriod: '90 ngày gần nhất (Trong chu kỳ 180 ngày)',
+    master180dPeriod: '09/03/2026 – 25/10/2026 (231 ngày hợp nhất; mốc 180d đầu kỳ đến 04/09)',
+    attribution90dPeriod: 'Cửa sổ cuốn chiếu 90 ngày gần nhất (23/07 – 20/10/2026)',
     totalRawTables: 10,
     totalCsvFiles: 10,
     totalDatabaseRows: 23364,
-    hanoiFollowersSharePct: 43.0,
-    femaleAudienceSharePct: 73.0,
-    age18To24SharePct: 60.0
+    note: 'Không đưa số liệu nhân khẩu học chưa có tệp nguồn Excel; mọi chỉ số truy vết trực tiếp về 10 tệp FastMoss.'
   },
 
   // 2. Bảng Đối Chiếu Tổng Quan: Toàn Shop vs. Kênh Chính Chủ (@shop_official) qua 3 Khung Thời Gian
@@ -73,35 +71,35 @@ export const kamiReconciliationData = {
     {
       metricId: 'total-gmv',
       metricName: { vi: 'Tổng Doanh Thu (GMV)', en: 'Total GMV' },
-      shopAllTime: { vi: '31,6 Tỉ đ (All-time) | 15,01 Tỉ đ (231d)', en: '31.6B (All-time) | 15.01B (231d)' },
-      creatorAllTime: { vi: '9,2 Tỉ đ (29,1%)', en: '9.2B VND (29.1%)' },
-      shop180d: { vi: '12.735.128.067 đ (~12,74 Tỉ)', en: '12,735,128,067 VND (~12.74B)' },
+      shopAllTime: { vi: '15,01 Tỉ đ (231d) | 14,84 Tỉ đ (226d)', en: '15.01B (231d) | 14.84B (226d)' },
+      creatorAllTime: { vi: '7,59 Tỉ đ Gross Live (226d)', en: '7.59B Gross Live (226d)' },
+      shop180d: { vi: '12.729.376.045 đ (~12,73 Tỉ, 180d đầu kỳ trên tệp 231d)', en: '12,729,376,045 VND (~12.73B, opening 180d of 231d export)' },
       creator180d: {
-        vi: '5,80 Tỉ đ Net (45,7%) | 7,89 Tỉ đ Gross CSV',
-        en: '5.80B Net (45.7%) | 7.89B Gross CSV'
+        vi: '5,80 Tỉ đ Net (UI cũ 05/09) | 7,59 Tỉ đ Gross Live (600 ca, 226d)',
+        en: '5.80B Net (legacy Sep 05 UI) | 7.59B Gross Live (600 sessions, 226d)'
       },
-      shop90d: { vi: '6.136.205.973 đ (~6,14 Tỉ)', en: '6,136,205,973 VND (~6.14B)' },
-      creator90d: { vi: '3.026.026.869 đ (49,31%)', en: '3,026,026,869 VND (49.31%)' },
+      shop90d: { vi: '3,16 Tỉ đ (Shop_Products 339 links, 23/07–20/10)', en: '3.16B (Shop_Products 339 listings, Jul 23–Oct 20)' },
+      creator90d: { vi: '1,75 Tỉ đ (60,1% bảng Affiliate_KOL 2,92 Tỉ)', en: '1.75B (60.1% of 2.92B Affiliate_KOL directory)' },
       auditNote: {
-        vi: 'Tỷ trọng tự gánh của kênh @shop_official tăng mạnh từ 29,1% (All-time 31,6 Tỉ) lên 45,7% (180d 12,74 Tỉ) và 49,31% (90d 6,14 Tỉ). Tập mẫu phân tích 231 ngày (09/03–25/10/2026) đạt 15,01 Tỉ đ (101.896 SP).',
-        en: '@shop_official share rose from 29.1% (All-time 31.6B) to 45.7% (180d 12.74B) and 49.31% (90d 6.14B). The 231-day analysis sample (Mar 09–Oct 25, 2026) totals 15.01B VND (101,896 units).'
+        vi: 'Chuẩn hóa trên tệp hợp nhất 231 ngày (09/03–25/10/2026): 15.009.083.662 đ (101.896 sp). Chênh lệch -5,75 Tr đ ở mốc 180d đầu kỳ (12,729 vs. 12,735 Tỉ ở bản chụp 05/09) do FastMoss hiệu chỉnh hồi tố.',
+        en: 'Standardized on the 231-day merged export (Mar 09–Oct 25, 2026): 15,009,083,662 VND (101,896 units). The -5.75M delta on the opening 180d window (12.729B vs. legacy Sep 05 snapshot 12.735B) reflects FastMoss retroactive revisions.'
       }
     },
     {
       metricId: 'units-sold',
       metricName: { vi: 'Tổng Sản Lượng Bán (Units)', en: 'Total Units Sold' },
-      shopAllTime: { vi: '238,4k SP (All-time) | 101.896 SP (231d)', en: '238.4k (All-time) | 101,896 (231d)' },
-      creatorAllTime: { vi: '69,9k SP (29,3%)', en: '69.9k units (29.3%)' },
-      shop180d: { vi: '85.500 SP (TB 475 SP/ngày)', en: '85,500 units (Avg 475/day)' },
+      shopAllTime: { vi: '101.896 SP (231d) | 100.674 SP (226d)', en: '101,896 (231d) | 100,674 (226d)' },
+      creatorAllTime: { vi: 'ASP 231d: 147.298 đ/SP', en: '231d ASP: 147,298 VND/unit' },
+      shop180d: { vi: '85.089 SP (180d đầu kỳ trên tệp 231d; TB 473 SP/ngày)', en: '85,089 units (opening 180d of 231d export; avg 473/day)' },
       creator180d: {
-        vi: '39,3k SP Net (46,0%) | 54.961 SP Gross CSV',
-        en: '39.3k Net (46.0%) | 54,961 Gross CSV'
+        vi: 'Cộng trực tiếp cột bán ngày (tránh bẫy trừ lũy kế hụt 310 SP ngày 09/03)',
+        en: 'Direct sum of daily units (avoids cumulative subtraction dropping 310 day-1 units)'
       },
-      shop90d: { vi: '40.229 SP (331 SKUs)', en: '40,229 units (331 SKUs)' },
-      creator90d: { vi: '20.027 SP (49,78% CSV | 49,76% UI)', en: '20,027 units (49.78% CSV | 49.76% UI)' },
+      shop90d: { vi: '339 link sản phẩm (133 link có đơn, 206 link 0đ)', en: '339 product listings (133 active, 206 zero-sale)' },
+      creator90d: { vi: 'Top 12/133 link sản phẩm có đơn tạo 80,6% GMV 90d', en: 'Top 12/133 active product listings drive 80.6% of 90d GMV' },
       auditNote: {
-        vi: 'Khớp chính xác giữa bảng _product data (40.229 SP) và Creator Goods (20.027 SP).',
-        en: 'Exact match between _product data (40,229 units) and Creator Goods (20,027 units).'
+        vi: 'Trừ cột sản lượng lũy kế ngày cuối cho ngày đầu ra 101.586 SP (thiếu đúng 310 SP bán ngày 09/03); phải cộng trực tiếp cột bán ngày để ra 101.896 SP.',
+        en: 'Subtracting cumulative endpoints yields 101,586 units (omitting 310 day-1 units on Mar 09); summing daily units gives the exact 101,896 total.'
       }
     },
     {
@@ -403,24 +401,24 @@ export const kamiReconciliationData = {
     {
       ruleCode: 'REC-04',
       title: {
-        vi: 'Khử Trùng 595 Phiên LIVE Giữa Affiliate_Livestreams và Creator_Livestreams (Tránh Cộng Đôi +3,05 Tỷ)',
-        en: 'Deduplicating 595 Overlapping LIVE Sessions Between Affiliate_Livestreams and Creator_Livestreams'
+        vi: 'Khử Trùng 595 Phiên LIVE Giữa Affiliate_Livestreams và Creator_Livestreams (Tránh Cộng Đôi +7,59 Tỷ)',
+        en: 'Deduplicating 595 Overlapping LIVE Sessions Between Affiliate_Livestreams and Creator_Livestreams (+7.59B Overlap)'
       },
       sourceAValue: {
         vi: 'Affiliate_Livestreams (8.355 phiên) = 10,47 Tỉ đ | Creator_Livestreams (600 phiên, 595 phiên trong khung) = 7,59 Tỉ đ',
         en: 'Affiliate_Livestreams (8,355 sessions) = 10.47B VND | Creator_Livestreams (600 sessions, 595 in window) = 7.59B VND'
       },
       sourceBValue: {
-        vi: 'Cộng gộp thô = 18,06 Tỉ đ (120% GMV toàn shop 15,01 Tỉ đ); mốc đồng bộ 226 ngày đến 20/10 đạt 14,84 Tỉ đ',
-        en: 'Naive sum = 18.06B VND (120% of 15.01B store GMV); synchronized 226-day cutoff through Oct 20 = 14.84B VND'
+        vi: 'Cộng gộp thô = 18,06 Tỉ đ (120,3% GMV toàn shop 15,01 Tỉ đ); mốc đồng bộ 226 ngày đến 20/10 đạt 14,84 Tỉ đ',
+        en: 'Naive sum = 18.06B VND (120.3% of 15.01B store GMV); synchronized 226-day cutoff through Oct 20 = 14.84B VND'
       },
       deltaSummary: {
-        vi: 'Loại trừ bẫy cộng trùng 595 phiên của kênh chính chủ @shop_official (nằm sẵn trong cả 2 bảng xuất FastMoss)',
-        en: 'Eliminates double-counting of 595 @shop_official sessions present in both FastMoss exports'
+        vi: 'Loại trừ bẫy cộng trùng +7,59 Tỉ đ từ 595 phiên của kênh chính chủ @shop_official (nằm sẵn trong cả 2 bảng xuất FastMoss)',
+        en: 'Eliminates +7.59B VND double-counting from 595 @shop_official sessions present in both FastMoss exports'
       },
       technicalResolution: {
-        vi: 'Giữ Affiliate_Livestreams làm nguồn tổng kênh LIVE (10,47 Tỉ đ = 69,8% GMV 231d / 70,5% GMV 226d) và dùng Creator_Livestreams làm bảng chi tiết riêng cho 600 phiên kênh chính chủ sau khi bù múi giờ +13h về UTC+7.',
-        en: 'Uses Affiliate_Livestreams as the deduplicated LIVE total (10.47B = 69.8% of 231d / 70.5% of 226d GMV) and Creator_Livestreams solely for official-channel session drill-down after +13h UTC+7 alignment.'
+        vi: 'Giữ Affiliate_Livestreams làm nguồn tổng kênh LIVE (10,47 Tỉ đ Gross, 226d) và dùng Creator_Livestreams làm bảng chi tiết riêng cho 600 phiên kênh chính chủ sau khi bù múi giờ +13h về UTC+7; không trừ chéo Gross phiên với Net toàn shop.',
+        en: 'Uses Affiliate_Livestreams as the deduplicated LIVE total (10.47B Gross, 226d) and Creator_Livestreams solely for official-channel session drill-down after +13h UTC+7 alignment; never subtracts session Gross from store Net.'
       },
       status: 'VERIFIED_EXACT'
     },
@@ -505,26 +503,26 @@ export const kamiReconciliationData = {
     {
       moduleId: 'telemetry-channel-split-226d',
       moduleName: {
-        vi: '2. Phân Rã 3 Kênh Trên Khung Đồng Bộ 226 Ngày (09/03 – 20/10/2026)',
-        en: '2. 3-Channel Decomposition at Shared 226-Day Cutoff (Mar 09 – Oct 20, 2026)'
+        vi: '2. Cơ Cấu Nội Bộ vs. KOC Ngoài Trong Từng Kênh (Không Trừ Chéo Gross/Net)',
+        en: '2. Within-Channel In-House vs. External KOC Split (No Cross-Window Subtraction)'
       },
-      synchronizedWindow: '09/03/2026 – 20/10/2026 (226d)',
+      synchronizedWindow: '09/03/2026 – 20/10/2026 (Live 226d · Video Rolling 90d)',
       csvAnchorMetric: {
-        vi: 'Toàn shop 226 ngày = 14,84 Tỉ đ (đủ 231 ngày đến 25/10 = 15,01 Tỉ đ)',
-        en: 'Whole-shop 226d GMV = 14.84B VND (full 231d through Oct 25 = 15.01B VND)'
+        vi: 'Toàn shop 226 ngày Net = 14,84 Tỉ đ (đủ 231 ngày đến 25/10 = 15,01 Tỉ đ); riêng T6 Live Gross đạt 4,92 Tỉ vs. Store Net 3,77 Tỉ nên không trừ chéo ra Shop Tab',
+        en: 'Store 226d Net = 14.84B VND (231d through Oct 25 = 15.01B); June Gross Live hit 4.92B vs. 3.77B Store Net, invalidating residual Shop Tab subtraction'
       },
       telemetryMetrics: [
         {
-          vi: 'Livestream (8.355 phiên khử trùng): 10,47 Tỉ đ (70,5%) — trong đó @shop_official 72,5% + @koc_sat01 12,0%',
-          en: 'Livestream (8,355 deduped sessions): 10.47B VND (70.5%) — @shop_official 72.5% + @koc_sat01 12.0%'
+          vi: 'Livestream (8.355 phiên Gross, 226d): 10,47 Tỉ đ — @shop_official 72,5% (7,59 Tỉ) + @koc_sat01 12,0% (1,26 Tỉ) = 84,5% nội bộ; 301 KOC ngoài 15,5% (1,62 Tỉ)',
+          en: 'Livestream (8,355 Gross sessions, 226d): 10.47B VND — @shop_official 72.5% (7.59B) + @koc_sat01 12.0% (1.26B) = 84.5% in-house; 301 external KOCs 15.5% (1.62B)'
         },
         {
-          vi: 'Video ngắn (4.796 clip khử trùng): 2,20 Tỉ đ (14,8%) — KOC bên ngoài chiếm 58,4% (1,28 Tỉ đ)',
-          en: 'Short Video (4,796 deduped clips): 2.20B VND (14.8%) — external KOCs drive 58.4% (1.28B VND)'
+          vi: 'Video ngắn (4.796 clip khử trùng, Rolling 90d): 2,20 Tỉ đ — KOC ngoài dẫn 58,4% (1,28 Tỉ), @shop_official 36,5% (0,80 Tỉ), @koc_sat01 5,1% (0,11 Tỉ)',
+          en: 'Short Video (4,796 deduped clips, Rolling 90d): 2.20B VND — external KOCs lead 58.4% (1.28B), @shop_official 36.5% (0.80B), @koc_sat01 5.1% (0.11B)'
         },
         {
-          vi: 'Phần còn lại (Kệ hàng / Shop Tab / Tự nhiên): 2,18 Tỉ đ (14,7%)',
-          en: 'Residual (Product Card / Shop Tab / Organic): 2.18B VND (14.7%)'
+          vi: 'Nguyên tắc đối soát: Không lấy Store Net trừ Live Gross và Video Rolling 90d để suy ra Shop Tab; chỉ phân rã tỷ trọng trong nội bộ từng kênh có cùng độ hạt',
+          en: 'Reconciliation rule: Never subtract 226d Gross Live and 90d Rolling Video from Store Net; evaluate channel mix strictly within each table’s native window and grain'
         }
       ],
       strategicTakeaway: {
@@ -545,8 +543,8 @@ export const kamiReconciliationData = {
       },
       telemetryMetrics: [
         {
-          vi: '67 ca Mega-Live >10h đạt bình quân 4,55 Tr đ/giờ (gấp 4,1× ca <2h); lưu ý khả năng nhân quả ngược vào ngày sale lớn',
-          en: '67 >10h Mega-Lives averaged 4.55M VND/hr (4.1x <2h sessions); subject to reverse causality on promo days'
+          vi: '67 ca >10h đạt gộp 4,55 Tr/giờ nhưng phân tầng theo tháng lộ Nghịch lý Simpson: T6 đạt 8,48 Tr/h (68,7% GMV nhóm) rồi rơi về 1,43 Tr/h (T7) và 0,73 Tr/h (T8)',
+          en: '67 >10h shifts averaged 4.55M/hr overall, but monthly stratification shows Simpson’s Paradox: 8.48M/hr in Jun (68.7% of bucket GMV) vs. 1.43M/hr (Jul) and 0.73M/hr (Aug)'
         },
         {
           vi: 'Video bật cờ Ads (3.775 clip) đạt 30,3% có đơn (vs. 10,2% Organic), nhưng GPM/1k views lại thấp hơn (0,84× toàn mẫu; 0,73× trong cùng 192 KOC)',
@@ -554,8 +552,8 @@ export const kamiReconciliationData = {
         }
       ],
       strategicTakeaway: {
-        vi: 'Chỉ nên cấp ngân sách Spark Ads có chọn lọc cho clip đã chứng minh chuyển đổi tự nhiên và theo dõi ROAS biên khi có dữ liệu chi phí Ads thực.',
-        en: 'Deploy Spark Ads selectively on organically converting clips and track marginal ROAS once internal ad-spend data is available.'
+        vi: 'Chỉ nên cấp ngân sách Spark Ads có chọn lọc cho clip đã chứng minh chuyển đổi tự nhiên và áp ngưỡng cắt lỗ theo giờ cho các ca Live dài.',
+        en: 'Deploy Spark Ads selectively on organically converting clips and enforce hourly stop-loss thresholds on extended Live shifts.'
       }
     },
     {
@@ -571,17 +569,17 @@ export const kamiReconciliationData = {
       },
       telemetryMetrics: [
         {
-          vi: '6 mã Đồ bơi Hè (gồm AQ1) rơi 90% từ 1,57 Tỉ (T6) xuống 0,15 Tỉ (T8), trong khi 2 mã Thu Đông AT06 (09/09) và AG01 (14/09) lên kệ trễ gần 1 tháng',
-          en: '6 Summer Swimwear SKUs (incl. AQ1) fell 90% from 1.57B (Jun) to 0.15B (Aug), while autumn heroes AT06 (Sep 09) and AG01 (Sep 14) launched nearly 1 month late'
+          vi: '6 mã Đồ bơi Hè (gồm AQ1) rơi -89,3% từ 1,57 Tỉ (T6) xuống 0,17 Tỉ (T8, giải thích ~45% cú sụt T6→T8), trong khi AT06 (09/09) và AG01 (14/09) lên kệ trễ gần 1 tháng',
+          en: '6 Summer Swimwear SKUs (incl. AQ1) fell -89.3% from 1.57B (Jun) to 0.17B (Aug, ~45% of Jun→Aug drop), while AT06 (Sep 09) and AG01 (Sep 14) launched nearly 1 month late'
         },
         {
-          vi: 'Tháng 10 hồi phục lên 64,7 Tr/ngày (+214,9% vs T8), nhưng riêng mã AT06 chiếm 80,5% GMV tháng (rủi ro phụ thuộc đơn mã)',
-          en: 'October rebounded to 64.7M/day (+214.9% vs Aug), but single SKU AT06 drove 80.5% of monthly GMV (single-SKU concentration risk)'
+          vi: 'Tháng 10 hồi phục lên 64,7 Tr/ngày (+214,9% vs T8), nhưng riêng mã AT06 chiếm 80,5% GMV toàn shop tháng 10 (83,5% của 10 SKU) trong khi AG01 đã tắt đơn sau 05/10',
+          en: 'October rebounded to 64.7M/day (+214.9% vs Aug), but AT06 drove 80.5% of total store Oct GMV (83.5% of the 10-SKU panel) while AG01 stopped selling after Oct 05'
         }
       ],
       strategicTakeaway: {
-        vi: 'Đẩy lịch ra mắt hàng Thu Đông sớm 4 tuần từ đầu tháng 8 và ghép bán chéo AT06 cùng CV11/CV02/AG01 để giảm phụ thuộc đơn mã.',
-        en: 'Advance autumn SKU launches by 4 weeks to early August and bundle AT06 with CV11/CV02/AG01 to diversify revenue.'
+        vi: 'Đẩy lịch seeding & ra mắt mã Thu Đông chủ lực sớm 3–4 tuần từ đầu tháng 8 và ghép bán chéo AT06 cùng các mã còn sức bán (CV11, CV02) để giảm rủi ro đơn mã.',
+        en: 'Advance autumn hero seeding/launch by 3–4 weeks to early August and bundle AT06 with active skirts (CV11, CV02) to lower single-SKU dependency.'
       }
     }
   ] as SynchronizedTelemetryItem[]

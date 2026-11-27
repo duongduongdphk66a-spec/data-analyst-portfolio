@@ -15,18 +15,65 @@ export function Chapter4KocNetwork({ lang }: Props) {
   const surv = V2.ch4.survival;
 
   return (
-    <section id="sec-koc" className="scroll-mt-28">
-      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-4 space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2 px-1 text-xs sm:text-sm tabular-nums">
-          <p className="text-slate-700 dark:text-slate-300">
-            <strong className="text-slate-900 dark:text-white">
-              {isVi ? 'Sàng lọc 302 KOC Live ngoài: ' : '302 External Live KOC Screening: '}
-            </strong>
-            {isVi
-              ? `Chỉ ${surv.everOrderCount}/${surv.totalKocs} KOC (${surv.everOrderPct}%) từng ra đơn; trong nhóm 0 đơn 3 phiên đầu, ${surv.first3ZeroNeverConvertPct}% không bao giờ chuyển đổi (nhóm đủ ≥3 phiên là ${surv.first3ZeroGe3NeverConvertPct}%).`
-              : `Only ${surv.everOrderCount}/${surv.totalKocs} KOCs (${surv.everOrderPct}%) ever converted; ${surv.first3ZeroNeverConvertPct}% with 0 orders in their first 3 sessions never convert (${surv.first3ZeroGe3NeverConvertPct}% among ≥3-session KOCs).`}
-          </p>
+    <section id="sec-koc" className="scroll-mt-28 space-y-4">
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5 space-y-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <div>
+            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+              {isVi
+                ? '145 KOC có 3 phiên đầu 0đ: 94 người không ra đơn nhưng 51 người tạo 304,9 Tr từ phiên 4+'
+                : '145 Zero-Start KOCs (≥3 Sessions): 94 Never Converted, but 51 Drove 304.9M from Session 4+'}
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 tabular-nums">
+              {isVi
+                ? 'Đo từ 7.760 phiên Live ngoài @shop_official (09/03 – 20/10/2026) để tối ưu ngân sách mẫu mà không đánh mất nhóm chuyển đổi muộn.'
+                : 'Computed across 7,760 non-official live sessions (Mar 09 – Oct 20, 2026) to optimize sample spend without losing late converters.'}
+            </p>
+          </div>
         </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs tabular-nums">
+          <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 p-3.5">
+            <p className="font-bold text-slate-900 dark:text-white">
+              {isVi ? 'Tỷ lệ KOC Live từng ra đơn' : 'Ever-Converting Live KOCs'}
+            </p>
+            <p className="text-xl font-extrabold text-[#0D7287] dark:text-[#9BE7FA] mt-1">
+              {surv.everOrderCount} / {surv.totalKocs} ({isVi ? String(surv.everOrderPct).replace('.', ',') : surv.everOrderPct}%)
+            </p>
+            <p className="text-slate-500 dark:text-slate-400 mt-0.5">
+              {isVi
+                ? `${surv.firstSessionOrderCount} KOC (${String(surv.firstSessionOrderPct).replace('.', ',')}%) ra đơn ngay phiên đầu tiên.`
+                : `${surv.firstSessionOrderCount} KOCs (${surv.firstSessionOrderPct}%) converted on session 1.`}
+            </p>
+          </div>
+          <div className="rounded-xl border border-rose-500/25 bg-rose-500/5 p-3.5">
+            <p className="font-bold text-slate-900 dark:text-white">
+              {isVi ? 'Đánh đổi luật 3 phiên đầu = 0đ' : '3-Session Zero-GMV Trade-Off'}
+            </p>
+            <p className="text-xl font-extrabold text-rose-600 dark:text-rose-400 mt-1">
+              {isVi ? '94/145 (64,8%) không ra đơn' : '94/145 (64.8%) never convert'}
+            </p>
+            <p className="text-slate-600 dark:text-slate-400 mt-0.5 leading-relaxed">
+              {isVi
+                ? 'Nhưng 51/145 KOC còn lại (35,2%) ra đơn từ phiên 4+ và tạo 304,9 Tr (18,8% Live độc lập) → chỉ dừng gửi mẫu trả phí, giữ link affiliate mở.'
+                : 'Yet 51/145 (35.2%) converted at session 4+ for 304.9M VND (18.8% of independent Live) → stop paid samples only, keep open affiliate links.'}
+            </p>
+          </div>
+          <div className="rounded-xl border border-[#FFD14C]/50 bg-[#FFE485]/20 dark:bg-slate-950/60 p-3.5">
+            <p className="font-bold text-slate-900 dark:text-white">
+              {isVi ? 'Vai trò Kênh vệ tinh @koc_sat01' : 'In-House Satellite @koc_sat01'}
+            </p>
+            <p className="text-xl font-extrabold text-amber-700 dark:text-amber-400 mt-1">
+              1,26 tỷ ({isVi ? String(V2.ch4.satelliteSummary.shareOfExtLivePct).replace('.', ',') : V2.ch4.satelliteSummary.shareOfExtLivePct}% Live ngoài)
+            </p>
+            <p className="text-slate-600 dark:text-slate-400 mt-0.5">
+              {isVi
+                ? '261 phiên từ kênh vệ tinh nội bộ (nếu không tách sẽ phóng đại sức mạnh KOC ngoài).'
+                : '261 sessions from in-house satellite (must isolate to avoid overstating external KOCs).'}
+            </p>
+          </div>
+        </div>
+
         <button
           type="button"
           onClick={() => setShowCohortDetails((v) => !v)}
@@ -35,59 +82,17 @@ export function Chapter4KocNetwork({ lang }: Props) {
           <span>
             {showCohortDetails
               ? isVi
-                ? 'Thu gọn phân tích sống còn Kaplan-Meier & Ma trận giữ chân Cohort 302 KOC Live'
-                : 'Collapse Kaplan-Meier survival & Cohort retention matrix for 302 Live KOCs'
+                ? 'Thu gọn Ma trận giữ chân Cohort theo tháng gia nhập (M+0 đến M+7, 302 KOC Live)'
+                : 'Collapse Monthly Cohort Retention Matrix (M+0 to M+7, 302 Live KOCs)'
               : isVi
-              ? `Xem kiểm định giữ chân 302 KOC Live: Quy tắc sàng lọc 3 phiên đầu (${surv.first3ZeroNeverConvertPct}% KOC 0 đơn sau 3 phiên đầu không bao giờ ra đơn)`
-              : `View 302 Live KOC Retention Audit: 3-Session Screening Rule (${surv.first3ZeroNeverConvertPct}% with 0 orders in first 3 sessions never convert)`}
+              ? 'Xem Ma trận giữ chân Cohort theo tháng gia nhập (M+0 đến M+7 · 302 KOC Live)'
+              : 'View Monthly Cohort Retention Matrix (M+0 to M+7 · 302 Live KOCs)'}
           </span>
           {showCohortDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
 
         {showCohortDetails && (
-          <div className="space-y-4 pt-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs tabular-nums">
-              <div className="rounded-xl border border-slate-200 dark:border-slate-800 p-3.5">
-                <p className="font-bold text-slate-900 dark:text-white">
-                  {isVi ? 'Tỷ lệ KOC Live từng ra đơn' : 'Ever-Converting Live KOCs'}
-                </p>
-                <p className="text-xl font-extrabold text-[#0D7287] dark:text-[#9BE7FA] mt-1">
-                  {surv.everOrderCount} / {surv.totalKocs} ({surv.everOrderPct}%)
-                </p>
-                <p className="text-slate-500 mt-0.5">
-                  {isVi
-                    ? `Trong đó ${surv.firstSessionOrderCount} KOC (${surv.firstSessionOrderPct}%) có đơn ngay phiên đầu.`
-                    : `${surv.firstSessionOrderCount} KOCs (${surv.firstSessionOrderPct}%) converted on session 1.`}
-                </p>
-              </div>
-              <div className="rounded-xl border border-slate-200 dark:border-slate-800 p-3.5">
-                <p className="font-bold text-slate-900 dark:text-white">
-                  {isVi ? 'Ngưỡng sàng lọc 3 phiên đầu = 0đ' : '3-Session Zero-Revenue Rule'}
-                </p>
-                <p className="text-xl font-extrabold text-rose-600 dark:text-rose-400 mt-1">
-                  {surv.first3ZeroNeverConvertPct}% ({surv.first3ZeroNeverConvertCount}/{surv.first3ZeroCount})
-                </p>
-                <p className="text-slate-500 mt-0.5">
-                  {isVi
-                    ? `Xét riêng nhóm đủ ≥3 phiên (n=${surv.first3ZeroGe3Count}), tỷ lệ không bao giờ ra đơn là ${surv.first3ZeroGe3NeverConvertPct}%.`
-                    : `Among KOCs with ≥3 sessions (n=${surv.first3ZeroGe3Count}), ${surv.first3ZeroGe3NeverConvertPct}% never converted.`}
-                </p>
-              </div>
-              <div className="rounded-xl border border-slate-200 dark:border-slate-800 p-3.5">
-                <p className="font-bold text-slate-900 dark:text-white">
-                  {isVi ? 'Vai trò Kênh vệ tinh @koc_sat01' : 'In-House Satellite @koc_sat01'}
-                </p>
-                <p className="text-xl font-extrabold text-amber-600 dark:text-amber-400 mt-1">
-                  1,26 tỷ ({V2.ch4.satelliteSummary.shareOfExtLivePct}% Live ngoài)
-                </p>
-                <p className="text-slate-500 mt-0.5">
-                  {isVi
-                    ? '261 phiên live từ kênh vệ tinh nội bộ @koc_sat01 (gộp 2 tên hiển thị qua cùng KOC ID ẩn danh).'
-                    : '261 live sessions from in-house satellite @koc_sat01 (merging 2 display names under one pseudonymized KOC ID).'}
-                </p>
-              </div>
-            </div>
-
+          <div className="pt-2">
             <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 p-4">
               <p className="text-xs font-bold text-slate-900 dark:text-white mb-2">
                 {isVi

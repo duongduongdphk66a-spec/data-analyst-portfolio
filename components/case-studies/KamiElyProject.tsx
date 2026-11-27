@@ -15,9 +15,6 @@ import CaseStudyFooter from './shared/CaseStudyFooter';
 export interface KamiElyProjectProps {
   onBack?: () => void;
   isEmbedded?: boolean;
-  initialData?: any;
-  initialShopData?: any;
-  initialCreatorData?: any;
 }
 
 export default function KamiElyProject(props: KamiElyProjectProps = {}) {
@@ -91,7 +88,6 @@ export default function KamiElyProject(props: KamiElyProjectProps = {}) {
       <main className="w-full">
         <KamiElyCommercialTab
           isEn={isEn}
-          telemetryData={props.initialData}
           onOpenNotebook={() => setIsNotebookModalOpen(true)}
         />
       </main>

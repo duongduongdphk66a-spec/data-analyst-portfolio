@@ -7,15 +7,16 @@ Based on user specification:
 - CV11, CV02: Chân Váy (Không phải Bikini)
 - H36, M18, SW01, H32, H30: Bikini / Đồ Bơi
 """
+import os
 import mysql.connector
 import sys
 sys.stdout.reconfigure(encoding="utf-8")
 
 conn = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="173053ms",
-    database="pplo",
+    host=os.environ.get("MYSQL_HOST", "localhost"),
+    user=os.environ.get("MYSQL_USER", "root"),
+    password=os.environ.get("MYSQL_PASSWORD", ""),
+    database=os.environ.get("MYSQL_DATABASE", "pplo"),
     charset="utf8mb4"
 )
 cur = conn.cursor()

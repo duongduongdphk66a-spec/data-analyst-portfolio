@@ -10,9 +10,6 @@ import {
   Calendar,
   CheckCircle2,
   Clock,
-  Filter,
-  Search,
-  Sparkles,
   Tag,
   Terminal,
   X,
@@ -31,7 +28,6 @@ export default function BlogPage() {
 
   const [selectedCategory, setSelectedCategory] =
     useState<FilterCategory>("all");
-  const [searchQuery, setSearchQuery] = useState("");
   const [activePost, setActivePost] = useState<BlogPost | null>(null);
 
   useEffect(() => {
@@ -45,118 +41,56 @@ export default function BlogPage() {
 
   const categories: { id: FilterCategory; labelVi: string; labelEn: string }[] =
     [
-      { id: "all", labelVi: "Tất cả bài viết", labelEn: "All Articles" },
-      {
-        id: "heritage-japan",
-        labelVi: "Heritage Japan (NCKH)",
-        labelEn: "Heritage Japan (Research)",
-      },
+      { id: "all", labelVi: `Tất cả (${BLOG_POSTS.length})`, labelEn: `All (${BLOG_POSTS.length})` },
       {
         id: "kami-ely",
-        labelVi: "Kami Ely (TikTok Shop)",
-        labelEn: "Kami Ely (TikTok Shop)",
+        labelVi: "Kami Ely",
+        labelEn: "Kami Ely",
+      },
+      {
+        id: "heritage-japan",
+        labelVi: "Heritage Japan",
+        labelEn: "Heritage Japan",
       },
       {
         id: "library-bus",
-        labelVi: "Library Bus (Product/UX)",
-        labelEn: "Library Bus (Product/UX)",
+        labelVi: "Library Bus",
+        labelEn: "Library Bus",
       },
       {
         id: "sql-methodology",
-        labelVi: "Phương pháp luận SQL",
-        labelEn: "SQL Methodology",
+        labelVi: "Checklist SQL",
+        labelEn: "SQL Checklist",
       },
     ];
 
   const filteredPosts = useMemo(() => {
-    return BLOG_POSTS.filter((post) => {
-      const matchesCategory =
-        selectedCategory === "all" || post.projectKey === selectedCategory;
-      const query = searchQuery.trim().toLowerCase();
-      if (!query) return matchesCategory;
-
-      const title = (isVi ? post.titleVi : post.titleEn).toLowerCase();
-      const excerpt = (isVi ? post.excerptVi : post.excerptEn).toLowerCase();
-      const tagsMatch = post.tags.some((t) => t.toLowerCase().includes(query));
-
-      return matchesCategory && (title.includes(query) || excerpt.includes(query) || tagsMatch);
-    });
-  }, [selectedCategory, searchQuery, isVi]);
+    return BLOG_POSTS.filter(
+      (post) => selectedCategory === "all" || post.projectKey === selectedCategory
+    );
+  }, [selectedCategory]);
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 space-y-10 sm:space-y-12">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 space-y-8 sm:space-y-10">
       {/* =====================================================================
-       * 1. BLOG HERO HEADER (Official Project Cyan & Deep Teal Palette)
+       * 1. BLOG HEADER (Concise & Proportional to 4 Short Notes)
        * ===================================================================== */}
-      <section className="relative rounded-3xl overflow-hidden bg-[#F0F9FB] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 text-slate-900 dark:text-white p-8 sm:p-12">
-        <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-[#C8EEF7] dark:border-slate-700 text-[#074553] dark:text-[#9BE7FA] text-xs font-semibold">
-            <BookOpen className="w-3.5 h-3.5 text-amber-600 dark:text-[#FFD14C]" />
-            <span>
-              {isVi
-                ? "Nhật ký Phân tích & Nghiên cứu Dữ liệu"
-                : "Data Analytics & Research Engineering Blog"}
-            </span>
-          </div>
-
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
+      <section className="rounded-3xl bg-[#F0F9FB] dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-800 text-slate-900 dark:text-white p-7 sm:p-10 space-y-5">
+        <div className="max-w-3xl space-y-3">
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight text-balance">
             {isVi
-              ? "Quy trình Phân tích, Đối soát & Phát hiện Thực nghiệm"
-              : "Analytical Process, Data Reconciliation & Key Findings"}
+              ? "Ghi chép kỹ thuật & đối soát dữ liệu"
+              : "Technical notes & data reconciliation"}
           </h1>
 
-          <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 dark:text-slate-300 text-base leading-relaxed max-w-prose">
             {isVi
-              ? "Nơi tôi ghi lại chi tiết cách đặt câu hỏi nghiên cứu, quy trình làm sạch dữ liệu (Data Audit), tối ưu hóa truy vấn SQL, kiểm định giả thuyết thống kê và đúc kết bài học từ các dự án thực tế."
-              : "Detailed write-ups documenting my research hypotheses, data auditing pipelines, SQL query optimization, statistical hypothesis testing, and strategic findings across projects."}
+              ? "Bốn ghi chép ngắn (2–3 phút đọc) tổng hợp các lỗi số liệu thực tế mình tự bắt được, câu lệnh MySQL 8.0 / Python và lý do đằng sau từng quyết định kỹ thuật trong 3 dự án."
+              : "Four concise notes (2–3 min reads) documenting real data traps I caught, MySQL 8.0 / Python snippets, and key technical trade-offs across the 3 projects."}
           </p>
         </div>
 
-        {/* Summary Metric Pills */}
-        <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6">
-          {[
-            {
-              labelVi: "Chuyên đề Phân tích",
-              labelEn: "In-Depth Articles",
-              value: `${BLOG_POSTS.length} Posts`,
-            },
-            {
-              labelVi: "Dự án Case Study",
-              labelEn: "Core Case Studies",
-              value: "3 Projects",
-            },
-            {
-              labelVi: "Khung Phương pháp",
-              labelEn: "SQL Framework",
-              value: "8 Stages",
-            },
-            {
-              labelVi: "Ngôn ngữ & Công cụ",
-              labelEn: "Core Stack",
-              value: "SQL • Python • BI",
-            },
-          ].map((stat, idx) => (
-            <div
-              key={idx}
-              className="rounded-2xl bg-white dark:bg-slate-950/70 border border-[#C8EEF7] dark:border-slate-800 px-4 py-3"
-            >
-              <div className="text-lg sm:text-xl font-bold text-[#074553] dark:text-[#9BE7FA] tabular-nums">
-                {stat.value}
-              </div>
-              <div className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                {isVi ? stat.labelVi : stat.labelEn}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* =====================================================================
-       * 2. FILTER & SEARCH BAR (Cyan & Gold Active States)
-       * ===================================================================== */}
-      <section className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
-          <Filter className="w-4 h-4 text-slate-400 shrink-0 mr-1 hidden sm:block" />
+        <div className="flex flex-wrap items-center gap-2 pt-1">
           {categories.map((cat) => {
             const active = selectedCategory === cat.id;
             return (
@@ -167,33 +101,13 @@ export default function BlogPage() {
                 className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer border ${
                   active
                     ? "bg-[#9BE7FA] text-[#074553] border-[#9BE7FA] font-extrabold"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-transparent hover:border-[#9BE7FA]/40 hover:bg-slate-200 dark:hover:bg-slate-700"
+                    : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-[#C8EEF7] dark:border-slate-700 hover:border-[#0D7287]"
                 }`}
               >
                 {isVi ? cat.labelVi : cat.labelEn}
               </button>
             );
           })}
-        </div>
-
-        <div className="relative w-full md:w-72">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={
-              isVi
-                ? "Tìm theo chủ đề, SQL, Python..."
-                : "Search topics, SQL, Python..."
-            }
-            aria-label={
-              isVi
-                ? "Tìm kiếm bài viết theo chủ đề, SQL, Python"
-                : "Search articles by topic, SQL, Python"
-            }
-            className="w-full min-h-[44px] pl-9 pr-4 py-2 rounded-xl text-xs bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9BE7FA] focus:border-[#9BE7FA]"
-          />
         </div>
       </section>
 
@@ -241,26 +155,15 @@ export default function BlogPage() {
                 </h2>
 
                 {/* Concise Excerpt */}
-                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">
                   {isVi ? post.excerptVi : post.excerptEn}
                 </p>
-
-                {/* Condensed Key Finding Highlight */}
-                <div className="rounded-2xl bg-[#FFE485]/15 dark:bg-[#FFE485]/10 border border-[#FFE485]/35 p-3.5">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900 dark:text-[#FFE485] mb-1">
-                    <Sparkles className="w-3.5 h-3.5 text-[#FFD14C]" />
-                    <span>{isVi ? "Điểm cốt lõi" : "Key takeaway"}</span>
-                  </div>
-                  <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed line-clamp-3">
-                    {isVi ? post.findingsVi : post.findingsEn}
-                  </p>
-                </div>
               </div>
 
               {/* Tags & Action Bar */}
-              <div className="space-y-3.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+              <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
                 <div className="flex flex-wrap gap-1.5">
-                  {post.tags.map((tag) => (
+                  {post.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
                       className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"

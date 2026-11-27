@@ -7,6 +7,7 @@ Outputs:
   - app/data/kami-ely/generated/daily_231d.json
 """
 
+import os
 import sys
 import json
 from decimal import Decimal
@@ -20,10 +21,10 @@ if sys.platform == 'win32':
         pass
 
 DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '173053ms',
-    'database': 'pplo'
+    'host': os.environ.get('MYSQL_HOST', 'localhost'),
+    'user': os.environ.get('MYSQL_USER', 'root'),
+    'password': os.environ.get('MYSQL_PASSWORD', ''),
+    'database': os.environ.get('MYSQL_DATABASE', 'pplo')
 }
 
 def custom_serializer(obj):

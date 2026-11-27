@@ -1,0 +1,91 @@
+<mxfile host="app.diagrams.net" modified="2026-11-27T13:05:00.000Z" agent="Ma Van Hung Technical BA Portfolio" version="24.7.17" type="device">
+  <diagram id="library-bus-bpmn-tobe" name="BPMN 2.0 To-Be Circulation Flow">
+    <mxGraphModel dx="1280" dy="760" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="pool-lb" value="Library Bus — BPMN 2.0 To-Be Circulation, FIFO Waitlist &amp; Overdue Fine Governance (BR-01..04)" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=28;horizontalStack=0;html=1;fillColor=#074553;fontColor=#FFFFFF;strokeColor=#074553;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1080" height="540" as="geometry" />
+        </mxCell>
+        <mxCell id="lane-reader" value="Reader &amp; Stop Librarian (UI / Counter)" style="swimlane;startSize=28;horizontal=0;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontColor=#0F172A;fontStyle=1;" vertex="1" parent="pool-lb">
+          <mxGeometry y="28" width="1080" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="start-ev" value="Start&#xa;(#04 Book)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ECFDF5;strokeColor=#059669;strokeWidth=2;fontSize=10;fontStyle=1;" vertex="1" parent="lane-reader">
+          <mxGeometry x="60" y="60" width="52" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="task-req" value="Submit Borrow /&#xa;Reserve Request&#xa;(POST + view_book)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0D7287;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-reader">
+          <mxGeometry x="155" y="55" width="150" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="task-renew" value="Renew (+14d, &lt;=3d left)&#xa;or Return at Any Bus&#xa;(BR-03 · Cross-Bus OK)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0D7287;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-reader">
+          <mxGeometry x="670" y="55" width="175" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="end-ev" value="Loan&#xa;Closed" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#EFF6FF;strokeColor=#0F172A;strokeWidth=4;fontSize=10;fontStyle=1;" vertex="1" parent="lane-reader">
+          <mxGeometry x="960" y="60" width="52" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="lane-service" value="TransactionService &amp; MySQL 8.0 ACID Lock" style="swimlane;startSize=28;horizontal=0;html=1;fillColor=#F0F9FB;strokeColor=#0D7287;fontColor=#074553;fontStyle=1;" vertex="1" parent="pool-lb">
+          <mxGeometry y="198" width="1080" height="172" as="geometry" />
+        </mxCell>
+        <mxCell id="task-lock" value="select_for_update()&#xa;Lock Order: User -&gt; BusBookInventory&#xa;(BR-01 · Zero TOCTOU)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8EEF7;strokeColor=#0D7287;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-service">
+          <mxGeometry x="145" y="54" width="195" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="gw-stock" value="Stock &gt; 0&#xa;&amp; Quota OK?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFE485;strokeColor=#D97706;strokeWidth=2;fontSize=10;fontStyle=1;" vertex="1" parent="lane-service">
+          <mxGeometry x="395" y="45" width="96" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="task-commit" value="Create BorrowRecord&#xa;available_copies - 1&#xa;COMMIT + Redis Cache Bust" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;strokeWidth=2;fontSize=11;fontStyle=1;" vertex="1" parent="lane-service">
+          <mxGeometry x="550" y="54" width="180" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="task-transit" value="Cross-Bus Return?&#xa;Mark IN_TRANSIT -&gt;&#xa;Nightly Depot Transfer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0D7287;strokeWidth=1.5;fontSize=10;" vertex="1" parent="lane-service">
+          <mxGeometry x="815" y="54" width="165" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="lane-celery" value="Celery Beat (Redis 7) &amp; Telemetry" style="swimlane;startSize=28;horizontal=0;html=1;fillColor=#FFFBEB;strokeColor=#D97706;fontColor=#92400E;fontStyle=1;" vertex="1" parent="pool-lb">
+          <mxGeometry y="370" width="1080" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="timer-fifo" value="Timer&#xa;30 min" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#FFF1F2;strokeColor=#E11D48;strokeWidth=2;fontSize=10;fontStyle=1;" vertex="1" parent="lane-celery">
+          <mxGeometry x="417" y="56" width="52" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="task-fifo" value="BookReservation FIFO (BR-02)&#xa;7-Day Hold from Stop Arrival&#xa;Auto-Expire &amp; F('queue_position')-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF1F2;strokeColor=#E11D48;strokeWidth=2;fontSize=10.5;fontStyle=1;" vertex="1" parent="lane-celery">
+          <mxGeometry x="505" y="50" width="215" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="timer-fine" value="Timer&#xa;06:00" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#FFE485;strokeColor=#D97706;strokeWidth=2;fontSize=10;fontStyle=1;" vertex="1" parent="lane-celery">
+          <mxGeometry x="760" y="56" width="52" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="task-fine" value="3-Tier Fine + 100% Book Cap (BR-04)&#xa;5k / 10k / 15k VND/day · Pause on Cancel&#xa;AuditMixin Waiver &amp; 8 MVP Events" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D97706;strokeWidth=2;fontSize=10.5;fontStyle=1;" vertex="1" parent="lane-celery">
+          <mxGeometry x="840" y="50" width="220" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="lane-reader" source="start-ev" target="task-req" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#0D7287;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="pool-lb" source="task-req" target="task-lock" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#0D7287;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="lane-service" source="task-lock" target="gw-stock" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#0D7287;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="Yes" edge="1" parent="lane-service" source="gw-stock" target="task-commit" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#059669;strokeWidth=2;fontStyle=1;fontColor=#059669;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Stock = 0" edge="1" parent="pool-lb" source="gw-stock" target="timer-fifo" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#E11D48;strokeWidth=2;dashed=1;fontStyle=1;fontColor=#E11D48;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="lane-celery" source="timer-fifo" target="task-fifo" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#E11D48;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="pool-lb" source="task-commit" target="task-renew" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#0D7287;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="Return" edge="1" parent="lane-reader" source="task-renew" target="end-ev" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#0D7287;strokeWidth=2;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="Cross-Bus" edge="1" parent="pool-lb" source="task-renew" target="task-transit" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#0D7287;strokeWidth=1.5;dashed=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="Overdue" edge="1" parent="pool-lb" source="task-renew" target="timer-fine" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#D97706;strokeWidth=1.8;dashed=1;fontStyle=1;fontColor=#92400E;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="lane-celery" source="timer-fine" target="task-fine" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#D97706;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

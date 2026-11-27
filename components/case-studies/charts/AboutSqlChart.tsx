@@ -21,201 +21,231 @@ interface SqlStage {
 const SQL_STAGES: SqlStage[] = [
   {
     id: 1,
-    nameVi: "Giai đoạn 1: Schema Profiling & Key Auditing",
-    nameEn: "Stage 1: Schema Profiling & Key Auditing",
+    nameVi: "Giai đoạn 1: Kiểm toán khóa & độ đầy đủ (Profiling)",
+    nameEn: "Stage 1: Key Uniqueness & Nullability Profiling",
     descVi:
-      "Khám phá cấu trúc bảng, kiểm tra độ đầy đủ (cardinality), tính duy nhất của khóa chính (Primary Key) và đối soát quan hệ khóa ngoại.",
+      "Kiểm tra tổng số dòng, trùng lặp khóa chính (Primary Key) và tỷ lệ giá trị NULL toàn bảng trước khi nối hoặc cộng dồn chỉ số.",
     descEn:
-      "Auditing table schemas, checking cardinality, verifying Primary Key uniqueness, and validating foreign key relational integrity.",
-    queryTitleVi: "Truy vấn kiểm tra khóa trùng lặp & tỷ lệ NULL",
-    queryTitleEn: "Primary Key Uniqueness & Nullability Profiling",
+      "Auditing total row counts, Primary Key duplicates, and NULL rates across the table before joining or aggregating metrics.",
+    queryTitleVi: "MySQL 8.0 · Kiểm tra khóa trùng lặp & tỷ lệ NULL toàn bảng",
+    queryTitleEn: "MySQL 8.0 · Table-Wide Key Uniqueness & Null Profiling",
     sqlSnippet: `SELECT
-  column_name,
   COUNT(*) AS total_rows,
-  COUNT(DISTINCT column_name) AS distinct_keys,
-  SUM(CASE WHEN column_name IS NULL THEN 1 ELSE 0 END) AS null_count,
-  ROUND(SUM(CASE WHEN column_name IS NULL THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS null_pct
-FROM raw_orders_table
-GROUP BY column_name;`,
-    keyDeliverableVi: "Ma trận chất lượng dữ liệu đầu vào (Data Health Matrix)",
-    keyDeliverableEn: "Data Health & Schema Baseline Matrix",
+  COUNT(DISTINCT session_id) AS distinct_sessions,
+  COUNT(*) - COUNT(DISTINCT session_id) AS duplicate_rows,
+  SUM(CASE WHEN session_id IS NULL THEN 1 ELSE 0 END) AS null_keys,
+  ROUND(
+    SUM(CASE WHEN gmv_vnd IS NULL THEN 1 ELSE 0 END) * 100.0
+    / NULLIF(COUNT(*), 0),
+    2
+  ) AS null_gmv_pct
+FROM raw_affiliate_livestreams;`,
+    keyDeliverableVi: "Ma trận chất lượng dữ liệu đầu vào (Quality Gate Baseline)",
+    keyDeliverableEn: "Input Data Quality Gate Baseline",
     appliedCase: "All Projects Baseline",
   },
   {
     id: 2,
-    nameVi: "Giai đoạn 2: Data Cleaning & Type Casting",
-    nameEn: "Stage 2: Data Cleaning & Type Casting",
+    nameVi: "Giai đoạn 2: Làm sạch, chuẩn hóa nhãn & múi giờ",
+    nameEn: "Stage 2: Data Cleaning, Label & Timezone Normalization",
     descVi:
-      "Chuẩn hóa định dạng ngày tháng (ISO 8601), ép kiểu số nguyên/thực, xử lý khoảng trắng thừa và chuẩn hóa chuỗi văn bản.",
+      "Chuẩn hóa nhãn song ngữ (YES/có), đồng bộ múi giờ (+13h UTC+7), ép kiểu ngày/số an toàn và khử trùng bản ghi theo khóa kép.",
     descEn:
-      "Standardizing timestamp formats (ISO 8601), casting numeric types, trimming whitespace, and canonicalizing string values.",
-    queryTitleVi: "Ép kiểu dữ liệu chuẩn & làm sạch chuỗi",
-    queryTitleEn: "Safe Type Casting & String Normalization",
+      "Normalizing bilingual flags (YES/có), aligning timezones (+13h UTC+7), safe type casting, and deduplicating rows via composite keys.",
+    queryTitleVi: "MySQL 8.0 · Gộp nhãn song ngữ & ép kiểu bảng Video",
+    queryTitleEn: "MySQL 8.0 · Bilingual Flag Merging & Safe Casting",
     sqlSnippet: `SELECT
-  order_id,
-  TRIM(LOWER(customer_email)) AS cleaned_email,
-  CAST(order_timestamp AS DATE) AS order_date,
-  COALESCE(CAST(discount_amount AS DECIMAL(12,2)), 0.00) AS safe_discount,
-  CASE WHEN payment_status IN ('PAID', 'SETTLED') THEN 1 ELSE 0 END AS is_settled
-FROM staging_transactions;`,
+  video_id,
+  LOWER(TRIM(creator_handle)) AS creator_key,
+  CAST(posted_at_utc7 AS DATE) AS post_date,
+  CASE
+    WHEN UPPER(TRIM(ad_authorized_raw)) IN ('YES', 'CÓ', 'CO', '1') THEN 1
+    ELSE 0
+  END AS is_ad_authorized,
+  COALESCE(CAST(gmv_vnd AS DECIMAL(14,2)), 0.00) AS gmv_vnd
+FROM raw_affiliate_videos;`,
     keyDeliverableVi: "Tầng dữ liệu sạch staging (Standardized Clean Mart)",
     keyDeliverableEn: "Standardized Clean Staging Mart",
     appliedCase: "Kami Ely TikTok Shop",
   },
   {
     id: 3,
-    nameVi: "Giai đoạn 3: Time-Series & Window Functions",
+    nameVi: "Giai đoạn 3: Chuỗi thời gian & hàm cửa sổ (Window Functions)",
     nameEn: "Stage 3: Time-Series & Window Functions",
     descVi:
-      "Áp dụng các hàm cửa sổ (LAG, LEAD, FIRST_VALUE) và trung bình trượt 7 ngày để bắt nhịp biến động mùa vụ và xu hướng tăng trưởng.",
+      "Áp dụng AVG/LAG trên khung trượt 7 ngày và 28 ngày để làm mượt nhiễu ngày lẻ, nhận diện đỉnh mùa vụ và tín hiệu đảo chiều.",
     descEn:
-      "Applying Window Functions (LAG, LEAD, Rolling Windows) to capture seasonality trends and period-over-period growth velocity.",
-    queryTitleVi: "Tính trung bình trượt 7 ngày & tốc độ tăng trưởng WoW",
-    queryTitleEn: "Rolling 7-Day Average & WoW Growth Velocity",
+      "Applying 7-day and 28-day trailing windows plus LAG() to smooth daily noise, locate seasonal peaks, and flag trend reversals.",
+    queryTitleVi: "MySQL 8.0 · Trung bình trượt 7 ngày & tăng trưởng WoW",
+    queryTitleEn: "MySQL 8.0 · Rolling 7-Day Average & WoW Growth",
     sqlSnippet: `SELECT
   metric_date,
-  daily_gmv,
-  ROUND(AVG(daily_gmv) OVER (
+  store_gmv_vnd,
+  ROUND(AVG(store_gmv_vnd) OVER (
     ORDER BY metric_date
     ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
-  ), 2) AS rolling_7d_avg,
+  ), 0) AS ma7_gmv_vnd,
   ROUND(
-    (daily_gmv - LAG(daily_gmv, 7) OVER (ORDER BY metric_date)) * 100.0
-    / NULLIF(LAG(daily_gmv, 7) OVER (ORDER BY metric_date), 0),
+    (store_gmv_vnd - LAG(store_gmv_vnd, 7) OVER (ORDER BY metric_date)) * 100.0
+    / NULLIF(LAG(store_gmv_vnd, 7) OVER (ORDER BY metric_date), 0),
     2
-  ) AS wow_growth_rate_pct
-FROM fact_daily_sales;`,
-    keyDeliverableVi: "Bảng xu hướng chuỗi thời gian (Smoothed Time-Series)",
-    keyDeliverableEn: "Smoothed Time-Series Trend Dataset",
-    appliedCase: "Heritage Japan Tourism",
+  ) AS wow_growth_pct
+FROM fact_store_daily;`,
+    keyDeliverableVi: "Chuỗi xu hướng MA7 / MA28 phục vụ cảnh báo sớm",
+    keyDeliverableEn: "MA7 / MA28 Trend Series for Early Warning",
+    appliedCase: "Kami Ely TikTok Shop",
   },
   {
     id: 4,
-    nameVi: "Giai đoạn 4: Cohort Retention & Churn Analysis",
-    nameEn: "Stage 4: Cohort Retention & Churn Analysis",
+    nameVi: "Giai đoạn 4: Phân tích giữ chân theo Cohort (Cohort Retention)",
+    nameEn: "Stage 4: Monthly Cohort Retention Analysis",
     descVi:
-      "Nhóm người dùng theo tháng đăng ký đầu tiên và theo dõi hành vi quay lại (retention rate) qua các chu kỳ tháng 1, 2, 3...",
+      "Nhóm 302 KOC livestream ngoài theo tháng lên sóng đầu tiên (M+0) và đo tỷ lệ duy trì qua các tháng kế tiếp (M+1, M+2...).",
     descEn:
-      "Grouping users by acquisition month and tracking longitudinal retention decay curves across Month 0, 1, 2, 3 cohorts.",
-    queryTitleVi: "Bảng ma trận giữ chân người dùng (Cohort Matrix)",
-    queryTitleEn: "Cohort Retention Lifecycle Matrix",
-    sqlSnippet: `WITH first_order AS (
-  SELECT customer_id, DATE_TRUNC('month', MIN(order_date)) AS cohort_month
-  FROM fact_orders GROUP BY customer_id
+      "Grouping 302 external livestream KOCs by their first active month (M+0) and tracking retention across subsequent months (M+1, M+2...).",
+    queryTitleVi: "MySQL 8.0 · Ma trận giữ chân 302 KOC Live theo tháng",
+    queryTitleEn: "MySQL 8.0 · Monthly Retention Matrix for 302 Live KOCs",
+    sqlSnippet: `WITH first_live AS (
+  SELECT
+    koc_id,
+    DATE_FORMAT(MIN(session_date), '%Y-%m-01') AS cohort_month
+  FROM fact_affiliate_live
+  WHERE is_official = 0
+  GROUP BY koc_id
 ),
 activity AS (
-  SELECT o.customer_id, f.cohort_month,
-         EXTRACT(MONTH FROM AGE(DATE_TRUNC('month', o.order_date), f.cohort_month)) AS period_month
-  FROM fact_orders o
-  JOIN first_order f ON o.customer_id = f.customer_id
-)
-SELECT cohort_month, period_month, COUNT(DISTINCT customer_id) AS retained_users
-FROM activity GROUP BY 1, 2 ORDER BY 1, 2;`,
-    keyDeliverableVi: "Ma trận Cohort Heatmap & Tỷ lệ Churn",
-    keyDeliverableEn: "Cohort Retention Heatmap & Churn Rates",
-    appliedCase: "Library Bus System",
-  },
-  {
-    id: 5,
-    nameVi: "Giai đoạn 5: Anomaly & Pareto Concentration",
-    nameEn: "Stage 5: Anomaly & Pareto Concentration",
-    descVi:
-      "Phân rã 80/20 (Pareto Analysis) xác định nhóm đối tác/sản phẩm trụ cột và nhận diện các giao dịch bất thường (Z-score).",
-    descEn:
-      "Decomposing 80/20 concentration (Pareto Analysis) to identify anchor creators/SKUs and detect statistical volume outliers.",
-    queryTitleVi: "Phân bổ tích lũy Pareto & xếp hạng KOC",
-    queryTitleEn: "Cumulative Pareto Distribution & Creator Tiers",
-    sqlSnippet: `WITH ranked_creators AS (
   SELECT
-    creator_id,
-    total_gmv,
-    ROW_NUMBER() OVER (ORDER BY total_gmv DESC) AS rank_pos,
-    SUM(total_gmv) OVER (ORDER BY total_gmv DESC) AS running_total_gmv,
-    SUM(total_gmv) OVER () AS grand_total_gmv
-  FROM dim_creator_summary
+    l.koc_id,
+    f.cohort_month,
+    TIMESTAMPDIFF(
+      MONTH,
+      f.cohort_month,
+      DATE_FORMAT(l.session_date, '%Y-%m-01')
+    ) AS month_offset
+  FROM fact_affiliate_live l
+  JOIN first_live f ON l.koc_id = f.koc_id
+  WHERE l.is_official = 0
 )
-SELECT
-  creator_id,
-  total_gmv,
-  rank_pos,
-  ROUND(running_total_gmv * 100.0 / grand_total_gmv, 2) AS cum_share_pct
-FROM ranked_creators;`,
-    keyDeliverableVi: "Báo cáo phân tầng đối tác & rủi ro phụ thuộc (Concentration Risk)",
-    keyDeliverableEn: "Partner Tiering & Concentration Risk Report",
+SELECT cohort_month, month_offset, COUNT(DISTINCT koc_id) AS retained_kocs
+FROM activity
+GROUP BY cohort_month, month_offset
+ORDER BY cohort_month, month_offset;`,
+    keyDeliverableVi: "Bảng giữ chân Cohort & quy tắc sàng lọc 2 tầng",
+    keyDeliverableEn: "Cohort Retention Matrix & 2-Tier Screening Rule",
     appliedCase: "Kami Ely Affiliate Network",
   },
   {
-    id: 6,
-    nameVi: "Giai đoạn 6: Statistical Hypothesis Testing Prep",
-    nameEn: "Stage 6: Statistical Hypothesis Testing Prep",
+    id: 5,
+    nameVi: "Giai đoạn 5: Mức độ tập trung Pareto & rủi ro phụ thuộc",
+    nameEn: "Stage 5: Pareto Concentration & Dependency Risk",
     descVi:
-      "Tổng hợp các bảng chỉ số định lượng phục vụ trực tiếp cho mô hình hồi quy (OLS) và các kiểm định thống kê trong Python (SciPy).",
+      "Tính tỷ trọng tích lũy theo mã SKU và đối tác KOC để nhận diện rủi ro phụ thuộc vào số ít nguồn tạo doanh thu (12/133 SKU = 80,6% GMV).",
     descEn:
-      "Aggregating clean tabular feature marts ready for OLS regression, ANOVA, and non-parametric hypothesis tests in Python.",
-    queryTitleVi: "Chuẩn bị biến độc lập & phụ thuộc cho mô hình",
-    queryTitleEn: "Econometric Modeling Feature Set Extraction",
+      "Computing cumulative GMV shares across SKUs and KOCs to surface single-SKU or single-channel concentration risk (12/133 SKUs = 80.6% GMV).",
+    queryTitleVi: "MySQL 8.0 · Xếp hạng tích lũy Pareto theo SKU 90 ngày",
+    queryTitleEn: "MySQL 8.0 · Cumulative 90-Day SKU Pareto Ranking",
+    sqlSnippet: `WITH ranked_sku AS (
+  SELECT
+    sku_code,
+    gmv_90d_vnd,
+    ROW_NUMBER() OVER (ORDER BY gmv_90d_vnd DESC) AS rank_pos,
+    SUM(gmv_90d_vnd) OVER (ORDER BY gmv_90d_vnd DESC) AS running_gmv,
+    SUM(gmv_90d_vnd) OVER () AS total_gmv
+  FROM dim_sku_90d_summary
+  WHERE gmv_90d_vnd > 0
+)
+SELECT
+  sku_code,
+  gmv_90d_vnd,
+  rank_pos,
+  ROUND(running_gmv * 100.0 / NULLIF(total_gmv, 0), 2) AS cum_share_pct
+FROM ranked_sku
+ORDER BY rank_pos;`,
+    keyDeliverableVi: "Báo cáo phân tầng đối tác & rủi ro tập trung SKU",
+    keyDeliverableEn: "Partner Tiering & SKU Concentration Report",
+    appliedCase: "Kami Ely TikTok Shop",
+  },
+  {
+    id: 6,
+    nameVi: "Giai đoạn 6: Chuẩn bị bảng đặc trưng cho kiểm định thống kê",
+    nameEn: "Stage 6: Statistical Modeling Feature Extraction",
+    descVi:
+      "Hiệu chỉnh trục năm, quy đổi đơn vị và tạo biến log/chỉ số gốc (2013 = 100) trước khi đưa vào phân tích hồi quy hoặc kiểm định bằng Python.",
+    descEn:
+      "Aligning reporting years, standardizing units, and computing base-100 indices or log transforms before Python statistical tests.",
+    queryTitleVi: "MySQL 8.0 · Chuẩn hóa chuỗi thời gian Du lịch Nhật Bản",
+    queryTitleEn: "MySQL 8.0 · Normalized Japan Tourism Time-Series Extract",
     sqlSnippet: `SELECT
   region_code,
   report_year,
   visitors_k,
   spend_billion_jpy,
-  LN(NULLIF(visitors_k, 0)) AS log_visitors
+  ROUND(LN(NULLIF(visitors_k, 0)), 4) AS log_visitors
 FROM heritage_japan_audited_series
-WHERE report_year BETWEEN 2013 AND 2022;`,
-    keyDeliverableVi: "Bảng đặc trưng định lượng (Analytical Feature Mart)",
-    keyDeliverableEn: "Structured Feature Mart for Python Modeling",
+WHERE report_year BETWEEN 2003 AND 2022
+ORDER BY region_code, report_year;`,
+    keyDeliverableVi: "Bảng chuỗi thời gian sạch phục vụ Python SciPy / NumPy",
+    keyDeliverableEn: "Audited Time-Series Table for Python SciPy / NumPy",
     appliedCase: "Heritage Japan Time-Series",
   },
   {
     id: 7,
-    nameVi: "Giai đoạn 7: Cross-Source Reconciliation",
+    nameVi: "Giai đoạn 7: Đối soát chênh lệch đa nguồn (Reconciliation)",
     nameEn: "Stage 7: Cross-Source Reconciliation",
     descVi:
-      "Đối soát chênh lệch telemetry giữa các hệ thống (Gross Orders vs Net Settled GMV), xác lập nguồn sự thật duy nhất (Single Source of Truth).",
+      "Khóa chung cửa sổ thời gian (226 ngày) để đối chiếu doanh thu gộp phiên Live (Gross) với doanh thu cửa hàng (Net), phát hiện trùng đếm trước khi báo cáo.",
     descEn:
-      "Reconciling telemetry disparities across disparate endpoints (Gross Orders vs Net Settled GMV) to establish the Single Source of Truth.",
-    queryTitleVi: "Đối soát chênh lệch doanh thu 3 nguồn",
-    queryTitleEn: "Multi-Source Settlement Reconciliation Query",
+      "Locking a common 226-day cutoff to reconcile Gross Live sessions against Net Store GMV and isolate overlap before reporting.",
+    queryTitleVi: "MySQL 8.0 · Đối soát Gross Live vs. Net Store cùng cửa sổ 226N",
+    queryTitleEn: "MySQL 8.0 · 226-Day Gross Live vs. Net Store Reconciliation",
     sqlSnippet: `SELECT
-  c.settlement_date,
-  s.shop_gross_gmv,
-  c.creator_logged_gmv,
-  (s.shop_gross_gmv - c.creator_logged_gmv) AS telemetry_variance,
-  ROUND(
-    ABS(s.shop_gross_gmv - c.creator_logged_gmv) * 100.0
-    / NULLIF(s.shop_gross_gmv, 0),
-    2
-  ) AS variance_pct
-FROM fact_shop_daily s
-JOIN fact_creator_daily c ON s.settlement_date = c.settlement_date;`,
-    keyDeliverableVi: "Báo cáo kiểm toán đối soát tài chính (Reconciliation Audit)",
-    keyDeliverableEn: "Financial Reconciliation & Variance Audit",
+  s.metric_date,
+  s.store_net_gmv_vnd,
+  COALESCE(l.dedup_live_gross_vnd, 0) AS dedup_live_gross_vnd,
+  (COALESCE(l.dedup_live_gross_vnd, 0) - s.store_net_gmv_vnd) AS gross_minus_net_vnd
+FROM fact_store_daily s
+LEFT JOIN (
+  SELECT session_date, SUM(gmv_vnd) AS dedup_live_gross_vnd
+  FROM fact_affiliate_live
+  WHERE is_dedup_kept = 1
+  GROUP BY session_date
+) l ON s.metric_date = l.session_date
+WHERE s.metric_date <= '2026-10-20'
+ORDER BY s.metric_date;`,
+    keyDeliverableVi: "Báo cáo kiểm toán chênh lệch Gross vs. Net (Reconciliation)",
+    keyDeliverableEn: "Gross vs. Net Variance Reconciliation Audit",
     appliedCase: "Kami Ely TikTok Shop",
   },
   {
     id: 8,
-    nameVi: "Giai đoạn 8: Executive Data Mart & Storytelling",
-    nameEn: "Stage 8: Executive Data Mart & Storytelling",
+    nameVi: "Giai đoạn 8: Đóng gói Data Mart & chống thiên lệch kỳ báo cáo",
+    nameEn: "Stage 8: Reporting Mart & Right-Censoring Guard",
     descVi:
-      "Đóng gói kết quả thành bảng chiều và bảng sự kiện tối ưu (Star Schema), cấp dữ liệu độ trễ thấp cho Recharts Interactive Dashboard.",
+      "Tổng hợp bảng KPI phục vụ Dashboard và đặc tả BI, áp dụng LEFT JOIN tránh mất đối tượng 0 giao dịch và lọc cohort đủ chín cho cửa sổ 7 ngày.",
     descEn:
-      "Packaging validated outputs into an optimized Star Schema serving low-latency queries to Next.js Recharts Interactive Dashboards.",
-    queryTitleVi: "Truy vấn bảng tổng hợp cấp điều hành (Executive Mart)",
-    queryTitleEn: "Executive KPI Summary Mart Query",
+      "Packaging KPI marts for BI specs using LEFT JOIN against survivorship bias and maturity filters against right-censoring.",
+    queryTitleVi: "MySQL 8.0 · Tỷ lệ nhận sách đặt trước đủ chín (7 ngày)",
+    queryTitleEn: "MySQL 8.0 · Matured 7-Day Reservation Fulfillment Mart",
     sqlSnippet: `SELECT
-  d.month_label,
-  p.category_name,
-  SUM(f.net_revenue) AS total_revenue,
-  ROUND(SUM(f.net_margin) * 100.0 / NULLIF(SUM(f.net_revenue), 0), 2) AS net_margin_pct,
-  COUNT(DISTINCT f.customer_id) AS active_buyers
-FROM fact_executive_performance f
-JOIN dim_date d ON f.date_key = d.date_key
-JOIN dim_product p ON f.product_key = p.product_key
-GROUP BY 1, 2
-ORDER BY d.month_label DESC;`,
-    keyDeliverableVi: "Kho dữ liệu điều hành và Dashboard hành động",
-    keyDeliverableEn: "Executive Star Schema & Actionable Dashboard",
-    appliedCase: "Production BI Dashboards",
+  b.bus_number,
+  COUNT(r.id) AS matured_reservations_30d,
+  SUM(CASE WHEN r.is_fulfilled = 1 THEN 1 ELSE 0 END) AS fulfilled_30d,
+  ROUND(
+    SUM(CASE WHEN r.is_fulfilled = 1 THEN 1 ELSE 0 END) * 100.0
+    / NULLIF(COUNT(r.id), 0),
+    2
+  ) AS matured_fulfillment_pct
+FROM inventory_librarybus b
+LEFT JOIN transactions_bookreservation r
+  ON r.preferred_pickup_location_id = b.id
+  AND r.is_deleted = 0
+  AND r.reserved_date >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 37 DAY)
+  AND r.reserved_date <= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 7 DAY)
+GROUP BY b.id, b.bus_number
+ORDER BY matured_fulfillment_pct DESC;`,
+    keyDeliverableVi: "Bảng KPI vận hành cho BI Spec & Pilot 4 tuần",
+    keyDeliverableEn: "Operational KPI Mart for BI Spec & 4-Week Pilot",
+    appliedCase: "Library Bus · BI Spec",
   },
 ];
 

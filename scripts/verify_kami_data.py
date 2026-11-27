@@ -4,10 +4,14 @@ Usage:  python scripts/verify_kami_data.py [folder_with_xlsx]
 Default folder: data/kami (files named [Kami Ely]_<Table>_Merged.xlsx)
 Each line prints: claim on the site | value recomputed from the raw files | status.
 """
+import hashlib
 import sys
 from pathlib import Path
 
 import pandas as pd
+
+OFFICIAL_SHA256 = "2884bd95e154a3255b1c0272bcfe9505211a293710db406701023782eb0645ec"
+_h = lambda s: hashlib.sha256(str(s).strip().lower().encode("utf-8")).hexdigest()
 
 RAW = Path(sys.argv[1] if len(sys.argv) > 1 else "data/kami")
 
@@ -75,10 +79,10 @@ row("Table GMV vs daily file last 90 days (VND)", last90.rev.sum(), shop.rev.sum
 print("\n-- Affiliate / creator tables")
 row("Creators in KOL list", None, len(kol))
 row("Creators with revenue > 0", 329, (kol.rev > 0).sum(), 0.01)
-row("Official channel share of KOL revenue (%)", 60.1, kol.loc[kol.id == "kamielyhn", "rev"].sum() / kol.rev.sum() * 100, 0.005)
+row("Official channel share of KOL revenue (%)", 60.1, kol.loc[kol.id.map(_h) == OFFICIAL_SHA256, "rev"].sum() / kol.rev.sum() * 100, 0.005)
 top2 = alive.groupby("kid").rev.sum().sort_values(ascending=False).head(2).sum()
 row("Top 2 accounts share of affiliate livestream GMV (%)", 84.5, top2 / alive.rev.sum() * 100, 0.002)
-official_in_aff = alive.loc[alive.kid == "kamielyhn", "rev"].sum()
+official_in_aff = alive.loc[alive.kid.map(_h) == OFFICIAL_SHA256, "rev"].sum()
 row("Official live GMV: Creator table (VND)", None, clive.rev.sum())
 row("Official live GMV inside Affiliate table (VND) -> overlap", clive.rev.sum(), official_in_aff, 0.001)
 row("Creator video GMV (VND)", None, cvid.rev.sum())

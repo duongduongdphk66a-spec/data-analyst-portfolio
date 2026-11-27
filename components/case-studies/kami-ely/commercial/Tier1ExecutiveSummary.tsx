@@ -46,47 +46,113 @@ export function Tier1ExecutiveSummary({ lang }: Props) {
 
   return (
     <section id="sec-overview" className="scroll-mt-28 space-y-6">
-      {/* Single Concise 60-Second Executive Summary Strip */}
-      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-[#C8EEF7]/15 dark:bg-slate-900/70 p-4 md:p-5">
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-          <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight">
-            {isVi ? 'Tóm tắt 60 giây · 3 phát hiện cốt lõi' : '60-Second Summary · 3 Core Findings'}
-          </h2>
-          <span className="text-xs font-medium text-slate-500 dark:text-slate-400 tabular-nums">
+      {/* Compact 3-Point Key Findings Strip (non-redundant with Hero KPIs) */}
+      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-[#C8EEF7]/15 dark:bg-slate-900/70 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs leading-relaxed text-slate-700 dark:text-slate-300 tabular-nums">
+          <div className="rounded-xl bg-white/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 px-3.5 py-2.5">
+            <span className="font-bold text-slate-900 dark:text-white">
+              {isVi ? '1. Vùng trũng T8: ' : '1. Aug Trough: '}
+            </span>
             {isVi
-              ? '231 ngày (09/03 – 25/10/2026) · 15,01 tỷ · 101.896 sp'
-              : '231 days (Mar 09 – Oct 25, 2026) · 15.01B · 101,896 units'}
+              ? '6 mã đồ bơi rơi -89,3% (1,57 → 0,17 tỷ, ~45% mức sụt T6→T8) trong khi AT06 lên kệ trễ ~1 tháng; phần còn lại cần thêm dữ liệu Ads/tồn kho.'
+              : '6 swimwear SKUs fell -89.3% (1.57B → 0.17B, ~45% of the Jun→Aug drop) while AT06 launched ~1m late; remaining gap needs ad-spend/stock logs.'}
+          </div>
+          <div className="rounded-xl bg-white/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 px-3.5 py-2.5">
+            <span className="font-bold text-slate-900 dark:text-white">
+              {isVi ? '2. Đảo chiều kênh: ' : '2. Channel Split: '}
+            </span>
+            {isVi
+              ? 'Live (10,47 tỷ) phụ thuộc 84,5% vào 2 phòng nội bộ; Video (2,20 tỷ) do KOC ngoài dẫn 58,4%.'
+              : 'Live (10.47B) relies 84.5% on 2 in-house rooms; Video (2.20B) is 58.4% external KOCs.'}
+          </div>
+          <div className="rounded-xl bg-white/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 px-3.5 py-2.5">
+            <span className="font-bold text-slate-900 dark:text-white">
+              {isVi ? '3. Đòn bẩy & Rủi ro: ' : '3. Leverage & Risk: '}
+            </span>
+            {isVi
+              ? 'Live >10h tụt từ 8,48 Tr/h (T6) về 0,73 Tr/h (T8); Video Ads có GPM thấp hơn Organic (0,84×); T10 riêng AT06 chiếm 80,5%.'
+              : '>10h Live fell from 8.48M/hr (Jun) to 0.73M/hr (Aug); Video Ads GPM trails Organic (0.84x); AT06 drove 80.5% of Oct.'}
+          </div>
+        </div>
+      </div>
+
+      {/* Cây chỉ số (KPI Tree) gắn kết mục tiêu kinh doanh với 3 nút thắt gốc */}
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-4 sm:p-5 space-y-3.5 tabular-nums">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <p className="text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">
+              {isVi
+                ? 'Cây chỉ số (KPI Tree) · Phân rã GMV 15,01 tỷ đ → Kênh & 3 nút thắt vận hành'
+                : 'KPI Tree · Decomposing 15.01B VND GMV into Channel Drivers & 3 Bottlenecks'}
+            </p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              {isVi
+                ? 'GMV (15,01 tỷ) = 101.896 sản phẩm × ASP 147,3k đ (cộng dồn trên 231 ngày, đã loại +7,59 tỷ trùng nguồn)'
+                : 'GMV (15.01B) = 101,896 units × 147.3k ASP (231 days, after removing +7.59B cross-file overlap)'}
+            </p>
+          </div>
+          <span className="px-2.5 py-1 rounded-lg bg-[#FFE485]/50 dark:bg-[#FFD14C]/15 border border-[#FFD14C]/60 text-[11px] font-bold text-amber-950 dark:text-[#FFE485]">
+            {isVi ? 'Khung định vị bài toán DA → BA' : 'DA → BA Framing Tree'}
           </span>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
-          <div className="rounded-xl bg-white/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-4">
-            <p className="font-bold text-slate-900 dark:text-white mb-1">
-              {isVi ? '1. Vùng trũng T8 (-83,1% GMV tháng)' : '1. August Trough (-83.1% Monthly GMV)'}
-            </p>
-            <p className="tabular-nums text-xs sm:text-sm">
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <div className="rounded-xl border border-[#C8EEF7] dark:border-slate-800 bg-[#F0F9FB]/60 dark:bg-slate-950/60 p-3.5 space-y-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <span className="font-bold text-slate-900 dark:text-white">
+                {isVi ? 'Nhánh 1 · Livestream' : 'Branch 1 · Livestream'}
+              </span>
+              <span className="font-extrabold text-[#074553] dark:text-[#9BE7FA]">10,47 tỷ đ</span>
+            </div>
+            <p className="text-[11px] text-slate-600 dark:text-slate-300">
               {isVi
-                ? 'GMV rơi từ 3,77 tỷ (T6) xuống 0,64 tỷ (T8, -83,7% TB/ngày) vì đồ bơi thoái trào trong khi 2 mã Thu Đông (AT06, AG01) lên kệ trễ gần 1 tháng.'
-                : 'GMV fell from 3.77B (Jun) to 0.64B (Aug, -83.7% daily avg) as swimwear faded while autumn heroes (AT06, AG01) launched nearly 1 month late.'}
+                ? 'Công thức: Giờ live × GMV/giờ · Nội bộ chiếm 84,5% (8,85 tỷ), KOC ngoài 15,5% (1,62 tỷ).'
+                : 'Driver: Live Hours × GMV/hr · In-house 84.5% (8.85B), external KOCs 15.5% (1.62B).'}
+            </p>
+            <p className="text-[11px] font-semibold text-rose-700 dark:text-rose-400 bg-rose-500/10 rounded-md px-2 py-1">
+              {isVi
+                ? 'Nút thắt: Ca >10h tụt 8,48 → 0,73 Tr/h (T6→T8); 94/145 KOC 3 phiên 0đ không ra đơn.'
+                : 'Bottleneck: >10h shifts fell 8.48 → 0.73M/hr (Jun→Aug); 94/145 zero-start KOCs never convert.'}
             </p>
           </div>
-          <div className="rounded-xl bg-white/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-4">
-            <p className="font-bold text-slate-900 dark:text-white mb-1">
-              {isVi ? '2. Lệch kênh: Live Nội bộ vs. Video KOC' : '2. Channel Split: In-House Live vs. KOC Video'}
-            </p>
-            <p className="tabular-nums text-xs sm:text-sm">
+
+          <div className="rounded-xl border border-[#C8EEF7] dark:border-slate-800 bg-[#F0F9FB]/60 dark:bg-slate-950/60 p-3.5 space-y-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <span className="font-bold text-slate-900 dark:text-white">
+                {isVi ? 'Nhánh 2 · Short Video' : 'Branch 2 · Short Video'}
+              </span>
+              <span className="font-extrabold text-[#074553] dark:text-[#9BE7FA]">2,20 tỷ đ</span>
+            </div>
+            <p className="text-[11px] text-slate-600 dark:text-slate-300">
               {isVi
-                ? 'Livestream (70,5% GMV tại mốc 20/10) phụ thuộc 84,5% vào 2 kênh nội bộ (@shop_official, @koc_sat01). Ngược lại, KOC ngoài tạo 58,4% doanh thu Video ngắn.'
-                : 'Livestream (70.5% GMV at Oct 20 cutoff) relies 84.5% on 2 in-house rooms (@shop_official, @koc_sat01), whereas external KOCs drive 58.4% of Short Video.'}
+                ? 'Công thức: Số clip × Lượt xem × GPM · KOC ngoài dẫn 58,4% (1,28 tỷ), Nội bộ 41,6%.'
+                : 'Driver: Clips × Views × GPM · External KOCs lead 58.4% (1.28B), in-house 41.6%.'}
+            </p>
+            <p className="text-[11px] font-semibold text-rose-700 dark:text-rose-400 bg-rose-500/10 rounded-md px-2 py-1">
+              {isVi
+                ? 'Nút thắt: Video Ads có GPM bằng 0,84× Organic (0,73× trong cùng 192 KOC) do thiếu cổng lọc.'
+                : 'Bottleneck: Video Ads GPM is 0.84x Organic (0.73x within 192 dual KOCs) without boost gating.'}
             </p>
           </div>
-          <div className="rounded-xl bg-white/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-4">
-            <p className="font-bold text-slate-900 dark:text-white mb-1">
-              {isVi ? '3. Đòn bẩy Mega-Live & Rủi ro đơn mã AT06' : '3. Mega-Live Leverage & AT06 Risk'}
-            </p>
-            <p className="tabular-nums text-xs sm:text-sm">
+
+          <div className="rounded-xl border border-[#C8EEF7] dark:border-slate-800 bg-[#F0F9FB]/60 dark:bg-slate-950/60 p-3.5 space-y-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <span className="font-bold text-slate-900 dark:text-white">
+                {isVi ? 'Nhánh 3 · Danh mục & Mùa vụ' : 'Branch 3 · Assortment & Season'}
+              </span>
+              <span className="font-extrabold text-[#074553] dark:text-[#9BE7FA]">
+                {isVi ? '12/133 link = 80,6%' : '12/133 listings = 80.6%'}
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-600 dark:text-slate-300">
               {isVi
-                ? '67 ca live >10h đạt 4,55 Tr/giờ (4,1× ca <2h); Video bật Ads đạt 547,6k/clip (4,4× không Ads). T10 hồi phục nhưng riêng AT06 chiếm 80,5% GMV.'
-                : '67 >10h mega-lives yielded 4.55M/hr (4.1x <2h); Ad-auth videos hit 547.6k/clip (4.4x organic). Oct rebounded, but AT06 alone drove 80.5% of GMV.'}
+                ? 'Dải ASP thực bán 75k–250k chiếm 95,4% GMV; 206/339 link (60,8%) phát sinh 0đ trong 90 ngày.'
+                : 'Realized ASP 75k–250k band = 95.4% GMV; 206/339 listings (60.8%) had zero sales in 90 days.'}
+            </p>
+            <p className="text-[11px] font-semibold text-rose-700 dark:text-rose-400 bg-rose-500/10 rounded-md px-2 py-1">
+              {isVi
+                ? 'Nút thắt: 6 mã đồ bơi rơi -89,3% T6→T8; AT06 lên kệ trễ ~1 tháng và chiếm 80,5% T10.'
+                : 'Bottleneck: 6 swimwear SKUs fell -89.3% Jun→Aug; AT06 launched ~1m late and hit 80.5% of Oct.'}
             </p>
           </div>
         </div>
@@ -106,8 +172,8 @@ export function Tier1ExecutiveSummary({ lang }: Props) {
             </div>
             <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
               {isVi
-                ? 'Xu hướng GMV 8 tháng & Vùng trũng giao mùa Tháng 8'
-                : '8-Month GMV Trajectory & The August Seasonal Trough'}
+                ? 'Doanh thu T8 rơi -83,1% so với đỉnh T6 trước khi hồi phục lên 1,62 tỷ ở T10 (25 ngày)'
+                : 'August GMV Fell -83.1% from June Peak Before Rebounding to 1.62B in Oct (25d)'}
             </h3>
           </div>
 

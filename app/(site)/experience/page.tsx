@@ -77,22 +77,22 @@ const GROUPS: Group[] = [
         org: { vi: "Niên luận định lượng", en: "Quantitative thesis" },
         bullets: [
           {
-            vi: "Thu thập và làm sạch 6 bộ dữ liệu chuỗi thời gian từ MLIT và JNTO.",
-            en: "Collected and cleaned 6 time-series datasets from MLIT and JNTO.",
+            vi: "Kiểm toán 5 sai lệch nguồn niên luận và làm sạch 6 bộ dữ liệu chuỗi thời gian 20 năm (2003–2022) từ MLIT và JNTO.",
+            en: "Audited 5 thesis source errors and standardized 6 20-year time-series datasets (2003–2022) from MLIT and JNTO.",
           },
           {
-            vi: "Phân tích lượng khách quốc tế và chi tiêu du lịch: đỉnh 31,9 triệu khách (2019) và 4,81 nghìn tỷ Yên chi tiêu.",
-            en: "Analysed international arrivals and tourism spending: a peak of 31.9M visitors (2019) and 4.81T yen in spending.",
+            vi: "Phân tích lượng khách và chất lượng chi tiêu: đỉnh 31,9 triệu khách (2019), chi tiêu quốc tế 4,81 nghìn tỷ Yên (~0,86% GDP, tách khỏi toàn ngành 7,5% GDP WTTC), trong khi chi tiêu/khách giảm -14,6% giai đoạn 2015–2019.",
+            en: "Analysed visitor volume and spending quality: 31.9M peak arrivals (2019), 4.81T JPY inbound spend (~0.86% GDP, separate from WTTC 7.5% total sector GDP), while per-visitor spend eroded -14.6% from 2015 to 2019.",
           },
           {
-            vi: "Hoàn thành niên luận về sự phát triển du lịch di sản Nhật Bản (GVHD: TS Võ Minh Vũ).",
-            en: "Completed a thesis on the growth of heritage tourism in Japan (advisor: Dr. Võ Minh Vũ).",
+            vi: "Hoàn thành niên luận về du lịch di sản Nhật Bản giai đoạn 2013–2022 (GVHD: TS Võ Minh Vũ).",
+            en: "Completed a quantitative thesis on heritage tourism in Japan covering 2013–2022 (advisor: Dr. Võ Minh Vũ).",
           },
         ],
         tools: [
           { vi: "Python", en: "Python" },
+          { vi: "SQL Data Audit", en: "SQL Data Audit" },
           { vi: "Chuỗi thời gian", en: "Time series" },
-          { vi: "Trực quan hóa dữ liệu", en: "Data visualisation" },
         ],
         link: {
           label: { vi: "Đọc nghiên cứu", en: "Read the study" },
@@ -103,28 +103,29 @@ const GROUPS: Group[] = [
         id: "library-bus",
         period: { vi: "2023 - 2024", en: "2023 - 2024" },
         meta: {
-          vi: "7 phân hệ Django • 36 Models • 171 Unit Tests",
-          en: "7 Django Apps • 36 Models • 171 Unit Tests",
+          vi: "Mini-BRD • ERD 7 bảng • Tracking Plan • 171 Tests",
+          en: "Mini-BRD • 7-Entity ERD • Tracking Plan • 171 Tests",
         },
         role: {
-          vi: "Phân tích nghiệp vụ (BA), Kiến trúc Dữ liệu & Telemetry hệ thống thư viện lưu động",
-          en: "BA Specification, Data & Telemetry Architecture for Mobile Library System",
+          vi: "Phân tích nghiệp vụ (Technical BA), Mô hình dữ liệu & Tracking Plan",
+          en: "Technical Business Analysis, Core Data Modeling & Tracking Plan",
         },
         org: { vi: "Library Bus", en: "Library Bus" },
         bullets: [
           {
-            vi: "Đặc tả 4 quy tắc nghiệp vụ cốt lõi (BR-01..04): khóa bi quan select_for_update() trong transaction.atomic() trên MySQL 8.0 chống Race Condition/TOCTOU khi mượn sách đồng thời, hàng đợi đặt trước FIFO 7 ngày và biểu phí phạt lũy tiến 3 bậc.",
-            en: "Specified 4 core business rules (BR-01..04): pessimistic select_for_update() locks inside transaction.atomic() on MySQL 8.0 to prevent concurrent TOCTOU race conditions, 7-day FIFO reservation queues, and a 3-tier progressive fine engine.",
+            vi: "Đặc tả vận hành xe lưu động (gồm ràng buộc offline 4G, trả chéo tuyến, hủy chuyến) thành Mini-BRD, bảng As-Is/To-Be, 5 Stakeholder, MoSCoW, 5 User Stories và BR-01..04 (chống trùng sách cuối, giữ chỗ 7 ngày từ lúc sách về trạm, phạt 3 bậc trần 100% giá sách).",
+            en: "Specified mobile library operations (including offline 4G, cross-bus returns, and trip cancellations) into a Mini-BRD, As-Is/To-Be map, 5 stakeholders, MoSCoW, 5 User Stories, and BR-01..04 (last-copy locking, stop-aligned 7d holds, replacement-capped fines).",
           },
           {
-            vi: "Thiết kế phân hệ Telemetry (analytics app: UserActivity, BookAnalytics, BusAnalytics, BookRecommendation, DailyStats), 9 cron job Celery Beat + Redis 7 CacheMixin và đối chiếu 11 cặp màn hình cốt lõi (Wireframe & UI trên Desktop 1440px, Mobile 390px).",
-            en: "Engineered the Telemetry module (analytics app: UserActivity, BookAnalytics, BusAnalytics, BookRecommendation, DailyStats), 9 Celery Beat cron jobs + Redis 7 CacheMixin, and 11 paired Wireframe-to-UI core screen flows.",
+            vi: "Chuẩn hóa ERD lõi 7 bảng (BookTitle/BusBookInventory), Tracking Plan 8 sự kiện, khung quyết định Pilot 4 tuần (2 tuyến) và 11 cặp màn hình Wireframe/UI; kiểm chứng bằng bản mẫu Django 5.2 / MySQL 8.0 (171 unit tests).",
+            en: "Normalized a 7-entity core ERD (BookTitle/BusBookInventory), 8-event Tracking Plan, 4-week 2-route pilot criteria, and 11 paired Wireframe/UI flows; validated via a Django 5.2 / MySQL 8.0 prototype (171 unit tests).",
           },
         ],
         tools: [
-          { vi: "MySQL 8.0 • Redis • Celery • Django 5.2", en: "MySQL 8.0 • Redis • Celery • Django 5.2" },
-          { vi: "Phân tích nghiệp vụ (BA)", en: "Business Analysis (BA)" },
-          { vi: "Product Telemetry & Wireframe/UI", en: "Product Telemetry & Wireframe/UI" },
+          { vi: "Mini-BRD & MoSCoW", en: "Mini-BRD & MoSCoW" },
+          { vi: "Core ERD & Tracking Plan", en: "Core ERD & Tracking Plan" },
+          { vi: "SQL • Wireframe/UI", en: "SQL • Wireframe/UI" },
+          { vi: "Prototype (Django / MySQL)", en: "Prototype (Django / MySQL)" },
         ],
         link: {
           label: { vi: "Xem dự án", en: "Open the project" },
@@ -139,29 +140,29 @@ const GROUPS: Group[] = [
           en: "231 days of estimated FastMoss data",
         },
         role: {
-          vi: "Phân tích hiệu suất TikTok Shop và mạng lưới affiliate",
-          en: "TikTok Shop and affiliate network analysis",
+          vi: "Phân tích hiệu suất TikTok Shop, mạng lưới Affiliate & Đặc tả BI",
+          en: "TikTok Shop, Affiliate Network Analysis & BI Spec",
         },
         org: { vi: "Kami Ely", en: "Kami Ely" },
         bullets: [
           {
-            vi: "Chuẩn hóa 10 bảng dữ liệu ước tính FastMoss (15,01 tỷ đ GMV, 101.896 sản phẩm) và đối soát giữa các nguồn để mỗi con số truy được về nguồn.",
-            en: "Standardised 10 estimated FastMoss tables (VND 15.01B GMV, 101,896 units) and reconciled figures across sources so each number traces back to its source.",
+            vi: "Chuẩn hóa 10 bảng dữ liệu ước tính FastMoss (15,01 tỷ đ GMV, 101.896 sản phẩm), phát hiện và loại trừ +7,59 tỷ đ trùng nguồn giữa CrLive và AffLive, kèm Đặc tả BI (4 Fact · 3 Dim · DAX).",
+            en: "Standardised 10 estimated FastMoss tables (VND 15.01B GMV, 101,896 units), caught and removed +7.59B VND cross-file overlap between CrLive and AffLive, paired with a 4-Fact · 3-Dim DAX BI Spec.",
           },
           {
-            vi: "Chỉ 329/6.086 creator trong danh sách affiliate phát sinh doanh thu (5,4%); kênh chính chủ chiếm 60,1% doanh thu bảng affiliate KOL.",
-            en: "Only 329 of 6,086 creators in the affiliate list generated revenue (5.4%); the official channel drove 60.1% of affiliate KOL revenue.",
+            vi: "Kiểm định Panel FE cửa sổ hoạt động sau mở bán (n = 1.422, Within R² = 0,302), phát hiện Nghịch lý Simpson ở Live >10h (tụt từ 8,48 về 0,73 Tr/h giữa T6→T8) và Video Ads GPM thấp hơn Organic (0,84×).",
+            en: "Ran post-launch active-window Panel FE (n = 1,422, Within R² = 0.302), uncovered Simpson’s Paradox in >10h Live (8.48 to 0.73M/hr Jun→Aug), and showed Video Ads trailed Organic GPM (0.84x).",
           },
           {
-            vi: "Live chính chủ và kênh vệ tinh tạo 84,5% doanh thu livestream; 12/133 mã có đơn (trên tổng 339 SKU) tạo 80,6% GMV.",
-            en: "Official and satellite livestreams drove 84.5% of live GMV; 12 of 133 converting SKUs (of 339 catalog SKUs) drove 80.6% of GMV.",
+            vi: "Đề xuất bộ lọc KOC 2 tầng bảo toàn 51 creator nổ đơn muộn từ phiên thứ 4+ (304,9 Tr = 18,8% GMV Live ngoài) thay vì cắt cứng sau 3 phiên.",
+            en: "Designed a 2-tier KOC screening rule protecting 51 late-converting creators from session 4+ (304.9M = 18.8% external Live GMV) instead of a hard 3-session cutoff.",
           },
         ],
         tools: [
-          { vi: "SQL", en: "SQL" },
+          { vi: "SQL (MySQL 8.0)", en: "SQL (MySQL 8.0)" },
           { vi: "Python (SciPy)", en: "Python (SciPy)" },
-          { vi: "Hồi quy OLS", en: "OLS regression" },
-          { vi: "Đối soát dữ liệu", en: "Data reconciliation" },
+          { vi: "Panel FE & Stats", en: "Panel FE & Stats" },
+          { vi: "BI Spec (Star Schema)", en: "BI Spec (Star Schema)" },
         ],
         link: {
           label: { vi: "Xem dự án & Thư viện SQL", en: "Open case study & SQL library" },
@@ -310,8 +311,8 @@ export default function ExperiencePage() {
           </h2>
           <p className="text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed">
             {isVi
-              ? "Xem hệ thống truy vấn SQL, sổ tay kiểm định Python và biểu đồ tương tác trong dự án Kami Ely."
-              : "Inspect the SQL queries, Python statistical notebook, and interactive charts in the Kami Ely case study."}
+              ? "Xem hệ thống truy vấn SQL, sổ tay kiểm định Python, Đặc tả BI và biểu đồ tương tác trong dự án Kami Ely."
+              : "Inspect the SQL queries, Python statistical notebook, BI Spec, and interactive charts in the Kami Ely case study."}
           </p>
         </div>
         <Link

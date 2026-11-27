@@ -39,7 +39,7 @@ export default function BrdPage() {
 
       <main className="flex-1 w-full h-full bg-white">
         <iframe
-          src="/library-bus/mini-brd-library-bus.html"
+          src="/library-bus/mini-brd-library-bus.html?embed=1"
           title="Library Bus Mini-BRD Specification"
           className="w-full h-full border-0"
         />

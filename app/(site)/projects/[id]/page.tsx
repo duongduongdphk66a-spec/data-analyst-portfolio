@@ -4,12 +4,7 @@ import { RowDataPacket } from 'mysql2';
 import { DEFAULT_PROJECTS } from '../../../defaultData';
 import ProjectDetailClient from './ProjectDetailClient';
 import { getDbPool } from '@/app/lib/db';
-import { 
-  getProjectByIdWithFallback,
-  getKamiElyDataWithFallback,
-  getHeritageJapanDataWithFallback,
-  getLibraryBusDataWithFallback
-} from '@/app/lib/serverData';
+import { getProjectByIdWithFallback } from '@/app/lib/serverData';
 
 export const dynamicParams = true;
 export const revalidate = 60;
@@ -40,14 +35,14 @@ const PROJECT_METADATA: Record<string, { title: string; desc: string; keywords?:
     keywords: ['TikTok Shop', 'Affiliate Analytics', 'E-Commerce', 'Python', 'SQL', 'OLS Regression', 'Cohort Retention'],
   },
   'proj-heritage-japan': {
-    title: 'Du lịch Di sản Nhật Bản: Phân tích Chuỗi Thời Gian | Ma Văn Hùng',
-    desc: 'Phân tích chuỗi thời gian 20 năm du lịch di sản Nhật Bản: lượng khách quốc tế, chi tiêu, chính sách bảo tồn Kyoto-Nara. JNTO data, time-series modeling.',
-    keywords: ['Time Series', 'Heritage Tourism', 'Japan JNTO', 'Data Modeling', 'Data Storytelling', 'Python'],
+    title: 'Du lịch Di sản Nhật Bản: Kiểm toán Dữ liệu & Chuỗi Thời Gian | Ma Văn Hùng',
+    desc: 'Kiểm toán 6 chuỗi dữ liệu gốc tiếng Nhật (JNTO, MLIT, Kyoto, Nara): hiệu chỉnh 5 lỗi số liệu, chỉ ra chi tiêu bình quân/khách giảm -14,6% sau 2015 và ước lượng kịch bản quản trị quá tải.',
+    keywords: ['Time Series', 'Data Audit', 'Heritage Tourism', 'Japan JNTO', 'Python', 'SQL'],
   },
   'proj-library-bus': {
-    title: 'Library Bus: Đặc tả Nghiệp vụ (BA), Telemetry & UX/UI | Ma Văn Hùng',
-    desc: 'Đặc tả 4 quy tắc nghiệp vụ (BR-01..04), kiến trúc MySQL 8.0/Redis/Celery, phân hệ Product Telemetry và 11 cặp màn hình Wireframe – UI cốt lõi (Desktop & Mobile).',
-    keywords: ['Business Analysis', 'Product Telemetry', 'MySQL 8.0', 'Wireframe', 'UX/UI Design'],
+    title: 'Library Bus: Technical BA, Mô hình Dữ liệu (ERD) & Tracking Plan | Ma Văn Hùng',
+    desc: 'Hồ sơ Technical BA cho mạng lưới xe thư viện lưu động: As-Is/To-Be, 5 Stakeholder, phân pha MoSCoW, 4 quy tắc BR-01..04, Mini-BRD/RTM, ERD lõi 7 bảng, Tracking Plan 8 sự kiện và 11 cặp màn hình.',
+    keywords: ['Technical BA', 'Mini-BRD', 'MoSCoW', 'ERD', 'Tracking Plan', 'Wireframe'],
   },
 };
 
@@ -116,24 +111,13 @@ export default async function ProjectDetailPage({
 
   const project = await getProjectByIdWithFallback(id);
 
-  let initialCaseStudyData: any = null;
-  try {
-    if (normalizedId === 'proj-kami-ely') {
-      initialCaseStudyData = await getKamiElyDataWithFallback();
-    } else if (normalizedId === 'proj-heritage-japan') {
-      initialCaseStudyData = await getHeritageJapanDataWithFallback();
-    } else if (normalizedId === 'proj-library-bus') {
-      initialCaseStudyData = await getLibraryBusDataWithFallback();
-    }
-  } catch (err) {
-    console.warn(`[ProjectDetailPage] Could not pre-fetch case study data for ${id}:`, err);
-  }
-
+  // All 3 flagship case studies read directly from verified static SSOT modules
+  // (metrics_v2.json, heritageJapanData.ts, library-bus/*.ts), avoiding redundant
+  // per-request MySQL queries and unused RSC payload serialization.
   return (
-    <ProjectDetailClient 
-      id={id} 
-      project={project} 
-      initialCaseStudyData={initialCaseStudyData} 
+    <ProjectDetailClient
+      id={id}
+      project={project}
     />
   );
 }

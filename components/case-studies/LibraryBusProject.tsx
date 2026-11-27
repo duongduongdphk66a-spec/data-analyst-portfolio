@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Presentation } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { trackVisitorAction } from '@/app/lib/visitorTracking';
 import { scrollToSection, useCaseStudyActions } from '@/app/lib/uiHelpers';
@@ -11,8 +13,13 @@ import LibraryBusHero from './library-bus/LibraryBusHero';
 import LibraryBusNav from './library-bus/LibraryBusNav';
 import Chapter1UxResearch from './library-bus/Chapter1UxResearch';
 import Chapter4BackendLogic from './library-bus/Chapter4BackendLogic';
-import Chapter2BrandIdentity from './library-bus/Chapter2BrandIdentity';
 import CaseStudyFooter from './shared/CaseStudyFooter';
+
+const LIBRARY_BUS_SECTION_IDS = [
+  'chapter-1-ux',
+  'chapter-4-backend',
+  'visual-comparison',
+] as const;
 
 const LibraryBusVisualComparison = dynamic(
   () => import('./LibraryBusVisualComparison'),
@@ -33,13 +40,11 @@ const LibraryBusVisualComparison = dynamic(
 interface LibraryBusProjectProps {
   onBack?: () => void;
   isEmbedded?: boolean;
-  initialData?: unknown;
 }
 
 export default function LibraryBusProject({
   onBack,
   isEmbedded: _isEmbedded,
-  initialData: _initialData,
 }: LibraryBusProjectProps = {}) {
   const router = useRouter();
   const { language } = useLanguage();
@@ -54,10 +59,25 @@ export default function LibraryBusProject({
 
   useEffect(() => {
     trackVisitorAction(
-      'Xem chi tiết dự án: Library Bus BA & Telemetry Architecture (Ma Văn Hùng)',
+      'Xem chi tiết dự án: Library Bus Technical BA & Tracking Spec (Ma Văn Hùng)',
       'proj-library-bus',
       'project'
     );
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + 140;
+      for (let i = LIBRARY_BUS_SECTION_IDS.length - 1; i >= 0; i--) {
+        const el = document.getElementById(LIBRARY_BUS_SECTION_IDS[i]);
+        if (el && scrollPos >= el.offsetTop) {
+          setActiveSection(LIBRARY_BUS_SECTION_IDS[i]);
+          break;
+        }
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleBack = () => {
@@ -84,30 +104,34 @@ export default function LibraryBusProject({
       />
 
       <div className="space-y-9">
-        {/* PHẦN 01: BÀI TOÁN NGHIỆP VỤ, 4 QUY TẮC BR-01..04, SWIMLANE & BIỂU ĐỒ BẬC THANG PHÍ PHẠT */}
-        <div id="chapter-1-ux">
-          <Chapter1UxResearch
-            isEn={isEn}
-            onCopyDeepLink={handleCopyDeepLink}
-          />
-        </div>
+        {/* PHẦN 01: PHÂN TÍCH NGHIỆP VỤ (AS-IS/TO-BE, STAKEHOLDERS, MOSCOW, BR-01..04 & USER STORIES) */}
+        <Chapter1UxResearch
+          isEn={isEn}
+          onCopyDeepLink={handleCopyDeepLink}
+        />
 
-        {/* PHẦN 02: KIẾN TRÚC DỮ LIỆU (MYSQL 8.0 + REDIS 7 + CELERY) & HỆ THỐNG TELEMETRY (ĐẨY LÊN VỊ TRÍ SỐ 2) */}
-        <div id="chapter-4-backend">
-          <Chapter4BackendLogic
-            isEn={isEn}
-            onCopyDeepLink={handleCopyDeepLink}
-          />
-        </div>
+        {/* PHẦN 02: MÔ HÌNH DỮ LIỆU LÕI (ERD), TRACKING PLAN & KIẾN TRÚC XÁC NHẬN */}
+        <Chapter4BackendLogic
+          isEn={isEn}
+          onCopyDeepLink={handleCopyDeepLink}
+        />
 
-        {/* PHẦN 03: KHUNG MASTER-DETAIL 11 CẶP MÀN HÌNH CỐT LÕI & ACCORDION DESIGN SYSTEM */}
-        <div id="visual-comparison" className="space-y-5">
+        {/* PHẦN 03: KHUNG MASTER-DETAIL 11 CẶP MÀN HÌNH CỐT LÕI (WIREFRAME <-> UI) */}
+        <div className="space-y-4">
           <LibraryBusVisualComparison isEn={isEn} />
-          <div id="chapter-2-brand">
-            <Chapter2BrandIdentity
-              isEn={isEn}
-              onCopyDeepLink={handleCopyDeepLink}
-            />
+          <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/50 px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <span className="text-slate-600 dark:text-slate-300">
+              {isEn
+                ? 'Legacy academic UX/Brand slide deck (30 slides) archived separately so this page stays focused on BA & data modeling.'
+                : 'Tài liệu trình chiếu UX & nhận diện đồ án gốc (30 slide) được tách riêng để giữ trọng tâm phân tích nghiệp vụ và dữ liệu trên trang này.'}
+            </span>
+            <Link
+              href="/projects/library-bus/presentation"
+              className="min-h-[44px] inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 font-bold text-[#074553] dark:text-[#9BE7FA] hover:border-[#0D7287] transition-colors cursor-pointer shrink-0"
+            >
+              <Presentation className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>{isEn ? 'Open Archive UX Deck' : 'Xem Slide UX gốc (Lưu trữ)'}</span>
+            </Link>
           </div>
         </div>
       </div>

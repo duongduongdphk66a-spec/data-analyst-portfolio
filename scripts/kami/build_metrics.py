@@ -41,8 +41,8 @@ FILES = {
     "creators": "_Creators_merged (90 ngày) .xlsx",
     "shop_live": "_shop LIVE (180 ngày) 1.xlsx",
 }
-SELF_ID = "kamielyhn"
-GIRL_STYLE_ID = "girlstyle.vn"
+SELF_ID = os.environ.get("KAMI_OFFICIAL_HANDLE", "")
+GIRL_STYLE_ID = os.environ.get("KAMI_SATELLITE_HANDLE", "")
 
 
 # ----------------------------------------------------------------------------
@@ -274,7 +274,7 @@ def build_store(conn=None):
 
 
 # ----------------------------------------------------------------------------
-# 2. Channel (@kamielyhn) LIVE + videos, and the Video vs Live GPM test
+# 2. Channel (@shop_official) LIVE + videos, and the Video vs Live GPM test
 # ----------------------------------------------------------------------------
 def build_channel():
     lv = load("ch_live")
@@ -345,7 +345,7 @@ def build_channel():
         "welchLogP": float(f"{welch_log.pvalue:.3g}"),
         "aggregateRatio": r(agg_gv / agg_gl, 2),
         "isSignificant": bool(mw.pvalue < 0.05),
-        "window": "180N", "scope": "Kênh chính chủ @kamielyhn",
+        "window": "180N", "scope": "Kênh chính chủ @shop_official",
         "source": f"{src_v} + {src_l}",
         "limitations": [
             "Mẫu số khác nhau: Video dùng lượt xem, LIVE dùng tổng người xem phiên.",
@@ -443,7 +443,7 @@ def build_shop_live():
         ]
 
     # In-House Dual Channel Analysis:
-    # Girl Style is an in-house satellite channel operated by the SAME internal team as @kamielyhn.
+    # Satellite KOC is an in-house satellite channel operated by the SAME internal team as @shop_official.
     inhouse_sessions = len(df[df["LIVE type"].str.contains("Shop", case=False, na=False)]) + (gs["sessions"] if gs is not None else 0)
     inhouse_units = df[df["LIVE type"].str.contains("Shop", case=False, na=False)]["units"].sum() + (gs["units"] if gs is not None else 0)
     inhouse_gmv = df[df["LIVE type"].str.contains("Shop", case=False, na=False)]["gmv"].sum() + (gs["gmv"] if gs is not None else 0)
@@ -453,7 +453,7 @@ def build_shop_live():
     true_ext_gmv = rest_sessions["gmv"].sum()
 
     inhouse_dual = {
-        "channelNames": ["Kami Ely (@kamielyhn)", "Girl Style (@girlstyle.vn)"],
+        "channelNames": ["Kami Ely (@shop_official)", "Satellite KOC (@koc_sat01)"],
         "nature": "Đội ngũ in-house vận hành song song 2 kênh (Kênh chính + Kênh vệ tinh)",
         "sessions": int(inhouse_sessions),
         "sessionSharePct": r(inhouse_sessions / len(df) * 100),
@@ -560,7 +560,7 @@ def build_creators():
         "selfChannel": {"gmv": r(self_row["gmv"].sum(), 0), "units": int(self_row["units"].sum()),
                         "followers": int(self_row["followers"].max()) if len(self_row) else None},
         "inhouseDualChannel90d": {
-            "channelNames": ["Kami Ely (@kamielyhn)", "Girl Style (@girlstyle.vn)"],
+            "channelNames": ["Kami Ely (@shop_official)", "Satellite KOC (@koc_sat01)"],
             "nature": "Hai kênh trực thuộc cùng đội ngũ in-house vận hành",
             "gmv": r(self_row["gmv"].sum() + (gs["gmv"].sum() if len(gs) else 0), 0),
             "units": int(self_row["units"].sum() + (gs["units"].sum() if len(gs) else 0)),

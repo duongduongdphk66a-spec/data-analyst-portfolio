@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Xe Thư Viện Lưu Động (Library Bus) — Mobile UX/UI Guidelines (34 Screens)</title>
+  <title>Xe Thư Viện Lưu Động (Library Bus) — Mobile UX/UI Guidelines (11 Core Screens)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -420,6 +420,28 @@
     };
     document.getElementById('btnToggleToc').onclick = () => {
       tocDrawer.classList.toggle('collapsed');
+    };
+
+    let viewMode = 'compare';
+    const btnModeCompare = document.getElementById('btnModeCompare');
+    const phoneWrappers = document.querySelectorAll('.phone-wrapper');
+    btnModeCompare.onclick = () => {
+      if (viewMode === 'compare') {
+        viewMode = 'wf';
+        btnModeCompare.textContent = 'Chỉ xem Wireframe';
+        if (phoneWrappers[0]) phoneWrappers[0].style.display = 'flex';
+        if (phoneWrappers[1]) phoneWrappers[1].style.display = 'none';
+      } else if (viewMode === 'wf') {
+        viewMode = 'ui';
+        btnModeCompare.textContent = 'Chỉ xem UI Design';
+        if (phoneWrappers[0]) phoneWrappers[0].style.display = 'none';
+        if (phoneWrappers[1]) phoneWrappers[1].style.display = 'flex';
+      } else {
+        viewMode = 'compare';
+        btnModeCompare.textContent = 'So sánh Lo-Fi & Hi-Fi';
+        if (phoneWrappers[0]) phoneWrappers[0].style.display = 'flex';
+        if (phoneWrappers[1]) phoneWrappers[1].style.display = 'flex';
+      }
     };
 
     window.addEventListener('keydown', (e) => {

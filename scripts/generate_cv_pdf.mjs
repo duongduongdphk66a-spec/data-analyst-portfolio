@@ -343,7 +343,7 @@ const CV_HTML = `<!DOCTYPE html>
 
     <div class="entry">
       <div class="entry-top">
-        <div class="entry-title">Nghiên cứu Khoa học: Phân tích Du lịch Di sản tại Nhật Bản (Giai đoạn 2013 - 2023)</div>
+        <div class="entry-title">Nghiên cứu Khoa học: Phân tích Du lịch Di sản tại Nhật Bản (2013 - 2022)</div>
         <div class="entry-period">2023 - 01/2024</div>
       </div>
       <div class="entry-sub">
@@ -351,8 +351,8 @@ const CV_HTML = `<!DOCTYPE html>
         <div class="entry-loc">Hà Nội, Việt Nam</div>
       </div>
       <ul class="bullets">
-        <li>Thu thập, kiểm toán độ lệch số liệu (Data Audit) và chuẩn hóa 6 bộ dữ liệu chuỗi thời gian 20 năm (2003 - 2022) từ JNTO, MLIT, UNWTO và WTTC để đánh giá giai đoạn chính sách 2013 - 2023.</li>
-        <li>Xây dựng mô hình xu thế đối chứng log-linear (đường nền mô tả 2003 - 2012) và phân tích đối sánh đa điểm đến (Kyoto, Shirakawa-go, Himeji) nhằm lượng hóa đóng góp kinh tế vĩ mô và áp lực quá tải di sản.</li>
+        <li>Thu thập, tự kiểm toán (Data Audit) và chuẩn hóa 6 bộ dữ liệu chuỗi thời gian (2003 - 2022, bổ sung mốc chốt 2023) từ báo cáo gốc tiếng Nhật của JNTO, MLIT, TP. Kyoto và TP. Nara.</li>
+        <li>Đối sánh 5 điểm di sản UNESCO (Kyoto, Shirakawa-go, Miyajima, Phú Sĩ, Nara), phân tách đóng góp chi tiêu quốc tế (~0,86% GDP) khỏi toàn ngành du lịch (7,5% GDP theo WTTC) và lượng hóa áp lực quá tải cục bộ.</li>
       </ul>
     </div>
   </section>
@@ -366,36 +366,36 @@ const CV_HTML = `<!DOCTYPE html>
         <div class="project-tags">SQL • Python • SciPy • BI Spec</div>
       </div>
       <p class="project-desc">
-        Dự án cá nhân phân tích 231 ngày vận hành (09/03 - 25/10/2026) với 15,01 tỷ VNĐ GMV ước tính và 101.896 sản phẩm bán ra từ 10 bảng dữ liệu ước tính của bên thứ ba FastMoss (23.364 dòng; đối chiếu cửa sổ 180 ngày đạt 12,74 tỷ VNĐ / 85.500 sản phẩm; lũy kế toàn thời gian đạt 31,6 tỷ VNĐ / 238,4k sản phẩm; không dùng số liệu nội bộ). Thực hiện kiểm định OLS, Mann-Whitney U, HHI, Cohort 302 KOC và biên soạn đặc tả BI Dashboard (Power BI / Looker Studio: Star Schema, 6 nhóm DAX).
+        Dự án cá nhân phân tích 231 ngày (09/03 - 25/10/2026: 15,01 tỷ VNĐ GMV ước tính, 101.896 sp) từ 10 bảng FastMoss (23.364 dòng; không dùng dữ liệu nội bộ). Thực hiện đối soát đa cửa sổ, kiểm định phân tầng 6 lát cắt (Mann-Whitney U, Fisher Exact), Panel FE OLS, HHI, Cohort 302 KOC và đặc tả BI (Star Schema 4 Fact · 3 Dim, 6 nhóm DAX).
       </p>
       <div class="impact-box">
-        <span class="impact-label">IMPACT:</span> Giải mã bẫy cộng trùng 595 phiên LIVE (tránh thổi phồng +3,05 tỷ VNĐ); chứng minh Live chính chủ &amp; kênh vệ tinh chiếm 84,5% GMV Live, 12/133 SKU có đơn tạo 80,6% GMV và đề xuất cấp quyền Video Ads có chọn lọc kèm ngưỡng kiểm soát GPM/ROAS biên.
+        <span class="impact-label">IMPACT:</span> Khử trùng 595 phiên LIVE trùng giữa AffLive và CrLive (tránh cộng trùng +7,59 tỷ VNĐ); chỉ ra Live nội bộ chiếm 84,5% GMV Live, 12/133 SKU có đơn tạo 80,6% GMV và thiết kế luật sàng lọc KOC 2 tầng bảo toàn 51 KOC chuyển đổi muộn (304,9 triệu / 18,8% Live độc lập).
       </div>
     </div>
 
     <div class="project-card">
       <div class="project-head">
-        <div class="project-title">Heritage Tourism in Japan: Phân tích Chuỗi Thời gian (Trọng tâm 2013 - 2023 • Nền 2003 - 2022)</div>
-        <div class="project-tags">Python • Time-Series • Data Audit</div>
+        <div class="project-title">Du lịch Di sản Nhật Bản: Kiểm toán Chuỗi Thời gian (2013 - 2022 • Nền 2003 - 2012)</div>
+        <div class="project-tags">Python • SQL • Time-Series Audit</div>
       </div>
       <p class="project-desc">
-        Phân tích tác động của chính sách mở cửa thị thực và bảo tồn di sản UNESCO tại Nhật Bản giai đoạn 2013 - 2023 dựa trên chuỗi dữ liệu 20 năm (2003 - 2022) từ JNTO &amp; MLIT, đánh giá cú sốc đại dịch COVID-19 (-99,2% lượng khách năm 2021) và kiểm toán hiệu đính 5 nhóm sai lệch đơn vị/trục năm từ niên luận gốc.
+        Tự kiểm toán và sửa 5 lỗi số liệu từ niên luận gốc (phóng đại ×10 đơn vị 億円/万人 tại Nara, lệch trục năm +1 tại Kyoto, mốc đứt gãy khảo sát R1/2019), đánh giá cú sốc COVID-19 và phân tích áp lực quá tải tại 5 điểm di sản UNESCO.
       </p>
       <div class="impact-box">
-        <span class="impact-label">IMPACT:</span> Lượng khách quốc tế đạt đỉnh 31,9 triệu lượt năm 2019 (+206,7% so với 2013), chi tiêu đạt 4,81 nghìn tỷ Yên (3,41x so với 2013), đóng góp 7,5% GDP (&gt;4 triệu việc làm); lượng hóa tỷ lệ quá tải 3.000 : 1 tại làng cổ Shirakawa-go.
+        <span class="impact-label">IMPACT:</span> Lượng hóa đỉnh 31,9 triệu khách năm 2019 (+206,7% vs. 2013), chi tiêu khách quốc tế 4,81 nghìn tỷ Yên (~0,86% GDP; toàn ngành WTTC 7,5% GDP), mức giảm -14,6% chi tiêu/khách sau 2015 và tỷ lệ quá tải 3.000 : 1 tại Shirakawa-go (~8,2 khách/dân/ngày).
       </div>
     </div>
 
     <div class="project-card">
       <div class="project-head">
-        <div class="project-title">Library Bus: Phân tích Nghiệp vụ (BA), Kiến trúc Telemetry (MySQL 8.0 / Redis / Celery) &amp; UX/UI</div>
-        <div class="project-tags">BA • MySQL 8.0 • Telemetry • UI</div>
+        <div class="project-title">Library Bus: Technical BA (Mini-BRD, MoSCoW), ERD lõi &amp; Tracking Plan</div>
+        <div class="project-tags">Technical BA • ERD • MySQL 8.0</div>
       </div>
       <p class="project-desc">
-        Đặc tả 4 bộ quy tắc nghiệp vụ (BR-01..04: hạn mức mượn, khóa bi quan select_for_update() theo Lock Ordering chống Race Condition &amp; Deadlock, hàng đợi FIFO 7 ngày, phí phạt lũy tiến 3 bậc), thiết kế lược đồ Product Telemetry (UserActivity, BookAnalytics, BusAnalytics, DailyStats) và 11 cặp màn hình đối chiếu Wireframe - UI (Desktop 1440px &amp; Mobile 390px) trên dữ liệu mẫu.
+        Phân tích As-Is/To-Be, 5 Stakeholder, phân pha MoSCoW MVP và 4 bộ quy tắc BR-01..04 (kèm ràng buộc mất mạng trên xe, trần phí phạt bằng giá đền sách và giữ chỗ 7 ngày theo lịch xe). Thiết kế ERD lõi 7 thực thể (tách BookTitle vs. BusBookInventory), Tracking Plan 8 sự kiện đồng bộ, khung Pilot 4 tuần 2 tuyến và 11 cặp màn hình.
       </p>
       <div class="impact-box">
-        <span class="impact-label">IMPACT:</span> Xác nhận logic nghiệp vụ qua prototype Django 5.2 (7 apps, 36 models, 97 templates, 9 tác vụ Celery Beat + Redis 7 và 171 unit tests tự động) cùng bộ tài liệu Mini-BRD &amp; RTM gắn dấu vết từng màn hình.
+        <span class="impact-label">IMPACT:</span> Hoàn thiện Mini-BRD, User Stories (Given–When–Then), RTM và truy vấn MySQL 8.0 chống lệch right-censoring; kiểm chứng logic giao dịch qua prototype Django 5.2 / MySQL 8.0 (171 unit tests tự động, chưa có dữ liệu vận hành thật).
       </div>
     </div>
   </section>

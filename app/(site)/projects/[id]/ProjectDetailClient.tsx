@@ -41,14 +41,12 @@ const CASE_STUDY_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'library_bus': LibraryBusProject,
 };
 
-export default function ProjectDetailClient({ 
-  id, 
-  project, 
-  initialCaseStudyData 
-}: { 
-  id: string; 
+export default function ProjectDetailClient({
+  id,
+  project,
+}: {
+  id: string;
   project?: ProjectData;
-  initialCaseStudyData?: any;
 }) {
   const { projects: contextProjects, isLoading } = usePortfolioData();
 
@@ -73,7 +71,7 @@ export default function ProjectDetailClient({
 
   // 2. Render rich interactive case study if registered for this project ID
   if (SpecialComponent) {
-    return <SpecialComponent isEmbedded={false} initialData={initialCaseStudyData} />;
+    return <SpecialComponent isEmbedded={false} />;
   }
 
   const isStillLoading = !activeProject && isLoading;

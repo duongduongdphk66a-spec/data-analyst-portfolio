@@ -31,29 +31,22 @@ export default function LibraryBusNav({
     {
       id: 'chapter-1-ux',
       label: {
-        vi: '01. Nghiệp vụ BA & Quy tắc BR-01..04',
-        en: '01. BA Rules (BR-01..04) & Flows',
+        vi: 'Phân tích Nghiệp vụ (BA & BR-01..04)',
+        en: 'Business Analysis (As-Is/To-Be & BR-01..04)',
       },
     },
     {
       id: 'chapter-4-backend',
       label: {
-        vi: '02. Kiến trúc MySQL/Redis & Telemetry',
-        en: '02. MySQL/Redis Architecture & Telemetry',
+        vi: 'Mô hình Dữ liệu (ERD) & Tracking Plan',
+        en: 'Core Data Model (ERD) & Tracking Plan',
       },
     },
     {
       id: 'visual-comparison',
       label: {
-        vi: '03. Master–Detail 11 Màn hình (Wireframe & UI)',
-        en: '03. Master–Detail 11 Screens (Wireframe & UI)',
-      },
-    },
-    {
-      id: 'chapter-2-brand',
-      label: {
-        vi: '04. Hệ thống Thiết kế (Accordion)',
-        en: '04. Design System (Accordion)',
+        vi: 'Đối chiếu 11 Màn hình (Wireframe ↔ UI)',
+        en: '11 Core Screen Flows (Wireframe ↔ UI)',
       },
     },
   ];

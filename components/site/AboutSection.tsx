@@ -137,86 +137,94 @@ export default function AboutSection() {
   const linkedinUrl = profile?.linkedin?.trim() || DEFAULT_PROFILE.linkedin || "";
 
   const provenTools = isVi
-    ? ["SQL", "Python", "Thống kê ứng dụng", "Recharts", "BI Spec (Power BI / Looker)"]
-    : ["SQL", "Python", "Applied Statistics", "Recharts", "BI Spec (Power BI / Looker)"];
+    ? ["SQL (MySQL / PostgreSQL)", "Python (pandas, SciPy)", "Excel & Google Sheets", "Recharts & BI Spec", "Technical BA (BRD, ERD, Tracking)"]
+    : ["SQL (MySQL / PostgreSQL)", "Python (pandas, SciPy)", "Excel & Google Sheets", "Recharts & BI Spec", "Technical BA (BRD, ERD, Tracking)"];
+
+  const competencyTracks = [
+    {
+      id: "da",
+      badge: isVi ? "Nhánh Data Analytics (DA)" : "Data Analytics Track (DA)",
+      title: isVi ? "Đối soát số liệu, thống kê & báo cáo" : "Reconciliation, statistics & reporting",
+      accent: "cyan" as const,
+      points: isVi
+        ? [
+            "Làm sạch và đối soát đa nguồn (10 bảng FastMoss 23.364 dòng; 6 chuỗi thống kê gốc tiếng Nhật JNTO/MLIT).",
+            "Truy vấn SQL (CTE, Window Functions, Cohort, xử lý right-censoring) và Python (Pandas, SciPy, Statsmodels).",
+            "Kiểm định giả thuyết phi tham số (Mann-Whitney U, Fisher Exact), phân tầng lát cắt chống Simpson's Paradox và đo tập trung Pareto/HHI.",
+            "Thiết kế dashboard Recharts và đặc tả BI (Star Schema 4 Fact · 3 Dim, DAX cho Power BI / Looker Studio).",
+          ]
+        : [
+            "Multi-source cleaning & reconciliation (10 FastMoss tables, 23,364 rows; 6 primary Japanese JNTO/MLIT series).",
+            "SQL querying (CTEs, Window Functions, Cohorts, right-censoring guards) and Python (Pandas, SciPy, Statsmodels).",
+            "Non-parametric testing (Mann-Whitney U, Fisher Exact), stratified checks against Simpson's Paradox, and Pareto/HHI concentration.",
+            "Interactive Recharts dashboards and BI specifications (4-Fact · 3-Dim Star Schema, Power BI / Looker DAX).",
+          ],
+    },
+    {
+      id: "ba",
+      badge: isVi ? "Nhánh Business Analysis (BA)" : "Business Analysis Track (BA)",
+      title: isVi ? "Đặc tả nghiệp vụ, ERD & Tracking Plan" : "Requirements, ERD & Tracking Plan",
+      accent: "gold" as const,
+      points: isVi
+        ? [
+            "Khung hóa bài toán vận hành: As-Is/To-Be, ma trận 5 Stakeholder tách biệt System Actor và phân pha MoSCoW MVP.",
+            "Đặc tả quy tắc nghiệp vụ có thể kiểm thử (BR-01..04), User Story Given–When–Then tách biệt ghi chú dev và ma trận RTM.",
+            "Mô hình hóa dữ liệu lõi (tách BookTitle vs. BusBookInventory), định nghĩa Tracking Plan 8 sự kiện đồng bộ schema và khung Pilot 4 tuần.",
+            "Chuyển kết quả phân tích thành kế hoạch hành động có người phụ trách, KPI, ngưỡng cắt lỗ và phân tích đánh đổi lợi ích – rủi ro.",
+          ]
+        : [
+            "Operational scoping: As-Is/To-Be mapping, 5-stakeholder matrix separating system actors, and MoSCoW MVP phasing.",
+            "Testable business rules (BR-01..04), Given–When–Then acceptance criteria separated from dev notes, and RTM traceability.",
+            "Core relational modeling (separating BookTitle vs. BusBookInventory), schema-aligned 8-event Tracking Plan, and 4-week pilot design.",
+            "Translating findings into prioritized action plans with owners, target KPIs, stop-loss thresholds, and trade-off analysis.",
+          ],
+    },
+  ];
 
   const projectQuestions = [
     {
       href: "/projects/proj-kami-ely",
-      domain: isVi ? "E-Commerce & TikTok Shop" : "E-Commerce & TikTok Shop",
+      domain: isVi ? "E-Commerce DA & BI Spec" : "E-Commerce DA & BI Spec",
       title: "Kami Ely",
       question: isVi
-        ? "Doanh thu tăng vọt đến từ giảm giá theo ngày hay do mạng lưới KOL/KOC?"
-        : "Did sales spikes come from daily discounting or the KOL/KOC affiliate network?",
-      metrics: [
-        {
-          value: isVi ? "15,01 tỷ VNĐ" : "15.01B VND",
-          label: isVi ? "GMV ước tính (231 ngày)" : "Est. GMV (231 days)",
-        },
-        {
-          value: "101.896",
-          label: isVi ? "Sản phẩm bán ra (231 ngày)" : "Units sold (231 days)",
-        },
-        {
-          value: isVi ? "231 ngày" : "231 days",
-          label: "09/03 - 25/10/2026",
-        },
-      ],
+        ? "Doanh thu đến từ kênh nào, vì sao Tháng 8 giảm 83,1% và danh mục Thu Đông có thay thế được không?"
+        : "Which channels drive revenue, why did August drop 83.1%, and can the autumn catalog replace summer swimwear?",
+      summary: isVi
+        ? "231 ngày (15,01 tỷ VNĐ, 101.896 sp) · Sửa bẫy cộng trùng +7,59 tỷ · Phân tầng Video Ads, Live >10h và luật KOC 2 tầng."
+        : "231 days (15.01B VND, 101,896 units) · Fixed +7.59B double-count · Stratified Video Ads, >10h Live, and 2-tier KOC rule.",
       sourceNote: isVi
-        ? "Nguồn: 10 bảng ước tính FastMoss (231 ngày, 23.364 dòng), tách biệt hoàn toàn khỏi công việc tại Steve x Kami (2022–2023)."
-        : "Source: 10 FastMoss estimated tables (231 days, 23,364 rows), separate from the 2022–2023 role at Steve x Kami.",
+        ? "Nguồn: 10 bảng ước tính FastMoss (09/03–25/10/2026), tách biệt khỏi công việc tại Steve x Kami (2022–2023)."
+        : "Source: 10 FastMoss estimated tables (Mar 09–Oct 25, 2026), separate from the 2022–2023 role at Steve x Kami.",
       accent: "cyan" as const,
     },
     {
       href: "/projects/proj-heritage-japan",
-      domain: isVi ? "Chuỗi thời gian & Nghiên cứu" : "Time-Series & Research",
+      domain: isVi ? "Data Audit & Chuỗi thời gian" : "Data Audit & Time-Series",
       title: "Heritage Japan",
       question: isVi
-        ? "Du lịch Nhật Bản mở rộng ra sao trước dịch và tạo áp lực thế nào lên điểm di sản?"
-        : "How did inbound Japanese tourism scale pre-pandemic and pressure local heritage sites?",
-      metrics: [
-        {
-          value: isVi ? "31,9 triệu" : "31.9M",
-          label: isVi ? "Lượt khách quốc tế (đỉnh 2019)" : "Inbound visitors (2019 peak)",
-        },
-        {
-          value: isVi ? "4,81 nghìn tỷ Yên" : "¥4.81T",
-          label: isVi ? "Chi tiêu du lịch (2019)" : "Inbound spending (2019)",
-        },
-        {
-          value: "3.000 : 1",
-          label: isVi ? "Tỷ lệ khách/dân tại Shirakawa-go" : "Visitor-to-resident ratio (Shirakawa-go)",
-        },
-      ],
+        ? "Du lịch Nhật Bản mở rộng ra sao giai đoạn 2013–2022 và tạo áp lực thế nào lên 5 điểm di sản UNESCO?"
+        : "How did Japanese inbound tourism scale in 2013–2022 and strain 5 UNESCO heritage sites?",
+      summary: isVi
+        ? "Tự kiểm toán 5 lỗi từ niên luận gốc (đơn vị ×10 Nara, lệch năm Kyoto) · Đỉnh 31,9M khách, 4,81T ¥ (~0,86% GDP) và 3.000× tại Shirakawa-go."
+        : "Audited 5 errors from original thesis (10× Nara units, Kyoto +1yr shift) · 31.9M peak, ¥4.81T (~0.86% GDP), and 3,000× at Shirakawa-go.",
       sourceNote: isVi
-        ? "Nguồn: Dữ liệu công khai JNTO, MLIT và tư liệu khóa luận tại ĐHKHXH&NV - ĐHQGHN."
-        : "Source: Public JNTO & MLIT statistics paired with undergraduate thesis research at VNU-USSH.",
+        ? "Nguồn: Dữ liệu công khai JNTO, MLIT, Kyoto, Nara và tư liệu niên luận tại ĐHKHXH&NV - ĐHQGHN (01/2024)."
+        : "Source: Public JNTO, MLIT, Kyoto, Nara statistics paired with undergraduate quantitative thesis at VNU-USSH (Jan 2024).",
       accent: "gold" as const,
     },
     {
       href: "/projects/proj-library-bus",
-      domain: isVi ? "BA, Product Telemetry & UX/UI" : "BA, Product Telemetry & UX/UI",
+      domain: isVi ? "Technical BA & Tracking Plan" : "Technical BA & Tracking Plan",
       title: "Library Bus",
       question: isVi
-        ? "Làm sao chống đặt trùng tồn kho khi mượn đồng thời và đo lường hiệu suất đội xe thư viện lưu động?"
-        : "How do we prevent concurrent inventory race conditions and measure mobile library fleet telemetry?",
-      metrics: [
-        {
-          value: isVi ? "7 Apps • 36 Models" : "7 Apps • 36 Models",
-          label: isVi ? "Django 5.2 • MySQL 8.0 • UUIDv4" : "Django 5.2 • MySQL 8.0 • UUIDv4",
-        },
-        {
-          value: "select_for_update()",
-          label: isVi ? "Khóa bi quan ACID • BR-01..04" : "Pessimistic ACID lock • BR-01..04",
-        },
-        {
-          value: isVi ? "9 Cron • 171 Tests" : "9 Cron • 171 Tests",
-          label: isVi ? "Celery Beat + Redis 7 • 11 luồng UI" : "Celery Beat + Redis 7 • 11 UI flows",
-        },
-      ],
+        ? "Làm sao chuẩn hóa quy trình mượn trả lưu động và thiết kế Tracking Plan đo hiệu suất tuyến xe?"
+        : "How should we standardize mobile-library circulation rules and design an event Tracking Plan?",
+      summary: isVi
+        ? "As-Is/To-Be, MoSCoW, BR-01..04 (kèm ràng buộc offline & trần phạt), ERD 7 thực thể lõi, 8 sự kiện Tracking và khung Pilot 4 tuần."
+        : "As-Is/To-Be, MoSCoW, BR-01..04 (with offline & fine-cap rules), 7-entity core ERD, 8 Tracking events, and 4-week pilot framework.",
       sourceNote: isVi
-        ? "Nguồn: Đặc tả BA (BR-01..04), lược đồ Telemetry + prototype Django 5.2/MySQL 8.0 và 11 cặp màn hình Wireframe – UI."
-        : "Source: BA rules (BR-01..04), Telemetry schema + Django 5.2/MySQL 8.0 prototype, and 11 Wireframe-to-UI screen pairs.",
+        ? "Nguồn: Tài liệu Mini-BRD/RTM, ERD lõi, Tracking Plan & prototype kiểm chứng (171 unit tests); chưa có dữ liệu vận hành thật."
+        : "Source: Mini-BRD/RTM, core ERD, Tracking Plan & validation prototype (171 unit tests); no live production user data.",
       accent: "slate" as const,
     },
   ];
@@ -234,11 +242,11 @@ export default function AboutSection() {
     {
       id: "process",
       title: isVi ? "2. Xử lý & Kiểm định" : "2. Process & Validate",
-      subtitle: isVi ? "SQL và Python thống kê" : "SQL & Statistical Python",
+      subtitle: isVi ? "SQL, Python & kiểm tra phân tầng" : "SQL, Python & stratified checks",
       Illustration: ProcessIllustration,
       desc: isVi
-        ? "Làm sạch bảng bằng SQL và Pandas, kiểm tra phân phối lệch và chạy hồi quy OLS, kiểm định Mann-Whitney U hoặc HHI bằng SciPy và Statsmodels để kiểm chứng giả thuyết."
-        : "Clean tables with SQL and Pandas, test skewed distributions, and run OLS regression, Mann-Whitney U, and HHI concentration checks in SciPy and Statsmodels.",
+        ? "Làm sạch bảng bằng MySQL 8.0 và Pandas, kiểm tra phân tầng tránh Simpson's Paradox, chạy Panel Fixed-Effects, Mann-Whitney U và Pareto/HHI trong SciPy để kiểm chứng giả thuyết."
+        : "Clean tables with MySQL 8.0 and Pandas, stratify checks against Simpson's Paradox, and run Panel Fixed-Effects, Mann-Whitney U, and Pareto/HHI checks in SciPy.",
     },
     {
       id: "visualise",
@@ -364,14 +372,14 @@ export default function AboutSection() {
         <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-center gap-5">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white text-balance">
             {isVi
-              ? "Mình biến dữ liệu bán hàng và chuỗi thời gian thành khuyến nghị cụ thể."
-              : "I turn sales and time-series data into specific operational recommendations."}
+              ? "Từ nền tảng Nhật Bản học và vận hành sàn TMĐT sang phân tích dữ liệu và nghiệp vụ."
+              : "From Japanese Studies and e-commerce operations into data and business analysis."}
           </h1>
 
           <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed max-w-prose">
             {isVi
-              ? "Từ nền tảng Nhật Bản học tại ĐHKHXH&NV, mình chuyển sang làm sạch dữ liệu bảng bằng SQL và Python, kiểm định giả thuyết bằng thống kê và dựng biểu đồ tương tác bằng Recharts. Với mỗi bài toán, mình ghi rõ nguồn dữ liệu, phạm vi thời gian và phần chưa kiểm chứng được trước khi đưa ra đề xuất."
-              : "With a B.A. in Japanese Studies from VNU-USSH, I moved into cleaning tabular records with SQL and Python, testing hypotheses with applied statistics, and building Recharts dashboards. In each project, I document data sources, time windows, and measurement gaps before proposing actions."}
+              ? "Khả năng đọc trực tiếp thống kê gốc tiếng Nhật (JNTO, MLIT, Kyoto, Nara) cùng kinh nghiệm theo dõi đơn hàng, tồn kho SKU và báo cáo TikTok Shop tại Steve x Kami giúp mình nối được hai đầu công việc: đối soát số liệu sạch bằng SQL/Python và viết đặc tả nghiệp vụ (BRD, ERD, Tracking Plan) có thể triển khai. Ở mỗi dự án, mình nêu rõ nguồn dữ liệu, phạm vi thời gian và đánh đổi rủi ro trước khi đề xuất hành động."
+              : "Reading primary Japanese statistical tables (JNTO, MLIT, Kyoto, Nara) alongside hands-on TikTok Shop order, SKU stock, and sales reporting at Steve x Kami lets me bridge both sides of the role: reconciling clean metrics in SQL/Python and writing actionable BA specifications (BRD, ERD, Tracking Plan). In each project, I state data sources, windows, and trade-offs before recommending actions."}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
@@ -386,8 +394,8 @@ export default function AboutSection() {
               </p>
               <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
                 {isVi
-                  ? "Theo dõi báo cáo vận hành, SKU tồn kho và đối soát số liệu bán hàng trên sàn."
-                  : "Tracked SKU inventory reports and reconciled store-level operational sheets."}
+                  ? "Theo dõi đơn hằng ngày, tỷ lệ giao/hoàn hủy và tồn kho theo mã SKU trên TikTok Seller Center; tổng hợp báo cáo Excel/Google Sheets so sánh live nội bộ với affiliate."
+                  : "Tracked daily orders, delivery/return rates, and SKU stock in TikTok Seller Center; built Excel/Google Sheets reports comparing in-house live vs. affiliate partners."}
               </p>
             </div>
 
@@ -413,7 +421,64 @@ export default function AboutSection() {
       </div>
 
       {/* =====================================================================
-       * 2. THREE PROJECTS, THREE QUESTIONS
+       * 2. DA vs. BA COMPETENCY SPLIT
+       * ===================================================================== */}
+      <div className="space-y-6">
+        <div className="space-y-1.5">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            {isVi ? "Hai nhánh năng lực: DA và BA" : "Two capability tracks: DA and BA"}
+          </h2>
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-prose">
+            {isVi
+              ? "Tách rõ phần kỹ năng phân tích định lượng và phần phân tích nghiệp vụ đã kiểm chứng trong 3 dự án."
+              : "Clear separation between quantitative analytics skills and business analysis deliverables demonstrated across 3 projects."}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {competencyTracks.map((track) => (
+            <div
+              key={track.id}
+              className={`rounded-2xl border p-6 bg-white dark:bg-slate-900 space-y-4 ${
+                track.accent === "cyan"
+                  ? "border-[#9BE7FA]/80 dark:border-slate-800"
+                  : "border-[#FFE485] dark:border-slate-800"
+              }`}
+            >
+              <div className="space-y-1.5">
+                <span
+                  className={`inline-block px-2.5 py-1 rounded-lg text-xs font-bold ${
+                    track.accent === "cyan"
+                      ? "bg-[#C8EEF7]/70 text-[#074553] dark:bg-slate-800 dark:text-[#9BE7FA]"
+                      : "bg-[#FFE485]/60 text-[#5C2808] dark:bg-slate-800 dark:text-[#FFE485]"
+                  }`}
+                >
+                  {track.badge}
+                </span>
+                <h3 className="text-lg font-extrabold text-slate-900 dark:text-white">
+                  {track.title}
+                </h3>
+              </div>
+              <ul className="space-y-2.5 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                {track.points.map((pt) => (
+                  <li key={pt} className="flex items-start gap-2.5">
+                    <span
+                      className={`mt-2 w-1.5 h-1.5 rounded-full shrink-0 ${
+                        track.accent === "cyan" ? "bg-[#0D7287] dark:bg-[#9BE7FA]" : "bg-[#FFD14C]"
+                      }`}
+                      aria-hidden="true"
+                    />
+                    <span>{pt}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* =====================================================================
+       * 3. THREE PROJECTS, THREE QUESTIONS (COMPACT — NO METRIC DUPLICATION)
        * ===================================================================== */}
       <div className="space-y-6">
         <div className="space-y-1.5">
@@ -422,8 +487,8 @@ export default function AboutSection() {
           </h2>
           <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-prose">
             {isVi
-              ? "Mỗi case study giải một câu hỏi cụ thể, dùng số liệu đối soát theo trang dự án và ghi rõ nguồn thu thập."
-              : "Each case study answers one focused question with metrics reconciled against its project page and explicit source attribution."}
+              ? "Mỗi dự án gắn với một bài toán cụ thể và ghi rõ giới hạn dữ liệu đầu vào."
+              : "Each case study anchors on one operational question with explicit source scope."}
           </p>
         </div>
 
@@ -447,9 +512,9 @@ export default function AboutSection() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group rounded-2xl border ${borderTone} bg-white dark:bg-slate-900 p-6 flex flex-col justify-between gap-5 hover:border-[#0D7287] dark:hover:border-[#9BE7FA] cursor-pointer transition-colors`}
+                className={`group rounded-2xl border ${borderTone} bg-white dark:bg-slate-900 p-6 flex flex-col justify-between gap-4 hover:border-[#0D7287] dark:hover:border-[#9BE7FA] cursor-pointer transition-colors`}
               >
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div className="flex items-center justify-between gap-2">
                     <span className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${badgeTone}`}>
                       {item.domain}
@@ -460,34 +525,19 @@ export default function AboutSection() {
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-extrabold text-slate-900 dark:text-white group-hover:text-[#0D7287] dark:group-hover:text-[#9BE7FA] transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm font-medium text-slate-700 dark:text-slate-200 leading-relaxed">
-                      {item.question}
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2.5 pt-1">
-                    {item.metrics.map((metric) => (
-                      <div
-                        key={metric.label}
-                        className="rounded-xl px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/70 flex items-baseline justify-between gap-3"
-                      >
-                        <span className="text-xs text-slate-600 dark:text-slate-400">
-                          {metric.label}
-                        </span>
-                        <span className="text-sm font-extrabold text-slate-900 dark:text-white tabular-nums shrink-0">
-                          {metric.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
+                  <h3 className="text-lg font-extrabold text-slate-900 dark:text-white group-hover:text-[#0D7287] dark:group-hover:text-[#9BE7FA] transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
+                    {item.question}
+                  </p>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed tabular-nums">
+                    {item.summary}
+                  </p>
                 </div>
 
-                <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
-                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                <div className="space-y-2.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                     {item.sourceNote}
                   </p>
                   <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#074553] dark:text-[#9BE7FA]">

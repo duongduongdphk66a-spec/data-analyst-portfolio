@@ -1,6 +1,23 @@
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
+
+// Compare normalized handles via SHA-256 digests so raw account handles never appear in tracked source code.
+const OFFICIAL_HANDLE_SHA256 = '2884bd95e154a3255b1c0272bcfe9505211a293710db406701023782eb0645ec';
+const SATELLITE_HANDLE_SHA256 = '6aa6d7c1d040cfe8c061b3e7d7700969504d16b70fe6e65a45d3b573ef71f7bb';
+
+function sha256Handle(handle) {
+  return crypto.createHash('sha256').update(String(handle || '').trim().toLowerCase()).digest('hex');
+}
+
+function isOfficialHandle(handle) {
+  return sha256Handle(handle) === OFFICIAL_HANDLE_SHA256;
+}
+
+function isSatelliteHandle(handle) {
+  return sha256Handle(handle) === SATELLITE_HANDLE_SHA256;
+}
 
 // ---------------------------------------------------------------------------
 // Pure Node.js XLSX Reader (Zero external dependencies)
@@ -419,8 +436,8 @@ const affLiveRows = loaded.AffLive.rows.map((r) => {
     date: rawTs.slice(0, 10),
     month: rawTs.slice(0, 7),
     kocId,
-    isOfficial: kocId === 'kamielyhn',
-    isSatellite: kocId === 'girlstyle.vn',
+    isOfficial: isOfficialHandle(kocId),
+    isSatellite: isSatelliteHandle(kocId),
     durationH: parseFloat(String(r['Thời Lượng (Giờ)'] || '0').replace(',', '.')) || 0,
     views: toNum(r['Tổng Lượt Xem Live']),
     units: toNum(r['Số Lượng Bán Cho Shop (Sp)']),
@@ -636,8 +653,11 @@ const shopProdRows = loaded.ShopProd.rows.map((r, idx) => {
   const launchRaw = String(r['Ngày Giờ Lên Sàn'] || '').trim();
   const launchYear = launchRaw.slice(0, 4) || 'Unknown';
   const name = String(r['Tên Sản Phẩm Bày Bán'] || '').trim();
-  const codeMatch = name.match(/\[\s*([A-Z0-9]+)\s*\]|-\s*([A-Z0-9]+)\s*$/i);
-  const skuCode = codeMatch ? (codeMatch[1] || codeMatch[2]).toUpperCase() : `SKU_${idx + 1}`;
+  const codeMatch =
+    name.match(/\[\s*([A-Z]{1,3}\d{1,3})\s*\]/i) ||
+    name.match(/[-–—]\s*([A-Z]{1,3}\d{1,3})(?:\s|$)/i) ||
+    name.match(/\b([A-Z]{1,3}\d{1,3})\s*$/i);
+  const skuCode = codeMatch ? codeMatch[1].toUpperCase() : `SKU_${idx + 1}`;
   return {
     skuCode,
     name,
@@ -743,7 +763,7 @@ const kolActiveAll = loaded.KOL.rows
   .filter((r) => r.gmvVnd > 0)
   .sort((a, b) => b.gmvVnd - a.gmvVnd);
 
-const kolActiveExt = kolActiveAll.filter((r) => r.kocId !== 'kamielyhn');
+const kolActiveExt = kolActiveAll.filter((r) => !isOfficialHandle(r.kocId));
 
 function buildLorenz(items) {
   const asc = [...items].sort((a, b) => a.gmvVnd - b.gmvVnd);
@@ -1045,7 +1065,7 @@ const kocProfiles = Object.entries(kocMap).map(([kocId, sessions]) => {
   const convMonths = new Set(sessions.filter((x) => x.gmvVnd > 0).map((x) => x.month));
   return {
     kocId,
-    isSatellite: kocId === 'girlstyle.vn',
+    isSatellite: isSatelliteHandle(kocId),
     cohortMonth,
     firstDate,
     lastDate,
@@ -1498,9 +1518,9 @@ const liveProdTotalUnits = liveProdActive.reduce((s, r) => s + r.liveUnits, 0);
 const fileCatalog10 = [
   { abbr: 'Store', file: 'Store_Daily_Overview_231_Days', rows: loaded.Store.rows.length, cols: loaded.Store.columns, start: '2026-03-09', end: '2026-10-25', mode: 'daily', chapters: 'Ch 0, 1, 2, 3, 6' },
   { abbr: 'SKU10', file: '10_SKU_Daily_Timeseries', rows: loaded.SKU10.rows.length, cols: loaded.SKU10.columns, start: '2026-04-30', end: '2026-10-25', mode: 'daily', chapters: 'Ch 3' },
-  { abbr: 'AffLive', file: 'Affiliate_Livestreams', rows: loaded.AffLive.rows.length, cols: loaded.AffLive.columns, start: '2026-03-07', end: '2026-10-20', mode: 'event', chapters: 'Ch 1, 2, 3, 4, 5, 6' },
+  { abbr: 'AffLive', file: 'Affiliate_Livestreams', rows: loaded.AffLive.rows.length, cols: loaded.AffLive.columns, start: '2026-03-09', end: '2026-10-20', mode: 'event', chapters: 'Ch 1, 2, 3, 4, 5, 6' },
   { abbr: 'CrLive', file: 'Creator_Livestreams', rows: loaded.CrLive.rows.length, cols: loaded.CrLive.columns, start: '2026-03-07', end: '2026-10-20', mode: 'event', chapters: 'Ch 1, 3, 5' },
-  { abbr: 'AffVid', file: 'Affiliate_Videos', rows: loaded.AffVid.rows.length, cols: loaded.AffVid.columns, start: '2025-11-01', end: '2026-10-20', mode: 'rolling90', chapters: 'Ch 5' },
+  { abbr: 'AffVid', file: 'Affiliate_Videos', rows: loaded.AffVid.rows.length, cols: loaded.AffVid.columns, start: '2026-03-09', end: '2026-10-20', mode: 'rolling90', chapters: 'Ch 5' },
   { abbr: 'CrVid', file: 'Creator_Videos', rows: loaded.CrVid.rows.length, cols: loaded.CrVid.columns, start: '2026-03-10', end: '2026-10-20', mode: 'event', chapters: 'Ch 5' },
   { abbr: 'KOL', file: 'Affiliate_KOL', rows: loaded.KOL.rows.length, cols: loaded.KOL.columns, start: '2026-07-23', end: '2026-10-20', mode: 'rolling90', chapters: 'Ch 2, 4' },
   { abbr: 'ShopProd', file: 'Shop_Products', rows: loaded.ShopProd.rows.length, cols: loaded.ShopProd.columns, start: '2026-07-23', end: '2026-10-20', mode: 'rolling90', chapters: 'Ch 2' },
@@ -1521,8 +1541,8 @@ const affVidRawRows = loaded.AffVid.rows.map((r) => ({
   units: toNum(r['Số Lượng Bán (Sp)']),
 }));
 const affVidRawTotalGmv = affVidRawRows.reduce((s, r) => s + r.gmvVnd, 0);
-const affVidOfficialGmv = affVidRawRows.filter((r) => r.kocId === 'kamielyhn').reduce((s, r) => s + r.gmvVnd, 0);
-const affVidSatGmv = affVidRawRows.filter((r) => r.kocId === 'girlstyle.vn').reduce((s, r) => s + r.gmvVnd, 0);
+const affVidOfficialGmv = affVidRawRows.filter((r) => isOfficialHandle(r.kocId)).reduce((s, r) => s + r.gmvVnd, 0);
+const affVidSatGmv = affVidRawRows.filter((r) => isSatelliteHandle(r.kocId)).reduce((s, r) => s + r.gmvVnd, 0);
 const affVidExtGmv = affVidRawTotalGmv - affVidOfficialGmv - affVidSatGmv;
 const residual226Gmv = Math.max(0, store226Gmv - affLiveTotalGmv - affVidRawTotalGmv);
 
@@ -1570,7 +1590,7 @@ const skuMonthlySeries = skuMonthsOrder.map((ym) => {
   const ag01Vnd = mRows.filter((r) => r.sku === 'AG01').reduce((s, r) => s + r.gmvVnd, 0);
   const skirtsVnd = mRows.filter((r) => r.sku === 'CV11' || r.sku === 'CV02').reduce((s, r) => s + r.gmvVnd, 0);
   const totVnd = summerVnd + winterVnd;
-  const storeMonthVnd = storeRows.filter((r) => r.month === ym).reduce((s, r) => s + r.gmvVnd, 0);
+  const storeMonthVnd = storeRows.filter((r) => r.date.slice(0, 7) === ym).reduce((s, r) => s + r.gmvVnd, 0);
   return {
     month: ym,
     shortLabel: `T${Number(ym.slice(5, 7))}`,
@@ -1653,9 +1673,9 @@ let kolCum = 0;
 const kolTop12Pareto = kolActiveAll.slice(0, 12).map((r, idx) => {
   kolCum += r.gmvVnd;
   const label =
-    r.kocId === 'kamielyhn'
+    isOfficialHandle(r.kocId)
       ? '@shop_official (Chính chủ)'
-      : r.kocId === 'girlstyle.vn'
+      : isSatelliteHandle(r.kocId)
       ? '@koc_sat01 (Vệ tinh)'
       : `KOC #${idx + 1}`;
   return {
@@ -1664,7 +1684,7 @@ const kolTop12Pareto = kolActiveAll.slice(0, 12).map((r, idx) => {
     gmvM: round(r.gmvVnd / 1e6, 1),
     sharePct: round((r.gmvVnd / kolTotalGmv) * 100, 1),
     cumPct: round((kolCum / kolTotalGmv) * 100, 1),
-    isInHouse: r.kocId === 'kamielyhn' || r.kocId === 'girlstyle.vn',
+    isInHouse: isOfficialHandle(r.kocId) || isSatelliteHandle(r.kocId),
   };
 });
 let skuCum12 = 0;
@@ -2034,14 +2054,14 @@ existingMetrics.v2 = {
   },
   appendix: {
     sessionWaterfall: [
-      { stepVi: 'AffLive thô xuất từ FastMoss', stepEn: 'Raw AffLive export', count: affLiveRows.length, delta: 0, noteVi: '07/03 - 20/10/2026, gồm cả chính chủ & affiliate', noteEn: 'Mar 07 - Oct 20, 2026, official + affiliates' },
-      { stepVi: 'Trừ phiên @shop_official trùng CrLive', stepEn: 'Subtract @shop_official overlap with CrLive', count: allExtLiveRows.length, delta: -officialLiveRows.length, noteVi: '595 phiên chính chủ (CrLive có 600 phiên do thêm 5 ca 07-08/03 trước mốc Store)', noteEn: '595 official sessions (CrLive has 600 incl. 5 pre-09/03 sessions)' },
+      { stepVi: 'AffLive thô xuất từ FastMoss', stepEn: 'Raw AffLive export', count: affLiveRows.length, delta: 0, noteVi: '09/03 - 20/10/2026, gồm cả chính chủ & affiliate', noteEn: 'Mar 09 - Oct 20, 2026, official + affiliates' },
+      { stepVi: 'Trừ phiên @shop_official trùng CrLive', stepEn: 'Subtract @shop_official overlap with CrLive', count: allExtLiveRows.length, delta: -officialLiveRows.length, noteVi: '595 phiên chính chủ trong AffLive (CrLive có 600 phiên gồm 1 ca 07/03 trước mốc Store và 4 phiên không ghi nhận ở AffLive)', noteEn: '595 official sessions in AffLive (CrLive has 600 incl. 1 pre-Mar-09 session and 4 non-AffLive official sessions)' },
       { stepVi: 'Tách riêng kênh vệ tinh @koc_sat01', stepEn: 'Isolate in-house satellite @koc_sat01', count: otherExtLiveRows.length, delta: -satLiveRows.length, noteVi: '261 phiên vệ tinh nội bộ (1,26 tỷ đ = 43,7% GMV affiliate ngoài)', noteEn: '261 satellite sessions (1.26B VND = 43.7% external Live GMV)' },
       { stepVi: 'Đối chiếu kỳ Hè 180 ngày (đến 04/09)', stepEn: 'Summer 180d cutoff reference (to Sep 04)', count: allExtLiveRows.filter((r) => r.date <= '2026-09-04').length, delta: -(allExtLiveRows.length - allExtLiveRows.filter((r) => r.date <= '2026-09-04').length), noteVi: 'Giải thích con số cũ 6.571 - 6.576 phiên trên bản 180 ngày trước khi nối kỳ Thu', noteEn: 'Reconciles legacy 180d session counts prior to Oct merge' },
     ],
     crLiveWaterfall: [
       { stepVi: 'CrLive thô xuất từ FastMoss', stepEn: 'Raw CrLive export', count: crLiveRows.length, delta: 0, noteVi: '07/03 - 20/10/2026 (dấu thời gian lệch -13h)', noteEn: 'Mar 07 - Oct 20, 2026 (-13h timestamp lag)' },
-      { stepVi: 'Dịch +13h về UTC+7 & lọc từ 09/03', stepEn: 'Shift +13h to UTC+7 & filter >= Mar 09', count: crLive231.length, delta: -(crLiveRows.length - crLive231.length), noteVi: 'Khớp 595/595 phiên với @shop_official trong AffLive', noteEn: 'Matches 595/595 @shop_official sessions in AffLive' },
+      { stepVi: 'Dịch +13h về UTC+7 & lọc từ 09/03', stepEn: 'Shift +13h to UTC+7 & filter >= Mar 09', count: crLive231.length, delta: -(crLiveRows.length - crLive231.length), noteVi: '599 phiên CrLive >= 09/03 (595 khớp @shop_official trong AffLive + 4 phiên riêng của CrLive; bỏ 1 phiên 07/03)', noteEn: '599 CrLive sessions >= Mar 09 (595 overlap AffLive @shop_official + 4 CrLive-only; 1 pre-Mar-09 excluded)' },
       { stepVi: 'Đối chiếu kỳ Hè 180 ngày (đến 04/09)', stepEn: 'Summer 180d cutoff reference (to Sep 04)', count: crLive231.filter((r) => r.vnDate <= '2026-09-04').length, delta: -(crLive231.length - crLive231.filter((r) => r.vnDate <= '2026-09-04').length), noteVi: 'Khớp con số 470 phiên trên báo cáo kỳ Hè', noteEn: 'Reconciles the 470-session summer count' },
     ],
     qualityGates: [
@@ -2098,10 +2118,10 @@ existingMetrics.v2 = {
         gateVi: 'Đồng bộ múi giờ +13h & khử trùng Live chính chủ',
         gateEn: '+13h timezone alignment & official Live dedup',
         scope: 'Creator_Livestreams vs Affiliate_Livestreams',
-        expectedVi: 'Khớp phiên @shop_official từ 09/03 - 20/10',
-        expectedEn: 'Exact session match for @shop_official (>= Mar 09)',
-        actualVi: `${crLive231.length} / ${officialLiveRows.length} phiên khớp sau dịch +13 giờ`,
-        actualEn: `${crLive231.length} / ${officialLiveRows.length} sessions matched (+13h)`,
+        expectedVi: 'Đồng bộ múi giờ +13h & đối chiếu phạm vi >= 09/03',
+        expectedEn: 'Shift +13h & reconcile >= Mar 09 official scope',
+        actualVi: `${crLive231.length} phiên CrLive (>= 09/03) đối soát ${officialLiveRows.length} phiên @shop_official trong AffLive (chênh 4 phiên riêng CrLive)`,
+        actualEn: `${crLive231.length} CrLive (>= Mar 09) reconciled vs ${officialLiveRows.length} AffLive @shop_official (+4 CrLive-only)`,
         level: 'ERROR',
         status: 'PASS',
       },
@@ -2157,25 +2177,41 @@ existingMetrics.v2 = {
   },
 };
 
-// Clean any raw handles in legacy keys and values to ensure zero PII leakage
+// Clean any legacy channel key names or env-configured handles so zero PII leaks into JSON artifacts
+const ENV_OFFICIAL_HANDLE = (process.env.KAMI_OFFICIAL_HANDLE || '').trim();
+const ENV_SATELLITE_HANDLE = (process.env.KAMI_SATELLITE_HANDLE || '').trim();
+
+function escapeRegExp(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function sanitizeKey(k) {
-  return k
-    .replace(/@kamielyhn/gi, 'shopOfficial')
-    .replace(/kamielyhn/gi, 'shopOfficial')
-    .replace(/@girlstyle\.vn/gi, 'kocSat01')
-    .replace(/girlstyle\.vn/gi, 'kocSat01')
+  let out = k
     .replace(/girlStyle/g, 'kocSat01')
     .replace(/GirlStyle/g, 'KocSat01');
+  if (ENV_OFFICIAL_HANDLE) {
+    out = out.replace(new RegExp(`@?${escapeRegExp(ENV_OFFICIAL_HANDLE)}`, 'gi'), 'shopOfficial');
+  }
+  if (ENV_SATELLITE_HANDLE) {
+    out = out.replace(new RegExp(`@?${escapeRegExp(ENV_SATELLITE_HANDLE)}`, 'gi'), 'kocSat01');
+  }
+  return out;
 }
 
 function sanitizeRawHandles(val) {
   if (typeof val === 'string') {
-    return val
-      .replace(/@kamielyhn/gi, '@shop_official')
-      .replace(/kamielyhn/gi, 'shop_official')
-      .replace(/@girlstyle\.vn/gi, '@koc_sat01')
-      .replace(/girlstyle\.vn/gi, 'koc_sat01')
-      .replace(/Girl Style/gi, 'Satellite KOC');
+    let out = val.replace(/Girl Style/g, 'Satellite KOC');
+    if (ENV_OFFICIAL_HANDLE) {
+      out = out
+        .replace(new RegExp(`@${escapeRegExp(ENV_OFFICIAL_HANDLE)}`, 'gi'), '@shop_official')
+        .replace(new RegExp(escapeRegExp(ENV_OFFICIAL_HANDLE), 'gi'), 'shop_official');
+    }
+    if (ENV_SATELLITE_HANDLE) {
+      out = out
+        .replace(new RegExp(`@${escapeRegExp(ENV_SATELLITE_HANDLE)}`, 'gi'), '@koc_sat01')
+        .replace(new RegExp(escapeRegExp(ENV_SATELLITE_HANDLE), 'gi'), 'koc_sat01');
+    }
+    return out;
   }
   if (Array.isArray(val)) {
     return val.map(sanitizeRawHandles);

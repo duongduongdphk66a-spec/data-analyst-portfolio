@@ -38,25 +38,29 @@ for label, series in [
     print(label, '->', cross['dt'].dt.strftime('%d/%m/%Y').tolist())`,
   },
   {
-    title: 'Cell 3: Hồi quy bảng Fixed-Effects 10 SKU & Bootstrap cụm (n = 1.760)',
-    titleEn: 'Cell 3: 10-SKU Panel Fixed-Effects OLS & Cluster Bootstrap (n = 1,760)',
+    title: 'Cell 3: Hồi quy Panel Fixed-Effects 10 SKU hậu mở bán (n = 1.422, Within R² = 0,302)',
+    titleEn: 'Cell 3: Post-Launch 10-SKU Panel Fixed-Effects OLS (n = 1,422, Within R² = 0.302)',
     code: `# Within-SKU Fixed-Effects Panel Model: log(1 + units_it) ~ log(1 + marketing_lags_it) + SKU_FE + DOW_FE
-X_cols = ['log_live_t0', 'log_live_lag1_3', 'log_vid_t0', 'log_vid_lag1_3', 'log_koc_t0']
-df_panel_dm = df_panel.groupby('sku_code')[['log_units'] + X_cols].transform(lambda s: s - s.mean())
+# Filter pre-launch zero rows per SKU (n = 1,422 active SKU-days vs 1,760 full panel)
+base_cols = ['log_live_t0', 'log_live_lag1_3', 'log_vid_t0', 'log_vid_lag1_3', 'log_koc_t0']
+dow_dummies = pd.get_dummies(df_active['dt'].dt.dayofweek, prefix='dow', drop_first=True, dtype=float)
+df_work = pd.concat([df_active[['sku_code', 'log_units'] + base_cols], dow_dummies], axis=1)
+X_cols = base_cols + list(dow_dummies.columns)
 
-X = df_panel_dm[X_cols].to_numpy()
-y = df_panel_dm['log_units'].to_numpy()
+df_panel_dm = df_work.groupby('sku_code')[['log_units'] + X_cols].transform(lambda s: s - s.mean())
+X, y = df_panel_dm[X_cols].to_numpy(), df_panel_dm['log_units'].to_numpy()
 beta, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
+within_r2 = 1 - np.sum((y - X @ beta) ** 2) / np.sum((y - y.mean()) ** 2)  # 0.302 (vs 0.490 full)
 
-# 400-iteration cluster bootstrap resampling by SKU
+# 400-iteration cluster bootstrap resampling by SKU (seed 20261101)
 rng = np.random.default_rng(20261101)
-skus = df_panel['sku_code'].unique()
+skus = df_work['sku_code'].unique()
 boot_betas = []
 for _ in range(400):
     sampled = rng.choice(skus, size=len(skus), replace=True)
-    sub = pd.concat([df_panel_dm[df_panel['sku_code'] == k] for k in sampled])
+    sub = pd.concat([df_panel_dm[df_work['sku_code'] == k] for k in sampled])
     b, _, _, _ = np.linalg.lstsq(sub[X_cols].to_numpy(), sub['log_units'].to_numpy(), rcond=None)
-    boot_betas.append(b)
+    boot_betas.append(b[:len(base_cols)])
 ci_low, ci_high = np.quantile(boot_betas, [0.025, 0.975], axis=0)`,
   },
   {
@@ -65,11 +69,12 @@ ci_low, ci_high = np.quantile(boot_betas, [0.025, 0.975], axis=0)`,
     code: `ext_live = df_live[df_live['KOC ID'] != 'shop_official'].copy()
 by_koc = ext_live.groupby('koc_hash')['gmv'].sum()
 shares = by_koc / by_koc.sum()
-hhi_all = float((shares ** 2).sum() * 10_000)  # 2,152 (Full 231d); KOL 90d Directory = 3,842
+hhi_all = float((shares ** 2).sum() * 10_000)  # 2,152 (AffLive excl. official, incl. @koc_sat01)
 
 # Separate in-house satellite @koc_sat01 to measure independent affiliate dispersion
 by_indep = by_koc.drop(index='koc_sat01', errors='ignore')
-hhi_indep = float(((by_indep / by_indep.sum()) ** 2).sum() * 10_000)  # 761`,
+hhi_indep = float(((by_indep / by_indep.sum()) ** 2).sum() * 10_000)  # 761 (AffLive pure external)
+# Note: 90d KOL Directory HHI = 3,842 (all) | 1,471 (excl. official, incl. @koc_sat01) | 246 (pure external)`,
   },
   {
     title: 'Cell 5: Kiểm định Mann-Whitney U, Fisher Exact & 6 lát cắt Ads/Organic',

@@ -98,15 +98,23 @@ export default function KamiElyHero({
             className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#FFE485]/60 hover:bg-[#FFE485] px-3.5 py-2 text-xs font-bold text-amber-950 border border-[#FFD14C] dark:bg-[#FFD14C]/15 dark:hover:bg-[#FFD14C]/25 dark:text-[#FFE485] dark:border-[#FFD14C]/40 transition-colors cursor-pointer"
           >
             <LayoutDashboard className="w-4 h-4 text-amber-800 dark:text-[#FFD14C]" aria-hidden="true" />
-            <span>{isEn ? 'BI Spec (Power BI / Looker)' : 'Đặc tả BI (Power BI / Looker)'}</span>
+            <span>{isEn ? 'BI Dashboard & Spec' : 'BI Dashboard & Đặc tả'}</span>
           </Link>
+          <a
+            href="/kami/kami_ely_analytics_workbook.xlsx"
+            download
+            className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 px-3.5 py-2 text-xs font-bold text-emerald-800 border border-emerald-500/35 dark:text-emerald-300 dark:border-emerald-500/40 transition-colors cursor-pointer"
+          >
+            <FileSpreadsheet className="w-4 h-4 text-emerald-700 dark:text-emerald-400" aria-hidden="true" />
+            <span>{isEn ? 'Excel Model (.xlsx)' : 'File Excel công thức (.xlsx)'}</span>
+          </a>
           {onJumpToSection && (
             <button
               type="button"
               onClick={() => onJumpToSection('sec-appendix')}
               className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#C8EEF7]/45 hover:bg-[#C8EEF7] px-3.5 py-2 text-xs font-bold text-[#074553] border border-[#9BE7FA]/60 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-[#9BE7FA] dark:border-slate-700 transition-colors cursor-pointer"
             >
-              <FileSpreadsheet className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" aria-hidden="true" />
+              <Database className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" aria-hidden="true" />
               <span>{isEn ? 'Appendix (A · B · C)' : 'Phụ lục (A · B · C)'}</span>
             </button>
           )}

@@ -404,7 +404,7 @@
   <div class="toolbar">
     <div class="toolbar-left">Đặc tả BI Dashboard (Power BI / Looker Studio) · Kami Ely (@shop_official)</div>
     <div class="toolbar-actions">
-      <a class="btn" href="/projects/proj-kami-ely">Về Case Study</a>
+      <a class="btn" href="/projects/proj-kami-ely" target="_top">Về Case Study</a>
       <button type="button" class="btn btn-primary" onclick="window.print()">In / Lưu PDF (A4)</button>
     </div>
   </div>
@@ -429,7 +429,7 @@
         </div>
         <div class="meta-card">
           <div class="meta-label">Mô hình dữ liệu BI</div>
-          <div class="meta-val">3 Fact Tables · 3 Dim Tables</div>
+          <div class="meta-val">4 Fact Tables · 3 Dim Tables</div>
         </div>
         <div class="meta-card">
           <div class="meta-label">Công cụ mục tiêu</div>
@@ -441,79 +441,90 @@
     <section>
       <h2>1. Mô hình dữ liệu hình sao (Star Schema) &amp; Quy tắc chống nhân bản dòng</h2>
       <p>
-        Ba bảng Fact hoạt động ở ba độ hạt (grain) khác nhau: ngày toàn shop, từng phiên Live và từng video Affiliate.
-        Toàn bộ liên kết đi qua ba bảng chiều dùng chung (<span class="code-inline">dim_date</span>, <span class="code-inline">dim_creator_koc</span>, <span class="code-inline">dim_sku</span>)
-        theo quan hệ một-nhiều (<span class="code-inline">1:*</span>) một chiều lọc để tránh lỗi fan-out khi đối chiếu tỷ trọng kênh.
+        Bốn bảng Fact hoạt động ở bốn độ hạt (grain) riêng biệt: ngày toàn shop (<span class="code-inline">fact_store_daily</span>), ngày theo mã sản phẩm (<span class="code-inline">fact_sku_daily</span>), từng phiên Live (<span class="code-inline">fact_affiliate_live</span>) và từng video Affiliate (<span class="code-inline">fact_affiliate_videos</span>).
+        Toàn bộ liên kết đi qua ba bảng chiều dùng chung (<span class="code-inline">dim_date</span>, <span class="code-inline">dim_creator_koc</span>, <span class="code-inline">dim_sku</span>) theo quan hệ một-nhiều (<span class="code-inline">1:*</span>) đúng độ hạt: <span class="code-inline">dim_sku</span> chỉ nối với <span class="code-inline">fact_sku_daily</span> (không nối trực tiếp vào bảng tổng shop hay phiên Live vì hai bảng này không chứa <span class="code-inline">sku_code</span>).
       </p>
 
       <div class="diagram-wrap">
-        <svg viewBox="0 0 880 320" role="img" aria-label="Sơ đồ Star Schema Kami Ely gồm 3 bảng Dim và 3 bảng Fact">
-          <!-- Connector Lines -->
+        <svg viewBox="0 0 880 412" role="img" aria-label="Sơ đồ Star Schema Kami Ely gồm 3 bảng Dim và 4 bảng Fact đúng độ hạt">
+          <!-- Connector Lines (strictly valid grain relationships) -->
           <g stroke="#0D7287" stroke-width="1.8" fill="none">
-            <line x1="190" y1="82" x2="340" y2="82" />
-            <line x1="190" y1="82" x2="340" y2="165" />
-            <line x1="190" y1="82" x2="340" y2="248" />
-            <line x1="690" y1="90" x2="540" y2="165" />
-            <line x1="690" y1="90" x2="540" y2="248" />
-            <line x1="690" y1="230" x2="540" y2="82" />
-            <line x1="690" y1="230" x2="540" y2="165" />
+            <!-- dim_date (1) -> all 4 facts (*) -->
+            <line x1="190" y1="92" x2="340" y2="68" />
+            <line x1="190" y1="92" x2="340" y2="164" />
+            <line x1="190" y1="92" x2="340" y2="260" />
+            <line x1="190" y1="92" x2="340" y2="356" />
+            <!-- dim_creator_koc (1) -> fact_affiliate_live & fact_affiliate_videos -->
+            <line x1="690" y1="92" x2="540" y2="164" />
+            <line x1="690" y1="92" x2="540" y2="260" />
+            <!-- dim_sku (1) -> ONLY fact_sku_daily (SKU-day grain) -->
+            <line x1="690" y1="340" x2="540" y2="356" />
           </g>
 
           <!-- DIM: dim_date -->
-          <rect x="20" y="34" width="170" height="106" rx="10" fill="#C8EEF7" stroke="#0D7287" stroke-width="1.5" />
-          <rect x="20" y="34" width="170" height="28" rx="10" fill="#074553" />
-          <text x="105" y="53" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">dim_date (1)</text>
-          <text x="32" y="80" fill="#0f172a" font-size="11">PK date_key (YYYY-MM-DD)</text>
-          <text x="32" y="96" fill="#334155" font-size="10.5">iso_week · year_month</text>
-          <text x="32" y="112" fill="#334155" font-size="10.5">season_phase (Hè / Giao / Đông)</text>
-          <text x="32" y="128" fill="#334155" font-size="10.5">is_226d_cutoff (&lt;= 20/10)</text>
+          <rect x="20" y="38" width="170" height="108" rx="10" fill="#C8EEF7" stroke="#0D7287" stroke-width="1.5" />
+          <rect x="20" y="38" width="170" height="28" rx="10" fill="#074553" />
+          <text x="105" y="57" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">dim_date (1)</text>
+          <text x="32" y="84" fill="#0f172a" font-size="11">PK date_key (YYYY-MM-DD)</text>
+          <text x="32" y="100" fill="#334155" font-size="10.5">iso_week · year_month</text>
+          <text x="32" y="116" fill="#334155" font-size="10.5">season_phase (Hè / Giao / Đông)</text>
+          <text x="32" y="132" fill="#334155" font-size="10.5">is_226d_cutoff (&lt;= 20/10)</text>
 
           <!-- DIM: dim_creator_koc -->
-          <rect x="690" y="34" width="175" height="114" rx="10" fill="#FFE485" stroke="#b45309" stroke-width="1.5" />
-          <rect x="690" y="34" width="175" height="28" rx="10" fill="#92400e" />
-          <text x="777" y="53" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">dim_creator_koc (1)</text>
-          <text x="702" y="80" fill="#0f172a" font-size="11">PK creator_hash (PII-safe)</text>
-          <text x="702" y="96" fill="#334155" font-size="10.5">creator_alias (@shop_official...)</text>
-          <text x="702" y="112" fill="#334155" font-size="10.5">tier (Official / Sat / Ext 302)</text>
-          <text x="702" y="128" fill="#334155" font-size="10.5">cohort_ym · first3_zero_flag</text>
+          <rect x="690" y="38" width="175" height="114" rx="10" fill="#FFE485" stroke="#b45309" stroke-width="1.5" />
+          <rect x="690" y="38" width="175" height="28" rx="10" fill="#92400e" />
+          <text x="777" y="57" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">dim_creator_koc (1)</text>
+          <text x="702" y="84" fill="#0f172a" font-size="11">PK creator_hash (PII-safe)</text>
+          <text x="702" y="100" fill="#334155" font-size="10.5">creator_alias (@shop_official...)</text>
+          <text x="702" y="116" fill="#334155" font-size="10.5">tier (Official / Sat / Ext 302)</text>
+          <text x="702" y="132" fill="#334155" font-size="10.5">cohort_ym · first3_zero_flag</text>
 
           <!-- DIM: dim_sku -->
-          <rect x="690" y="176" width="175" height="106" rx="10" fill="#FFE485" stroke="#b45309" stroke-width="1.5" />
-          <rect x="690" y="176" width="175" height="28" rx="10" fill="#92400e" />
-          <text x="777" y="195" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">dim_sku (1)</text>
-          <text x="702" y="222" fill="#0f172a" font-size="11">PK sku_code (339 SKU)</text>
-          <text x="702" y="238" fill="#334155" font-size="10.5">is_active_90d (133 có đơn)</text>
-          <text x="702" y="254" fill="#334155" font-size="10.5">season_group (Hè vs Đông)</text>
-          <text x="702" y="270" fill="#334155" font-size="10.5">price_band · launch_year</text>
+          <rect x="690" y="286" width="175" height="108" rx="10" fill="#FFE485" stroke="#b45309" stroke-width="1.5" />
+          <rect x="690" y="286" width="175" height="28" rx="10" fill="#92400e" />
+          <text x="777" y="305" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="700">dim_sku (1)</text>
+          <text x="702" y="332" fill="#0f172a" font-size="11">PK sku_code (339 SKU)</text>
+          <text x="702" y="348" fill="#334155" font-size="10.5">is_active_90d (133 có đơn)</text>
+          <text x="702" y="364" fill="#334155" font-size="10.5">season_group (Hè vs Đông)</text>
+          <text x="702" y="380" fill="#334155" font-size="10.5">price_band · launch_year</text>
 
           <!-- FACT 1: fact_store_daily -->
-          <rect x="340" y="26" width="200" height="86" rx="10" fill="#ffffff" stroke="#074553" stroke-width="2" />
-          <rect x="340" y="26" width="200" height="26" rx="10" fill="#9BE7FA" />
-          <text x="440" y="43" text-anchor="middle" fill="#074553" font-size="11.5" font-weight="700">fact_store_daily (* · 231 dòng)</text>
-          <text x="352" y="69" fill="#0f172a" font-size="10.5">FK date_key · daily_gmv_vnd</text>
-          <text x="352" y="85" fill="#334155" font-size="10.5">units_sold · new_lives_cnt</text>
-          <text x="352" y="101" fill="#334155" font-size="10.5">sku10_summer_gmv · winter_gmv</text>
+          <rect x="340" y="24" width="200" height="84" rx="10" fill="#ffffff" stroke="#074553" stroke-width="2" />
+          <rect x="340" y="24" width="200" height="26" rx="10" fill="#9BE7FA" />
+          <text x="440" y="41" text-anchor="middle" fill="#074553" font-size="11.5" font-weight="700">fact_store_daily (* · 231 dòng)</text>
+          <text x="352" y="67" fill="#0f172a" font-size="10.5">FK date_key · daily_gmv_vnd</text>
+          <text x="352" y="83" fill="#334155" font-size="10.5">units_sold · new_lives_cnt</text>
+          <text x="352" y="99" fill="#334155" font-size="10.5">new_koc_cnt · new_video_cnt</text>
 
           <!-- FACT 2: fact_affiliate_live -->
-          <rect x="340" y="124" width="200" height="86" rx="10" fill="#ffffff" stroke="#074553" stroke-width="2" />
-          <rect x="340" y="124" width="200" height="26" rx="10" fill="#9BE7FA" />
-          <text x="440" y="141" text-anchor="middle" fill="#074553" font-size="11.5" font-weight="700">fact_affiliate_live (* · 8.355 dòng)</text>
-          <text x="352" y="167" fill="#0f172a" font-size="10.5">FK date_key · FK creator_hash</text>
-          <text x="352" y="183" fill="#334155" font-size="10.5">shop_gmv_vnd · views · duration_h</text>
-          <text x="352" y="199" fill="#334155" font-size="10.5">session_start_vn (+13h synced)</text>
+          <rect x="340" y="120" width="200" height="84" rx="10" fill="#ffffff" stroke="#074553" stroke-width="2" />
+          <rect x="340" y="120" width="200" height="26" rx="10" fill="#9BE7FA" />
+          <text x="440" y="137" text-anchor="middle" fill="#074553" font-size="11.5" font-weight="700">fact_affiliate_live (* · 8.355 dòng)</text>
+          <text x="352" y="163" fill="#0f172a" font-size="10.5">FK date_key · FK creator_hash</text>
+          <text x="352" y="179" fill="#334155" font-size="10.5">shop_gmv_vnd · views · duration_h</text>
+          <text x="352" y="195" fill="#334155" font-size="10.5">session_start_vn (+13h synced)</text>
 
           <!-- FACT 3: fact_affiliate_videos -->
-          <rect x="340" y="222" width="200" height="82" rx="10" fill="#ffffff" stroke="#074553" stroke-width="2" />
-          <rect x="340" y="222" width="200" height="26" rx="10" fill="#9BE7FA" />
-          <text x="440" y="239" text-anchor="middle" fill="#074553" font-size="11.5" font-weight="700">fact_affiliate_videos (* · 4.796 dòng)</text>
-          <text x="352" y="265" fill="#0f172a" font-size="10.5">FK date_key · FK creator_hash</text>
-          <text x="352" y="281" fill="#334155" font-size="10.5">video_gmv_vnd · is_ads_auth (0/1)</text>
-          <text x="352" y="297" fill="#334155" font-size="10.5">has_order_flag · theme_group</text>
+          <rect x="340" y="216" width="200" height="84" rx="10" fill="#ffffff" stroke="#074553" stroke-width="2" />
+          <rect x="340" y="216" width="200" height="26" rx="10" fill="#9BE7FA" />
+          <text x="440" y="233" text-anchor="middle" fill="#074553" font-size="11.5" font-weight="700">fact_affiliate_videos (* · 4.796 dòng)</text>
+          <text x="352" y="259" fill="#0f172a" font-size="10.5">FK date_key · FK creator_hash</text>
+          <text x="352" y="275" fill="#334155" font-size="10.5">video_gmv_vnd · is_ads_auth (0/1)</text>
+          <text x="352" y="291" fill="#334155" font-size="10.5">has_order_flag · theme_group</text>
+
+          <!-- FACT 4: fact_sku_daily -->
+          <rect x="340" y="312" width="200" height="84" rx="10" fill="#ffffff" stroke="#074553" stroke-width="2" />
+          <rect x="340" y="312" width="200" height="26" rx="10" fill="#9BE7FA" />
+          <text x="440" y="329" text-anchor="middle" fill="#074553" font-size="11.5" font-weight="700">fact_sku_daily (* · 1.790 dòng)</text>
+          <text x="352" y="355" fill="#0f172a" font-size="10.5">FK date_key · FK sku_code</text>
+          <text x="352" y="371" fill="#334155" font-size="10.5">delta_gmv_vnd · delta_units</text>
+          <text x="352" y="387" fill="#334155" font-size="10.5">10 SKU lõi (30/04 - 25/10/2026)</text>
 
           <!-- Relationship tags -->
-          <text x="255" y="75" fill="#0D7287" font-size="10" font-weight="700">1 : *</text>
-          <text x="605" y="128" fill="#92400e" font-size="10" font-weight="700">* : 1</text>
-          <text x="605" y="232" fill="#92400e" font-size="10" font-weight="700">* : 1</text>
+          <text x="255" y="72" fill="#0D7287" font-size="10" font-weight="700">1 : *</text>
+          <text x="605" y="130" fill="#92400e" font-size="10" font-weight="700">* : 1</text>
+          <text x="605" y="205" fill="#92400e" font-size="10" font-weight="700">* : 1</text>
+          <text x="605" y="340" fill="#92400e" font-size="10" font-weight="700">* : 1</text>
         </svg>
       </div>
 
@@ -529,17 +540,22 @@
           <tr>
             <td><span class="code-inline">fact_store_daily</span></td>
             <td>1 dòng / ngày (231 ngày)</td>
-            <td>Khóa gốc đối chiếu tổng doanh thu toàn gian hàng (15,01 tỷ đ). Không cộng trực tiếp doanh thu SKU 90 ngày vào bảng này.</td>
+            <td>Khóa gốc đối chiếu tổng doanh thu toàn gian hàng (15,01 tỷ đ). Không nối <span class="code-inline">dim_sku</span> trực tiếp và không cộng dồn doanh thu SKU 90 ngày vào bảng này.</td>
           </tr>
           <tr>
             <td><span class="code-inline">fact_affiliate_live</span></td>
             <td>1 dòng / phiên Live đã khử trùng</td>
-            <td>Đồng bộ múi giờ <span class="code-inline">+13h</span> từ UTC-6 sang giờ Việt Nam cho <span class="code-inline">stg_creator_live</span>; khóa mốc đối soát <span class="code-inline">&lt;= 20/10/2026</span> (14,84 tỷ đ) khi tính tỷ trọng kênh.</td>
+            <td>Đồng bộ múi giờ <span class="code-inline">+13h</span> từ UTC-6 sang giờ Việt Nam cho <span class="code-inline">stg_creator_live</span>; khóa mốc đối soát <span class="code-inline">&lt;= 20/10/2026</span> (14,84 tỷ đ) khi đối chiếu kênh.</td>
           </tr>
           <tr>
             <td><span class="code-inline">fact_affiliate_videos</span></td>
             <td>1 dòng / clip sau khử trùng khóa phức hợp</td>
-            <td>Khử trùng từ 4.797 về 4.796 clip; gắn cờ <span class="code-inline">is_ads_auth</span> và ghi chú thiên lệch chọn mẫu quan sát (observational selection bias).</td>
+            <td>Khử trùng từ 4.797 về 4.796 clip; gắn cờ <span class="code-inline">is_ads_auth</span> (rolling 90d GMV) và ghi chú thiên lệch chọn mẫu quan sát + pha loãng tệp hiển thị quảng cáo.</td>
+          </tr>
+          <tr>
+            <td><span class="code-inline">fact_sku_daily</span></td>
+            <td>1 dòng / SKU / ngày (1.790 dòng)</td>
+            <td>Bảng cầu nối hợp lệ giữa <span class="code-inline">dim_date</span> và <span class="code-inline">dim_sku</span> (10 SKU lõi, 30/04–25/10/2026 = 6,09 tỷ đ); tách biệt mùa Hè (gồm AQ1) và Thu Đông (AT06, AG01, CV11, CV02).</td>
           </tr>
         </tbody>
       </table>
@@ -604,23 +620,26 @@ AVERAGEX (
 
         <div class="dax-card">
           <div class="dax-head">
-            <span class="dax-title">3. Live Channel Share (Aligned 226d Cutoff)</span>
-            <span class="dax-val">Live 70,5% · Chính chủ 72,5%</span>
+            <span class="dax-title">3. In-House Live Share (226d Gross Grain)</span>
+            <span class="dax-val">Nội bộ 84,5% (Chính chủ 72,5% + Vệ tinh 12,0%)</span>
           </div>
-          <pre class="dax-body" id="dax-3">Store GMV (226d Cutoff) =
+          <pre class="dax-body" id="dax-3">Dedup Live Gross GMV =
 CALCULATE (
-    [Total GMV (VND)],
+    SUM ( fact_affiliate_live[shop_gmv_vnd] ),
     dim_date[is_226d_cutoff] = TRUE ()
 )
 
-Live Share of Store % =
+In-House Share of Live % =
 DIVIDE (
-    SUM ( fact_affiliate_live[shop_gmv_vnd] ),
-    [Store GMV (226d Cutoff)],
+    CALCULATE (
+        [Dedup Live Gross GMV],
+        dim_creator_koc[tier] IN { "Official", "Satellite" }
+    ),
+    [Dedup Live Gross GMV],
     0
 )</pre>
           <div class="dax-foot">
-            <span>Khóa đúng mốc 20/10 (14,84 tỷ) tránh lệch 5 ngày cuối</span>
+            <span>Đo tỷ trọng nội bộ trong cùng bảng Gross 226d (không trừ chéo Gross/Net)</span>
             <button type="button" class="copy-btn" onclick="copyDax('dax-3', this)">Sao chép</button>
           </div>
         </div>
@@ -638,7 +657,7 @@ VAR AugGMV =
 RETURN
     DIVIDE ( AugGMV - JunGMV, JunGMV, 0 )</pre>
           <div class="dax-foot">
-            <span>T6→T7 do Volume (106,3%); T7→T8 do Yield (86,9%)</span>
+            <span>6 mã đồ bơi rơi -89,3% (~45% cú sụt); giờ Live chính chủ T7 tăng nhưng GMV/h rơi -82,8%</span>
             <button type="button" class="copy-btn" onclick="copyDax('dax-4', this)">Sao chép</button>
           </div>
         </div>
@@ -670,27 +689,19 @@ RETURN
 
         <div class="dax-card">
           <div class="dax-head">
-            <span class="dax-title">6. KOC 3-Session Cutoff Risk Rate</span>
-            <span class="dax-val">77,2% không bao giờ ra đơn</span>
+            <span class="dax-title">6. KOC 3-Session Trade-Off &amp; Late Converters</span>
+            <span class="dax-val">64,8% 0đ · 35,2% ra đơn muộn (304,9 Tr)</span>
           </div>
-          <pre class="dax-body" id="dax-6">Ext KOC Never Convert % (0 in First 3) =
-VAR ZeroFirst3 =
-    CALCULATE (
-        DISTINCTCOUNT ( dim_creator_koc[creator_hash] ),
-        dim_creator_koc[tier] = "External",
-        dim_creator_koc[first3_zero_flag] = 1
-    )
-VAR NeverConverted =
-    CALCULATE (
-        DISTINCTCOUNT ( dim_creator_koc[creator_hash] ),
-        dim_creator_koc[tier] = "External",
-        dim_creator_koc[first3_zero_flag] = 1,
-        dim_creator_koc[lifetime_gmv_vnd] = 0
-    )
-RETURN
-    DIVIDE ( NeverConverted, ZeroFirst3, 0 )</pre>
+          <pre class="dax-body" id="dax-6">Late-Converter GMV at Risk (Session 4+) =
+CALCULATE (
+    SUM ( dim_creator_koc[lifetime_gmv_vnd] ),
+    dim_creator_koc[tier] = "External",
+    dim_creator_koc[total_sessions] >= 3,
+    dim_creator_koc[first3_zero_flag] = 1,
+    dim_creator_koc[lifetime_gmv_vnd] > 0
+)</pre>
           <div class="dax-foot">
-            <span>224/302 KOC ngoài 0 đơn 3 phiên đầu; nhóm &ge;3 phiên là 64,8%</span>
+            <span>145 KOC &ge;3 phiên có 3 phiên đầu 0đ: 94 không ra đơn, 51 ra đơn muộn = 18,8% Live độc lập</span>
             <button type="button" class="copy-btn" onclick="copyDax('dax-6', this)">Sao chép</button>
           </div>
         </div>
@@ -704,9 +715,9 @@ RETURN
           <span class="page-badge">Trang 1 · Executive Pulse</span>
           <h3>Tổng quan Doanh thu &amp; Cơ cấu Kênh</h3>
           <ul>
-            <li><strong>Hàng 1 (4 KPI Cards):</strong> Tổng GMV (15,01 tỷ), Đỉnh ngày 16/06 (315 Tr), ASP (147.298 đ), Biên độ T6→T8 (-83,1%).</li>
+            <li><strong>Hàng 1 (4 KPI Cards):</strong> Tổng GMV Net (15,01 tỷ), Đỉnh ngày 16/06 (315 Tr), ASP (147.298 đ), Biên độ T6→T8 (-83,1%).</li>
             <li><strong>Biểu đồ trái:</strong> Cột GMV tháng + đường Bình quân/ngày kèm chỉ báo cắt MA7/MA28.</li>
-            <li><strong>Biểu đồ phải:</strong> Phân rã kênh 3 tầng (Live 70,5% / Video 14,8% / Khác 14,7%), tách Chính chủ (72,5% Live) và Vệ tinh (12,0%).</li>
+            <li><strong>Biểu đồ phải:</strong> Thanh ngang 100% đối chiếu Nội bộ vs. KOC ngoài trong từng bảng riêng biệt: Live Gross 226d (10,47 tỷ: Nội bộ 84,5% vs KOC ngoài 15,5%) và Video 90d (2,20 tỷ: KOC ngoài 58,4% vs Nội bộ 41,6%) — không trừ chéo Gross/Net.</li>
             <li><strong>Bộ lọc toàn cục:</strong> Khoảng ngày, Mùa vụ (Hè / Giao mùa / Đông), Nhóm kênh.</li>
           </ul>
         </div>
@@ -715,9 +726,9 @@ RETURN
           <span class="page-badge">Trang 2 · SKU &amp; Content Mix</span>
           <h3>Chuyển mùa SKU &amp; Hiệu suất Live/Video</h3>
           <ul>
-            <li><strong>Biểu đồ trên:</strong> Vùng xếp chồng 10 SKU Hè vs Đông theo tuần, đánh dấu mốc giao cắt <strong>31/08 (W36)</strong>.</li>
+            <li><strong>Biểu đồ trên:</strong> Vùng xếp chồng 10 SKU Hè vs Đông theo tuần, đánh dấu mốc giao cắt <strong>31/08 (W36)</strong> và sự lệ thuộc AT06 (80,5% T10).</li>
             <li><strong>Biểu đồ dưới trái:</strong> Đường Pareto 133 SKU có đơn (AT06 chiếm 46,9%; Top 12 chiếm 80,6%).</li>
-            <li><strong>Biểu đồ dưới phải:</strong> Hiệu suất thời lượng Live (&gt;8h đạt 3.103 đ/UV vs &le;8h đạt 1.361 đ/UV) và so sánh Video Ads vs Organic (30,3% vs 10,2% ra đơn; kèm ghi chú selection bias).</li>
+            <li><strong>Biểu đồ dưới phải:</strong> Hiệu suất Live &gt;10h phân tầng theo tháng (T6 8,48 vs T7 1,43 vs T8 0,73 Tr/h) và so sánh Video Ads vs Organic (30,3% vs 10,2% có đơn; GPM Ads 0,84× Organic).</li>
           </ul>
         </div>
 
@@ -726,7 +737,7 @@ RETURN
           <h3>Cohort Giữ chân &amp; Cảnh báo sớm</h3>
           <ul>
             <li><strong>Ma trận Heatmap:</strong> Tỷ lệ giữ chân M+0 đến M+7 trên 302 KOC ngoài (42,7% từng ra đơn, 23,2% dừng sau 1 phiên, trung vị tồn tại 13 ngày).</li>
-            <li><strong>Bảng lọc hành động:</strong> Danh sách KOC đạt 3 phiên 0 đơn để chốt dừng gửi mẫu tự động.</li>
+            <li><strong>Bảng lọc hành động 2 tầng:</strong> Gắn cờ KOC có 3 phiên đầu 0đ dưới ngưỡng lượt xem để dừng gửi mẫu trả phí, nhưng giữ nguyên link affiliate mở bảo toàn nhóm chuyển đổi muộn (304,9 Tr).</li>
             <li><strong>Đèn tín hiệu vận hành:</strong> 4 quy tắc cảnh báo theo dõi hằng tuần giúp phát hiện sớm vùng trũng như giai đoạn T4→T5 trước khi GMV rơi mạnh ở T7–T8.</li>
           </ul>
         </div>
@@ -746,7 +757,7 @@ RETURN
           <strong>Cảnh báo Vàng 3 · Đảo chiều MA7/MA28:</strong> Khi đường MA7 cắt xuống dưới MA28 quá 5 ngày liên tiếp, kiểm tra ngay lịch tung SKU chuyển mùa trước W36.
         </div>
         <div class="alert-box warn">
-          <strong>Cảnh báo Vàng 4 · Ngưỡng cắt mẫu KOC (3 phiên):</strong> Gắn cờ KOC ngoài có 0 đơn sau 3 phiên đầu (xác suất không bao giờ ra đơn 64,8%–77,2%) để chuyển ngân sách mẫu sang nhóm đạt đơn ngay phiên đầu.
+          <strong>Cảnh báo Vàng 4 · Ngưỡng hỗ trợ KOC 2 tầng (3 phiên):</strong> Gắn cờ KOC ngoài có 0 đơn và lượt xem dưới ngưỡng sau 3 phiên đầu để dừng gửi mẫu trả phí (94/145 không ra đơn), nhưng vẫn mở link affiliate tự do để giữ 51 KOC chuyển đổi muộn (304,9 Tr).
         </div>
       </div>
 
@@ -763,6 +774,10 @@ RETURN
   </main>
 
   <script>
+    if (new URLSearchParams(window.location.search).get('embed') === '1') {
+      var tb = document.querySelector('.toolbar');
+      if (tb) tb.style.display = 'none';
+    }
     function copyDax(id, btn) {
       var el = document.getElementById(id);
       if (!el || !navigator.clipboard) return;

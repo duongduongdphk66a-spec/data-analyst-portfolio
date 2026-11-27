@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, FileText, Mail } from "lucide-react";
+import { ArrowRight, ArrowUpRight, FileText, Github, Linkedin, Mail } from "lucide-react";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { usePortfolioData } from "@/app/context/PortfolioDataContext";
 import { DEFAULT_PROFILE } from "@/app/defaultData";
@@ -14,10 +14,11 @@ const FOCUS =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0D7287]";
 
 const TOOLS: L[] = [
-  { vi: "SQL", en: "SQL" },
+  { vi: "SQL (MySQL / PostgreSQL)", en: "SQL (MySQL / PostgreSQL)" },
   { vi: "Python (pandas, SciPy)", en: "Python (pandas, SciPy)" },
-  { vi: "Kiểm định thống kê", en: "Statistical testing" },
-  { vi: "Trực quan hóa dữ liệu", en: "Data visualisation" },
+  { vi: "Excel & BI Spec (Power BI / Looker)", en: "Excel & BI Spec (Power BI / Looker)" },
+  { vi: "Thống kê ứng dụng", en: "Applied statistics" },
+  { vi: "Technical BA (BRD, ERD, Tracking)", en: "Technical BA (BRD, ERD, Tracking)" },
 ];
 
 const FLAGSHIP_STATS: { value: string; label: L }[] = [
@@ -38,8 +39,8 @@ const FLAGSHIP_STATS: { value: string; label: L }[] = [
   {
     value: "12/133",
     label: {
-      vi: "mã có đơn (trên tổng 339 SKU) đóng góp 80,6% GMV kỳ gần nhất",
-      en: "converting SKUs (of 339 catalog SKUs) drove 80.6% of recent GMV",
+      vi: "link sản phẩm có đơn (trên tổng 339 link) đóng góp 80,6% GMV 90 ngày",
+      en: "converting product listings (of 339 listings) drove 80.6% of 90-day GMV",
     },
   },
 ];
@@ -47,20 +48,20 @@ const FLAGSHIP_STATS: { value: string; label: L }[] = [
 const OTHER_WORK: { href: string; tag: L; title: L; body: L }[] = [
   {
     href: "/projects/proj-heritage-japan",
-    tag: { vi: "Phân tích chuỗi thời gian", en: "Time-series analysis" },
+    tag: { vi: "Data Audit & Phân tích chuỗi thời gian", en: "Data Audit & Time-Series DA" },
     title: { vi: "Du lịch di sản Nhật Bản", en: "Heritage tourism in Japan" },
     body: {
-      vi: "Dữ liệu JNTO và MLIT: đỉnh 31,9 triệu khách quốc tế năm 2019 và chi tiêu đỉnh 4,81 nghìn tỷ Yên.",
-      en: "JNTO and MLIT data: a peak of 31.9M international visitors in 2019 and peak spending of 4.81T yen.",
+      vi: "Đối soát 6 chuỗi dữ liệu gốc tiếng Nhật (JNTO, MLIT, Kyoto, Nara): tự kiểm toán và sửa 5 lỗi số liệu từ niên luận gốc, chỉ ra chi tiêu/khách giảm -14,6% sau 2015 và đánh giá áp lực quá tải tại 5 điểm UNESCO.",
+      en: "Audited 6 Japanese time-series (JNTO, MLIT, Kyoto, Nara): caught and fixed 5 data errors from my original thesis, traced a -14.6% per-visitor spend drop post-2015, and assessed overtourism across 5 UNESCO sites.",
     },
   },
   {
     href: "/projects/proj-library-bus",
-    tag: { vi: "Phân tích nghiệp vụ và UX", en: "Business analysis and UX" },
+    tag: { vi: "Technical BA & Tracking Plan", en: "Technical BA & Tracking Plan" },
     title: { vi: "Library Bus", en: "Library Bus" },
     body: {
-      vi: "Đặc tả nghiệp vụ (BA), thiết kế UX/UI và kiến trúc dữ liệu cho website thư viện lưu động: sitemap, luồng người dùng, quy tắc BR và 11 cặp màn hình cốt lõi (Desktop & Mobile).",
-      en: "BA specification, UX/UI design, and data architecture for a mobile library website: sitemap, user flows, business rules, and 11 core screen pairs (Desktop & Mobile).",
+      vi: "Đặc tả nghiệp vụ cho mạng lưới xe thư viện lưu động: As-Is/To-Be, 5 Stakeholder, phân pha MoSCoW, 4 quy tắc BR-01..04, Mini-BRD/RTM, ERD lõi 7 thực thể, Tracking Plan 8 sự kiện, khung Pilot 4 tuần và 11 cặp màn hình.",
+      en: "Technical BA specification for a mobile library network: As-Is/To-Be, 5 stakeholders, MoSCoW MVP, BR-01..04 rules, Mini-BRD/RTM, 7-entity core ERD, 8-event Tracking Plan, 4-week pilot plan, and 11 core screen flows.",
     },
   },
 ];
@@ -91,6 +92,14 @@ export default function HeroSection({
     typeof profile?.email === "string" && profile.email.trim()
       ? profile.email.trim()
       : DEFAULT_PROFILE.email || "";
+  const github =
+    typeof profile?.github === "string" && profile.github.trim() && profile.github !== "#"
+      ? profile.github.trim()
+      : DEFAULT_PROFILE.github || "";
+  const linkedin =
+    typeof profile?.linkedin === "string" && profile.linkedin.trim() && profile.linkedin !== "#"
+      ? profile.linkedin.trim()
+      : DEFAULT_PROFILE.linkedin || "";
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-8 md:py-14 space-y-14 md:space-y-20">
@@ -105,16 +114,16 @@ export default function HeroSection({
           </span>
         </p>
 
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12] max-w-3xl">
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12] max-w-3xl text-balance">
           {isVi
-            ? "Phân tích dữ liệu bán hàng và chuỗi thời gian, từ câu hỏi đến khuyến nghị."
-            : "Analysing sales and time-series data, from question to recommendation."}
+            ? "Phân tích dữ liệu bán hàng, chuỗi thời gian và đặc tả nghiệp vụ từ câu hỏi đến khuyến nghị."
+            : "Analysing sales, time-series data, and business rules from question to recommendation."}
         </h1>
 
         <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
           {isVi
-            ? "Mình là cử nhân Nhật Bản học chuyển sang phân tích dữ liệu, đang tìm vị trí Fresher Data Analyst hoặc Business Analyst. Dự án chính là phân tích 231 ngày dữ liệu TikTok Shop bằng SQL, Python và kiểm định thống kê."
-            : "I am a Japanese Studies graduate who moved into data analysis, and I am looking for a Fresher Data Analyst or Business Analyst role. My main project analyses 231 days of TikTok Shop data with SQL, Python and statistical testing."}
+            ? "Mình là cử nhân Nhật Bản học chuyển sang dữ liệu, ứng tuyển vị trí Fresher Data Analyst hoặc Business Analyst. Portfolio gồm phân tích 231 ngày TikTok Shop (SQL, Python, BI Spec), kiểm toán chuỗi thời gian du lịch Nhật Bản và hồ sơ Technical BA kèm Tracking Plan cho Library Bus."
+            : "I am a Japanese Studies graduate moving into data, applying for Fresher Data Analyst or Business Analyst roles. My portfolio covers 231 days of TikTok Shop analytics (SQL, Python, BI Spec), a Japanese tourism time-series audit, and a Technical BA & Tracking Plan spec for Library Bus."}
         </p>
 
         <div className="flex flex-wrap items-center gap-3.5 pt-1">
@@ -141,6 +150,28 @@ export default function HeroSection({
             >
               <Mail className="w-4 h-4 shrink-0" aria-hidden="true" />
               {isVi ? "Gửi email" : "Email me"}
+            </a>
+          )}
+          {github && (
+            <a
+              href={github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`min-h-[44px] px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm transition-colors inline-flex items-center gap-2 cursor-pointer ${FOCUS}`}
+            >
+              <Github className="w-4 h-4 shrink-0 text-slate-600 dark:text-slate-300" aria-hidden="true" />
+              <span>GitHub</span>
+            </a>
+          )}
+          {linkedin && (
+            <a
+              href={linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`min-h-[44px] px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm transition-colors inline-flex items-center gap-2 cursor-pointer ${FOCUS}`}
+            >
+              <Linkedin className="w-4 h-4 shrink-0 text-[#0D7287] dark:text-[#9BE7FA]" aria-hidden="true" />
+              <span>LinkedIn</span>
             </a>
           )}
         </div>
@@ -180,14 +211,14 @@ export default function HeroSection({
             </p>
             <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
               {isVi
-                ? "Dữ liệu ước tính từ FastMoss (ảnh chụp tháng 9, file xuất đến 25/10/2026), không phải dữ liệu nội bộ."
-                : "Estimated FastMoss data (Sep screenshots, exports through Oct 25, 2026), not internal company data."}
+                ? "Dữ liệu ước tính từ FastMoss (10 tệp xuất đến 25/10/2026), không phải dữ liệu nội bộ."
+                : "Estimated FastMoss data (10 exports through Oct 25, 2026), not internal company data."}
             </p>
             <Link
               href="/projects/proj-kami-ely"
               className={`mt-auto pt-6 self-start inline-flex items-center gap-1 min-h-[44px] text-sm font-bold text-[#074553] dark:text-[#9BE7FA] hover:underline ${FOCUS}`}
             >
-              {isVi ? "Xem phân tích & Thư viện SQL" : "Open case study & SQL library"}
+              {isVi ? "Xem phân tích, SQL & Đặc tả BI" : "Open case study, SQL & BI Spec"}
               <ArrowUpRight className="w-4 h-4 shrink-0" aria-hidden="true" />
             </Link>
           </div>

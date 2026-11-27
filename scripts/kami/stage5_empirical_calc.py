@@ -1,3 +1,4 @@
+import hashlib
 import os
 import re
 import sys
@@ -6,6 +7,16 @@ import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
 from scipy import stats
+
+OFFICIAL_SHA256 = "2884bd95e154a3255b1c0272bcfe9505211a293710db406701023782eb0645ec"
+DOMINANT_SHA256 = {
+    OFFICIAL_SHA256,
+    "f704c6f8a9505a1115f5401c6eedef0134692fbfcb88e8d2738b1a8e35267fb3",
+    "6aa6d7c1d040cfe8c061b3e7d7700969504d16b70fe6e65a45d3b573ef71f7bb",
+}
+
+def _h(s):
+    return hashlib.sha256(str(s).strip().lower().encode("utf-8")).hexdigest()
 
 DATA_DIR = r"data\kami"
 
@@ -52,7 +63,7 @@ df_shop_live['units_clean'] = df_shop_live['units sold'].apply(clean_num)
 df_shop_live['cum_clean'] = df_shop_live['cumulative'].apply(clean_num)
 
 # Split Shop LIVE into Own-brand and Affiliate
-is_own_live = df_shop_live['creator id'].astype(str).str.strip().str.lower() == 'kamielyhn'
+is_own_live = df_shop_live['creator id'].map(_h) == OFFICIAL_SHA256
 df_live_own = df_shop_live[is_own_live].copy()
 df_live_aff = df_shop_live[~is_own_live].copy()
 
@@ -329,10 +340,9 @@ print(f"Wilcoxon signed-rank test on within-creator diffs: stat = {w_stat:.1f}, 
 
 # --- Robustness 2: Exclude dominant creators ---
 print("\n--- Robustness 2: Exclude Dominant Creators ---")
-dominant = ['kamielyhn', '_thzy.tien', 'girlstyle.vn']
-# Check creator ID or nickname
-df_shoppable['creator_norm'] = df_shoppable['creator ID'].astype(str).str.strip().str.lower()
-df_ex_dom = df_shoppable[~df_shoppable['creator_norm'].isin(dominant)].copy()
+# Check creator ID or nickname via SHA-256 digest (PII-safe)
+df_shoppable['creator_hash'] = df_shoppable['creator ID'].map(_h)
+df_ex_dom = df_shoppable[~df_shoppable['creator_hash'].isin(DOMINANT_SHA256)].copy()
 print(f"Total rows after excluding dominant: {len(df_ex_dom)}")
 
 ex_dom_agg = df_ex_dom.groupby('ads').agg(

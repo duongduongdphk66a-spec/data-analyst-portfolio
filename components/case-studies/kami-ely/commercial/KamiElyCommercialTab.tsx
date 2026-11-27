@@ -12,7 +12,6 @@ import Tier3EngineeringAppendix from './Tier3EngineeringAppendix';
 interface Props {
   lang?: 'vi' | 'en';
   isEn?: boolean;
-  telemetryData?: unknown;
   onOpenNotebook?: () => void;
 }
 
@@ -22,16 +21,17 @@ export function KamiElyCommercialTab({ lang, isEn, onOpenNotebook }: Props) {
     <div className="space-y-10">
       {/* 1. Tóm tắt 60 giây & Biểu đồ 1 (Xu hướng GMV tháng + Bình quân/ngày) */}
       <Tier1ExecutiveSummary lang={resolvedLang} />
-      {/* 2. Biểu đồ 2 (Phân rã 3 tầng Sankey tại mốc 20/10 = 14,84 tỷ) + 4 Bẫy dữ liệu & Đối soát 10 bảng */}
+      {/* 2. Biểu đồ 2 (Đối soát 10 bảng & cơ cấu Nội bộ vs KOC ngoài theo từng kênh) */}
       <Chapter1ContextAndData lang={resolvedLang} />
-      {/* 3. Biểu đồ 4 (Ghép ngang: Thời lượng phiên Live 5 mốc vs Ủy quyền quảng cáo Video) */}
-      <Chapter5LiveVideoAds lang={resolvedLang} />
-      {/* 4. Biểu đồ 3 (Vùng xếp chồng Hè vs Đông từ 10 SKU) đặt cạnh Biểu đồ 5 (Pareto 2 lớp KOC | SKU) */}
+      {/* 3. Biểu đồ 3 & 4 (Mùa vụ 10 SKU trả lời trực tiếp cú rơi T8 + Pareto 2 lớp & Kiểm định thống kê) */}
       <Chapter3SeasonalityAndRegression lang={resolvedLang} />
+      {/* 4. Biểu đồ 5A & 5B (Thời lượng Live phân tầng theo tháng chống Simpson + Video Ads 6 lát cắt) */}
+      <Chapter5LiveVideoAds lang={resolvedLang} />
+      {/* 5. Sàng lọc 302 KOC Live ngoài & Luật hỗ trợ 2 tầng bảo toàn nhóm chuyển đổi muộn */}
       <Chapter4KocNetwork lang={resolvedLang} />
-      {/* 5. 4 Thẻ Khuyến nghị hành động gắn KPI mục tiêu */}
+      {/* 6. 4 Sáng kiến hành động ưu tiên gắn KPI & Đánh đổi rủi ro */}
       <Chapter6EarlyWarningAndPlaybook lang={resolvedLang} />
-      {/* 6. Phụ lục Kỹ thuật & Thư viện SQL (Đóng Accordion mặc định) */}
+      {/* 7. Phụ lục Kỹ thuật & Thư viện SQL (Đóng Accordion mặc định) */}
       <Tier3EngineeringAppendix onOpenNotebook={onOpenNotebook} />
     </div>
   );

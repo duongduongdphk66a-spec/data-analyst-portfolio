@@ -5,7 +5,7 @@ export const DEFAULT_PROFILE: ProfileData = {
   name: "Ma Văn Hùng",
   subtitle: "Fresher Data Analyst / Business Analyst",
   title: "Fresher Data Analyst / BA",
-  bio: "Fresher Data Analyst phân tích dữ liệu kinh doanh bằng SQL, Python, thống kê ứng dụng và Recharts. Tập trung làm sạch dữ liệu đa nguồn, kiểm định giả thuyết, đối soát số liệu (Data Reconciliation) và thiết kế báo cáo vận hành.",
+  bio: "Fresher Data Analyst & Business Analyst làm việc với SQL (MySQL 8.0), Python, thống kê ứng dụng, đặc tả BI (Star Schema/DAX) và Technical BA (Mini-BRD, ERD, Tracking Plan). Tập trung làm sạch, đối soát số liệu đa nguồn và viết đặc tả nghiệp vụ gắn với chỉ số đo lường.",
   careerGoal: "Thiết kế hệ thống dữ liệu và báo cáo phân tích kinh doanh",
   careerGoalsList: [
     {
@@ -49,19 +49,19 @@ export const DEFAULT_PROFILE: ProfileData = {
       location: 'Hà Nội, Việt Nam',
       description: [
         'Nghiên cứu kinh tế - xã hội Nhật Bản bằng phương pháp định lượng và thống kê dữ liệu.',
-        'Thực hiện niên luận: "Sự phát triển của Du lịch Di sản tại Nhật Bản giai đoạn từ năm 2013 đến nay" (trọng tâm 2013–2023 trên nền dữ liệu 2003–2022, GVHD: TS Võ Minh Vũ).'
+        'Thực hiện niên luận: "Sự phát triển của Du lịch Di sản tại Nhật Bản giai đoạn 2013–2022" (nền chuỗi 20 năm 2003–2022, kèm cập nhật 2023, GVHD: TS Võ Minh Vũ).'
       ]
     },
     {
       id: 'exp-work-1',
-      role: 'Công trình Nghiên cứu Khoa học: Phân tích Du lịch Di sản tại Nhật Bản (2013–2023)',
+      role: 'Công trình Nghiên cứu Khoa học: Phân tích Du lịch Di sản tại Nhật Bản (2013–2022)',
       company: 'Trường Đại học Khoa học Xã hội và Nhân văn - ĐHQGHN',
       period: '2023 - 2024',
       type: 'work',
       location: 'Hà Nội, Việt Nam',
       description: [
-        'Thu thập, kiểm toán (Data Audit) và chuẩn hóa 6 bộ dữ liệu chuỗi thời gian 20 năm (2003–2022) từ MLIT và JNTO để đánh giá giai đoạn chính sách 2013–2023.',
-        'Lượng hóa quy mô đỉnh 31,9 triệu khách (2019), chi tiêu 4,81 nghìn tỷ Yên, đóng góp 7,5% GDP và tỷ lệ quá tải 3.000 : 1 tại làng cổ Shirakawa-go.'
+        'Kiểm toán (Data Audit) 5 lỗi nguồn trong niên luận và chuẩn hóa 6 bộ dữ liệu chuỗi thời gian 20 năm (2003–2022) từ MLIT và JNTO.',
+        'Lượng hóa đỉnh 31,9 triệu khách (2019), chi tiêu quốc tế 4,81 nghìn tỷ Yên (~0,86% GDP, tách khỏi toàn ngành 7,5% GDP WTTC), chi tiêu/khách giảm -14,6% (2015→2019) và quá tải Shirakawa-go (3.000 lượt/cư dân khu lõi Ogimachi/năm).'
       ]
     },
     {
@@ -72,20 +72,20 @@ export const DEFAULT_PROFILE: ProfileData = {
       type: 'work',
       location: 'Hà Nội, Việt Nam',
       description: [
-        'Theo dõi đơn hàng hàng ngày, tỷ lệ hoàn/hủy và tổng hợp báo cáo doanh số định kỳ trên TikTok Shop.',
+        'Theo dõi đơn hàng hằng ngày, tỷ lệ hoàn/hủy và tổng hợp báo cáo doanh số định kỳ bằng Excel/Google Sheets trên TikTok Shop.',
         'Kinh nghiệm vận hành thực tế giai đoạn 2022–2023 độc lập với dự án nghiên cứu cá nhân Kami Ely năm 2026 (sử dụng dữ liệu ước tính công khai từ FastMoss).'
       ]
     },
     {
       id: 'exp-work-3',
-      role: 'Library Bus: Phân tích Nghiệp vụ (BA), Kiến trúc Dữ liệu (MySQL/Redis/Celery) & UX/UI',
-      company: 'Dự án Hệ thống Thư viện Lưu động (Django 5.2 • 7 Apps • 36 Models)',
+      role: 'Library Bus: Technical BA (Mini-BRD, ERD 7 bảng), Tracking Plan & Prototype',
+      company: 'Dự án Hệ thống Thư viện Lưu động (Pre-Launch Spec · Prototype 171 Unit Tests)',
       period: '2023 - 2024',
       type: 'work',
       location: 'Hà Nội, Việt Nam',
       description: [
-        'Đặc tả 4 bộ quy tắc nghiệp vụ (BR-01..04), khóa bi quan select_for_update() chống Race Condition trên MySQL 8.0, 9 tác vụ nền Celery Beat + Redis 7 và 171 unit test tự động.',
-        'Thiết kế phân hệ Telemetry (analytics app: UserActivity, BookAnalytics, BusAnalytics, DailyStats) cùng 11 cặp màn hình Wireframe – UI (Desktop 1440px & Mobile 390px).'
+        'Đặc tả As-Is/To-Be, 5 Stakeholder, MoSCoW, 5 User Stories và 4 quy tắc BR-01..04 (khóa bi quan select_for_update(), hàng đợi FIFO 7 ngày từ lúc sách về trạm, phạt 3 bậc có trần 100% giá sách).',
+        'Chuẩn hóa ERD lõi 7 bảng (BookTitle/BusBookInventory), Tracking Plan 8 sự kiện, khung quyết định Pilot 4 tuần (2 tuyến) và 11 cặp màn hình Wireframe–UI (kiểm chứng bằng bản mẫu Django/MySQL 171 unit tests).'
       ]
     }
   ]
@@ -94,73 +94,73 @@ export const DEFAULT_PROFILE: ProfileData = {
 export const DEFAULT_PROJECTS: ProjectData[] = [
   {
     id: 'proj-kami-ely',
-    title: 'Kami Ely: Phân tích hiệu suất TikTok Shop và mạng lưới Affiliate (Dữ liệu ước tính FastMoss)',
-    titleEn: 'Kami Ely: TikTok Shop & Affiliate Network Analytics (FastMoss Estimated Telemetry)',
-    desc: 'Dự án phân tích độc lập 231 ngày vận hành (09/03 – 25/10/2026: 15,01 tỷ đồng GMV ước tính, 101.896 sản phẩm bán ra) từ dữ liệu ước tính của bên thứ ba (FastMoss). Đối chiếu cửa sổ 180 ngày (12,74 tỷ đồng, 85.500 sản phẩm) và lũy kế toàn thời gian (31,6 tỷ đồng, 238,4k sản phẩm).',
-    descEn: 'Independent case study analyzing 231 operating days (Mar 09 – Oct 25, 2026: 15.01B VND estimated GMV, 101,896 units sold) from third-party FastMoss telemetry. Cross-reconciled with the 180-day window (12.74B VND, 85,500 units) and all-time store cumulative totals (31.6B VND, 238.4k units).',
-    tags: ['E-Commerce Analytics', 'Time-Series & OLS', 'Cohort & HHI', 'Statistical Testing', 'SQL & Python', 'Recharts'],
+    title: 'Kami Ely: Phân tích hiệu suất TikTok Shop, mạng lưới Affiliate & Đặc tả BI (FastMoss)',
+    titleEn: 'Kami Ely: TikTok Shop, Affiliate Network Analytics & BI Spec (FastMoss)',
+    desc: 'Dự án phân tích độc lập 231 ngày vận hành (09/03 – 25/10/2026: 15,01 tỷ đồng GMV ước tính, 101.896 sản phẩm bán ra) từ 10 bảng FastMoss; phát hiện và loại trừ +7,59 tỷ đ trùng nguồn giữa CrLive và AffLive, kèm Đặc tả BI Star Schema (4 Fact · 3 Dim).',
+    descEn: 'Independent 231-day case study (Mar 09 – Oct 25, 2026: 15.01B VND estimated GMV, 101,896 units) from 10 FastMoss tables; caught and reconciled +7.59B VND cross-file overlap between CrLive and AffLive, paired with a 4-Fact · 3-Dim Star Schema BI Spec.',
+    tags: ['E-Commerce Analytics', 'Data Reconciliation', 'Panel FE & Stats', 'Cohort & HHI', 'SQL & Python', 'BI Spec (DAX)'],
     img: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop&q=80',
     featured: true,
-    problem: 'Doanh thu tháng 8 giảm 83,1% so với đỉnh tháng 6 khi qua cao điểm đồ bơi hè. Gian hàng cần xác định mức độ phụ thuộc vào từng kênh nội dung, sức bền mạng lưới KOC và danh mục sản phẩm thay thế cho mùa Thu Đông.',
-    problemEn: 'August revenue fell 83.1% from the June peak after summer swimwear demand subsided. Needed to quantify channel concentration, KOC retention decay, and autumn-winter SKU transition performance.',
-    method: 'Chuẩn hóa 10 bảng dữ liệu ước tính FastMoss (23.364 dòng, 231 ngày), kiểm chứng độ nhạy trung bình trượt khi Winsorize ngoại lai, chạy hồi quy OLS đa biến, đo chỉ số tập trung HHI và kiểm định phi tham số Mann-Whitney U cho video quảng cáo.',
-    methodEn: 'Standardized 10 FastMoss estimated telemetry tables (23,364 rows, 231 days), tested moving-average crossover sensitivity under outlier Winsorization, fitted daily OLS regression, computed HHI concentration, and ran Mann-Whitney U tests on video ads.',
-    insight: 'Live chính chủ và kênh vệ tinh tạo ra 84,5% doanh thu livestream, trong khi 12/133 mã có đơn tạo 80,6% GMV. Danh mục chuyển dịch sang hàng Thu Đông cùng nhóm creator mới giúp doanh thu tháng 10 hồi phục lên 1,62 tỷ đ (trong 25 ngày).',
-    insightEn: 'Official and satellite livestreams generated 84.5% of live GMV, while 12 converting SKUs drove 80.6% of GMV. Transitioning to autumn catalog alongside new creator cohorts helped October revenue rebound to 1.62B VND (in 25 days).',
+    problem: 'Doanh thu tháng 8 giảm -83,1% so với đỉnh tháng 6 (riêng 6 mã đồ bơi rơi -89,3% từ 1,57 xuống 0,17 tỷ đ) khi qua cao điểm hè. Gian hàng cần chẩn đoán nguyên nhân theo kênh/SKU, kiểm chứng hiệu quả Live dài giờ, đo độ tập trung KOC và thiết kế kế hoạch chuyển mùa.',
+    problemEn: 'August GMV fell -83.1% from the June peak (6 swimwear SKUs dropped -89.3%, 1.57B to 0.17B VND) after summer demand faded. Needed to diagnose channel/SKU drivers, test long-session live productivity, quantify KOC concentration, and plan autumn transition.',
+    method: 'Chuẩn hóa 10 bảng FastMoss (23.364 dòng, 231 ngày), đối soát loại +7,59 tỷ trùng nguồn, phân tầng Live >10h theo tháng kiểm tra Nghịch lý Simpson, chạy Panel FE trên cửa sổ hoạt động sau mở bán (n = 1.422, Within R² = 0,302), Winsorize, HHI, Fisher Exact và Mann-Whitney U.',
+    methodEn: 'Standardized 10 FastMoss tables (23,364 rows, 231 days), removed +7.59B VND overlap, stratified >10h Live by month for Simpson’s Paradox, ran post-launch active-window Panel FE (n = 1,422, Within R² = 0.302), Winsorization, HHI, Fisher Exact, and Mann-Whitney U tests.',
+    insight: 'Live nội bộ (chính chủ + vệ tinh) tạo 84,5% GMV Live nhưng hiệu suất phiên >10h tụt từ 8,48 Tr/h (T6) về 0,73 Tr/h (T8); Video Ads có GPM 0,84× Organic; 12/133 link sản phẩm có đơn chiếm 80,6% GMV và bộ lọc KOC 2 tầng bảo toàn 51 creator nổ đơn muộn (304,9 Tr = 18,8% Live ngoài).',
+    insightEn: 'In-house Live drove 84.5% of live GMV but >10h productivity fell from 8.48M/hr (Jun) to 0.73M/hr (Aug); Video Ads trailed Organic GPM (0.84x); 12/133 converting product listings drove 80.6% GMV, and a 2-tier KOC rule protects 51 late converters (304.9M = 18.8% external Live).',
     metrics: [
-      { label: 'GMV ước tính (231 ngày)', labelEn: 'Estimated GMV (231 Days)', value: '15,01 Tỷ', change: '101.896 sản phẩm bán ra', changeEn: '101,896 units sold', isPositive: true },
-      { label: 'Giá bán TB thực tế (ASP)', labelEn: 'Average Selling Price (ASP)', value: '147,3k đ', change: 'Dải 75k-250k chiếm 93% GMV', changeEn: '75k-250k band = 93% GMV', isPositive: true },
-      { label: 'Thị phần Live in-house', labelEn: 'In-House Live Share', value: '84,5%', change: 'Chính chủ + Kênh vệ tinh', changeEn: 'Official + Satellite Live', isPositive: true },
-      { label: 'Mức tập trung HHI KOC', labelEn: 'Affiliate Live HHI', value: '1.471', change: 'HHI danh bạ 3.842 · Đối tác ngoài 1.471', changeEn: 'Directory HHI 3,842 · Ext partners 1,471', isPositive: true }
+      { label: 'GMV ước tính (231 ngày)', labelEn: 'Estimated GMV (231 Days)', value: '15,01 Tỷ', change: 'Loại +7,59 tỷ trùng nguồn · 101.896 sp', changeEn: 'Removed +7.59B overlap · 101,896 units', isPositive: true },
+      { label: 'Giá bán TB thực tế (ASP)', labelEn: 'Average Selling Price (ASP)', value: '147,3k đ', change: 'ASP thực bán 75k–250k = 95,4% GMV', changeEn: 'Realized ASP 75k–250k = 95.4% GMV', isPositive: true },
+      { label: 'Thị phần Live in-house', labelEn: 'In-House Live Share', value: '84,5%', change: 'Live >10h tụt 8,48 → 0,73 Tr/h (T6→T8)', changeEn: '>10h Live fell 8.48 → 0.73M/hr (Jun→Aug)', isPositive: true },
+      { label: 'Tập trung HHI (KOL 90N)', labelEn: 'KOL 90d Concentration (HHI)', value: '3.842 → 246', change: 'Loại chính chủ 1.471 · Bỏ cả vệ tinh 246', changeEn: 'Excl. official 1,471 · Pure external 246', isPositive: true }
     ],
-    tools: ['Python (scipy & numpy)', 'SQL Data Pipeline', 'OLS & Non-parametric Tests', 'Recharts']
+    tools: ['SQL (MySQL 8.0)', 'Python (Pandas & SciPy)', 'Panel FE & Non-parametric Tests', 'BI Spec (4 Fact · 3 Dim)']
   },
   {
     id: 'proj-heritage-japan',
-    title: 'Sự phát triển của Du lịch Di sản tại Nhật Bản (2013–2023): Phân tích Chuỗi Thời gian',
-    titleEn: 'Heritage Tourism Growth in Japan (2013–2023): A Time-Series Analysis',
-    desc: 'Niên luận nghiên cứu định lượng giai đoạn chính sách 2013–2023 dựa trên chuỗi dữ liệu 20 năm (2003–2022) từ JNTO và MLIT. Đánh giá tác động kinh tế vĩ mô, cú sốc COVID-19 và áp lực quá tải tại các điểm di sản UNESCO.',
-    descEn: 'Quantitative research thesis examining the 2013–2023 policy era built on a 20-year empirical time-series baseline (2003–2022) from JNTO and MLIT. Evaluates macroeconomic contributions, COVID-19 shocks, and overtourism at UNESCO sites.',
-    tags: ['Time-Series Analysis', 'Data Audit', 'Policy Evaluation', 'Recharts'],
+    title: 'Sự phát triển của Du lịch Di sản tại Nhật Bản (2013–2022): Kiểm toán Dữ liệu & Chuỗi Thời gian',
+    titleEn: 'Heritage Tourism Growth in Japan (2013–2022): Data Audit & Time-Series Analysis',
+    desc: 'Niên luận định lượng giai đoạn 2013–2022 (kèm cập nhật 2023) trên chuỗi dữ liệu 20 năm (2003–2022) từ JNTO và MLIT. Kiểm toán 5 sai lệch nguồn trong tài liệu gốc, đánh giá chất lượng chi tiêu/khách (-14,6% giai đoạn 2015–2019) và áp lực quá tải di sản UNESCO.',
+    descEn: 'Quantitative thesis covering 2013–2022 (with 2023 notes) built on a 20-year baseline (2003–2022) from JNTO and MLIT. Audits 5 source errors in the original draft, tracks -14.6% per-visitor spend erosion (2015–2019), and quantifies UNESCO overtourism pressure.',
+    tags: ['Time-Series Analysis', 'Data Audit (5 Errors)', 'Policy Evaluation', 'SQL & Python'],
     img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&auto=format&fit=crop&q=80',
     featured: true,
-    problem: 'Lượng khách quốc tế đến Nhật Bản tăng vọt từ 10,36 triệu (2013) lên 31,88 triệu (2019) trước khi sụt giảm 99,2% năm 2021 vì đại dịch, gây ra bài toán kép giữa phục hồi kinh tế và bảo tồn di sản trước áp lực quá tải.',
-    problemEn: 'International arrivals surged from 10.36M (2013) to 31.88M (2019) before collapsing 99.2% in 2021 during the pandemic, creating a dual challenge between economic recovery and heritage preservation under overtourism.',
-    method: 'Thu thập, kiểm toán độ lệch (Data Audit) và chuẩn hóa 6 bộ dữ liệu thống kê (2003–2022) từ JNTO, MLIT, UNWTO và WTTC. Áp dụng mô hình xu thế log-linear và phân tích đối sánh đa điểm đến (Kyoto, Shirakawa-go, Himeji).',
-    methodEn: 'Collected, audited, and standardized 6 statistical datasets (2003–2022) from JNTO, MLIT, UNWTO, and WTTC. Applied log-linear counterfactual trend modeling and multi-site comparative analysis (Kyoto, Shirakawa-go, Himeji).',
-    insight: 'Tổng chi tiêu du lịch quốc tế đạt đỉnh 4,81 nghìn tỷ Yên năm 2019 (gấp 3,41 lần năm 2013), đóng góp 7,5% GDP và hơn 4 triệu việc làm. Phân bố khách lệch mạnh khiến làng cổ Shirakawa-go chịu tỷ lệ 3.000 du khách trên 1 cư dân.',
-    insightEn: 'Inbound tourist expenditure peaked at 4.81 trillion Yen in 2019 (3.41x vs 2013), contributing 7.5% of GDP and over 4M jobs. Severe spatial concentration subjected historic Shirakawa-go village to a 3,000:1 tourist-to-resident ratio.',
+    problem: 'Lượng khách quốc tế đến Nhật Bản tăng vọt từ 10,36 triệu (2013) lên 31,88 triệu (2019) trước khi sụt giảm -99,2% năm 2021 vì đại dịch, trong khi chi tiêu bình quân/khách lại giảm -14,6% (2015→2019) và điểm di sản UNESCO đối mặt quá tải cục bộ.',
+    problemEn: 'International arrivals jumped from 10.36M (2013) to 31.88M (2019) before falling -99.2% in 2021 during COVID-19, while average spend per visitor eroded -14.6% (2015→2019) and UNESCO sites faced acute local overtourism.',
+    method: 'Kiểm toán 5 sai lệch nguồn niên luận (lỗi dịch niên độ Kyoto từ 2012, sai dấu thập phân Nara 28,9→289 tỷ ¥, trộn đơn vị, nhầm phạm vi GDP) và chuẩn hóa 6 bộ dữ liệu (2003–2022). Kết hợp ngoại suy log-linear (công bố rõ R² = 0,347, p = 0,073 và tác động tỷ giá JPY) với đối sánh 5 điểm UNESCO.',
+    methodEn: 'Audited 5 thesis source errors (Kyoto post-2012 year shift, Nara 10x decimal slip 28.9→289B JPY, unit mixing, GDP scope conflation) across 6 datasets (2003–2022). Combined log-linear counterfactuals (with R² = 0.347, p = 0.073 & JPY FX diagnostics) and 5-site UNESCO benchmarking.',
+    insight: 'Chi tiêu khách quốc tế đạt 4,81 nghìn tỷ Yên năm 2019 (~0,86% GDP, tách bạch với toàn ngành 7,5% GDP WTTC), nhưng chi tiêu/khách giảm -14,6% từ đỉnh 176,6k Yên (2015) xuống 150,8k Yên (2019). Làng cổ Shirakawa-go (~600 cư dân khu lõi Ogimachi) chịu 3.000 lượt khách/cư dân/năm.',
+    insightEn: 'Inbound spend reached 4.81T JPY in 2019 (~0.86% GDP, separate from WTTC 7.5% total sector GDP), while per-visitor spend fell -14.6% from 176.6k JPY (2015) to 150.8k JPY (2019). Shirakawa-go’s core Ogimachi hamlet (~600 residents) absorbed 3,000 annual visits per resident.',
     metrics: [
-      { label: 'Khung Phân Tích & Dữ Liệu', labelEn: 'Study & Data Horizon', value: '2013–2023', change: 'Nền dữ liệu 20 năm (2003–2022)', changeEn: '20-yr baseline (2003–2022)', isPositive: true },
-      { label: 'Lượng Khách Đạt Đỉnh', labelEn: 'Peak Annual Visitors', value: '31,9 Triệu', change: '+206,7% (2019 vs 2013)', changeEn: '+206.7% (2019 vs 2013)', isPositive: true },
-      { label: 'Tổng Chi Tiêu Đỉnh Điểm', labelEn: 'Peak Tourism Expenditure', value: '4,81T Yên', change: '3,41x so với 2013 · 7,5% GDP', changeEn: '3.41x vs 2013 · 7.5% GDP', isPositive: true },
-      { label: 'Tỷ Lệ Quá Tải Cục Bộ', labelEn: 'Local Overtourism Ratio', value: '3.000 : 1', change: 'Khách / cư dân tại Shirakawa-go', changeEn: 'Visitors / resident at Shirakawa-go', isPositive: false }
+      { label: 'Kiểm toán & Chuỗi Dữ Liệu', labelEn: 'Audit & Data Horizon', value: '5 Lỗi · 20N', change: 'Chuỗi 2003–2022 (trọng tâm 2013–2022)', changeEn: '2003–2022 series (2013–2022 focus)', isPositive: true },
+      { label: 'Lượng Khách Đạt Đỉnh', labelEn: 'Peak Annual Visitors', value: '31,9 Triệu', change: '+207,7% (2019 vs 2013)', changeEn: '+207.7% (2019 vs 2013)', isPositive: true },
+      { label: 'Chi Tiêu Quốc Tế & Bình Quân', labelEn: 'Inbound & Per-Capita Spend', value: '4,81T Yên', change: '~0,86% GDP · Chi/khách -14,6% (2015→19)', changeEn: '~0.86% GDP · Spend/visitor -14.6% (15→19)', isPositive: false },
+      { label: 'Tỷ Lệ Quá Tải Cục Bộ', labelEn: 'Local Overtourism Ratio', value: '3.000 : 1', change: 'Lượt/cư dân khu lõi Ogimachi (~600 dân)', changeEn: 'Visits/resident in core Ogimachi (~600 pop)', isPositive: false }
     ],
-    tools: ['Python', 'Time-Series Modeling', 'Data Audit', 'Recharts', 'Data Storytelling']
+    tools: ['Python (NumPy/Stats)', 'SQL Data Audit', 'Time-Series Counterfactual', 'Policy Evaluation']
   },
   {
     id: 'proj-library-bus',
-    title: 'Library Bus: Phân tích Nghiệp vụ (BA), Kiến trúc Telemetry (MySQL 8.0 / Redis / Celery) & UX/UI',
-    titleEn: 'Library Bus: BA Specification, Telemetry Architecture (MySQL 8.0 / Redis / Celery) & UX/UI',
-    desc: 'Hệ thống số hóa mạng lưới xe buýt thư viện lưu động xây dựng trên Django 5.2 (7 phân hệ, 36 model dữ liệu, 97 template HTML, 171 unit test), MySQL 8.0, Redis 7 và 9 cron job Celery Beat, kết hợp đối chiếu 11 cặp màn hình Wireframe – UI (Desktop 1440px & Mobile 390px).',
-    descEn: 'Mobile library network platform built on Django 5.2 (7 apps, 36 data models, 97 HTML templates, 171 unit tests), MySQL 8.0, Redis 7, and 9 Celery Beat cron jobs, paired with 11 core Desktop & Mobile Wireframe-to-UI screen flows.',
-    tags: ['Business Analysis (BA)', 'MySQL 8.0 & Django 5.2', 'Redis & Celery Beat', 'Product Telemetry', 'Wireframe & UI'],
+    title: 'Library Bus: Phân tích Nghiệp vụ (Technical BA), Mô hình Dữ liệu & Tracking Plan',
+    titleEn: 'Library Bus: Technical Business Analysis (BA), Core Data Modeling & Tracking Plan',
+    desc: 'Hồ sơ Technical BA trước Go-Live cho mạng lưới xe thư viện lưu động: As-Is/To-Be, ràng buộc thực địa (offline 4G, trả chéo tuyến, hủy chuyến), 5 Stakeholder, MoSCoW, 5 User Stories, BR-01..04 (trần phạt 100% giá sách), ERD lõi 7 bảng (BookTitle/BusBookInventory), Tracking Plan 8 sự kiện và khung Pilot 4 tuần.',
+    descEn: 'Pre-launch Technical BA spec for a mobile library network: As-Is/To-Be, mobile-bus field constraints (offline 4G, cross-bus returns, cancellations), 5 stakeholders, MoSCoW, 5 User Stories, BR-01..04 (100% replacement-cost cap), normalized 7-entity ERD (BookTitle/BusBookInventory), 8-event Tracking Plan, and 4-week pilot criteria.',
+    tags: ['Technical BA', 'Mini-BRD & RTM', 'MoSCoW & ERD', 'Tracking Plan', 'Wireframe & UI'],
     img: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&auto=format&fit=crop&q=80',
     demoUrl: '/library-bus/website.html',
     featured: true,
     content: libraryBusMarkdownContent,
-    problem: 'Dịch vụ xe thư viện lưu động cần ngăn chặn lỗi đặt trùng cuốn sách cuối cùng khi nhiều độc giả thao tác đồng thời (TOCTOU Race Condition), tự động hóa hàng đợi đặt trước FIFO, tính phí phạt lũy tiến và đo lường hiệu suất từng chuyến xe.',
-    problemEn: 'A mobile library network must prevent concurrent double-booking on the last book copy (TOCTOU race conditions), automate FIFO reservation queues, calculate progressive overdue fines, and track bus-level operational telemetry.',
-    method: 'Đặc tả 4 quy tắc nghiệp vụ (BR-01..04) thực thi bằng khóa bi quan select_for_update() trong transaction.atomic() trên MySQL 8.0 (UUIDv4, SoftDeleteModel, AuditMixin), 9 cron job Celery Beat + Redis 7 CacheMixin, và đối chiếu 11 cặp màn hình Wireframe – UI.',
-    methodEn: 'Specified 4 business rules (BR-01..04) enforced via pessimistic select_for_update() locks inside transaction.atomic() on MySQL 8.0 (UUIDv4, SoftDeleteModel, AuditMixin), 9 Celery Beat cron jobs + Redis 7 CacheMixin, and 11 paired Wireframe-to-UI screens.',
-    insight: 'Tích hợp phân hệ analytics trực tiếp vào luồng giao dịch (transaction.on_commit đẩy task bất đồng bộ) giúp đo lường phễu gợi ý sách (Click Rate -> Borrow Rate), điểm phổ biến sách (BookAnalytics), hiệu suất xe (BusAnalytics) và lưu trữ lạnh sự kiện sau 90 ngày.',
-    insightEn: 'Integrating the analytics app directly into transactional commits (transaction.on_commit async tasks) tracks recommendation funnels (Click Rate -> Borrow Rate), BookAnalytics popularity scores, BusAnalytics efficiency, and 90-day cold event archiving.',
+    problem: 'Vận hành xe thư viện lưu động thủ công gây đặt trùng bản sách cuối cùng, bỏ lỡ lượt chờ khi sách hết bản, tính phí phạt cảm tính, rủi ro mất sóng 4G/trả chéo tuyến và thiếu dữ liệu theo dõi nhu cầu theo từng tuyến xe.',
+    problemEn: 'Manual mobile library circulation causes last-copy double-booking, uncoordinated waitlists, ad-hoc fines, field disruptions (flaky 4G, cross-bus returns), and zero visibility into route-level demand.',
+    method: 'Phân tích As-Is/To-Be & 3 ràng buộc thực địa, Ma trận 5 Stakeholder, MoSCoW, đặc tả 5 User Stories + BR-01..04 (Mini-BRD/RTM), chuẩn hóa ERD lõi 7 bảng (BookTitle → BusBookInventory), thiết kế Tracking Plan 8 sự kiện + SQL 30 ngày lọc cohort 7 ngày chín và kiểm chứng trên bản mẫu Django/MySQL (171 unit tests).',
+    methodEn: 'Built As-Is/To-Be & 3 mobile-bus constraints, 5-stakeholder map, MoSCoW, 5 User Stories + BR-01..04 (Mini-BRD/RTM), normalized 7-entity ERD (BookTitle → BusBookInventory), 8-event Tracking Plan + matured 7-day SQL, validated via a Django/MySQL prototype (171 unit tests).',
+    insight: 'Tách lõi MVP khỏi GĐ 2 (AI/gamification), áp trần phạt 100% giá sách và thiết lập khung quyết định Pilot 4 tuần (2 tuyến) với chỉ số borrows_per_visit không chặn trần giúp kiểm chứng thực địa trước khi mở rộng toàn đội xe.',
+    insightEn: 'Decoupling Phase 1 MVP from Phase 2 AI/gamification, capping fines at 100% replacement value, and setting a 4-week 2-route pilot decision matrix with uncapped borrows_per_visit de-risks network rollout.',
     metrics: [
-      { label: 'Quy Mô Kiến Trúc', labelEn: 'System Architecture', value: '7 Apps • 36 Models', change: 'Django 5.2 • MySQL 8.0 • UUIDv4', changeEn: 'Django 5.2 • MySQL 8.0 • UUIDv4', isPositive: true },
-      { label: 'Quy Tắc BA & Khóa DB', labelEn: 'BA Rules & Concurrency', value: 'BR-01..04 • ACID', change: 'select_for_update() chống Race Condition', changeEn: 'select_for_update() row locking', isPositive: true },
-      { label: 'Tác Vụ Nền Tự Động', labelEn: 'Automated Cron Jobs', value: '9 Celery Jobs', change: 'Redis 7 CacheMixin • Quét FIFO 30p', changeEn: 'Redis 7 CacheMixin • 30m FIFO scan', isPositive: true },
-      { label: 'Kiểm Thử & Giao Diện', labelEn: 'Tests & UI Flows', value: '171 Unit Tests', change: '11 cặp Wireframe–UI • 97 Templates', changeEn: '11 Wireframe–UI pairs • 97 Templates', isPositive: true }
+      { label: 'Đặc tả Nghiệp vụ BA', labelEn: 'BA Specification', value: 'BR-01..04 • 5 US', change: 'As-Is/To-Be • 5 Stakeholders • RTM', changeEn: 'As-Is/To-Be • 5 Stakeholders • RTM', isPositive: true },
+      { label: 'Mô hình Dữ liệu & Tracking', labelEn: 'Data Model & Tracking', value: 'ERD 7 bảng • 8 Events', change: 'BookTitle/BusBookInventory • Matured 7d SQL', changeEn: 'BookTitle/BusBookInventory • Matured 7d SQL', isPositive: true },
+      { label: 'Luồng Màn hình Cốt lõi', labelEn: 'Core Screen Flows', value: '11 Cặp Wireframe–UI', change: 'Desktop 1440px & Mobile 390px', changeEn: 'Desktop 1440px & Mobile 390px', isPositive: true },
+      { label: 'Kiểm chứng & Thí điểm', labelEn: 'Validation & Pilot', value: 'Pilot 4W • 171 Tests', change: '5 ngưỡng Go/Tune trên 2 tuyến xe', changeEn: '5 Go/Tune thresholds across 2 routes', isPositive: true }
     ],
-    tools: ['MySQL 8.0', 'Redis 7 & Celery', 'Django 5.2 ORM', 'Business Analysis (BA)', 'Product Telemetry']
+    tools: ['Technical BA (Mini-BRD/RTM)', 'MoSCoW & User Stories', 'MySQL 8.0 & ERD', 'Tracking Plan', 'Wireframe / UI']
   }
 ];

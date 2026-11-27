@@ -52,16 +52,16 @@ export function Chapter5LiveVideoAds({ lang }: Props) {
 
   return (
     <section id="sec-content" className="scroll-mt-28 space-y-6">
-      <div className="space-y-1.5">
+      <div className="space-y-1">
         <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
           {isVi
-            ? 'Hiệu suất Livestream & Đòn bẩy Ủy quyền quảng cáo Video'
-            : 'Livestream Duration Efficiency & Video Ad Authorization Leverage'}
+            ? 'Hiệu suất Livestream & Đòn bẩy Video Ads'
+            : 'Livestream Duration & Video Ad Leverage'}
         </h2>
-        <p className="text-sm text-slate-600 dark:text-slate-300 max-w-prose leading-relaxed">
+        <p className="text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
           {isVi
-            ? 'Kiểm định 600 phiên Livestream chính chủ (Creator_Livestreams) theo 5 mốc thời lượng và 4.796 video gắn giỏ sau khử trùng (từ 4.797 dòng thô Affiliate_Videos) sau khi chuẩn hóa nhãn song ngữ YES/có và NO/không.'
-            : 'Evaluating 600 official livestream sessions (Creator_Livestreams) across 5 duration buckets and 4,796 deduplicated shoppable videos (from 4,797 raw Affiliate_Videos rows) after bilingual YES/có and NO/không normalization.'}
+            ? 'So sánh 600 phiên Live chính chủ theo thời lượng và 4.796 video gắn giỏ sau chuẩn hóa nhãn Ads (YES/có).'
+            : 'Evaluates 600 official livestream sessions by duration and 4,796 deduplicated shoppable videos by Ad authorization.'}
         </p>
       </div>
 
@@ -72,16 +72,16 @@ export function Chapter5LiveVideoAds({ lang }: Props) {
           <div>
             <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
               <span className="inline-flex items-center rounded-md bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 px-2.5 py-0.5 text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA]">
-                {isVi ? 'Biểu đồ 4A · Creator_Livestreams (600 phiên)' : 'Chart 4A · Creator_Livestreams (600 sessions)'}
+                {isVi ? 'Biểu đồ 5A · Creator_Livestreams (600 phiên)' : 'Chart 5A · Creator_Livestreams (600 sessions)'}
               </span>
-              <span className="rounded-md bg-emerald-500/15 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-300 tabular-nums">
-                {isVi ? '>10h: 4,55 triệu/giờ (4,1× ca <2h)' : '>10h: 4.55M/hour (4.1x <2h)'}
+              <span className="rounded-md bg-amber-500/15 px-2 py-0.5 text-xs font-bold text-amber-800 dark:text-[#FFE485] tabular-nums">
+                {isVi ? 'Kiểm tra Simpson: T6 8,48 vs T8 0,73 Tr/h' : 'Simpson Check: Jun 8.48 vs Aug 0.73M/hr'}
               </span>
             </div>
             <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
               {isVi
-                ? 'Thời lượng phiên Live vs. Hiệu suất GMV bình quân mỗi giờ'
-                : 'Live Session Duration vs. Average GMV per Hour'}
+                ? 'Live >10h đạt 8,48 Tr/h ở T6 nhưng tụt về 0,73 Tr/h ở T8 — mùa vụ quyết định hiệu suất hơn thời lượng'
+                : '>10h Live Hit 8.48M/hr in Jun but Fell to 0.73M/hr in Aug — Seasonality Beats Duration'}
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 tabular-nums">
               {isVi
@@ -166,22 +166,32 @@ export function Chapter5LiveVideoAds({ lang }: Props) {
             </div>
           </div>
 
-          <div className="mt-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-3.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 tabular-nums leading-relaxed">
-            <strong className="text-slate-900 dark:text-white">
-              {isVi ? 'Kết luận (lưu ý nhân quả ngược): ' : 'Takeaway (reverse-causality caveat): '}
-            </strong>
-            {isVi
-              ? '67 ca mega-live >10h đạt 4,55 Tr/giờ (gấp 4,1× ca <2h) và tạo 53,8% GMV Live chính chủ (4,08 tỷ). T8–T9 thời lượng tụt về 2,25–4,46h/phiên kéo GMV giảm theo. Tuy nhiên, phiên bán tốt vào ngày sale lớn thường được giữ sóng lâu hơn nên cần kiểm chứng có kiểm soát khi áp dụng cho ngày thường.'
-              : '67 >10h mega-lives yielded 4.55M/hr (4.1x <2h) and drove 53.8% of official Live GMV (4.08B), while Aug–Sep dropped to 2.25–4.46h. Because strong promo sessions tend to stay live longer (reverse causality), longer shifts require controlled pilot validation on non-promo days.'}
+          <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 space-y-2">
+            <div className="rounded-lg bg-amber-50/80 dark:bg-[#FFD14C]/10 border border-amber-200/80 dark:border-amber-800/40 px-3 py-2 text-[11px] text-slate-700 dark:text-slate-300 tabular-nums leading-relaxed">
+              <strong className="text-amber-900 dark:text-[#FFE485]">
+                {isVi ? 'Phân tầng nhóm >10h theo tháng (tránh Simpson’s Paradox): ' : 'Monthly >10h Stratification (Simpson’s Paradox Check): '}
+              </strong>
+              {isVi
+                ? 'T4: 3,36 Tr/h (4 ca) · T5: 4,54 Tr/h (12 ca) · T6: 8,48 Tr/h (23 ca · 68,7% GMV nhóm >10h) · T7: 1,43 Tr/h (16 ca) · T8: 0,73 Tr/h (12 ca, thấp hơn ca <2h) · T9–10: 0 ca.'
+                : 'Apr: 3.36M/h (4) · May: 4.54M/h (12) · Jun: 8.48M/h (23 · 68.7% of >10h GMV) · Jul: 1.43M/h (16) · Aug: 0.73M/h (12, below <2h mean) · Sep–Oct: 0.'}
+            </div>
+            <p className="text-xs text-slate-600 dark:text-slate-300 tabular-nums leading-relaxed">
+              <strong className="text-slate-900 dark:text-white">
+                {isVi ? 'Kết luận: ' : 'Takeaway: '}
+              </strong>
+              {isVi
+                ? 'Mức gộp 4,55 Tr/giờ của 67 ca >10h bị kéo mạnh bởi đỉnh T6; trong mùa thấp điểm T7–T8, kéo dài phiên không tự tạo doanh số nên mọi ca ≥8h cần gắn ngưỡng cắt lỗ theo giờ.'
+                : 'The 4.55M/hr aggregate across 67 >10h shifts is skewed by peak June; in Jul–Aug troughs, longer shifts alone underperform, so ≥8h tests require hourly stop-loss rules.'}
+            </p>
           </div>
         </div>
 
-        {/* Bên phải: Tác động của Ủy quyền quảng cáo Video (4.797 clip Affiliate_Videos) */}
+        {/* Bên phải: Tác động của Ủy quyền quảng cáo Video (4.796 clip Affiliate_Videos) */}
         <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5 md:p-6 flex flex-col justify-between">
           <div>
             <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
               <span className="inline-flex items-center rounded-md bg-[#FFE485]/60 dark:bg-[#FFD14C]/15 px-2.5 py-0.5 text-xs font-semibold text-slate-900 dark:text-[#FFE485]">
-                {isVi ? 'Biểu đồ 4B · Affiliate_Videos (4.796 clip sau khử trùng)' : 'Chart 4B · Affiliate_Videos (4,796 deduped clips)'}
+                {isVi ? 'Biểu đồ 5B · Affiliate_Videos (4.796 clip sau khử trùng)' : 'Chart 5B · Affiliate_Videos (4,796 deduped clips)'}
               </span>
               <span className="rounded-md bg-emerald-500/15 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-300 tabular-nums">
                 {isVi ? 'Doanh thu/clip gấp 4,4 lần khi bật Ads' : '4.4x higher revenue/clip with Ads'}
@@ -189,8 +199,8 @@ export function Chapter5LiveVideoAds({ lang }: Props) {
             </div>
             <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
               {isVi
-                ? 'Tác động của Ủy quyền quảng cáo Video (Sau gộp nhãn YES/có)'
-                : 'Impact of Video Ad Authorization (After YES/có Bilingual Merge)'}
+                ? 'Video Ads có GPM thấp hơn Organic (0,84× toàn mẫu; 0,73× trong cùng 192 KOC) — chỉ nên đẩy clip đã có đơn'
+                : 'Video Ads Trailed Organic on GPM (0.84x Overall; 0.73x Within 192 KOCs) — Boost Proven Clips Only'}
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 tabular-nums">
               {isVi
@@ -278,14 +288,14 @@ export function Chapter5LiveVideoAds({ lang }: Props) {
             </div>
           </div>
 
-          <div className="mt-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-3.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 tabular-nums leading-relaxed">
+          <p className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 tabular-nums leading-relaxed">
             <strong className="text-slate-900 dark:text-white">
-              {isVi ? 'Chênh lệch 4,4× (lưu ý chọn mẫu ngược): ' : '4.4x Lift (observational caveat): '}
+              {isVi ? 'Kết luận: ' : 'Takeaway: '}
             </strong>
             {isVi
-              ? '3.775 clip bật Ads đạt 30,3% tỷ lệ ra đơn và 547,7k/clip (2,07 tỷ), so với 10,2% và 125,5k/clip ở 1.021 clip không Ads (nhãn hàng thường ưu tiên bật Ads cho clip vốn bán tốt).'
-              : '3,775 Ad-authorized clips converted at 30.3% and 547.7k/clip (2.07B) vs. 10.2% and 125.5k/clip for 1,021 non-authorized clips (subject to selection into boosting winners).'}
-          </div>
+              ? '3.775 clip bật Ads đạt 547,7k/clip và 30,3% có đơn (4,4× nhóm không Ads), lưu ý một phần do shop ưu tiên đẩy Ads cho clip đã bán tốt.'
+              : '3,775 Ad clips hit 547.7k/clip and 30.3% conversion (4.4x non-Ads), partly reflecting selection of winning clips for boosting.'}
+          </p>
         </div>
       </div>
 
@@ -360,8 +370,8 @@ export function Chapter5LiveVideoAds({ lang }: Props) {
               <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 p-4">
                 <p className="text-xs font-bold text-slate-900 dark:text-white mb-2">
                   {isVi
-                    ? 'Ma trận Khung giờ bắt đầu × Thời lượng phiên Live (595 phiên chính chủ UTC+7)'
-                    : 'Start Hour × Session Duration Matrix (595 official sessions UTC+7)'}
+                    ? 'Ma trận Khung giờ bắt đầu × Thời lượng phiên Live (599 phiên CrLive >= 09/03, UTC+7)'
+                    : 'Start Hour × Session Duration Matrix (599 CrLive sessions >= Mar 09, UTC+7)'}
                 </p>
                 <table className="w-full text-center border-collapse text-xs tabular-nums">
                   <thead>
@@ -392,10 +402,15 @@ export function Chapter5LiveVideoAds({ lang }: Props) {
               </div>
 
               <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 p-4">
-                <p className="text-xs font-bold text-slate-900 dark:text-white mb-2">
+                <p className="text-xs font-bold text-slate-900 dark:text-white mb-1">
                   {isVi
-                    ? `Top 8 SKU ghim Live (Spearman ρ = +${pin.spearmanRho}, tổng ${pin.liveProdTotalGmvB} tỷ VNĐ)`
-                    : `Top 8 Pinned Live SKUs (Spearman ρ = +${pin.spearmanRho}, total ${pin.liveProdTotalGmvB}B VND)`}
+                    ? `Top 8 SKU ghim Live (Spearman ρ = +${String(pin.spearmanRho).replace('.', ',')}, mẫu xuất ${String(pin.liveProdTotalGmvB).replace('.', ',')} tỷ VNĐ)`
+                    : `Top 8 Pinned Live SKUs (Spearman ρ = +${pin.spearmanRho}, export sample ${pin.liveProdTotalGmvB}B VND)`}
+                </p>
+                <p className="text-[11px] text-amber-800 dark:text-[#FFE485] mb-2 leading-relaxed">
+                  {isVi
+                    ? 'Lưu ý chất lượng nguồn LiveProd: bảng chỉ phủ 0,45 tỷ (4,3% GMV Live), lặp tổng shopUnits = 312.689 ở mọi dòng và thiếu các mã chủ lực (AT06, H36) nên chỉ dùng minh họa mẫu.'
+                    : 'LiveProd data caveat: covers only 0.45B (4.3% of Live GMV), repeats store total shopUnits = 312,689 on every row, and omits hero SKUs (AT06, H36); illustrative sample only.'}
                 </p>
                 <table className="w-full text-left border-collapse text-xs tabular-nums">
                   <thead>

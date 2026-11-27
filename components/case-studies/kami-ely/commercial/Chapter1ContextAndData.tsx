@@ -46,12 +46,11 @@ export function Chapter1ContextAndData({ lang }: Props) {
     },
   ];
 
-  // Biểu đồ 2: 3-Tier Revenue Decomposition Stacked Bar / Sankey Flow at 226-day shared cutoff (20/10/2026 = 14.84B)
+  // Biểu đồ 2: So sánh cơ cấu Nội bộ vs KOC ngoài trong từng kênh (không trừ chéo Gross/Net và khung thời gian khác nhau)
   const tierComparisonData = [
     {
-      channel: isVi ? 'Livestream (10,47 tỷ · 70,5%)' : 'Livestream (10.47B · 70.5%)',
+      channel: isVi ? 'Livestream (10,47 tỷ · 226d Gross)' : 'Livestream (10.47B · 226d Gross)',
       totalB: 10.47,
-      shareOfStorePct: 70.5,
       officialPct: 72.5,
       officialB: 7.59,
       satellitePct: 12.0,
@@ -60,9 +59,8 @@ export function Chapter1ContextAndData({ lang }: Props) {
       externalB: 1.62,
     },
     {
-      channel: isVi ? 'Video ngắn (2,20 tỷ · 14,8%)' : 'Short Video (2.20B · 14.8%)',
+      channel: isVi ? 'Video ngắn (2,20 tỷ · 90d Gross)' : 'Short Video (2.20B · 90d Gross)',
       totalB: 2.2,
-      shareOfStorePct: 14.8,
       officialPct: 36.5,
       officialB: 0.8,
       satellitePct: 5.1,
@@ -74,85 +72,85 @@ export function Chapter1ContextAndData({ lang }: Props) {
 
   return (
     <section id="sec-context" className="scroll-mt-28 space-y-6">
-      <div className="space-y-1.5">
+      <div className="space-y-1">
         <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
           {isVi
-            ? 'Đối soát 10 bảng & Cấu trúc phân rã nguồn doanh thu'
-            : '10-Table Reconciliation & 3-Tier Revenue Decomposition'}
+            ? 'Đối soát 10 bảng & Cấu trúc kênh (Gross phiên vs. Net cửa hàng)'
+            : '10-Table Reconciliation & Channel Mix (Gross vs. Net)'}
         </h2>
-        <p className="text-sm text-slate-600 dark:text-slate-300 max-w-prose leading-relaxed">
+        <p className="text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
           {isVi
-            ? 'Chốt mốc thời gian đồng bộ 226 ngày đến 20/10/2026 (14,84 tỷ VNĐ) giữa bảng Toàn shop, Livestream và Video để bóc tách chính xác tỷ trọng đóng góp giữa đội ngũ In-house và mạng lưới KOC bên ngoài.'
-            : 'Anchoring at the shared 226-day cutoff through Oct 20, 2026 (14.84B VND) across Store, Livestream, and Video tables to isolate the exact contribution of in-house channels versus external KOCs.'}
+            ? 'Tách riêng cơ cấu nội bộ trong từng bảng theo đúng khung thời gian (Toàn shop 231d Net, Live 226d Gross, Video 90d Gross) thay vì trừ chéo ra phần dư giả.'
+            : 'Audits channel mix within each table’s native grain and window (231d Net Store, 226d Gross Live, rolling 90d Video) without invalid cross-window subtraction.'}
         </p>
       </div>
 
-      {/* Biểu đồ 2: Phân rã nguồn doanh thu 3 tầng (Sankey / Thanh chồng phân cấp 3 tầng tại mốc 20/10/2026 = 14,84 tỷ) */}
+      {/* Biểu đồ 2: Cơ cấu Nội bộ vs KOC ngoài theo từng kênh + Hộp đối soát Gross vs Net */}
       <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/50 p-5 md:p-6 space-y-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <span className="inline-flex items-center rounded-md bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 px-2.5 py-0.5 text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA] mb-1.5">
               {isVi
-                ? 'Biểu đồ 2 · Phân rã 3 tầng (Chốt cùng khung 226 ngày đến 20/10/2026 = 14,84 tỷ VNĐ)'
-                : 'Chart 2 · 3-Tier Revenue Decomposition (Shared 226d Cutoff to Oct 20, 2026 = 14.84B VND)'}
+                ? 'Biểu đồ 2 · Đối chiếu cơ cấu Nội bộ vs. KOC ngoài trong từng kênh (đúng độ hạt & khung thời gian)'
+                : 'Chart 2 · In-House vs. External KOC Split Within Each Channel (Window- & Grain-Consistent)'}
             </span>
             <h3 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
               {isVi
-                ? 'Toàn shop (14,84 tỷ) → Kênh tạo số → Nội bộ vs. KOC bên ngoài'
-                : 'Whole Shop (14.84B) → Channel Mix → In-House vs. External KOCs'}
+                ? 'Đảo chiều vai trò kênh: Live do Nội bộ dẫn dắt (84,5%) · Video do KOC ngoài dẫn dắt (58,4%)'
+                : 'Channel Role Reversal: In-House Leads Live (84.5%) · External KOCs Lead Video (58.4%)'}
             </h3>
           </div>
           <span className="rounded-xl bg-[#FFE485]/45 dark:bg-[#FFD14C]/15 px-3 py-1.5 text-xs font-bold text-slate-900 dark:text-[#FFE485] tabular-nums">
             {isVi
-              ? 'Live: 84,5% Nội bộ · Video: 58,4% KOC bên ngoài'
-              : 'Live: 84.5% In-House · Video: 58.4% External KOCs'}
+              ? 'Toàn shop Net: 15,01 tỷ (231d) · 14,84 tỷ (226d)'
+              : 'Store Net: 15.01B (231d) · 14.84B (226d)'}
           </span>
         </div>
 
-        {/* Visual 3-Tier Sankey / Hierarchical Flow Diagram */}
+        {/* 3-Column Channel Structure + Gross-vs-Net Reconciliation */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch tabular-nums">
-          {/* Tier 1: Whole Shop 226d */}
-          <div className="lg:col-span-3 rounded-xl border-2 border-[#0D7287]/40 bg-[#C8EEF7]/25 dark:bg-slate-950/80 p-4 flex flex-col justify-between">
+          {/* Col 1: Store Net Benchmark & Reconciliation Guard */}
+          <div className="lg:col-span-4 rounded-xl border border-amber-500/35 bg-[#FFE485]/20 dark:bg-slate-950/80 p-4 flex flex-col justify-between">
             <div>
-              <span className="text-[11px] font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                {isVi ? 'Tầng 1 · Toàn shop (226 ngày)' : 'Tier 1 · Whole Shop (226d)'}
+              <span className="text-[11px] font-bold text-amber-800 dark:text-[#FFE485]">
+                {isVi ? 'Nguyên tắc đối soát · Không trừ chéo Gross/Net' : 'Reconciliation Guard · No Cross-Window Subtraction'}
               </span>
               <p className="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
-                {isVi ? '14,84 tỷ VNĐ' : '14.84B VND'}
+                {isVi ? '14,84 tỷ (226d Net)' : '14.84B (226d Net)'}
               </p>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+              <p className="text-xs text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">
                 {isVi
-                  ? 'Khung đồng bộ 09/03 – 20/10/2026 (đủ 231 ngày đến 25/10 là 15,01 tỷ; tổng 3 kênh chênh 0,01 tỷ do làm tròn).'
-                  : 'Synchronized Mar 09 – Oct 20, 2026 window (15.01B across full 231 days to Oct 25; 3-branch sum differs by 0.01B due to rounding).'}
+                  ? 'Riêng T6, Live Gross đạt 4,92 tỷ vs. Toàn shop Net 3,77 tỷ (+30,5%), nên không trừ chéo 3 bảng khác cửa sổ để suy ra Shop Tab.'
+                  : 'June Gross Live hit 4.92B vs. 3.77B Store Net (+30.5%), so subtracting across mismatched windows is invalid.'}
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-200/70 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 space-y-1">
+            <div className="mt-4 pt-3 border-t border-amber-500/20 text-xs text-slate-700 dark:text-slate-300 space-y-1">
               <div className="flex justify-between">
-                <span>Livestream:</span>
-                <strong>70,5% (10,47 tỷ)</strong>
+                <span>{isVi ? 'Store Overview (231d):' : 'Store Overview (231d):'}</span>
+                <strong>15,01 tỷ (Net)</strong>
               </div>
               <div className="flex justify-between">
-                <span>{isVi ? 'Video ngắn:' : 'Short Video:'}</span>
-                <strong>14,8% (2,20 tỷ)</strong>
+                <span>{isVi ? 'AffLive khử trùng (226d):' : 'Deduped AffLive (226d):'}</span>
+                <strong>10,47 tỷ (Gross)</strong>
               </div>
               <div className="flex justify-between">
-                <span>{isVi ? 'Shop Tab / Khác:' : 'Shop Tab / Other:'}</span>
-                <strong>14,7% (2,18 tỷ)</strong>
+                <span>{isVi ? 'AffVid khử trùng (90d):' : 'Deduped AffVid (90d):'}</span>
+                <strong>2,20 tỷ (Rolling 90d)</strong>
               </div>
             </div>
           </div>
 
-          {/* Tier 2 -> Tier 3 Breakdown Cards */}
-          <div className="lg:col-span-9 grid grid-cols-1 md:grid-cols-3 gap-3">
-            {/* Branch 1: Livestream (70.5%) */}
+          {/* Col 2 & Col 3: Within-Channel Breakdowns */}
+          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-3">
+            {/* Branch 1: Livestream (226d Gross = 10.47B) */}
             <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 p-4 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs font-bold text-slate-900 dark:text-white">
-                    {isVi ? 'Tầng 2 · Livestream' : 'Tier 2 · Livestream'}
+                    {isVi ? 'Kênh A · Livestream (226 ngày)' : 'Channel A · Livestream (226d)'}
                   </span>
                   <span className="rounded-md bg-[#9BE7FA]/40 dark:bg-[#9BE7FA]/20 px-2 py-0.5 text-xs font-bold text-slate-900 dark:text-[#9BE7FA]">
-                    70,5%
+                    {isVi ? 'Gross phiên' : 'Session Gross'}
                   </span>
                 </div>
                 <p className="text-xl font-extrabold text-slate-900 dark:text-white mt-1">
@@ -164,7 +162,7 @@ export function Chapter1ContextAndData({ lang }: Props) {
               </div>
               <div className="mt-3 pt-3 border-t border-slate-200/70 dark:border-slate-800 space-y-2 text-xs">
                 <p className="font-bold text-slate-800 dark:text-slate-200">
-                  {isVi ? 'Tầng 3 · Nội bộ thống trị 84,5%:' : 'Tier 3 · In-House Dominates 84.5%:'}
+                  {isVi ? 'Nội bộ thống trị 84,5% (8,85 tỷ):' : 'In-House Dominates 84.5% (8.85B):'}
                 </p>
                 <div className="space-y-1.5">
                   <div>
@@ -198,15 +196,15 @@ export function Chapter1ContextAndData({ lang }: Props) {
               </div>
             </div>
 
-            {/* Branch 2: Short Video (14.8%) */}
+            {/* Branch 2: Short Video (Rolling 90d = 2.20B) */}
             <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs font-bold text-slate-900 dark:text-white">
-                    {isVi ? 'Tầng 2 · Video ngắn' : 'Tier 2 · Short Video'}
+                    {isVi ? 'Kênh B · Video ngắn (90 ngày cuốn chiếu)' : 'Channel B · Short Video (Rolling 90d)'}
                   </span>
                   <span className="rounded-md bg-emerald-500/15 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-300">
-                    14,8%
+                    {isVi ? 'Rolling 90d' : 'Rolling 90d'}
                   </span>
                 </div>
                 <p className="text-xl font-extrabold text-slate-900 dark:text-white mt-1">
@@ -218,7 +216,7 @@ export function Chapter1ContextAndData({ lang }: Props) {
               </div>
               <div className="mt-3 pt-3 border-t border-emerald-500/20 space-y-2 text-xs">
                 <p className="font-bold text-emerald-800 dark:text-emerald-300">
-                  {isVi ? 'Tầng 3 · Đảo chiều KOC ngoài 58,4%:' : 'Tier 3 · Reversed External KOCs 58.4%:'}
+                  {isVi ? 'Đảo chiều — KOC ngoài tạo 58,4% (1,28 tỷ):' : 'Reversed — External KOCs Drive 58.4% (1.28B):'}
                 </p>
                 <div className="space-y-1.5">
                   <div>
@@ -249,36 +247,6 @@ export function Chapter1ContextAndData({ lang }: Props) {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Branch 3: Shop Tab / Product Card / Residual (14.7%) */}
-            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 p-4 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-bold text-slate-900 dark:text-white">
-                    {isVi ? 'Tầng 2 · Shop Tab / Khác' : 'Tier 2 · Shop Tab / Other'}
-                  </span>
-                  <span className="rounded-md bg-slate-200 dark:bg-slate-800 px-2 py-0.5 text-xs font-bold text-slate-700 dark:text-slate-300">
-                    14,7%
-                  </span>
-                </div>
-                <p className="text-xl font-extrabold text-slate-900 dark:text-white mt-1">
-                  {isVi ? '2,18 tỷ VNĐ' : '2.18B VND'}
-                </p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                  {isVi ? 'Phần dư đối soát (Product Card / Tìm kiếm)' : 'Reconciliation residual (Product Card / Search)'}
-                </p>
-              </div>
-              <div className="mt-3 pt-3 border-t border-slate-200/70 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                <p className="font-semibold text-slate-900 dark:text-white mb-1">
-                  {isVi ? 'Phát hiện cốt lõi:' : 'Core Finding:'}
-                </p>
-                <p>
-                  {isVi
-                    ? 'Video Affiliate mới là nơi mạng lưới KOC bên ngoài phát huy tác dụng (tạo 58,4% doanh thu Video = 1,28 tỷ), trong khi Livestream là sân chơi của đội ngũ In-house (84,5% = 8,85 tỷ).'
-                    : 'Video Affiliate is where external KOCs truly perform (driving 58.4% of Video GMV = 1.28B), whereas Livestream relies on the in-house team (84.5% = 8.85B).'}
-                </p>
               </div>
             </div>
           </div>
@@ -357,121 +325,104 @@ export function Chapter1ContextAndData({ lang }: Props) {
         </div>
       </div>
 
-      {/* Khối Làm sạch & Đối soát dữ liệu (4 bẫy dữ liệu thực tế + Bảng mini 4 dòng đối soát khung thời gian) */}
-      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-[#C8EEF7]/10 dark:bg-slate-900/60 p-5 md:p-6 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
-            <h3 className="text-base font-bold text-slate-900 dark:text-white">
-              {isVi
-                ? 'Làm sạch & Đối soát dữ liệu: 4 bẫy dữ liệu thực tế đã xử lý trong 10 file Excel'
-                : 'Data Cleaning & Reconciliation: 4 Real Data Traps Resolved Across the 10 Excel Files'}
-            </h3>
-          </div>
-          <span className="text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
-            {isVi ? '10 bảng · 23.364 dòng kiểm toán' : '10 tables · 23,364 audited rows'}
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-300 tabular-nums">
-          <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-3.5">
-            <p className="font-bold text-slate-900 dark:text-white mb-1">
-              {isVi ? '1. Bẫy trừ lũy kế thiếu 310 sp ngày đầu' : '1. Cumulative Subtraction Day-1 Trap (-310 units)'}
-            </p>
-            <p>
-              {isVi
-                ? 'Cộng trực tiếp cột bán ngày (231 ngày) ra đúng 101.896 sp; trừ cột lũy kế ngày cuối cho ngày đầu sẽ hụt 310 sp bán ngày 09/03.'
-                : 'Summing daily units across 231 rows yields 101,896 units; subtracting cumulative endpoints omits 310 units sold on day 1 (Mar 09).'}
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-3.5">
-            <p className="font-bold text-slate-900 dark:text-white mb-1">
-              {isVi ? '2. Sửa nhãn mùa mã AQ1 (Đông → Đồ bơi Hè)' : '2. Reclassified SKU AQ1 (Winter → Summer Swimwear)'}
-            </p>
-            <p>
-              {isVi
-                ? 'Đối chiếu Shop_Products cho thấy AQ1 là "Set Đồ Bơi Kín Đáo" (đạt đỉnh T7 = 16,94M), nên đã chuyển về nhóm 6 mã Đồ bơi Hè.'
-                : 'Cross-checking Shop_Products confirmed AQ1 is a modest swimwear set (peaking in July at 16.94M), moving it to the 6 Summer SKUs.'}
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-3.5">
-            <p className="font-bold text-slate-900 dark:text-white mb-1">
-              {isVi ? '3. Gộp nhãn song ngữ, bí danh KOC & trùng mã H30' : '3. Bilingual Flags, KOC Aliases & Duplicate H30'}
-            </p>
-            <p>
-              {isVi
-                ? 'Gộp YES/có và NO/không; GROUP BY theo KOC ID ẩn danh vì @koc_sat01 xuất hiện dưới 2 tên hiển thị; tách rõ 2 link trùng mã H30 (38,3M & 32,7M).'
-                : 'Merged YES/có & NO/không flags; grouped by pseudonymized KOC ID since @koc_sat01 had 2 aliases; tracked 2 separate H30 product links (38.3M & 32.7M).'}
-            </p>
-          </div>
-
-          {/* 4-Row Mini Time-Window Reconciliation Table */}
-          <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-3.5">
-            <p className="font-bold text-slate-900 dark:text-white mb-1.5">
-              {isVi
-                ? '4. Bảng mini đối soát độ lệch khung thời gian giữa các nhóm bảng'
-                : '4. Mini Time-Window Reconciliation Across Table Groups'}
-            </p>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse text-[11px] tabular-nums">
-                <thead>
-                  <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500">
-                    <th className="py-1 pr-2 font-semibold">{isVi ? 'Nhóm bảng' : 'Table Group'}</th>
-                    <th className="py-1 px-2 font-semibold">{isVi ? 'Mốc kết thúc' : 'Cutoff'}</th>
-                    <th className="py-1 pl-2 font-semibold">{isVi ? 'Quy tắc đối soát' : 'Reconciliation Rule'}</th>
-                  </tr>
-                </thead>
-                <tbody className="text-slate-700 dark:text-slate-300">
-                  <tr className="border-b border-slate-100 dark:border-slate-800/60">
-                    <td className="py-1 pr-2 font-semibold">Store_Daily (231d)</td>
-                    <td className="py-1 px-2">25/10/2026</td>
-                    <td className="py-1 pl-2">{isVi ? '15,01 tỷ (Chốt 20/10 = 14,84 tỷ)' : '15.01B (14.84B at Oct 20)'}</td>
-                  </tr>
-                  <tr className="border-b border-slate-100 dark:border-slate-800/60">
-                    <td className="py-1 pr-2 font-semibold">AffLive & AffVid</td>
-                    <td className="py-1 px-2">20/10/2026</td>
-                    <td className="py-1 pl-2">{isVi ? 'Live 10,47 tỷ + Video 2,20 tỷ (226d)' : 'Live 10.47B + Video 2.20B (226d)'}</td>
-                  </tr>
-                  <tr className="border-b border-slate-100 dark:border-slate-800/60">
-                    <td className="py-1 pr-2 font-semibold">Creator_Live (600)</td>
-                    <td className="py-1 px-2">20/10/2026</td>
-                    <td className="py-1 pl-2">{isVi ? '7,59 tỷ · Tập con trùng lắp @shop_official' : '7.59B · Overlapping official subset'}</td>
-                  </tr>
-                  <tr>
-                    <td className="py-1 pr-2 font-semibold">KOL & Shop_Products</td>
-                    <td className="py-1 px-2">Rolling 90d</td>
-                    <td className="py-1 pl-2">{isVi ? '2,92 tỷ & 3,16 tỷ (Cửa sổ cuốn chiếu)' : '2.92B & 3.16B (Rolling window)'}</td>
-                  </tr>
-                </tbody>
-              </table>
+      {/* Accordion gom gọn: 4 bẫy dữ liệu + Ma trận 10 bảng (đóng mặc định để giữ trang thoáng) */}
+      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-[#C8EEF7]/10 dark:bg-slate-900/60 p-4">
+        <button
+          type="button"
+          onClick={() => setShowFullMatrix((v) => !v)}
+          className="w-full min-h-[44px] rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2.5 text-left hover:border-[#0D7287] flex items-center justify-between gap-3 transition-colors cursor-pointer"
+        >
+          <div className="flex items-start sm:items-center gap-2.5 min-w-0">
+            <ShieldCheck className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA] shrink-0 mt-0.5 sm:mt-0" />
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-slate-900 dark:text-white">
+                {showFullMatrix
+                  ? isVi
+                    ? 'Thu gọn 4 bẫy dữ liệu đã xử lý & Ma trận đối soát 10 bảng (23.364 dòng)'
+                    : 'Collapse 4 Resolved Data Traps & 10-Table Reconciliation Matrix (23,364 rows)'
+                  : isVi
+                  ? 'Kiểm toán làm sạch dữ liệu: 4 bẫy thực tế & Ma trận 10 bảng (23.364 dòng)'
+                  : 'Data Cleaning Audit: 4 Real Data Traps & 10-Table Matrix (23,364 rows)'}
+              </p>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 tabular-nums truncate">
+                {isVi
+                  ? 'Bẫy trừ lũy kế (-310 sp) · Đổi nhãn mùa AQ1 · Gộp YES/có & bí danh KOC · Tránh cộng trùng Live 120,3%'
+                  : 'Cumulative trap (-310 units) · Reclassified AQ1 · Bilingual YES/có merge · Live 120.3% dedup'}
+              </p>
             </div>
           </div>
-        </div>
-
-        {/* Accordion Toggle Button for Full 10-Table Matrix & Timeline (-60% height reduction) */}
-        <div className="pt-1">
-          <button
-            type="button"
-            onClick={() => setShowFullMatrix((v) => !v)}
-            className="w-full min-h-[44px] rounded-xl border border-slate-300/80 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2.5 text-xs font-bold text-slate-800 dark:text-slate-200 hover:border-[#0D7287] flex items-center justify-between transition-colors cursor-pointer"
-          >
-            <span>
-              {showFullMatrix
-                ? isVi
-                  ? 'Thu gọn ma trận đối soát chi tiết & sơ đồ khung thời gian 10 bảng'
-                  : 'Collapse detailed 10-table reconciliation matrix & timeline'
-                : isVi
-                ? 'Xem ma trận đối soát & khung thời gian chi tiết của cả 10 bảng dữ liệu (23.364 dòng)'
-                : 'View detailed reconciliation matrix & timeline across all 10 tables (23,364 rows)'}
-            </span>
-            {showFullMatrix ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          </button>
-        </div>
+          {showFullMatrix ? <ChevronUp className="w-4 h-4 shrink-0" /> : <ChevronDown className="w-4 h-4 shrink-0" />}
+        </button>
 
         {showFullMatrix && (
-          <div className="space-y-5 pt-3">
+          <div className="space-y-4 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs leading-relaxed text-slate-700 dark:text-slate-300 tabular-nums">
+              <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-3.5">
+                <p className="font-bold text-slate-900 dark:text-white mb-1">
+                  {isVi ? '1. Bẫy trừ lũy kế thiếu 310 sp ngày đầu' : '1. Cumulative Subtraction Day-1 Trap (-310 units)'}
+                </p>
+                <p>
+                  {isVi
+                    ? 'Cộng trực tiếp cột bán ngày (231 ngày) ra đúng 101.896 sp; trừ cột lũy kế ngày cuối cho ngày đầu sẽ hụt 310 sp bán ngày 09/03.'
+                    : 'Summing daily units across 231 rows yields 101,896 units; subtracting cumulative endpoints omits 310 units sold on day 1 (Mar 09).'}
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-3.5">
+                <p className="font-bold text-slate-900 dark:text-white mb-1">
+                  {isVi ? '2. Sửa nhãn mùa mã AQ1 (Đông → Đồ bơi Hè)' : '2. Reclassified SKU AQ1 (Winter → Summer Swimwear)'}
+                </p>
+                <p>
+                  {isVi
+                    ? 'Đối chiếu Shop_Products cho thấy AQ1 là "Set Đồ Bơi Kín Đáo" (đạt đỉnh T7 = 16,94M), nên đã chuyển về nhóm 6 mã Đồ bơi Hè.'
+                    : 'Cross-checking Shop_Products confirmed AQ1 is a modest swimwear set (peaking in July at 16.94M), moving it to the 6 Summer SKUs.'}
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-3.5">
+                <p className="font-bold text-slate-900 dark:text-white mb-1">
+                  {isVi ? '3. Gộp nhãn song ngữ, bí danh KOC & trùng mã H30' : '3. Bilingual Flags, KOC Aliases & Duplicate H30'}
+                </p>
+                <p>
+                  {isVi
+                    ? 'Gộp YES/có và NO/không; GROUP BY theo KOC ID ẩn danh vì @koc_sat01 xuất hiện dưới 2 tên hiển thị; tách rõ 2 link trùng mã H30 (38,3M & 32,7M).'
+                    : 'Merged YES/có & NO/không flags; grouped by pseudonymized KOC ID since @koc_sat01 had 2 aliases; tracked 2 separate H30 product links (38.3M & 32.7M).'}
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-3.5">
+                <p className="font-bold text-slate-900 dark:text-white mb-1.5">
+                  {isVi ? '4. Đối soát khung thời gian 4 nhóm bảng' : '4. Time-Window Reconciliation Across 4 Table Groups'}
+                </p>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-[11px] tabular-nums">
+                    <tbody className="text-slate-700 dark:text-slate-300 divide-y divide-slate-100 dark:divide-slate-800/60">
+                      <tr>
+                        <td className="py-1 pr-2 font-semibold">Store_Daily (231d)</td>
+                        <td className="py-1 px-2">25/10/2026</td>
+                        <td className="py-1 pl-2">{isVi ? '15,01 tỷ (20/10 = 14,84 tỷ)' : '15.01B (Oct 20 = 14.84B)'}</td>
+                      </tr>
+                      <tr>
+                        <td className="py-1 pr-2 font-semibold">AffLive &amp; AffVid</td>
+                        <td className="py-1 px-2">20/10/2026</td>
+                        <td className="py-1 pl-2">{isVi ? 'Live 10,47 tỷ · Video 2,20 tỷ' : 'Live 10.47B · Video 2.20B'}</td>
+                      </tr>
+                      <tr>
+                        <td className="py-1 pr-2 font-semibold">Creator_Live (600)</td>
+                        <td className="py-1 px-2">20/10/2026</td>
+                        <td className="py-1 pl-2">{isVi ? '7,59 tỷ · Tập con @shop_official' : '7.59B · Official subset'}</td>
+                      </tr>
+                      <tr>
+                        <td className="py-1 pr-2 font-semibold">KOL &amp; Products</td>
+                        <td className="py-1 px-2">Rolling 90d</td>
+                        <td className="py-1 pl-2">{isVi ? '2,92 tỷ & 3,16 tỷ' : '2.92B & 3.16B'}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
             {/* Double-Counting Proof Chart */}
             <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/70 p-4">
               <p className="text-xs font-bold text-slate-900 dark:text-white mb-2">

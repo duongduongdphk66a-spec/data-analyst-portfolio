@@ -1,177 +1,114 @@
-# Ma Văn Hùng: Data Analyst Portfolio
+# Ma Văn Hùng — Fresher Data Analyst & Business Analyst Portfolio
 
-An interactive web portfolio for data analysis case studies, business intelligence dashboards, and in-browser SQL querying with full-stack MySQL CMS integration.
+Portfolio tương tác dành cho vị trí **Fresher Data Analyst / Business Analyst**, kết hợp phân tích dữ liệu (SQL MySQL 8.0, Python/SciPy, đối soát đa nguồn, kiểm định thống kê, đặc tả BI) với phân tích nghiệp vụ (Mini-BRD, BPMN 2.0, User Stories, ERD, Wireframe và Tracking Plan).
 
-Built with Next.js 15 (App Router), React 19, Tailwind CSS 4, MySQL, and Recharts.
-
----
-
-## Key Features
-
-- **Auditable SQL & Python Code Library**: Reproducible MySQL 8.0+ / ANSI SQL chapter queries, 9 automated data quality gates, and downloadable Python statistical verification notebooks (`.ipynb`).
-- **Spotlight Command Palette (`Ctrl + K` / `Cmd + K`)**: Keyboard navigation across case studies, skills, theme toggling, language switching, and CMS shortcuts.
-- **Admin CMS Portal (`Ctrl + E`)**:
-  - Password authentication with session tokens, timing-safe validation, and HTTP 401 API guards.
-  - Multi-tab management: Dynamic Profile editor, Page Texts CMS, and Project Manager.
-  - MySQL database synchronization with `portfolio_profile`, `portfolio_texts`, and `portfolio_projects` tables.
-- **Business Intelligence Dashboard**: Interactive KPI scorecards, multi-dimension time horizon filtering (H1 vs H2), and 2x Retina PNG chart export.
-- **Interactive Case Studies**:
-  1. **Kami Ely TikTok Shop & Affiliate Performance (231 Days: Mar 09 – Oct 25, 2026)**: Independent analysis of 15.01B VND estimated GMV and 101,896 units sold from 10 third-party FastMoss telemetry tables (reconciled with the 180-day window of 12.74B VND / 85,500 units and all-time cumulative store total of 31.6B VND / 238.4k units).
-  2. **Heritage Tourism in Japan (2013–2023 Policy Era on 2003–2022 Time-Series Baseline)**: Quantitative modeling of 31.9M peak tourist inflow (2019), 4.81T Yen expenditure, 7.5% GDP contribution, and 3,000:1 local overtourism pressure at Shirakawa-go.
-  3. **Library Bus — Business Analysis (BA), Telemetry Architecture & UX/UI**: 4 business rule specifications (BR-01..04), MySQL 8.0 / Redis 7 / Celery Beat architecture, product telemetry schema, and 11 core paired Wireframe–UI screens (Desktop 1440px & Mobile 390px) with simulated prototype funnel data.
-- **SEO & Performance**: Dynamic SSR với Per-Request Cryptographic Nonce CSP (30 routes), dynamic `sitemap.xml`, `robots.txt`, và Schema.org JSON-LD structured data.
+Xây dựng trên Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS 4, MySQL 8.0 và Recharts.
 
 ---
 
-## Getting Started
+## 3 Case Study Chính
 
-### Prerequisites
-- Node.js 18+ or 20+
-- MySQL 8.0+ (Optional: XAMPP, Laragon, Docker MySQL, or Cloud MySQL like Aiven or Railway)
+1. **Kami Ely — Phân tích TikTok Shop, Mạng lưới Affiliate & Đặc tả BI (DA + BA Hybrid)**
+   - **Quy mô:** 231 ngày vận hành ước tính từ 10 bảng FastMoss (09/03 – 25/10/2026: `15,01 tỷ đ` GMV, `101.896` sản phẩm bán ra).
+   - **Phân tích DA:** Phát hiện và loại trừ `+7,59 tỷ đ` trùng nguồn giữa `CrLive` và `AffLive`; kiểm định Panel FE trên cửa sổ sau mở bán (`n = 1.422`, `Within R² = 0,302`); phân tầng Live `>10h` theo tháng chỉ ra Nghịch lý Simpson (`8,48 Tr/h` T6 vs. `0,73 Tr/h` T8); kiểm định Mann-Whitney U / Fisher Exact cho Video Ads (`0,84×` GPM Organic); workbook Excel 5 sheet có công thức sống (`SUMIFS`, `INDEX/MATCH`, mô phỏng Break-Even, Power Query M) và gói 4 CSV Star Schema sẵn sàng nạp lên Power BI / Looker Studio / Tableau.
+   - **Giải pháp BA & BI:** Cây chỉ số KPI Tree, phân tích nguyên nhân gốc **5 Whys & Fishbone 4M**, quy trình As-Is → To-Be, **Ma trận RACI**, 4 User Stories (`US-KE-01..04`), wireframe màn hình cảnh báo vận hành, **6 kịch bản UAT (`UAT-KE-01..06`)**, và BI Dashboard tương tác có Cross-Filter Slicer + Đặc tả Star Schema (`4 Fact · 3 Dim · DAX`).
 
-### Installation
+2. **Du lịch Di sản Nhật Bản (2013–2022) — Kiểm toán Dữ liệu & Chuỗi Thời gian (DA)**
+   - **Quy mô:** 6 chuỗi dữ liệu gốc tiếng Nhật giai đoạn 2003–2022 từ JNTO, MLIT, TP. Kyoto và TP. Nara (trọng tâm 2013–2022, kèm cập nhật 2023).
+   - **Kết quả chính:** Tự kiểm toán và sửa 5 sai lệch nguồn trong niên luận gốc (lệch năm +1 Kyoto từ 2012, lỗi `×10` đơn vị `億円/万人` ở Nara, trộn đơn vị GDP); chỉ ra chi tiêu khách quốc tế đạt `4,81 nghìn tỷ Yên` (`~0,86% GDP`, tách khỏi toàn ngành `7,5% GDP` WTTC) nhưng chi tiêu/khách giảm `-14,6%` sau 2015; lượng hóa mật độ quá tải `3.000 lượt/cư dân khu lõi Ogimachi/năm` tại Shirakawa-go.
+
+3. **Library Bus — Technical BA, Mô hình Dữ liệu Lõi & Tracking Plan (BA + Product Telemetry)**
+   - **Quy mô:** Hồ sơ Technical BA trước Go-Live đối chiếu với bản mẫu đồ án Django 5.2 / MySQL 8.0 / Redis 7 / Celery Beat (`171 unit tests`).
+   - **Đầu ra BA & Dữ liệu:** KPI Tree, As-Is/To-Be, 3 ràng buộc thực địa (offline 4G, trả chéo tuyến `IN_TRANSIT`, hủy chuyến), 5 Stakeholder + **Ma trận RACI**, MoSCoW, 4 quy tắc `BR-01..04` (trần phạt `100%` giá thay thế sách), 5 User Stories + **Sprint Backlog chuẩn Jira (`LB-101..105`)** + **2 đặc tả Use Case (`UC-01..02`)** + **6 UAT Test Cases (`UAT-LB-01..06`)** + RTM, lưu đồ BPMN 2.0 kèm tệp nguồn **`.drawio`**, ERD lõi 7 thực thể + **Data Dictionary**, Tracking Plan 8 sự kiện, SQL 30 ngày lọc cohort 7 ngày chín (`borrows_per_visit` không chặn trần), khung 5 ngưỡng Pilot 4 tuần và 11 cặp màn hình Wireframe–UI.
+
+---
+
+## Giới hạn Dữ liệu (Data Limitations & Scope Disclosures)
+
+| Dự án | Nguồn dữ liệu | Giới hạn đã công bố minh bạch |
+| --- | --- | --- |
+| **Kami Ely** | 10 tệp xuất FastMoss (bên thứ ba, không phải sổ nội bộ) | Không có giá vốn (COGS), chi phí quảng cáo thực chi (ROAS ròng), tỷ lệ hoàn/hủy, chi phí gửi mẫu KOC và tồn kho ERP. Bảng `LiveProd` chỉ phủ `4,3%` GMV Live nên chỉ dùng tham khảo định tính; mọi ước lượng tác động trong Action Plan đều gắn nhãn minh họa. |
+| **Du lịch Di sản Nhật Bản** | JNTO, MLIT, Cục Du lịch Kyoto & Nara (2003–2022) | Đứt gãy phương pháp thống kê TP. Kyoto từ năm R1/2019; mô hình ngoại suy log-linear trên mẫu nhỏ (`R² = 0,347`, `p = 0,073`) chịu tác động đồng thời của tỷ giá JPY (Abenomics) và cơ cấu khách Đông Á ngắn ngày; biểu đồ cơ cấu Kyoto 2017 ghép tổng lượt nội địa với khách nước ngoài lưu trú. |
+| **Library Bus** | Hồ sơ đặc tả trước Go-Live + bản mẫu Django/MySQL | Chưa có lưu lượng vận hành thực địa; tỷ trọng Persona (`48% / 32% / 20%`) và dữ liệu trên ảnh chụp màn hình là dữ liệu mẫu thiết kế. Toàn bộ giả định được kiểm chứng qua khung quyết định Pilot 4 tuần trên 2 tuyến xe. |
+
+---
+
+## Cấu trúc Thư mục (Directory Structure)
+
+```text
+data-analyst-portfolio/
+├── app/
+│   ├── (site)/                 # Trang chủ, About, Experience, Blog, Project Detail
+│   ├── api/                    # REST routes (profile, projects, case-studies, auth, db)
+│   ├── data/                   # Dữ liệu chuẩn hóa (kami-ely/, heritageJapanData.ts, libraryBusData.ts, blogData.ts)
+│   ├── projects/               # Trang nhúng chuyên biệt (/kami-ely/bi-spec, /library-bus/brd, /presentation)
+│   └── defaultData.ts          # Metadata & dữ liệu dự phòng khi không kết nối MySQL
+├── components/
+│   ├── case-studies/
+│   │   ├── kami-ely/           # Executive Summary + KPI Tree, 4 chương phân tích, Playbook + BA Spec + Wireframe, Appendix
+│   │   ├── library-bus/        # Hero, BA Tabs + BPMN 2.0, ERD 7 bảng + Tracking Plan + Pilot 4W, 11 Screen Pairs
+│   │   ├── HeritageJapanProject.tsx
+│   │   └── charts/             # AboutSqlChart (8 bước SQL MySQL 8.0)
+│   ├── site/                   # HeroSection, AboutSection, Sidebar, MainLayoutClient
+│   └── ui/                     # CommandPalette (Ctrl+K), Theme/Language controls
+├── public/
+│   ├── kami/                   # kami-ely-bi-spec.html, kami_ely_applied_statistics.ipynb, kami_ely_analytics_workbook.xlsx, bi-pack/*.csv
+│   ├── library-bus/            # mini-brd-library-bus.html, library_bus_bpmn_tobe.drawio, borrowing-workflow.html, analytics-dataflow.html, screens/
+│   └── Ma_Van_Hung_CV_Data_Analyst_2026.pdf
+├── scripts/
+│   ├── generate_cv_pdf.mjs     # Xuất CV PDF 1 trang A4 (Playwright, kiểm soát overflow = 0px)
+│   ├── seed_all_mysql_data.js  # Nạp dữ liệu chuẩn hóa vào MySQL 8.0
+│   └── kami/                   # Pipeline ETL & 9 cổng kiểm soát chất lượng dữ liệu (run_quality_gates.py)
+└── tests/                      # 9 bộ kiểm thử Vitest (99 unit tests)
+```
+
+---
+
+## Cài đặt & Chạy Local
+
+### Yêu cầu
+- Node.js 18+ hoặc 20+
+- MySQL 8.0+ *(Tùy chọn — ứng dụng tự fallback sang dữ liệu tĩnh đã xác minh nếu không cấu hình MySQL)*
+
 ```bash
-# Clone the repository
 git clone https://github.com/duongduongdphk66a-spec/data-analyst-portfolio.git
 cd data-analyst-portfolio
 
-# Install dependencies
 npm install
-
-# Configure environment variables
 cp .env.example .env.local
-
-# Start development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the portfolio.
+Mở [http://localhost:3000](http://localhost:3000).
 
----
+### Kiểm thử, Build & Xuất lại CV PDF
 
-## Security & Admin Configuration
-
-Set your admin password in `.env.local`:
-```env
-ADMIN_PASSWORD="your_secure_password_here"
-```
-
-To access the CMS Admin Panel, press `Ctrl + E` or click "Chỉnh Sửa CMS" in the sidebar, then enter your admin password.
-
----
-
-## Tech Stack
-
-- **Framework**: Next.js 15.4+ (App Router, Server Components, and Route Handlers)
-- **Database**: MySQL (Connection Pool via `mysql2/promise`)
-- **UI Library**: React 19, Lucide Icons, GSAP
-- **Styling**: Tailwind CSS v4, Vanilla CSS Custom Properties
-- **Visualizations**: Recharts, html2canvas
-- **Data Parsing**: PapaParse (CSV)
-- **Typography**: Google Fonts (Lora, JetBrains Mono)
-- **CI/CD**: GitHub Actions
-
----
-
-## Hướng Dẫn Triển Khai (Deployment Guide)
-
-Dự án hỗ trợ 3 phương án triển khai tùy theo nhu cầu vận hành:
-
-### Phương án 1: Vercel + Cloud MySQL (Khuyên dùng cho việc khởi chạy nhanh)
-Phương án phù hợp cho portfolio cá nhân với zero-config, CI/CD tự động từ GitHub và CDN toàn cầu.
-1. Tạo database MySQL miễn phí trên [Aiven](https://aiven.io), [PlanetScale](https://planetscale.com), hoặc [Railway](https://railway.app).
-2. Import repository vào tài khoản [Vercel](https://vercel.com).
-3. Cấu hình các biến môi trường trong Vercel Project Settings:
-   - `DATABASE_URL`: URI kết nối MySQL từ nhà cung cấp cloud (ví dụ: `mysql://user:pass@host:port/db?ssl-mode=REQUIRED`)
-   - `ADMIN_PASSWORD`: Mật khẩu quản trị an toàn (≥ 16 ký tự ngẫu nhiên)
-   - `ADMIN_VERIFY_CODE`: Mã xác thực 2 lớp khi đăng nhập Admin (bắt buộc ≥ 8 ký tự trên Production)
-   - `NEXT_PUBLIC_SITE_URL`: Domain thực tế chính thức (ví dụ: `https://mavanhung.dev` hoặc URL Vercel)
-   - `TRUST_PROXY`: Cấu hình nguồn proxy tin cậy (`vercel`, `cloudflare`, `nginx`, `true`, hoặc `false` khi chạy trực tiếp). Trên Vercel, hệ thống tự động nhận diện `VERCEL=1`.
-   - `MYSQL_SSL_CA` *(Tùy chọn)*: Đường dẫn tệp CA `.pem`, chuỗi nội dung PEM hoặc Base64 PEM cho Cloud DB có CA riêng.
-   - `MYSQL_CONNECTION_LIMIT` *(Tùy chọn)*: Số kết nối tối đa trong pool (mặc định 5, trên Vercel tự tối ưu 3).
-4. Chọn **Deploy**.
-5. **Khởi tạo và nạp dữ liệu ban đầu**:
-   - Truy cập `/api/db` để kiểm tra kết nối CSDL (endpoint trả về `{ appHealthy: true, database: true }` ở chế độ read-only).
-   - Nhấn `Ctrl + E` trên website để đăng nhập Admin CMS.
-   - Chuyển sang tab **Cơ sở dữ liệu (DatabaseTab)** và chọn nút **Khởi Tạo Bảng & Nạp Mẫu** (hệ thống sẽ tạo bảng thiếu và nạp dữ liệu mẫu ban đầu mà không xóa bảng hiện có) hoặc **Khôi Phục Dữ Liệu Gốc (Reset DB)** nếu cần làm sạch.
-   - *Cách khác qua CLI*: Chạy `node scripts/seed_all_mysql_data.js` hoặc import file `database/schema.sql`.
-
----
-
-### Phương án 2: VPS Ubuntu + PM2 Cluster + Nginx (Tự lưu trữ / DevOps)
-Phương án cho người muốn quản lý hạ tầng riêng, chạy đa tiến trình Next.js Standalone tối ưu RAM:
-1. SSH vào server VPS, clone repository và chuẩn bị file `.env`:
-   ```bash
-   git clone https://github.com/duongduongdphk66a-spec/data-analyst-portfolio.git
-   cd data-analyst-portfolio
-   cp .env.example .env
-   nano .env # Điền ADMIN_PASSWORD (>=16), ADMIN_VERIFY_CODE (>=8), TRUST_PROXY="nginx", MYSQL_*, NEXT_PUBLIC_SITE_URL
-   ```
-2. Phân quyền và chạy script triển khai tự động `deploy.sh`:
-   ```bash
-   chmod +x deploy.sh
-   ./deploy.sh
-   ```
-   > **Lưu ý kỹ thuật**: `deploy.sh` tự động sao chép `public/` và `.next/static/` vào `.next/standalone/`, tránh lỗi 404 static assets của chế độ Next.js standalone. Cấu hình PM2 sử dụng `--env-file=.env` để nạp trực tiếp `TRUST_PROXY="nginx"` từ `.env`.
-3. Cấu hình Nginx reverse proxy trỏ về `http://127.0.0.1:3000` (bắt buộc cấu hình `proxy_set_header X-Real-IP $remote_addr;` để ghi đè `X-Real-IP`, đảm bảo cơ chế chống giả mạo IP hoạt động chính xác) kèm SSL Certbot.
-
----
-
-### Phương án 3: Docker & Docker Compose (Container hóa)
-Triển khai cô lập kèm container MySQL 8.0:
 ```bash
-# Khởi chạy cả Web App và MySQL database (tự động truyền NEXT_PUBLIC_SITE_URL vào build args)
-docker compose up -d --build
-
-# Xem nhật ký hoạt động
-docker compose logs -f app
+npm test -- --run              # 9 test suites / 99 unit tests (Vitest)
+npx tsc --noEmit               # Kiểm tra kiểu TypeScript
+npm run lint                   # Kiểm tra ESLint
+npm run build                  # Biên dịch production Next.js 15
+node scripts/generate_cv_pdf.mjs # Xuất lại CV PDF 1 trang A4 (overflowPx: 0)
 ```
 
 ---
 
-## Danh Sách Kiểm Tra Sẵn Sàng Triển Khai (Production Readiness Checklist)
+## Triển khai (Deployment)
 
-Trước khi công bố portfolio ra môi trường production thực tế:
+Hỗ trợ 3 phương án:
+1. **Vercel + Cloud MySQL** (Aiven / Railway): cấu hình `DATABASE_URL`, `ADMIN_PASSWORD` (≥16 ký tự), `ADMIN_VERIFY_CODE` (≥8 ký tự), `NEXT_PUBLIC_SITE_URL`, `TRUST_PROXY=vercel`.
+2. **VPS Ubuntu + PM2 + Nginx**: chạy `./deploy.sh` (tự sao chép `public/` và `.next/static/` vào standalone bundle).
+3. **Docker Compose**: chạy `docker compose up -d --build` (khởi tạo kèm container MySQL 8.0).
 
-- [x] **1. Cấu hình biến môi trường production**:
-  - `ADMIN_PASSWORD`: Mật khẩu quản trị độ dài cao (bắt buộc ≥ 16 ký tự trên Production).
-  - `ADMIN_VERIFY_CODE`: Mã bảo vệ 2 lớp cố định cho CMS (bắt buộc ≥ 8 ký tự trên Production).
-  - `DATABASE_URL` hoặc bộ thông số `MYSQL_*`: Kết nối an toàn đến database production, hỗ trợ SSL CA qua `MYSQL_SSL_CA`.
-  - `NEXT_PUBLIC_SITE_URL`: Domain chính thức phục vụ SEO sitemap, canonical links và OpenGraph metadata.
-  - `TRUST_PROXY`: Tường minh theo hạ tầng (`nginx`, `cloudflare`, `vercel`, `true`, hoặc `false` chống giả mạo IP khi chạy trực tiếp).
+---
 
-- [x] **2. Chuẩn hóa database initialization & migration**:
-  - `GET /api/db`: Kiểm tra sức khỏe kết nối (read-only, an toàn).
-  - Khởi tạo bảng & seed dữ liệu qua: Admin CMS (`DatabaseTab` -> "Khởi Tạo Bảng & Nạp Mẫu") hoặc script `node scripts/seed_all_mysql_data.js` hoặc file `database/schema.sql`.
+## Trạng thái Xác minh (Verification)
 
-- [x] **3. Kiểm tra bảo mật**:
-  - Firewall MySQL: Chỉ lắng nghe `127.0.0.1` hoặc mạng nội bộ Docker, chặn truy cập cổng `3306` từ Internet.
-  - Phân quyền MySQL: Sử dụng user riêng biệt chỉ có quyền trên database chỉ định.
-  - Cookie: `admin_token` với cờ `HttpOnly`, `Secure` (môi trường production), `SameSite=lax`.
-  - Rate Limiting: Chống giả mạo IP (IP Spoofing / Header Poisoning), tự động khóa IP sau 10 lần nhập sai trong 15 phút, đồng bộ qua MySQL cluster.
-  - Content Security Policy (CSP): Cấu hình Nonce động per-request và `strict-dynamic` trong `middleware.ts`, ngoại lệ an toàn cho các sơ đồ HTML tĩnh trong `/library-bus/`.
-
-- [x] **4. Chạy lint, test và build**:
-  - `npm run lint`: Hoàn tất không có cảnh báo hoặc lỗi (0 warnings, 0 errors).
-  - `npm run test`: 100% test suites (78/78 tests) vượt qua thành công.
-  - `npm run build`: Hoàn thành biên dịch production Next.js.
-
-- [x] **5. Kiểm thử end-to-end**:
-  - Đăng nhập Admin (`Ctrl + E`), sửa dữ liệu CMS, kiểm tra phiên làm việc không ghi nhận lỗi 401 giả vào console.
-  - Tải CV bản in PDF qua nút tải chuyên dụng.
-  - Xem và tương tác 3 case study: Kami Ely, Library Bus và Di sản Kyoto.
-
-- [x] **6. Kiểm tra tương thích và hiệu năng**:
-  - Bố cục responsive trên thiết bị di động, tablet và máy tính để bàn.
-  - Biểu đồ Recharts co giãn tự động theo kích thước màn hình.
-  - SQL Analytics Lab hiển thị rõ ràng trên mọi độ phân giải.
-  - Cơ chế dữ liệu dự phòng (Graceful Degradation) tự động kích hoạt nếu mất kết nối CSDL.
-
-- [x] **7. Thiết lập vận hành**:
-  - Cấu hình HTTPS (SSL Certbot / Cloudflare SSL).
-  - Lịch sao lưu định kỳ: `mysqldump` tự động qua cron job.
-  - Health check probe: Endpoint `/api/db` phục vụ uptime monitoring.
-  - Quy trình rollback nhanh chóng qua Git commit / Docker image backup.
+- `npm test -- --run`: **9/9 test files · 99/99 unit tests pass**
+- `npx tsc --noEmit`: **0 lỗi TypeScript**
+- `npm run lint`: **0 lỗi, 0 cảnh báo ESLint**
+- `npm run build`: **Biên dịch thành công 29/29 trang tĩnh & route Next.js 15**
+- `node scripts/generate_cv_pdf.mjs`: **CV 1 trang A4 chuẩn (`scrollHeight: 1123`, `overflowPx: 0`)**
 
 ---
 

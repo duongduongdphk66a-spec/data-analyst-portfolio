@@ -12,6 +12,7 @@ import {
   Check,
   Copy,
   ExternalLink,
+  FileSpreadsheet,
   LayoutDashboard,
 } from 'lucide-react';
 import { ChartRoleBadge, Chip, usePlaybookLang } from '../playbook/PlaybookUi';
@@ -85,10 +86,10 @@ ORDER BY sku_rank;`,
   },
   {
     id: 'sql-ch3',
-    labelVi: 'Ch 3 · MA7/MA28 & Phân rã',
-    labelEn: 'Ch 3 · MA & Waterfall',
-    code: `-- Mục đích: Tính MA7/MA28 không nhìn trước (trailing) và phân rã đồng nhất thức GMV = N_live * Yield
--- Phương ngữ: MySQL 8.0+ · Đầu vào: stg_store_daily (231 ngày) · Đầu ra: mart_daily_ma, mart_monthly_decomp
+    labelVi: 'Ch 3 · MA7/MA28 & Phân tầng Live',
+    labelEn: 'Ch 3 · MA & Live Stratification',
+    code: `-- Mục đích: Tính MA7/MA28 không nhìn trước (trailing) và phân tầng hiệu suất giờ Live chính chủ theo tháng
+-- Phương ngữ: MySQL 8.0+ · Lưu ý: dùng giờ live thực của stg_creator_live thay vì new_lives_cnt toàn shop (chứa nhiều phiên affiliate 0đ)
 WITH daily_ma AS (
   SELECT
     record_date,
@@ -96,24 +97,21 @@ WITH daily_ma AS (
     AVG(daily_gmv_vnd / 1e6) OVER (ORDER BY record_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS ma7_m,
     AVG(daily_gmv_vnd / 1e6) OVER (ORDER BY record_date ROWS BETWEEN 27 PRECEDING AND CURRENT ROW) AS ma28_m
   FROM stg_store_daily
-),
-monthly_agg AS (
-  SELECT
-    SUBSTR(record_date, 1, 7) AS ym,
-    SUM(daily_gmv_vnd) / 1e6 AS gmv_m,
-    SUM(new_lives_cnt) AS n_lives,
-    (SUM(daily_gmv_vnd) / 1e6) / NULLIF(SUM(new_lives_cnt), 0) AS y_per_live
-  FROM stg_store_daily
-  WHERE record_date BETWEEN '2026-06-01' AND '2026-08-31'
-  GROUP BY SUBSTR(record_date, 1, 7)
 )
 SELECT
-  j.gmv_m AS jun_m, a.gmv_m AS aug_m,
-  ROUND((a.n_lives - j.n_lives) * j.y_per_live, 1) AS volume_effect_m,
-  ROUND(j.n_lives * (a.y_per_live - j.y_per_live), 1) AS yield_effect_m,
-  ROUND((a.n_lives - j.n_lives) * (a.y_per_live - j.y_per_live), 1) AS interaction_m
-FROM (SELECT * FROM monthly_agg WHERE ym = '2026-06') j
-CROSS JOIN (SELECT * FROM monthly_agg WHERE ym = '2026-08') a;`,
+  SUBSTR(session_start_vn, 1, 7) AS ym,
+  COUNT(*) AS official_sessions,
+  ROUND(SUM(duration_hours), 1) AS official_hours,
+  ROUND(SUM(live_gmv_vnd) / 1e6, 1) AS official_gmv_m,
+  ROUND((SUM(live_gmv_vnd) / 1e6) / NULLIF(SUM(duration_hours), 0), 2) AS gmv_per_hour_m,
+  ROUND(
+    SUM(CASE WHEN duration_hours > 10 THEN live_gmv_vnd ELSE 0 END) / 1e6
+    / NULLIF(SUM(CASE WHEN duration_hours > 10 THEN duration_hours ELSE 0 END), 0),
+    2
+  ) AS gt10h_gmv_per_hour_m
+FROM stg_creator_live
+GROUP BY SUBSTR(session_start_vn, 1, 7)
+ORDER BY ym;`,
   },
   {
     id: 'sql-ch4',
@@ -304,51 +302,51 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
 
   const sqlAndScriptIndex = [
     {
-      scopeVi: 'Staging & QA (4 khối SQL)',
-      scopeEn: 'Staging & QA (4 SQL blocks)',
-      purposeVi: 'Ép kiểu tiền tệ, dịch múi giờ +13h, khử trùng video và chạy 9 cổng kiểm định tự động',
-      purposeEn: 'Currency casting, +13h shift, composite video dedup, and 9 automated quality gates',
-      tech: 'CTE, Regex, SHA-256, Assertions',
-      file: 'sql/01_staging.sql · sql/07_quality_gates.sql',
+      scopeVi: 'Staging & QA (SQL #1 + Python)',
+      scopeEn: 'Staging & QA (SQL #1 + Python)',
+      purposeVi: 'Đối soát doanh thu Live khử trùng theo tuần ISO và chạy 9 cổng kiểm định chất lượng tự động',
+      purposeEn: 'Weekly ISO deduplicated Live reconciliation and 9 automated data quality gates',
+      tech: 'CTE, YEARWEEK, Assertions',
+      file: 'Phụ lục B · Tab SQL #1 · scripts/kami/run_quality_gates.py',
     },
     {
-      scopeVi: 'Chương 1 & 2 (3 khối SQL)',
-      scopeEn: 'Chapters 1 & 2 (3 SQL blocks)',
-      purposeVi: 'Đối soát bẫy cộng đôi Live theo ngày/tuần, đường Pareto 339 SKU, gom 4 dải giá và đường Lorenz KOC',
-      purposeEn: 'Daily/weekly Live overlap check, 339-SKU Pareto curve, 4 price bands, and KOC Lorenz/HHI',
-      tech: 'Window SUM OVER, ROW_NUMBER, HHI',
-      file: 'sql/02_channel_sku_pareto.sql',
+      scopeVi: 'Pareto SKU & Dải giá (SQL #2)',
+      scopeEn: 'SKU Pareto & Price Bands (SQL #2)',
+      purposeVi: 'Đường Pareto tích lũy trên 133/339 SKU có đơn và tính đơn giá thực bán (realized ASP)',
+      purposeEn: 'Cumulative Pareto curve on 133/339 converting SKUs and realized ASP computation',
+      tech: 'Window SUM OVER, ROW_NUMBER',
+      file: 'Phụ lục B · Tab SQL #2 (inline MySQL 8.0)',
     },
     {
-      scopeVi: 'Chương 3 (4 khối SQL)',
-      scopeEn: 'Chapter 3 (4 SQL blocks)',
-      purposeVi: 'MA7/MA28 trailing, phân rã đồng nhất thức T6->T8, tỷ trọng tuần 10 SKU Hè/Thu Đông, Z-score lùi 28N',
-      purposeEn: 'Trailing MA7/MA28, Jun-Aug identity decomposition, weekly 10-SKU shares, trailing 28d Z-score',
-      tech: 'ROWS PRECEDING, ISO Week, Cross Join',
-      file: 'sql/03_timeseries_seasonality.sql',
+      scopeVi: 'MA7/MA28 & Phân tầng Live (SQL #3)',
+      scopeEn: 'MA7/MA28 & Live Stratification (SQL #3)',
+      purposeVi: 'Tính MA7/MA28 trailing không nhìn trước và phân tầng GMV/giờ nhóm >10h theo từng tháng (tránh Simpson)',
+      purposeEn: 'Trailing MA7/MA28 and monthly stratification of >10h official Live GMV/hour',
+      tech: 'ROWS PRECEDING, Monthly Stratification',
+      file: 'Phụ lục B · Tab SQL #3 (inline MySQL 8.0)',
     },
     {
-      scopeVi: 'Chương 4 (2 khối SQL)',
-      scopeEn: 'Chapter 4 (2 SQL blocks)',
-      purposeVi: 'Ma trận cohort giữ chân M+0..M+7 trên 302 KOC, thời gian sống Kaplan-Meier và kiểm định 3 phiên đầu',
-      purposeEn: '302-KOC M+0..M+7 retention matrix, Kaplan-Meier survival, and 3-session zero-GMV audit',
-      tech: 'FIRST_VALUE, JULIANDAY, Cohort Pivot',
-      file: 'sql/04_koc_cohort_survival.sql',
+      scopeVi: 'Cohort & Sàng lọc KOC (SQL #4)',
+      scopeEn: 'KOC Cohort & Screening (SQL #4)',
+      purposeVi: 'Phân loại 302 KOC ngoài theo 3 phiên đầu 0đ và đo quy mô nhóm chuyển đổi muộn ở phiên 4+',
+      purposeEn: '302 external KOC 3-session zero-GMV audit and late-converter quantification',
+      tech: 'ROW_NUMBER, DATEDIFF, Cohort',
+      file: 'Phụ lục B · Tab SQL #4 (inline MySQL 8.0)',
     },
     {
-      scopeVi: 'Chương 5 & 6 (3 khối SQL)',
-      scopeEn: 'Chapters 5 & 6 (3 SQL blocks)',
-      purposeVi: '6 lát cắt Ads vs Organic, ma trận khung giờ x thời lượng Live, Spearman kệ hàng và backtest giao cắt MA',
-      purposeEn: '6-slice Ads vs Organic, hour x duration Live matrix, shelf Spearman, and MA crossover backtest',
-      tech: 'Paired Within-Creator CTE, LAG, Rank',
-      file: 'sql/05_content_ads.sql · sql/06_backtest.sql',
+      scopeVi: 'Ads vs Organic & Backtest MA (SQL #5–6)',
+      scopeEn: 'Ads vs Organic & MA Backtest (SQL #5–6)',
+      purposeVi: 'So sánh cặp trong cùng 192 KOC có cả clip Ads/Organic và phát hiện ngày giao cắt MA7 < MA28',
+      purposeEn: 'Within-192 dual-KOC Ads vs Organic comparison and MA7 < MA28 crossover detection',
+      tech: 'Paired Within-Creator CTE, LAG',
+      file: 'Phụ lục B · Tab SQL #5 & #6 (inline MySQL 8.0)',
     },
     {
-      scopeVi: '4 Script ETL & Kiểm định (Node / Python)',
-      scopeEn: '4 ETL & Statistical Scripts (Node / Python)',
-      purposeVi: 'Đọc trực tiếp 10 tệp .xlsx (23.364 dòng), chạy hồi quy Panel FE + 400 bootstrap theo cụm SKU, sinh SSOT metrics.json',
-      purposeEn: 'Parse all 10 .xlsx files (23,364 rows), run Panel FE + 400 SKU-cluster bootstrap, emit SSOT metrics.json',
-      tech: 'Pure Node XLSX/Zlib, OLS Within-SKU FE, Vitest',
+      scopeVi: 'Pipeline ETL & Kiểm định (Node)',
+      scopeEn: 'ETL & Statistical Pipeline (Node)',
+      purposeVi: 'Đọc trực tiếp 10 tệp .xlsx (23.364 dòng), chạy hồi quy Panel FE + 400 bootstrap cụm SKU, sinh SSOT metrics_v2.json',
+      purposeEn: 'Parse all 10 .xlsx files (23,364 rows), run Panel FE + 400 SKU-cluster bootstrap, emit SSOT metrics_v2.json',
+      tech: 'Node XLSX/Zlib, Panel FE OLS, Vitest',
       file: 'scripts/kami/generate_outline_v2_metrics.mjs',
     },
   ];
@@ -410,8 +408,8 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
     {
       titleVi: '4. Khung thời gian không đồng nhất giữa 10 tệp',
       titleEn: '4. Heterogeneous time windows across the 10 files',
-      descVi: 'Store dài 231 ngày, SKU10 dài 179 ngày, Live trải từ 07/03 - 20/10, trong khi KOL, ShopProd, LiveProd và doanh số AffVid ghi nhận theo cửa sổ cuốn chiếu 90 ngày.',
-      descEn: 'Store spans 231d, SKU10 179d, Live 07/03 - 20/10, whereas KOL, ShopProd, LiveProd, and AffVid revenue reflect rolling 90d windows.',
+      descVi: 'Store dài 231 ngày, SKU10 dài 179 ngày, AffLive/AffVid bắt đầu từ 09/03 đến 20/10 (CrLive từ 07/03), trong khi KOL, ShopProd, LiveProd và doanh số AffVid ghi nhận theo cửa sổ cuốn chiếu 90 ngày.',
+      descEn: 'Store spans 231d, SKU10 179d, AffLive/AffVid span Mar 09 - Oct 20 (CrLive from Mar 07), whereas KOL, ShopProd, LiveProd, and AffVid revenue reflect rolling 90d windows.',
     },
     {
       titleVi: '5. Giới hạn dữ liệu quan sát và hiện tượng chọn mẫu ngược',
@@ -437,14 +435,14 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
     {
       stepVi: 'Bước 2 · Dashboard theo dõi tuần & Thử nghiệm đối chứng',
       stepEn: 'Step 2 · Weekly monitor dashboard & controlled pilots',
-      detailVi: 'Dựng dashboard theo dõi định kỳ bộ chỉ số Chương 6 và chạy thử nghiệm có nhóm đối chứng cho gói hỗ trợ 3 ca đầu của KOC mới cùng quyền chạy Ads.',
-      detailEn: 'Build a weekly dashboard for Chapter 6 metrics and run controlled pilots for 3-session new-KOC onboarding support and Ad boosting.',
+      detailVi: 'Dựng dashboard theo dõi định kỳ bộ chỉ số ở mục Khuyến nghị BA và chạy thử nghiệm có nhóm đối chứng cho luật sàng lọc KOC 2 tầng cùng quyền chạy Ads.',
+      detailEn: 'Build a weekly dashboard for Action Playbook metrics and run controlled pilots for the 2-tier KOC screening rule and selective Spark Ads.',
     },
     {
       stepVi: 'Bước 3 · Mở rộng hồi quy bảng 10 SKU (Panel FE)',
       stepEn: 'Step 3 · Enriched 10-SKU panel FE regression',
-      detailVi: 'Đưa biến giá bán thực theo ngày, độ sâu chiết khấu voucher và cờ đứt size kho vào mô hình hiệu ứng cố định ở Chương 3.6.',
-      detailEn: 'Add daily realized price, voucher discount depth, and stock-out flags into the Chapter 3.6 SKU Fixed-Effects model.',
+      detailVi: 'Đưa biến giá bán thực theo ngày, độ sâu chiết khấu voucher và cờ đứt size kho vào mô hình hiệu ứng cố định ở mục Mùa vụ & Pareto.',
+      detailEn: 'Add daily realized price, voucher discount depth, and stock-out flags into the SKU Fixed-Effects model in Seasonality & Pareto.',
     },
     {
       stepVi: 'Bước 4 · Thu thập mùa thứ hai để kiểm chứng cảnh báo',
@@ -463,8 +461,8 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
       tone: 'rose' as const,
       altVi: 'Chuyển sang phễu hiệu suất nội dung (Lượt xem Live/Video -> Tỷ lệ phiên/clip phát sinh đơn -> GMV/lượt xem)',
       altEn: 'Replaced with content efficiency funnel (Live/Video views -> Converting session/clip rate -> VND/view)',
-      chVi: 'Chương 1, Chương 5',
-      chEn: 'Ch 1, Ch 5',
+      chVi: 'Đối soát kênh, Live & Video',
+      chEn: 'Channel Audit, Live & Video',
     },
     {
       qVi: 'Thử nghiệm A/B ngẫu nhiên cho Quảng cáo',
@@ -472,10 +470,10 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
       statusVi: 'Chỉ có cờ quan sát Ads/Organic',
       statusEn: 'Observational Ad flag only',
       tone: 'amber' as const,
-      altVi: 'Forest plot đối chiếu 6 lát cắt kiểm soát (gồm so sánh trong cùng 192 KOC có cả hai loại clip)',
-      altEn: 'Six-slice observational forest plot (including within-creator comparison across 192 dual KOCs)',
-      chVi: 'Chương 5 (5.2)',
-      chEn: 'Ch 5 (5.2)',
+      altVi: 'Bảng kiểm định 6 lát cắt kiểm soát (gồm so sánh trong cùng 192 KOC có cả hai loại clip)',
+      altEn: 'Six-slice observational sensitivity table (including within-creator comparison across 192 dual KOCs)',
+      chVi: 'Live & Video',
+      chEn: 'Live & Video',
     },
     {
       qVi: 'Giá trị vòng đời khách hàng (Customer CLTV)',
@@ -483,10 +481,10 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
       statusVi: 'Không có customer_id',
       statusEn: 'No customer_id',
       tone: 'rose' as const,
-      altVi: 'Đo vòng đời & giữ chân mạng lưới 302 creator ngoài (Cohort M+0..M+7, đường sống còn Kaplan-Meier)',
-      altEn: 'Modeled lifetime & retention of 302 external creators (M+0..M+7 cohorts, Kaplan-Meier survival)',
-      chVi: 'Chương 4 (4.1, 4.2)',
-      chEn: 'Ch 4 (4.1, 4.2)',
+      altVi: 'Đo vòng đời & giữ chân mạng lưới 302 creator ngoài (Cohort M+0..M+7 và kiểm tra chuyển đổi muộn phiên 4+)',
+      altEn: 'Modeled retention of 302 external creators (M+0..M+7 cohorts and session 4+ late-converter audit)',
+      chVi: 'Sàng lọc KOC',
+      chEn: 'KOC Screening',
     },
     {
       qVi: 'Phân tích rổ hàng mua kèm (Market Basket)',
@@ -494,10 +492,10 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
       statusVi: 'Không có khóa đơn - sản phẩm',
       statusEn: 'No order-item join key',
       tone: 'rose' as const,
-      altVi: 'Tương quan hạng Spearman số SP lên kệ vs GMV phiên (CrLive) và tỷ trọng bán trong Live của 103 SP (LiveProd)',
-      altEn: 'Spearman rank correlation of shelf size vs session GMV (CrLive) and Live unit share across 103 SKUs (LiveProd)',
-      chVi: 'Chương 5 (5.5)',
-      chEn: 'Ch 5 (5.5)',
+      altVi: 'Tương quan hạng Spearman số SP lên kệ vs GMV phiên (CrLive) kèm ghi chú phạm vi mẫu LiveProd (4,3% GMV Live)',
+      altEn: 'Spearman rank correlation of shelf size vs session GMV (CrLive) with LiveProd sample caveat (4.3% of Live GMV)',
+      chVi: 'Live & Video',
+      chEn: 'Live & Video',
     },
     {
       qVi: 'Người mua hoạt động DAU / MAU',
@@ -505,10 +503,10 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
       statusVi: 'Không có định danh người mua',
       statusEn: 'No buyer identifiers',
       tone: 'amber' as const,
-      altVi: 'Phễu KOC hoạt động hàng tháng (Mới gia nhập / Còn lên sóng / Phát sinh đơn) từ tháng 3 đến tháng 10',
-      altEn: 'Monthly active creator funnel (New / Retained active / Converting KOCs) from March to October',
-      chVi: 'Chương 4 (4.4)',
-      chEn: 'Ch 4 (4.4)',
+      altVi: 'Ma trận giữ chân KOC hoạt động theo tháng gia nhập (M+0..M+7) và backtest tỷ lệ tuyển KOC mới hằng tháng',
+      altEn: 'Monthly active KOC cohort retention matrix (M+0..M+7) and monthly new-KOC inflow backtest',
+      chVi: 'Sàng lọc KOC, Khuyến nghị BA',
+      chEn: 'KOC Screening, Action Playbook',
     },
     {
       qVi: 'Vòng quay tồn kho & hàng chết đọng vốn',
@@ -518,8 +516,8 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
       tone: 'amber' as const,
       altVi: 'Phân tích Pareto 339 SKU kết hợp năm lên sàn (xác định 204/206 SKU 0 đơn là mã cũ từ 2022 - 2025)',
       altEn: '339-SKU Pareto combined with listing dates (identifying 204/206 zero-sale items as pre-2026 legacy SKUs)',
-      chVi: 'Chương 2 (2.2), Chương 6',
-      chEn: 'Ch 2 (2.2), Ch 6',
+      chVi: 'Mùa vụ & Pareto, Khuyến nghị BA',
+      chEn: 'Seasonality & Pareto, Action Playbook',
     },
   ];
 
@@ -564,6 +562,14 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
               <span>{L('Mở Sổ tay Phân tích', 'Open Analysis Notebook')}</span>
             </button>
           )}
+          <a
+            href="/kami/kami_ely_analytics_workbook.xlsx"
+            download
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 px-3.5 py-2 text-xs font-bold text-emerald-800 dark:text-emerald-300 cursor-pointer transition-colors"
+          >
+            <FileSpreadsheet className="h-4 w-4" aria-hidden="true" />
+            <span>{L('Tải Excel công thức (.xlsx)', 'Download Excel (.xlsx)')}</span>
+          </a>
           <a
             href="https://github.com/duongduongdphk66a-spec/data-analyst-portfolio/tree/main/scripts/kami"
             target="_blank"
@@ -811,12 +817,12 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
                 {L('Phụ lục B', 'Appendix B')}
               </div>
               <h3 className="text-sm sm:text-base font-bold text-slate-950 dark:text-white">
-                {L('Chỉ mục 16 khối SQL (~264 dòng), 4 script xử lý và truy vấn tiêu biểu từng chương', 'Index of 16 SQL blocks (~264 lines), 4 processing scripts, and representative chapter queries')}
+                {L('Chỉ mục 6 khối SQL tiêu biểu (~150 dòng), 2 script ETL/QA và đặc tả BI', 'Index of 6 representative SQL queries (~150 lines), 2 ETL/QA scripts, and BI Spec')}
               </h3>
             </div>
           </div>
           <div className="flex items-center gap-2 shrink-0">
-            <Chip tone="cyan">{L('16 SQL · 4 Script', '16 SQL · 4 Scripts')}</Chip>
+            <Chip tone="cyan">{L('6 SQL · 2 Script', '6 SQL · 2 Scripts')}</Chip>
             {openSection === 'b-sql' ? <ChevronUp className="h-5 w-5 text-slate-500" /> : <ChevronDown className="h-5 w-5 text-slate-500" />}
           </div>
         </button>
@@ -891,8 +897,8 @@ export default function Tier3EngineeringAppendix({ onOpenNotebook }: Tier3Engine
             <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[#9BE7FA]/60 bg-[#C8EEF7]/20 dark:bg-slate-950/60 dark:border-slate-800 px-3.5 py-2.5 text-xs">
               <span className="text-slate-700 dark:text-slate-300">
                 {L(
-                  'Muốn xem thiết kế Star Schema (3 Fact · 3 Dim), 6 nhóm công thức DAX và bố cục 3 trang Power BI / Looker Studio cho dự án này?',
-                  'Want to inspect the Star Schema (3 Fact · 3 Dim), 6 DAX measure blocks, and 3-page Power BI / Looker Studio layout spec?'
+                  'Muốn xem thiết kế Star Schema (4 Fact · 3 Dim), 6 nhóm công thức DAX và bố cục 3 trang Power BI / Looker Studio cho dự án này?',
+                  'Want to inspect the Star Schema (4 Fact · 3 Dim), 6 DAX measure blocks, and 3-page Power BI / Looker Studio layout spec?'
                 )}
               </span>
               <Link

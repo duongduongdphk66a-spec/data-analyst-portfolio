@@ -28,67 +28,85 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
-    id: "heritage-japan-averages",
+    id: "heritage-japan-audit",
     slug: "why-simple-averages-mislead-heritage-japan",
     projectKey: "heritage-japan",
     projectSlug: "/projects/proj-heritage-japan",
     featured: true,
-    categoryVi: "Kinh tế học & Kiểm định Chính sách",
-    categoryEn: "Economics & Policy Evaluation",
-    readTimeVi: "7 phút đọc",
-    readTimeEn: "7 min read",
+    categoryVi: "Data Audit & Chuỗi thời gian",
+    categoryEn: "Data Audit & Time-Series",
+    readTimeVi: "3 phút đọc",
+    readTimeEn: "3 min read",
     date: "2026-09",
     titleVi:
-      "Tại sao số trung bình cộng đánh lừa nhà hoạch định? Bài học từ nghiên cứu Du lịch Di sản Nhật Bản",
+      "Tự kiểm toán 5 lỗi số liệu và bẫy chỉ số bình quân trong niên luận Du lịch Di sản Nhật Bản",
     titleEn:
-      "Why Simple Averages Mislead Policymakers: Lessons from Japanese World Heritage Tourism Research",
+      "Auditing 5 Data Errors and Per-Visitor Spend Traps in My Japan Heritage Tourism Thesis",
     excerptVi:
-      "Góc nhìn hậu trường về quá trình kiểm toán dữ liệu lưu trú JNTO/UNESCO và giải mã sự phân cực giữa tình trạng quá tải du lịch (overtourism) với bài toán phát triển vùng.",
+      "Hậu trường đối soát 6 chuỗi dữ liệu gốc tiếng Nhật (JNTO, MLIT, Kyoto, Nara): sửa lỗi phóng đại ×10 đơn vị 億円/万人, lệch năm +1 ở Kyoto và bóc tách mức giảm -14,6% chi tiêu/khách sau 2015.",
     excerptEn:
-      "A behind-the-scenes look at auditing JNTO/UNESCO tourism datasets and uncovering the structural divide between overtourism hubs and peripheral heritage sites.",
+      "Behind the audit of 6 primary Japanese series (JNTO, MLIT, Kyoto, Nara): fixing 10× 億円/万人 unit errors, a +1-year Kyoto axis shift, and unpacking the -14.6% per-visitor spend drop post-2015.",
     problemVi:
-      "Khi bắt đầu đề tài nghiên cứu khoa học về Du lịch Di sản Nhật Bản, câu hỏi lớn nhất là: Liệu danh hiệu Di sản Thế giới UNESCO có thực sự thúc đẩy tăng trưởng du lịch đồng đều cho các địa phương? Nếu chỉ nhìn vào tổng lượng khách hoặc trung bình cộng toàn quốc, bức tranh trông rất khả quan nhưng lại che khuất sự lệch chuẩn nghiêm trọng giữa vùng lõi đô thị và vùng ngoại vi.",
+      "Khi chuyển niên luận đại học (01/2024) thành case study DA, mình đối soát lại toàn bộ 6 biểu đồ với báo cáo gốc tiếng Nhật của JNTO, MLIT, TP. Kyoto và TP. Nara. Kết quả phát hiện 5 lỗi trực tiếp làm sai lệch kết luận: chi tiêu Nara bị phóng đại ×10 do đọc nhầm đơn vị 億円 thành tỷ Yên, chuỗi Kyoto bị đẩy tiến +1 năm từ 2012, và phép tính YoY đi xuyên qua năm đổi phương pháp khảo sát R1/2019.",
     problemEn:
-      "When starting my university research on Japanese Heritage Tourism, the central question was: Does UNESCO World Heritage designation drive equitable regional tourism growth? Looking solely at national totals or simple arithmetic means paints an optimistic picture while masking severe skewness between metropolitan cores and peripheral prefectures.",
+      "When converting my Jan 2024 undergraduate thesis into a DA case study, I reconciled all 6 charts against primary Japanese reports from JNTO, MLIT, Kyoto City, and Nara City. The audit uncovered 5 material errors: Nara spend inflated 10× from misreading 億円 as billion JPY, Kyoto's axis shifted +1 year from 2012 onward, and YoY growth calculated across Kyoto's R1/2019 survey break.",
     processVi: [
-      "Thu thập và chuẩn hóa dữ liệu đa nguồn từ thống kê lưu trú cấp tỉnh (JNTO) và danh mục công nhận Di sản Thế giới UNESCO theo mốc thời gian.",
-      "Thực hiện Data Audit để phát hiện và tách biệt ảnh hưởng của các siêu đô thị (Tokyo, Kyoto, Osaka) khỏi nhóm các tỉnh có di sản độc lập.",
-      "Sử dụng phân tích phân vị (Quantile Analysis), trung vị (Median) và hệ số bất bình đẳng để đánh giá hiệu quả chính sách trước và sau khi được công nhận di sản.",
-      "Trực quan hóa dữ liệu qua hệ thống biểu đồ phân bố vùng để đối chiếu giữa năng lực hạ tầng và áp lực quá tải du lịch (overtourism).",
+      "Chia 10 chuỗi chi tiêu Nara về Tỷ Yên (2018: 120,8 tỷ ¥ ≈ 1/11 Kyoto; 2019: 114,7 tỷ ¥) và sửa lượt khách Nara 2020 từ 28,9 nghìn thành 289 nghìn (28,9 万人).",
+      "Lùi trục năm -1 cho chuỗi Kyoto giai đoạn raw_year >= 2012 và trả NULL cho YoY năm R1/2019 thay vì tính mức sụt giảm giả -15,6%.",
+      "Tách bạch 4,81 nghìn tỷ Yên chi tiêu khách quốc tế (~0,86% GDP 2019) khỏi đóng góp 7,5% GDP toàn ngành du lịch theo WTTC (nội địa + quốc tế + gián tiếp).",
+      "Đối chiếu thêm yếu tố tỷ giá Yên (~121 lên ~109 JPY/USD giai đoạn 2015–2019) và cơ cấu khách Đông Á ngắn ngày khi lý giải mức giảm -14,6% chi tiêu/khách (176,6k → 150,8k ¥).",
     ],
     processEn: [
-      "Collected and standardized multi-source datasets from prefectural overnight stay statistics (JNTO) and UNESCO World Heritage recognition timelines.",
-      "Conducted rigorous Data Auditing to isolate extreme metropolitan outliers (Tokyo, Kyoto, Osaka) from standalone heritage prefectures.",
-      "Replaced naive mean comparisons with Quantile Analysis, Medians, and regional concentration metrics to evaluate pre- and post-designation policy impact.",
-      "Visualized spatial distributions to contrast local infrastructure capacity against overtourism pressure.",
+      "Divided Nara's spend series by 10 to Billion JPY (2018: ¥120.8B ≈ 1/11 of Kyoto; 2019: ¥114.7B) and fixed Nara 2020 arrivals from 28.9k to 289k (28.9 万人).",
+      "Shifted Kyoto's axis back by 1 year for raw_year >= 2012 and suppressed YoY (NULL) across the R1/2019 methodology break instead of reporting a fake -15.6% drop.",
+      "Separated ¥4.81T inbound visitor spending (~0.86% of 2019 GDP) from WTTC's 7.5% total Travel & Tourism GDP (domestic + inbound + indirect).",
+      "Accounted for JPY appreciation (~121 to ~109 JPY/USD in 2015–2019) and short-haul East Asian mix shift when interpreting the -14.6% per-visitor spend drop (¥176.6k → ¥150.8k).",
     ],
     findingsVi:
-      "Danh hiệu UNESCO tạo ra hiệu ứng truyền thông ban đầu rất mạnh, nhưng tăng trưởng bền vững phụ thuộc vào khả năng kết nối giao thông liên vùng và sản phẩm du lịch giữ chân khách lưu trú qua đêm. Phát hiện này chính là bước ngoặt đưa tôi đến với niềm đam mê phân tích dữ liệu thực nghiệm.",
+      "Sau khi làm sạch, bức tranh nhất quán hơn hẳn: khách quốc tế đỉnh 2019 đạt 31,9 triệu (+206,7% vs. 2013), Nara chịu độ lệch lớn giữa lượng khách đi trong ngày và quy mô chi tiêu (1/11 Kyoto), còn làng cổ Shirakawa-go đối mặt 3.000 lượt khách/cư dân/năm (~8,2 khách/dân/ngày). Bài học cốt lõi là kiểm tra đơn vị gốc và ranh giới phương pháp đo luôn quan trọng hơn chạy mô hình phức tạp trên bảng số lỗi.",
     findingsEn:
-      "UNESCO status generates a strong initial signaling effect, but sustained economic retention depends on regional transit connectivity and overnight-stay product depth. This empirical discovery sparked my career passion for data analytics.",
+      "After auditing, the numbers align cleanly: inbound arrivals peaked at 31.9M in 2019 (+206.7% vs. 2013), Nara's total spend stayed at ~1/11 of Kyoto due to day-tripping, and Shirakawa-go faced 3,000 annual visits per resident (~8.2/resident/day). Verifying raw units and methodology breaks matters more than fitting complex models on dirty tables.",
     codeLanguage: "sql",
-    codeTitleVi: "Truy vấn phân tích phân vị & độ lệch vùng Du lịch Di sản",
-    codeTitleEn: "Quantile & Regional Skewness Query for Heritage Tourism",
-    codeSnippet: `WITH regional_metrics AS (
+    codeTitleVi: "MySQL 8.0 · Hiệu chỉnh lệch năm Kyoto, đơn vị Nara và mốc đứt gãy R1/2019",
+    codeTitleEn: "MySQL 8.0 · Fixing Kyoto Axis Shift, Nara Units & R1/2019 Break",
+    codeSnippet: `WITH cleaned_series AS (
   SELECT
-    prefecture_name,
-    region_group,
-    unesco_site_count,
-    overnight_stays_millions,
-    AVG(overnight_stays_millions) OVER () AS national_mean,
-    PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY overnight_stays_millions) OVER () AS national_median
-  FROM heritage_japan_tourism
+    region_code,
+    CASE
+      WHEN region_code = 'KYOTO_CITY' AND raw_year >= 2012 THEN raw_year - 1
+      ELSE raw_year
+    END AS report_year,
+    CASE
+      WHEN region_code = 'NARA_CITY' AND raw_year = 2020 THEN raw_visitors_k * 10.0
+      ELSE raw_visitors_k
+    END AS visitors_k,
+    CASE
+      WHEN region_code = 'NARA_CITY' THEN raw_spend_unit / 10.0
+      ELSE raw_spend_unit
+    END AS spend_billion_jpy,
+    CASE
+      WHEN region_code = 'KYOTO_CITY' AND raw_year = 2020 THEN 'METHOD_BREAK_R1_2019'
+      ELSE 'CONTINUOUS'
+    END AS method_flag
+  FROM heritage_raw_thesis_series
 )
 SELECT
-  region_group,
-  COUNT(*) AS prefectures,
-  ROUND(AVG(overnight_stays_millions), 2) AS group_mean,
-  ROUND(MAX(national_median), 2) AS benchmark_median,
-  ROUND(SUM(overnight_stays_millions) * 100.0 / SUM(SUM(overnight_stays_millions)) OVER (), 1) AS share_of_total_pct
-FROM regional_metrics
-GROUP BY region_group
-ORDER BY share_of_total_pct DESC;`,
-    tags: ["Origin Story", "Data Audit", "Policy Analytics", "Heritage Japan"],
+  region_code,
+  report_year,
+  ROUND(visitors_k, 1) AS visitors_k,
+  ROUND(spend_billion_jpy, 2) AS spend_billion_jpy,
+  CASE
+    WHEN method_flag = 'METHOD_BREAK_R1_2019' THEN NULL
+    ELSE ROUND(
+      (visitors_k - LAG(visitors_k) OVER (PARTITION BY region_code ORDER BY report_year)) * 100.0
+      / NULLIF(LAG(visitors_k) OVER (PARTITION BY region_code ORDER BY report_year), 0),
+      1
+    )
+  END AS yoy_visitors_pct
+FROM cleaned_series
+WHERE report_year BETWEEN 2013 AND 2022
+ORDER BY region_code, report_year;`,
+    tags: ["Data Audit", "MySQL 8.0", "Time-Series", "Heritage Japan"],
   },
   {
     id: "tiktok-shop-reconciliation",
@@ -98,57 +116,68 @@ ORDER BY share_of_total_pct DESC;`,
     featured: true,
     categoryVi: "E-Commerce & Thống kê Ứng dụng",
     categoryEn: "E-Commerce & Applied Statistics",
-    readTimeVi: "8 phút đọc",
-    readTimeEn: "8 min read",
+    readTimeVi: "3 phút đọc",
+    readTimeEn: "3 min read",
     date: "2026-09",
     titleVi:
-      "Đối soát chênh lệch GMV trên TikTok Shop bằng Khung 8 giai đoạn SQL & Kiểm định phi tham số",
+      "Đối soát 10 bảng FastMoss trên TikTok Shop: Tránh bẫy cộng trùng 7,59 tỷ và thiên lệch phân tầng",
     titleEn:
-      "Reconciling TikTok Shop GMV Discrepancies with an 8-Stage SQL Pipeline & Non-Parametric Tests",
+      "Reconciling 10 FastMoss TikTok Shop Tables: Catching a 7.59B Double-Count and Stratification Traps",
     excerptVi:
-      "Cách thiết lập 'Single Source of Truth' khi báo cáo doanh thu từ phía Creator và phía Shop không khớp nhau trong thực tế vận hành thương mại điện tử.",
+      "Cách khử trùng 595 phiên livestream chính chủ giữa AffLive và CrLive, phân tầng Video Ads qua 6 lát cắt và tính chi phí cơ hội trước khi đề xuất luật cắt KOC.",
     excerptEn:
-      "How to establish a Single Source of Truth when Creator-level telemetry and Shop-level GMV reports fail to align in live e-commerce operations.",
+      "How I deduplicated 595 official live sessions across AffLive and CrLive, stratified Video Ads across 6 slices, and quantified false-positive GMV loss before proposing a KOC cutoff rule.",
     problemVi:
-      "Trong phân tích thương mại điện tử trên TikTok Shop (dự án Kami Ely), tổng GMV cộng dồn từ danh sách Creator Affiliate thường chênh lệch đáng kể so với GMV ghi nhận tại trang tổng quan của Shop. Nếu không đối soát (reconcile) rõ ràng, doanh nghiệp sẽ phân bổ sai ngân sách hoa hồng và đánh giá sai hiệu quả kênh bán.",
+      "Trong bộ 10 bảng ước tính FastMoss của Kami Ely (231 ngày: 15,01 tỷ đ GMV, 101.896 sản phẩm), nếu cộng thô bảng AffLive (10,47 tỷ, 226 ngày) với CrLive (7,59 tỷ) sẽ ra 18,06 tỷ, vượt 120,3% doanh thu toàn gian hàng. Bên cạnh đó, phép so sánh tổng gộp dễ rơi vào hai bẫy: kết luận kéo dài phiên Live >10h tạo 4,55 Tr/giờ dù 69% đến từ riêng tháng 6, và đề xuất cắt KOC sau 3 phiên 0đ mà bỏ quên nhóm chuyển đổi muộn.",
     problemEn:
-      "In TikTok Shop e-commerce analytics (the Kami Ely project), aggregated GMV across affiliate creators often diverges from Shop-level summary telemetry. Without rigorous reconciliation, teams risk misallocating commission budgets and misjudging channel ROI.",
+      "Across 10 FastMoss tables for Kami Ely (231 days: 15.01B VND GMV, 101,896 units), naively summing AffLive (10.47B, 226d) and CrLive (7.59B) yields 18.06B (120.3% of Net Store GMV). Aggregate cuts also hide two traps: attributing 4.55M/hr to >10h livestreams when 69% came from peak June alone, and proposing a hard 3-session KOC cutoff without pricing late converters.",
     processVi: [
-      "Thiết kế Data Scope Matrix để phân tách rõ phạm vi ghi nhận của bảng Creator, bảng Shop Catalog, bảng Livestream và bảng Video.",
-      "Triển khai chuỗi truy vấn SQL 8 giai đoạn để bóc tách tỷ lệ đóng góp của từng kênh (Live vs. Video vs. Showcase) và cô lập sai số do độ trễ cập nhật đơn hoàn/hủy.",
-      "Sử dụng Python (Pandas, SciPy) kiểm định tính chuẩn (Shapiro-Wilk) của phân phối doanh thu và áp dụng kiểm định phi tham số (Mann-Whitney U, Kruskal-Wallis / ANOVA).",
-      "Xây dựng mô hình tối ưu hóa danh mục giá SKU (SKU Matrix Optimizer) dựa trên độ co giãn của lượng bán theo mức giá.",
+      "Chuyển múi giờ CrLive (+13h UTC+7), khử trùng 595 phiên chính chủ trùng với AffLive (tránh cộng trùng +7,59 tỷ) và khóa quy tắc không lấy Gross phiên trừ Net cửa hàng.",
+      "Gộp nhãn song ngữ YES/có trên 4.796 video khử trùng, chạy Fisher Exact và Mann-Whitney U (SciPy) kèm kiểm tra 6 lát cắt (kể cả trong cùng 192 KOC có cả clip Ads và Organic).",
+      "Phân tầng thời lượng Live >10h theo từng tháng để kiểm tra Simpson's Paradox (Tháng 6: 8,30 Tr/h, Tháng 7: 1,38 Tr/h, Tháng 8: 0,73 Tr/h).",
+      "Kiểm tra chi phí cơ hội của luật 3 phiên 0đ: tách 94 KOC không bao giờ ra đơn khỏi 51 KOC chuyển đổi ở phiên 4+ (tạo 304,9 triệu = 18,8% Live độc lập) để chuyển sang luật hỗ trợ 2 tầng.",
     ],
     processEn: [
-      "Designed a Data Scope Matrix to map attribution boundaries across Creator, Shop Catalog, Livestream, and Video tables.",
-      "Implemented an 8-stage SQL pipeline to decompose channel contributions (Live vs. Video vs. Showcase) and isolate settlement lag variances.",
-      "Used Python (Pandas, SciPy) to test distribution normality (Shapiro-Wilk) and execute non-parametric hypothesis tests (Mann-Whitney U, ANOVA).",
-      "Built an SKU price-tier optimization matrix based on volume-to-price elasticity.",
+      "Shifted CrLive timestamps (+13h UTC+7), deduplicated 595 official sessions overlapping AffLive (preventing +7.59B double-counting), and banned subtracting Gross sessions from Net Store GMV.",
+      "Merged bilingual YES/có flags across 4,796 deduplicated videos and ran Fisher Exact + Mann-Whitney U tests across 6 slices (including within-192 dual KOCs).",
+      "Stratified >10h live sessions by month to catch Simpson's Paradox (June: 8.30M/hr, July: 1.38M/hr, August: 0.73M/hr).",
+      "Audited false-positive GMV loss under a 3-session cutoff: 51 of 145 zero-start KOCs converted in session 4+ and generated 304.9M VND (18.8% of independent Live GMV), leading to a 2-tier policy.",
     ],
     findingsVi:
-      "Xác định chính xác phần chênh lệch GMV đến từ cơ chế đối soát thời gian ghi nhận (attribution window) giữa tài khoản nhà sáng tạo và gian hàng, đồng thời chứng minh nhóm SKU tầm giá chiến lược đóng vai trò phễu kéo chuyển đổi chính cho toàn bộ các phiên Livestream.",
+      "Live nội bộ (chính chủ + vệ tinh @koc_sat01) chiếm 84,5% doanh thu livestream, còn KOC ngoài dẫn dắt 58,4% doanh thu Video. Video có ủy quyền Ads chuyển đổi cao hơn +20,1 đpt (OR = 3,83, p = 4,19e-44) nhưng GPM tổng lại thấp hơn Organic (0,84×; trong cùng 192 KOC chỉ 0,73×), nên chỉ nên cấp mã Ads có chọn lọc trên clip đã có đơn tự nhiên.",
     findingsEn:
-      "Pinpointed the exact GMV variance driven by attribution window differences and proved that mid-tier anchor SKUs act as the primary conversion engine during high-frequency livestream sessions.",
+      "In-house channels (official + satellite @koc_sat01) drove 84.5% of live GMV while external KOCs drove 58.4% of Video GMV. Ad-authorized clips converted +20.1pp higher (OR = 3.83, p = 4.19e-44) yet yielded lower overall GPM (0.84×; 0.73× within dual KOCs), favoring selective Spark Ads only on organically converting videos.",
     codeLanguage: "python",
-    codeTitleVi: "Kiểm định giả thuyết thống kê phân phối GMV bằng SciPy",
-    codeTitleEn: "Statistical Hypothesis Testing on GMV Distributions with SciPy",
-    codeSnippet: `import numpy as np
+    codeTitleVi: "Python (SciPy) · Kiểm định Fisher Exact & Mann-Whitney U cho 4.796 Video",
+    codeTitleEn: "Python (SciPy) · Fisher Exact & Mann-Whitney U on 4,796 Videos",
+    codeSnippet: `from scipy import stats
 import pandas as pd
-from scipy import stats
 
-def evaluate_channel_gmv(df: pd.DataFrame, group_col: str, metric_col: str):
-    groups = [group[metric_col].dropna().values for _, group in df.groupby(group_col)]
-    # Check normality on primary group
-    shapiro_stat, shapiro_p = stats.shapiro(groups[0][:500])
-    # Non-parametric Mann-Whitney U / Kruskal-Wallis for skewed e-commerce GMV
-    h_stat, p_val = stats.kruskal(*groups)
+def audit_video_ads_effect(df: pd.DataFrame) -> dict:
+    # df: 4,796 deduplicated affiliate videos after merging YES/có flags
+    ads = df[df["is_ad_authorized"] == 1]
+    org = df[df["is_ad_authorized"] == 0]
+
+    table = [
+        [(ads["gmv_vnd"] > 0).sum(), (ads["gmv_vnd"] == 0).sum()],
+        [(org["gmv_vnd"] > 0).sum(), (org["gmv_vnd"] == 0).sum()],
+    ]
+    odds_ratio, fisher_p = stats.fisher_exact(table)
+
+    # Compare GPM on converting videos (skewed non-normal distribution)
+    u_stat, mw_p = stats.mannwhitneyu(
+        ads.loc[ads["gmv_vnd"] > 0, "gpm_vnd"],
+        org.loc[org["gmv_vnd"] > 0, "gpm_vnd"],
+        alternative="two-sided",
+    )
     return {
-        "normality_p": round(float(shapiro_p), 5),
-        "kruskal_h": round(float(h_stat), 4),
-        "p_value": round(float(p_val), 6),
-        "significant": bool(p_val < 0.05)
+        "ads_conv_pct": round((ads["gmv_vnd"] > 0).mean() * 100, 1),
+        "org_conv_pct": round((org["gmv_vnd"] > 0).mean() * 100, 1),
+        "fisher_or": round(float(odds_ratio), 2),
+        "fisher_p": float(fisher_p),
+        "mw_gpm_p": float(mw_p),
     }`,
-    tags: ["Data Reconciliation", "SQL 8-Stage", "SciPy Stats", "Kami Ely"],
+    tags: ["Data Reconciliation", "Simpson's Paradox", "SciPy", "Kami Ely"],
   },
   {
     id: "library-bus-telemetry",
@@ -156,65 +185,74 @@ def evaluate_channel_gmv(df: pd.DataFrame, group_col: str, metric_col: str):
     projectKey: "library-bus",
     projectSlug: "/projects/proj-library-bus",
     featured: false,
-    categoryVi: "Product Analytics & Kiến trúc Dữ liệu",
-    categoryEn: "Product Analytics & Data Architecture",
-    readTimeVi: "6 phút đọc",
-    readTimeEn: "6 min read",
+    categoryVi: "Technical BA & Product Analytics",
+    categoryEn: "Technical BA & Product Analytics",
+    readTimeVi: "3 phút đọc",
+    readTimeEn: "3 min read",
     date: "2026-08",
     titleVi:
-      "Từ Nghiên cứu UX đến Kiến trúc Telemetry: Thiết kế luồng dữ liệu cho Thư viện Lưu động",
+      "Từ đặc tả Technical BA đến Tracking Plan và truy vấn MySQL 8.0 cho Library Bus",
     titleEn:
-      "From UX Research to Telemetry Architecture: Designing Data Flows for a Mobile Library",
+      "From Technical BA Specs to an Event Tracking Plan and MySQL 8.0 Queries for Library Bus",
     excerptVi:
-      "Kinh nghiệm chuyển hóa 4 quy tắc nghiệp vụ (BR-01..04) và 11 luồng màn hình Wireframe/UI thành kiến trúc 7 phân hệ Django 5.2 (36 model MySQL 8.0, Redis 7, 9 tác vụ Celery Beat) và phân hệ Telemetry analytics.",
+      "Cách chuyển hóa 4 quy tắc nghiệp vụ mượn trả xe thư viện lưu động thành ERD 7 thực thể lõi, Tracking Plan 8 sự kiện đồng bộ schema và truy vấn KPI tránh lỗi right-censoring.",
     excerptEn:
-      "Translating 4 business rules (BR-01..04) and 11 paired Wireframe/UI flows into a 7-app Django 5.2 architecture (36 MySQL 8.0 models, Redis 7, 9 Celery Beat tasks) and an event-driven analytics app.",
+      "Translating 4 mobile-library circulation rules into a 7-entity core ERD, a schema-aligned 8-event Tracking Plan, and a right-censoring-safe MySQL 8.0 KPI query.",
     problemVi:
-      "Hệ thống xe thư viện lưu động (Library Bus) cần giải quyết bài toán kép giữa nghiệp vụ hậu cần và đo lường sản phẩm: Làm sao để khóa tồn kho an toàn khi nhiều độc giả đặt mượn đồng thời (chống lỗi TOCTOU Race Condition), tự động dịch chuyển hàng đợi FIFO mỗi 30 phút và thu thập Telemetry đánh giá hiệu suất từng xe buýt?",
+      "Khi thiết kế hệ thống cho mạng lưới xe thư viện lưu động ở giai đoạn tiền vận hành, bài toán BA không chỉ dừng ở vẽ màn hình: cần chặn đặt trùng bản sách cuối cùng, giữ công bằng hàng đợi 7 ngày theo lịch xe ghé trạm, đặt mức trần tiền phạt hợp lý và cài sẵn Tracking Plan để đo hiệu suất từng tuyến ngay trong đợt thí điểm 4 tuần.",
     problemEn:
-      "A mobile library network (Library Bus) faces a dual logistics and product analytics challenge: How do we safely lock book inventory during concurrent borrowing (preventing TOCTOU race conditions), auto-advance FIFO reservation queues every 30 minutes, and capture event telemetry to score bus efficiency?",
+      "Designing a pre-launch mobile library system requires more than UI mockups: we must prevent last-copy double-booking, align 7-day reservation holds with bus stop schedules, cap overdue fines at replacement value, and embed a Tracking Plan to measure route efficiency during a 4-week pilot.",
     processVi: [
-      "Thực thi 4 bộ quy tắc nghiệp vụ (BR-01..04) trong TransactionService bằng khóa bi quan select_for_update() trên cả bản ghi Book và User trong transaction.atomic() (MySQL 8.0, khóa chính UUIDv4 kế thừa TimestampedModel, SoftDeleteModel & AuditMixin).",
-      "Cấu hình 9 tác vụ định kỳ Celery Beat + Redis 7 (CacheMixin có đánh số phiên bản): quét hàng đợi đặt trước FIFO mỗi 30 phút, tính phạt lũy tiến 3 bậc (5k/10k/15k) lúc 06:00, tổng hợp bảng DailyStats lúc 00:15 và chuyển log sự kiện >90 ngày sang ArchivedUserActivity.",
-      "Thiết kế phân hệ analytics ghi nhận sự kiện UserActivity (view_book, borrow, return, review, bus_visit), tính điểm phổ biến sách BookAnalytics (60% mượn + 30% đánh giá + 10% xem + 20đ thưởng 30 ngày) và hiệu suất xe BusAnalytics.",
+      "Khóa phạm vi MoSCoW MVP (4 quy tắc BR-01..04 và danh mục sách theo điểm dừng), tách rõ GPS phần cứng và AI gợi ý sách ra ngoài Giai đoạn 1.",
+      "Tách thực thể đầu sách (BookTitle) khỏi tồn kho vật lý trên từng xe (BusBookInventory) trong ERD lõi, đồng thời bổ sung quy tắc đồng bộ offline và trần phí phạt bằng giá đền sách.",
+      "Đồng nhất tên 8 sự kiện giữa Tracking Plan và bảng UserActivity để phục vụ trực tiếp khung quyết định Pilot 4 tuần trên 2 tuyến xe.",
+      "Viết truy vấn MySQL 8.0 dùng 2 CTE cùng cửa sổ UTC, LEFT JOIN từ danh sách xe (tránh sót xe 0 đơn) và lọc cohort đặt trước đủ chín ≥7 ngày (tránh lệch right-censoring).",
     ],
     processEn: [
-      "Implemented 4 core business rules (BR-01..04) in TransactionService using pessimistic select_for_update() row locks on Book and User inside transaction.atomic() (MySQL 8.0, UUIDv4 TimestampedModel, SoftDeleteModel & AuditMixin).",
-      "Configured 9 scheduled Celery Beat tasks + Redis 7 versioned CacheMixin: scanning FIFO reservation queues every 30 minutes, calculating 3-tier progressive fines (5k/10k/15k) at 06:00, aggregating DailyStats at 00:15, and archiving >90d events to ArchivedUserActivity.",
-      "Architected the analytics app capturing UserActivity logs (view_book, borrow, return, review, bus_visit), BookAnalytics popularity scores (60% borrows + 30% ratings + 10% views + 20pt recency bonus), and BusAnalytics efficiency scores.",
+      "Scoped MoSCoW MVP to BR-01..04 and stop-level catalogs while deferring hardware GPS and AI recommendations out of Phase 1.",
+      "Separated bibliographic titles (BookTitle) from physical bus copies (BusBookInventory) in the core ERD, and added offline sync plus replacement-cost fine caps.",
+      "Aligned all 8 event names between the Tracking Plan and UserActivity schema to directly power the 4-week 2-route pilot decision matrix.",
+      "Wrote a MySQL 8.0 KPI query using aligned UTC CTEs, LEFT JOIN from the bus master table (avoiding survivorship bias), and a 7-day maturity cutoff against right-censoring.",
     ],
     findingsVi:
-      "Việc tách luồng ghi nhận Telemetry sang tác vụ nền qua transaction.on_commit (gọi update_analytics_on_borrow_task bất đồng bộ trên Celery) giúp giao dịch mượn sách trên MySQL 8.0 luôn đạt tính nguyên tử ACID mà không làm tăng độ trễ phản hồi HTTP.",
+      "Trong bản thiết kế trước đây, phép chia fulfilled / total trên toàn bộ 30 ngày gần nhất làm tụt giả tạo tỷ lệ nhận sách vì các đơn tạo trong 1–6 ngày cuối chưa hết hạn giữ chỗ 7 ngày, còn chỉ số borrows/visits bị bão hòa ở trần 100%. Lọc nhóm đơn đủ chín (reserved_date <= NOW - 7 ngày) và tách chỉ số borrows_per_visit không cắt trần giúp KPI phản ánh đúng thực tế vận hành.",
     findingsEn:
-      "Decoupling telemetry ingestion into background Celery tasks via transaction.on_commit (update_analytics_on_borrow_task) guarantees ACID transactional safety on MySQL 8.0 with zero HTTP latency overhead.",
+      "An earlier query divided fulfilled by total reservations across the full last 30 days, artificially depressing pickup rate due to 1–6 day right-censored reservations, while capping borrows/visits at 100%. Filtering to matured cohorts (reserved_date <= NOW - 7d) and tracking uncapped borrows_per_visit fixes both distortions.",
     codeLanguage: "sql",
-    codeTitleVi: "Truy vấn MySQL 8.0 đối soát Hàng đợi Đặt trước FIFO & Hiệu suất Xe buýt (Schema thật)",
-    codeTitleEn: "MySQL 8.0 FIFO Reservation Fulfillment & Bus Efficiency Telemetry Query (Actual Schema)",
-    codeSnippet: `SELECT
+    codeTitleVi: "MySQL 8.0 · Đối soát tỷ lệ nhận sách đủ chín (7 ngày) & hiệu suất từng tuyến xe",
+    codeTitleEn: "MySQL 8.0 · Matured 7-Day Reservation Fulfillment & Route Yield",
+    codeSnippet: `WITH matured_res AS (
+  SELECT
+    preferred_pickup_location_id AS bus_id,
+    COUNT(*) AS matured_reservations_30d,
+    SUM(CASE WHEN is_fulfilled = 1 THEN 1 ELSE 0 END) AS fulfilled_30d,
+    SUM(CASE WHEN is_fulfilled = 0 AND expires_date < UTC_TIMESTAMP() THEN 1 ELSE 0 END) AS expired_30d
+  FROM transactions_bookreservation
+  WHERE is_deleted = 0
+    AND reserved_date >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 37 DAY)
+    AND reserved_date <= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 7 DAY)
+  GROUP BY preferred_pickup_location_id
+),
+visits_borrows_30d AS (
+  SELECT
+    bus_id,
+    SUM(CASE WHEN activity_type = 'borrow' THEN 1 ELSE 0 END) AS borrows_30d,
+    SUM(CASE WHEN activity_type = 'bus_visit' THEN 1 ELSE 0 END) AS visits_30d
+  FROM analytics_useractivity
+  WHERE created_at >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 DAY)
+  GROUP BY bus_id
+)
+SELECT
   b.bus_number,
-  b.license_plate,
-  COUNT(r.id) AS total_reservations,
-  SUM(CASE WHEN r.is_fulfilled = 1 THEN 1 ELSE 0 END) AS fulfilled_reservations,
-  SUM(CASE WHEN r.is_fulfilled = 0 AND r.expires_date < NOW() THEN 1 ELSE 0 END) AS expired_unclaimed,
-  ROUND(
-    SUM(CASE WHEN r.is_fulfilled = 1 THEN 1 ELSE 0 END) * 100.0
-    / NULLIF(COUNT(r.id), 0),
-    2
-  ) AS fulfillment_rate_pct,
-  ROUND(
-    LEAST((ba.total_borrows / NULLIF(ba.total_visits, 0)) * 100.0, 100.0),
-    1
-  ) AS bus_efficiency_score
-FROM transactions_bookreservation r
-INNER JOIN inventory_librarybus b
-  ON r.preferred_pickup_location_id = b.id
-LEFT JOIN analytics_busanalytics ba
-  ON ba.bus_id = b.id
-WHERE r.is_deleted = 0
-  AND r.reserved_date >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL 30 DAY )
-GROUP BY b.id, b.bus_number, b.license_plate, ba.total_borrows, ba.total_visits
-ORDER BY fulfillment_rate_pct DESC;`,
-    tags: ["Product Analytics", "UX Research", "System Architecture", "Library Bus"],
+  COALESCE(r.matured_reservations_30d, 0) AS matured_reservations_30d,
+  ROUND(COALESCE(r.fulfilled_30d, 0) * 100.0 / NULLIF(r.matured_reservations_30d, 0), 1) AS fulfillment_rate_pct,
+  COALESCE(v.borrows_30d, 0) AS borrows_30d,
+  ROUND(COALESCE(v.borrows_30d, 0) / NULLIF(v.visits_30d, 0), 2) AS borrows_per_visit
+FROM inventory_librarybus b
+LEFT JOIN matured_res r ON r.bus_id = b.id
+LEFT JOIN visits_borrows_30d v ON v.bus_id = b.id
+ORDER BY borrows_30d DESC;`,
+    tags: ["Technical BA", "Tracking Plan", "MySQL 8.0", "Library Bus"],
   },
   {
     id: "sql-8-stage-methodology",
@@ -222,53 +260,54 @@ ORDER BY fulfillment_rate_pct DESC;`,
     projectKey: "sql-methodology",
     projectSlug: "/about",
     featured: false,
-    categoryVi: "Phương pháp luận Kỹ thuật",
-    categoryEn: "Technical Methodology",
-    readTimeVi: "5 phút đọc",
-    readTimeEn: "5 min read",
+    categoryVi: "Phương pháp luận SQL",
+    categoryEn: "SQL Methodology",
+    readTimeVi: "2 phút đọc",
+    readTimeEn: "2 min read",
     date: "2026-07",
     titleVi:
-      "Ứng dụng Khung 8 Giai đoạn 'SQL for Data Analysis' vào Dự án Phân tích Dữ liệu",
+      "Checklist 8 bước kiểm soát chất lượng truy vấn MySQL 8.0 cho dự án phân tích",
     titleEn:
-      "Applying the 8-Stage 'SQL for Data Analysis' Framework to Production Case Studies",
+      "An 8-Step MySQL 8.0 Quality Checklist for Analytics Projects",
     excerptVi:
-      "Cách tôi chuẩn hóa quy trình làm việc từ bước Khám phá lược đồ (Profiling) đến Phân tích Cohort, Chuỗi thời gian và Tối ưu hóa truy vấn.",
+      "Tóm tắt 8 điểm kiểm tra mình áp dụng trước khi đưa số liệu lên biểu đồ: kiểm tra khóa chính, chuẩn hóa múi giờ, hàm cửa sổ trượt, cohort, Pareto và đối soát đa nguồn.",
     excerptEn:
-      "How I standardize my analytical workflow from initial schema profiling to Cohort Retention, Time-Series Window Functions, and Query Optimization.",
+      "The 8 checks I run before plotting metrics: key uniqueness, timezone alignment, rolling windows, cohorts, Pareto share, and cross-source reconciliation.",
     problemVi:
-      "Nhiều bản phân tích gặp sai sót do bước chuẩn bị dữ liệu và đặt giả thuyết thiếu tính hệ thống. Tôi xây dựng một khung quy trình chuẩn mực để áp dụng nhất quán cho mọi dự án trong portfolio.",
+      "Phần lớn sai số trong báo cáo phân tích không đến từ công thức nâng cao mà từ bước tiền xử lý: đếm trùng khóa khi JOIN, trộn cửa sổ ngày khác nhau hoặc cộng gộp các nhóm có bản chất khác biệt.",
     problemEn:
-      "Analytical projects often break down when data preparation and hypothesis formulation lack structure. I built a repeatable engineering framework to apply consistently across every project in my portfolio.",
+      "Most reporting errors stem from upstream preparation rather than advanced math: fan-out joins, mismatched date windows, or pooling heterogeneous subgroups.",
     processVi: [
-      "Giai đoạn 1-2 (Profiling & Data Prep): Kiểm tra phân phối, xử lý NULL, chuẩn hóa kiểu dữ liệu và đối soát khóa ngoại.",
-      "Giai đoạn 3-5 (Time-Series, Cohorts & Text/Anomaly Analysis): Áp dụng Window Functions (LAG, LEAD, Rolling Averages) và phân tích giữ chân khách hàng.",
-      "Giai đoạn 6-8 (Experimentation, Complex Silos & Story-Driven Output): Kết hợp kết quả kiểm định thống kê vào bảng tổng hợp phục vụ trực tiếp cho Dashboard điều hành.",
+      "Bước 1–2 (Profiling & Cleaning): Đếm trùng khóa chính toàn bảng, kiểm tra tỷ lệ NULL, gộp nhãn song ngữ và chuẩn hóa về một múi giờ thống nhất.",
+      "Bước 3–5 (Time-Series, Cohort & Pareto): Dùng Window Functions (MA7/MA28, LAG, ROW_NUMBER) và phân tầng theo tháng để tránh Simpson's Paradox.",
+      "Bước 6–8 (Feature Prep, Reconciliation & Mart): Đối soát Gross vs. Net trên cùng khoảng thời gian, dùng LEFT JOIN tránh mất đối tượng 0 đơn và lọc cohort đủ chín.",
     ],
     processEn: [
-      "Stages 1-2 (Profiling & Data Prep): Auditing distributions, handling NULLs, standardizing types, and verifying relational keys.",
-      "Stages 3-5 (Time-Series, Cohorts & Anomaly Detection): Leveraging Window Functions (LAG, LEAD, Rolling Windows) and retention matrices.",
-      "Stages 6-8 (Experimentation, Complex Silos & Executive Output): Shaping validated statistical outputs into clean marts for interactive dashboards.",
+      "Steps 1–2 (Profiling & Cleaning): Check table-wide primary key duplicates, NULL rates, bilingual labels, and timezone alignment.",
+      "Steps 3–5 (Time-Series, Cohort & Pareto): Apply Window Functions (MA7/MA28, LAG, ROW_NUMBER) and stratify by month against Simpson's Paradox.",
+      "Steps 6–8 (Feature Prep, Reconciliation & Mart): Reconcile Gross vs. Net on locked cutoffs, preserve zero-activity entities with LEFT JOIN, and guard against right-censoring.",
     ],
     findingsVi:
-      "Việc tuân thủ kỷ luật 8 giai đoạn giúp phát hiện sớm sai lệch số liệu trước khi lên báo cáo, đồng thời giữ mã nguồn SQL minh bạch, dễ bảo trì và dễ kiểm chứng lại từng bước.",
+      "Áp dụng cố định checklist 8 bước này giúp mình bắt được lỗi trùng 595 phiên Live (+7,59 tỷ) ở Kami Ely, 5 lỗi đơn vị/lệch năm ở Heritage Japan và lỗi right-censoring ở truy vấn đặt trước của Library Bus.",
     findingsEn:
-      "Following this disciplined 8-stage progression catches metric discrepancies before reporting while keeping SQL queries modular, auditable, and reproducible.",
+      "Running this fixed 8-step checklist surfaced the 595 duplicate live sessions (+7.59B) in Kami Ely, 5 unit/axis errors in Heritage Japan, and right-censoring bias in Library Bus.",
     codeLanguage: "sql",
-    codeTitleVi: "Mẫu Window Function tính Trung bình trượt & Tăng trưởng kỳ trước",
-    codeTitleEn: "Rolling 7-Day Average & Period-over-Period Growth Pattern",
+    codeTitleVi: "MySQL 8.0 · Trung bình trượt 7 ngày & tăng trưởng tuần liền kề (WoW)",
+    codeTitleEn: "MySQL 8.0 · Rolling 7-Day Average & Week-over-Week Growth",
     codeSnippet: `SELECT
   metric_date,
-  daily_revenue,
-  ROUND(AVG(daily_revenue) OVER (
+  store_gmv_vnd,
+  ROUND(AVG(store_gmv_vnd) OVER (
     ORDER BY metric_date
     ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
-  ), 2) AS rolling_7d_avg,
+  ), 0) AS ma7_gmv_vnd,
   ROUND(
-    (daily_revenue - LAG(daily_revenue, 7) OVER (ORDER BY metric_date)) * 100.0
-    / NULLIF(LAG(daily_revenue, 7) OVER (ORDER BY metric_date), 0),
+    (store_gmv_vnd - LAG(store_gmv_vnd, 7) OVER (ORDER BY metric_date)) * 100.0
+    / NULLIF(LAG(store_gmv_vnd, 7) OVER (ORDER BY metric_date), 0),
     2
   ) AS wow_growth_pct
-FROM daily_kpi_fact;`,
-    tags: ["SQL for Data Analysis", "Window Functions", "Cohort Analysis", "Best Practices"],
+FROM fact_store_daily
+ORDER BY metric_date;`,
+    tags: ["MySQL 8.0", "Window Functions", "Data Quality", "Reconciliation"],
   },
 ];

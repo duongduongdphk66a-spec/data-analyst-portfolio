@@ -3287,7 +3287,7 @@
         "file": "Affiliate_Livestreams",
         "rows": 8355,
         "cols": 13,
-        "start": "2026-03-07",
+        "start": "2026-03-09",
         "end": "2026-10-20",
         "mode": "event",
         "chapters": "Ch 1, 2, 3, 4, 5, 6"
@@ -3307,7 +3307,7 @@
         "file": "Affiliate_Videos",
         "rows": 4797,
         "cols": 13,
-        "start": "2025-11-01",
+        "start": "2026-03-09",
         "end": "2026-10-20",
         "mode": "rolling90",
         "chapters": "Ch 5"
@@ -3434,13 +3434,13 @@
         },
         {
           "rank": 2,
-          "skuCode": "SKU_2",
+          "skuCode": "CV11",
           "gmvM": 339.58,
           "cumPct": 57.69
         },
         {
           "rank": 3,
-          "skuCode": "SKU_3",
+          "skuCode": "CV02",
           "gmvM": 146.2,
           "cumPct": 62.32
         },
@@ -3470,13 +3470,13 @@
         },
         {
           "rank": 8,
-          "skuCode": "SKU_8",
+          "skuCode": "AG01",
           "gmvM": 59.01,
           "cumPct": 74.77
         },
         {
           "rank": 9,
-          "skuCode": "SKU_9",
+          "skuCode": "M18",
           "gmvM": 55.46,
           "cumPct": 76.53
         },
@@ -3524,7 +3524,7 @@
         },
         {
           "rank": 17,
-          "skuCode": "SKU_17",
+          "skuCode": "M18",
           "gmvM": 27.68,
           "cumPct": 85.34
         },
@@ -3554,13 +3554,13 @@
         },
         {
           "rank": 22,
-          "skuCode": "SKU_22",
+          "skuCode": "CV05",
           "gmvM": 16.74,
           "cumPct": 88.36
         },
         {
           "rank": 23,
-          "skuCode": "SKU_23",
+          "skuCode": "AT04",
           "gmvM": 14.87,
           "cumPct": 88.83
         },
@@ -3572,7 +3572,7 @@
         },
         {
           "rank": 25,
-          "skuCode": "SKU_25",
+          "skuCode": "CV05",
           "gmvM": 12.75,
           "cumPct": 89.65
         },
@@ -3602,7 +3602,7 @@
         },
         {
           "rank": 30,
-          "skuCode": "SKU_30",
+          "skuCode": "CV01",
           "gmvM": 11.77,
           "cumPct": 91.55
         },
@@ -3614,7 +3614,7 @@
         },
         {
           "rank": 32,
-          "skuCode": "KOC",
+          "skuCode": "M18",
           "gmvM": 10.38,
           "cumPct": 92.23
         },
@@ -3626,7 +3626,7 @@
         },
         {
           "rank": 34,
-          "skuCode": "KOC",
+          "skuCode": "H36",
           "gmvM": 9.29,
           "cumPct": 92.85
         },
@@ -3644,7 +3644,7 @@
         },
         {
           "rank": 37,
-          "skuCode": "KOC",
+          "skuCode": "M22",
           "gmvM": 8.26,
           "cumPct": 93.65
         },
@@ -3686,7 +3686,7 @@
         },
         {
           "rank": 44,
-          "skuCode": "SKU_44",
+          "skuCode": "CV04",
           "gmvM": 6.09,
           "cumPct": 95.2
         },
@@ -3710,19 +3710,19 @@
         },
         {
           "rank": 48,
-          "skuCode": "KOC",
+          "skuCode": "H30",
           "gmvM": 5.39,
           "cumPct": 95.93
         },
         {
           "rank": 49,
-          "skuCode": "SKU_49",
+          "skuCode": "CV10",
           "gmvM": 5.09,
           "cumPct": 96.09
         },
         {
           "rank": 50,
-          "skuCode": "SKU_50",
+          "skuCode": "AT03",
           "gmvM": 4.71,
           "cumPct": 96.24
         },
@@ -3734,7 +3734,7 @@
         },
         {
           "rank": 52,
-          "skuCode": "KOC",
+          "skuCode": "H38",
           "gmvM": 4.52,
           "cumPct": 96.53
         },
@@ -3746,7 +3746,7 @@
         },
         {
           "rank": 54,
-          "skuCode": "SKU_54",
+          "skuCode": "H24",
           "gmvM": 4.04,
           "cumPct": 96.8
         },
@@ -3758,7 +3758,7 @@
         },
         {
           "rank": 56,
-          "skuCode": "SKU_56",
+          "skuCode": "M12",
           "gmvM": 3.78,
           "cumPct": 97.04
         },
@@ -3782,7 +3782,7 @@
         },
         {
           "rank": 60,
-          "skuCode": "KOC",
+          "skuCode": "H39",
           "gmvM": 3.22,
           "cumPct": 97.47
         },
@@ -3806,7 +3806,7 @@
         },
         {
           "rank": 64,
-          "skuCode": "SKU_64",
+          "skuCode": "H24",
           "gmvM": 2.97,
           "cumPct": 97.86
         },
@@ -3824,7 +3824,7 @@
         },
         {
           "rank": 67,
-          "skuCode": "SKU_67",
+          "skuCode": "CV14",
           "gmvM": 2.56,
           "cumPct": 98.12
         },
@@ -3848,13 +3848,13 @@
         },
         {
           "rank": 71,
-          "skuCode": "KOC",
+          "skuCode": "H26",
           "gmvM": 2.23,
           "cumPct": 98.4
         },
         {
           "rank": 72,
-          "skuCode": "SKU_72",
+          "skuCode": "CV11",
           "gmvM": 2.19,
           "cumPct": 98.47
         },
@@ -3896,7 +3896,7 @@
         },
         {
           "rank": 79,
-          "skuCode": "SKU_79",
+          "skuCode": "AT02",
           "gmvM": 1.75,
           "cumPct": 98.89
         },
@@ -3908,7 +3908,7 @@
         },
         {
           "rank": 81,
-          "skuCode": "KOC",
+          "skuCode": "H35",
           "gmvM": 1.73,
           "cumPct": 99
         },
@@ -3938,7 +3938,7 @@
         },
         {
           "rank": 86,
-          "skuCode": "KOC",
+          "skuCode": "H25",
           "gmvM": 1.2,
           "cumPct": 99.24
         },
@@ -3962,7 +3962,7 @@
         },
         {
           "rank": 90,
-          "skuCode": "KOC",
+          "skuCode": "H34",
           "gmvM": 0.98,
           "cumPct": 99.37
         },
@@ -3974,7 +3974,7 @@
         },
         {
           "rank": 92,
-          "skuCode": "KOC",
+          "skuCode": "H31",
           "gmvM": 0.97,
           "cumPct": 99.44
         },
@@ -3992,7 +3992,7 @@
         },
         {
           "rank": 95,
-          "skuCode": "KOC",
+          "skuCode": "H33",
           "gmvM": 0.91,
           "cumPct": 99.52
         },
@@ -4004,7 +4004,7 @@
         },
         {
           "rank": 97,
-          "skuCode": "SKU_97",
+          "skuCode": "PK02",
           "gmvM": 0.87,
           "cumPct": 99.58
         },
@@ -4064,19 +4064,19 @@
         },
         {
           "rank": 107,
-          "skuCode": "SKU_107",
+          "skuCode": "H21",
           "gmvM": 0.54,
           "cumPct": 99.8
         },
         {
           "rank": 108,
-          "skuCode": "KOC",
+          "skuCode": "H28",
           "gmvM": 0.5,
           "cumPct": 99.82
         },
         {
           "rank": 109,
-          "skuCode": "KOC",
+          "skuCode": "H32",
           "gmvM": 0.48,
           "cumPct": 99.84
         },
@@ -4088,19 +4088,19 @@
         },
         {
           "rank": 111,
-          "skuCode": "SKU_111",
+          "skuCode": "H14",
           "gmvM": 0.39,
           "cumPct": 99.86
         },
         {
           "rank": 112,
-          "skuCode": "SKU_112",
+          "skuCode": "H21",
           "gmvM": 0.38,
           "cumPct": 99.87
         },
         {
           "rank": 113,
-          "skuCode": "SKU_113",
+          "skuCode": "CV04",
           "gmvM": 0.35,
           "cumPct": 99.88
         },
@@ -4112,7 +4112,7 @@
         },
         {
           "rank": 115,
-          "skuCode": "SKU_115",
+          "skuCode": "H14",
           "gmvM": 0.26,
           "cumPct": 99.9
         },
@@ -4142,7 +4142,7 @@
         },
         {
           "rank": 120,
-          "skuCode": "SKU_120",
+          "skuCode": "H13",
           "gmvM": 0.24,
           "cumPct": 99.94
         },
@@ -4160,7 +4160,7 @@
         },
         {
           "rank": 123,
-          "skuCode": "SKU_123",
+          "skuCode": "H13",
           "gmvM": 0.23,
           "cumPct": 99.96
         },
@@ -4196,19 +4196,19 @@
         },
         {
           "rank": 129,
-          "skuCode": "SKU_129",
+          "skuCode": "Q08",
           "gmvM": 0.13,
           "cumPct": 99.99
         },
         {
           "rank": 130,
-          "skuCode": "SKU_130",
+          "skuCode": "PK01",
           "gmvM": 0.08,
           "cumPct": 100
         },
         {
           "rank": 131,
-          "skuCode": "SKU_131",
+          "skuCode": "AT04",
           "gmvM": 0.07,
           "cumPct": 100
         },
@@ -4220,7 +4220,7 @@
         },
         {
           "rank": 133,
-          "skuCode": "SKU_133",
+          "skuCode": "B13",
           "gmvM": 0,
           "cumPct": 100
         }
@@ -4852,14 +4852,14 @@
           },
           {
             "rank": 2,
-            "code": "SKU_2",
+            "code": "CV11",
             "gmvM": 339.6,
             "sharePct": 10.7,
             "cumPct": 57.7
           },
           {
             "rank": 3,
-            "code": "SKU_3",
+            "code": "CV02",
             "gmvM": 146.2,
             "sharePct": 4.6,
             "cumPct": 62.3
@@ -4894,14 +4894,14 @@
           },
           {
             "rank": 8,
-            "code": "SKU_8",
+            "code": "AG01",
             "gmvM": 59,
             "sharePct": 1.9,
             "cumPct": 74.8
           },
           {
             "rank": 9,
-            "code": "SKU_9",
+            "code": "M18",
             "gmvM": 55.5,
             "sharePct": 1.8,
             "cumPct": 76.5
@@ -6074,7 +6074,7 @@
         "ag01GmvM": 0,
         "skirtsGmvM": 251.3,
         "totalSku10GmvM": 1046.1,
-        "storeMonthGmvM": 0,
+        "storeMonthGmvM": 2747.3,
         "summerSharePct": 76,
         "winterSharePct": 24,
         "at06ShareOfStoreMonthPct": 0
@@ -6092,7 +6092,7 @@
         "ag01GmvM": 0,
         "skirtsGmvM": 151.5,
         "totalSku10GmvM": 1723.1,
-        "storeMonthGmvM": 0,
+        "storeMonthGmvM": 3772.4,
         "summerSharePct": 91.2,
         "winterSharePct": 8.8,
         "at06ShareOfStoreMonthPct": 0
@@ -6110,7 +6110,7 @@
         "ag01GmvM": 0,
         "skirtsGmvM": 161.2,
         "totalSku10GmvM": 906.1,
-        "storeMonthGmvM": 0,
+        "storeMonthGmvM": 2125.9,
         "summerSharePct": 82.2,
         "winterSharePct": 17.8,
         "at06ShareOfStoreMonthPct": 0
@@ -6128,7 +6128,7 @@
         "ag01GmvM": 0,
         "skirtsGmvM": 94.6,
         "totalSku10GmvM": 262.2,
-        "storeMonthGmvM": 0,
+        "storeMonthGmvM": 636.7,
         "summerSharePct": 63.9,
         "winterSharePct": 36.1,
         "at06ShareOfStoreMonthPct": 0
@@ -6146,10 +6146,10 @@
         "ag01GmvM": 47.4,
         "skirtsGmvM": 165.3,
         "totalSku10GmvM": 572.2,
-        "storeMonthGmvM": 0,
+        "storeMonthGmvM": 701,
         "summerSharePct": 10.8,
         "winterSharePct": 89.2,
-        "at06ShareOfStoreMonthPct": 0
+        "at06ShareOfStoreMonthPct": 42.5
       },
       {
         "month": "2026-10",
@@ -6164,10 +6164,10 @@
         "ag01GmvM": 11.6,
         "skirtsGmvM": 218.6,
         "totalSku10GmvM": 1557.7,
-        "storeMonthGmvM": 0,
+        "storeMonthGmvM": 1616.9,
         "summerSharePct": 1.7,
         "winterSharePct": 98.3,
-        "at06ShareOfStoreMonthPct": 0
+        "at06ShareOfStoreMonthPct": 80.5
       }
     ],
     "sku10ShareOfStoreWindowPct": 52.1,
@@ -7851,16 +7851,16 @@
         "stepEn": "Raw AffLive export",
         "count": 8355,
         "delta": 0,
-        "noteVi": "07/03 - 20/10/2026, gồm cả chính chủ & affiliate",
-        "noteEn": "Mar 07 - Oct 20, 2026, official + affiliates"
+        "noteVi": "09/03 - 20/10/2026, gồm cả chính chủ & affiliate",
+        "noteEn": "Mar 09 - Oct 20, 2026, official + affiliates"
       },
       {
         "stepVi": "Trừ phiên @shop_official trùng CrLive",
         "stepEn": "Subtract @shop_official overlap with CrLive",
         "count": 7760,
         "delta": -595,
-        "noteVi": "595 phiên chính chủ (CrLive có 600 phiên do thêm 5 ca 07-08/03 trước mốc Store)",
-        "noteEn": "595 official sessions (CrLive has 600 incl. 5 pre-09/03 sessions)"
+        "noteVi": "595 phiên chính chủ trong AffLive (CrLive có 600 phiên gồm 1 ca 07/03 trước mốc Store và 4 phiên không ghi nhận ở AffLive)",
+        "noteEn": "595 official sessions in AffLive (CrLive has 600 incl. 1 pre-Mar-09 session and 4 non-AffLive official sessions)"
       },
       {
         "stepVi": "Tách riêng kênh vệ tinh @koc_sat01",
@@ -7893,8 +7893,8 @@
         "stepEn": "Shift +13h to UTC+7 & filter >= Mar 09",
         "count": 599,
         "delta": -1,
-        "noteVi": "Khớp 595/595 phiên với @shop_official trong AffLive",
-        "noteEn": "Matches 595/595 @shop_official sessions in AffLive"
+        "noteVi": "599 phiên CrLive >= 09/03 (595 khớp @shop_official trong AffLive + 4 phiên riêng của CrLive; bỏ 1 phiên 07/03)",
+        "noteEn": "599 CrLive sessions >= Mar 09 (595 overlap AffLive @shop_official + 4 CrLive-only; 1 pre-Mar-09 excluded)"
       },
       {
         "stepVi": "Đối chiếu kỳ Hè 180 ngày (đến 04/09)",
@@ -7959,10 +7959,10 @@
         "gateVi": "Đồng bộ múi giờ +13h & khử trùng Live chính chủ",
         "gateEn": "+13h timezone alignment & official Live dedup",
         "scope": "Creator_Livestreams vs Affiliate_Livestreams",
-        "expectedVi": "Khớp phiên @shop_official từ 09/03 - 20/10",
-        "expectedEn": "Exact session match for @shop_official (>= Mar 09)",
-        "actualVi": "599 / 595 phiên khớp sau dịch +13 giờ",
-        "actualEn": "599 / 595 sessions matched (+13h)",
+        "expectedVi": "Đồng bộ múi giờ +13h & đối chiếu phạm vi >= 09/03",
+        "expectedEn": "Shift +13h & reconcile >= Mar 09 official scope",
+        "actualVi": "599 phiên CrLive (>= 09/03) đối soát 595 phiên @shop_official trong AffLive (chênh 4 phiên riêng CrLive)",
+        "actualEn": "599 CrLive (>= Mar 09) reconciled vs 595 AffLive @shop_official (+4 CrLive-only)",
         "level": "ERROR",
         "status": "PASS"
       },

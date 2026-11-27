@@ -185,8 +185,8 @@ export const LIBRARY_BUS_11_SCREENS: LibraryBusScreenItem[] = [
     templatePath: 'templates/inventory/bus_list.html',
     routePath: '/inventory/buses/',
     role: 'Tất cả người dùng',
-    descVi: 'Bản đồ tương tác toàn màn hình hiển thị vị trí các xe buýt thư viện lưu động trên địa bàn Hà Nội theo thời gian thực.',
-    descEn: 'Full-width interactive map displaying real-time locations of mobile library buses across Hanoi districts.',
+    descVi: 'Bản đồ tương tác toàn màn hình hiển thị các điểm đỗ xe buýt thư viện lưu động theo lịch trình công bố trên địa bàn Hà Nội (không dùng cảm biến GPS phần cứng thời gian thực ở GĐ 1).',
+    descEn: 'Full-width interactive map displaying scheduled mobile library bus stop locations across Hanoi districts (live hardware GPS telematics deferred to Phase 2).',
     wireframeElements: [
       'Thanh điều hướng trên cùng giữ nguyên ngữ cảnh',
       'Khung bản đồ tương tác chiếm trọn vùng nhìn chính',

@@ -8,6 +8,7 @@ import {
   ChevronUp,
   Clock,
   Copy,
+  Database,
   ExternalLink,
   Layers,
   Maximize2,
@@ -16,17 +17,6 @@ import {
   Terminal,
   X,
 } from 'lucide-react';
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  LabelList,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
 import { useTheme } from '@/app/context/ThemeContext';
 
 export interface Chapter4BackendLogicProps {
@@ -135,9 +125,9 @@ export const FLOW_EDGES: Record<'workflow' | 'dataflow', FlowEdge[]> = {
       techVi: 'analytics/models.py (UserActivity + JSONField metadata)',
       techEn: 'analytics/models.py (UserActivity + JSONField metadata)',
       descVi:
-        'Thu thập 8 loại sự kiện (borrow, return, review, reputation_gained, level_up, login, view_book, bus_visit) kèm JSONField metadata; tự động chuyển bản ghi >90 ngày sang kho lạnh ArchivedUserActivity.',
+        'Thu thập đúng 8 sự kiện cốt lõi MVP (view_book, bus_visit, reserve_created, reserve_fulfilled, borrow, renew, return, fine_applied) kèm JSONField metadata; tự động chuyển bản ghi >90 ngày sang kho lạnh ArchivedUserActivity.',
       descEn:
-        'Captures 8 event types with JSONField metadata; automatically archives records >90 days to cold storage ArchivedUserActivity on the 1st of each month at 02:00.',
+        'Captures the 8 core MVP events (view_book, bus_visit, reserve_created, reserve_fulfilled, borrow, renew, return, fine_applied) with JSONField metadata; archives records >90 days to cold storage ArchivedUserActivity on the 1st of each month at 02:00.',
       concurrencyVi:
         'Hàng đợi ngầm Redis 7; tách biệt bảng nóng UserActivity và kho lạnh ArchivedUserActivity.',
       concurrencyEn:
@@ -151,12 +141,12 @@ export const FLOW_EDGES: Record<'workflow' | 'dataflow', FlowEdge[]> = {
       target: 'BookBusAnalytics',
       routeVi: 'Celery Worker → BookAnalytics & BusAnalytics Engine',
       routeEn: 'Celery Worker → BookAnalytics & BusAnalytics Engine',
-      techVi: '0.60*borrow + 0.30*rating + 0.10*view + 20 (30d bonus)',
-      techEn: '0.60*borrow + 0.30*rating + 0.10*view + 20 (30d bonus)',
+      techVi: 'borrows_per_visit (uncapped) + normalized popularity_score',
+      techEn: 'borrows_per_visit (uncapped) + normalized popularity_score',
       descVi:
-        'Tính điểm phổ biến sách BookAnalytics (60% lượt mượn + 30% đánh giá + 10% lượt xem + 20đ thưởng mới mượn trong 30 ngày) và hiệu suất xe BusAnalytics = min((total_borrows / total_visits) * 100, 100).',
+        'Tổng hợp chỉ số vận hành theo tuyến: lượt mượn/lượt ghé không chặn trần (borrows_per_visit), tỷ lệ độc giả ghé xe có mượn sách và điểm phổ biến sách chuẩn hóa theo phân vị (khắc phục lỗi trộn đơn vị và lỗi bão hòa trần 100% ở bản mẫu đầu).',
       descEn:
-        'Computes BookAnalytics popularity score (60% borrows + 30% ratings + 10% views + 20pt 30d recency bonus) and BusAnalytics efficiency = min((total_borrows / total_visits) * 100, 100).',
+        'Computes route-level KPIs: uncapped borrows_per_visit, borrowing visitor share, and min-max/percentile-normalized book popularity score (fixing unit-mixing and the 100% ceiling saturation bug from the initial prototype).',
       concurrencyVi:
         'Tổng hợp nền định kỳ qua Celery Beat (DailyStats lúc 00:15) và lưu cache Redis 7 có đánh số phiên bản.',
       concurrencyEn:
@@ -168,14 +158,14 @@ export const FLOW_EDGES: Record<'workflow' | 'dataflow', FlowEdge[]> = {
       id: 'D3',
       source: 'CeleryWorker',
       target: 'RecommendationFunnel',
-      routeVi: 'Hồ sơ Độc giả → Phễu Gợi ý 5 Thuật toán (BookRecommendation)',
-      routeEn: 'Reader Profile → 5-Algorithm Recommendation Funnel (BookRecommendation)',
-      techVi: 'is_clicked → is_borrowed (Click Rate & Borrow Rate)',
-      techEn: 'is_clicked → is_borrowed (Click Rate & Borrow Rate)',
+      routeVi: 'GĐ 2 Mở rộng (Could-Have) → Phễu Gợi ý & Điểm uy tín',
+      routeEn: 'Phase 2 Extension (Could-Have) → Recommendation Funnel & Reputation',
+      techVi: 'Decoupled from MVP • is_clicked → is_borrowed',
+      techEn: 'Decoupled from MVP • is_clicked → is_borrowed',
       descVi:
-        'Theo dõi chuyển đổi is_clicked → is_borrowed cho 5 thuật toán gợi ý sách và cập nhật điểm uy tín UserReadingStats (0–1.000 điểm: mượn +5đ, trả +10đ, review +3đ, phân 5 hạng Đồng → Kim cương).',
+        'Phân hệ mở rộng GĐ 2 đã dựng mẫu prototype nhưng tách khỏi lõi MVP: theo dõi chuyển đổi is_clicked → is_borrowed cho 5 thuật toán gợi ý và điểm uy tín UserReadingStats (0–1.000đ) để thử nghiệm A/B sau giai đoạn Pilot.',
       descEn:
-        'Tracks is_clicked → is_borrowed funnel conversion across 5 recommendation algorithms and updates UserReadingStats reputation (0–1,000 pts across 5 tiers from Bronze to Diamond).',
+        'Phase 2 extension prototyped but decoupled from MVP: tracks is_clicked → is_borrowed conversion across 5 recommendation algorithms and UserReadingStats reputation (0–1,000 pts) for post-pilot A/B testing.',
       concurrencyVi:
         'Tái huấn luyện ma trận gợi ý vào Chủ nhật 03:00; lưu cache Redis 7 TTL 24h.',
       concurrencyEn:
@@ -281,71 +271,225 @@ const CELERY_24H_TIMELINE = [
   },
 ];
 
-// Sơ đồ 4: Phễu Telemetry Gợi ý & Giữ chân độc giả (analytics/views.py & analytics/models.py)
-const TELEMETRY_FUNNEL_DATA = [
+// Mô hình thực thể lõi rút gọn (Core Logical ERD — 7 thực thể nghiệp vụ chuẩn hóa + 1 bảng Telemetry)
+const CORE_ERD_ENTITIES = [
   {
-    step: '1. view_book (UserActivity)',
-    shortStep: '1. view_book',
-    ratePct: 100.0,
-    descVi: 'Ghi nhận lượt xem chi tiết sách (kèm JSONField metadata: bus_id, category, source)',
-    descEn: 'Captures book detail views (with JSONField metadata: bus_id, category, source)',
-    fill: '#9BE7FA',
+    entity: 'User & Profile',
+    keys: 'PK id (UUID) · tier (basic/premium/vip) · borrow_limit (3/5/10)',
+    rel: '1 : * BorrowRecord, BookReservation',
+    ruleVi: 'Phân hạng độc giả (basic 3 / premium 5 / vip 10) kiểm soát trần mượn đồng thời (BR-01).',
+    ruleEn: 'Reader tiers (basic 3 / premium 5 / vip 10) govern concurrent borrow caps (BR-01).',
   },
   {
-    step: '2. recommendation_clicked (click_rate)',
-    shortStep: '2. is_clicked (34,2%)',
-    ratePct: 34.2,
-    descVi: 'Độc giả nhấp vào thẻ gợi ý BookRecommendation (5 thuật toán: collaborative, content, popular, bus_local, hybrid)',
-    descEn: 'Reader clicks a BookRecommendation card across 5 algorithms',
-    fill: '#38BDF8',
+    entity: 'LibraryBus & RouteStop',
+    keys: 'PK id (UUID) · bus_number · license_plate · scheduled_window',
+    rel: '1 : * BusBookInventory, BorrowRecord',
+    ruleVi: 'Quản lý đội xe lưu động và lịch điểm dừng công bố (#06/#07), không phụ thuộc GPS phần cứng GĐ 1.',
+    ruleEn: 'Manages mobile bus fleet and published stop timetables (#06/#07) without Phase 1 hardware GPS.',
   },
   {
-    step: '3. borrow (borrow_rate & +5đ uy tín)',
-    shortStep: '3. is_borrowed (18,6%)',
-    ratePct: 18.6,
-    descVi: 'Chuyển đổi thành phiếu mượn BorrowRecord thành công (khóa select_for_update(), cộng +5đ uy tín)',
-    descEn: 'Converts into an active BorrowRecord (select_for_update() lock, +5 reputation pts)',
-    fill: '#0D7287',
+    entity: 'BookTitle',
+    keys: 'PK id (UUID) · isbn · title · replacement_price',
+    rel: '1 : * BusBookInventory, BookReservation',
+    ruleVi: 'Danh mục đầu sách chuẩn hóa 1 lần (ISBN, tác giả, giá thay thế làm trần phạt BR-04).',
+    ruleEn: 'Normalized bibliographic title catalog (ISBN, author, replacement_price capping BR-04 fines).',
   },
   {
-    step: '4. return (completion_rate & +10đ uy tín)',
-    shortStep: '4. returned_on_time (16,4%)',
-    ratePct: 16.4,
-    descVi: 'Hoàn trả đúng hạn: cập nhật completion_rate, reading_streak_days và cộng +10đ uy tín (review thêm +3đ)',
-    descEn: 'Returned on time: updates completion_rate, reading_streak_days, and +10 reputation pts (+3 pts on review)',
-    fill: '#059669',
+    entity: 'BusBookInventory',
+    keys: 'PK id (UUID) · FK book_title_id · FK bus_id · available_copies',
+    rel: '* : 1 BookTitle, LibraryBus · 1 : * BorrowRecord',
+    ruleVi: 'Tồn kho bản sao trên từng xe; bị khóa dòng select_for_update() khi mượn cuốn cuối (BR-01).',
+    ruleEn: 'Per-bus physical copy inventory; row-locked via select_for_update() on last-copy checkout (BR-01).',
+  },
+  {
+    entity: 'BorrowRecord',
+    keys: 'PK id · FK user_id · FK inventory_id · FK pickup_bus_id · status',
+    rel: '* : 1 User, BusBookInventory · 1 : * FinePayment',
+    ruleVi: 'Lưu borrow_date, due_date, renewal_count (≤2 trong 3 ngày cuối theo BR-03) và cờ trả chéo tuyến (IN_TRANSIT).',
+    ruleEn: 'Tracks borrow_date, due_date, renewal_count (≤2 in final 3 days under BR-03), and cross-bus IN_TRANSIT state.',
+  },
+  {
+    entity: 'BookReservation',
+    keys: 'PK id · FK user_id · FK book_title_id · FK pickup_bus_id · queue_position',
+    rel: '* : 1 User, BookTitle, LibraryBus',
+    ruleVi: 'Hàng đợi FIFO giữ chỗ 7 ngày tính từ khi sách về trạm (ready_for_pickup_at), tự đôn lượt khi quá hạn (BR-02).',
+    ruleEn: 'FIFO waitlist with 7-day hold starting from stop arrival (ready_for_pickup_at) and auto-promotion on expiry (BR-02).',
+  },
+  {
+    entity: 'FinePayment',
+    keys: 'PK id · FK borrow_id · amount · discount_percentage · approved_by',
+    rel: '* : 1 BorrowRecord',
+    ruleVi: 'Phí phạt 3 bậc (5k/10k/15k), áp trần 100% replacement_price và bắt buộc ghi vết miễn giảm (BR-04).',
+    ruleEn: '3-tier overdue fine (5k/10k/15k) capped at 100% replacement_price with mandatory waiver audit log (BR-04).',
+  },
+  {
+    entity: 'UserActivity (Telemetry)',
+    keys: 'PK id · FK user_id · activity_type (8 MVP events) · metadata (JSON)',
+    rel: '* : 1 User → ArchivedUserActivity (>90d)',
+    ruleVi: 'Ghi nhận đúng 8 sự kiện hành vi lõi MVP, nạp DailyStats và chuyển kho lạnh sau 90 ngày.',
+    ruleEn: 'Logs the 8 core MVP behavioral events, feeds DailyStats rollups, and cold-archives after 90 days.',
   },
 ];
 
-const ACTUAL_MYSQL_TELEMETRY_SQL = `-- Truy vấn MySQL 8.0 trên schema thật (transactions_bookreservation, inventory_librarybus, analytics_busanalytics)
+// Kế hoạch Tracking 8 sự kiện sản phẩm cốt lõi (đồng bộ 100% với UserActivity.activity_type)
+const TRACKING_PLAN_ROWS = [
+  {
+    event: 'view_book',
+    screen: '#03 Kho sách / #04 Chi tiết',
+    props: 'book_title_id, bus_id, category, available_copies',
+    kpiVi: 'Tỷ lệ xem sách hết hàng (Stockout View Rate)',
+    kpiEn: 'Stockout View Rate at discovery',
+    pilotVi: 'Phát hiện đầu sách thiếu bản theo từng tuyến để điều chuyển kho.',
+    pilotEn: 'Detects stockout titles per route to guide copy rebalancing.',
+  },
+  {
+    event: 'bus_visit',
+    screen: '#06 Đội xe / #09 Quầy trạm',
+    props: 'bus_id, stop_id, visit_source (qr_checkin / portal)',
+    kpiVi: 'Lượt mượn / lượt ghé không chặn trần (borrows_per_visit)',
+    kpiEn: 'Uncapped Borrows per Visit & Borrowing Visitor Share',
+    pilotVi: 'Làm mẫu số sạch thay cho công thức min(..., 100) bị bão hòa trần.',
+    pilotEn: 'Provides an uncapped denominator replacing the saturated min(..., 100) metric.',
+  },
+  {
+    event: 'reserve_created / reserve_fulfilled',
+    screen: '#04 Chi tiết / #07 Lộ trình / #09 Quầy',
+    props: 'reservation_id, bus_id, queue_position, wait_days, expired_flag',
+    kpiVi: 'Tỷ lệ nhận đặt trước đủ 7 ngày chín (Matured Pickup Rate)',
+    kpiEn: 'Matured 7-Day Reservation Pickup Rate',
+    pilotVi: 'Hiệu chỉnh cửa sổ giữ chỗ 7 ngày sau 4 tuần chạy thực tế trên 2 tuyến.',
+    pilotEn: 'Calibrates the 7-day hold window across 2 pilot routes over 4 weeks.',
+  },
+  {
+    event: 'borrow / renew',
+    screen: '#04 Chi tiết / #08 Hồ sơ / #09 Quầy',
+    props: 'borrow_id, inventory_id, pickup_bus_id, user_tier, renewal_count, offline_sync_flag',
+    kpiVi: 'Lỗi đặt trùng bản cuối (= 0%) & Sách/độc giả/30 ngày',
+    kpiEn: 'Last-Copy Double-Booking Rate (= 0%) & Books/Reader/30d',
+    pilotVi: 'Đối soát tồn kho thực tế cuối ca và tỷ lệ xung đột đồng bộ ngoại tuyến.',
+    pilotEn: 'Reconciles physical shelf stock at shift end and monitors offline sync conflicts.',
+  },
+  {
+    event: 'return / fine_applied',
+    screen: '#09 Quản lý mượn trả / #11 Admin',
+    props: 'borrow_id, return_bus_id, is_cross_bus, days_overdue, fine_tier, discount_percentage',
+    kpiVi: 'Tỷ lệ trả đúng hạn (On-Time Return Rate) & Tỷ lệ miễn giảm phạt',
+    kpiEn: 'On-Time Return Rate & Waiver Audit Share',
+    pilotVi: 'Kiểm định độ nhạy hành vi trả sách trước khi áp dụng đại trà biểu phí 3 bậc.',
+    pilotEn: 'Tests return compliance sensitivity before rolling out 3-tier fines network-wide.',
+  },
+];
+
+// Khung ra quyết định cho Pilot 4 tuần (2 tuyến xe lưu động)
+const PILOT_DECISION_RULES = [
+  {
+    metricVi: 'Lỗi đặt trùng bản cuối (Double-Booking)',
+    metricEn: 'Last-Copy Double-Booking Rate',
+    target: '0%',
+    actionVi: 'Nếu > 0%: tạm dừng mở rộng, kiểm toán khóa select_for_update() và luồng đồng bộ offline.',
+    actionEn: 'If > 0%: halt rollout, audit select_for_update() locks and offline sync conflict logs.',
+  },
+  {
+    metricVi: 'Tỷ lệ nhận sách đặt trước (cohort đủ 7 ngày chín)',
+    metricEn: 'Matured 7-Day Reservation Pickup Rate',
+    target: '≥ 70%',
+    actionVi: 'Nếu tỷ lệ bỏ hẹn quá hạn > 25%: rút cửa sổ giữ chỗ từ 7 ngày xuống 4 ngày và thêm nhắc lịch trước 24h.',
+    actionEn: 'If expired hold share > 25%: tighten hold window from 7 days to 4 days and add 24h reminders.',
+  },
+  {
+    metricVi: 'Tỷ lệ trả sách đúng hạn (On-Time Return)',
+    metricEn: 'On-Time Return Rate',
+    target: '≥ 80%',
+    actionVi: 'Nếu < 70% hoặc tỷ lệ miễn giảm > 30%: rà lại mức phạt 5k/10k/15k và đẩy lịch nhắc sớm trước 3 ngày.',
+    actionEn: 'If < 70% or waiver share > 30%: recalibrate 5k/10k/15k fine tiers and send reminders 3 days early.',
+  },
+  {
+    metricVi: 'Tỷ lệ xem sách hết hàng (Stockout View Rate)',
+    metricEn: 'Stockout View Rate per Route',
+    target: '< 15%',
+    actionVi: 'Nếu > 20% tại 1 tuyến trong 2 tuần liên tiếp: điều chuyển bản sao từ tuyến dư tồn hoặc bổ sung nhập sách.',
+    actionEn: 'If > 20% on a route for 2 consecutive weeks: rebalance copies from low-utilization buses or procure stock.',
+  },
+  {
+    metricVi: 'Tỷ lệ xung đột đồng bộ ngoại tuyến tại trạm',
+    metricEn: 'Offline Counter Sync Conflict Rate',
+    target: '< 1%',
+    actionVi: 'Nếu ≥ 1%: chỉ cho phép quét trả sách khi mất mạng; yêu cầu xác nhận trực tuyến khi mượn sách còn ≤ 2 bản.',
+    actionEn: 'If ≥ 1%: restrict offline queue to returns only; require live confirmation when stock ≤ 2 copies.',
+  },
+];
+
+const ACTUAL_MYSQL_TELEMETRY_SQL = `-- Truy vấn MySQL 8.0 đồng bộ khung 30 ngày:
+-- (1) Lọc cohort đặt trước đã "chín" đủ 7 ngày (tránh right-censoring bias các phiếu mới tạo <7 ngày)
+-- (2) Dùng LEFT JOIN từ toàn đội xe (tránh survivorship bias)
+-- (3) Tính borrows_per_visit không chặn trần thay cho min((borrows/visits)*100, 100)
+WITH matured_res_30d AS (
+  SELECT
+    preferred_pickup_location_id AS bus_id,
+    COUNT(*) AS matured_reservations_30d,
+    SUM(CASE WHEN is_fulfilled = 1 THEN 1 ELSE 0 END) AS fulfilled_30d,
+    SUM(CASE WHEN is_fulfilled = 0 AND expires_date < UTC_TIMESTAMP() THEN 1 ELSE 0 END) AS expired_holds_30d
+  FROM transactions_bookreservation
+  WHERE is_deleted = 0
+    AND reserved_date >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 37 DAY)
+    AND reserved_date <= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 7 DAY)
+  GROUP BY preferred_pickup_location_id
+),
+borrow_30d AS (
+  SELECT
+    pickup_bus_id AS bus_id,
+    COUNT(*) AS borrows_30d,
+    COUNT(DISTINCT user_id) AS active_readers_30d
+  FROM transactions_borrowrecord
+  WHERE is_deleted = 0
+    AND borrow_date >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 DAY)
+  GROUP BY pickup_bus_id
+),
+visit_30d AS (
+  SELECT
+    JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.bus_id')) AS bus_id,
+    COUNT(*) AS bus_visits_30d
+  FROM analytics_useractivity
+  WHERE activity_type = 'bus_visit'
+    AND created_at >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 DAY)
+  GROUP BY JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.bus_id'))
+)
 SELECT
   b.bus_number,
   b.license_plate,
-  COUNT(r.id) AS total_reservations,
-  SUM(CASE WHEN r.is_fulfilled = 1 THEN 1 ELSE 0 END) AS fulfilled_reservations,
-  SUM(CASE WHEN r.is_fulfilled = 0 AND r.expires_date < UTC_TIMESTAMP() THEN 1 ELSE 0 END) AS expired_holds,
-  ROUND(
-    SUM(CASE WHEN r.is_fulfilled = 1 THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(r.id), 0),
-    2
-  ) AS fulfillment_rate_pct,
-  ROUND(
-    LEAST((ba.total_borrows / NULLIF(ba.total_visits, 0)) * 100.0, 100.0),
-    1
-  ) AS bus_efficiency_score
-FROM transactions_bookreservation r
-INNER JOIN inventory_librarybus b
-  ON r.preferred_pickup_location_id = b.id
-LEFT JOIN analytics_busanalytics ba
-  ON ba.bus_id = b.id
-WHERE r.is_deleted = 0
-  AND r.reserved_date >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 DAY)
-GROUP BY b.id, b.bus_number, b.license_plate, ba.total_borrows, ba.total_visits
-ORDER BY fulfillment_rate_pct DESC;`;
+  COALESCE(r.matured_reservations_30d, 0) AS matured_reservations_30d,
+  COALESCE(r.fulfilled_30d, 0) AS fulfilled_30d,
+  COALESCE(r.expired_holds_30d, 0) AS expired_holds_30d,
+  ROUND(COALESCE(r.fulfilled_30d, 0) * 100.0 / NULLIF(r.matured_reservations_30d, 0), 2) AS matured_pickup_rate_pct,
+  COALESCE(br.borrows_30d, 0) AS borrows_30d,
+  COALESCE(v.bus_visits_30d, 0) AS bus_visits_30d,
+  ROUND(COALESCE(br.borrows_30d, 0) / NULLIF(v.bus_visits_30d, 0), 2) AS borrows_per_visit,
+  ROUND(COALESCE(br.borrows_30d, 0) / NULLIF(br.active_readers_30d, 0), 2) AS avg_books_per_reader_30d
+FROM inventory_librarybus b
+LEFT JOIN matured_res_30d r ON r.bus_id = b.id
+LEFT JOIN borrow_30d br ON br.bus_id = b.id
+LEFT JOIN visit_30d v ON v.bus_id = b.id
+WHERE b.is_deleted = 0
+ORDER BY matured_pickup_rate_pct DESC, borrows_30d DESC;`;
+
+const CORE_DATA_DICTIONARY = [
+  { field: 'available_copies', table: 'BusBookInventory', type: 'INT UNSIGNED', constraint: 'CHECK >= 0 · Row Lock', descVi: 'Số bản sao vật lý còn trên xe; khóa dòng select_for_update() khi mượn cuốn cuối (BR-01).', descEn: 'Physical copies remaining on a bus; row-locked via select_for_update() on last-copy checkout (BR-01).' },
+  { field: 'borrow_limit', table: 'User / Profile', type: 'TINYINT', constraint: 'ENUM (3, 5, 10)', descVi: 'Trần sách đang mượn theo hạng thẻ (basic 3 / premium 5 / vip 10).', descEn: 'Active loan ceiling by tier (basic 3 / premium 5 / vip 10).' },
+  { field: 'replacement_price', table: 'BookTitle', type: 'DECIMAL(10,0)', constraint: 'NOT NULL > 0', descVi: 'Giá bìa thay thế sách dùng làm trần phạt tối đa 100% (BR-04).', descEn: 'Book replacement value enforcing the hard 100% overdue fine cap (BR-04).' },
+  { field: 'queue_position', table: 'BookReservation', type: 'SMALLINT', constraint: 'UNIQUE active/title', descVi: 'Thứ tự xếp hàng FIFO, tự động giảm nguyên tử bằng F("queue_position") - 1 (BR-02).', descEn: 'FIFO queue rank decremented atomically via F("queue_position") - 1 (BR-02).' },
+  { field: 'ready_for_pickup_at', table: 'BookReservation', type: 'DATETIME (UTC)', constraint: 'Nullable until arrived', descVi: 'Mốc bắt đầu đếm cửa sổ giữ chỗ 7 ngày khi sách về tới điểm dừng đăng ký.', descEn: 'Timestamp starting the 7-day hold clock once the book arrives at the pickup stop.' },
+  { field: 'renewal_count', table: 'BorrowRecord', type: 'TINYINT', constraint: 'CHECK <= 2', descVi: 'Số lần gia hạn (+14 ngày/lần); chỉ cho mở trong 3 ngày cuối trước due_date (BR-03).', descEn: 'Renewal count (+14d each); allowed only within final 3 days before due_date (BR-03).' },
+  { field: 'status', table: 'BorrowRecord', type: 'VARCHAR(20)', constraint: 'ACTIVE/RETURNED/IN_TRANSIT', descVi: 'Trạng thái vòng đời phiếu; IN_TRANSIT đánh dấu sách trả chéo tuyến chờ xe ca đêm.', descEn: 'Loan lifecycle state; IN_TRANSIT flags cross-bus returns awaiting nightly depot transfer.' },
+  { field: 'discount_percentage', table: 'FinePayment', type: 'DECIMAL(5,2)', constraint: '0–100 · AuditMixin', descVi: 'Tỷ lệ miễn giảm phạt: ≤50% thủ thư duyệt, >50% bắt buộc Ban QLDA phê duyệt.', descEn: 'Fine waiver rate: ≤50% stop librarian, >50% requires PM approval with logged reason.' },
+  { field: 'activity_type', table: 'UserActivity', type: 'VARCHAR(32)', constraint: 'INDEX · 8 MVP Events', descVi: 'Loại sự kiện chuẩn hóa (view_book, bus_visit, reserve_*, borrow, renew, return, fine_applied).', descEn: 'Standardized event taxonomy (view_book, bus_visit, reserve_*, borrow, renew, return, fine_applied).' },
+];
 
 export function Chapter4BackendLogic({
   isEn = false,
 }: Chapter4BackendLogicProps) {
   const { resolvedTheme } = useTheme();
+  const [showDataDictionary, setShowDataDictionary] = useState(false);
+  const [showPrototypeAppendix, setShowPrototypeAppendix] = useState(false);
   const [showCodeAuditAccordion, setShowCodeAuditAccordion] = useState(false);
   const [copiedSql, setCopiedSql] = useState(false);
 
@@ -359,8 +503,8 @@ export function Chapter4BackendLogic({
     }
   };
 
-  // Interactive Controls for the 2 Backend Architecture Diagrams
-  const [activeTab, setActiveTab] = useState<'both' | 'workflow' | 'dataflow'>('both');
+  // Interactive Controls for the 2 Backend Architecture Diagrams (show 1 at a time by default)
+  const [activeTab, setActiveTab] = useState<'workflow' | 'dataflow'>('workflow');
   const [fullscreenChart, setFullscreenChart] = useState<(typeof BACKEND_CHARTS)[0] | null>(null);
 
   const [selectedWorkflowEdge, setSelectedWorkflowEdge] = useState<FlowEdge>(
@@ -462,299 +606,260 @@ export function Chapter4BackendLogic({
     } catch (_) {}
   };
 
-  const iframeHeightClass = 'h-[320px] sm:h-[440px] md:h-[520px] lg:h-[600px] xl:h-[640px]';
+  const iframeHeightClass = 'h-[300px] sm:h-[400px] lg:h-[480px]';
 
   return (
-    <section id="chapter-4-backend" className="space-y-6 scroll-mt-28">
-      <div className="space-y-1.5">
-        <span className="inline-flex items-center rounded-md bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 px-2.5 py-0.5 text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-          {isEn
-            ? 'Section 02 · Data Architecture (MySQL 8.0 + Redis 7 + Celery) & Product Telemetry'
-            : 'Phần 02 · Kiến trúc Dữ liệu (MySQL 8.0 + Redis 7 + Celery) & Hệ thống Telemetry'}
-        </span>
+    <section id="chapter-4-backend" className="space-y-5 scroll-mt-28">
+      <div className="space-y-1">
         <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
           {isEn
-            ? '5-Layer System Architecture, Interactive Backend Diagrams & Event Telemetry'
-            : 'Kiến trúc 5 lớp (MySQL 8.0 • Redis • Celery), 2 Biểu đồ Kiến trúc Backend & Công thức Telemetry'}
+            ? 'Core 7-Entity ERD, Event Tracking Plan & Flow Diagrams'
+            : 'Mô hình Dữ liệu Lõi (ERD), Tracking Plan & Lưu đồ Luồng'}
         </h2>
-        <p className="text-sm text-slate-600 dark:text-slate-300 max-w-prose leading-relaxed">
+        <p className="text-sm text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
           {isEn
-            ? 'Directly audited from settings.py, docker-compose.yml, core/models.py, transactions/services.py, and analytics/models.py across all 229 repository files.'
-            : 'Đối chiếu trực tiếp từ settings.py, docker-compose.yml, core/models.py, transactions/services.py và analytics/models.py trên toàn bộ 229 file mã nguồn.'}
+            ? 'Core relational model, 8-event Tracking Plan with 4-week pilot criteria, and interactive flow switcher. Backend prototype implementation details are tucked in the appendix below.'
+            : 'Lược đồ 7 thực thể lõi, Tracking Plan 8 sự kiện cho pilot 4 tuần và sơ đồ luồng tương tác. Chi tiết triển khai prototype (Django, Redis, Celery, SQL) được gom vào phụ lục kỹ thuật bên dưới.'}
         </p>
       </div>
 
-      {/* 2 KHỐI ĐẶT NGANG NHAU: TRÁI (KIẾN TRÚC 5 LỚP MYSQL + REDIS + CELERY) | PHẢI (4 CÔNG THỨC TELEMETRY & DATA MODELING) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-        {/* Bên trái (6 cột): Kiến trúc 5 lớp & Lược đồ Dữ liệu cốt lõi (MySQL 8.0 + Redis 7) */}
-        <div className="lg:col-span-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 flex flex-col justify-between space-y-4">
-          <div className="space-y-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 px-2.5 py-0.5 text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                <Server className="w-3.5 h-3.5" />
-                <span>
-                  {isEn
-                    ? 'Left · 5-Layer Architecture & Core Schema'
-                    : 'Trái · Kiến trúc 5 lớp & Lược đồ Dữ liệu cốt lõi'}
-                </span>
-              </span>
-              <span className="text-xs font-mono font-bold text-slate-500">
-                mysqlclient==2.2.7 • Redis 7
-              </span>
+      {/* BẢNG MÔ HÌNH DỮ LIỆU LÕI (CORE LOGICAL ERD - 7 THỰC THỂ NGHIỆP VỤ + TELEMETRY) */}
+      <div className="rounded-2xl border border-[#C8EEF7] dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="space-y-0.5">
+            <div className="flex items-center gap-2">
+              <Database className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" aria-hidden="true" />
+              <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+                {isEn
+                  ? 'Core Logical ERD (7 Normalized Business Entities + Telemetry)'
+                  : 'Lược đồ Dữ liệu Lõi (7 Thực thể Nghiệp vụ chuẩn hóa + Bảng Telemetry)'}
+              </h3>
             </div>
-
-            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               {isEn
-                ? '7 Django Apps (36 Models + 3 Base Mixins) on MySQL 8.0'
-                : '7 Phân hệ Django (36 Models + 3 Base Mixins) trên MySQL 8.0'}
-            </h3>
-
-            <div className="space-y-2.5 text-xs tabular-nums">
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
-                <p className="font-bold text-slate-900 dark:text-white">
-                  {isEn
-                    ? 'Layer 1 · 7 Modular Django 5.2 Apps (97 HTML Templates & Gemini AI)'
-                    : 'Lớp 1 · 7 Phân hệ Django 5.2 (97 HTML Templates & Gemini AI)'}
-                </p>
-                <p className="text-slate-600 dark:text-slate-300 mt-0.5">
-                  {isEn ? (
-                    <>
-                      <code>users</code> (Profile, UserRole, LoginHistory) • <code>inventory</code> (LibraryBus, BusRoute, Book, Category, BookDonation) • <code>transactions</code> (BorrowRecord, BookReservation, FinePayment, ShippingRequest) • <code>analytics</code> (6 Telemetry tables) • <code>notifications</code> • <code>blog</code> • <code>core</code>. Integrates <strong>Gemini AI</strong> for automated ISBN book metadata extraction.
-                    </>
-                  ) : (
-                    <>
-                      <code>users</code> (Profile, UserRole, LoginHistory) • <code>inventory</code> (LibraryBus, BusRoute, Book, Category, BookDonation) • <code>transactions</code> (BorrowRecord, BookReservation, FinePayment, ShippingRequest) • <code>analytics</code> (6 bảng Telemetry) • <code>notifications</code> • <code>blog</code> • <code>core</code>. Tích hợp <strong>Gemini AI</strong> trích xuất metadata sách tự động.
-                    </>
-                  )}
-                </p>
-              </div>
-
-              <div className="p-3 rounded-xl bg-[#C8EEF7]/20 dark:bg-[#9BE7FA]/10 border border-[#C8EEF7] dark:border-slate-800">
-                <p className="font-bold text-[#074553] dark:text-[#9BE7FA]">
-                  {isEn
-                    ? 'Layer 2 · Service Layer with Pessimistic Locking (TransactionService)'
-                    : 'Lớp 2 · Service Layer có Khóa bi quan (TransactionService)'}
-                </p>
-                <p className="text-slate-700 dark:text-slate-300 mt-0.5">
-                  {isEn ? (
-                    <>
-                      Encapsulates borrowing, reservation, renewal, and fine rules inside <code>transactions/services.py</code>, applying <code>select_for_update()</code> inside <code>transaction.atomic()</code> on <code>Book</code> and <code>User</code> rows to prevent race conditions.
-                    </>
-                  ) : (
-                    <>
-                      Tách biệt toàn bộ nghiệp vụ mượn/đặt trước/gia hạn/tính phạt vào <code>transactions/services.py</code>; sử dụng <code>select_for_update()</code> trong <code>transaction.atomic()</code> để khóa bản ghi <code>Book</code> và <code>User</code> chống Race Condition.
-                    </>
-                  )}
-                </p>
-              </div>
-
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
-                <p className="font-bold text-slate-900 dark:text-white">
-                  {isEn
-                    ? 'Layer 3 · MySQL 8.0 Storage with UUIDv4, SoftDelete & AuditMixin'
-                    : 'Lớp 3 · MySQL 8.0 chuẩn hóa UUIDv4, SoftDelete & AuditMixin'}
-                </p>
-                <p className="text-slate-600 dark:text-slate-300 mt-0.5">
-                  {isEn ? (
-                    <>
-                      All 36 models inherit 3 base mixins in <code>core/models.py</code>: <code>TimestampedModel</code> (<strong>UUIDv4</strong> primary keys, <code>created_at</code>, <code>updated_at</code>), <code>SoftDeleteModel</code> (<code>is_deleted</code>, <code>deleted_at</code>), and <code>AuditMixin</code>.
-                    </>
-                  ) : (
-                    <>
-                      Toàn bộ 36 model kế thừa 3 lớp cơ sở trong <code>core/models.py</code>: <code>TimestampedModel</code> (khóa chính <strong>UUIDv4</strong>, <code>created_at</code>, <code>updated_at</code>), <code>SoftDeleteModel</code> (xóa mềm <code>is_deleted</code>, <code>deleted_at</code>) và <code>AuditMixin</code>.
-                    </>
-                  )}
-                </p>
-              </div>
-
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
-                <p className="font-bold text-slate-900 dark:text-white">
-                  {isEn
-                    ? 'Layer 4 & 5 · Redis 7 Versioned CacheMixin & Celery 5.5.3'
-                    : 'Lớp 4 & 5 · Redis 7 Cache có Versioning (CacheMixin) & Celery 5.5.3'}
-                </p>
-                <p className="text-slate-600 dark:text-slate-300 mt-0.5">
-                  {isEn ? (
-                    <>
-                      <code>CacheMixin</code> automatically bumps Redis 7 key versions on model updates; Celery Worker &amp; Celery Beat execute 9 scheduled background jobs across 5 Docker Compose services.
-                    </>
-                  ) : (
-                    <>
-                      <code>CacheMixin</code> tự động tăng version key trên Redis 7 khi model thay đổi; Celery Worker &amp; Celery Beat vận hành 9 tác vụ nền qua 5 container Docker Compose.
-                    </>
-                  )}
-                </p>
-              </div>
-            </div>
+                ? 'Extracted from the 36-model Django prototype (decoupling auth, notifications, blog, and Phase 2 gamification). BookTitle (1) → BusBookInventory (*) prevents duplicate bibliographic rows across buses.'
+                : 'Tách lọc từ bản mẫu 36 models Django (bỏ nhóm auth, thông báo, blog và gamification GĐ 2). Tách BookTitle (1) → BusBookInventory (*) tránh trùng dữ liệu thư mục giữa các xe.'}
+            </p>
           </div>
+          <span className="text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
+            UUIDv4 • SoftDelete • AuditMixin
+          </span>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                <th className="py-2 pr-3 font-semibold">{isEn ? 'Entity' : 'Thực thể'}</th>
+                <th className="py-2 px-2 font-semibold">{isEn ? 'Primary / Foreign Keys' : 'Khóa chính & Ngoại'}</th>
+                <th className="py-2 px-2 font-semibold">{isEn ? 'Cardinality' : 'Quan hệ'}</th>
+                <th className="py-2 pl-2 font-semibold">{isEn ? 'Governing Business Rule' : 'Vai trò & Ràng buộc'}</th>
+              </tr>
+            </thead>
+            <tbody className="text-slate-700 dark:text-slate-300 divide-y divide-slate-100 dark:divide-slate-800/70">
+              {CORE_ERD_ENTITIES.map((row) => (
+                <tr key={row.entity}>
+                  <td className="py-2 pr-3 font-mono font-bold text-[#074553] dark:text-[#9BE7FA] whitespace-nowrap">
+                    {row.entity}
+                  </td>
+                  <td className="py-2 px-2 font-mono text-[11px] text-slate-600 dark:text-slate-400">
+                    {row.keys}
+                  </td>
+                  <td className="py-2 px-2 font-mono text-[11px] text-slate-700 dark:text-slate-300 whitespace-nowrap">
+                    {row.rel}
+                  </td>
+                  <td className="py-2 pl-2 leading-relaxed">
+                    {isEn ? row.ruleEn : row.ruleVi}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
-        {/* Bên phải (6 cột): 4 Công thức Telemetry & Data Modeling thật trong analytics app */}
-        <div className="lg:col-span-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 flex flex-col justify-between space-y-4">
-          <div className="space-y-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-[#FFE485]/60 dark:bg-[#FFD14C]/15 px-2.5 py-0.5 text-xs font-bold text-slate-900 dark:text-[#FFE485]">
-                <Activity className="w-3.5 h-3.5" />
-                <span>
-                  {isEn
-                    ? 'Right · Product Telemetry & Data Modeling (analytics/models.py)'
-                    : 'Phải · Công thức Telemetry & Data Modeling thật (analytics/models.py)'}
-                </span>
-              </span>
-              <span className="text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                Product DA Core
-              </span>
-            </div>
+        {/* Collapsible Core Data Dictionary (9 Critical Attributes) */}
+        <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-3">
+          <button
+            type="button"
+            onClick={() => setShowDataDictionary((v) => !v)}
+            className="w-full min-h-[44px] rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900 px-3.5 py-2 text-xs font-bold text-slate-800 dark:text-slate-200 hover:border-[#0D7287] flex items-center justify-between transition-colors cursor-pointer"
+          >
+            <span>
+              {showDataDictionary
+                ? isEn
+                  ? 'Collapse Core Data Dictionary (9 Critical Attributes & Constraints)'
+                  : 'Thu gọn Từ điển Dữ liệu (Data Dictionary — 9 trường ràng buộc cốt lõi)'
+                : isEn
+                ? 'Inspect Core Data Dictionary (9 Critical Fields, Types & Business Rules)'
+                : 'Xem Từ điển Dữ liệu (Data Dictionary — 9 trường cốt lõi, kiểu dữ liệu & ràng buộc)'}
+            </span>
+            {showDataDictionary ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </button>
 
-            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+          {showDataDictionary && (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs tabular-nums">
+                <thead>
+                  <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                    <th className="py-2 pr-3 font-semibold">{isEn ? 'Field' : 'Trường dữ liệu'}</th>
+                    <th className="py-2 px-2 font-semibold">{isEn ? 'Entity' : 'Bảng'}</th>
+                    <th className="py-2 px-2 font-semibold">{isEn ? 'SQL Type' : 'Kiểu dữ liệu'}</th>
+                    <th className="py-2 px-2 font-semibold">{isEn ? 'Constraint' : 'Ràng buộc'}</th>
+                    <th className="py-2 pl-2 font-semibold">{isEn ? 'Business Definition' : 'Ý nghĩa nghiệp vụ'}</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70 text-slate-700 dark:text-slate-300">
+                  {CORE_DATA_DICTIONARY.map((d) => (
+                    <tr key={`${d.table}-${d.field}`}>
+                      <td className="py-2 pr-3 font-mono font-bold text-[#074553] dark:text-[#9BE7FA] whitespace-nowrap">{d.field}</td>
+                      <td className="py-2 px-2 font-mono text-[11px] whitespace-nowrap">{d.table}</td>
+                      <td className="py-2 px-2 font-mono text-[11px] text-slate-600 dark:text-slate-400 whitespace-nowrap">{d.type}</td>
+                      <td className="py-2 px-2 font-mono text-[11px] text-amber-800 dark:text-[#FFE485] whitespace-nowrap">{d.constraint}</td>
+                      <td className="py-2 pl-2 leading-relaxed">{isEn ? d.descEn : d.descVi}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* KẾ HOẠCH TRACKING SẢN PHẨM (PRODUCT TELEMETRY TRACKING PLAN) */}
+      <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 space-y-3.5">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+            {isEn
+              ? 'Product Telemetry Tracking Plan & 4-Week Pilot (No Fabricated Traffic)'
+              : 'Kế hoạch Tracking Sự kiện (Tracking Plan) & Thí điểm 4 tuần'}
+          </h3>
+          <span className="px-2.5 py-0.5 rounded-md bg-[#FFE485]/60 dark:bg-[#FFD14C]/15 border border-[#FFD14C]/50 text-xs font-bold text-amber-950 dark:text-[#FFE485]">
+            {isEn ? 'Pre-Launch Spec · 2-Route Pilot' : 'Trước Go-Live · Pilot 2 tuyến'}
+          </span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                <th className="py-2 pr-3 font-semibold">{isEn ? 'Event Name' : 'Sự kiện'}</th>
+                <th className="py-2 px-2 font-semibold">{isEn ? 'Trigger Screen' : 'Màn hình'}</th>
+                <th className="py-2 px-2 font-semibold">{isEn ? 'Payload Properties' : 'Thuộc tính'}</th>
+                <th className="py-2 px-2 font-semibold">{isEn ? 'Target KPI' : 'KPI đo lường'}</th>
+                <th className="py-2 pl-2 font-semibold">{isEn ? '4-Week Pilot Goal' : 'Mục tiêu Pilot'}</th>
+              </tr>
+            </thead>
+            <tbody className="text-slate-700 dark:text-slate-300 divide-y divide-slate-100 dark:divide-slate-800/70">
+              {TRACKING_PLAN_ROWS.map((row) => (
+                <tr key={row.event}>
+                  <td className="py-2 pr-3 font-mono font-bold text-[#074553] dark:text-[#9BE7FA] whitespace-nowrap">
+                    {row.event}
+                  </td>
+                  <td className="py-2 px-2 whitespace-nowrap text-slate-600 dark:text-slate-400">
+                    {row.screen}
+                  </td>
+                  <td className="py-2 px-2 font-mono text-[11px] text-slate-600 dark:text-slate-400">
+                    {row.props}
+                  </td>
+                  <td className="py-2 px-2 font-semibold text-slate-900 dark:text-white">
+                    {isEn ? row.kpiEn : row.kpiVi}
+                  </td>
+                  <td className="py-2 pl-2 leading-relaxed">
+                    {isEn ? row.pilotEn : row.pilotVi}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+          {isEn
+            ? 'Schema alignment: All 8 MVP event names (view_book, bus_visit, reserve_created, reserve_fulfilled, borrow, renew, return, fine_applied) map 1:1 to UserActivity.activity_type. Phase 2 events (recommendation_clicked, reputation_gained) are isolated from MVP pilot reporting.'
+            : 'Đồng bộ lược đồ: Đủ 8 tên sự kiện lõi MVP (view_book, bus_visit, reserve_created, reserve_fulfilled, borrow, renew, return, fine_applied) khớp 1:1 với UserActivity.activity_type. Sự kiện GĐ 2 (recommendation_clicked, reputation_gained) được tách khỏi báo cáo Pilot.'}
+        </p>
+
+        {/* KHUNG RA QUYẾT ĐỊNH PILOT 4 TUẦN (2 TUYẾN XE) */}
+        <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2.5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-xs font-bold text-slate-900 dark:text-white">
               {isEn
-                ? '4 Quantitative Telemetry Engines Built Into the Codebase'
-                : '4 Cơ chế Đo lường & Chấm điểm Định lượng trong phân hệ analytics'}
-            </h3>
-
-            <div className="space-y-2.5 text-xs tabular-nums">
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
-                <p className="font-bold text-slate-900 dark:text-white">
-                  {isEn ? (
-                    <>1. Event Log (<code>UserActivity</code> &amp; Cold Archive <code>ArchivedUserActivity</code>)</>
-                  ) : (
-                    <>1. Event Log (<code>UserActivity</code> &amp; Kho lạnh <code>ArchivedUserActivity</code>)</>
-                  )}
-                </p>
-                <p className="text-slate-600 dark:text-slate-300 mt-0.5">
-                  {isEn ? (
-                    <>
-                      Logs 8 behavioral event types (<code>borrow</code>, <code>return</code>, <code>review</code>, <code>reputation_gained</code>, <code>level_up</code>, <code>login</code>, <code>view_book</code>, <code>bus_visit</code>) with <code>JSONField metadata</code>. Automatically archives records older than <strong>90 days</strong> to <code>ArchivedUserActivity</code> (1st of month at 02:00) to keep the hot table lightweight.
-                    </>
-                  ) : (
-                    <>
-                      Ghi nhận sự kiện hành vi (<code>borrow</code>, <code>return</code>, <code>review</code>, <code>reputation_gained</code>, <code>level_up</code>, <code>login</code>, <code>view_book</code>, <code>bus_visit</code>) kèm <code>JSONField metadata</code>. Tự động chuyển bản ghi &gt; <strong>90 ngày</strong> sang bảng lưu trữ lạnh <code>ArchivedUserActivity</code> (02:00 ngày mùng 1 hàng tháng) để giữ bảng nóng luôn nhẹ.
-                    </>
-                  )}
-                </p>
-              </div>
-
-              <div className="p-3 rounded-xl bg-[#C8EEF7]/20 dark:bg-[#9BE7FA]/10 border border-[#C8EEF7] dark:border-slate-800">
-                <p className="font-bold text-[#074553] dark:text-[#9BE7FA]">
-                  {isEn ? (
-                    <>2. Book Popularity Score (<code>BookAnalytics.calculate_popularity_score</code>)</>
-                  ) : (
-                    <>2. Điểm phổ biến sách (<code>BookAnalytics.calculate_popularity_score</code>)</>
-                  )}
-                </p>
-                <p className="text-slate-700 dark:text-slate-300 mt-1 font-mono text-xs leading-relaxed">
-                  {isEn
-                    ? 'popularity_score = 0.60 × borrow_score + 0.30 × rating_score + 0.10 × view_score + 20 (recency bonus if borrowed within 30d)'
-                    : 'popularity_score = 0.60 × borrow_score + 0.30 × rating_score + 0.10 × view_score + 20 (thưởng sách mới được mượn trong 30 ngày gần nhất)'}
-                </p>
-              </div>
-
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
-                <p className="font-bold text-slate-900 dark:text-white">
-                  {isEn ? (
-                    <>3. Bus Fleet Efficiency (<code>BusAnalytics.efficiency_score</code>)</>
-                  ) : (
-                    <>3. Hiệu suất vận hành xe buýt (<code>BusAnalytics.efficiency_score</code>)</>
-                  )}
-                </p>
-                <p className="text-slate-600 dark:text-slate-300 mt-1 font-mono text-xs leading-relaxed">
-                  efficiency_score = min((total_borrows / total_visits) × 100, 100)
-                </p>
-                <p className="text-slate-500 mt-0.5">
-                  {isEn ? (
-                    <>Measures conversion from bus visits (<code>track_bus_visit</code>) to completed borrows per bus route.</>
-                  ) : (
-                    <>Đo tỷ lệ chuyển đổi từ lượt ghé thăm xe buýt (<code>track_bus_visit</code>) thành lượt mượn thực tế trên từng chuyến xe.</>
-                  )}
-                </p>
-              </div>
-
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
-                <p className="font-bold text-slate-900 dark:text-white">
-                  {isEn ? (
-                    <>4. Recommendation Funnel (<code>BookRecommendation</code>) &amp; Gamification (<code>UserReadingStats</code>)</>
-                  ) : (
-                    <>4. Phễu Gợi ý (<code>BookRecommendation</code>) &amp; Gamification (<code>UserReadingStats</code>)</>
-                  )}
-                </p>
-                <p className="text-slate-600 dark:text-slate-300 mt-0.5">
-                  {isEn ? (
-                    <>
-                      Tracks <code>is_clicked</code> → <code>is_borrowed</code> to measure <strong>Click Rate</strong> and <strong>Borrow Rate</strong> across 5 recommendation algorithms. Reader reputation spans <code>0–1,000 pts</code> (borrow <code>+5</code>, on-time return <code>+10</code>, review <code>+3</code>) across 5 Bronze-to-Diamond tiers.
-                    </>
-                  ) : (
-                    <>
-                      Theo dõi trạng thái <code>is_clicked</code> → <code>is_borrowed</code> để tính <strong>Click Rate</strong> và <strong>Borrow Rate</strong> cho 5 thuật toán gợi ý. Hệ thống uy tín <code>0–1.000 điểm</code> (mượn <code>+5đ</code>, trả đúng hạn <code>+10đ</code>, viết review <code>+3đ</code>) phân 5 hạng thẻ từ Đồng đến Kim cương.
-                    </>
-                  )}
-                </p>
-              </div>
-            </div>
+                ? '4-Week Pilot Decision Rules (2 Mobile Routes — Keep vs. Adjust Thresholds)'
+                : 'Khung ra quyết định sau Pilot 4 tuần (2 tuyến xe — Ngưỡng giữ nguyên vs. điều chỉnh)'}
+            </p>
+            <span className="text-[11px] font-semibold text-[#0D7287] dark:text-[#9BE7FA]">
+              {isEn ? 'Actionable Go / Tune Criteria' : 'Tiêu chí Go-Live & Hiệu chỉnh'}
+            </span>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs tabular-nums">
+              <thead>
+                <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                  <th className="py-2 pr-3 font-semibold">{isEn ? 'Pilot Metric' : 'Chỉ số Pilot'}</th>
+                  <th className="py-2 px-2 font-semibold whitespace-nowrap">{isEn ? 'Target / Keep' : 'Ngưỡng đạt'}</th>
+                  <th className="py-2 pl-2 font-semibold">{isEn ? 'Decision Action if Breached' : 'Hành động điều chỉnh khi lệch ngưỡng'}</th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-700 dark:text-slate-300 divide-y divide-slate-100 dark:divide-slate-800/70">
+                {PILOT_DECISION_RULES.map((rule) => (
+                  <tr key={rule.metricEn}>
+                    <td className="py-2 pr-3 font-semibold text-slate-900 dark:text-white">
+                      {isEn ? rule.metricEn : rule.metricVi}
+                    </td>
+                    <td className="py-2 px-2 font-mono font-bold text-emerald-700 dark:text-emerald-400 whitespace-nowrap">
+                      {rule.target}
+                    </td>
+                    <td className="py-2 pl-2 leading-relaxed">
+                      {isEn ? rule.actionEn : rule.actionVi}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
 
-      {/* GIỮ LẠI 2 BIỂU ĐỒ KIẾN TRÚC BACKEND TƯƠNG TÁC + BỘ KIỂM TRA ĐƯỜNG NỐI (EDGE INSPECTOR) */}
+      {/* BỘ CHUYỂN ĐỔI 1 SƠ ĐỒ / LẦN (WORKFLOW HOẶC TELEMETRY) */}
       <div className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200/90 dark:border-slate-800">
-          <div className="space-y-0.5">
-            <div className="flex items-center gap-2">
-              <Layers className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-                {isEn
-                  ? 'Interactive Backend Architecture Diagrams & Edge Inspector'
-                  : '2 Biểu Đồ Kiến Trúc Backend Tương Tác & Bộ Giải Thích Đường Nối'}
-              </h3>
-            </div>
-            <p className="text-xs text-slate-500">
+          <div className="flex items-center gap-2">
+            <Layers className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+            <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
               {isEn
-                ? 'Click on SVG nodes/edges or select an edge chip below to inspect underlying MySQL 8.0 locks & Celery tasks'
-                : 'Nhấp trực tiếp vào đường nối trên sơ đồ hoặc chọn thẻ bên dưới để xem cơ chế khóa MySQL 8.0 và hàng đợi Celery'}
-            </p>
+                ? 'Interactive System Flow Diagrams (Switch View)'
+                : 'Sơ đồ Luồng Hệ thống Tương tác (Chọn 1 luồng để xem)'}
+            </h3>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold">
-              <button
-                type="button"
-                onClick={() => setActiveTab('both')}
-                className={`px-3 py-1.5 rounded-lg transition cursor-pointer min-h-[34px] ${
-                  activeTab === 'both'
-                    ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white'
-                    : 'text-slate-600 dark:text-slate-400'
-                }`}
-              >
-                {isEn ? 'Both Diagrams' : 'Cả 2 biểu đồ'}
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab('workflow')}
-                className={`px-3 py-1.5 rounded-lg transition cursor-pointer min-h-[34px] ${
-                  activeTab === 'workflow'
-                    ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white'
-                    : 'text-slate-600 dark:text-slate-400'
-                }`}
-              >
-                2.1 Workflow
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab('dataflow')}
-                className={`px-3 py-1.5 rounded-lg transition cursor-pointer min-h-[34px] ${
-                  activeTab === 'dataflow'
-                    ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white'
-                    : 'text-slate-600 dark:text-slate-400'
-                }`}
-              >
-                2.2 Telemetry
-              </button>
-            </div>
+          <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold">
+            <button
+              type="button"
+              onClick={() => setActiveTab('workflow')}
+              className={`min-h-[36px] px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                activeTab === 'workflow'
+                  ? 'bg-white dark:bg-slate-900 text-[#074553] dark:text-[#9BE7FA]'
+                  : 'text-slate-600 dark:text-slate-400'
+              }`}
+            >
+              {isEn ? '2.1 Borrow Workflow (ACID)' : '2.1 Luồng Mượn–Trả (ACID)'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('dataflow')}
+              className={`min-h-[36px] px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                activeTab === 'dataflow'
+                  ? 'bg-white dark:bg-slate-900 text-[#074553] dark:text-[#9BE7FA]'
+                  : 'text-slate-600 dark:text-slate-400'
+              }`}
+            >
+              {isEn ? '2.2 Telemetry Dataflow' : '2.2 Luồng Telemetry'}
+            </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-5">
           {/* BIỂU ĐỒ BACKEND 1: BORROWING WORKFLOW & RACE CONDITION PREVENTION */}
-          {(activeTab === 'both' || activeTab === 'workflow') && (
+          {activeTab === 'workflow' && (
             <div className="p-5 sm:p-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900/60 space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
@@ -850,7 +955,7 @@ export function Chapter4BackendLogic({
           )}
 
           {/* BIỂU ĐỒ BACKEND 2: ANALYTICS DATAFLOW & ASYNCHRONOUS CELERY QUEUE */}
-          {(activeTab === 'both' || activeTab === 'dataflow') && (
+          {activeTab === 'dataflow' && (
             <div className="p-5 sm:p-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900/60 space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
@@ -947,156 +1052,128 @@ export function Chapter4BackendLogic({
         </div>
       </div>
 
-      {/* SƠ ĐỒ 3: TIMELINE 24 GIỜ CHO 9 CELERY BEAT JOBS (LƯỚI 3×3 RỘNG RÕ) */}
-      <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 sm:p-6 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <Clock className="w-5 h-5 text-[#0D7287] dark:text-[#9BE7FA]" />
-            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-              {isEn
-                ? 'Diagram 3 · 24-Hour Operational Timeline for 9 Celery Beat Jobs (settings.py)'
-                : 'Sơ đồ 3 · Trục thời gian vận hành 24 giờ của 9 tác vụ tự động Celery Beat (settings.py)'}
-            </h3>
-          </div>
-          <span className="text-xs font-semibold text-[#0D7287] dark:text-[#9BE7FA] tabular-nums">
-            00:00 → 24:00 • CELERY_BEAT_SCHEDULE
+      {/* PHỤ LỤC KỸ THUẬT PROTOTYPE (ĐÓNG MẶC ĐỊNH: KIẾN TRÚC 5 TẦNG, 4 CÔNG THỨC ANALYTICS, 9 CELERY JOBS & SQL MYSQL 8.0) */}
+      <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/50 p-4">
+        <button
+          type="button"
+          onClick={() => setShowPrototypeAppendix((v) => !v)}
+          className="w-full min-h-[44px] rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2.5 text-xs font-bold text-slate-800 dark:text-slate-200 hover:border-[#0D7287] flex items-center justify-between transition-colors cursor-pointer"
+        >
+          <span className="flex items-center gap-2 text-left">
+            <Server className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA] shrink-0" />
+            <span>
+              {showPrototypeAppendix
+                ? isEn
+                  ? 'Collapse Technical Prototype Appendix (5-Layer Stack, 4 Telemetry Formulas, 9 Celery Cron Jobs & MySQL SQL)'
+                  : 'Thu gọn Phụ lục Kỹ thuật Prototype (Kiến trúc 5 tầng, 4 công thức Analytics, 9 Celery Job & SQL MySQL 8.0)'
+                : isEn
+                ? 'Open Technical Prototype Appendix: 5-Layer Django/Redis Stack, 4 Analytics Formulas, 9 Celery Jobs & MySQL 8.0 SQL'
+                : 'Mở Phụ lục Kỹ thuật Prototype: Kiến trúc 5 tầng Django/Redis, 4 công thức Analytics, 9 Celery Beat Jobs & Truy vấn SQL MySQL 8.0'}
+            </span>
           </span>
-        </div>
+          {showPrototypeAppendix ? <ChevronUp className="w-4 h-4 shrink-0" /> : <ChevronDown className="w-4 h-4 shrink-0" />}
+        </button>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 tabular-nums">
-          {CELERY_24H_TIMELINE.map((job) => (
-            <div
-              key={job.taskName}
-              className="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/70 p-4 flex flex-col justify-between gap-2"
-            >
+        {showPrototypeAppendix && (
+          <div className="space-y-5 pt-4">
+            {/* Kiến trúc 5 lớp & 4 công thức Telemetry */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs tabular-nums">
+              <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-4 space-y-2.5">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                    <Server className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                    <span>{isEn ? '5-Layer Stack (7 Apps • 36 Models)' : 'Kiến trúc 5 lớp (7 Apps • 36 Models)'}</span>
+                  </p>
+                  <span className="font-mono text-[11px] text-slate-500">Django 5.2 • MySQL 8.0 • Redis 7</span>
+                </div>
+                <ul className="space-y-1.5 text-slate-700 dark:text-slate-300 leading-relaxed">
+                  {isEn ? (
+                    <>
+                      <li><strong>Apps:</strong> <code>users</code>, <code>inventory</code>, <code>transactions</code>, <code>analytics</code>, <code>notifications</code>, <code>blog</code>, <code>core</code> (97 templates + Phase 2 Gemini AI ISBN autofill).</li>
+                      <li><strong>Service Layer:</strong> <code>select_for_update()</code> inside <code>transaction.atomic()</code> locks User then BusBookInventory by ascending UUID to prevent TOCTOU/deadlocks.</li>
+                      <li><strong>Base Mixins:</strong> All 36 models inherit <code>TimestampedModel</code> (UUIDv4), <code>SoftDeleteModel</code>, and <code>AuditMixin</code>.</li>
+                      <li><strong>Cache &amp; Async:</strong> Versioned Redis 7 <code>CacheMixin</code> and 9 scheduled Celery Beat jobs (5 Docker Compose services).</li>
+                    </>
+                  ) : (
+                    <>
+                      <li><strong>Apps:</strong> <code>users</code>, <code>inventory</code>, <code>transactions</code>, <code>analytics</code>, <code>notifications</code>, <code>blog</code>, <code>core</code> (97 templates + trích xuất ISBN Gemini AI ở GĐ 2).</li>
+                      <li><strong>Service Layer:</strong> <code>select_for_update()</code> trong <code>transaction.atomic()</code> khóa User rồi BusBookInventory theo UUID tăng dần chống TOCTOU/Deadlock.</li>
+                      <li><strong>Base Mixins:</strong> Toàn bộ 36 model kế thừa <code>TimestampedModel</code> (UUIDv4), <code>SoftDeleteModel</code> và <code>AuditMixin</code>.</li>
+                      <li><strong>Cache &amp; Async:</strong> <code>CacheMixin</code> versioning trên Redis 7 và 9 lịch chạy Celery Beat (5 container Docker Compose).</li>
+                    </>
+                  )}
+                </ul>
+              </div>
+
+              <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-4 space-y-2.5">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                    <Activity className="w-3.5 h-3.5 text-[#0D7287] dark:text-[#9BE7FA]" />
+                    <span>{isEn ? '4 Telemetry Audit Notes (analytics/models.py)' : '4 Kiểm toán Công thức Telemetry (analytics/models.py)'}</span>
+                  </p>
+                </div>
+                <ul className="space-y-1.5 text-slate-700 dark:text-slate-300 leading-relaxed">
+                  {isEn ? (
+                    <>
+                      <li><strong>Event Archive:</strong> 8 core MVP events (<code>view_book</code>, <code>bus_visit</code>, <code>reserve_created</code>, <code>reserve_fulfilled</code>, <code>borrow</code>, <code>renew</code>, <code>return</code>, <code>fine_applied</code>) archived to <code>ArchivedUserActivity</code> after 90 days.</li>
+                      <li><strong>Popularity (Audit):</strong> Initial prototype summed raw counts (<code>0.60×borrow + 0.30×rating + 0.10×view</code>); production spec normalizes each input via min-max/percentile scaling before weighting.</li>
+                      <li><strong>Bus Efficiency (Audit):</strong> Prototype used <code>min((borrows/visits)×100, 100)</code> which saturates at 100% when 1 visitor borrows &gt;1 book; replaced with uncapped <code>borrows_per_visit</code> and borrowing visitor share.</li>
+                      <li><strong>Phase 2 Recs &amp; Tiers:</strong> <code>is_clicked → is_borrowed</code> funnel and 0–1,000 reputation tiers are prototyped but decoupled from MVP pilot KPIs.</li>
+                    </>
+                  ) : (
+                    <>
+                      <li><strong>Event Archive:</strong> 8 sự kiện lõi MVP (<code>view_book</code>, <code>bus_visit</code>, <code>reserve_created</code>, <code>reserve_fulfilled</code>, <code>borrow</code>, <code>renew</code>, <code>return</code>, <code>fine_applied</code>) chuyển kho lạnh <code>ArchivedUserActivity</code> sau 90 ngày.</li>
+                      <li><strong>Popularity (Kiểm toán):</strong> Bản mẫu cộng thẳng biến khác đơn vị (<code>0,60×borrow + 0,30×rating + 0,10×view</code>); bản vận hành chuẩn hóa min-max/phân vị từng thành phần trước khi ghép trọng số.</li>
+                      <li><strong>Bus Efficiency (Kiểm toán):</strong> Bản mẫu dùng <code>min((borrows/visits)×100, 100)</code> dễ chạm trần 100% khi 1 khách mượn nhiều cuốn; thay bằng <code>borrows_per_visit</code> không chặn trần và tỷ lệ khách ghé có mượn.</li>
+                      <li><strong>GĐ 2 mở rộng:</strong> Phễu gợi ý <code>is_clicked → is_borrowed</code> và điểm uy tín 0–1.000đ tách khỏi bộ KPI lõi của Pilot GĐ 1.</li>
+                    </>
+                  )}
+                </ul>
+              </div>
+            </div>
+
+            {/* Trục thời gian 9 Celery Beat Jobs */}
+            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/60 p-4 space-y-3">
               <div className="flex items-center justify-between gap-2">
-                <span className="px-2.5 py-1 rounded-lg bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 font-extrabold text-xs">
-                  {job.time}
-                </span>
-                <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300">
-                  {job.module}
-                </span>
-              </div>
-              <div className="space-y-1">
-                <p className="font-mono text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA] break-words">
-                  {job.taskName}
+                <p className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <Clock className="w-4 h-4 text-[#0D7287] dark:text-[#9BE7FA]" />
+                  <span>{isEn ? '9 Scheduled Celery Beat Jobs (24h)' : '9 Tác vụ tự động Celery Beat (24 giờ)'}</span>
                 </p>
-                <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                  {isEn ? job.labelEn : job.labelVi}
-                </p>
+                <span className="text-[11px] font-mono text-slate-500">CELERY_BEAT_SCHEDULE</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 tabular-nums text-xs">
+                {CELERY_24H_TIMELINE.map((job) => (
+                  <div
+                    key={job.taskName}
+                    className="rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-3 space-y-1"
+                  >
+                    <div className="flex items-center justify-between gap-1.5">
+                      <span className="px-2 py-0.5 rounded bg-[#0D7287] text-white dark:bg-[#9BE7FA] dark:text-slate-950 font-bold text-[11px]">
+                        {job.time}
+                      </span>
+                      <span className="text-[11px] font-semibold text-slate-500">{job.module}</span>
+                    </div>
+                    <p className="font-mono text-[11px] font-bold text-[#0D7287] dark:text-[#9BE7FA] break-words">
+                      {job.taskName}
+                    </p>
+                    <p className="text-slate-600 dark:text-slate-300 leading-snug">
+                      {isEn ? job.labelEn : job.labelVi}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* SƠ ĐỒ 4: PHỄU TELEMETRY GỢI Ý & GIỮ CHÂN ĐỘC GIẢ + TRUY VẤN SQL MYSQL 8.0 THẬT */}
-      <div className="grid grid-cols-1 gap-6">
-        {/* Sơ đồ 4 (Toàn chiều rộng): Phễu Telemetry Gợi ý & Giữ chân độc giả */}
-        <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 sm:p-6 flex flex-col justify-between space-y-4">
-          <div>
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-              <span className="inline-flex items-center rounded-md bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 px-2.5 py-1 text-xs font-bold text-[#0D7287] dark:text-[#9BE7FA]">
-                {isEn
-                  ? 'Diagram 4 · Recommendation & Reader Retention Telemetry Funnel'
-                  : 'Sơ đồ 4 · Phễu Telemetry Gợi ý sách & Giữ chân độc giả (analytics/views.py)'}
-              </span>
-              <span className="px-2.5 py-1 rounded-md bg-[#FFE485]/60 dark:bg-[#FFD14C]/15 border border-[#FFD14C]/50 text-xs font-bold text-amber-950 dark:text-[#FFE485]">
-                {isEn ? 'Simulated Prototype Data' : 'Dữ liệu mô phỏng (Bản mẫu)'}
-              </span>
-            </div>
-            <h3 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white">
-              {isEn
-                ? '4-Stage Tracking Schema: view_book → click_rate → borrow_rate → completion_rate'
-                : 'Mô hình 4 tầng đo lường: view_book → recommendation_clicked → borrow → return'}
-            </h3>
-
-            <div className="h-[300px] sm:h-[340px] w-full mt-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={TELEMETRY_FUNNEL_DATA}
-                  layout="vertical"
-                  margin={{ top: 10, right: 64, left: 12, bottom: 10 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.22)" horizontal={false} />
-                  <XAxis
-                    type="number"
-                    domain={[0, 108]}
-                    ticks={[0, 20, 40, 60, 80, 100]}
-                    tick={{ fontSize: 12, fill: '#64748b' }}
-                    tickFormatter={(v) => `${v}%`}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    type="category"
-                    dataKey="shortStep"
-                    width={215}
-                    tick={{ fontSize: 13, fill: resolvedTheme === 'dark' ? '#e2e8f0' : '#1e293b', fontWeight: 600 }}
-                    tickLine={false}
-                  />
-                  <Tooltip
-                    content={({ active, payload }) => {
-                      if (!active || !payload || !payload.length) return null;
-                      const d = payload[0].payload;
-                      return (
-                        <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 p-3.5 text-xs sm:text-sm tabular-nums space-y-1 max-w-sm">
-                          <p className="font-bold text-slate-900 dark:text-white">{d.step}</p>
-                          <p>
-                            {isEn ? 'Funnel conversion: ' : 'Tỷ lệ phễu: '}
-                            <strong className="text-[#0D7287] dark:text-[#9BE7FA]">{d.ratePct}%</strong>
-                          </p>
-                          <p className="text-slate-600 dark:text-slate-300">{isEn ? d.descEn : d.descVi}</p>
-                        </div>
-                      );
-                    }}
-                  />
-                  <Bar dataKey="ratePct" radius={[0, 8, 8, 0]} barSize={38}>
-                    {TELEMETRY_FUNNEL_DATA.map((entry, idx) => (
-                      <Cell key={`fcell-${idx}`} fill={entry.fill} />
-                    ))}
-                    <LabelList
-                      dataKey="ratePct"
-                      position="right"
-                      offset={10}
-                      formatter={(val: unknown) =>
-                        typeof val === 'number'
-                          ? `${isEn ? val.toFixed(1) : val.toFixed(1).replace('.', ',')}%`
-                          : ''
-                      }
-                      style={{
-                        fill: resolvedTheme === 'dark' ? '#f8fafc' : '#0f172a',
-                        fontSize: 13,
-                        fontWeight: 700,
-                      }}
-                    />
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed tabular-nums">
-            {isEn
-              ? 'Illustrative prototype metrics demonstrating how UserActivity (view_book), BookRecommendation (is_clicked, is_borrowed), BorrowRecord (borrow), and UserReadingStats (completion_rate) connect in the telemetry schema (not production user traffic). Before rolling out the 7-day reservation cap and 5k/10k/15k fine tiers, the BA validation plan calls for a 4-week field pilot on 2 bus routes to gather reader/librarian feedback and A/B test threshold sensitivity.'
-              : 'Số liệu mô phỏng minh họa cách liên kết 4 bảng Telemetry: UserActivity (view_book) → BookRecommendation (is_clicked, is_borrowed) → BorrowRecord (borrow) → UserReadingStats (completion_rate), không phải dữ liệu vận hành thực tế. Trước khi áp dụng chính thức ngưỡng giữ chỗ 7 ngày và biểu phí phạt 5k/10k/15k, kế hoạch kiểm chứng BA đề xuất chạy pilot 4 tuần trên 2 tuyến xe để khảo sát độc giả, thủ thư và kiểm định độ nhạy thực địa.'}
-          </p>
-        </div>
-
-        {/* Khối SQL MySQL 8.0 trên Schema thật */}
-        <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-slate-950 text-slate-100 p-5 sm:p-6 flex flex-col justify-between space-y-3">
-          <div className="space-y-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#9BE7FA]">
-                <Terminal className="w-4 h-4" />
-                <span>
-                  {isEn
-                    ? 'Actual MySQL 8.0 Telemetry Query (transactions + inventory + analytics)'
-                    : 'Truy vấn SQL MySQL 8.0 trên tên bảng & cột thật của dự án'}
-                </span>
-              </span>
-              <div className="flex items-center gap-2">
-                <span className="px-2.5 py-1 rounded-lg bg-[#9BE7FA]/20 text-[#9BE7FA] text-xs font-mono font-bold">
-                  MySQL 8.0
+            {/* Khối SQL MySQL 8.0 trên Schema thật */}
+            <div className="rounded-xl border border-slate-800 bg-slate-950 text-slate-100 p-4 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="inline-flex items-center gap-2 text-xs font-bold text-[#9BE7FA]">
+                  <Terminal className="w-4 h-4" />
+                  <span>
+                    {isEn
+                      ? 'Actual MySQL 8.0 30-Day Telemetry Query (Aligned CTEs + LEFT JOIN)'
+                      : 'Truy vấn SQL MySQL 8.0 đối soát khung 30 ngày (CTE đồng bộ + LEFT JOIN)'}
+                  </span>
                 </span>
                 <button
                   type="button"
@@ -1107,18 +1184,12 @@ export function Chapter4BackendLogic({
                   <span>{copiedSql ? (isEn ? 'Copied' : 'Đã sao chép') : (isEn ? 'Copy SQL' : 'Sao chép SQL')}</span>
                 </button>
               </div>
+              <pre className="p-3.5 rounded-lg bg-slate-900/90 border border-slate-800 text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed">
+                <code>{ACTUAL_MYSQL_TELEMETRY_SQL}</code>
+              </pre>
             </div>
-            <pre className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-xs sm:text-[13px] font-mono text-slate-200 overflow-x-auto leading-relaxed">
-              <code>{ACTUAL_MYSQL_TELEMETRY_SQL}</code>
-            </pre>
           </div>
-
-          <div className="text-xs text-slate-400 leading-relaxed">
-            {isEn
-              ? 'Uses real Django ORM table names: transactions_bookreservation (preferred_pickup_location_id, is_fulfilled, expires_date), inventory_librarybus, and analytics_busanalytics.'
-              : 'Truy vấn đúng tên bảng thật do Django ORM sinh ra trên MySQL 8.0: transactions_bookreservation (preferred_pickup_location_id, is_fulfilled, expires_date), inventory_librarybus và analytics_busanalytics.'}
-          </div>
-        </div>
+        )}
       </div>
 
       {/* ACCORDION KIỂM TOÁN MÃ NGUỒN & GHI CHÚ KỸ THUẬT PHỎNG VẤN (4 ĐIỂM CẦN NẮM RÕ) */}

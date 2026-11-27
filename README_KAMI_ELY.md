@@ -1,10 +1,10 @@
 # Kami Ely: Phân tích Hiệu suất TikTok Shop & Mạng lưới Affiliate
 
 ## 1. Giới thiệu dự án
-Case study phân tích thực nghiệm dữ liệu thương mại điện tử TikTok Shop cho thương hiệu thời trang nữ & đồ bơi **Kami Ely** (@kami_official).
-- **Phạm vi quan sát**: 231 ngày liên tục (09/03/2026 - 25/10/2026).
-- **Quy mô dữ liệu**: 15,01 tỷ VNĐ GMV toàn shop, 101.896 sản phẩm, 8.355 phiên Live, 1.077 video, 302 KOC ngoài và 133 SKU.
-- **Nguồn dữ liệu**: Dữ liệu ước tính bên thứ ba (FastMoss Market Intelligence), đã khử trùng lặp và ẩn danh PII.
+Case study phân tích dữ liệu thương mại điện tử TikTok Shop cho gian hàng thời trang nữ & đồ bơi **Kami Ely** (`@shop_official`, đã ẩn danh PII).
+- Phạm vi quan sát: 231 ngày liên tục (`09/03/2026 - 25/10/2026`).
+- Quy mô dữ liệu: `15,01 tỷ VNĐ` GMV toàn shop (Net), `101.896` sản phẩm, `8.355` phiên Live (khử trùng 595 phiên chính chủ trùng lặp `+7,59 tỷ`), `4.796` video gắn giỏ, `302` KOC Live ngoài và `133/339` link sản phẩm có đơn.
+- Nguồn dữ liệu: 10 tệp xuất ước tính bên thứ ba (FastMoss Market Intelligence, `23.364` dòng thô), độc lập hoàn toàn với kinh nghiệm vận hành giai đoạn 2022–2023.
 
 ---
 
@@ -12,44 +12,43 @@ Case study phân tích thực nghiệm dữ liệu thương mại điện tử T
 
 ```text
 ├── components/case-studies/
-│   ├── KamiElyProject.tsx                    # Root Container điều phối Case Study
+│   ├── KamiElyProject.tsx                              # Root container điều phối Case Study
 │   └── kami-ely/
-│       ├── KamiElyHero.tsx                   # Hero section (4 KPI + 3 câu trả lời một dòng)
-│       ├── KamiElyNav.tsx                    # Thanh điều hướng sticky 8 mốc
+│       ├── KamiElyHero.tsx                             # Hero (4 KPI + CTA Notebook, BI Spec, Phụ lục)
+│       ├── KamiElyNav.tsx                              # Thanh điều hướng sticky 7 mục
 │       ├── commercial/
-│       │   ├── KamiElyCommercialTab.tsx      # Tab tổng hợp nối các chương
-│       │   ├── Tier1ExecutiveSummary.tsx     # Chương 0: Tóm tắt điều hành & GMV 8 tháng (Hình 0.1)
-│       │   ├── Chapter1ContextAndData.tsx    # Chương 1: Bẫy dữ liệu (Hình 1.2), Bảng 4 quần thể
-│       │   ├── Chapter2RevenueAndSku.tsx     # Chương 2: Cơ cấu Live (2.1), Pareto 12 SKU (2.2), Lorenz (2.3)
-│       │   ├── Chapter3SeasonalityAndRegression.tsx # Chương 3: Chuỗi ngày 4 pha (3.1), Năng suất ca (3.2), OLS (3.4)
-│       │   ├── Chapter4KocNetwork.tsx        # Chương 4: Cohort giữ chân (4.1), Kaplan-Meier 90N (4.2)
-│       │   ├── Chapter5LiveVideoAds.tsx      # Chương 5: Bóc tách kênh Live (5.1), Forest plot Ads (5.2)
-│       │   ├── Chapter6EarlyWarningAndPlaybook.tsx # Chương 6: Tín hiệu sớm (6.1), Backtest (6.2), Playbook & Đèn giao thông
-│       │   ├── Tier3EngineeringAppendix.tsx  # Phụ lục A (Kiểm định), B (SQL MySQL 8.0+), C (Giới hạn)
-│       │   └── kamiOutlineV2Metrics.ts       # Hằng số, dữ liệu phân tích và màu thương hiệu
-│       ├── playbook/                         # Giao diện thẻ, định dạng bảng & ngôn ngữ song ngữ
-│       └── science/                          # Modal hiển thị mã nguồn Python Applied Statistics
-├── app/data/
-│   ├── kamiElyData.ts                        # Entry point xuất dữ liệu phân tích
-│   └── kami-ely/                             # Toàn bộ dữ liệu telemetry bóc tách theo domain
-│       ├── shop/                             # Doanh số, chuỗi thời gian shop
-│       ├── creator/                          # Telemetry KOC & phiên Live
-│       ├── stats/                            # Kết quả thống kê OLS, Z-score, Kaplan-Meier
-│       └── reconciliation/                   # Bảng đối soát dữ liệu
+│       │   ├── KamiElyCommercialTab.tsx                # Ghép 7 khối theo trình tự câu hỏi -> khuyến nghị
+│       │   ├── Tier1ExecutiveSummary.tsx               # Tổng quan & Xu hướng GMV 8 tháng / tuần / ngày
+│       │   ├── Chapter1ContextAndData.tsx              # Đối soát 10 bảng, bẫy cộng trùng & cơ cấu từng kênh
+│       │   ├── Chapter3SeasonalityAndRegression.tsx    # Mùa vụ 10 SKU, Pareto 2 lớp, HHI/Winsorize/MW-U & Panel FE
+│       │   ├── Chapter5LiveVideoAds.tsx                # Live >10h phân tầng theo tháng (Simpson) & Video Ads 6 lát cắt
+│       │   ├── Chapter4KocNetwork.tsx                  # Cohort 302 KOC & Luật sàng lọc 2 tầng bảo toàn nhóm ra đơn muộn
+│       │   ├── Chapter6EarlyWarningAndPlaybook.tsx     # 4 sáng kiến hành động ưu tiên & Backtest MA7/MA28
+│       │   ├── Tier3EngineeringAppendix.tsx            # Phụ lục A (9 Cổng QA), B (6 SQL MySQL 8.0), C (Giới hạn)
+│       │   └── kamiOutlineV2Metrics.ts                 # Bridge tải SSOT metrics_v2.json
+│       ├── playbook/                                   # Giao diện thẻ & tiện ích song ngữ
+│       └── science/                                    # Modal xem 5 cell Python Applied Statistics
+├── app/projects/kami-ely/bi-spec/page.tsx              # BI Dashboard tương tác (Slicer) & Đặc tả Star Schema 4 Fact · 3 Dim, 6 DAX
+├── app/data/kami-ely/generated/metrics_v2.json         # SSOT được sinh tự động từ 10 tệp Excel
+├── public/kami/
+│   ├── kami_ely_analytics_workbook.xlsx                # Workbook Excel 5 sheet (SUMIFS, INDEX/MATCH, Break-Even, Power Query M)
+│   ├── kami_ely_applied_statistics.ipynb               # Notebook Python kiểm định thống kê chạy trực tiếp trên 10 tệp Excel
+│   └── bi-pack/*.csv                                   # 4 tệp CSV sạch sẵn sàng nạp lên Looker Studio / Tableau Public / Power BI
 └── scripts/kami/
-    ├── import_kami_all_timeframes.py         # Pipeline hợp nhất dữ liệu 2 khung thời gian vào MySQL
-    └── import_kami_supplementary.py          # Script nạp dữ liệu bổ trợ FastMoss
+    ├── generate_outline_v2_metrics.mjs                 # ETL 10 tệp .xlsx -> metrics_v2.json
+    ├── generate_excel_workbook.py                      # Sinh workbook Excel công thức sống & 4 CSV BI
+    └── run_quality_gates.py                            # Kiểm tra động 9 cổng chất lượng trên MySQL
 ```
 
 ---
 
 ## 3. Các quy chuẩn phân tích đã thống nhất
 1. **Quần thể Creator**:
-   - Creator ngoài chủ shop: 302 tài khoản (7.760 phiên).
-   - Đối tác độc lập: 301 tài khoản.
-   - Kênh vệ tinh nội bộ: 1 tài khoản (`@koc_sat01` - 261 phiên, tạo 12,0% GMV Live).
-   - Danh bạ KOL: 329 tài khoản có đơn (328 tài khoản ngoài chủ shop).
-2. **Dải giá**: Thống nhất dùng giá niêm yết (75.000 - 150.000 đ chiếm 62,6% doanh thu; giá thực bán ASP chiếm 75,4%).
-3. **Z-score**: Thống nhất Z-score duy nhất của đỉnh 16/06 là **+6,81**.
-4. **Năng suất ca**: Phân biệt rõ giữa *GMV toàn shop trên mỗi ca Live* (thước Store) và *GMV trong phiên trên mỗi ca Live* (thước Live).
-
+   - KOC Live ngoài `@shop_official`: `302` tài khoản (`7.760` phiên), gồm `1` kênh vệ tinh nội bộ (`@koc_sat01`, 261 phiên, `1,26 tỷ` = `12,0%` GMV Live) và `301` KOC độc lập (`1,62 tỷ`).
+   - Danh bạ KOL cuốn chiếu 90 ngày: `329/6.086` kênh có đơn (`5,4%`), `HHI = 3.842` (loại chính chủ còn kênh vệ tinh `@koc_sat01`: `1.471`; loại cả 2 kênh nội bộ thuần ngoài: `246`; riêng Live 226N bỏ vệ tinh: `761`).
+2. **Dải giá thực bán (Realized ASP)**: Dải `75k–250k đ` chiếm `95,4%` GMV (`75k–150k` đạt `75,4%`, `150k–250k` đạt `20,0%`; đối chiếu theo cận dưới giá niêm yết là `94,8%` và trung điểm khoảng giá là `93,1%`); ASP trung bình toàn shop `147.298 đ/sp`.
+3. **Đỉnh 16/06 & Winsorization**: Đỉnh `315,0 triệu` có `Z = +6,81` theo cửa sổ lùi 28 ngày (`Z = 5,83` toàn chuỗi 231 ngày); khi cắt P99/P95/trung vị T6, giao cắt `MA7 < MA28` vẫn ổn định ở `26–27/06`.
+4. **Kiểm tra độ vững & đánh đổi**:
+   - Phân tầng ca Live `>10h` theo tháng chỉ ra Simpson's Paradox (`T6: 8,48 Tr/h` vs `T7: 1,43 Tr/h` vs `T8: 0,73 Tr/h`).
+   - Panel FE hậu mở bán (`n = 1.422`, loại 338 ngày 0 trước khi SKU lên kệ) giữ nguyên ý nghĩa thống kê ở 2 biến Livestream với `Within R² = 0,302`.
+   - Sàng lọc KOC áp luật 2 tầng để bảo toàn `51` KOC chuyển đổi ở phiên 4+ (`304,9 triệu` = `18,8%` Live độc lập).

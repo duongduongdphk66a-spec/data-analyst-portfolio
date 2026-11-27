@@ -165,46 +165,44 @@ export default function Sidebar() {
         })}
 
         {/* Editorial Spacing */}
-        <div className="pt-2 pb-1" />
+      </nav>
 
+      {/* Footer Controls (Pinned, never clipped) */}
+      <div className="p-2 lg:p-3.5 pt-2.5 space-y-2.5 relative z-10 bg-slate-100/90 dark:bg-slate-900 border-t border-slate-200/80 dark:border-slate-800 shrink-0">
         {/* Direct Action: Download CV */}
-        <div className="hidden lg:block px-1 pt-1">
+        <div className="hidden lg:block">
           <a
             href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="relative overflow-hidden group p-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/90 border border-slate-200/90 dark:border-slate-800 hover:border-[#9BE7FA]/60 hover:-translate-y-0.5 active:scale-[0.98] transition-transform duration-200 flex items-center justify-between cursor-pointer"
+            className="relative overflow-hidden group px-3 py-2 rounded-xl bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-800/90 border border-slate-200/90 dark:border-slate-800 hover:border-[#9BE7FA]/70 transition-colors duration-200 flex items-center justify-between cursor-pointer"
           >
-            <div className="flex items-center gap-2.5 text-xs font-bold text-slate-900 dark:text-white relative z-10">
-              <div className="p-1.5 rounded-lg bg-[#C8EEF7]/50 dark:bg-[#9BE7FA]/15 text-[#074553] dark:text-[#9BE7FA] group-hover:scale-110 transition-transform">
-                <Download className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-900 dark:text-white">
+              <div className="p-1.5 rounded-lg bg-[#C8EEF7]/60 dark:bg-[#9BE7FA]/15 text-[#074553] dark:text-[#9BE7FA] shrink-0">
+                <Download className="w-3.5 h-3.5" />
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col leading-tight">
                 <span>{language === 'en' ? 'Download CV' : 'Tải CV Chi Tiết'}</span>
-                <span className="text-xs font-medium text-slate-400 dark:text-slate-500 tabular-nums">PDF • 2026</span>
+                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 tabular-nums">PDF • 2026</span>
               </div>
             </div>
-            <span className="text-xs font-black px-1.5 py-0.5 rounded bg-[#FFD14C] text-slate-950 relative z-10">
+            <span className="text-[11px] font-black px-1.5 py-0.5 rounded bg-[#FFD14C] text-slate-950 shrink-0">
               CV
             </span>
           </a>
         </div>
-        <div className="lg:hidden flex justify-center px-1 pt-1">
+        <div className="lg:hidden flex justify-center">
           <a
             href="/Ma_Van_Hung_CV_Data_Analyst_2026.pdf"
             target="_blank"
             rel="noopener noreferrer"
             aria-label={language === 'en' ? 'Download CV' : 'Tải CV Chi Tiết'}
             title={language === 'en' ? 'Download CV' : 'Tải CV Chi Tiết'}
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 text-[#074553] dark:text-[#9BE7FA] transition-colors duration-200 cursor-pointer"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2.5 rounded-xl bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 text-[#074553] dark:text-[#9BE7FA] transition-colors duration-200 cursor-pointer"
           >
             <Download className="w-4 h-4" />
           </a>
         </div>
-      </nav>
-
-      {/* Footer Controls */}
-      <div className="p-2 lg:p-4 pt-4 space-y-3 relative z-10 bg-slate-100 dark:bg-slate-900">
         {/* Social Links & Controls Row */}
         <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-2.5 lg:gap-0">
           {/* Social Links */}

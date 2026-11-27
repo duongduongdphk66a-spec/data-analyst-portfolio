@@ -18,11 +18,31 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
   const router = useRouter();
 
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isMobileProjectsOpen, setIsMobileProjectsOpen] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
+
+  const mobileProjectLinks = [
+    {
+      href: '/projects/proj-kami-ely',
+      title: language === 'en' ? 'Kami Ely · TikTok Shop DA' : 'Kami Ely · Phân tích TikTok Shop',
+      sub: language === 'en' ? '231d FastMoss · SQL, Python & BI Spec' : '231 ngày FastMoss · SQL, Python & BI Spec',
+    },
+    {
+      href: '/projects/proj-heritage-japan',
+      title: language === 'en' ? 'Heritage Japan · Time-Series Audit' : 'Du lịch Di sản Nhật Bản · Data Audit',
+      sub: language === 'en' ? '6 JNTO/MLIT series · 5 UNESCO sites' : '6 chuỗi JNTO/MLIT · 5 di sản UNESCO',
+    },
+    {
+      href: '/projects/proj-library-bus',
+      title: language === 'en' ? 'Library Bus · Technical BA & Tracking' : 'Library Bus · Technical BA & Tracking',
+      sub: language === 'en' ? 'Mini-BRD, Core ERD, 8 Events & 11 Screens' : 'Mini-BRD, ERD lõi, 8 Sự kiện & 11 Màn hình',
+    },
+  ];
 
   // Scroll to top on path change (Window/Document level)
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsMobileProjectsOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -109,6 +129,41 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
           {children}
         </main>
 
+        {/* Mobile Projects Quick Sheet */}
+        {isMobileProjectsOpen && (
+          <div className="md:hidden fixed inset-0 z-50 flex flex-col justify-end">
+            <button
+              type="button"
+              aria-label={language === 'en' ? 'Close project menu' : 'Đóng danh sách dự án'}
+              onClick={() => setIsMobileProjectsOpen(false)}
+              className="fixed inset-0 bg-slate-950/50 cursor-pointer"
+            />
+            <div className="relative z-10 mb-16 mx-3 rounded-2xl bg-white dark:bg-slate-900 border border-[#C8EEF7] dark:border-slate-700 p-3 shadow-xl space-y-1.5" /* taste-skill-ignore: floating sheet overlay */>
+              <p className="px-2.5 pt-1 text-xs font-bold text-slate-500 dark:text-slate-400">
+                {language === 'en' ? 'Choose a case study (3 projects)' : 'Chọn dự án phân tích (3 dự án)'}
+              </p>
+              {mobileProjectLinks.map((proj) => {
+                const selected = pathname === proj.href || pathname.startsWith(`${proj.href}/`);
+                return (
+                  <Link
+                    key={proj.href}
+                    href={proj.href}
+                    onClick={() => setIsMobileProjectsOpen(false)}
+                    className={`min-h-[44px] flex flex-col justify-center px-3 py-2 rounded-xl border transition-colors ${
+                      selected
+                        ? 'bg-[#F0F9FB] dark:bg-[#9BE7FA]/15 border-[#9BE7FA] text-[#074553] dark:text-[#9BE7FA]'
+                        : 'bg-slate-50/70 dark:bg-slate-800/60 border-transparent text-slate-900 dark:text-white'
+                    }`}
+                  >
+                    <span className="text-xs font-bold leading-snug">{proj.title}</span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400">{proj.sub}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Mobile Bottom Navigation */}
         <nav
           aria-label="Thanh điều hướng di động"
@@ -116,6 +171,27 @@ export default function MainLayoutClient({ children, initialProjects = [] }: { c
         >
           {navItems.map((item) => {
             const isActive = pathname === item.id || (item.hasChildren && pathname.startsWith('/projects'));
+            if (item.hasChildren) {
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setIsMobileProjectsOpen((prev) => !prev)}
+                  aria-expanded={isMobileProjectsOpen}
+                  aria-label={language === 'en' ? 'Open project list' : 'Mở danh sách dự án'}
+                  className={`min-h-[44px] min-w-[44px] flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors cursor-pointer ${
+                    isActive || isMobileProjectsOpen
+                      ? 'text-[#0D7287] dark:text-[#9BE7FA]'
+                      : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+                  }`}
+                >
+                  <item.icon className={`w-5 h-5 ${isActive || isMobileProjectsOpen ? 'text-[#0D7287] dark:text-[#9BE7FA]' : ''}`} />
+                  <span className={`text-xs font-semibold ${isActive || isMobileProjectsOpen ? 'font-bold' : ''}`}>
+                    {item.label}
+                  </span>
+                </button>
+              );
+            }
             return (
               <Link
                 key={item.id}

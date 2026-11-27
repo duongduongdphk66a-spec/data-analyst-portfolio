@@ -22,10 +22,10 @@ os.makedirs(DATA_MERGED, exist_ok=True)
 
 def get_db():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="173053ms",
-        database="pplo"
+        host=os.environ.get("MYSQL_HOST", "localhost"),
+        user=os.environ.get("MYSQL_USER", "root"),
+        password=os.environ.get("MYSQL_PASSWORD", ""),
+        database=os.environ.get("MYSQL_DATABASE", "pplo")
     )
 
 def format_excel_sheet(ws, title_color="0D7287"):

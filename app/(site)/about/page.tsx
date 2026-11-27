@@ -48,8 +48,8 @@ export default function AboutPage() {
           <div className="p-6 sm:p-8 pt-2 border-t border-slate-100 dark:border-slate-800">
             <p className="text-sm text-slate-600 dark:text-slate-400 max-w-3xl mb-6">
               {isVi
-                ? "Quy trình chuẩn hóa 8 bước từ kiểm toán khóa, làm sạch bảng, phân tích chuỗi thời gian đến đối soát đa nguồn:"
-                : "Standard 8-step workflow from schema profiling and data cleaning to time-series windowing and cross-source reconciliation:"}
+                ? "Quy trình 8 bước bằng cú pháp MySQL 8.0 nhất quán từ kiểm toán khóa, làm sạch bảng, phân tích chuỗi thời gian đến đối soát đa nguồn:"
+                : "Standard 8-step workflow in consistent MySQL 8.0 syntax, from key profiling and cleaning to rolling time-series windows and cross-source reconciliation:"}
             </p>
             <AboutSqlChart />
           </div>

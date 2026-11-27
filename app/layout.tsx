@@ -18,11 +18,11 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mavanhung-portfolio
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Ma Văn Hùng | Fresher Data Analyst',
-  description: 'Fresher Data Analyst sử dụng SQL, Python, Thống kê ứng dụng và Recharts. Phân tích hiệu suất E-Commerce, chuỗi thời gian du lịch di sản và quy trình BA/UX.',
+  title: 'Ma Văn Hùng | Fresher Data Analyst / Business Analyst',
+  description: 'Fresher Data Analyst / Business Analyst sử dụng SQL, Python, thống kê ứng dụng, đặc tả BI và Technical BA (Mini-BRD, ERD, Tracking Plan).',
   openGraph: {
-    title: 'Ma Văn Hùng | Fresher Data Analyst Portfolio',
-    description: 'Evidence-driven Fresher Data Analyst: SQL, Python, Applied Statistics, Recharts. Interactive case studies and data reconciliation.',
+    title: 'Ma Văn Hùng | Fresher Data Analyst / BA Portfolio',
+    description: 'Evidence-driven Fresher Data Analyst & Technical Business Analyst: SQL, Python, Applied Statistics, BI Spec, Mini-BRD & Tracking Plan.',
     type: 'website',
     locale: 'vi_VN',
     url: siteUrl,
@@ -58,8 +58,8 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Ma Văn Hùng',
-  jobTitle: 'Fresher Data Analyst',
-  description: 'Fresher Data Analyst specializing in SQL, Python, Applied Statistics, Recharts, and Data Reconciliation.',
+  jobTitle: 'Fresher Data Analyst / Business Analyst',
+  description: 'Fresher Data Analyst & Business Analyst specializing in SQL, Python, Applied Statistics, Data Reconciliation, BI Specifications, Mini-BRD, and Tracking Plans.',
   url: siteUrl,
   email: 'mavanhung.da@gmail.com',
   knowsAbout: [

@@ -1,13 +1,14 @@
+import os
 import sys
 import mysql.connector
 
 sys.stdout.reconfigure(encoding='utf-8')
 
 conn = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="173053ms",
-    database="pplo",
+    host=os.environ.get("MYSQL_HOST", "localhost"),
+    user=os.environ.get("MYSQL_USER", "root"),
+    password=os.environ.get("MYSQL_PASSWORD", ""),
+    database=os.environ.get("MYSQL_DATABASE", "pplo"),
     charset="utf8mb4"
 )
 cur = conn.cursor()

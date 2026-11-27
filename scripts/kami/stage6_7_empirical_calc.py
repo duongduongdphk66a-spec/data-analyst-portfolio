@@ -191,14 +191,18 @@ df_shop_live['date_vn'] = df_shop_live['start_vn'].dt.strftime('%Y-%m-%d')
 # Also check date without shift
 df_shop_live['date_raw'] = df_shop_live['start_dt'].dt.strftime('%Y-%m-%d')
 
+OFFICIAL_SHA256 = "2884bd95e154a3255b1c0272bcfe9505211a293710db406701023782eb0645ec"
+SATELLITE_SHA256 = "6aa6d7c1d040cfe8c061b3e7d7700969504d16b70fe6e65a45d3b573ef71f7bb"
+_h = lambda s: hashlib.sha256(str(s).strip().lower().encode("utf-8")).hexdigest()
+
 print("\nExamine 16/06/2026 in Shop LIVE (by start_dt):")
 live_jun16 = df_shop_live[df_shop_live['date_raw'] == '2026-06-16']
-own_jun16 = live_jun16[live_jun16['creator id'].astype(str).str.strip().str.lower() == 'kamielyhn']
-aff_jun16 = live_jun16[live_jun16['creator id'].astype(str).str.strip().str.lower() != 'kamielyhn']
+own_jun16 = live_jun16[live_jun16['creator id'].map(_h) == OFFICIAL_SHA256]
+aff_jun16 = live_jun16[live_jun16['creator id'].map(_h) != OFFICIAL_SHA256]
 print(f"Jun 16 Sessions: Own={len(own_jun16)} (GMV={own_jun16['gmv_clean'].sum():,.0f} đ), Affiliate={len(aff_jun16)} (GMV={aff_jun16['gmv_clean'].sum():,.0f} đ)")
 
-# Creator anomalies: Girl Style
-is_gs = df_shop_live['creator id'].astype(str).str.strip().str.lower() == 'girlstyle.vn'
+# Creator anomalies: Satellite KOC (@koc_sat01)
+is_gs = df_shop_live['creator id'].map(_h) == SATELLITE_SHA256
 df_gs = df_shop_live[is_gs]
 print(f"\nGirl Style in Shop LIVE: Sessions = {len(df_gs)}, Total GMV = {df_gs['gmv_clean'].sum():,.0f} đ, Mean GMV/session = {df_gs['gmv_clean'].mean():,.0f} đ")
 

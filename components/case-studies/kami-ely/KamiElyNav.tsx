@@ -7,8 +7,8 @@ import { useLanguage } from '@/app/context/LanguageContext';
 export const KAMI_SECTION_IDS = [
   'sec-overview',
   'sec-context',
-  'sec-content',
   'sec-seasonality',
+  'sec-content',
   'sec-koc',
   'sec-warning',
   'sec-appendix',
@@ -27,9 +27,10 @@ interface Props {
 const NAV_ITEMS: { id: KamiSectionId; labelVi: string; labelEn: string }[] = [
   { id: 'sec-overview', labelVi: 'Tổng quan', labelEn: 'Overview' },
   { id: 'sec-context', labelVi: 'Đối soát kênh', labelEn: 'Channel Audit' },
+  { id: 'sec-seasonality', labelVi: 'Mùa vụ & Pareto', labelEn: 'Seasonality & Pareto' },
   { id: 'sec-content', labelVi: 'Live & Video', labelEn: 'Live & Video' },
-  { id: 'sec-seasonality', labelVi: 'SKU & Affiliate', labelEn: 'SKU & Affiliate' },
-  { id: 'sec-warning', labelVi: 'Khuyến nghị', labelEn: 'Playbook' },
+  { id: 'sec-koc', labelVi: 'Sàng lọc KOC', labelEn: 'KOC Screening' },
+  { id: 'sec-warning', labelVi: 'Khuyến nghị BA', labelEn: 'Action Playbook' },
   { id: 'sec-appendix', labelVi: 'Phụ lục & SQL', labelEn: 'Appendix & SQL' },
 ];
 
@@ -95,14 +96,16 @@ export function KamiElyNav({
           </nav>
         </div>
 
-        <button
-          type="button"
-          onClick={() => (onOpenSqlLab ? onOpenSqlLab() : handleJump('sec-appendix'))}
-          className="min-h-[44px] inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border border-[#C8EEF7] dark:border-slate-700 bg-[#C8EEF7]/25 dark:bg-slate-900 text-slate-900 dark:text-[#9BE7FA] hover:bg-[#9BE7FA]/40 transition-colors cursor-pointer shrink-0"
-        >
-          <Code2 className="w-3.5 h-3.5" />
-          <span>{isVi ? 'Phụ lục & Mã SQL' : 'Appendix & SQL'}</span>
-        </button>
+        {onOpenSqlLab && (
+          <button
+            type="button"
+            onClick={onOpenSqlLab}
+            className="min-h-[44px] inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border border-[#C8EEF7] dark:border-slate-700 bg-[#C8EEF7]/25 dark:bg-slate-900 text-slate-900 dark:text-[#9BE7FA] hover:bg-[#9BE7FA]/40 transition-colors cursor-pointer shrink-0"
+          >
+            <Code2 className="w-3.5 h-3.5" />
+            <span>{isVi ? 'Mở SQL Lab' : 'Open SQL Lab'}</span>
+          </button>
+        )}
       </div>
     </div>
   );
